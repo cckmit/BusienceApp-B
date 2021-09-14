@@ -1,0 +1,175 @@
+html, body, #wrapper, .main {
+	height: 100%;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+.none{
+	display: none;
+}
+
+.soloView {
+	width: calc(100% - 260px);
+	height: calc(100% - 41px);
+	float: left;
+	position: relative;
+}
+
+.master{
+	width: calc(57% - 5px);
+	float: left;
+	height: 100%;
+}
+.sub{
+	width: calc(43% - 5px);
+	margin-left: 10px;
+	float: left;
+	height: 100%;
+}
+.master-in{
+	width: calc(52% - 14px);
+	float: left;
+	height: 100%;
+}
+.sub-in{
+	width: calc(48% + 4px);
+	margin-left: 10px;
+	float: left;
+	height: 100%;
+}
+
+.spsub{
+	width: calc(20% - 5px);
+	float: left;
+	height: 100%;
+}
+
+.spsub-in{
+	width: calc(38% + 25px);
+	margin-left: 10px;
+	float: left;
+	height: 100%;
+}
+
+.itemMaster{
+	width: 25%;
+	float: left;
+}
+.itemSub{
+	width: calc(75% - 10px);
+	margin-left: 10px;
+	float: left;
+}
+
+.itemMaster2{
+	width: 28%;
+	float: left;
+}
+.itemSub2{
+	width: calc(72% - 10px);
+	margin-left: 10px;
+	float: left;
+}
+
+.main{
+	position: relative;
+	float: right;
+}
+
+.top-var{
+	border-bottom: solid 0.5px;
+	padding: 6px 5px;
+	background-color: #f2f2f2;
+}
+.input-button img{
+	width : 90px;
+	cursor : pointer;
+}
+.unUseBtn {
+	pointer-events: none;
+	opacity: 0.5;
+}
+.top-var>div{
+	display:inline-block;
+}
+.input-box{
+	vertical-align: middle;
+}
+.input-box>div{
+	margin: 5px 5px;
+	
+}
+.input-box span{
+	display:inline-block;
+	margin: 0px 5px;
+	width: 75px;
+	text-align: right;
+}
+.input-box input{
+	width: 130px;
+}
+.input-box select{
+	width: 130px;
+	height: 27px;
+}
+.mid-var {
+	background-color: #f2f2f2;
+	padding: 0px 5px;
+}
+.mid-var>div{
+	display:inline-block;
+}
+.tabulator{
+	border-bottom: 1px solid #bbb;
+}
+
+.tabulator-col-title{
+	font-family : 'NanumBarunGothicLightSubset';
+	color: black;
+}
+
+.lnr-chevron-down{
+	color: black;	
+}
+
+.dropdown-toggle{
+	color: white;
+	font-weight:bold;
+}
+
+.dropdown-menu > li > a{
+	color: black;
+}
+
+.dropdown-menu > li > a:hover{
+	background-color: #696969;
+	color: white;
+}
+
+div.tabulator-tableHolder {
+	background-color: #d3d3d3 !important;
+}
+.tabulator .tabulator-header .tabulator-col .tabulator-header-filter input[type=search] { 
+	height : 25px
+}
+
+.datepicker{
+  width: 354px !important;
+  height: 360px !important;
+}
+
+.datepicker-days {
+  height: 100%;
+}
+
+.table-condensed {
+  width: 100%;
+  height: 100%;
+}
+
+.time-input {
+	margin-left: 20px;
+	width: 100px;
+	text-align: center;
+}

@@ -1,0 +1,63 @@
+@charset "UTF-8";
+
+.navbar-busience {
+	display: flex;
+	min-height: 40px;
+	background-color: #505050;
+	align-items: center;
+}
+
+.navbar-logo{
+	display: inline-block;
+	border: solid 0.5px black;
+}
+
+.navbar-menu{
+	display: flex;
+    margin-bottom: 0;
+    list-style: none;
+}
+
+.navbar-menu > li {
+	margin: 0 10px;
+}
+
+.navbar-menu > li > a {
+	margin: 0 20px;
+	color: white;
+	font-weight: bold;
+}
+
+.sidebar{
+	width: 196px;
+	height: calc( 100% - 41px);
+	background-color: #252C35;
+	position: relative;
+	float: left;
+	border: solid 0.5px black;
+}
+
+.sidebar > .pageName{
+	background: rgb(91,155,213);
+	color:white;
+	text-align: center;
+	margin-top: 10px;
+	padding: 3px;
+}
+
+.sidebar > .pageName > span{
+	font-size: 18px;
+}
+
+.sidebar > .account-settings {
+	width:100%;
+	height: 90px;
+	background-color: white;
+	position: absolute;
+	bottom: 0;
+	text-align: center;
+	padding: 15px 0;
+}
+.account-settings input{
+	font-size: 13px;
+} 

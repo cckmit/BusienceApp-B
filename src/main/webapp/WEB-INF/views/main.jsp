@@ -12,7 +12,7 @@
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <jsp:include page="common_css.jsp"></jsp:include>
 </head>
-<body style="overflow : hidden">
+<body>
 	<!-- WRAPPER -->
 	<div id="wrapper">
 		<!-- NAVBAR -->
@@ -23,15 +23,11 @@
 		<div class="soloView">
 			<!-- MAIN -->
 			<div class="main">
-				<div style="text-align: center;">
-					<font size="2">본 홈페이지는 크롬 브라우저에 최적화 되어 있습니다.<br />크롬브라우저는 아래의 링크에서 다운받으실 수 있습니다. <br />
+				<div style="text-align: center; margin-top: 15%;">
+					<img src="/images/bsLogo2.png"><br />
+					<font size="2">본 홈페이지는 크롬 브라우저에 최적화 되어 있습니다.<br />크롬브라우저는 아래의 링크에서 다운받으실 수 있습니다.<br />
 					<a href="https://www.google.co.kr/intl/ko/chrome/">다운로드</a></font>
 				</div>
-				
-				<form action="/logout" method="POST">
-					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-					<input type="submit" class="btn btn-primary" value="Logout"/>
-				</form>
 			</div>
 			<!-- END MAIN -->
 		</div>
