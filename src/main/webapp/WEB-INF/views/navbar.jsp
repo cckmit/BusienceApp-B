@@ -26,7 +26,6 @@
 			</ul>
 		</li>
 	</ul>
-	
 </nav>
 
 <div class="sidebar">
@@ -37,7 +36,7 @@
 	<div class="account-settings">
 		<span style="font-size: 15px;">사용자:관리자님</span>
 		
-		<form action="/logout" method="POST">
+		<form action="/logout" method="POST" style="margin-top:5px;">
 			<input type="button" class="btn btn-primary" onclick="javascript:window.open('/pwchange', 'logout', 'width=500,height=650,top=250,left=1000');" value="회원정보변경">
 			
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
