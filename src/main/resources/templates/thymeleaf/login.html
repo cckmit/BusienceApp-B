@@ -10,7 +10,7 @@
 	<div class="container-login100">
 		<div class="wrap-login100">
 			<div class="login100-pic">
-				<img th:src="@{/images/bsLogo2.png}">
+				<img th:src="@{/images/logo/bsLogo2.png}">
 			</div>
 
 			<form method="post">
@@ -36,14 +36,7 @@
 					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 					<button type="submit" class="login100-form-btn">Login</button>
 				</div>
-
-				<div class="text-center" style="padding-top: 12px"></div>
 			</form>
-			<div class="text-center" style="padding-top: 136px">
-				<a class="txt2" style="float: left; margin-left: 300%; height: 5px;">
-					<img th:src="@{/images/bsLogo5.jpg}">
-				</a>
-			</div>
 		</div>
 	</div>
 </div>

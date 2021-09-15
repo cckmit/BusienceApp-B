@@ -44,7 +44,7 @@ public class AuthFailureHandler implements AuthenticationFailureHandler{
 		System.out.println(loginid);
 		System.out.println(errormsg);
 		
-		request.getRequestDispatcher("/login?error").forward(request, response);
+		request.getRequestDispatcher("/?error").forward(request, response);
 			
 	}	
 }

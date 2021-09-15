@@ -37,7 +37,7 @@
 	border: solid 0.5px black;
 }
 
-.sidebar > .pageName{
+.sidebar .pageName{
 	background: rgb(91,155,213);
 	color:white;
 	text-align: center;
@@ -45,11 +45,11 @@
 	padding: 3px;
 }
 
-.sidebar > .pageName > span{
+.sidebar .pageName > span{
 	font-size: 18px;
 }
 
-.sidebar > .account-settings {
+.sidebar .account-settings {
 	width:100%;
 	height: 90px;
 	background-color: white;

@@ -10,7 +10,7 @@ html, body, #wrapper, .main {
 }
 
 .soloView {
-	width: calc(100% - 260px);
+	width: calc(100% - 196px);
 	height: calc(100% - 41px);
 	float: left;
 	position: relative;

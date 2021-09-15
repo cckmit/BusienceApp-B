@@ -19,18 +19,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller("menuManageController")
-@RequestMapping("menuManage")
 public class menuManageController {
 
 	@Autowired
-	DataSource	 dataSource;
+	DataSource dataSource;
 	
 	@GetMapping("/menuManage")
 	public String menuManage() {
 		return "system/menuManage";
 	}
 	
-	@RequestMapping(value = "update",method = {RequestMethod.POST})
+	@RequestMapping(value = "menuManage/update",method = {RequestMethod.POST})
 	public String update(HttpServletRequest request) throws ParseException, SQLException, UnknownHostException, ClassNotFoundException
 	{
 		String data = request.getParameter("dataList");
@@ -83,5 +82,4 @@ public class menuManageController {
 		
 		return "redirect:/menuManage";
 	}
-	
 }
