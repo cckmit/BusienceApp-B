@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+.navbar-busience {
+	display: flex;
+	min-height: 40px;
+	background-color: #505050;
+	align-items: center;
+}
+
+.navbar-logo{
+	display: inline-block;
+	border: solid 0.5px black;
+}
+
+.navbar-menu{
+	display: flex;
+    margin-bottom: 0;
+    list-style: none;
+}
+
+.navbar-menu .dropdown {
+	margin: 0 10px;
+}
+
+.navbar-menu .dropdown .dropdown-toggle {
+	margin: 0 20px;
+	color: white;
+	font-weight: bold;
+	text-decoration-line: none;
+	cursor: pointer;
+}
+
+.navbar-menu .dropdown .dropdown-toggle:hover {
+	color: #337ab7;
+}
+
+.navbar-menu .dropdown .dropdown-menu {
+	background-color: #eeedf2;
+}

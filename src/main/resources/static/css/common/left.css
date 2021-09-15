@@ -1,33 +1,5 @@
 @charset "UTF-8";
 
-.navbar-busience {
-	display: flex;
-	min-height: 40px;
-	background-color: #505050;
-	align-items: center;
-}
-
-.navbar-logo{
-	display: inline-block;
-	border: solid 0.5px black;
-}
-
-.navbar-menu{
-	display: flex;
-    margin-bottom: 0;
-    list-style: none;
-}
-
-.navbar-menu > li {
-	margin: 0 10px;
-}
-
-.navbar-menu > li > a {
-	margin: 0 20px;
-	color: white;
-	font-weight: bold;
-}
-
 .sidebar{
 	width: 196px;
 	height: calc( 100% - 41px);

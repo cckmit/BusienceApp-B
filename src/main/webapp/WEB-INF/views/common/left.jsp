@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<link rel="stylesheet" href="/css/common/left.css">
 
 <div class="sidebar">
 	<!-- 현재 페이지 타이틀 -->
