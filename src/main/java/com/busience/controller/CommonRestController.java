@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.busience.standard.Dto.DTL_TBL;
 
 @RestController
-public class CommonController {
+public class CommonRestController {
 	@Autowired
 	DataSource dataSource;
 	
@@ -26,7 +26,7 @@ public class CommonController {
 	@RequestMapping(value = "/dtl_tbl_select", method = {RequestMethod.GET,RequestMethod.POST})
 	public List<DTL_TBL> dtl_tbl_select(HttpServletRequest request) throws SQLException
 	{
-		String sql = "select * from DTL_TBL where NEW_TBL_CODE='"+request.getParameter("NEW_TBL_CODE")+"'";
+		String sql = "select * from DTL_TBL where NEW_TBL_CODE='"+request.getParameter("NEW_TBL_CODE")+"' order by CHILD_TBL_NUM*1";
 		//System.out.println(request.getParameter("NEW_TBL_CODE"));
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -37,11 +37,12 @@ public class CommonController {
 		while (rs.next()) 
 		{
 			DTL_TBL data =new DTL_TBL();
-			data.setNEW_TBL_CODE(rs.getString("NEW_TBL_CODE"));
-			data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
 			data.setCHILD_TBL_NO(rs.getString("CHILD_TBL_NO"));
+			data.setNEW_TBL_CODE(rs.getString("NEW_TBL_CODE"));
 			data.setCHILD_TBL_NUM(rs.getString("CHILD_TBL_NUM"));
-			//System.out.println(data.toString());
+			data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
+			data.setCHILD_TBL_RMARK(rs.getString("CHILD_TBL_RMARK"));
+			data.setCHILD_TBL_USE_STATUS(rs.getString("CHILD_TBL_USE_STATUS"));
 			deptList.add(data);
 		}
 		

@@ -5,6 +5,11 @@ html, body, #wrapper, .main {
     padding: 0px;
 }
 
+body {
+	background-color: #F3F5F8;
+}
+
+
 .none{
 	display: none;
 }
