@@ -18,17 +18,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@Controller("menuManageController")
+@Controller
 public class menuManageController {
 
 	@Autowired
 	DataSource dataSource;
-	
-	@GetMapping("/menuManage")
-	public String menuManage() {
-		return "system/menuManage";
-	}
-	
+
 	@RequestMapping(value = "menuManage/update",method = {RequestMethod.POST})
 	public String update(HttpServletRequest request) throws ParseException, SQLException, UnknownHostException, ClassNotFoundException
 	{
