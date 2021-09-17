@@ -24,8 +24,7 @@ public class CommonRestController {
 	
 	// 공통코드 찾기
 	@RequestMapping(value = "/dtl_tbl_select", method = {RequestMethod.GET,RequestMethod.POST})
-	public List<DTL_TBL> dtl_tbl_select(HttpServletRequest request) throws SQLException
-	{
+	public List<DTL_TBL> dtl_tbl_select(HttpServletRequest request) throws SQLException {
 		String sql = "select * from DTL_TBL where NEW_TBL_CODE='"+request.getParameter("NEW_TBL_CODE")+"' order by CHILD_TBL_NUM*1";
 		//System.out.println(request.getParameter("NEW_TBL_CODE"));
 		Connection conn = dataSource.getConnection();

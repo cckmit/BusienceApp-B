@@ -127,6 +127,7 @@ body {
 }
 .tabulator{
 	border-bottom: 1px solid #bbb;
+	font-size: 12px;
 }
 
 .tabulator-col-title{

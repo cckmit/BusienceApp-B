@@ -1,4 +1,4 @@
-package com.busience.system.Controller;
+package com.busience.system.controller;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -47,7 +47,7 @@ public class menuManageRestController {
 				+ "			from DTL_TBL where NEW_TBL_CODE='13'\r\n"
 				+ "        ) t2\r\n"
 				+ "on t1.MENU_PROGRAM_CODE = t2.CHILD_TBL_NO"
-				+ " order by MENU_PROGRAM_CODE+0";
+                + " WHERE t2.CHILD_TBL_TYPE != '' order by MENU_PROGRAM_CODE+0";
 		
 		System.out.println(sql);
 		

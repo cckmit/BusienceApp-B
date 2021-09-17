@@ -1,4 +1,4 @@
-package com.busience.system.Controller;
+package com.busience.system.controller;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,7 +35,7 @@ public class typeAuthorityRestController {
 				+ "	t1.CHILD_TBL_NUM, RIGHTS_PROGRAM_CODE, t2.CHILD_TBL_TYPE ,RIGHTS_MGMT_USE_STATUS, RIGHTS_USER_TYPE\r\n"
 				+ "from RIGHTS_MGMT_TBL\r\n" + "left outer join DTL_TBL t1 on  t1.CHILD_TBL_NO = RIGHTS_USER_TYPE \r\n"
 				+ "left outer join DTL_TBL t2 on t2.CHILD_TBL_NO = RIGHTS_PROGRAM_CODE \r\n"
-				+ "where t1.CHILD_TBL_NUM = '" + CHILD_TBL_NUM + "' and t1.NEW_TBL_CODE = '1'\r\n" + ";";
+                + "where t1.CHILD_TBL_NUM = '" + CHILD_TBL_NUM + "' and t2.CHILD_TBL_TYPE != '' and t1.NEW_TBL_CODE = '1'\r\n" + ";";
 
 		//System.out.println(sql);
 
