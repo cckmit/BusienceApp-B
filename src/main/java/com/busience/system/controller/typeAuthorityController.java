@@ -1,4 +1,4 @@
-package com.busience.system.Controller;
+package com.busience.system.controller;
 
 import java.net.UnknownHostException;
 import java.sql.Connection;
