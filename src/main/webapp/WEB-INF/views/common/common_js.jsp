@@ -11,3 +11,6 @@
 <script src="/webjars/momentjs/2.29.1/min/moment.min.js"></script>
 
 <!-- js -->
+<script src="/js/today.js"></script>
+
+<script src="/js/common.js"></script>
