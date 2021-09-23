@@ -1,5 +1,6 @@
 package com.busience.salesLX.controller;
 
+import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -77,13 +78,12 @@ public class salesInReturnLXRestController {
 
 	// SIRI_Save
 	@GetMapping("/SIRI_Save")
-	public String SIRI_Save(HttpServletRequest request, Model model) throws ParseException, SQLException {
+	public String SIRI_Save(HttpServletRequest request, Principal principal) throws ParseException, SQLException {
 		String originData = request.getParameter("data");
 		JSONParser parser = new JSONParser();
 		JSONArray arr = (JSONArray) parser.parse(originData);
-
-		HttpSession httpSession = request.getSession();
-		String modifier = (String) httpSession.getAttribute("id");
+		
+		String modifier = principal.getName();
 
 		String Sales_InMatLX_tbl_sql = null;
 		String Sales_StockMat_tbl_sql = null;

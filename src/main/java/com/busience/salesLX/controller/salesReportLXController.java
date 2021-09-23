@@ -186,6 +186,9 @@ public class salesReportLXController {
 	// fgoodsStockMaster
 	@GetMapping("salesStockLXMaster")
 	public String salesStockMaster(Model model, HttpServletRequest request) throws SQLException {
+		
+		model.addAttribute("pageName", "제품 재고 현황");
+		model.addAttribute("user_name", "관리자");
 		return "salesLX/salesStock/salesStockMaster";
 	}
 }

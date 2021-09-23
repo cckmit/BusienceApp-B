@@ -35,8 +35,8 @@
 		<!-- inline wrapper -->
 	</div>
 <!-- Javascript -->
-<script src="${contextPath}/resources/js/tabMenu.js"></script>
-<script src="${contextPath}/resources/js/salesLX/salesStockLXMaster.js"></script>
+<script src="/js/tabMenu.js"></script>
+<script src="/js/salesLX/salesStockLXMaster.js"></script>
 
 </body>
 </html>
