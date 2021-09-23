@@ -14,3 +14,5 @@
 <script src="/js/today.js"></script>
 
 <script src="/js/common.js"></script>
+
+<script src="/js/popup_common.js"></script>
