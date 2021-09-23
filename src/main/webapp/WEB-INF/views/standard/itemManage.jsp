@@ -27,7 +27,7 @@ while (rs.next()) {
 		MENU_DEL_USE_STATUS = true;
 }
 %>
-
+<%-- 
 <!-- Insert Modal -->
 <div class="modal fade" id="insertModal" tabindex="-1" role="dialog"
 	aria-labelledby="myLargeModalLabel" aria-hidden="true" style="line-height: 17px;">
@@ -476,7 +476,7 @@ while (rs.next()) {
 		</div>
 	</div>
 </div>
-
+ --%>
 <!-- Delete Modal -->
 <jsp:include page="../modal/message/deleteYesNo.jsp"></jsp:include>
 
