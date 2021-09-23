@@ -1,6 +1,7 @@
 package com.busience.system.controller;
 
 import java.net.UnknownHostException;
+import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -50,7 +51,7 @@ public class typeAuthorityRestController {
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
-
+		
 		List<DTL_TBL> menuList = new ArrayList<DTL_TBL>();
 
 		while (rs.next()) {

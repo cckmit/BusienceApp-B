@@ -1,6 +1,7 @@
 package com.busience.system.controller;
 
 import java.net.UnknownHostException;
+import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,9 +33,8 @@ public class usermenuManageRestController {
 	DataSource dataSource;
 	
 	@RequestMapping(value = "/usermenuManageView1", method = RequestMethod.GET)
-	public List<DTL_TBL> usermenuManageView1(HttpServletRequest request) throws SQLException
-	{
-		HttpSession session = request.getSession();
+	public List<DTL_TBL> usermenuManageView1(HttpServletRequest request, Principal principal) throws SQLException {
+
 		String sql = "select \r\n"
 				+ "		ifnull(t1.MENU_MGMT_USE_STATUS,'true') CHILD_TBL_USE_STATUS,\r\n"
 				+ "        t2.CHILD_TBL_TYPE MENU_PROGRAM_NAME,\r\n"
@@ -49,7 +49,7 @@ public class usermenuManageRestController {
 				+ "					*\r\n"
 				+ "			from\r\n"
 				+ "					MENU_MGMT_TBL\r\n"
-				+ "			where MENU_USER_CODE = '"+session.getAttribute("id")+"'\r\n"
+				+ "			where MENU_USER_CODE = '"+principal.getName()+"'\r\n"
 				+ "        ) t1\r\n"
 				+ "right outer join \r\n"
 				+ "		(\r\n"
@@ -74,7 +74,7 @@ public class usermenuManageRestController {
 			if(rs.getString("CHILD_TBL_RMARK2") == null)
 				continue;
 			
-			String sql2 = "select * from User_Menu_Tbl where User_Code = '"+session.getAttribute("id")+"' and Program_Code = '"+rs.getString("CHILD_TBL_NO")+"'";			
+			String sql2 = "select * from User_Menu_Tbl where User_Code = '"+principal.getName()+"' and Program_Code = '"+rs.getString("CHILD_TBL_NO")+"'";			
 			System.out.println(sql2);
 			PreparedStatement pstmt2 = conn.prepareStatement(sql2);
 			ResultSet rs2 = pstmt2.executeQuery();
@@ -104,17 +104,16 @@ public class usermenuManageRestController {
 	}
 	
 	@RequestMapping(value = "/usermenuManageView2", method = RequestMethod.GET)
-	public List<User_Menu_Tbl> usermenuManageView2(HttpServletRequest request) throws SQLException
+	public List<User_Menu_Tbl> usermenuManageView2(HttpServletRequest request, Principal principal) throws SQLException
 	{
 		List<User_Menu_Tbl> list = new ArrayList<User_Menu_Tbl>();
 		
-		HttpSession session = request.getSession();
 		String sql = "select * from User_Menu_Tbl "
-				+ "'"+session.getAttribute("id")+"'";
+				+ "'"+principal.getName()+"'";
 		
 		sql = "select t1.*,t2.CHILD_TBL_TYPE PROGRAM_NAME,t3.CHILD_TBL_TYPE GROUP_NAME from \r\n"
 				+ "(\r\n"
-				+ "	select * from User_Menu_Tbl where User_Code = '"+session.getAttribute("id")+"'\r\n"
+				+ "	select * from User_Menu_Tbl where User_Code = '"+principal.getName()+"'\r\n"
 				+ ")	t1\r\n"
 				+ "inner join \r\n"
 				+ "(\r\n"

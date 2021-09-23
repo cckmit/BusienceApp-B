@@ -27,7 +27,7 @@ public class itemManageController {
 
 	@GetMapping("itemManage")
 	public String list(Model model) throws SQLException {
-		// ����� �ҷ����� ����
+		
 		String sql = "select * from DTL_TBL where NEW_TBL_CODE = '2' and CHILD_TBL_USE_STATUS='true'";
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -40,10 +40,9 @@ public class itemManageController {
 			data.setNEW_TBL_CODE(rs.getString("NEW_TBL_CODE"));
 			data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
 			data.setCHILD_TBL_NO(rs.getString("CHILD_TBL_NO"));
-			// System.out.println("����� : "+data.toString());
 			companyList.add(data);
 		}
-		// ���� �ҷ����� ����
+		
 		sql = "select * from DTL_TBL where NEW_TBL_CODE = '4' and CHILD_TBL_USE_STATUS='true'";
 		conn = dataSource.getConnection();
 		pstmt = conn.prepareStatement(sql);
@@ -56,10 +55,9 @@ public class itemManageController {
 			data.setNEW_TBL_CODE(rs.getString("NEW_TBL_CODE"));
 			data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
 			data.setCHILD_TBL_NO(rs.getString("CHILD_TBL_NO"));
-			// System.out.println("���� : "+data.toString());
 			unitList.add(data);
 		}
-		// ����з� �ҷ����� ����
+		
 		sql = "select * from DTL_TBL where NEW_TBL_CODE = '5' and CHILD_TBL_USE_STATUS='true'";
 		conn = dataSource.getConnection();
 		pstmt = conn.prepareStatement(sql);
@@ -72,10 +70,10 @@ public class itemManageController {
 			data.setNEW_TBL_CODE(rs.getString("NEW_TBL_CODE"));
 			data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
 			data.setCHILD_TBL_NO(rs.getString("CHILD_TBL_NO"));
-			// System.out.println("����з� : "+data.toString());
+			
 			mtrlClsfcList.add(data);
 		}
-		// ǰ��з�1 �ҷ����� ����
+		
 		sql = "select * from DTL_TBL where NEW_TBL_CODE = '6' and CHILD_TBL_USE_STATUS='true'";
 		conn = dataSource.getConnection();
 		pstmt = conn.prepareStatement(sql);
@@ -91,7 +89,7 @@ public class itemManageController {
 			// System.out.println("ǰ��з�1 : "+data.toString());
 			itemClsfc1List.add(data);
 		}
-		// ǰ��з�2 �ҷ����� ����
+		
 		sql = "select * from DTL_TBL where NEW_TBL_CODE = '7' and CHILD_TBL_USE_STATUS='true'";
 		conn = dataSource.getConnection();
 		pstmt = conn.prepareStatement(sql);
@@ -108,7 +106,7 @@ public class itemManageController {
 			itemClsfc2List.add(data);
 		}
 
-		// ���� �ҷ����� ����
+		
 		sql = "select * from DTL_TBL where NEW_TBL_CODE = '8' and CHILD_TBL_USE_STATUS='true'";
 		conn = dataSource.getConnection();
 		pstmt = conn.prepareStatement(sql);
@@ -121,10 +119,9 @@ public class itemManageController {
 			data.setNEW_TBL_CODE(rs.getString("NEW_TBL_CODE"));
 			data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
 			data.setCHILD_TBL_NO(rs.getString("CHILD_TBL_NO"));
-			// System.out.println("���� : "+data.toString());
 			materialList.add(data);
 		}
-		// ǰ����� �ҷ����� ����
+		
 		sql = "select * from DTL_TBL where NEW_TBL_CODE = '9' and CHILD_TBL_USE_STATUS='true'";
 		conn = dataSource.getConnection();
 		pstmt = conn.prepareStatement(sql);
@@ -137,10 +134,8 @@ public class itemManageController {
 			data.setNEW_TBL_CODE(rs.getString("NEW_TBL_CODE"));
 			data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
 			data.setCHILD_TBL_NO(rs.getString("CHILD_TBL_NO"));
-			// System.out.println("ǰ����� : "+data.toString());
 			itemStatusList.add(data);
 		}
-		// �⺻â�� �ҷ����� ����
 		sql = "select * from DTL_TBL where NEW_TBL_CODE = '10' and CHILD_TBL_USE_STATUS='true'";
 		conn = dataSource.getConnection();
 		pstmt = conn.prepareStatement(sql);
@@ -153,10 +148,8 @@ public class itemManageController {
 			data.setNEW_TBL_CODE(rs.getString("NEW_TBL_CODE"));
 			data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
 			data.setCHILD_TBL_NO(rs.getString("CHILD_TBL_NO"));
-			// System.out.println("�⺻â�� : "+data.toString());
 			basicWarehouseList.add(data);
 		}
-		// ��ǰ ���� ���� list set
 		List<PRODUCT_INFO_TBL> productlist = new ArrayList<PRODUCT_INFO_TBL>();
 
 		sql = "SELECT \r\n" + "			A.PRODUCT_BUSINESS_PLACE,\r\n" + "            A.PRODUCT_ITEM_CODE,\r\n"
@@ -226,7 +219,6 @@ public class itemManageController {
 			data.setPRODUCT_MODIFY_D(rs.getString("PRODUCT_MODIFY_D"));
 			data.setPRODUCT_MODIFIER(rs.getString("PRODUCT_MODIFIER"));
 			productlist.add(data);
-			// System.out.println("��ǰ ���� ����Ʈ : " + data);
 
 		}
 

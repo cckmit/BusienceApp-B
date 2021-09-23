@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html lang="ko">
   <head>
+  	<link rel="shortcut icon" href="#">
     <meta charset="UTF-8">
     <title>비지언스 MES</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
