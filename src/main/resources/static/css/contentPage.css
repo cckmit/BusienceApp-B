@@ -125,15 +125,6 @@ body {
 .mid-var>div{
 	display:inline-block;
 }
-.tabulator{
-	border-bottom: 1px solid #bbb;
-	font-size: 12px;
-}
-
-.tabulator-col-title{
-	font-family : 'NanumBarunGothicLightSubset';
-	color: black;
-}
 
 .lnr-chevron-down{
 	color: black;	
@@ -152,12 +143,26 @@ body {
 	background-color: #696969;
 	color: white;
 }
+.tabulator{
+	border-bottom: 1px solid #bbb;
+	font-size: 12px;
+}
+
+.tabulator-col-title{
+	font-family : 'NanumBarunGothicLightSubset';
+	color: black;
+}
 
 div.tabulator-tableHolder {
 	background-color: #d3d3d3 !important;
 }
 .tabulator .tabulator-header .tabulator-col .tabulator-header-filter input[type=search] { 
 	height : 25px
+}
+.tabulator input[type=checkbox] {
+	margin: 0;
+	height: 9px;
+	width: 9px;
 }
 
 .datepicker{

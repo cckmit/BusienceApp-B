@@ -1,4 +1,4 @@
-package com.busience.material.dto;
+package com.busience.materialLX.dto;
 
 public class OrderList_tbl {
 	private int ID;
