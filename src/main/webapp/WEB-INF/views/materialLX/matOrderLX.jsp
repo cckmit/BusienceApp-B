@@ -12,7 +12,6 @@
 						<img src="/images/button/Search.png" id="MO_SearchBtn"/>
 						<img src="/images/button/ADD.png" id="MO_AddBtn"/>
 						<img src="/images/button/Delete.png" id="MO_DeleteBtn"/>
-						<img src="/images/button/print.png" id="MO_PrintBtn"/>
 					</div>
 					<!-- 버튼 -->
 					<div class="input-box">
@@ -57,14 +56,6 @@
 		</div>
 		<!-- END MAIN -->
 	</div>
-<!-- 프린트페이지에 보낼 데이터 -->
-<form id="cus_frm" name="cus_frm" method="post" action="matOrderPrint" target="orderprint">
-	<input type="hidden" id="mCus_No" name="mCus_No" value="">
-	<input type="hidden" id="mCode" name="mCode" value="">
-	<input type="hidden" id="mName" name="mName" value="">
-	<input type="hidden" id="mDate" name="mDate" value="">
-	<input type="hidden" id="mDlvry_Date" name="mDlvry_Date" value="">
-</form>
 <!-- END WRAPPER -->
 
 <!-- Javascript -->

@@ -5,15 +5,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class matOrderLXContoller {
-	
-	//OrderMaster
-	@GetMapping("matOrderLX")
-	public String matOrderLX(Model model) {
-		
-		model.addAttribute("pageName", "matOrder");
+public class matInputLXController {
+
+	// MatInputLX
+	@GetMapping("matInputLX")
+	public String matInputLX(Model model) {
+		model.addAttribute("pageName", "matInputLX");
 		model.addAttribute("user_name", "관리자");
-		
-		return "materialLX/matOrderLX";
+		return "materialLX/matInputLX";
 	}
+	
 }
