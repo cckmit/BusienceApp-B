@@ -8,17 +8,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class matOutputLXController {
+public class matOutReturnLXController {
 
 	@Autowired
 	DataSource dataSource;
-
-	// MatOutputLX
-	@GetMapping("matOutputLX")
-	public String matOutputLX(Model model) {
-		model.addAttribute("pageName", "matOutputLX");
+	
+	//matInReturn
+	@GetMapping("matOutReturnLX")
+	public String matOutReturnLX(Model model) {
+		model.addAttribute("pageName", "matOutReturnLX");
 		model.addAttribute("user_name", "관리자");
-		return "materialLX/matOutputLX";
+		return "materialLX/matOutReturnLX/matOutReturnLXMaster";
 	}
-
 }
