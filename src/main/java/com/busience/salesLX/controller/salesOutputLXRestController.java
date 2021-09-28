@@ -1,6 +1,7 @@
 package com.busience.salesLX.controller;
 
 import java.net.UnknownHostException;
+import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,6 +19,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -243,8 +245,8 @@ public class salesOutputLXRestController {
 	}
 
 	// SOM_Save
-	@RequestMapping(value = "/SOM_Save", method = RequestMethod.POST)
-	public String SOM_Save(HttpServletRequest request, Model model)
+	@GetMapping("/SOM_Save")
+	public String SOM_Save(HttpServletRequest request, Principal principal)
 			throws ParseException, SQLException, UnknownHostException, ClassNotFoundException {
 		JSONParser parser = new JSONParser();
 
@@ -257,8 +259,8 @@ public class salesOutputLXRestController {
 		String listData = request.getParameter("listData");
 		JSONArray listarr = (JSONArray) parser.parse(listData);
 
-		HttpSession session = request.getSession();
-		String modifier = (String) session.getAttribute("id");
+		// 접속자 정보
+		String modifier = principal.getName();
 
 		String OutMat_No_sql = null;
 		String OutMat_No = null;
