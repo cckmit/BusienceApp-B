@@ -161,8 +161,9 @@ div.tabulator-tableHolder {
 }
 .tabulator input[type=checkbox] {
 	margin: 0;
-	height: 9px;
-	width: 9px;
+	height: 12px;
+	width: 12px;
+	vertical-align: middle;
 }
 
 .datepicker{
