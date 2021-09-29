@@ -1,5 +1,6 @@
 package com.busience.salesLX.controller;
 
+import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -108,14 +109,13 @@ public class salesOutReturnLXRestController {
 
 	// SORI_Save
 	@GetMapping("/SORI_Save")
-	public String SORI_Save(HttpServletRequest request, EQUIPMENT_INFO_TBL Equipment, Model model)
+	public String SORI_Save(HttpServletRequest request, EQUIPMENT_INFO_TBL Equipment, Principal principal)
 			throws ParseException, SQLException {
 		String originData = request.getParameter("data");
 		JSONParser parser = new JSONParser();
 		JSONArray arr = (JSONArray) parser.parse(originData);
-
-		HttpSession httpSession = request.getSession();
-		String modifier = (String) httpSession.getAttribute("id");
+		// 접속자 정보
+		String modifier = principal.getName();
 
 		String Sales_OutMat_tbl_sql = null;
 		String Sales_StockMatLX_tbl_sql = null;

@@ -33,7 +33,7 @@ public class salesInReturnLXRestController {
 	DataSource dataSource;
 
 	// SIRI_Search
-	@RequestMapping(value = "/SIRI_Search", method = RequestMethod.GET)
+	@GetMapping("/SIRI_Search")
 	public List<Sales_InMat_tbl> SIRI_Search(HttpServletRequest request) throws ParseException, SQLException {
 		String originData = request.getParameter("data");
 		JSONParser parser = new JSONParser();
@@ -46,7 +46,7 @@ public class salesInReturnLXRestController {
 				+ "inner join PRODUCT_INFO_TBL B on A.Sales_SM_Code = B.PRODUCT_ITEM_CODE\r\n";
 
 		if (obj.get("sales_InMat_Code") != null && !obj.get("sales_InMat_Code").equals("")) {
-			sql += " where Sales_InMat_Code like '%" + obj.get("sales_InMat_Code") + "%'";
+			sql += " where Sales_SM_Code like '%" + obj.get("sales_InMat_Code") + "%'";
 		}
 
 		sql += " and A.Sales_SM_Last_Qty+A.Sales_SM_In_Qty-A.Sales_SM_Out_Qty > 0";
@@ -82,7 +82,7 @@ public class salesInReturnLXRestController {
 		String originData = request.getParameter("data");
 		JSONParser parser = new JSONParser();
 		JSONArray arr = (JSONArray) parser.parse(originData);
-		
+		// 접속자 정보
 		String modifier = principal.getName();
 
 		String Sales_InMatLX_tbl_sql = null;

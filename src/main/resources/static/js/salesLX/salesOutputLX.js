@@ -253,7 +253,7 @@ function SOM_Save() {
 	
 	//OrderSub 저장부분
 	$.ajax({
-		method: "post",
+		method: "get",
 		async: false,
 		url: "salesOutputLXRest/SOM_Save?masterData=" + encodeURI(JSON.stringify(selectedRow))
 										+"&listData=" + encodeURI(JSON.stringify(salesOutMatTable.getData())),
