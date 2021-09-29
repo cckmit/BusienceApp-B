@@ -44,6 +44,7 @@ dependencies {
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	implementation 'org.apache.clerezza.ext:org.json.simple:0.4'
 	implementation 'org.apache.tiles:tiles-jsp:3.0.8'
+	implementation 'org.springframework.security:spring-security-taglibs'
 	
 }
 

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
 <link rel="stylesheet" href="/css/common/left.css">
 
 <div class="sidebar">
@@ -10,7 +12,7 @@
 		
 	</div>
 	<div class="account-settings">
-		<span style="font-size: 15px;">사용자 : ${user_name}</span>
+		<span style="font-size: 15px;">사용자 : <sec:authentication property="principal.member.USER_NAME" /></span>
 		<div>
 			
 		</div>
