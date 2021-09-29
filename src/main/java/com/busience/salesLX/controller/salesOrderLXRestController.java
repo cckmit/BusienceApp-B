@@ -1,5 +1,6 @@
 package com.busience.salesLX.controller;
 
+import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,6 +18,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -178,8 +180,8 @@ public class salesOrderLXRestController {
 	}
 
 	// salesOrderListLX save
-	@RequestMapping(value = "/SOL_Save", method = RequestMethod.POST)
-	public String SOL_Save(HttpServletRequest request, Model model) throws ParseException, SQLException {
+	@GetMapping("/SOL_Save")
+	public String SOL_Save(HttpServletRequest request, Principal principal) throws ParseException, SQLException {
 		JSONParser parser = new JSONParser();
 
 		// masterData
@@ -191,8 +193,8 @@ public class salesOrderLXRestController {
 		String listData = request.getParameter("listData");
 		JSONArray listarr = (JSONArray) parser.parse(listData);
 
-		HttpSession session = request.getSession();
-		String modifier = (String) session.getAttribute("id");
+		// 접속자 정보
+		String modifier = principal.getName();
 
 		String Cus_No_sql = null;
 		String Sales_OrderMasterLX_tbl_sql = null;
@@ -247,6 +249,7 @@ public class salesOrderLXRestController {
 			pstmt = conn.prepareStatement(Sales_OrderMasterLX_tbl_sql);
 			pstmt.executeUpdate();
 
+			
 			// Sales_OrderListLX_tbl
 			for (int i = 0; i < listarr.size(); i++) {
 				JSONObject listobj = (JSONObject) listarr.get(i);
@@ -275,6 +278,7 @@ public class salesOrderLXRestController {
 				pstmt = conn.prepareStatement(Sales_OrderListLX_tbl_sql);
 				pstmt.executeUpdate();
 			}
+			
 			conn.commit();
 			sql_result = Cus_No;
 		} catch (SQLException e) {
@@ -310,6 +314,7 @@ public class salesOrderLXRestController {
 		String sales_Order_mCus_No = null;
 		String OS_delete_sql = null;
 		String OM_delete_sql = null;
+		String Stock_delete_Sql = null;
 		String Cus_No_sql = null;
 
 		Connection conn = null;
@@ -333,6 +338,8 @@ public class salesOrderLXRestController {
 				System.out.println("OS_delete_sql = " + OS_delete_sql);
 				pstmt = conn.prepareStatement(OS_delete_sql);
 				pstmt.executeUpdate();
+				
+				
 			}
 
 			// master데이터에 속한 list데이터가 없는경우 master데이터도 삭제한다.
@@ -344,6 +351,7 @@ public class salesOrderLXRestController {
 			Cus_No_sql = " UPDATE Sales_OrderListLX_tbl A, (SELECT @rank:=0) B"
 					+ " SET A.Sales_Order_lNo = @rank:=@rank+1\r\n" + " where A.Sales_Order_lCus_No = '"
 					+ sales_Order_mCus_No + "';";
+			
 
 			System.out.println("OM_delete_sql = " + OM_delete_sql);
 			pstmt = conn.prepareStatement(OM_delete_sql);

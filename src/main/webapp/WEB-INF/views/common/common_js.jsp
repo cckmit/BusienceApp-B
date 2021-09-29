@@ -14,3 +14,11 @@
 <script src="/js/today.js"></script>
 
 <script src="/js/common.js"></script>
+
+<script src="/js/popup_common.js"></script>
+
+<script src="/js/google_chart.js"></script>
+
+<script	src="/js/bootstrap-datepicker.min.js"></script>
+	
+<script	src="/js/bootstrap-datepicker.ko.min.js"></script>

@@ -49,6 +49,8 @@ public class salesReportLXController {
 		}
 
 		model.addAttribute("InputType", deptList);
+		model.addAttribute("pageName", "제품 입고 조회");
+		model.addAttribute("user_name", "관리자");
 
 		rs.close();
 		pstmt.close();
@@ -91,6 +93,8 @@ public class salesReportLXController {
 		}
 
 		model.addAttribute("OutputType", outMatList);
+		model.addAttribute("pageName", "제품 출고 조회");
+		model.addAttribute("user_name", "관리자");
 
 		rs.close();
 		pstmt.close();
@@ -160,6 +164,8 @@ public class salesReportLXController {
 		model.addAttribute("PrcsDate", PrcsDate);
 		model.addAttribute("LastMonth", LastMonth);
 		model.addAttribute("LastDay", LastDay);
+		model.addAttribute("pageName", "납품 현황 조회");
+		model.addAttribute("user_name", "관리자");
 
 		rs.close();
 		pstmt.close();
@@ -171,12 +177,18 @@ public class salesReportLXController {
 	// fgoodsInoutList
 	@GetMapping("salesInoutListLX")
 	public String salesInoutList(Model model, HttpServletRequest request) {
-		return "salesLX/salesInoutList";
+		
+		model.addAttribute("pageName", "제품 입출고 조회");
+		model.addAttribute("user_name", "관리자");
+		return "salesLX/salesInoutListLX";
 	}
 
 	// fgoodsStockMaster
 	@GetMapping("salesStockLXMaster")
 	public String salesStockMaster(Model model, HttpServletRequest request) throws SQLException {
+		
+		model.addAttribute("pageName", "제품 재고 현황");
+		model.addAttribute("user_name", "관리자");
 		return "salesLX/salesStock/salesStockMaster";
 	}
 }

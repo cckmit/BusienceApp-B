@@ -619,7 +619,7 @@ function SOL_Save() {
 	
 	//OrderSub 저장부분
 	$.ajax({
-		method: "post",
+		method: "get",
 		url: "salesOrderLXRest/SOL_Save?masterData=" + encodeURI(JSON.stringify(selectedRow))
 										+"&listData=" + encodeURI(JSON.stringify(salesOrderSubTable.getData())),
 		success: function(result) {

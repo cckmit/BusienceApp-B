@@ -26,7 +26,7 @@ function dynamic_menu(parents, child){
 	var tag = ""
 	for(let i=0;i<parents.length;i++){
 		tag += "<li class='dropdown'>"
-				+"<a class='dropdown-toggle' data-toggle='dropdown'><i class='fas "+parents[i].child_TBL_RMARK+"'></i>&nbsp;<span>"+parents[i].child_TBL_TYPE+"</span></a>"
+				+"<a class='dropdown-toggle' data-toggle='dropdown'><i class='fas "+parents[i].child_TBL_RMARK+"'></i>&nbsp;<span><Strong>"+parents[i].child_TBL_TYPE+"</Strong></span></a>"
 				+"<ul class='dropdown-menu'>"
 		
 		for(let j=0;j<child.length;j++){
