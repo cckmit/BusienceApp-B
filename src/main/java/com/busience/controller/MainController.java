@@ -21,4 +21,9 @@ public class MainController {
 		model.addAttribute("user_name", "관리자");
 		return "main";
 	}
+	
+	@RequestMapping("/href")
+	public String href() {
+		return "href";
+	}
 }
