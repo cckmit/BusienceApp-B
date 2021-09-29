@@ -10,7 +10,6 @@
 			<li class="one selected"><a href="#div1">(월별)설비 작업현황</a></li>
 			<li class="one2"><a href="#div1">(월별)설비 작업현황2</a></li>
 			<li class="two"><a id="q" href="#div2">(분기별)설비 작업현황</a></li>
-			<li class="three"><a id="y" href="#div3">(연별)설비 작업현황</a></li>
 			<li class="shadow"></li>
 		</ul>
 
@@ -30,11 +29,6 @@
 						<li>
 							<div id="div2">
 								<jsp:include page="worktdListQuarter.jsp" />
-							</div>
-						</li>
-						<li>
-							<div id="div3">
-								<jsp:include page="worktdListYear.jsp" />
 							</div>
 						</li>
 						<li><div id="div4"></div></li>

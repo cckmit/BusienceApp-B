@@ -83,7 +83,7 @@ function FI_SearchBtn1()
 	$.ajax({
 		method : "GET",
 		dataType : "json",
-		url : "workOrderListRest/MI_Search1?data="+ encodeURI(JSON.stringify(data)),
+		url : "workOrderListRest/workorderList_top?data="+ encodeURI(JSON.stringify(data)),
 		success : function(data) {
 			//console.log("MI");
 			console.log(data);
@@ -118,7 +118,7 @@ function FI_SearchBtn2()
 	$.ajax({
 		method : "GET",
 		dataType : "json",
-		url : "workOrderListRest/MI_Search1?data="+ encodeURI(JSON.stringify(data)),
+		url : "workOrderListRest/workorderList_down?data="+ encodeURI(JSON.stringify(data)),
 		success : function(data) {
 			//console.log("MI");
 			console.log(data);

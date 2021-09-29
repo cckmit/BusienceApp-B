@@ -22,10 +22,15 @@
    <definition name="main" extends="tilesLayout">
        <put-attribute name="body" value="/WEB-INF/views/main.jsp" />
    </definition>
+   
    <definition name="*/*" extends="tilesLayout">
        <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
    </definition>
     <definition name="*/*/*" extends="tilesLayout">
        <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
+   </definition>
+   
+   <definition name="work_order_TAB2" extends="nomalLayout">
+       <put-attribute name="body" value="/WEB-INF/views/work_order_TAB2.jsp" />
    </definition>
 </tiles-definitions>

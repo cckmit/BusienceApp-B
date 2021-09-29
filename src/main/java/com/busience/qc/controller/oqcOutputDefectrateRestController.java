@@ -31,6 +31,15 @@ public class oqcOutputDefectrateRestController {
 	{
 		List<OQCInspect_tbl> list = new ArrayList<OQCInspect_tbl>();
 		
+		String product_item_code = (String)obj.get("product_item_code");
+		
+		if(product_item_code != null)
+		{
+			if(!product_item_code.equals(""))
+				product_item_code = " and a3.PRODUCT_ITEM_CODE='"+product_item_code+"'\r\n";
+		}
+		else
+			product_item_code = "";
 		
 		String OQCInspect_Prcsn_Clsfc = (String)obj.get("OQCInspect_Prcsn_Clsfc");
 		if(!OQCInspect_Prcsn_Clsfc.equals("All"))
@@ -67,19 +76,27 @@ public class oqcOutputDefectrateRestController {
 				+ "            inner join PRODUCT_INFO_TBL a4 on a1.OQCInspect_ItemCode = a4.PRODUCT_ITEM_CODE\r\n";
 		
 		if(Search_Flag)
-			sql += "            where OQCInspect_Date between '"+ obj.get("startDate") + " 00:00:00' and '" + obj.get("endDate") + " 23:59:59'\r\n"+OQCInspect_Prcsn_Clsfc;
-		else
-			sql += "            where date_format(OQCInspect_Date,'%Y-%m')='"+ obj.get("startMonthDate") + "'\r\n"+OQCInspect_Prcsn_Clsfc;
-		
-		String product_item_code = (String)obj.get("product_item_code");
-		
-		if(product_item_code != null)
 		{
-			if(!product_item_code.equals(""))
-				product_item_code = " and a3.PRODUCT_ITEM_CODE='"+product_item_code+"'\r\n";
+			sql += "            where OQCInspect_Date between '"+ obj.get("startDate") + " 00:00:00' and '" + obj.get("endDate") + " 23:59:59'\r\n"+OQCInspect_Prcsn_Clsfc;
+			
+			String pcode = (String)obj.get("product_item_code");
+			
+			if(pcode != null && !pcode.equals(""))
+			{
+				sql += " and OQCInspect_ItemCode='"+(String)obj.get("product_item_code")+"'";
+			}
 		}
 		else
-			product_item_code = "";
+		{
+			sql += "            where date_format(OQCInspect_Date,'%Y-%m')='"+ obj.get("startMonthDate") + "'\r\n"+OQCInspect_Prcsn_Clsfc;
+			
+			String pcode = (String)obj.get("product_item_code");
+			
+			if(pcode != null && !pcode.equals(""))
+			{
+				sql += " and OQCInspect_ItemCode='"+(String)obj.get("product_item_code")+"'";
+			}
+		}	
 		
 		sql		+= "        ) t1 \r\n";
 		sql		+= "group by \r\n";
@@ -168,7 +185,7 @@ public class oqcOutputDefectrateRestController {
 				remark += rs2.getString("remark")+" ";
 			}
 			data.setRemark(remark.trim());
-			
+		
 			list.add(data);
 		}
 		

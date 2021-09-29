@@ -28,5 +28,28 @@ public class proSumLXController {
 		
 		return "productionLX/proMachineSumLX";
 	}
+	
+	@GetMapping("mold1")
+	public String list6(Model model, HttpServletRequest request) throws SQLException {
+		return "productionLX/pro_mold_sum";
+	}
+	
+	@GetMapping("proSumMonth")
+	public String proSumMonth(Model model, HttpServletRequest request) {
+		
+		model.addAttribute("pageName", "생산 실적 관리(월별)");
+		model.addAttribute("user_name", "관리자");
+		
+		return "productionLX/proSumMonth";
+	}
+	
+	@GetMapping("proSumYear")
+	public String proSumYear(Model model, HttpServletRequest request) {
+		
+		model.addAttribute("pageName", "생산 실적 관리(연별)");
+		model.addAttribute("user_name", "관리자");
+		
+		return "productionLX/proSumYear";
+	}
 }
 

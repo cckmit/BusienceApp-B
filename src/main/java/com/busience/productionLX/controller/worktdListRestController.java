@@ -26,36 +26,31 @@ public class worktdListRestController {
 
 	@Autowired
 	DataSource dataSource;
-	
+
 	@Autowired
 	JdbcTemplate jdbctemplate;
-	
+
 	@RequestMapping(value = "/One_Grid_init", method = RequestMethod.GET)
-	public List<EQUIPMENT_INFO_TBL> One_Grid_init(HttpServletRequest request) throws org.json.simple.parser.ParseException, SQLException
-	{
+	public List<EQUIPMENT_INFO_TBL> One_Grid_init(HttpServletRequest request)
+			throws org.json.simple.parser.ParseException, SQLException {
 		/*
-		List<EQUIPMENT_INFO_TBL> list = new ArrayList<EQUIPMENT_INFO_TBL>();
-		
-		String sql = "select * from EQUIPMENT_INFO_TBL";
-		
-		Connection conn = dataSource.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		pstmt = conn.prepareStatement(sql);
-		rs = pstmt.executeQuery();
-		
-		while (rs.next())
-		{
-			EQUIPMENT_INFO_TBL data = new EQUIPMENT_INFO_TBL();
-			data.setEQUIPMENT_INFO_CODE(rs.getString("EQUIPMENT_INFO_CODE"));
-			data.setEQUIPMENT_INFO_NAME(rs.getString("EQUIPMENT_INFO_NAME"));
-			list.add(data);
-		}
-		
-		return list;
-		*/
-		
+		 * List<EQUIPMENT_INFO_TBL> list = new ArrayList<EQUIPMENT_INFO_TBL>();
+		 * 
+		 * String sql = "select * from EQUIPMENT_INFO_TBL";
+		 * 
+		 * Connection conn = dataSource.getConnection(); PreparedStatement pstmt = null;
+		 * ResultSet rs = null;
+		 * 
+		 * pstmt = conn.prepareStatement(sql); rs = pstmt.executeQuery();
+		 * 
+		 * while (rs.next()) { EQUIPMENT_INFO_TBL data = new EQUIPMENT_INFO_TBL();
+		 * data.setEQUIPMENT_INFO_CODE(rs.getString("EQUIPMENT_INFO_CODE"));
+		 * data.setEQUIPMENT_INFO_NAME(rs.getString("EQUIPMENT_INFO_NAME"));
+		 * list.add(data); }
+		 * 
+		 * return list;
+		 */
+
 		String sql = "select * from EQUIPMENT_INFO_TBL";
 		return jdbctemplate.query(sql, new RowMapper<EQUIPMENT_INFO_TBL>() {
 			@Override
@@ -67,462 +62,375 @@ public class worktdListRestController {
 			}
 		});
 	}
-	
+
 	@RequestMapping(value = "/Month_Select", method = RequestMethod.GET)
 	public List<PRODUCTION_MGMT_TBL2> Month_Select(HttpServletRequest request) throws SQLException {
 		List<PRODUCTION_MGMT_TBL2> list = new ArrayList<PRODUCTION_MGMT_TBL2>();
 		String year = request.getParameter("year");
 		String equipment_INFO_CODE = request.getParameter("equipment_INFO_CODE");
-		
-		for (int i = 0; i < 12; i++) 
-			list.add(new PRODUCTION_MGMT_TBL2(year+"년-"+String.valueOf(i+1)+"월"));
-		
-		String sql = "SELECT \r\n"
-				+ "		CONCAT(YEAR(PRODUCTION_Date),'년-',MONTH(PRODUCTION_Date),'월') ym\r\n"
+
+		for (int i = 0; i < 12; i++)
+			list.add(new PRODUCTION_MGMT_TBL2(year + "년-" + String.valueOf(i + 1) + "월"));
+
+		String sql = "SELECT \r\n" + "		CONCAT(YEAR(PRODUCTION_Date),'년-',MONTH(PRODUCTION_Date),'월') ym\r\n"
 				+ "		,SUM(PRODUCTION_Volume) PRODUCTION_Volume\r\n"
 				+ "		,CONCAT(YEAR(PRODUCTION_Date),'-',MONTH(PRODUCTION_Date)) ym2\r\n"
-				+ "FROM 	PRODUCTION_MGMT_TBL2 pmt\r\n"
-				+ "WHERE	YEAR(PRODUCTION_Date) = "+year+"\r\n"
-				+ "AND      PRODUCTION_Equipment_Code = '"+equipment_INFO_CODE+"'\r\n"
-				+ "GROUP BY ym";
-		
+				+ "FROM 	PRODUCTION_MGMT_TBL2 pmt\r\n" + "WHERE	YEAR(PRODUCTION_Date) = " + year + "\r\n"
+				+ "AND      PRODUCTION_Equipment_Code = '" + equipment_INFO_CODE + "'\r\n" + "GROUP BY ym";
+
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		pstmt = conn.prepareStatement(sql);
 		rs = pstmt.executeQuery();
-		
-		while (rs.next())
-		{
+
+		while (rs.next()) {
 			for (int i = 0; i < list.size(); i++) {
-				if(rs.getString("ym").equals(list.get(i).getYm()))
-				{
+				if (rs.getString("ym").equals(list.get(i).getYm())) {
 					list.get(i).setPRODUCTION_Volume(rs.getString("PRODUCTION_Volume"));
-					
+
 					continue;
 				}
 			}
 		}
-		
+
 		for (int i = 0; i < list.size(); i++) {
-			if(list.get(i).getPRODUCTION_Volume() == null)
+			if (list.get(i).getPRODUCTION_Volume() == null)
 				list.get(i).setPRODUCTION_Volume("0");
 		}
-		
-		if(rs != null) rs.close();
-		if(pstmt != null) pstmt.close();
-		if(conn != null) conn.close();
-		
+
+		if (rs != null)
+			rs.close();
+		if (pstmt != null)
+			pstmt.close();
+		if (conn != null)
+			conn.close();
+
 		return list;
 	}
-	
+
 	@RequestMapping(value = "/Month_Select_Detail", method = RequestMethod.GET)
-	public List<PRODUCTION_MGMT_TBL2> Month_Select_Detail(HttpServletRequest request) throws SQLException{
+	public List<PRODUCTION_MGMT_TBL2> Month_Select_Detail(HttpServletRequest request) throws SQLException {
 		List<PRODUCTION_MGMT_TBL2> list = new ArrayList<PRODUCTION_MGMT_TBL2>();
-		//List<PRODUCTION_MGMT_TBL2> list2 = new ArrayList<PRODUCTION_MGMT_TBL2>();
+		// List<PRODUCTION_MGMT_TBL2> list2 = new ArrayList<PRODUCTION_MGMT_TBL2>();
 		String year = request.getParameter("year");
 		String equipment_INFO_CODE = request.getParameter("equipment_INFO_CODE");
-		
-		String sql = "SELECT \r\n"
-				+ "		date_format(PRODUCTION_Date, '%Y-%m') ym\r\n"
+
+		String sql = "SELECT \r\n" + "		date_format(PRODUCTION_Date, '%Y-%m') ym\r\n"
 				+ "		,SUM(PRODUCTION_Volume) PRODUCTION_Volume\r\n"
 				+ "		,CONCAT(YEAR(PRODUCTION_Date),'-',MONTH(PRODUCTION_Date)) ym2\r\n"
-				+ "FROM 	PRODUCTION_MGMT_TBL2 pmt\r\n"
-				+ "WHERE	YEAR(PRODUCTION_Date) = ?\r\n"
-				+ "AND      PRODUCTION_Equipment_Code = ?\r\n"
-				+ "GROUP BY ym";
-		
-		for (int i = 0; i < 12; i++) 
-		{
-			if(i<9)
-				list.add(new PRODUCTION_MGMT_TBL2(year+"-"+"0"+String.valueOf(i+1)));
+				+ "FROM 	PRODUCTION_MGMT_TBL2 pmt\r\n" + "WHERE	YEAR(PRODUCTION_Date) = ?\r\n"
+				+ "AND      PRODUCTION_Equipment_Code = ?\r\n" + "GROUP BY ym";
+
+		for (int i = 0; i < 12; i++) {
+			if (i < 9)
+				list.add(new PRODUCTION_MGMT_TBL2(year + "-" + "0" + String.valueOf(i + 1)));
 			else
-				list.add(new PRODUCTION_MGMT_TBL2(year+"-"+String.valueOf(i+1)));
+				list.add(new PRODUCTION_MGMT_TBL2(year + "-" + String.valueOf(i + 1)));
 		}
-		
+
 		jdbctemplate.query(sql, new RowMapper<PRODUCTION_MGMT_TBL2>() {
 			@Override
 			public PRODUCTION_MGMT_TBL2 mapRow(ResultSet rs, int rowNum) throws SQLException {
 				PRODUCTION_MGMT_TBL2 data = new PRODUCTION_MGMT_TBL2();
-				for (int i = 0; i < list.size(); i++)
-				{
-					//System.out.println(rs.getString("ym"));
-					
-					if(rs.getString("ym").equals(list.get(i).getYm()))
-					{
+				for (int i = 0; i < list.size(); i++) {
+					// System.out.println(rs.getString("ym"));
+
+					if (rs.getString("ym").equals(list.get(i).getYm())) {
 						list.get(i).setPRODUCTION_Volume(rs.getString("PRODUCTION_Volume"));
-						
+
 						break;
 					}
 				}
 				return data;
 			}
-		},year,equipment_INFO_CODE);
-		
+		}, year, equipment_INFO_CODE);
+
 		for (int i = 0; i < list.size(); i++) {
-			if(list.get(i).getPRODUCTION_Volume() == null)
+			if (list.get(i).getPRODUCTION_Volume() == null)
 				list.get(i).setPRODUCTION_Volume("0");
 		}
-		
-		//for(PRODUCTION_MGMT_TBL2 sd : list)
-			//System.out.println(sd.toString());
-		
-		sql = "SELECT 	t2.WorkOrder_ItemCode,t2.PRODUCT_ITEM_NAME ,SUM(PRODUCTION_Volume) PRODUCTION_Volume,date_format(PRODUCTION_Date, '%Y-%m') ym\r\n"
-				+ "FROM		PRODUCTION_MGMT_TBL2 t1\r\n"
-				+ "LEFT JOIN \r\n"
-				+ "(\r\n"
-				+ "	SELECT \r\n"
-				+ "		* \r\n"
-				+ "	FROM			WorkOrder_tbl a1\r\n"
-				+ "	LEFT JOIN	PRODUCT_INFO_TBL a2\r\n"
-				+ "	ON a1.WorkOrder_ItemCode = a2.PRODUCT_ITEM_CODE\r\n"
-				+ ") t2\r\n"
-				+ "ON t1.PRODUCTION_WorkOrder_ONo = t2.WorkOrder_ONo\r\n"
-				+ "WHERE	   YEAR(PRODUCTION_Date) = ?\r\n"
-				+ "AND      PRODUCTION_Equipment_Code = ?\r\n"
-				+ "GROUP BY ym,WorkOrder_ItemCode";
-		
+
+		// for(PRODUCTION_MGMT_TBL2 sd : list)
+		// System.out.println(sd.toString());
+
+		sql = "SELECT 	t2.WorkOrder_ItemCode,t2.PRODUCT_ITEM_NAME ,SUM(PRODUCTION_Volume) PRODUCTION_Volume,date_format(PRODUCTION_Date, '%Y-%m') ym,t2.PRODUCT_ITEM_CODE\r\n"
+				+ "FROM		PRODUCTION_MGMT_TBL2 t1\r\n" + "LEFT JOIN \r\n" + "(\r\n" + "	SELECT \r\n"
+				+ "		* \r\n" + "	FROM			WorkOrder_tbl a1\r\n" + "	LEFT JOIN	PRODUCT_INFO_TBL a2\r\n"
+				+ "	ON a1.WorkOrder_ItemCode = a2.PRODUCT_ITEM_CODE\r\n" + ") t2\r\n"
+				+ "ON t1.PRODUCTION_WorkOrder_ONo = t2.WorkOrder_ONo\r\n" + "WHERE	   YEAR(PRODUCTION_Date) = ?\r\n"
+				+ "AND      PRODUCTION_Equipment_Code = ?\r\n" + "GROUP BY ym,WorkOrder_ItemCode";
+
 		jdbctemplate.query(sql, new RowMapper<PRODUCTION_MGMT_TBL2>() {
 			@Override
 			public PRODUCTION_MGMT_TBL2 mapRow(ResultSet rs, int rowNum) throws SQLException {
 				PRODUCTION_MGMT_TBL2 data = new PRODUCTION_MGMT_TBL2();
-				for (int i = 0; i < list.size(); i++)
-				{
-					if(rs.getString("ym").equals(list.get(i).getYm()))
-					{
+				for (int i = 0; i < list.size(); i++) {
+					if (rs.getString("ym").equals(list.get(i).getYm())) {
 						PRODUCTION_MGMT_TBL2 datas = new PRODUCTION_MGMT_TBL2();
 						datas.setPercent(rs.getString("ym"));
 						datas.setYm(rs.getString("PRODUCT_ITEM_NAME"));
 						datas.setPRODUCTION_Volume(rs.getString("PRODUCTION_Volume"));
-						
+						datas.setPRODUCTION_Item_Code(rs.getString("PRODUCT_ITEM_CODE"));
+						datas.setPRODUCTION_Equipment_Code(equipment_INFO_CODE);
+
 						list.get(i).set_children(datas);
 						continue;
 					}
 				}
 				return data;
 			}
-		},year,equipment_INFO_CODE);
-		
-		//for(PRODUCTION_MGMT_TBL2 sd : list)
-			//System.out.println(sd.toString());
-		
+		}, year, equipment_INFO_CODE);
+
+		// for(PRODUCTION_MGMT_TBL2 sd : list)
+		// System.out.println(sd.toString());
+
 		return list;
 	}
-	
+
+	@RequestMapping(value = "/Month_Select_Detail2", method = RequestMethod.GET)
+	public List<PRODUCTION_MGMT_TBL2> Month_Select_Detail2(HttpServletRequest request) throws SQLException {
+		List<PRODUCTION_MGMT_TBL2> list = new ArrayList<PRODUCTION_MGMT_TBL2>();
+		// List<PRODUCTION_MGMT_TBL2> list2 = new ArrayList<PRODUCTION_MGMT_TBL2>();
+		String year = request.getParameter("year");
+		String equipment_INFO_CODE = request.getParameter("production_Equipment_Code");
+		String production_Item_Code = request.getParameter("production_Item_Code");
+
+		String sql = "SELECT \r\n" + "		date_format(PRODUCTION_Date, '%Y-%m') ym\r\n"
+				+ "		,SUM(PRODUCTION_Volume) PRODUCTION_Volume\r\n"
+				+ "		,CONCAT(YEAR(PRODUCTION_Date),'-',MONTH(PRODUCTION_Date)) ym2\r\n"
+				+ "FROM 	PRODUCTION_MGMT_TBL2 t1\r\n" + "LEFT JOIN \r\n" + "(\r\n" + "	SELECT \r\n"
+				+ "		* \r\n" + "	FROM			WorkOrder_tbl a1\r\n" + "	LEFT JOIN	PRODUCT_INFO_TBL a2\r\n"
+				+ "	ON a1.WorkOrder_ItemCode = a2.PRODUCT_ITEM_CODE\r\n" + ") t2\r\n"
+				+ "ON t1.PRODUCTION_WorkOrder_ONo = t2.WorkOrder_ONo\r\n" + "WHERE	YEAR(PRODUCTION_Date) = ?\r\n"
+				+ "AND      PRODUCTION_Equipment_Code = ?\r\n" + "AND 		PRODUCT_ITEM_CODE = ?\r\n" + "GROUP BY ym";
+
+		for (int i = 0; i < 12; i++) {
+			if (i < 9)
+				list.add(new PRODUCTION_MGMT_TBL2(year + "-" + "0" + String.valueOf(i + 1)));
+			else
+				list.add(new PRODUCTION_MGMT_TBL2(year + "-" + String.valueOf(i + 1)));
+		}
+
+		jdbctemplate.query(sql, new RowMapper<PRODUCTION_MGMT_TBL2>() {
+			@Override
+			public PRODUCTION_MGMT_TBL2 mapRow(ResultSet rs, int rowNum) throws SQLException {
+				PRODUCTION_MGMT_TBL2 data = new PRODUCTION_MGMT_TBL2();
+				for (int i = 0; i < list.size(); i++) {
+					// System.out.println(rs.getString("ym"));
+
+					if (rs.getString("ym").equals(list.get(i).getYm())) {
+						list.get(i).setPRODUCTION_Volume(rs.getString("PRODUCTION_Volume"));
+
+						break;
+					}
+				}
+				return data;
+			}
+		}, year, equipment_INFO_CODE, production_Item_Code);
+
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getPRODUCTION_Volume() == null)
+				list.get(i).setPRODUCTION_Volume("0");
+		}
+
+		return list;
+	}
+
 	@RequestMapping(value = "/Quarter_Select", method = RequestMethod.GET)
-	public List<PRODUCTION_MGMT_TBL2> Quarter_Select(HttpServletRequest request) throws SQLException{
+	public List<PRODUCTION_MGMT_TBL2> Quarter_Select(HttpServletRequest request) throws SQLException {
 		List<PRODUCTION_MGMT_TBL2> list = new ArrayList<PRODUCTION_MGMT_TBL2>();
 		String year = request.getParameter("year");
 		String equipment_INFO_CODE = request.getParameter("equipment_INFO_CODE");
-		
-		for (int i = 0; i < 4; i++) 
-			list.add(new PRODUCTION_MGMT_TBL2(year+"년-"+String.valueOf(i+1)+"분기"));
-		
-		String sql = "SELECT \r\n"
-				+ "			CONCAT(YEAR(PRODUCTION_Date),'년-',QUARTER(PRODUCTION_Date),'분기') ym\r\n"
-				+ "			,SUM(PRODUCTION_Volume) PRODUCTION_Volume\r\n"
-				+ "FROM 		PRODUCTION_MGMT_TBL2\r\n"
-				+ "WHERE\r\n"
-				+ "			DATE_FORMAT(PRODUCTION_Date, '%Y') = ?\r\n"
-				+ "AND      PRODUCTION_Equipment_Code = ?\r\n"
-				+ "GROUP BY ym";
-		
+
+		for (int i = 0; i < 4; i++)
+			list.add(new PRODUCTION_MGMT_TBL2(year + "년-" + String.valueOf(i + 1) + "분기"));
+
+		String sql = "SELECT \r\n" + "			CONCAT(YEAR(PRODUCTION_Date),'년-',QUARTER(PRODUCTION_Date),'분기') ym\r\n"
+				+ "			,SUM(PRODUCTION_Volume) PRODUCTION_Volume\r\n" + "FROM 		PRODUCTION_MGMT_TBL2\r\n"
+				+ "WHERE\r\n" + "			DATE_FORMAT(PRODUCTION_Date, '%Y') = ?\r\n"
+				+ "AND      PRODUCTION_Equipment_Code = ?\r\n" + "GROUP BY ym";
+
 		jdbctemplate.query(sql, new RowMapper<PRODUCTION_MGMT_TBL2>() {
 			@Override
 			public PRODUCTION_MGMT_TBL2 mapRow(ResultSet rs, int rowNum) throws SQLException {
 				PRODUCTION_MGMT_TBL2 data = new PRODUCTION_MGMT_TBL2();
 				for (int i = 0; i < list.size(); i++) {
-					if(rs.getString("ym").equals(list.get(i).getYm()))
-					{
+					if (rs.getString("ym").equals(list.get(i).getYm())) {
 						list.get(i).setPRODUCTION_Volume(rs.getString("PRODUCTION_Volume"));
 						break;
 					}
 				}
 				return data;
 			}
-		},year,equipment_INFO_CODE);
-		
+		}, year, equipment_INFO_CODE);
+
 		for (int i = 0; i < list.size(); i++) {
-			if(list.get(i).getPRODUCTION_Volume() == null)
+			if (list.get(i).getPRODUCTION_Volume() == null)
 				list.get(i).setPRODUCTION_Volume("0");
 		}
-		
+
 		return list;
 	}
-	
+
 	@RequestMapping(value = "/Quarter_Select_Detail", method = RequestMethod.GET)
-	public List<PRODUCTION_MGMT_TBL2> Quarter_Select_Detail(HttpServletRequest request) throws SQLException{
+	public List<PRODUCTION_MGMT_TBL2> Quarter_Select_Detail(HttpServletRequest request) throws SQLException {
 		List<PRODUCTION_MGMT_TBL2> list = new ArrayList<PRODUCTION_MGMT_TBL2>();
 		String year = request.getParameter("year");
 		String equipment_INFO_CODE = request.getParameter("equipment_INFO_CODE");
-		
-		for (int i = 0; i < 4; i++) 
-			list.add(new PRODUCTION_MGMT_TBL2(year+"년-"+String.valueOf(i+1)+"분기"));
-		
-		String sql = "SELECT \r\n"
-				+ "			CONCAT(YEAR(PRODUCTION_Date),'년-',QUARTER(PRODUCTION_Date),'분기') ym\r\n"
-				+ "			,SUM(PRODUCTION_Volume) PRODUCTION_Volume\r\n"
-				+ "FROM 		PRODUCTION_MGMT_TBL2\r\n"
-				+ "WHERE\r\n"
-				+ "			DATE_FORMAT(PRODUCTION_Date, '%Y') = ?\r\n"
-				+ "AND      PRODUCTION_Equipment_Code = ?\r\n"
-				+ "GROUP BY ym";
-		
+
+		for (int i = 0; i < 4; i++)
+			list.add(new PRODUCTION_MGMT_TBL2(year + "년-" + String.valueOf(i + 1) + "분기"));
+
+		String sql = "SELECT \r\n" + "			CONCAT(YEAR(PRODUCTION_Date),'년-',QUARTER(PRODUCTION_Date),'분기') ym\r\n"
+				+ "			,SUM(PRODUCTION_Volume) PRODUCTION_Volume\r\n" + "FROM 		PRODUCTION_MGMT_TBL2\r\n"
+				+ "WHERE\r\n" + "			DATE_FORMAT(PRODUCTION_Date, '%Y') = ?\r\n"
+				+ "AND      PRODUCTION_Equipment_Code = ?\r\n" + "GROUP BY ym";
+
 		jdbctemplate.query(sql, new RowMapper<PRODUCTION_MGMT_TBL2>() {
 			@Override
 			public PRODUCTION_MGMT_TBL2 mapRow(ResultSet rs, int rowNum) throws SQLException {
 				PRODUCTION_MGMT_TBL2 data = new PRODUCTION_MGMT_TBL2();
 				for (int i = 0; i < list.size(); i++) {
-					if(rs.getString("ym").equals(list.get(i).getYm()))
-					{
+					if (rs.getString("ym").equals(list.get(i).getYm())) {
 						list.get(i).setPRODUCTION_Volume(rs.getString("PRODUCTION_Volume"));
 						break;
 					}
 				}
 				return data;
 			}
-		},year,equipment_INFO_CODE);
-		
+		}, year, equipment_INFO_CODE);
+
 		for (int i = 0; i < list.size(); i++) {
-			if(list.get(i).getPRODUCTION_Volume() == null)
+			if (list.get(i).getPRODUCTION_Volume() == null)
 				list.get(i).setPRODUCTION_Volume("0");
 		}
-		
-		//----------------------------------------------------------------------------------------------
-		
+
+		// ----------------------------------------------------------------------------------------------
+
 		sql = "SELECT 	t2.WorkOrder_ItemCode,t2.PRODUCT_ITEM_NAME ,SUM(PRODUCTION_Volume) PRODUCTION_Volume,CONCAT(YEAR(PRODUCTION_Date),'년-',QUARTER(PRODUCTION_Date),'분기') ym\r\n"
-				+ "FROM		PRODUCTION_MGMT_TBL2 t1\r\n"
-				+ "LEFT JOIN \r\n"
-				+ "(\r\n"
-				+ "	SELECT \r\n"
-				+ "		* \r\n"
-				+ "	FROM			WorkOrder_tbl a1\r\n"
-				+ "	LEFT JOIN	PRODUCT_INFO_TBL a2\r\n"
-				+ "	ON a1.WorkOrder_ItemCode = a2.PRODUCT_ITEM_CODE\r\n"
-				+ ") t2\r\n"
-				+ "ON t1.PRODUCTION_WorkOrder_ONo = t2.WorkOrder_ONo\r\n"
-				+ "WHERE	   YEAR(PRODUCTION_Date) = ?\r\n"
-				+ "AND      PRODUCTION_Equipment_Code = ?\r\n"
-				+ "GROUP BY ym,WorkOrder_ItemCode";
-		
+				+ "FROM		PRODUCTION_MGMT_TBL2 t1\r\n" + "LEFT JOIN \r\n" + "(\r\n" + "	SELECT \r\n"
+				+ "		* \r\n" + "	FROM			WorkOrder_tbl a1\r\n" + "	LEFT JOIN	PRODUCT_INFO_TBL a2\r\n"
+				+ "	ON a1.WorkOrder_ItemCode = a2.PRODUCT_ITEM_CODE\r\n" + ") t2\r\n"
+				+ "ON t1.PRODUCTION_WorkOrder_ONo = t2.WorkOrder_ONo\r\n" + "WHERE	   YEAR(PRODUCTION_Date) = ?\r\n"
+				+ "AND      PRODUCTION_Equipment_Code = ?\r\n" + "GROUP BY ym,WorkOrder_ItemCode";
+
 		jdbctemplate.query(sql, new RowMapper<PRODUCTION_MGMT_TBL2>() {
 			@Override
 			public PRODUCTION_MGMT_TBL2 mapRow(ResultSet rs, int rowNum) throws SQLException {
 				PRODUCTION_MGMT_TBL2 data = new PRODUCTION_MGMT_TBL2();
-				for (int i = 0; i < list.size(); i++)
-				{
-					if(rs.getString("ym").equals(list.get(i).getYm()))
-					{
+				for (int i = 0; i < list.size(); i++) {
+					if (rs.getString("ym").equals(list.get(i).getYm())) {
 						PRODUCTION_MGMT_TBL2 datas = new PRODUCTION_MGMT_TBL2();
 						datas.setYm(rs.getString("PRODUCT_ITEM_NAME"));
 						datas.setPRODUCTION_Volume(rs.getString("PRODUCTION_Volume"));
-						
+
 						list.get(i).set_children(datas);
 						continue;
 					}
 				}
 				return data;
 			}
-		},year,equipment_INFO_CODE);
-		
+		}, year, equipment_INFO_CODE);
+
 		return list;
 	}
-	
+
 	@RequestMapping(value = "/Year_Select", method = RequestMethod.GET)
-	public List<PRODUCTION_MGMT_TBL2> Year_Select(HttpServletRequest request){
+	public List<PRODUCTION_MGMT_TBL2> Year_Select(HttpServletRequest request) {
 		List<PRODUCTION_MGMT_TBL2> list = new ArrayList<PRODUCTION_MGMT_TBL2>();
 		String year = request.getParameter("year");
+		String year1 = request.getParameter("year1");
+		String year2 = request.getParameter("year2");
 		String equipment_INFO_CODE = request.getParameter("equipment_INFO_CODE");
-		
-		list = jdbctemplate.query("SELECT \r\n"
-				+ "		YEAR(PRODUCTION_Date) ym\r\n"
-				+ "		,SUM(PRODUCTION_Volume) PRODUCTION_Volume\r\n"
-				+ "FROM 	PRODUCTION_MGMT_TBL2 pmt\r\n"
-				+ "WHERE	PRODUCTION_Equipment_Code = ?\r\n"
-				+ "GROUP BY ym", new RowMapper<PRODUCTION_MGMT_TBL2>() {
+
+		int int_year1 = Integer.parseInt(year1);
+		int int_year2 = Integer.parseInt(year2);
+
+		List<Integer> year_list = new ArrayList<Integer>();
+		for (int i = int_year1; i <= int_year2; i++) {
+			list.add(new PRODUCTION_MGMT_TBL2(year+"년-"+String.valueOf(i+1)+"분기"));
+			year_list.add(i);
+		}
+
+		list = jdbctemplate.query(
+				"SELECT \r\n" + "		YEAR(PRODUCTION_Date) ym\r\n"
+						+ "		,SUM(PRODUCTION_Volume) PRODUCTION_Volume\r\n" + "FROM 	PRODUCTION_MGMT_TBL2 pmt\r\n"
+						+ "WHERE	PRODUCTION_Equipment_Code = ?\r\n" + "GROUP BY ym",
+				new RowMapper<PRODUCTION_MGMT_TBL2>() {
 					@Override
 					public PRODUCTION_MGMT_TBL2 mapRow(ResultSet rs, int rowNum) throws SQLException {
-						
+
 						PRODUCTION_MGMT_TBL2 data = new PRODUCTION_MGMT_TBL2();
-						
+
 						String flag_ym = rs.getString("ym");
-						System.out.println("flag_ym : "+flag_ym);
+						System.out.println("flag_ym : " + flag_ym);
 						data.setYm(flag_ym);
 						data.setPRODUCTION_Volume(rs.getString("PRODUCTION_Volume"));
-						
-						/*
-						data.set_children(jdbctemplate.query("SELECT 	t2.WorkOrder_ItemCode,t2.PRODUCT_ITEM_NAME ,SUM(PRODUCTION_Volume) PRODUCTION_Volume,YEAR(PRODUCTION_Date) ym\r\n"
-								+ "FROM		PRODUCTION_MGMT_TBL2 t1\r\n"
-								+ "LEFT JOIN \r\n"
-								+ "(\r\n"
-								+ "	SELECT \r\n"
-								+ "		* \r\n"
-								+ "	FROM			WorkOrder_tbl a1\r\n"
-								+ "	LEFT JOIN	PRODUCT_INFO_TBL a2\r\n"
-								+ "	ON a1.WorkOrder_ItemCode = a2.PRODUCT_ITEM_CODE\r\n"
-								+ ") t2\r\n"
-								+ "ON t1.PRODUCTION_WorkOrder_ONo = t2.WorkOrder_ONo\r\n"
-								+ "WHERE	PRODUCTION_Equipment_Code = ?\r\n"
-								+ "GROUP BY ym,WorkOrder_ItemCode", new RowMapper<PRODUCTION_MGMT_TBL2>() {
-							@Override
-							public PRODUCTION_MGMT_TBL2 mapRow(ResultSet rs, int rowNum) throws SQLException {
-								
-								String test_ym = rs.getString("ym");
-								System.out.println("test_ym : "+test_ym);
-								
-								PRODUCTION_MGMT_TBL2 data = null;
-								
-								if(flag_ym.equals(test_ym))
-								{
-									data = new PRODUCTION_MGMT_TBL2();
-									data.setYm(rs.getString("PRODUCT_ITEM_NAME"));
-									data.setPRODUCTION_Volume(rs.getString("PRODUCTION_Volume"));
-								}
-								
-								return data;
-							}
-						},equipment_INFO_CODE));
-						*/
-						
+
 						return data;
 					}
-		},equipment_INFO_CODE);
-		
-		List<PRODUCTION_MGMT_TBL2> list2 =  jdbctemplate.query("SELECT 	t2.WorkOrder_ItemCode,t2.PRODUCT_ITEM_NAME ,SUM(PRODUCTION_Volume) PRODUCTION_Volume,YEAR(PRODUCTION_Date) ym\r\n"
-				+ "FROM		PRODUCTION_MGMT_TBL2 t1\r\n"
-				+ "LEFT JOIN \r\n"
-				+ "(\r\n"
-				+ "	SELECT \r\n"
-				+ "		* \r\n"
-				+ "	FROM			WorkOrder_tbl a1\r\n"
-				+ "	LEFT JOIN	PRODUCT_INFO_TBL a2\r\n"
-				+ "	ON a1.WorkOrder_ItemCode = a2.PRODUCT_ITEM_CODE\r\n"
-				+ ") t2\r\n"
-				+ "ON t1.PRODUCTION_WorkOrder_ONo = t2.WorkOrder_ONo\r\n"
-				+ "WHERE	PRODUCTION_Equipment_Code = ?\r\n"
-				+ "GROUP BY ym,WorkOrder_ItemCode", new RowMapper<PRODUCTION_MGMT_TBL2>() {
-			@Override
-			public PRODUCTION_MGMT_TBL2 mapRow(ResultSet rs, int rowNum) throws SQLException {
-				
-				PRODUCTION_MGMT_TBL2 data = null;
-				data = new PRODUCTION_MGMT_TBL2();
-				data.setPercent(rs.getString("ym"));
-				data.setPRODUCTION_Equipment_Code(rs.getString("WorkOrder_ItemCode"));
-				data.setYm(rs.getString("PRODUCT_ITEM_NAME"));
-				data.setPRODUCTION_Volume(rs.getString("PRODUCTION_Volume"));
-				
-				return data;
-			}
-		},equipment_INFO_CODE);
-		
+				}, equipment_INFO_CODE);
+
+		List<PRODUCTION_MGMT_TBL2> list2 = jdbctemplate.query(
+				"SELECT 	t2.WorkOrder_ItemCode,t2.PRODUCT_ITEM_NAME ,SUM(PRODUCTION_Volume) PRODUCTION_Volume,YEAR(PRODUCTION_Date) ym\r\n"
+						+ "FROM		PRODUCTION_MGMT_TBL2 t1\r\n" + "LEFT JOIN \r\n" + "(\r\n" + "	SELECT \r\n"
+						+ "		* \r\n" + "	FROM			WorkOrder_tbl a1\r\n"
+						+ "	LEFT JOIN	PRODUCT_INFO_TBL a2\r\n"
+						+ "	ON a1.WorkOrder_ItemCode = a2.PRODUCT_ITEM_CODE\r\n" + ") t2\r\n"
+						+ "ON t1.PRODUCTION_WorkOrder_ONo = t2.WorkOrder_ONo\r\n"
+						+ "WHERE	PRODUCTION_Equipment_Code = ?\r\n" + "GROUP BY ym,WorkOrder_ItemCode",
+				new RowMapper<PRODUCTION_MGMT_TBL2>() {
+					@Override
+					public PRODUCTION_MGMT_TBL2 mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+						PRODUCTION_MGMT_TBL2 data = null;
+						data = new PRODUCTION_MGMT_TBL2();
+						data.setPercent(rs.getString("ym"));
+						data.setPRODUCTION_Equipment_Code(rs.getString("WorkOrder_ItemCode"));
+						data.setYm(rs.getString("PRODUCT_ITEM_NAME"));
+						data.setPRODUCTION_Volume(rs.getString("PRODUCTION_Volume"));
+
+						return data;
+					}
+				}, equipment_INFO_CODE);
+
 		for (PRODUCTION_MGMT_TBL2 data1 : list) {
 			for (PRODUCTION_MGMT_TBL2 data2 : list2) {
-				if(data1.getYm().equals(data2.getPercent()))
+				if (data1.getYm().equals(data2.getPercent()))
 					data1.set_children(data2);
 			}
 		}
-		
-		for(PRODUCTION_MGMT_TBL2 data : list)
-		{
-			if(data.get_children().size() <= 1)
-			{
-				List<PRODUCTION_MGMT_TBL2> newdata = jdbctemplate.query("SELECT * FROM PRODUCT_INFO_TBL WHERE PRODUCT_ITEM_CODE <> ? LIMIT 1", new RowMapper<PRODUCTION_MGMT_TBL2>() {
-					@Override
-					public PRODUCTION_MGMT_TBL2 mapRow(ResultSet rs, int rowNum) throws SQLException {
-						
-						PRODUCTION_MGMT_TBL2 data = null;
-						data = new PRODUCTION_MGMT_TBL2();
-						//data.setPercent(rs.getString("PRODUCT_ITEM_NAME"));
-						data.setPRODUCTION_Equipment_Code(rs.getString("PRODUCT_ITEM_CODE"));
-						data.setYm(rs.getString("PRODUCT_ITEM_NAME"));
-						data.setPRODUCTION_Volume("0");
-						
-						return data;
-					}
-				},data.get_children().get(0).getPRODUCTION_Equipment_Code());
-				
-				data.set_children(newdata.get(0));
-			}
-		}
-		
-		return list;
-		
+
 		/*
-		return jdbctemplate.query("SELECT \r\n"
-				+ "		YEAR(PRODUCTION_Date) ym\r\n"
-				+ "		,SUM(PRODUCTION_Volume) PRODUCTION_Volume\r\n"
-				+ "FROM 	PRODUCTION_MGMT_TBL2 pmt\r\n"
-				+ "WHERE	YEAR(PRODUCTION_Date) = ?\r\n"
-				+ "AND   PRODUCTION_Equipment_Code = ?\r\n"
-				+ "GROUP BY ym", new RowMapper<PRODUCTION_MGMT_TBL2>() {
-					@Override
-					public PRODUCTION_MGMT_TBL2 mapRow(ResultSet rs, int rowNum) throws SQLException {
-						
-						PRODUCTION_MGMT_TBL2 data = new PRODUCTION_MGMT_TBL2();
-						data.setYm(rs.getString("ym"));
-						data.setPRODUCTION_Volume(rs.getString("PRODUCTION_Volume"));
-						
-						jdbctemplate.query("SELECT \r\n"
-								+ "		YEAR(PRODUCTION_Date) ym\r\n"
-								+ "		,SUM(PRODUCTION_Volume) PRODUCTION_Volume\r\n"
-								+ "FROM 	PRODUCTION_MGMT_TBL2 pmt\r\n"
-								+ "WHERE	YEAR(PRODUCTION_Date) = ?\r\n"
-								+ "AND   PRODUCTION_Equipment_Code = ?\r\n"
-								+ "GROUP BY ym", new RowMapper<PRODUCTION_MGMT_TBL2>() {
-									@Override
-									public PRODUCTION_MGMT_TBL2 mapRow(ResultSet rs, int rowNum) throws SQLException {
-										
-										PRODUCTION_MGMT_TBL2 data = new PRODUCTION_MGMT_TBL2();
-										data.setYm(rs.getString("ym"));
-										data.setPRODUCTION_Volume(rs.getString("PRODUCTION_Volume"));
-										
-										System.out.println(year);
-										System.out.println(equipment_INFO_CODE);
-										
-										String sql = "SELECT 	t2.WorkOrder_ItemCode,t2.PRODUCT_ITEM_NAME ,SUM(PRODUCTION_Volume) PRODUCTION_Volume,YEAR(PRODUCTION_Date) ym\r\n"
-												+ "FROM		PRODUCTION_MGMT_TBL2 t1\r\n"
-												+ "LEFT JOIN \r\n"
-												+ "(\r\n"
-												+ "	SELECT \r\n"
-												+ "		* \r\n"
-												+ "	FROM			WorkOrder_tbl a1\r\n"
-												+ "	LEFT JOIN	PRODUCT_INFO_TBL a2\r\n"
-												+ "	ON a1.WorkOrder_ItemCode = a2.PRODUCT_ITEM_CODE\r\n"
-												+ ") t2\r\n"
-												+ "ON t1.PRODUCTION_WorkOrder_ONo = t2.WorkOrder_ONo\r\n"
-												+ "WHERE	   YEAR(PRODUCTION_Date) = "+year+"\r\n"
-												+ "AND      PRODUCTION_Equipment_Code = '"+equipment_INFO_CODE+"'\r\n"
-												+ "GROUP BY ym,WorkOrder_ItemCode";
-										
-										System.out.println(sql);
-										
-										List<PRODUCTION_MGMT_TBL2> arr = jdbctemplate.query(sql, new RowMapper<PRODUCTION_MGMT_TBL2>() {
-											@Override
-											public PRODUCTION_MGMT_TBL2 mapRow(ResultSet rs, int rowNum) throws SQLException {
-												
-												PRODUCTION_MGMT_TBL2 data = new PRODUCTION_MGMT_TBL2();
-												data.setYm(rs.getString("ym"));
-												data.setPRODUCTION_Volume(rs.getString("PRODUCTION_Volume"));
-												
-												return data;
-											}
-										});
-										
-										data.set_children(arr);
-										
-										for(PRODUCTION_MGMT_TBL2 d : data.get_children())
-										{
-											System.out.println(d.toString());
-										}
-										
-										return data;
-									}
-						},year,equipment_INFO_CODE);
-						
-						return data;
-					}
-		},year,equipment_INFO_CODE);
-		*/
+		 * for(PRODUCTION_MGMT_TBL2 data : list) { if(data.get_children().size() <= 1) {
+		 * List<PRODUCTION_MGMT_TBL2> newdata = jdbctemplate.
+		 * query("SELECT * FROM PRODUCT_INFO_TBL WHERE PRODUCT_ITEM_CODE <> ? LIMIT 1",
+		 * new RowMapper<PRODUCTION_MGMT_TBL2>() {
+		 * 
+		 * @Override public PRODUCTION_MGMT_TBL2 mapRow(ResultSet rs, int rowNum) throws
+		 * SQLException {
+		 * 
+		 * PRODUCTION_MGMT_TBL2 data = null; data = new PRODUCTION_MGMT_TBL2();
+		 * data.setPRODUCTION_Equipment_Code(rs.getString("PRODUCT_ITEM_CODE"));
+		 * data.setYm(rs.getString("PRODUCT_ITEM_NAME"));
+		 * data.setPRODUCTION_Volume("0");
+		 * 
+		 * return data; } },data.get_children().get(0).getPRODUCTION_Equipment_Code());
+		 * 
+		 * data.set_children(newdata.get(0)); } }
+		 */
+
+		List<PRODUCTION_MGMT_TBL2> _list = new ArrayList<PRODUCTION_MGMT_TBL2>();
+		for (int num : year_list) {
+			list.forEach(x -> {
+				if (x.getYm().equals(String.valueOf(num))) {
+					_list.add(x);
+				}
+			});
+		}
+
+		return _list;
 	}
 }

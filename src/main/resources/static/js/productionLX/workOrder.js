@@ -292,11 +292,26 @@ function Date_Check(cell)
 		if (e.keyCode == 13) {
 			var cellValue = cell.getValue();
 			
-			if(cellValue.length != 10)
+			var column = cell.getColumn();
+			var columnField = column.getField();
+			
+			if(columnField == "workOrder_OrderTime")
 			{
-				alert("날짜 입력형식이 잘못 되었습니다. ex)2021-05-15");
-				cell.restoreOldValue();
-				return;
+				if(cellValue.length != 19)
+				{
+					alert("날짜 입력형식이 잘못 되었습니다. ex)2021-05-15");
+					cell.restoreOldValue();
+					return;
+				}
+			}
+			else
+			{
+				if(cellValue.length != 10)
+				{
+					alert("날짜 입력형식이 잘못 되었습니다. ex)2021-05-15");
+					cell.restoreOldValue();
+					return;
+				}
 			}
 			
 			data = {

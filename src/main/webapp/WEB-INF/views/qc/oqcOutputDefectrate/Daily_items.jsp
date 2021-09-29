@@ -38,10 +38,10 @@
 					</select>
 				</div>
 				<div>
-					<span><strong>품목코드</strong></span>
-					<input id="PRODUCT_ITEM_CODE1" class="Item_Code1"type="text" disabled="disabled">
-					<span><strong>품목명</strong></span>
-					<input id="PRODUCT_ITEM_NAME1" class="Item_Name1 clearInput" type="text" onkeypress="javascript:if(event.keyCode==13) {itemPopup($(this).val(),'input','1','material')}">	
+					<span><strong>제품코드</strong></span>
+						<input id="PRODUCT_ITEM_CODE1" class="Item_Code1" type="text" disabled>
+						<span><strong>제품명</strong></span>
+						<input id="PRODUCT_ITEM_NAME1" class="Item_Name1 clearInput" type="text" onkeypress="javascript:if(event.keyCode==13) {itemPopup($(this).val(),'input','1','sales')}">	
 				</div>
 			</div>
 		</div>

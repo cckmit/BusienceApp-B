@@ -10,27 +10,25 @@ public class PRODUCTION_MGMT_TBL2 {
 		return "PRODUCTION_MGMT_TBL2 [PRODUCTION_WorkOrder_No=" + PRODUCTION_WorkOrder_No
 				+ ", PRODUCTION_WorkOrder_ONo=" + PRODUCTION_WorkOrder_ONo + ", PRODUCTION_Equipment_Code="
 				+ PRODUCTION_Equipment_Code + ", PRODUCTION_Volume=" + PRODUCTION_Volume + ", PRODUCTION_Date="
-				+ PRODUCTION_Date + ", percent=" + percent + ", WorkOrder_StartTime=" + WorkOrder_StartTime + ", ym="
-				+ ym + ", PRODUCTION_REF_CUM_AMT=" + PRODUCTION_REF_CUM_AMT + ", PRODUCTION_CALC_CUM_AMT="
-				+ PRODUCTION_CALC_CUM_AMT + ", _children=" + _children + "]";
+				+ PRODUCTION_Date + ", PRODUCTION_Item_Code=" + PRODUCTION_Item_Code + ", percent=" + percent
+				+ ", WorkOrder_StartTime=" + WorkOrder_StartTime + ", ym=" + ym + ", PRODUCTION_REF_CUM_AMT="
+				+ PRODUCTION_REF_CUM_AMT + ", PRODUCTION_CALC_CUM_AMT=" + PRODUCTION_CALC_CUM_AMT + ", _children="
+				+ _children + "]";
 	}
 
-	String PRODUCTION_WorkOrder_No,
-	PRODUCTION_WorkOrder_ONo,
-	PRODUCTION_Equipment_Code,
-	PRODUCTION_Volume,
-	PRODUCTION_Date;
+	String PRODUCTION_WorkOrder_No, PRODUCTION_WorkOrder_ONo, PRODUCTION_Equipment_Code, PRODUCTION_Volume,
+			PRODUCTION_Date, PRODUCTION_Item_Code;
 
-	String percent,WorkOrder_StartTime,ym;
-	
-	int PRODUCTION_REF_CUM_AMT,PRODUCTION_CALC_CUM_AMT;
-	
+	String percent, WorkOrder_StartTime, ym;
+
+	int PRODUCTION_REF_CUM_AMT, PRODUCTION_CALC_CUM_AMT;
+
 	List<PRODUCTION_MGMT_TBL2> _children = new ArrayList<PRODUCTION_MGMT_TBL2>();
-	
+
 	public void set_children(PRODUCTION_MGMT_TBL2 data) {
 		_children.add(data);
 	}
-	
+
 	public List<PRODUCTION_MGMT_TBL2> get_children() {
 		return _children;
 	}
@@ -127,4 +125,13 @@ public class PRODUCTION_MGMT_TBL2 {
 	public void setPRODUCTION_Date(String pRODUCTION_Date) {
 		PRODUCTION_Date = pRODUCTION_Date;
 	}
+
+	public String getPRODUCTION_Item_Code() {
+		return PRODUCTION_Item_Code;
+	}
+
+	public void setPRODUCTION_Item_Code(String pRODUCTION_Item_Code) {
+		PRODUCTION_Item_Code = pRODUCTION_Item_Code;
+	}
+
 }

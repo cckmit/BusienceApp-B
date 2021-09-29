@@ -12,7 +12,6 @@ $.ajax({
    }
 });
 
-MI_searchBtn1();
 
 function MI_searchBtn1()
 {
@@ -28,7 +27,7 @@ function MI_searchBtn1()
 	$.ajax({
 		method : "GET",
 		dataType : "json",
-		url : "workOrderListRest/MI_Search1?data="+ encodeURI(JSON.stringify(data)),
+		url : "workListRest/MI_Search1?data="+ encodeURI(JSON.stringify(data)),
 		success : function(data) {
 			//console.log("MI");
 			console.log(data);
@@ -206,3 +205,8 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 		{ title: "특이사항", field: "workOrder_Remark", headerHozAlign: "center" }
 	]
 });
+
+window.onload = function(){
+  MI_searchBtn1();
+}
+
