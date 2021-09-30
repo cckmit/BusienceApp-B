@@ -318,7 +318,7 @@ function spareTypeUpdate() {
 	console.log(datas);
 
 	$.ajax({
-		method: "POST",
+		method: "get",
 		data: datas,
 		url: "spareTypeRest/squareTypeManageRestUpdate?data="
 			+ encodeURI(JSON.stringify(datas)),

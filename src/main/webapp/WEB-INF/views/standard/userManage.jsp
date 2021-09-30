@@ -25,7 +25,7 @@
 				
 					<img src="/images/button/ADD.png" id="registerModal"/>
 					
-					<img src="/images/button/Update.png" id="modifyModal"/>
+					<img src="/images/button/Update.png" id="modifyModal" onclick="updatedeleteView()"/>
 				</div>
 			</div>
 

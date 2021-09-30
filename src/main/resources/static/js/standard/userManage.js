@@ -83,7 +83,7 @@ var userManageTable = new Tabulator("#userManageTable", {
 		console.log(user_USE_STATUS);
 
 		//행에 색변경		
-		$("#updateModal").modal("show");
+		$("#userModifyModal").modal("show");
 		
 		document.getElementById("update_user_CODE").value = user_CODE;
 		document.getElementById("update_user_NAME").value = user_NAME;

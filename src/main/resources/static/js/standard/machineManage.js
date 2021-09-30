@@ -312,29 +312,29 @@ function insert() {
 	$('#EQUIPMENT_WEIGHT').val("0");
 	//인서트가 논을 가지고있으면 제거하고 모디파이는 추가한다.
 	console.log("insert");
-	$('#inputModal .modify').addClass('none');
-	if ($('#inputModal .insert').hasClass('none')) {
-		$('#inputModal .insert').removeClass('none');
+	$('#machineModal .modify').addClass('none');
+	if ($('#machineModal .insert').hasClass('none')) {
+		$('#machineModal .insert').removeClass('none');
 	}
 	// 포커스부여
-	$("#inputModal").on("shown.bs.modal", function() {
+	$("#machineModal").on("shown.bs.modal", function() {
 		$('#EQUIPMENT_INFO_CODE').focus();
 	});
 }
 function modify() {
 	if (machineManageTable.getDataCount("selected") != "1") {
-		alert("행을 선택하여야 합니다.")
+		alert("행을 선택해야 합니다.")
 	} else {
 		//모디파이가 논을 가지고있으면 제거하고 인서트는 추가한다.
 		console.log("modify");
-		$("#inputModal").modal("toggle");
+		$("#machineModal").modal("toggle");
 		$('#EQUIPMENT_INFO_CODE').attr("readonly", true);
-		$('#inputModal .insert').addClass('none');
-		if ($('#inputModal .modify').hasClass('none')) {
-			$('#inputModal .modify').removeClass('none');
+		$('#machineModal .insert').addClass('none');
+		if ($('#machineModal .modify').hasClass('none')) {
+			$('#machineModal .modify').removeClass('none');
 		}
 		// 포커스부여
-		$("#inputModal").on("shown.bs.modal", function() {
+		$("#machineModal").on("shown.bs.modal", function() {
 			$('#EQUIPMENT_INFO_NAME').focus();
 		});
 	}
