@@ -1,4 +1,4 @@
-package com.busience.meterialLX.controller;
+package com.busience.materialLX.controller;
 
 import javax.sql.DataSource;
 
@@ -8,17 +8,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class matInReturnLXController {
+public class matOutReturnLXController {
 
 	@Autowired
 	DataSource dataSource;
-
-	// matInReturnLX
-	@GetMapping("matInReturnLX")
-	public String orderMaster(Model model) {
-		model.addAttribute("pageName", "matInReturnLX");
+	
+	//matInReturn
+	@GetMapping("matOutReturnLX")
+	public String matOutReturnLX(Model model) {
+		model.addAttribute("pageName", "matOutReturnLX");
 		model.addAttribute("user_name", "관리자");
-		return "materialLX/matInReturnLX/matInReturnLXMaster";
+		return "materialLX/matOutReturnLX/matOutReturnLXMaster";
 	}
-
 }

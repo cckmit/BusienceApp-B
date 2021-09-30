@@ -1,4 +1,4 @@
-package com.busience.meterialLX.controller;
+package com.busience.materialLX.controller;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

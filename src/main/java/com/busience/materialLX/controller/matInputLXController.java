@@ -1,4 +1,4 @@
-package com.busience.meterialLX.controller;
+package com.busience.materialLX.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

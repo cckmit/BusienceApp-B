@@ -9,14 +9,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.busience.service.DTL_Service;
+
 @Controller
 public class userManageController {
 
 	@Autowired
 	DataSource dataSource;
+	
+	private DTL_Service dtl_Service;
+	
+	public userManageController(DTL_Service dtl_Service) {
+		this.dtl_Service = dtl_Service;
+	}
 
 	@GetMapping("/userManage")
 	public String list(Model model) throws SQLException {
+		//String code = Integer.toString(1);
+		System.out.println(dtl_Service.getAlldtl());
 		/*
 		String sql = "select * from DTL_TBL where NEW_TBL_CODE = '1' and CHILD_TBL_USE_STATUS='true'";
 		Connection conn = dataSource.getConnection();
@@ -105,6 +115,11 @@ public class userManageController {
 		model.addAttribute("pageName", "userManage");
 
 		return "standard/userManage";
+	}
+
+	private String toString(int i) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

@@ -1,4 +1,4 @@
-package com.busience.meterialLX.controller;
+package com.busience.materialLX.controller;
 
 import java.security.Principal;
 import java.sql.Connection;
