@@ -1,33 +1,44 @@
 package com.busience.standard.controller;
 
 import java.net.UnknownHostException;
+import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
+import javax.transaction.Transactional;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.busience.domain.Member;
+import com.busience.persistence.MemberRepository;
 import com.busience.standard.Dto.USER_INFO_TBL;
 
 @RestController("userManageRestController")
 @RequestMapping("userManageRest")
 public class userManageRestController {
 
+	@Autowired
+	PasswordEncoder pwEncoder;
+	
+	@Autowired
+	MemberRepository repo;
+	
 	@Autowired
 	DataSource dataSource;
 
@@ -108,71 +119,18 @@ public class userManageRestController {
 		return list;
 	}
 
-	// ����
-	@RequestMapping(value = "/userManageInsert", method = RequestMethod.POST)
-	public String userManageInsert(HttpServletRequest request, Model model)
-			throws SQLException, ParseException, UnknownHostException, ClassNotFoundException {
-		String data = request.getParameter("data");
-		JSONParser parser = new JSONParser();
-		JSONObject obj = (JSONObject) parser.parse(data);
-
-		//System.out.println(obj.toJSONString());
-		HttpSession httpSession = request.getSession();
-		String modifier = (String) httpSession.getAttribute("id");
-
-		Connection conn = dataSource.getConnection();
-		String checkSql = "select USER_CODE from USER_INFO_TBL where USER_CODE='" + obj.get("USER_CODE") + "'";
-		PreparedStatement pstmt = conn.prepareStatement(checkSql);
-		ResultSet rs = pstmt.executeQuery();
-
-		// �ߺ�üũ
-		while (rs.next()) {
-			String check_DEFECT_CODE = rs.getString("USER_CODE");
-
-			if (check_DEFECT_CODE.length() > 0) {
-				return "Overlap";
-			}
-		}
-		// ��¥ ����
-		java.util.Date date = new java.util.Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String datestr = sdf.format(date.getTime());
-		//System.out.println(datestr);
-
-		String sql = "";
-		sql = "insert into USER_INFO_TBL values (";
-		sql += "'" + obj.get("USER_CODE") + "',";
-		sql += "hex(aes_encrypt('1234','a')),";
-		sql += "'" + obj.get("USER_NAME") + "',";
-		sql += "'" + obj.get("USER_TYPE") + "',";
-		sql += "'" + obj.get("COMPANY") + "',";
-		sql += "'" + obj.get("DEPT_CODE") + "',";
-		sql += "'" + modifier + "',";
-		sql += "now(),";
-		sql += "'" + obj.get("USER_USE_STATUS") + "')";
-
-		//System.out.println(sql);
-
-		// HomeController.LogInsert("", "1. Insert", sql, request);
-
-		pstmt = conn.prepareStatement(sql);
-		pstmt.executeUpdate();
-
-		sql = "";
-		sql += "INSERT INTO MENU_MGMT_TBL";
-		sql += " SELECT T1.USER_CODE, T3.RIGHTS_PROGRAM_CODE, 'true', 'true', 'true', T3.RIGHTS_MGMT_USE_STATUS   FROM USER_INFO_TBL T1";
-		sql += " INNER JOIN RIGHTS_MGMT_TBL T3 ON T1.USER_TYPE = T3.RIGHTS_USER_TYPE";
-		sql += " WHERE USER_CODE = '" + obj.get("USER_CODE") + "'";
-
-		// System.out.println("����� �޴� ���� : " + sql);
-
-		pstmt = conn.prepareStatement(sql);
-		pstmt.executeUpdate();
-		// ����� ���� ������ �ִ� ���� ��ȸ�ؼ� �޴� ������ ���� INSERT �� �ش�.
-		rs.close();
-		pstmt.close();
-		conn.close();
-
+	// insert
+	@Transactional
+	@PostMapping("/userManageInsert")
+	public String userManageInsert(Member member, Principal principal) {
+		
+		String encryptPw = pwEncoder.encode(member.getUSER_PASSWORD());
+		
+		member.setUSER_PASSWORD(encryptPw);
+		member.setUSER_MODIFIER(principal.getName());
+		
+		repo.save(member);
+		
 		return "Success";
 	}
 

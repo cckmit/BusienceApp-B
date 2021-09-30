@@ -20,7 +20,6 @@ public class MainController {
 	public String main(Model model, Principal principal) {
 		
 		model.addAttribute("pageName", "메인");
-		model.addAttribute("user_name", "관리자");
 		return "main";
 	}
 }

@@ -8,7 +8,7 @@
 
 <script src="/webjars/tabulator/dist/js/tabulator.min.js"></script>
 
-<script src="/webjars/momentjs/2.29.1/min/moment.min.js"></script>
+<script src="/webjars/momentjs/2.29.1/moment.js"></script>
 
 <!-- js -->
 <script src="/js/today.js"></script>
