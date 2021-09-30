@@ -99,7 +99,7 @@ public class spareTypeRestController {
 	}
 
 	// 데이터 수정
-	@RequestMapping(value = "/squareTypeManageRestUpdate", method = RequestMethod.POST)
+	@RequestMapping(value = "/squareTypeManageRestUpdate", method = RequestMethod.GET)
 	public List<Spare_Type_tbl> squareTypeManageRestUpdate(HttpServletRequest request)
 			throws SQLException, ParseException {
 		List<Spare_Type_tbl> list = new ArrayList<Spare_Type_tbl>();
