@@ -27,7 +27,7 @@ public class itemManageController {
 
 	@GetMapping("itemManage")
 	public String list(Model model) throws SQLException {
-		
+		/*
 		String sql = "select * from DTL_TBL where NEW_TBL_CODE = '2' and CHILD_TBL_USE_STATUS='true'";
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -222,9 +222,6 @@ public class itemManageController {
 
 		}
 
-		model.addAttribute("pageName", "itemManage");
-		model.addAttribute("user_name", "관리자");
-		
 		model.addAttribute("productlist", productlist);
 		model.addAttribute("companyList", companyList);
 		model.addAttribute("unitList", unitList);
@@ -237,7 +234,8 @@ public class itemManageController {
 
 		rs.close();
 		pstmt.close();
-		conn.close();
+		conn.close();*/
+		model.addAttribute("pageName", "itemManage");
 		return "standard/itemManage";
 	}
 }

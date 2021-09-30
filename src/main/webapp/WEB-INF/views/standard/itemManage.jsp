@@ -7,26 +7,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
-<%
-	String sql = "select * from MENU_MGMT_TBL where MENU_USER_CODE = 'admin' and MENU_PROGRAM_CODE = '13211'";
-
-Class.forName("com.mysql.jdbc.Driver");
-Connection con = DriverManager.getConnection("jdbc:mysql://busience2.cafe24.com:3306/busience2", "busience2",
-		"business12!!");
-PreparedStatement pstmt = con.prepareStatement(sql);
-ResultSet rs = pstmt.executeQuery(sql);
-
-boolean MENU_WRITE_USE_STATUS = false;
-boolean MENU_DEL_USE_STATUS = false;
-
-while (rs.next()) {
-	if (rs.getString("MENU_WRITE_USE_STATUS").equals("true"))
-		MENU_WRITE_USE_STATUS = true;
-
-	if (rs.getString("MENU_DEL_USE_STATUS").equals("true"))
-		MENU_DEL_USE_STATUS = true;
-}
-%>
 <%-- 
 <!-- Insert Modal -->
 <div class="modal fade" id="insertModal" tabindex="-1" role="dialog"
@@ -492,36 +472,21 @@ while (rs.next()) {
 		<div class="top-var">
 			<div class="input-button">
 				<!-- data-toggle="modal" data-target="#insertModal" -->
-				<%
-					if (MENU_WRITE_USE_STATUS) {
-				%>
+
 				<img id="custom-btn-default"
 					src="/images/button/ADD.png"/>
 					<img
 						src="/images/button/Update.png" onclick="updatedeleteView()" />
-				<%
-					} else {
-				%>
+
 				<img id="custom-btn-defaultd"
 					src="/images/button/ADD.png"
 					style="opacity: 0.5;" />
 					<img
 						src="/images/button/Update.png"/>
-				<%
-					}
-				%>
-				
-				<%
-					if (MENU_DEL_USE_STATUS) {
-				%>
+
 				<img src="/images/button/Delete.png" onclick="updatedeleteView()" />
-				<%
-					} else {
-				%>
+
 				<img src="/images/button/Delete.png" style="opacity: 0.5;" />
-				<%
-					}
-				%>
 
 			</div>
 		</div>

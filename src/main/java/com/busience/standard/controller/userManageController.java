@@ -1,11 +1,6 @@
 package com.busience.standard.controller;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -13,9 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import com.busience.standard.Dto.DTL_TBL;
-import com.busience.standard.Dto.USER_INFO_TBL;
 
 @Controller
 public class userManageController {
@@ -25,6 +17,7 @@ public class userManageController {
 
 	@GetMapping("/userManage")
 	public String list(Model model) throws SQLException {
+		/*
 		String sql = "select * from DTL_TBL where NEW_TBL_CODE = '1' and CHILD_TBL_USE_STATUS='true'";
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -108,7 +101,7 @@ public class userManageController {
 		rs.close();
 		pstmt.close();
 		conn.close();
-		
+		*/
 		model.addAttribute("pageName", "userManage");
 
 		return "standard/userManage";

@@ -1,6 +1,3 @@
-// 행을 더블클릭하여서 해당 행의 인덱스를 저장하는 변수
-var rowindex = 0;
-
 // 행을 더블클릭하여서 해당 행의 데이터를 저장했다가 화면에서 뿌려주는 변수
 var user_CODE = null;
 var user_NAME = null;
@@ -10,9 +7,6 @@ var user_DEPT_NAME = null;
 var user_MODIFY_D = null;
 var user_MODIFIER = null;
 var user_USE_STATUS = null;
-
-// 행을 더블클릭했는지 안했는지 아는 변수
-var user_FLAG = false;
 
 var userManageTable = new Tabulator("#userManageTable", {
 	//페이징
@@ -27,9 +21,6 @@ var userManageTable = new Tabulator("#userManageTable", {
 	rowClick:function(e, row){
 		row.getTable().deselectRow();
 		row.select();
-		user_FLAG = true;
-		
-		rowindex = row.getIndex();
 		
 		// 더블클릭할때 데이터를 저장
 		user_CODE = row.getData().user_CODE;
@@ -65,12 +56,6 @@ var userManageTable = new Tabulator("#userManageTable", {
 			document.getElementById("update_user_USE_STATUS").checked = false;
 	}, 
 	rowDblClick: function(e, row) {
-		user_FLAG = true;
-
-		rowindex = row.getIndex();
-
-		console.log(row.getData());
-
 		// 더블클릭할때 데이터를 저장
 		user_CODE = row.getData().user_CODE;
 		user_NAME = row.getData().user_NAME;
@@ -111,7 +96,7 @@ var userManageTable = new Tabulator("#userManageTable", {
 		
 	},
 	columns: [
-		{title: "번호", field: "id", hozAlign: "center", headerHozAlign: "center"},
+		{title: "순번", field: "rownum", hozAlign: "center", headerHozAlign: "center", formatter:"rownum"},
 		{title: "사용자코드", field: "user_CODE", headerHozAlign: "center", headerFilter: "input"},
 		{title: "사용자명", field: "user_NAME", headerHozAlign: "center", headerFilter: "input"},
 		{title: "사용자타입", field: "user_TYPE_NAME", headerHozAlign: "center", headerFilter: "input"},
@@ -235,16 +220,6 @@ function insBtn() {
 	});
 }
 
-// 입력 모달창에서 취소버튼을 누를때 입력 모달창 데이터를 초기화
-function insResetBtn() {
-	document.getElementById("insert_user_CODE").value = "";
-	document.getElementById("insert_user_NAME").value = "";
-	document.getElementById("insert_user_COMPANY").options[0].selected = true;
-	document.getElementById("insert_user_DEPT").options[0].selected = true;
-	document.getElementById("insert_user_TYPE").options[0].selected = true;
-	document.getElementById("insert_user_USE_STATUS").checked = false;
-}
-		
 // 비번 초기화
 function pwReset() {
 	conf = confirm("초기화 하시겠습니까?");

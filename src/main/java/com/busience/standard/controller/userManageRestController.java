@@ -43,47 +43,26 @@ public class userManageRestController {
 	DataSource dataSource;
 
 	@RequestMapping(value = "/userManageRestSelect", method = RequestMethod.GET)
-	public List<USER_INFO_TBL> view(HttpServletRequest request) throws SQLException {
+	public List<USER_INFO_TBL> userManageRestSelect(HttpServletRequest request) throws SQLException {
 		List<USER_INFO_TBL> list = new ArrayList<USER_INFO_TBL>();
 
-		String sql = "select \r\n" + "			t1.USER_CODE\r\n" + "		,	t1.USER_PASSWORD\r\n"
-				+ "        ,	t1.USER_NAME\r\n" + "        ,	t1.USER_TYPE\r\n"
-				+ "		,	t2.CHILD_TBL_TYPE 'user_TYPE_NAME'\r\n" + "        ,	t1.COMPANY\r\n"
-				+ "        ,	t3.CHILD_TBL_TYPE 'company_NAME'\r\n" + "        ,	t1.DEPT_CODE\r\n"
-				+ "        ,	t4.CHILD_TBL_TYPE 'dept_NAME'\r\n" + "        ,	t1.USER_MODIFIER\r\n"
-				+ "        ,	t1.USER_MODIFY_D\r\n" + "         ,	t1.USER_USE_STATUS\r\n"
-				+ "from USER_INFO_TBL t1 \r\n" + "left outer join \r\n" + "(\r\n" + "	select\r\n" + "			*\r\n"
-				+ "	from\r\n" + "			DTL_TBL\r\n" + "	where 	NEW_TBL_CODE = '1'\r\n" + ") t2\r\n"
-				+ "on t1.USER_TYPE = t2.CHILD_TBL_NO\r\n" + "left outer join \r\n" + "(\r\n" + "	select\r\n"
-				+ "			*\r\n" + "	from\r\n" + "			DTL_TBL\r\n" + "	where 	NEW_TBL_CODE = '2'\r\n"
-				+ ") t3\r\n" + "on t1.COMPANY = t3.CHILD_TBL_NO\r\n" + "left outer join \r\n" + "(\r\n"
-				+ "	select\r\n" + "			*\r\n" + "	from\r\n" + "			DTL_TBL\r\n"
-				+ "	where 	NEW_TBL_CODE = '3'\r\n" + ") t4\r\n" + "on t1.DEPT_CODE = t4.CHILD_TBL_NO";
-
-
-		String where = "";
-
-		if (request.getParameter("USER_CODE") != "" && request.getParameter("USER_NAME") == "")
-			where = " where t1.USER_CODE like '%" + request.getParameter("USER_CODE") + "%'";
-
-		if (request.getParameter("USER_CODE") == "" && request.getParameter("USER_NAME") != "")
-			where = " where t1.USER_NAME like '%" + request.getParameter("USER_NAME") + "%'";
-
-		if (request.getParameter("USER_CODE") == "" && request.getParameter("USER_NAME") == "")
-			where = " where t1.USER_CODE like '%" + request.getParameter("USER_CODE") + "%'"
-					+ " AND t1.USER_NAME like '%" + request.getParameter("USER_NAME") + "%'";
-
-		// if (request.getParameter("USER_NAME") != "")
-		// sql += " where t1.USER_NAME like '%" + request.getParameter("USER_NAME") +
-		// "%'";
-		if (request.getParameter("USER_NAME") != null) {
-			if (request.getParameter("USER_NAME") != "")
-				sql += " where t1.USER_NAME like '%" + request.getParameter("USER_NAME") + "%'";
-		}
-		if (request.getParameter("USER_CODE") == null)
-			where = "";
-
-		sql += where;
+		String sql = "SELECT \r\n"
+				+ "A.USER_CODE,\r\n"
+				+ "A.USER_NAME,\r\n"
+				+ "A.USER_TYPE,\r\n"
+				+ "B.CHILD_TBL_TYPE USER_TYPE_NAME,\r\n"
+				+ "A.COMPANY,\r\n"
+				+ "C.CHILD_TBL_TYPE COMPANY_NAME,\r\n"
+				+ "A.DEPT_CODE,\r\n"
+				+ "D.CHILD_TBL_TYPE DEPT_NAME,\r\n"
+				+ "A.USER_MODIFIER,\r\n"
+				+ "A.USER_MODIFY_D,\r\n"
+				+ "A.USER_USE_STATUS,\r\n"
+				+ "A.USER_REGDTATE\r\n"
+				+ " FROM USER_INFO_TBL A\r\n"
+				+ "left outer join DTL_TBL B on A.USER_TYPE = B.CHILD_TBL_NO\r\n"
+				+ "left outer join DTL_TBL C on A.COMPANY = C.CHILD_TBL_NO\r\n"
+				+ "left outer join DTL_TBL D on A.DEPT_CODE = D.CHILD_TBL_NO;\r\n";
 
 		//System.out.println(sql);
 
@@ -94,8 +73,7 @@ public class userManageRestController {
 		int i = 0;
 		while (rs.next()) {
 			USER_INFO_TBL data = new USER_INFO_TBL();
-			i++;
-			data.setId(i);
+
 			data.setUSER_CODE(rs.getString("user_CODE"));
 			data.setDEPT_CODE(rs.getString("dept_CODE"));
 			data.setUSER_USE_STATUS(rs.getString("user_USE_STATUS"));
@@ -103,13 +81,11 @@ public class userManageRestController {
 			data.setUSER_TYPE(rs.getString("user_TYPE"));
 			data.setUSER_MODIFY_D(rs.getString("user_MODIFY_D"));
 			data.setUSER_NAME(rs.getString("user_NAME"));
-			data.setUSER_PASSWORD(rs.getString("user_PASSWORD"));
 			data.setUSER_TYPE_NAME(rs.getString("user_TYPE_NAME"));
 			data.setUSER_MODIFIER(rs.getString("user_MODIFIER"));
 			data.setCOMPANY_NAME(rs.getString("company_NAME"));
 			data.setDEPT_NAME(rs.getString("dept_NAME"));
 			list.add(data);
-			//System.out.println("�ߵ�����? : " + data);
 		}
 
 		rs.close();
