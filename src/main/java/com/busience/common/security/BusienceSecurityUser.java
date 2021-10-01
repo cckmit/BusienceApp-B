@@ -1,4 +1,4 @@
-package com.busience.security;
+package com.busience.common.security;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
-import com.busience.domain.Member;
+import com.busience.common.domain.Member;
 
 import lombok.Getter;
 import lombok.Setter;

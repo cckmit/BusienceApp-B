@@ -1,4 +1,4 @@
-package com.busience.security;
+package com.busience.common.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.busience.persistence.MemberRepository;
+import com.busience.common.persistence.MemberRepository;
 
 import lombok.extern.java.Log;
 

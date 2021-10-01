@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.sales.dto.Sales_InMat_tbl;
+import com.busience.salesLX.dto.Sales_InMat_tbl;
 
 @RestController("salesInReturnLXRestController")
 @RequestMapping("salesInReturnLXRest")

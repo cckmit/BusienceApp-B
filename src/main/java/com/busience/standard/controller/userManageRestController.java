@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.domain.Member;
-import com.busience.persistence.MemberRepository;
+import com.busience.common.domain.Member;
+import com.busience.common.persistence.MemberRepository;
 import com.busience.standard.Dto.USER_INFO_TBL;
 
 @RestController("userManageRestController")

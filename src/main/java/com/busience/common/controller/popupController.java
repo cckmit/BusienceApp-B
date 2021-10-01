@@ -1,4 +1,4 @@
-package com.busience.controller;
+package com.busience.common.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

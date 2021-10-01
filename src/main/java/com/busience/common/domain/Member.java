@@ -1,4 +1,4 @@
-package com.busience.domain;
+package com.busience.common.domain;
 
 import java.time.LocalDateTime;
 

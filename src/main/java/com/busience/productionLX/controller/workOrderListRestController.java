@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.materialLX.dto.StockMat_tbl;
-import com.busience.production.dto.WorkOrder_tbl;
+import com.busience.productionLX.dto.WorkOrder_tbl;
 
 @RestController("workOrderListRestController")
 @RequestMapping("workOrderListRest")

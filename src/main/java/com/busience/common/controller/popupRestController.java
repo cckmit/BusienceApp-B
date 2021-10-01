@@ -1,4 +1,4 @@
-package com.busience.controller;
+package com.busience.common.controller;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

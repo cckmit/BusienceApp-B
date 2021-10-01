@@ -1,4 +1,4 @@
-package com.busience.production.dto;
+package com.busience.productionLX.dto;
 
 public class PRODUCTION_INFO_TBL {
 

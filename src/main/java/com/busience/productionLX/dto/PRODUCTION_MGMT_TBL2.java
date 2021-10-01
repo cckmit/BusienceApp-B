@@ -1,4 +1,4 @@
-package com.busience.production.dto;
+package com.busience.productionLX.dto;
 
 import java.util.ArrayList;
 import java.util.List;

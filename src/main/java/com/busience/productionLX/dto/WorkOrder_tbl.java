@@ -1,4 +1,4 @@
-package com.busience.production.dto;
+package com.busience.productionLX.dto;
 
 public class WorkOrder_tbl {
 

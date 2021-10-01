@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.busience.controller.HomeRestController;
+import com.busience.common.controller.HomeRestController;
 
 @Controller
 public class oqcOutputListController {

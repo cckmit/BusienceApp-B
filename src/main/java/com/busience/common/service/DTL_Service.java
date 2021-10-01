@@ -1,10 +1,10 @@
-package com.busience.service;
+package com.busience.common.service;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.busience.mapper.DTL_Mapper;
+import com.busience.common.mapper.DTL_Mapper;
 import com.busience.standard.Dto.DTL_TBL;
 
 @Service
@@ -17,8 +17,8 @@ public class DTL_Service {
 	}
 	
 	// 멤버 전체 조회
-    public List<DTL_TBL> getAlldtl() {
-        final List<DTL_TBL> dtlList = dtl_Mapper.findByCode();
+    public List<DTL_TBL> getAlldtl(String string) {
+        final List<DTL_TBL> dtlList = dtl_Mapper.findByCode(string);
         return dtlList;
     }
 

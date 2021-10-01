@@ -1,4 +1,4 @@
-package com.busience.sales.dto;
+package com.busience.salesLX.dto;
 
 public class Sales_InMat_tbl {
 	private Integer ID;

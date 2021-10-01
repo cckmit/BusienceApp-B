@@ -1,4 +1,4 @@
-package com.busience.security;
+package com.busience.common.security;
 
 import java.io.IOException;
 
