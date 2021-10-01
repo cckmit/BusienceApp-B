@@ -1,20 +1,15 @@
 package com.busience.control.controller;
 
-import java.net.UnknownHostException;
-import java.sql.SQLException;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class defectMonitoringController {
 
 	@GetMapping("defectMonitoring")
-	public String list(Model model) throws UnknownHostException, ClassNotFoundException, SQLException
-	{
+	public String defectMonitoring(Model model) {
+		model.addAttribute("pageName", "불량현황 모니터링");
 		return "monitoring/defectMonitoring";
 	}
 	
