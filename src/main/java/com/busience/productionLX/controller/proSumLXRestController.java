@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.production.dto.PRODUCTION_INFO_TBL;
+import com.busience.productionLX.dto.PRODUCTION_INFO_TBL;
 
 @RestController("proSumLXRestController")
 @RequestMapping("proSumLXRest")

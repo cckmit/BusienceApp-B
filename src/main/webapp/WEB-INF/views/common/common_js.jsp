@@ -8,7 +8,7 @@
 
 <script src="/webjars/tabulator/dist/js/tabulator.min.js"></script>
 
-<script src="/webjars/momentjs/2.29.1/min/moment.min.js"></script>
+<script src="/webjars/momentjs/2.29.1/moment.js"></script>
 
 <script src="/webjars/jquery.easy-pie-chart/2.1.6/dist/jquery.easypiechart.js"></script>
 

@@ -40,22 +40,22 @@ function nextFocus(next) {
 }
 
 // 행을 더블클릭했는지 안했는지 아는 변수
-		var item_FLAG = false;
-		
-		
+var item_FLAG = false;
+
+
 function updatedeleteView() {
 	if (!item_FLAG) {
 		alert("행을 선택한 후에 수정 및 삭제를 시도하여 주십시오.");
 		return;
 	}
 
-	$("#updateModal").modal("show");
+	$("#itemModifyModal").modal("show");
 	//modviewBtn();
 }
 
-function select_init(input,value){
-	for (i = 0; i < input.length; i++){
-		if(input.options[i].value == value)
+function select_init(input, value) {
+	for (i = 0; i < input.length; i++) {
+		if (input.options[i].value == value)
 			input.options[i].selected = true;
 	}
 }
@@ -77,21 +77,23 @@ window.onload = function() {
 						paginationSize: 20,
 						headerFilterPlaceholder: null,
 						height: "calc(100% - 175px)",
-						rowClick:function(e, row){
-						item_FLAG = true;
-						row.select();
-						if (element == null) {
+						rowClick: function(e, row) {
+							item_FLAG = true;
+							row.select();
+							if (element == null) {
 								element = row.getElement();
 								element.style.color = "red";
+								element.style.fontWeight = "bold";
 							}
 							else {
 								element.style.color = "black";
 								row.getElement().style.color = "red";
+								row.getElement().style.fontWeight = "bold";
 								element = row.getElement();
 							}
 
 							rowindex = row.getIndex();
-							
+
 							// 더블클릭할때 데이터를 저장
 							product_BUSINESS_PLACE_NAME = row.getData().product_BUSINESS_PLACE_NAME;
 							product_ITEM_CODE = row.getData().product_ITEM_CODE;
@@ -113,47 +115,47 @@ window.onload = function() {
 							product_USE_STATUS = row.getData().product_USE_STATUS;
 							product_MODIFY_D = row.getData().product_MODIFY_D;
 							product_MODIFIER = row.getData().product_MODIFIER;
-							
+
 							console.log(row.getData());
-							
+
 							document.getElementById("update_item_CODE").value = product_ITEM_CODE;
 							document.getElementById("update_item_NAME").value = product_ITEM_NAME;
-							
+
 							//document.getElementById("update_item_COMPANY").options[Number(row.getData().product_BUSINESS_PLACE)].selected = true;
-							select_init(document.getElementById("update_item_COMPANY"),Number(row.getData().product_BUSINESS_PLACE));
-							
+							select_init(document.getElementById("update_item_COMPANY"), Number(row.getData().product_BUSINESS_PLACE));
+
 							document.getElementById("update_olditem_CODE").value = product_OLD_ITEM_CODE;
 							document.getElementById("update_item_STND1").value = product_INFO_STND_1;
 							document.getElementById("update_item_STND2").value = product_INFO_STND_2;
-							
+
 							//document.getElementById("update_item_UNIT").options[Number(row
-								//.getData().product_UNIT) - 1].selected = true;
-							select_init(document.getElementById("update_item_UNIT"),Number(row.getData().product_UNIT));
-								
+							//.getData().product_UNIT) - 1].selected = true;
+							select_init(document.getElementById("update_item_UNIT"), Number(row.getData().product_UNIT));
+
 							//document.getElementById("update_item_MAT").options[Number(row
-								//.getData().product_MATERIAL) - 1].selected = true;
-							select_init(document.getElementById("update_item_MAT"),Number(row.getData().product_MATERIAL));
-							
+							//.getData().product_MATERIAL) - 1].selected = true;
+							select_init(document.getElementById("update_item_MAT"), Number(row.getData().product_MATERIAL));
+
 							//document.getElementById("update_item_mat_CLSFC").options[Number(row
-								//.getData().product_MTRL_CLSFC) - 1].selected = true;
-							select_init(document.getElementById("update_item_mat_CLSFC"),Number(row.getData().product_MTRL_CLSFC));
-								
+							//.getData().product_MTRL_CLSFC) - 1].selected = true;
+							select_init(document.getElementById("update_item_mat_CLSFC"), Number(row.getData().product_MTRL_CLSFC));
+
 							//document.getElementById("update_item_CLSFC1").options[Number(row
-								//.getData().product_ITEM_CLSFC_1) - 1].selected = true;
-							select_init(document.getElementById("update_item_CLSFC1"),Number(row.getData().product_ITEM_CLSFC_1));
-								
+							//.getData().product_ITEM_CLSFC_1) - 1].selected = true;
+							select_init(document.getElementById("update_item_CLSFC1"), Number(row.getData().product_ITEM_CLSFC_1));
+
 							//document.getElementById("update_item_CLSFC2").options[Number(row
-								//.getData().product_ITEM_CLSFC_2) - 1].selected = true;
-							select_init(document.getElementById("update_item_CLSFC2"),Number(row.getData().product_ITEM_CLSFC_2));
-								
+							//.getData().product_ITEM_CLSFC_2) - 1].selected = true;
+							select_init(document.getElementById("update_item_CLSFC2"), Number(row.getData().product_ITEM_CLSFC_2));
+
 							//document.getElementById("update_item_STATUS").options[Number(row
-								//.getData().product_ITEM_STTS) - 1].selected = true;
-							select_init(document.getElementById("update_item_STATUS"),Number(row.getData().product_ITEM_STTS));
-								
+							//.getData().product_ITEM_STTS) - 1].selected = true;
+							select_init(document.getElementById("update_item_STATUS"), Number(row.getData().product_ITEM_STTS));
+
 							//document.getElementById("update_item_WAREHOUSE").options[Number(row
-								//.getData().product_BASIC_WAREHOUSE) - 1].selected = true;
-							select_init(document.getElementById("update_item_WAREHOUSE"),Number(row.getData().product_BASIC_WAREHOUSE));
-								
+							//.getData().product_BASIC_WAREHOUSE) - 1].selected = true;
+							select_init(document.getElementById("update_item_WAREHOUSE"), Number(row.getData().product_BASIC_WAREHOUSE));
+
 							document.getElementById("update_item_stfy_STOCK").value = product_SFTY_STOCK;
 							document.getElementById("update_item_BUYER").value = "";
 
@@ -171,18 +173,21 @@ window.onload = function() {
 								document.getElementById("update_item_WRHSN").checked = true;
 							else
 								document.getElementById("update_item_WRHSN").checked = false;
-							
-    					}, 
+
+						},
 						rowDblClick: function(e, row) {
 							item_FLAG = true;
 							row.select();
 							if (element == null) {
 								element = row.getElement();
 								element.style.color = "red";
+								element.style.fontWeight = "bold";
 							}
 							else {
 								element.style.color = "black";
+								element.style.fontWeight = "normal";
 								row.getElement().style.color = "red";
+								row.getElement().style.fontWeight = "bold";
 								element = row.getElement();
 							}
 
@@ -212,66 +217,59 @@ window.onload = function() {
 							product_MODIFY_D = row.getData().product_MODIFY_D;
 							product_MODIFIER = row.getData().product_MODIFIER;
 
-							//행에 색변경
-							if (element != null) {
-								element.style.background = "white";
-							}
-							row.getElement().style.background = "#78EAFF";
-							element = row.getElement();
-
 							defect_FLAG = true;
 
-							$("#updateModal").modal("show");
+							$("#itemModifyModal").modal("show");
 
 							document.getElementById("update_item_CODE").value = product_ITEM_CODE;
 							document.getElementById("update_item_NAME").value = product_ITEM_NAME;
-							
+
 							var product_BUSINESS_PLACE = row.getData().product_BUSINESS_PLACE
-							var product_BUSINESS_PLACE_Last = String(product_BUSINESS_PLACE).charAt(product_BUSINESS_PLACE.length-1)-1;
-							
-							$("#update_item_COMPANY option:eq("+product_BUSINESS_PLACE_Last+")").prop("selected", true);
-							
-							
-							
+							var product_BUSINESS_PLACE_Last = String(product_BUSINESS_PLACE).charAt(product_BUSINESS_PLACE.length - 1) - 1;
+
+							$("#update_item_COMPANY option:eq(" + product_BUSINESS_PLACE_Last + ")").prop("selected", true);
+
+
+
 							document.getElementById("update_olditem_CODE").value = product_OLD_ITEM_CODE;
 							document.getElementById("update_item_STND1").value = product_INFO_STND_1;
 							document.getElementById("update_item_STND2").value = product_INFO_STND_2;
-							
+
 							var product_UNIT = row.getData().product_UNIT
-							var product_UNIT_Last = String(product_UNIT).charAt(product_UNIT.length-1)-1;
-							
-							$("#update_item_UNIT option:eq("+product_UNIT_Last+")").prop("selected", true);
-							
+							var product_UNIT_Last = String(product_UNIT).charAt(product_UNIT.length - 1) - 1;
+
+							$("#update_item_UNIT option:eq(" + product_UNIT_Last + ")").prop("selected", true);
+
 							var product_MATERIAL = row.getData().product_MATERIAL
-							var product_MATERIAL_Last = String(product_MATERIAL).charAt(product_MATERIAL.length-1)-1;
-							
-							$("#update_item_MAT option:eq("+product_MATERIAL_Last+")").prop("selected", true);
-							
+							var product_MATERIAL_Last = String(product_MATERIAL).charAt(product_MATERIAL.length - 1) - 1;
+
+							$("#update_item_MAT option:eq(" + product_MATERIAL_Last + ")").prop("selected", true);
+
 							var product_MTRL_CLSFC = row.getData().product_MTRL_CLSFC
-							var product_MTRL_CLSFC_Last = String(product_MTRL_CLSFC).charAt(product_MTRL_CLSFC.length-1)-1;
-							
-							$("#update_item_mat_CLSFC option:eq("+product_MTRL_CLSFC_Last+")").prop("selected", true);
-							
+							var product_MTRL_CLSFC_Last = String(product_MTRL_CLSFC).charAt(product_MTRL_CLSFC.length - 1) - 1;
+
+							$("#update_item_mat_CLSFC option:eq(" + product_MTRL_CLSFC_Last + ")").prop("selected", true);
+
 							var product_ITEM_CLSFC_1 = row.getData().product_ITEM_CLSFC_1
-							var product_ITEM_CLSFC_1_Last = String(product_ITEM_CLSFC_1).charAt(product_ITEM_CLSFC_1.length-1)-1;
-							
-							$("#update_item_CLSFC1 option:eq("+product_ITEM_CLSFC_1_Last+")").prop("selected", true);
-							
+							var product_ITEM_CLSFC_1_Last = String(product_ITEM_CLSFC_1).charAt(product_ITEM_CLSFC_1.length - 1) - 1;
+
+							$("#update_item_CLSFC1 option:eq(" + product_ITEM_CLSFC_1_Last + ")").prop("selected", true);
+
 							var product_ITEM_CLSFC_2 = row.getData().product_ITEM_CLSFC_2
-							var product_ITEM_CLSFC_2_Last = String(product_ITEM_CLSFC_2).charAt(product_ITEM_CLSFC_2.length-1)-1;
-							
-							$("#update_item_CLSFC2 option:eq("+product_ITEM_CLSFC_2_Last+")").prop("selected", true);
-							
+							var product_ITEM_CLSFC_2_Last = String(product_ITEM_CLSFC_2).charAt(product_ITEM_CLSFC_2.length - 1) - 1;
+
+							$("#update_item_CLSFC2 option:eq(" + product_ITEM_CLSFC_2_Last + ")").prop("selected", true);
+
 							var product_ITEM_STTS = row.getData().product_ITEM_STTS
-							var product_ITEM_STTS_Last = String(product_ITEM_STTS).charAt(product_ITEM_STTS.length-1)-1;
-							
-							$("#update_item_STATUS option:eq("+product_ITEM_STTS_Last+")").prop("selected", true);
-							
+							var product_ITEM_STTS_Last = String(product_ITEM_STTS).charAt(product_ITEM_STTS.length - 1) - 1;
+
+							$("#update_item_STATUS option:eq(" + product_ITEM_STTS_Last + ")").prop("selected", true);
+
 							var product_BASIC_WAREHOUSE = row.getData().product_BASIC_WAREHOUSE
-							var product_BASIC_WAREHOUSE_Last = String(product_BASIC_WAREHOUSE).charAt(product_BASIC_WAREHOUSE.length-1)-1;
-							
-							$("#update_item_WAREHOUSE option:eq("+product_BASIC_WAREHOUSE_Last+")").prop("selected", true);
-							
+							var product_BASIC_WAREHOUSE_Last = String(product_BASIC_WAREHOUSE).charAt(product_BASIC_WAREHOUSE.length - 1) - 1;
+
+							$("#update_item_WAREHOUSE option:eq(" + product_BASIC_WAREHOUSE_Last + ")").prop("selected", true);
+
 							document.getElementById("update_item_stfy_STOCK").value = product_SFTY_STOCK;
 							document.getElementById("update_item_BUYER").value = product_BUYER;
 
@@ -291,7 +289,7 @@ window.onload = function() {
 								document.getElementById("update_item_WRHSN").checked = false;
 						},
 						data: datas, //assign data to table
-						selectable:1, 
+						selectable: 1,
 						columns: [{
 							title: "번호",
 							field: "id",
@@ -437,7 +435,7 @@ window.onload = function() {
 							field: "product_MODIFY_D",
 							headerHozAlign: "center",
 							hozAlign: "right",
-							formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"},
+							formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" },
 							headerFilter: "input",
 							width: 126
 						}, {
@@ -515,7 +513,7 @@ function modBtn() {
 
 	console.log(datas);
 
-	
+
 	$.ajax({
 		method: "POST",
 		data: datas,
@@ -524,23 +522,32 @@ function modBtn() {
 		success: function(data, testStatus) {
 		}
 	});
-	
+
 
 	location.reload();
 }
 
+
+
 // 입력버튼을 클릭을 할때 모달창을 여는 이벤트
-$("#custom-btn-default").click(function() {
-	$("#insertModal").modal("show");
+$("#registerModal").click(function() {
+	$("#itemRegisterModal").modal("show");
 });
 
+// 수정버튼을 클릭을 할때 모달창을 여는 이벤트
+if (item_FLAG) {
+	$("#modifyModal").click(function() {
+		$("#itemModifyModal").modal("show");
+	});
+}
+
 // 입력모달창이 열릴때 가장 상단의 input에 포커스를 주는 이벤트
-$("#insertModal").on("shown.bs.modal", function() {
+$("#itemRegisterModal").on("shown.bs.modal", function() {
 	$("#insert_item_CODE").focus();
 });
 
 // 수정모달창이 열릴때 가장 상단의 input에 포커스를 주는 이벤트
-$("#updateModal").on("shown.bs.modal", function() {
+$("#itemModifyModal").on("shown.bs.modal", function() {
 	$("#update_olditem_CODE").focus();
 });
 
@@ -553,11 +560,11 @@ function insBtn() {
 
 	// 최소발주
 	$('#insert_item_min_ORDERS').val("0");
-    // 안전재고
+	// 안전재고
 	$('#insert_item_stfy_STOCK').val("0");
-    // 최대발주
+	// 최대발주
 	$('#insert_item_max_ORDERS').val("0");
-	 
+
 	var itemCode = document.getElementById("insert_item_CODE").value;
 
 	//alert(itemCode);
