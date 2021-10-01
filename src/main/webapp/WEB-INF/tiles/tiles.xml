@@ -33,4 +33,16 @@
    <definition name="work_order_TAB2" extends="nomalLayout">
        <put-attribute name="body" value="/WEB-INF/views/work_order_TAB2.jsp" />
    </definition>
+   
+   <definition name="workMonitoring" extends="nomalLayout">
+       <put-attribute name="body" value="/WEB-INF/views/monitoring/workMonitoring.jsp" />
+   </definition>
+   
+   <definition name="equipMonitoring" extends="nomalLayout">
+       <put-attribute name="body" value="/WEB-INF/views/monitoring/equipMonitoring.jsp" />
+   </definition>
+   
+   <definition name="workorderoi" extends="nomalLayout">
+       <put-attribute name="body" value="/WEB-INF/views/monitoring/workorderoi.jsp" />
+   </definition>   
 </tiles-definitions>

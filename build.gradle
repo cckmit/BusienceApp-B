@@ -40,6 +40,7 @@ dependencies {
 	implementation 'org.webjars.bowergithub.olifolkerd:tabulator:4.9.3'
 	implementation 'org.webjars:font-awesome:5.15.4'
 	implementation 'org.webjars:momentjs:2.29.1'
+	implementation 'org.webjars.bower:jquery.easy-pie-chart:2.1.6'
 	implementation 'javax.servlet:jstl'
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	implementation 'org.apache.clerezza.ext:org.json.simple:0.4'
