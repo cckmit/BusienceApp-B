@@ -12,14 +12,6 @@
 	</div>
 	<nav class="sidebar-busience">
 		<ul class="sidebar-menu">
-			<li>
-				<a href="#subPages7" data-toggle="collapse" class="collapsed"><span>영업 관리</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
-				<div id="subPages7" class="collapse">
-					<ul>
-						<li><a style="padding-top: 1px;padding-bottom: 1px;">메뉴1</a></li>
-					</ul>
-				</div>
-			</li>
 		</ul>
 	</nav>
 	<div class="account-settings">
