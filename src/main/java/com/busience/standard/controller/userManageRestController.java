@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -99,6 +100,7 @@ public class userManageRestController {
 	@Transactional
 	@PostMapping("/userManageInsert")
 	public String userManageInsert(Member member, Principal principal) {
+		System.out.println("userManageInsert");
 		
 		String encryptPw = pwEncoder.encode(member.getUSER_PASSWORD());
 		
@@ -106,6 +108,26 @@ public class userManageRestController {
 		member.setUSER_MODIFIER(principal.getName());
 		
 		repo.save(member);
+		
+		return "Success";
+	}
+	
+	// update
+	@Transactional
+	@PutMapping("/userManageUpdateTest")
+	public String userManageUpdateTest(Member member, Principal principal) {
+		System.out.println("userManageUpdateTest");
+		
+		repo.findById(member.getUSER_CODE()).ifPresent(origin -> {
+			origin.setUSER_NAME(member.getUSER_NAME());
+			origin.setCOMPANY(member.getCOMPANY());
+			origin.setUSER_USE_STATUS(member.getUSER_USE_STATUS());
+			origin.setUSER_TYPE(member.getUSER_TYPE());
+			origin.setDEPT_CODE(member.getDEPT_CODE());
+			
+			System.out.println(origin);
+			//repo.save(origin);
+		});
 		
 		return "Success";
 	}
