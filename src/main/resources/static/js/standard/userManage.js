@@ -220,6 +220,35 @@ function insBtn() {
 	});
 }
 
+function updateTestBtn() {
+	
+	var datas = {USER_CODE : $("#update_user_CODE").val(),
+			USER_NAME : $("#update_user_NAME").val(),
+			COMPANY : $("#update_user_COMPANY").val(),
+			USER_USE_STATUS : "true",
+			USER_TYPE : $("#update_user_TYPE").val(),
+			DEPT_CODE : $("#update_user_DEPT").val()}
+	console.log("수정");
+	console.log(datas);
+	$.ajax({
+		method : "put",
+		url : "userManageRest/userManageUpdateTest",
+		data : datas,
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
+		success : function(data) {
+			if (data == "Success") {
+				alert("저장 되었습니다.");
+				//$("#userRegisterModal").modal("hide");
+				//$("#userRegisterModal").find('form')[0].reset()
+			}
+		}
+	});
+}
+
 // 비번 초기화
 function pwReset() {
 	conf = confirm("초기화 하시겠습니까?");
