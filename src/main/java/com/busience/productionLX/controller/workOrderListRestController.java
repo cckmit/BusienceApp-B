@@ -41,7 +41,7 @@ public class workOrderListRestController {
 		String originData = request.getParameter("data");
 		JSONParser parser = new JSONParser();
 		JSONObject obj = (JSONObject) parser.parse(originData);
-
+		System.out.println("obj = " + obj);
 		String startDate = (String) obj.get("startDate");
 		String endDate = (String) obj.get("endDate");
 		String PRODUCT_ITEM_CODE = (String) obj.get("PRODUCT_ITEM_CODE");
@@ -318,6 +318,10 @@ public class workOrderListRestController {
 			}
 		});
 
+		pstmt.close();
+		rs.close();
+		conn.close();
+		
 		return list;
 	}
 
@@ -412,6 +416,10 @@ public class workOrderListRestController {
 					return -1;
 			}
 		});
+		
+		pstmt.close();
+		rs.close();
+		conn.close();
 
 		return list;
 	}

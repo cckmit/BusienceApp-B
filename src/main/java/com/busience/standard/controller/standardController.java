@@ -1,10 +1,18 @@
 package com.busience.standard.controller;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.busience.common.service.DTL_Service;
+import com.busience.standard.Dto.DTL_TBL;
 
 @Controller
 public class standardController {
@@ -75,5 +83,40 @@ public class standardController {
 		model.addAttribute("pageName", "품목 정보 관리");
 		
 		return "standard/itemManage";
+	}
+	
+	@GetMapping("customerManage")
+	public String customer(Model model){
+
+		// 납품조건
+		String customer = Integer.toString(15);
+		model.addAttribute("customerList", dtl_Service.getAlldtl(customer));
+		
+		// 페이지명
+		model.addAttribute("pageName", "거래처 관리");
+		
+		return "standard/customerManage";
+	}
+	
+	@GetMapping("BOM")
+	public String BOM(Model model) {
+		
+		// 자재분류
+		String mtrlClsfc = Integer.toString(5);
+		model.addAttribute("mtrlClsfcList", dtl_Service.getAlldtl(mtrlClsfc));
+		model.addAttribute("pageName", "BOM");
+		
+		return "standard/BOM";
+	}
+	
+	@GetMapping("BOMListMaster")
+	public String BOMListMaster(Model model) {
+		
+		// 자재분류
+		String mtrlClsfc = Integer.toString(5);
+		model.addAttribute("mtrlClsfcList", dtl_Service.getAlldtl(mtrlClsfc));
+		model.addAttribute("pageName", "BOM 조회");
+		
+		return "standard/BOMList/BOMListMaster";
 	}
 }
