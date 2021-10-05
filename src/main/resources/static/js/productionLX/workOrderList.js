@@ -51,7 +51,9 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 							dataType : "json",
 							url : "workOrderListRest/OrderUpdate?workOrder_ONo="+ cell.getRow().getData().workOrder_ONo,
 							complete : function(data) {
+								console.log("접수완료");
 								FI_SearchBtn1();
+								console.log("접수완료중");
 								FI_SearchBtn2();
 							}
 						});
@@ -179,7 +181,9 @@ var WorkOrder_tbl2 = new Tabulator("#WorkOrder_tbl2", {
 							dataType : "json",
 							url : "workOrderListRest/OrderUpdate2?workOrder_ONo="+ cell.getRow().getData().workOrder_ONo,
 							complete : function(data) {
+								console.log("미접수");
 								FI_SearchBtn1();
+								console.log("미접수중");
 								FI_SearchBtn2();
 							}
 						});

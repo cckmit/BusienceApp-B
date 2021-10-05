@@ -82,7 +82,7 @@
 					</div>
 
 					<button type="button" class="btn btn-primary" data-toggle="modal"
-						id="updateModalInitbtn" data-target="#modifyYesNo">수정</button>
+						id="updateModalInitbtn" onclick="modBtn()">수정</button>
 						
 					<button type="button" class="btn btn-danger" data-dismiss="modal"
 						onclick="modResetBtn()">취소</button>

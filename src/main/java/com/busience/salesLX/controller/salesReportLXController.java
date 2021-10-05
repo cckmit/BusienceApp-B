@@ -23,40 +23,6 @@ public class salesReportLXController {
 	@Autowired
 	DataSource dataSource;
 
-	// fgoodsInputMaster
-	@GetMapping("salesInputLXMaster")
-	public String salesInputMaster(Model model, HttpServletRequest request)
-			throws SQLException, ClassNotFoundException {
-
-		String sql = null;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		sql = "select * from DTL_TBL where NEW_TBL_CODE = '17' and CHILD_TBL_USE_STATUS='true'";
-		conn = dataSource.getConnection();
-		pstmt = conn.prepareStatement(sql);
-		rs = pstmt.executeQuery();
-
-		List<DTL_TBL> deptList = new ArrayList<DTL_TBL>();
-
-		while (rs.next()) {
-			DTL_TBL data = new DTL_TBL();
-			data.setNEW_TBL_CODE(rs.getString("NEW_TBL_CODE"));
-			data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
-			data.setCHILD_TBL_NO(rs.getString("CHILD_TBL_NO"));
-			deptList.add(data);
-		}
-
-		model.addAttribute("InputType", deptList);
-		model.addAttribute("pageName", "제품 입고 조회");
-		model.addAttribute("user_name", "관리자");
-
-		rs.close();
-		pstmt.close();
-		conn.close();
-		return "salesLX/salesInput/salesInputMaster";
-	}
 
 	// salesOrderList
 	@GetMapping("salesOrderListLX")
@@ -68,40 +34,6 @@ public class salesReportLXController {
 		return "salesLX/salesOrderList";
 	}
 
-	// fgoodsOutputMaster
-	@GetMapping("salesOutputLXMaster")
-	public String salesOutputMaster(Model model, HttpServletRequest request) throws SQLException {
-
-		String sql = null;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		sql = "select * from DTL_TBL where NEW_TBL_CODE = '19' and CHILD_TBL_USE_STATUS='true'";
-		conn = dataSource.getConnection();
-		pstmt = conn.prepareStatement(sql);
-		rs = pstmt.executeQuery();
-
-		List<DTL_TBL> outMatList = new ArrayList<DTL_TBL>();
-
-		while (rs.next()) {
-			DTL_TBL data = new DTL_TBL();
-			data.setNEW_TBL_CODE(rs.getString("NEW_TBL_CODE"));
-			data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
-			data.setCHILD_TBL_NO(rs.getString("CHILD_TBL_NO"));
-			outMatList.add(data);
-		}
-
-		model.addAttribute("OutputType", outMatList);
-		model.addAttribute("pageName", "제품 출고 조회");
-		model.addAttribute("user_name", "관리자");
-
-		rs.close();
-		pstmt.close();
-		conn.close();
-
-		return "salesLX/salesOutput/salesOutputMaster";
-	}
 
 	// sgoodsOutputMaster
 	@GetMapping("salesDeliveryLXMaster")

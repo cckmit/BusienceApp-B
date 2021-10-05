@@ -3,27 +3,6 @@
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
-<%
-	String id = (String) session.getAttribute("id");
-%>
-
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="utf-8">
-<title>Xeonic 계정 비밀번호 변경</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<%-- <!--===============================================================================================-->
-   <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
-<!--===============================================================================================-->
-   <link rel="stylesheet" type="text/css" href="${contextPath}/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<!--===============================================================================================-->
-   <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
-<!--===============================================================================================-->   
-   <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
-<!--===============================================================================================-->
-   <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
-<!--===============================================================================================--> --%>
    <link rel="stylesheet" type="text/css" href="${contextPath}/resources/login/css/util.css">
    <link rel="stylesheet" type="text/css" href="${contextPath}/resources/login/css/main.css">
    <script
@@ -91,7 +70,7 @@
             </span>
 
             <div class="wrap-input100 validate-input" >
-                  <input class="input100" type="text" id="inputId" placeholder="<%=id%>"
+                  <input class="input100" type="text" id="inputId"
                   onkeypress="javascript:if(event.keyCode==13) {document.getElementById('inputPass').focus()}"
                   disabled="disabled">
                   <span class="focus-input100"></span>

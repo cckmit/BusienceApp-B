@@ -139,27 +139,6 @@ function modviewBtn() {
 	console.log(user_COMPANY_NAME);
 }
 
-function modBtn() {
-	datas = {
-		USER_CODE : user_CODE,
-		USER_NAME : document.getElementById("update_user_NAME").value,
-		COMPANY: $("#update_user_COMPANY option:selected").val(),
-		USER_TYPE: $("#update_user_TYPE option:selected").val(),
-		USER_USE_STATUS : document.getElementById("update_user_USE_STATUS").checked,
-		DEPT_CODE : $("#update_user_DEPT option:selected").val()
-	};
-
-	$.ajax({
-		method : "POST",
-		url : "userManageRest/userManageUpdate?data="
-				+ encodeURI(JSON.stringify(datas)),
-		success : function(data, testStatus) {
-		}
-	});
-
-	location.reload();
-}
-
 // 입력버튼을 클릭을 할때 모달창을 여는 이벤트
 $("#registerModal").click(function() {
 	$("#userRegisterModal").modal("show").on("shown.bs.modal", function () {
@@ -214,7 +193,35 @@ function insBtn() {
 			if (data == "Success") {
 				alert("저장 되었습니다.");
 				$("#userRegisterModal").modal("hide");
-				$("#userRegisterModal").find('form')[0].reset()
+				$("#userRegisterModal").find('form')[0].reset();
+			}
+		}
+	});
+}
+
+function modBtn() {
+	
+	var datas = {USER_CODE : $("#update_user_CODE").val(),
+			USER_NAME : $("#update_user_NAME").val(),
+			COMPANY : $("#update_user_COMPANY").val(),
+			USER_USE_STATUS : "true",
+			USER_TYPE : $("#update_user_TYPE").val(),
+			DEPT_CODE : $("#update_user_DEPT").val()}
+
+	$.ajax({
+		method : "put",
+		url : "userManageRest/userManageUpdate",
+		data : datas,
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
+		success : function(data) {
+			if (data == "Success") {
+				alert("저장 되었습니다.");
+				$("#userModifyModal").modal("hide");
+				$("#userModifyModal").find('form')[0].reset();
 			}
 		}
 	});
@@ -222,18 +229,24 @@ function insBtn() {
 
 // 비번 초기화
 function pwReset() {
-	conf = confirm("초기화 하시겠습니까?");
-	if (!conf)
-		return;
+	
+	if (confirm("초기화 하시겠습니까?")){
+		var datas = {USER_CODE : $("#update_user_CODE").val()}
 
-	$.ajax({
-		method: "POST",
-		url: "userManageRest/userManagePW?update_user_CODE=" + document.getElementById("update_user_CODE").value,
-		success: function(data, testStatus) {
-			console.log(data);
-			alert("초기화 성공 하였습니다.");
-			location.reload();
-		}
-	});
-
+		$.ajax({
+			method: "put",
+			url: "userManageRest/userManagePW",
+			data : datas,
+			beforeSend: function (xhr) {
+	           var header = $("meta[name='_csrf_header']").attr("content");
+	           var token = $("meta[name='_csrf']").attr("content");
+	           xhr.setRequestHeader(header, token);
+			},
+			success: function(data) {
+				alert("초기화 되었습니다.");
+				$("#userModifyModal").modal("hide");
+				$("#userModifyModal").find('form')[0].reset();
+			}
+		});
+	}
 }

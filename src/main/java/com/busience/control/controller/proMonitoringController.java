@@ -1,8 +1,5 @@
 package com.busience.control.controller;
 
-import java.net.UnknownHostException;
-import java.sql.SQLException;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class proMonitoringController {
 
 	@GetMapping("proMonitoring")
-	public String list(Model model) throws UnknownHostException, ClassNotFoundException, SQLException
-	{
+	public String proMonitoring(Model model) {
+		model.addAttribute("pageName", "생산현황 모니터링");
 		return "monitoring/proMonitoring";
 	}
 }
