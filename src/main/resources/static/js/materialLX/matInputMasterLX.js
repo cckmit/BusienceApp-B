@@ -69,10 +69,11 @@ var matInputItemViewTable = new Tabulator("#matInputItemViewTable", {
 		{ title: "입고단가", field: "inMat_Unit_Price", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false }, width: 100 },
 		{ title: "입고금액", field: "inMat_Price", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false }, width: 100 },
 		{ title: "발주번호", field: "inMat_Order_No", headerHozAlign: "center", hozAlign: "left", width: 130 }
-	],
+	]
 });
 
 function MI_ItemViewSearchBtn() {
+	
 	data = {
 		startDate: $("#matInputItemView_startDate").val(),
 		endDate: $("#matInputItemView_endDate").val(),
@@ -174,8 +175,8 @@ function MI_DeliveryListSearchBtn() {
 	var PrcsYear = rawDate.substring(0, 2);
 	var PrcsMonth = rawDate.substring(2, 4);
 	var LastDay = document.getElementById('LastDay').value;
-	alert("LastDay = " + LastDay);
-	alert("years : " + years + " PrcsYear : " + PrcsYear + " PrcsMonth : " + PrcsMonth + '-' + LastDay);
+	//alert("LastDay = " + LastDay);
+	//alert("years : " + years + " PrcsYear : " + PrcsYear + " PrcsMonth : " + PrcsMonth + '-' + LastDay);
 	PrcsDate = years + PrcsYear + '-' + PrcsMonth + '-';
 
 	datas = {

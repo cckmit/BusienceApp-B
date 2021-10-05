@@ -19,7 +19,7 @@
 				<span><strong>출고구분</strong></span>
 				<select id="outMatTypeItemViewSelectBox">
 					<option value="all">all</option>
-					<c:forEach var="data" items="${outMatType}">
+					<c:forEach var="data" items="${OutMatType}">
 						<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>
 					</c:forEach>
 				</select> 

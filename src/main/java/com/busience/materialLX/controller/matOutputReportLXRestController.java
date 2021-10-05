@@ -35,7 +35,7 @@ public class matOutputReportLXRestController {
 		String originData = request.getParameter("data");
 		JSONParser parser = new JSONParser();
 		JSONObject obj = (JSONObject) parser.parse(originData);
-		System.out.println(obj);
+		//System.out.println(obj);
 
 		String sql = "select\r\n" + " omt.OutMat_Date,\r\n" + "	dt2.CHILD_TBL_TYPE OutMat_Send_Clsfc_Name,\r\n"
 				+ " omt.OutMat_Consignee,\r\n" + " omt.OutMat_Dept_Code,\r\n"
@@ -67,8 +67,8 @@ public class matOutputReportLXRestController {
 
 		sql += " order by omt.OutMat_Date";
 
-		System.out.println("where : " + where);
-		System.out.println(sql);
+		//System.out.println("where : " + where);
+		//System.out.println(sql);
 
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -112,7 +112,7 @@ public class matOutputReportLXRestController {
 		System.out.println(originData);
 		JSONParser parser = new JSONParser();
 		JSONObject obj = (JSONObject) parser.parse(originData);
-		System.out.println(obj);
+		//System.out.println(obj);
 		String sql = "select\r\n" + " omt.OutMat_Date,\r\n" + "	dt2.CHILD_TBL_TYPE OutMat_Send_Clsfc_Name,\r\n"
 				+ " omt.OutMat_Consignee,\r\n" + "	omt.OutMat_Dept_Code,\r\n"
 				+ "	dt.CHILD_TBL_TYPE OutMat_Dept_Name,\r\n" + "	omt.OutMat_Code,\r\n"
@@ -139,8 +139,8 @@ public class matOutputReportLXRestController {
 
 		sql += " group by omt.OutMat_Code, OutMat_Date with rollup";
 
-		System.out.println("where : " + where);
-		System.out.println(sql);
+		//System.out.println("where : " + where);
+		//System.out.println(sql);
 
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -204,7 +204,7 @@ public class matOutputReportLXRestController {
 		String originData = request.getParameter("data");
 		JSONParser parser = new JSONParser();
 		JSONObject obj = (JSONObject) parser.parse(originData);
-		System.out.println(obj);
+		//System.out.println(obj);
 		String sql = "select\r\n" + " omt.OutMat_Date,\r\n" + "	dt2.CHILD_TBL_TYPE OutMat_Send_Clsfc_Name,\r\n"
 				+ "	omt.OutMat_Dept_Code,\r\n" + "	dt.CHILD_TBL_TYPE OutMat_Dept_Name,\r\n"
 				+ " omt.OutMat_Consignee,\r\n" + " omt.OutMat_Code,\r\n" + "	pit.PRODUCT_ITEM_NAME OutMat_Name,\r\n"
@@ -230,7 +230,7 @@ public class matOutputReportLXRestController {
 
 		sql += " group by omt.OutMat_Dept_Code, OutMat_Date with rollup";
 
-		System.out.println(sql);
+		//System.out.println(sql);
 
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -293,14 +293,14 @@ public class matOutputReportLXRestController {
 		String originData = request.getParameter("data");
 		JSONParser parser = new JSONParser();
 		JSONObject obj = (JSONObject) parser.parse(originData);
-		System.out.println(obj);
+		//System.out.println(obj);
 		Connection conn = dataSource.getConnection();
 		// 占쏙옙占� 占쏙옙占싱븝옙 처占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙치占싹댐옙 占쏙옙 占싯삼옙
 		String sql = "select SM_Prcs_Date from StockMatLX_tbl where SM_Prcs_Date='" + obj.get("RawDate") + "'";
 
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
-		System.out.println("MO_DeliverySearch_Prcs_Date : " + sql);
+		//System.out.println("MO_DeliverySearch_Prcs_Date : " + sql);
 
 		String RawDate_Flag = "";
 
@@ -308,7 +308,7 @@ public class matOutputReportLXRestController {
 			RawDate_Flag = rs.getString("SM_Prcs_Date");
 		}
 
-		System.out.println("RawDate_Flag :" + RawDate_Flag);
+		//System.out.println("RawDate_Flag :" + RawDate_Flag);
 
 		if (RawDate_Flag.equals("")) {
 			//System.out.println("占쏙옙占쏙옙占싱억옙");
@@ -330,13 +330,13 @@ public class matOutputReportLXRestController {
 		String originData = request.getParameter("data");
 		JSONParser parser = new JSONParser();
 		JSONObject obj = (JSONObject) parser.parse(originData);
-		System.out.println(obj);
+		//System.out.println(obj);
 		Connection conn = dataSource.getConnection();
 		String sql = "select YM_Prcs_Date from YearMat_tbl where YM_Prcs_Date='" + obj.get("RawDate") + "'";
 
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
-		System.out.println("MO_DeliverySearch_Prcs_Date : " + sql);
+		//System.out.println("MO_DeliverySearch_Prcs_Date : " + sql);
 
 		String RawDate_Flag = "";
 
@@ -344,7 +344,7 @@ public class matOutputReportLXRestController {
 			RawDate_Flag = rs.getString("YM_Prcs_Date");
 		}
 
-		System.out.println("RawDate_Flag :" + RawDate_Flag);
+		//System.out.println("RawDate_Flag :" + RawDate_Flag);
 
 		if (RawDate_Flag.equals("")) {
 			//System.out.println("占쏙옙占쏙옙占싱억옙");
@@ -367,7 +367,7 @@ public class matOutputReportLXRestController {
 		String originData = request.getParameter("data");
 		JSONParser parser = new JSONParser();
 		JSONObject obj = (JSONObject) parser.parse(originData);
-		System.out.println(obj);
+		//System.out.println(obj);
 
 		Connection conn = dataSource.getConnection();
 
@@ -381,8 +381,8 @@ public class matOutputReportLXRestController {
 		sql += where;
 
 		sql += " group by OutMat_Dept_Code with rollup";
-		System.out.println("where : " + where);
-		System.out.println(sql);
+		//System.out.println("where : " + where);
+		//System.out.println(sql);
 
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
@@ -447,31 +447,23 @@ public class matOutputReportLXRestController {
 
 		sql += where;
 
-		sql += " group by omt.OutMat_Code, omt.OutMat_Date with rollup";
-		System.out.println("where : " + where);
-		System.out.println(sql);
+		sql += " group by omt.OutMat_Code with rollup";
+		//System.out.println("where : " + where);
+		//System.out.println(sql);
 
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
-		System.out.println("---");
+		//System.out.println("---");
 		while (rs.next()) {
-			if (rs.getString("outMat_Date") == null && (rs.getString("outMat_Code") != null)) {
+			if (rs.getString("outMat_Code") == null) {
 
 				OutMat_tbl data = new OutMat_tbl();
 
-				data.setOutMat_Date("Sub Total");
-				data.setOutMat_Code(rs.getString("outMat_Code"));
-				data.setOutMat_Name(rs.getString("outMat_Name"));
+				data.setOutMat_Code("Sub Total");
 				data.setOutMat_Qty(rs.getInt("outMat_Qty"));
 
 				list.add(data);
-
-			} else if (rs.getString("outMat_Code") == null && rs.getString("outMat_Date") == null) {
-				OutMat_tbl data = new OutMat_tbl();
-
-				data.setOutMat_Date("Grand Total");
-				data.setOutMat_Qty(rs.getInt("outMat_Qty"));
 
 			} else {
 
@@ -487,13 +479,13 @@ public class matOutputReportLXRestController {
 				data.setOutMat_UNIT(rs.getString("outMat_UNIT"));
 				data.setOutMat_Qty(rs.getInt("outMat_Qty"));
 
-				System.out.println(data.toString());
+				//System.out.println(data.toString());
 
 				list.add(data);
 			}
 
 		}
-		System.out.println("---");
+		//System.out.println("---");
 		rs.close();
 		pstmt.close();
 		conn.close();
@@ -527,31 +519,23 @@ public class matOutputReportLXRestController {
 
 		sql += where;
 
-		sql += " group by omt.OutMat_Code, omt.OutMat_Date with rollup";
-		System.out.println("where : " + where);
-		System.out.println(sql);
+		sql += " group by omt.OutMat_Code with rollup";
+		//System.out.println("where : " + where);
+		//System.out.println(sql);
 
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
 		System.out.println("---");
 		while (rs.next()) {
-			if (rs.getString("outMat_Date") == null && (rs.getString("outMat_Code") != null)) {
+			if (rs.getString("outMat_Code") == null) {
 
 				OutMat_tbl data = new OutMat_tbl();
 
-				data.setOutMat_Date("Sub Total");
-				data.setOutMat_Code(rs.getString("outMat_Code"));
-				data.setOutMat_Name(rs.getString("outMat_Name"));
+				data.setOutMat_Code("Sub Total");
 				data.setOutMat_Qty(rs.getInt("outMat_Qty"));
 
 				list.add(data);
-
-			} else if (rs.getString("outMat_Code") == null && rs.getString("outMat_Date") == null) {
-				OutMat_tbl data = new OutMat_tbl();
-
-				data.setOutMat_Date("Grand Total");
-				data.setOutMat_Qty(rs.getInt("outMat_Qty"));
 
 			} else {
 
@@ -567,7 +551,7 @@ public class matOutputReportLXRestController {
 				data.setOutMat_UNIT(rs.getString("outMat_UNIT"));
 				data.setOutMat_Qty(rs.getInt("outMat_Qty"));
 
-				System.out.println(data.toString());
+				//System.out.println(data.toString());
 
 				list.add(data);
 			}

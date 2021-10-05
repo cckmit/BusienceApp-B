@@ -21,5 +21,23 @@ public class DTL_Service {
         final List<DTL_TBL> dtlList = dtl_Mapper.findByCode(string);
         return dtlList;
     }
-
+    
+    // 현재 연월 조회 및 익월 조회
+    public List<DTL_TBL> getDate(String code, String num) {
+    	final List<DTL_TBL> PrceDate = dtl_Mapper.findCodeNum(code, num);
+    	return PrceDate;
+    }
+    
+    // 마지막 날짜 조회
+    public List<DTL_TBL> getLastDay(String code) {
+    	final List<DTL_TBL> LastDay = dtl_Mapper.findLastDay(code);
+    	return LastDay;
+    }
+    
+    // 부서명 조회
+    public List<DTL_TBL> getDeptName(String code) {
+    	final List<DTL_TBL> DeptName = dtl_Mapper.findDeptName(code);
+    	return DeptName;
+    }
+    
 }

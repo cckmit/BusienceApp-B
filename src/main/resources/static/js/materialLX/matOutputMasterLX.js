@@ -281,7 +281,7 @@ var matOutputDeliveryItemTable = new Tabulator("#matOutputDeliveryItemTable", {
 	paginationSize:20,
 	 //Sub Total 색상
 	rowFormatter: function(row){
-		if(row.getData().outMat_Date == "Sub Total"){
+		if(row.getData().outMat_Code == "Sub Total"){
             row.getElement().style.backgroundColor = "#c0c0c0";
          }
     },
@@ -289,7 +289,7 @@ var matOutputDeliveryItemTable = new Tabulator("#matOutputDeliveryItemTable", {
  	columns:[ //Define Table Columns
  	{title:"순번", field:"outMat_No", headerHozAlign: "center", hozAlign: "center"},
  	{title:"출고일자", field:"outMat_Date", headerHozAlign:"center",hozAlign:"center", formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
- 	{title:"출고구분", field:"outMat_Rcv_Clsfc", headerHozAlign:"center" ,hozAlign:"left"},
+ 	{title:"출고구분", field:"outMat_Send_Clsfc_Name", headerHozAlign:"center" ,hozAlign:"left"},
 	{title:"품목코드", field:"outMat_Code", headerHozAlign:"center",hozAlign:"left"},
 	{title:"품명", field:"outMat_Name", headerHozAlign:"center",hozAlign:"left", width:155},
 	{title:"규격", field:"outMat_STND_1", headerHozAlign:"center",hozAlign:"left", width:120},
@@ -336,7 +336,7 @@ var matOutputDeliveryLastItemTable = new Tabulator("#matOutputDeliveryLastItemTa
 	paginationSize:20,
 	 //Sub Total 색상
 	rowFormatter: function(row){
-		if(row.getData().outMat_Date == "Sub Total"){
+		if(row.getData().outMat_Code == "Sub Total"){
             row.getElement().style.backgroundColor = "#c0c0c0";
          }
     },
