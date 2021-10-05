@@ -1,6 +1,5 @@
 package com.busience.standard.controller;
 
-import java.net.UnknownHostException;
 import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,25 +8,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import javax.transaction.Transactional;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.domain.Member;
+import com.busience.common.mapper.Menu_Mapper;
 import com.busience.common.persistence.MemberRepository;
+import com.busience.common.service.Menu_Service;
 import com.busience.standard.Dto.USER_INFO_TBL;
 
 @RestController("userManageRestController")
@@ -42,9 +37,15 @@ public class userManageRestController {
 	
 	@Autowired
 	DataSource dataSource;
-
-	@RequestMapping(value = "/userManageRestSelect", method = RequestMethod.GET)
-	public List<USER_INFO_TBL> userManageRestSelect(HttpServletRequest request) throws SQLException {
+	
+	private Menu_Service menu_Service;
+	
+	public userManageRestController(Menu_Service menu_Service) {
+		this.menu_Service = menu_Service;
+	}
+	
+	@GetMapping("/userManageRestSelect")
+	public List<USER_INFO_TBL> userManageRestSelect() throws SQLException {
 		List<USER_INFO_TBL> list = new ArrayList<USER_INFO_TBL>();
 
 		String sql = "SELECT \r\n"
@@ -71,7 +72,6 @@ public class userManageRestController {
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
 
-		int i = 0;
 		while (rs.next()) {
 			USER_INFO_TBL data = new USER_INFO_TBL();
 
@@ -97,11 +97,9 @@ public class userManageRestController {
 	}
 
 	// insert
-	@Transactional
 	@PostMapping("/userManageInsert")
 	public String userManageInsert(Member member, Principal principal) {
-		System.out.println("userManageInsert");
-		
+
 		String encryptPw = pwEncoder.encode(member.getUSER_PASSWORD());
 		
 		member.setUSER_PASSWORD(encryptPw);
@@ -109,14 +107,16 @@ public class userManageRestController {
 		
 		repo.save(member);
 		
+		//사용자 메뉴 생성
+		menu_Service.insertMenuNewUser(member.getUSER_CODE());
+		
 		return "Success";
 	}
 	
 	// update
 	@Transactional
-	@PutMapping("/userManageUpdateTest")
-	public String userManageUpdateTest(Member member, Principal principal) {
-		System.out.println("userManageUpdateTest");
+	@PutMapping("/userManageUpdate")
+	public String userManageUpdate(Member member) {
 		
 		repo.findById(member.getUSER_CODE()).ifPresent(origin -> {
 			origin.setUSER_NAME(member.getUSER_NAME());
@@ -124,100 +124,26 @@ public class userManageRestController {
 			origin.setUSER_USE_STATUS(member.getUSER_USE_STATUS());
 			origin.setUSER_TYPE(member.getUSER_TYPE());
 			origin.setDEPT_CODE(member.getDEPT_CODE());
-			
-			System.out.println(origin);
-			//repo.save(origin);
+
+			repo.save(origin);
 		});
 		
 		return "Success";
 	}
 
-	// ����
-	@RequestMapping(value = "/userManageUpdate", method = RequestMethod.POST)
-	public String userManageUpdate(HttpServletRequest request, Model model)
-			throws SQLException, ParseException, UnknownHostException, ClassNotFoundException {
-		String data = request.getParameter("data");
-		//System.out.println("update data : " + data);
-		JSONParser parser = new JSONParser();
-		JSONObject obj = (JSONObject) parser.parse(data);
-
-		//System.out.println(obj.toJSONString());
-		// Ư�� USER_CODE�� ���� ���� ��ȸ
-		String sql = "SELECT USER_TYPE FROM USER_INFO_TBL where USER_CODE='" + obj.get("USER_CODE") + "'";
-		Connection conn = dataSource.getConnection();
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		ResultSet rs = pstmt.executeQuery();
-
-		while (rs.next()) {
-			// System.out.println(obj.get("USER_TYPE"));
-			// System.out.println(rs.getString("USER_TYPE"));
-			// �޴� ���� USER_TYPE�� ����� ���� ������ USER_TYPE�� �������� �ʴٸ�, �޴� ������ USER ���� ����
-			// ���� �̸��� ���� ���� ����
-			if (!obj.get("USER_TYPE").equals(rs.getString("USER_TYPE"))) {
-				sql = "delete from MENU_MGMT_TBL where MENU_USER_CODE='" + obj.get("USER_CODE") + "'";
-				pstmt = conn.prepareStatement(sql);
-				pstmt.executeUpdate();
-
-				sql = "INSERT INTO MENU_MGMT_TBL";
-				sql += " SELECT T1.USER_CODE, T3.RIGHTS_PROGRAM_CODE, 'true', 'true', 'true', T3.RIGHTS_MGMT_USE_STATUS   FROM USER_INFO_TBL T1";
-				sql += " INNER JOIN RIGHTS_MGMT_TBL T3 ON T1.USER_TYPE = T3.RIGHTS_USER_TYPE";
-				sql += " WHERE USER_CODE = '" + obj.get("USER_CODE") + "'";
-
-				// System.out.println("����� �޴� ���� : " + sql);
-
-				pstmt = conn.prepareStatement(sql);
-				pstmt.executeUpdate();
-			}
-		}
+	@Transactional
+	@PutMapping("/userManagePW")
+	public String userManagePW(Member member) {
 		
-		HttpSession httpSession = request.getSession();
-		String modifier = (String) httpSession.getAttribute("id");
-
-		sql = "update USER_INFO_TBL set ";
-		sql += "USER_NAME='" + obj.get("USER_NAME") + "'";
-		sql += ",COMPANY='" + obj.get("COMPANY") + "'";
-		sql += ",USER_TYPE='" + obj.get("USER_TYPE") + "'";
-		sql += ",USER_MODIFIER='" + modifier + "'";
-		sql += ",USER_USE_STATUS='" + obj.get("USER_USE_STATUS") + "'";
-		sql += ",DEPT_CODE='" + obj.get("DEPT_CODE") + "'";
-		sql += ",USER_MODIFY_D=now()";
-		sql += " where USER_CODE='" + obj.get("USER_CODE") + "'";
-
-		//System.out.println(sql);
-
-		// HomeController.LogInsert("", "2. Update", sql, request);
-
-		conn = dataSource.getConnection();
-		pstmt = conn.prepareStatement(sql);
-		//pstmt = conn.prepareStatement(sql);
-		pstmt.executeUpdate();
-		rs.close();
-		pstmt.close();
-		conn.close();
-
+		String encryptPw = pwEncoder.encode(member.getUSER_PASSWORD());
+		
+		repo.findById(member.getUSER_CODE()).ifPresent(origin -> {
+			origin.setUSER_PASSWORD(encryptPw);
+			
+			repo.save(origin);
+		});
+		
 		return "Success";
-	}
-
-	@RequestMapping(value = "/userManagePW", method = RequestMethod.POST)
-	public String userManagePW(HttpServletRequest request, Model model)
-			throws SQLException, UnknownHostException, ClassNotFoundException {
-		String USER_CODE = request.getParameter("update_user_CODE");
-
-		// System.out.println(USER_CODE);
-
-		String sql = "update USER_INFO_TBL set ";
-		sql += "USER_PASSWORD=hex(aes_encrypt('1234','a'))";
-		sql += " where USER_CODE='" + USER_CODE + "'";
-
-		//HomeController.LogInsert("", "7. Pw Reset", sql, request);
-
-		Connection conn = dataSource.getConnection();
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.executeUpdate();
-		pstmt.close();
-		conn.close();
-
-		return USER_CODE;
 	}
 
 }

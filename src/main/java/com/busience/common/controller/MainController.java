@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -23,8 +24,8 @@ public class MainController {
 		return "main";
 	}
 	
-	@RequestMapping("/href")
-	public String href() {
-		return "href";
+	@GetMapping("/pwchange")
+	public String pwchange() {
+		return "thymeleaf/pwchange";
 	}
 }

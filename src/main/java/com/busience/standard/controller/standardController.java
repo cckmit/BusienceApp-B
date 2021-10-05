@@ -1,18 +1,10 @@
 package com.busience.standard.controller;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.busience.common.service.DTL_Service;
-import com.busience.standard.Dto.DTL_TBL;
 
 @Controller
 public class standardController {
