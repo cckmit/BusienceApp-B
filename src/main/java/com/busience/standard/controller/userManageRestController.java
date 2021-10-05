@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.domain.Member;
+import com.busience.common.mapper.Menu_Mapper;
 import com.busience.common.persistence.MemberRepository;
+import com.busience.common.service.Menu_Service;
 import com.busience.standard.Dto.USER_INFO_TBL;
 
 @RestController("userManageRestController")
@@ -35,7 +37,13 @@ public class userManageRestController {
 	
 	@Autowired
 	DataSource dataSource;
-
+	
+	private Menu_Service menu_Service;
+	
+	public userManageRestController(Menu_Service menu_Service) {
+		this.menu_Service = menu_Service;
+	}
+	
 	@GetMapping("/userManageRestSelect")
 	public List<USER_INFO_TBL> userManageRestSelect() throws SQLException {
 		List<USER_INFO_TBL> list = new ArrayList<USER_INFO_TBL>();
@@ -89,17 +97,18 @@ public class userManageRestController {
 	}
 
 	// insert
-	@Transactional
 	@PostMapping("/userManageInsert")
 	public String userManageInsert(Member member, Principal principal) {
-		System.out.println("userManageInsert");
-		
+
 		String encryptPw = pwEncoder.encode(member.getUSER_PASSWORD());
 		
 		member.setUSER_PASSWORD(encryptPw);
 		member.setUSER_MODIFIER(principal.getName());
 		
 		repo.save(member);
+		
+		//사용자 메뉴 생성
+		menu_Service.insertMenuNewUser(member.getUSER_CODE());
 		
 		return "Success";
 	}

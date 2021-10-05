@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.busience.standard.Dto.Customer_tbl;
 import com.busience.standard.Dto.DEFECT_INFO_TBL;
 import com.busience.standard.Dto.EQUIPMENT_INFO_TBL;
-import com.busience.standard.Dto.MOLD_INFO_TBL;
 import com.busience.standard.Dto.PRODUCT_INFO_TBL;
 
 @RestController
@@ -109,55 +108,6 @@ public class popupRestController {
 
 			data.setEQUIPMENT_INFO_CODE(rs.getString("EQUIPMENT_INFO_CODE"));
 			data.setEQUIPMENT_INFO_NAME(rs.getString("EQUIPMENT_INFO_NAME"));
-			list.add(data);
-		}
-
-		rs.close();
-		pstmt.close();
-		conn.close();
-
-		return list;
-	}
-	
-	// moldPopup
-	@RequestMapping(value = "/moldPopupSelect", method = RequestMethod.GET)
-	public List<MOLD_INFO_TBL> moldPopupSelect(
-			@RequestParam(value = "MOLD_INFO_NO", required = false) String MOLD_INFO_NO,
-			@RequestParam(value = "MOLD_INFO_NAME", required = false) String MOLD_INFO_NAME) throws SQLException {
-
-		String sql = "";
-		String where ="";
-		
-		sql = " select MOLD_INFO_NO,MOLD_INFO_NAME from MOLD_INFO_TBL";
-		
-		if (MOLD_INFO_NO == null || MOLD_INFO_NO == "") {
-			
-			where += " where (MOLD_INFO_NAME like '%" + MOLD_INFO_NAME + "%' or MOLD_INFO_NO like '%" + MOLD_INFO_NAME + "%')";
-		}else if (MOLD_INFO_NAME == null || MOLD_INFO_NAME == "") {
-			
-			where += " where (MOLD_INFO_NO like '%" + MOLD_INFO_NO + "%' or MOLD_INFO_NAME like '%" + MOLD_INFO_NO + "%')";
-		}else {
-		
-			where += " where MOLD_INFO_NAME like '%" + MOLD_INFO_NAME + "%' and MOLD_INFO_NO like '%" + MOLD_INFO_NO + "%'";
-		}
-
-		sql += where;
-		
-		System.out.println(sql);
-
-		Connection conn = dataSource.getConnection();
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		ResultSet rs = pstmt.executeQuery();
-		
-		List<MOLD_INFO_TBL> list = new ArrayList<MOLD_INFO_TBL>();
-		
-		int i = 0;
-		while (rs.next()) {
-			MOLD_INFO_TBL data = new MOLD_INFO_TBL();
-			i++;
-			data.setId(i);
-			data.setMOLD_INFO_NO(rs.getString("MOLD_INFO_NO"));
-			data.setMOLD_INFO_NAME(rs.getString("MOLD_INFO_NAME"));
 			list.add(data);
 		}
 

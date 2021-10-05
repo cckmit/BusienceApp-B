@@ -16,7 +16,7 @@ public class DTL_Service {
 		this.dtl_Mapper = dtl_Mapper;
 	}
 	
-	// 멤버 전체 조회
+	// 코드 조건으로 조회
     public List<DTL_TBL> getAlldtl(String string) {
         final List<DTL_TBL> dtlList = dtl_Mapper.findByCode(string);
         return dtlList;
