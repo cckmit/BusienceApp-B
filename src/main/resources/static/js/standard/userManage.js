@@ -1,12 +1,5 @@
-// 행을 더블클릭하여서 해당 행의 데이터를 저장했다가 화면에서 뿌려주는 변수
-var user_CODE = null;
-var user_NAME = null;
-var user_TYPE_NAME = null;
-var user_COMPANY_NAME = null;
-var user_DEPT_NAME = null;
-var user_MODIFY_D = null;
-var user_MODIFIER = null;
-var user_USE_STATUS = null;
+var pickValue = new Array();
+var jsonData = new Object();
 
 var userManageTable = new Tabulator("#userManageTable", {
 	//페이징
@@ -21,79 +14,11 @@ var userManageTable = new Tabulator("#userManageTable", {
 	rowClick:function(e, row){
 		row.getTable().deselectRow();
 		row.select();
-		
-		// 더블클릭할때 데이터를 저장
-		user_CODE = row.getData().user_CODE;
-		user_NAME = row.getData().user_NAME;
-		user_TYPE_NAME = row.getData().user_TYPE_NAME;
-		user_COMPANY_NAME = row.getData().company_NAME;
-		user_DEPT_NAME = row.getData().dept_NAME;
-		user_MODIFY_D = row.getData().user_MODIFY_D;
-		user_MODIFIER = row.getData().user_MODIFIER;
-		user_USE_STATUS = row.getData().user_USE_STATUS;
-		
-		document.getElementById("update_user_CODE").value = user_CODE;
-		document.getElementById("update_user_NAME").value = user_NAME;
-		
-		var company = row.getData().company
-		var companylast = String(company).charAt(company.length-1)-1;
-		
-		$("#update_user_COMPANY option:eq("+companylast+")").prop("selected", true);
-		
-		var user_TYPE = row.getData().user_TYPE
-		var user_TYPElast = String(user_TYPE).charAt(user_TYPE.length-1)-1;
-		
-		$("#update_user_TYPE option:eq("+user_TYPElast+")").prop("selected", true);
-		
-		var dept_CODE = row.getData().dept_CODE
-		var dept_CODElast = String(dept_CODE).charAt(dept_CODE.length-1);
-		
-		$("#update_user_DEPT option:eq("+dept_CODElast+")").prop("selected", true);
-				
-		if (row.getData().user_USE_STATUS == "true")
-			document.getElementById("update_user_USE_STATUS").checked = true;
-		else
-			document.getElementById("update_user_USE_STATUS").checked = false;
+		modalInputBox(row.getData());
 	}, 
 	rowDblClick: function(e, row) {
-		// 더블클릭할때 데이터를 저장
-		user_CODE = row.getData().user_CODE;
-		user_NAME = row.getData().user_NAME;
-		user_TYPE_NAME = row.getData().user_TYPE_NAME;
-		user_COMPANY_NAME = row.getData().company_NAME;
-		user_DEPT_NAME = row.getData().dept_NAME;
-		user_MODIFY_D = row.getData().user_MODIFY_D;
-		user_MODIFIER = row.getData().user_MODIFIER;
-		user_USE_STATUS = row.getData().user_USE_STATUS;
-		console.log(user_USE_STATUS);
-
-		//행에 색변경		
+		//모달창 띄움
 		$("#userModifyModal").modal("show");
-		
-		document.getElementById("update_user_CODE").value = user_CODE;
-		document.getElementById("update_user_NAME").value = user_NAME;
-		
-		var company = row.getData().company
-		var companylast = String(company).charAt(company.length-1)-1;
-		
-		$("#update_user_COMPANY option:eq("+companylast+")").prop("selected", true);
-		
-		var user_TYPE = row.getData().user_TYPE
-		var user_TYPElast = String(user_TYPE).charAt(user_TYPE.length-1)-1;
-		
-		$("#update_user_TYPE option:eq("+user_TYPElast+")").prop("selected", true);
-		
-		var dept_CODE = row.getData().dept_CODE
-		var dept_CODElast = String(dept_CODE).charAt(dept_CODE.length-1);
-		
-		$("#update_user_DEPT option:eq("+dept_CODElast+")").prop("selected", true);
-		
-		if (row.getData().user_USE_STATUS == "true")
-			document.getElementById("update_user_USE_STATUS").checked = true;
-		else
-			document.getElementById("update_user_USE_STATUS").checked = false;
-			
-		
 	},
 	columns: [
 		{title: "순번", field: "rownum", hozAlign: "center", headerHozAlign: "center", formatter:"rownum"},
@@ -110,33 +35,28 @@ var userManageTable = new Tabulator("#userManageTable", {
 	]
 });
 
+function fromRowToJson(row){
+	pickValue = ["user_CODE", "user_NAME", "company", "user_USE_STATUS", "user_TYPE", "dept_CODE"];
+	
+	pickValue.forEach(function(item,index,arr2){
+	})
+}
+
+function modalInputBox(jsonData){
+
+	for (var key in jsonData){
+		console.log(key);
+		console.log(jsonData[key]);
+		if($('#'+key)){
+			$('#'+key).val(jsonData[key]);
+		}
+	}
+}
 function nextFocus(next) {
 	if (event.keyCode == 13) {
 		console.log(next);
 		$('#' + next).focus();
 	}
-}
-
-function modviewBtn() {
-	console.log(user_CODE);
-	console.log(user_COMPANY_NAME);
-
-	// 수정,삭제 모달창에 더블클릭한 데이터를 렌더링함
-	document.getElementById("update_user_CODE").value = user_CODE;
-	document.getElementById("update_user_NAME").value = user_NAME;
-	
-	document.getElementById("update_user_COMPANY").options[3].selected = true;
-	console.log(companywhy);
-	document.getElementById("update_user_TYPE").value = user_TYPE_NAME;
-	document.getElementById("update_user_DEPT").value = user_DEPT_NAME;
-	
-	if(user_USE_STATUS=="true")
-		document.getElementById("update_user_USE_STATUS").checked = true;
-	else
-		document.getElementById("update_user_USE_STATUS").checked = false;
-	
-	var user_COMPANY_NAME = row.getData().user_COMPANY_NAME;
-	console.log(user_COMPANY_NAME);
 }
 
 // 입력버튼을 클릭을 할때 모달창을 여는 이벤트
