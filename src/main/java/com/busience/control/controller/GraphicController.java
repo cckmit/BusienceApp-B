@@ -10,7 +10,7 @@ public class GraphicController {
 	@GetMapping("equipMonitoring")
 	public String Graphic1(Model model)
 	{
-		return "monitoring/Graphic/Graphic1";
+		return "equipMonitoring";
 	}
 	
 	@GetMapping("Graphic2")
