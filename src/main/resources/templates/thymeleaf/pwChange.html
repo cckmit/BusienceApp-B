@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www/thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 <title>비지언스 MES</title>
 <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
 </head>
@@ -14,14 +16,10 @@
 				<img th:src="@{/images/logo/bsLogo2.png}">
 			</div>
 
-			<span class="login100-form-title">
-                  Password Change
-            </span>
+			<span class="login100-form-title">Password Change</span>
 
-            <div class="wrap-input100 validate-input" >
-                  <input class="input100" type="text" id="inputId" value='${principal.member.USER_CODE}'
-                  onkeypress="javascript:if(event.keyCode==13) {document.getElementById('inputPass').focus()}"
-                  readonly>
+            <div class="wrap-input100 validate-input" th:with="member=${#authentication.principal.member}">
+                  <input class="input100" type="text" id="inputId" th:value='${member.USER_CODE}' readonly>
 
                   <span class="focus-input100"></span>
                   <span class="symbol-input100">
@@ -30,8 +28,7 @@
             </div>
 
             <div class="wrap-input100 validate-input" >
-                  <input class="input100" type="password" id="inputPass" placeholder="변경할 비밀번호"
-                  onkeypress="javascript:if(event.keyCode==13) {loginBtn()}">
+                  <input class="input100" type="password" id="password" placeholder="변경할 비밀번호">
                   <span class="focus-input100"></span>
                   <span class="symbol-input100">
                      <i class="fa fa-lock" aria-hidden="true"></i>
@@ -39,8 +36,7 @@
             </div>
             
             <div class="wrap-input100 validate-input" >
-                  <input class="input100" type="password" id="inputPass2" placeholder="변경할 비밀번호 확인"
-                  onkeypress="javascript:if(event.keyCode==13) {loginBtn()}">
+                  <input class="input100" type="password" id="passwordCheck" placeholder="변경할 비밀번호 확인">
                   <span class="focus-input100"></span>
                   <span class="symbol-input100">
                      <i class="fa fa-lock" aria-hidden="true"></i>
@@ -48,13 +44,15 @@
             </div>
                
             <div class="container-login100-form-btn">
-                  <button type="button" class="login100-form-btn" onclick="pwChange()">
+                  <button type="button" class="login100-form-btn" id="pwChangeBtn">
                      Password Change
                   </button>
             </div>
 		</div>
 	</div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"></script>
+.<script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
+<script th:src="@{/webjars/font-awesome/5.15.4/js/all.min.js}"></script>
+<script th:src="@{/js/pwChange.js}"></script>
 </body>
 </html>

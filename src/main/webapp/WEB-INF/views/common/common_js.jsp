@@ -16,6 +16,8 @@
 
 <script src="/webjars/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js"></script>
 
+<script src="/webjars/font-awesome/5.15.4/js/all.min.js"></script>
+
 <!-- js -->
 <script src="/js/today.js"></script>
 

@@ -126,8 +126,10 @@ public class userManageRestController {
 	@PutMapping("/userManagePW")
 	public String userManagePW(Member member) {
 		
+		String encryptPw = pwEncoder.encode(member.getUSER_PASSWORD());
+		
 		repo.findById(member.getUSER_CODE()).ifPresent(origin -> {
-			origin.setUSER_PASSWORD(pwEncoder.encode("1234"));
+			origin.setUSER_PASSWORD(encryptPw);
 			
 			repo.save(origin);
 		});

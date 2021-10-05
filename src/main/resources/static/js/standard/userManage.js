@@ -231,7 +231,8 @@ function modBtn() {
 function pwReset() {
 	
 	if (confirm("초기화 하시겠습니까?")){
-		var datas = {USER_CODE : $("#update_user_CODE").val()}
+		var datas = {USER_CODE : $("#update_user_CODE").val(),
+					USER_PASSWORD : "1234"}
 
 		$.ajax({
 			method: "put",

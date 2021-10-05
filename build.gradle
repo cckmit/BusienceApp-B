@@ -42,6 +42,7 @@ dependencies {
 	implementation 'org.webjars:momentjs:2.29.1'
 	implementation 'org.webjars:jquery.easy-pie-chart:2.1.6'
 	implementation 'org.webjars:bootstrap-datepicker:1.9.0'
+	implementation 'org.webjars:font-awesome:5.15.4'
 	implementation 'javax.servlet:jstl'
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	implementation 'org.apache.clerezza.ext:org.json.simple:0.4'
