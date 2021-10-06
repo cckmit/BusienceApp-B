@@ -1,5 +1,7 @@
 package com.busience.standard.controller;
 
+import java.sql.SQLException;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -90,6 +92,34 @@ public class standardController {
 		return "standard/customerManage";
 	}
 	
+	@GetMapping("machineManage")
+	public String machineManage(Model model) throws SQLException {
+		
+		//사업장
+		String company = Integer.toString(2);
+		model.addAttribute("companyList", dtl_Service.getAlldtl(company));
+		
+		//설비상태
+		String equipmentStatus = Integer.toString(12);
+		model.addAttribute("equipmentStatusList", dtl_Service.getAlldtl(equipmentStatus));
+		
+		model.addAttribute("pageName", "설비 정보 관리");
+		
+		return "standard/machineManage";
+	}
+	
+	@GetMapping("spareTypeManage")
+	public String list(Model model) throws SQLException {
+		model.addAttribute("pageName", "스페어 파트 관리");
+		return "standard/spareTypeManage";
+	}
+	
+	@GetMapping("defectManage")
+	public String defect(Model model){
+		model.addAttribute("pageName", "불량 정보 관리");
+		return "standard/defectManage";
+	}
+	
 	@GetMapping("BOM")
 	public String BOM(Model model) {
 		
@@ -110,5 +140,23 @@ public class standardController {
 		model.addAttribute("pageName", "BOM 조회");
 		
 		return "standard/BOMList/BOMListMaster";
+	}
+	
+	@GetMapping("packagingManage")
+	public String packagingManage(Model model) {
+		model.addAttribute("pageName", "포장 규격 관리");
+		return "standard/packagingManage";
+	}
+	
+	@GetMapping("routingInput")
+	public String routingInput(Model model) {
+		model.addAttribute("pageName", "라우팅 등록");
+		return "standard/routingInput";
+	}
+	
+	@GetMapping("matmodelmapping")
+	public String matmodelmapping(Model model) {
+		model.addAttribute("pageName", "원자재 모델 Mapping");
+		return "standard/matmodelmapping";
 	}
 }
