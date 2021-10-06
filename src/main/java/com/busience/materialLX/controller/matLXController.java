@@ -62,6 +62,8 @@ public class matLXController {
 		// 마지막날
 		String LastDay = Integer.toString(2);
 		model.addAttribute("LastDay", dtl_Service.getLastDay(LastDay));
+		// 메뉴명
+		model.addAttribute("pageName", "출고 현황");
 		
 		return "materialLX/matOutputLX/matOutputMasterLX";
 	}

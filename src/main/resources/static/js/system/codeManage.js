@@ -4,12 +4,8 @@ var child_TBL_NO = 0;
 var new_TBL_CODE = 0;
 var child_TBL_NUM = 0;
 
-// 입력버튼을 클릭을 할때 모달창을 여는 이벤트
-function insertModal() {
-	$("#insertModal").modal("show");
-}
 
-function insertModal2() {
+function insertModal() {
 	$("#insertYesNo").modal("show");
 }
 
@@ -23,7 +19,7 @@ function insBtn() {
 	//console.log(CHILD_TBL_USE_STATUS_VALUE);
 	
 	$.ajax({
-		method: "POST",
+		method: "GET",
 		data: {
 			CHILD_TBL_NO : child_TBL_NO,
 			NEW_TBL_CODE: new_TBL_CODE,
@@ -67,7 +63,7 @@ function GridSetting1(orgindata) {
 						"opacity" : "1"
 					}
 			);
-			document.getElementById("addinitbtn").onclick = insertModal;
+			document.getElementById("registerModal").onclick = codeRegisterModal;
 			
 
 			GridSetting2(row.getData().new_TBL_CODE);
@@ -116,7 +112,7 @@ function GridSetting2(NEW_TBL_CODE) {
 						element2 = row.getElement();
 					}
 
-					$("#updateModal").modal("show");
+					$("#codeModifyModal").modal("show");
 
 					//child_TBL_USE_STATUS
 					if (row.getData().child_TBL_USE_STATUS == "true")
@@ -184,7 +180,7 @@ function modResetBtn() {
 
 function modBtn() {
 	$.ajax({
-		method: "POST",
+		method: "GET",
 		data: {
 			NEW_TBL_CODE: new_TBL_CODE,
 			CHILD_TBL_NUM: child_TBL_NUM,
@@ -202,11 +198,20 @@ function modBtn() {
 		}
 	});
 }
+// 입력버튼을 클릭을 할때 모달창을 여는 이벤트
+$("#registerModal").click(function() {
+	$("#codeRegisterModal").modal("show");
+});
 
-$('#insertModal').on('show.bs.modal', function () {
+// 수정버튼을 클릭을 할때 모달창을 여는 이벤트
+$("#modifyModal").click(function() {
+	$("#codeModifyModal").modal("show");
+});
+
+$('#codeRegisterModal').on('show.bs.modal', function () {
 	$('#CHILD_TBL_TYPE').focus();
 });
 
-$('#updateModal').on('show.bs.modal', function () {
+$('#coderModifyModal').on('show.bs.modal', function () {
 	$('#mCHILD_TBL_TYPE').focus();
 });
