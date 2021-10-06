@@ -22,9 +22,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception{
-		//System.out.println("=====================");
-		//System.out.println(passwordEncoder().encode("123"));
-		//System.out.println(passwordEncoder().encode("1234"));
 		
 		http.authorizeRequests()
 			.antMatchers("/css/**","/js/**","/fonts/**","/images/**").permitAll();

@@ -42,6 +42,26 @@ function ResetBtn() {
 	}
 }
 
+//json데이터 modal로 데이터 넣기
+function modalInputBox(json){
+	for (var key in json){
+		if($('#'+key)){
+			//타입이 checkbox일 경우
+			if($('#'+key).attr("type") == "checkbox"){
+				if(json[key] == "true"){
+					$('#'+key).prop("checked", true)	
+				}else{
+					$('#'+key).prop("checked", false)
+				}
+			}else{
+				//그외
+				$('#'+key).val(json[key]);
+			}
+		}
+		
+	}
+}
+
 $(document).ready(function(){
 	//input에서 백스페이스 누르면 앞에있는 input 내용 사라짐 
 	$('.clearInput').keydown(function(){

@@ -9,12 +9,54 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.busience.common.service.DTL_Service;
 
 @Controller
-public class matLXController {
-
+public class materialLXController {
+	
 	private DTL_Service dtl_Service;
 	
-	public matLXController(DTL_Service dtl_Service) {
+	public materialLXController(DTL_Service dtl_Service) {
 		this.dtl_Service = dtl_Service;
+	}
+	
+	//OrderMaster
+	@GetMapping("matOrderLX")
+	public String matOrderLX(Model model) {
+		model.addAttribute("pageName", "발주 관리");
+		return "materialLX/matOrderLX";
+	}
+	
+	//OrderMaster
+	@GetMapping("matOrderListLX")
+	public String matOrderListLX(Model model) {
+		model.addAttribute("pageName", "발주 조회");
+		return "materialLX/matOrderListLX";
+	}
+	
+	// MatInputLX
+	@GetMapping("matInputLX")
+	public String matInputLX(Model model) {
+		model.addAttribute("pageName", "입고 관리");
+		return "materialLX/matInputLX";
+	}
+	
+	// MatOutputLX
+	@GetMapping("matOutputLX")
+	public String matOutputLX(Model model) {
+		model.addAttribute("pageName", "출고 관리");
+		return "materialLX/matOutputLX";
+	}
+	
+	// matInReturnLX
+	@GetMapping("matInReturnLX")
+	public String orderMaster(Model model) {
+		model.addAttribute("pageName", "입고 반품 관리");
+		return "materialLX/matInReturnLX/matInReturnLXMaster";
+	}
+	
+	//matInReturn
+	@GetMapping("matOutReturnLX")
+	public String matOutReturnLX(Model model) {
+		model.addAttribute("pageName", "출고 반품 관리");
+		return "materialLX/matOutReturnLX/matOutReturnLXMaster";
 	}
 	
 	// matInputMasterLX
@@ -65,8 +107,22 @@ public class matLXController {
 		// 메뉴명
 		model.addAttribute("pageName", "출고 현황");
 		
+		model.addAttribute("pageName", "출고 현황");
+		
 		return "materialLX/matOutputLX/matOutputMasterLX";
 	}
 	
+	// matInoutListLX
+	@GetMapping("matInoutListLX")
+	public String matInoutListLX(Model model) {
+		model.addAttribute("pageName", "입출고 현황");
+		return "materialLX/matInoutListLX";
+	}
 	
+	// matStockMaster
+	@GetMapping("matStockMasterLX")
+	public String matStockMasterLX(Model model) {
+		model.addAttribute("pageName", "현재고 현황");
+		return "materialLX/matStockLX/matStockMasterLX";
+	}
 }
