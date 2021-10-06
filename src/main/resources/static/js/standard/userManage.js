@@ -1,6 +1,3 @@
-var pickValue = new Array();
-var jsonData = new Object();
-
 var userManageTable = new Tabulator("#userManageTable", {
 	//페이징
 	pagination: "local",
@@ -14,12 +11,16 @@ var userManageTable = new Tabulator("#userManageTable", {
 	rowClick:function(e, row){
 		row.getTable().deselectRow();
 		row.select();
-		modalInputBox(row.getData());
+
 	}, 
 	rowDblClick: function(e, row) {
 		//모달창 띄움
-		$("#userModifyModal").modal("show");
+		modifyModalShow();
 	},
+	rowSelected:function(row){
+    	var jsonData = fromRowToJson(row);
+		modalInputBox(jsonData);
+    },
 	columns: [
 		{title: "순번", field: "rownum", hozAlign: "center", headerHozAlign: "center", formatter:"rownum"},
 		{title: "사용자코드", field: "user_CODE", headerHozAlign: "center", headerFilter: "input"},
@@ -28,7 +29,7 @@ var userManageTable = new Tabulator("#userManageTable", {
 		{title: "사업장", field: "company_NAME", headerHozAlign: "center", headerFilter: "input"},
 		{title: "부서", field: "dept_NAME", headerHozAlign: "center", headerFilter: "input"},
 		{title: "사용유무", field: "user_USE_STATUS", headerHozAlign: "center", hozAlign: "center",
-			formatter: "tickCross", editor: "text", editorParams: {values: {"true": "사용", "false": "미사용"}},
+			formatter: "tickCross", editorParams: {values: {"true": "사용", "false": "미사용"}},
 			headerFilter: true,	headerFilterParams: {values: {"true": "true", "false": "false"}}},
 		{title: "수정일자", field: "user_MODIFY_D", headerHozAlign: "center", headerFilter: "input", hozAlign: "right"},
 		{title: "수정자", field: "user_MODIFIER", headerHozAlign: "center", headerFilter: "input"}
@@ -36,70 +37,60 @@ var userManageTable = new Tabulator("#userManageTable", {
 });
 
 function fromRowToJson(row){
-	pickValue = ["user_CODE", "user_NAME", "company", "user_USE_STATUS", "user_TYPE", "dept_CODE"];
-	
+	var pickValue = ["user_CODE", "user_NAME", "company", "user_USE_STATUS", "user_TYPE", "dept_CODE"];
+	var jsonData = new Object();
 	pickValue.forEach(function(item,index,arr2){
+		jsonData[item] = row.getData()[item]
 	})
+	return jsonData;
 }
 
-function modalInputBox(jsonData){
-
-	for (var key in jsonData){
-		console.log(key);
-		console.log(jsonData[key]);
-		if($('#'+key)){
-			$('#'+key).val(jsonData[key]);
-		}
-	}
-}
 function nextFocus(next) {
 	if (event.keyCode == 13) {
-		console.log(next);
 		$('#' + next).focus();
 	}
 }
 
-// 입력버튼을 클릭을 할때 모달창을 여는 이벤트
+// ADD버튼을 클릭을 할때 모달창을 여는 이벤트
 $("#registerModal").click(function() {
-	$("#userRegisterModal").modal("show").on("shown.bs.modal", function () {
-		$("#insert_user_CODE").focus();
-	});
+	registerModalShow()
 });
 
-// 입력버튼을 클릭을 할때 모달창을 여는 이벤트
-$("#modifyModal").click(function() {
-	$("#userModifyModal").modal("show").on("shown.bs.modal", function () {
-		$("#update_user_NAME").focus();
+function registerModalShow(){
+	
+	$('.modify').addClass('none');
+	
+	if ($('.insert').hasClass('none')) {
+		$('.insert').removeClass('none');
+	}	
+	$("#userManageModal").find('form')[0].reset();
+	$("#user_CODE").removeAttr('readonly');
+	
+	$("#userManageModal").modal("show").on("shown.bs.modal", function () {
+		$("#user_CODE").focus();
 	});
-});
-
-// 저장할지 말지 여부를 묻는 모달창 열기
-function insertModal()
-{
-	console.log("test");
-	$("#insertYesNo").modal("show");	
 }
 
-function insBtn() {
-	var userCode = $("#insert_user_CODE").val();
-	
-	if (!(userCode.length > 0)) {
-		alert("사용자코드를 입력해주세요.");
-		return $("#insert_user_CODE").focus();
-	}
-	if (userCode.length >= 10) {
-		alert("사용자코드를 10글자 이하로 입력해주세요.");
-		return $("#insert_user_CODE").focus();
-	}
-	var datas = {USER_CODE : $("#insert_user_CODE").val(),
-			USER_PASSWORD : '1234',
-			USER_NAME : $("#insert_user_NAME").val(),
-			COMPANY : $("#insert_user_COMPANY").val(),
-			USER_USE_STATUS : "true",
-			USER_TYPE : $("#insert_user_TYPE").val(),
-			DEPT_CODE : $("#insert_user_DEPT").val(),
-			USER_MODIFIER : $("#loginUser").val()}
+$("#userRegisterBtn").click(function(){
+	userRegister();
+})
 
+function userRegister() {
+	
+	var datas = {USER_CODE : $("#user_CODE").val(),
+			USER_PASSWORD : '1234',
+			USER_NAME : $("#user_NAME").val(),
+			COMPANY : $("#company").val(),
+			USER_USE_STATUS : "true",
+			USER_TYPE : $("#user_TYPE").val(),
+			DEPT_CODE : $("#dept_CODE").val(),
+			USER_MODIFIER : $("#loginUser").val()}
+	
+	if (datas.USER_CODE.length < 4 || datas.USER_CODE.length > 10) {
+		alert("아이디는 4글자 이상 10글자 이하만 입력할 수 있습니다.");
+		return $("#user_CODE").focus();
+	}
+	
 	$.ajax({
 		method : "POST",
 		url : "userManageRest/userManageInsert",
@@ -112,21 +103,50 @@ function insBtn() {
 		success : function(data) {
 			if (data == "Success") {
 				alert("저장 되었습니다.");
-				$("#userRegisterModal").modal("hide");
-				$("#userRegisterModal").find('form')[0].reset();
+				userManageTable.replaceData();
+				
+				$("#userManageModal").modal("hide");
 			}
 		}
 	});
 }
 
-function modBtn() {
+// update버튼을 클릭을 할때 모달창을 여는 이벤트
+$("#userUpdateBtn").click(function() {
+	modifyModalShow();
+});
+
+function modifyModalShow(){
+	var selectedRow = userManageTable.getData("selected");
 	
-	var datas = {USER_CODE : $("#update_user_CODE").val(),
-			USER_NAME : $("#update_user_NAME").val(),
-			COMPANY : $("#update_user_COMPANY").val(),
+	if(selectedRow.length == 0){
+		alert("수정할 행을 선택하세요.");
+		return false;
+	}
+	
+	$('.insert').addClass('none');
+	
+	if ($('.modify').hasClass('none')) {
+		$('.modify').removeClass('none');
+	}
+	$("#user_CODE").attr('readonly', 'readonly');
+	$("#userManageModal").modal("show").on("shown.bs.modal", function () {
+		$("#user_NAME").focus();
+	});
+}
+
+$("#userModifyBtn").click(function(){
+	userModify();
+})
+
+function userModify() {
+		
+	var datas = {USER_CODE : $("#user_CODE").val(),
+			USER_NAME : $("#user_NAME").val(),
+			COMPANY : $("#company").val(),
 			USER_USE_STATUS : "true",
-			USER_TYPE : $("#update_user_TYPE").val(),
-			DEPT_CODE : $("#update_user_DEPT").val()}
+			USER_TYPE : $("#user_TYPE").val(),
+			DEPT_CODE : $("#dept_CODE").val()}
 
 	$.ajax({
 		method : "put",
@@ -140,8 +160,9 @@ function modBtn() {
 		success : function(data) {
 			if (data == "Success") {
 				alert("저장 되었습니다.");
-				$("#userModifyModal").modal("hide");
-				$("#userModifyModal").find('form')[0].reset();
+				userManageTable.replaceData();
+				
+				$("#userManageModal").modal("hide");
 			}
 		}
 	});
@@ -151,7 +172,7 @@ function modBtn() {
 function pwReset() {
 	
 	if (confirm("초기화 하시겠습니까?")){
-		var datas = {USER_CODE : $("#update_user_CODE").val(),
+		var datas = {USER_CODE : $("#user_CODE").val(),
 					USER_PASSWORD : "1234"}
 
 		$.ajax({
@@ -165,8 +186,7 @@ function pwReset() {
 			},
 			success: function(data) {
 				alert("초기화 되었습니다.");
-				$("#userModifyModal").modal("hide");
-				$("#userModifyModal").find('form')[0].reset();
+				$("#userManageModal").modal("hide");
 			}
 		});
 	}

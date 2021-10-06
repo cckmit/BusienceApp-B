@@ -117,7 +117,7 @@ public class userManageRestController {
 	@Transactional
 	@PutMapping("/userManageUpdate")
 	public String userManageUpdate(Member member) {
-		
+		System.out.println(member);
 		repo.findById(member.getUSER_CODE()).ifPresent(origin -> {
 			origin.setUSER_NAME(member.getUSER_NAME());
 			origin.setCOMPANY(member.getCOMPANY());
