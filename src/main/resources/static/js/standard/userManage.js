@@ -52,7 +52,7 @@ function nextFocus(next) {
 }
 
 // ADD버튼을 클릭을 할때 모달창을 여는 이벤트
-$("#registerModal").click(function() {
+$("#userAddBtn").click(function() {
 	registerModalShow()
 });
 
@@ -130,6 +130,7 @@ function modifyModalShow(){
 		$('.modify').removeClass('none');
 	}
 	$("#user_CODE").attr('readonly', 'readonly');
+	
 	$("#userManageModal").modal("show").on("shown.bs.modal", function () {
 		$("#user_NAME").focus();
 	});

@@ -5,13 +5,12 @@
 <tiles-definitions>
 	
 	<!-- header X, left X -->
-   <definition name="nomalLayout" template="/WEB-INF/views/common/nomalLayout.jsp">
+   <definition name="normalLayout" template="/WEB-INF/views/common/normalLayout.jsp">
        <put-attribute name="body" value="" />
    </definition>
-   <definition name="popup/*" extends="nomalLayout">
+   <definition name="popup/*" extends="normalLayout">
        <put-attribute name="body" value="/WEB-INF/views/popup/{1}.jsp" />
    </definition>
-
 
    <!-- main -->
    <definition name="tilesLayout" template="/WEB-INF/views/common/tilesLayout.jsp">
@@ -30,23 +29,23 @@
        <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
    </definition>
    
-   <definition name="work_order_TAB2" extends="nomalLayout">
+   <definition name="work_order_TAB2" extends="normalLayout">
        <put-attribute name="body" value="/WEB-INF/views/work_order_TAB2.jsp" />
    </definition>
    
-   <definition name="workMonitoring" extends="nomalLayout">
+   <definition name="workMonitoring" extends="normalLayout">
        <put-attribute name="body" value="/WEB-INF/views/monitoring/workMonitoring.jsp" />
    </definition>
    
-   <definition name="equipMonitoring" extends="nomalLayout">
+   <definition name="equipMonitoring" extends="normalLayout">
        <put-attribute name="body" value="/WEB-INF/views/monitoring/equipMonitoring.jsp" />
    </definition>
    
-   <definition name="workorderoi" extends="nomalLayout">
+   <definition name="workorderoi" extends="normalLayout">
        <put-attribute name="body" value="/WEB-INF/views/monitoring/workorderoi.jsp" />
    </definition>   
    
-   <definition name="work_order_TAB2" extends="nomalLayout">
+   <definition name="work_order_TAB2" extends="normalLayout">
        <put-attribute name="body" value="/WEB-INF/views/work_order_TAB2.jsp" />
    </definition>
 </tiles-definitions>
