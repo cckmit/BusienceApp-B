@@ -22,11 +22,6 @@ public class workOrderTABController {
 	JdbcTemplate jdbctemplate;
 	
 	@GetMapping("WorkOrderTAB")
-	public String WorkOrderTAB(Model model, HttpServletRequest request) throws SQLException {
-		return "work_order_TAB";
-	}
-	
-	@GetMapping("WorkOrderTAB2")
 	public String WorkOrderTAB2(Model model, HttpServletRequest request) throws SQLException {
 		model.addAttribute("list",jdbctemplate.query("SELECT * FROM EQUIPMENT_INFO_TBL", new RowMapper<EQUIPMENT_INFO_TBL>() {
 			@Override
@@ -48,6 +43,6 @@ public class workOrderTABController {
 			}
 		}));
 		
-		return "work_order_TAB2";
+		return "work_order_TAB";
 	}
 }

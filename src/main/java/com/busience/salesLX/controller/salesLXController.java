@@ -102,7 +102,7 @@ public class salesLXController {
 		String salesOutputMaster = Integer.toString(19);
 		model.addAttribute("salesOutputMaster", dtl_Service.getAlldtl(salesOutputMaster));
 		// 메뉴명
-		model.addAttribute("pageName", "제품 출고 조회");
+		model.addAttribute("pageName", "제품 출하 조회");
 		
 		return "salesLX/salesOutput/salesOutputMaster";
 	}

@@ -1,4 +1,5 @@
 var OQCInspect_tbl = new Tabulator("#OQCInspect_tbl", {
+	headerFilterPlaceholder: null,
 	height:"calc(100% - 175px)",
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
@@ -18,7 +19,7 @@ var OQCInspect_tbl = new Tabulator("#OQCInspect_tbl", {
 	columns:[
 		{title:"순번", field:"num",headerHozAlign:"center",align:"center"},
 		{title:"LotNo", field:"oqcinspect_Lot_No",headerHozAlign:"center",align:"center",headerFilter:true,visible:false},
-		{title:"출하검사번호", field:"oqcinspect_OqcInNo",headerHozAlign:"center",align:"center",headerFilter:true,width:130},
+		{title:"출하검사번호", field:"oqcinspect_OqcInNo",headerHozAlign:"center",align:"center",headerFilter:true},
 		{title:"출하검사일", field:"oqcinspect_Date",headerHozAlign:"center",align:"right",headerFilter:true},
 		{title:"거래처", field:"cus_Code",headerHozAlign:"center",align:"left",visible:false},
 		{title:"거래처명", field:"cus_Name",headerHozAlign:"center",align:"left",visible:false},
@@ -39,9 +40,11 @@ var OQCInspect_tbl = new Tabulator("#OQCInspect_tbl", {
 });
 
 var OQCInspect_tbl2 = new Tabulator("#OQCInspect_tbl2", {
+	headerFilterPlaceholder: null,
 	height:"calc(100% - 175px)",
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
+	layout:"fitDataStretch",
 	rowDblClick:function(e, row){
 		OQCInspect_tbl2.deselectRow();
 		row.select();

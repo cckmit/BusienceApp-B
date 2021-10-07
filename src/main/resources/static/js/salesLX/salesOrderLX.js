@@ -110,6 +110,7 @@ var salesOrderTable = new Tabulator("#salesOrderTable", {
 	pagination: "local",
 	paginationSize: 20,
 	paginationAddRow: "table",
+	headerFilterPlaceholder: null,
 	height: "calc(100% - 175px)",
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
@@ -357,6 +358,7 @@ var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
 	pagination: "local",
 	paginationSize: 20,
 	paginationAddRow: "table",
+	headerFilterPlaceholder: null,
 	height: "calc(90% - 175px)",
 	selectable: true,
 	//복사하여 엑셀 붙여넣기 가능

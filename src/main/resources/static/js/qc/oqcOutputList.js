@@ -1,4 +1,5 @@
 			var OQCInspect_tbl = new Tabulator("#OQCInspect_tbl", {
+				headerFilterPlaceholder: null,
 				height:"calc(100% - 175px)",
 				//복사하여 엑셀 붙여넣기 가능
 				clipboard: true,
