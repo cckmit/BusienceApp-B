@@ -5,7 +5,7 @@
 <tiles-definitions>
 	
 	<!-- header X, left X -->
-   <definition name="nomalLayout" template="/WEB-INF/views/common/nomalLayout.jsp">
+   <definition name="nomalLayout" template="/WEB-INF/views/common/normalLayout.jsp">
        <put-attribute name="body" value="" />
    </definition>
    <definition name="popup/*" extends="nomalLayout">
@@ -33,7 +33,7 @@
    </definition> 
    
    <definition name="normal/defectPerformanceM" extends="nomalLayout">
-       <put-attribute name="body" value="/WEB-INF/views/qc/defectPerformanceM.jsp" />
+       <put-attribute name="body" value="/WEB-INF/views/qc/defectInsertM.jsp" />
    </definition>
 
    <!-- main -->

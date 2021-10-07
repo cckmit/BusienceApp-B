@@ -18,7 +18,10 @@ public class defectPerformanceMController {
 
 	@GetMapping("defectPerformanceM")
 	public String defectPerformanceM(Model model, HttpServletRequest request) throws SQLException, ClassNotFoundException {
-		return "normal/defectPerformanceM";
+		
+		System.out.println("OK");
+		
+		return "normal/defectInsertM";
 	}
 	
 }

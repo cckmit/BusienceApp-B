@@ -30,7 +30,7 @@ public class contolController {
 	//equipMonitoring
 	@GetMapping("equipMonitoring")
 	public String equipMonitoring(Model model) {
-		return "monitoring/Graphic/Graphic1";
+		return "equipMonitoring";
 	}
 	
 	@GetMapping("Graphic2")
