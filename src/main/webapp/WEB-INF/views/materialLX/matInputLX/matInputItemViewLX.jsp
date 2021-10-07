@@ -18,16 +18,16 @@
 				<span><strong>입고구분</strong></span>
 				<select id="inMatTypeItemViewSelectBox">
 					<option value="all">all</option>
-					<c:forEach var="data" items="${inMatType}">
+					<c:forEach var="data" items="${InMatType}">
 						<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>
 					</c:forEach>
 				</select> 
 			</div>
 			<div>
 				<span><strong>품목코드</strong></span>
-				<input id="PRODUCT_ITEM_CODE2" class="Item_Code2" type="text" disabled>
+				<input id="PRODUCT_ITEM_CODE2" class="Item_Code2 clearInput" type="text" disabled>
 				<span><strong>품목명</strong></span>
-				<input id="PRODUCT_ITEM_NAME2" class="Item_Name2" type="text" onkeypress="javascript:if(event.keyCode==13) {itemPopup($(this).val(),'input','2','material')}">
+				<input id="PRODUCT_ITEM_NAME2" class="Item_Name2 clearInput" type="text" onkeypress="javascript:if(event.keyCode==13) {itemPopup($(this).val(),'input','2','material')}">
 			</div>
 		</div>
 	</div>

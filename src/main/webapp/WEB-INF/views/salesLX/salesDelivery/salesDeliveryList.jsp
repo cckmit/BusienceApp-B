@@ -13,8 +13,12 @@
 		<div class="input-box">
 			<div>
 				<span><strong>해당월</strong></span> 
-				<input id="PrcsDatest" type="text" value="${PrcsDate}" readonly> 
-				<input id="LastDay" type="hidden" value="${LastDay}" disabled>
+				<c:forEach var="item" items="${PrcsDate}">
+				<input id="PrcsDatest" type="text" value="${item.CHILD_TBL_RMARK}" readonly> 
+				</c:forEach>
+				<c:forEach var="dayitem" items="${LastDay}">
+				<input id="LastDay" type="hidden" value="${dayitem.CHILD_TBL_RMARK}" disabled>
+				</c:forEach>
 			</div>
 		</div>
 	</div>

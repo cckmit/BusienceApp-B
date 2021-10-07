@@ -1,4 +1,5 @@
 var matOutputTable = null;
+var itemCode = null;
 var outputTable = new Tabulator("#outputTable", {
 	//페이징
 	pagination: "local",
@@ -59,18 +60,21 @@ var outputTable = new Tabulator("#outputTable", {
 //orderMaster 목록검색 matOrder와 동일하지만 테이브이름이 다르고, 미입고 컬럼이 추가됨
 function MOS_Search() {
 
-	SM_Code = outputTable.getData("selected").sm_Code;
-
+	data = {
+		SM_Code : outputTable.getData("selected").sm_Code,
+		itemCode : $("#outmatLX_itemCode").val()
+	}
+	
 	$.ajax({
 		method: "GET",
 		dataType: "json",
 		async: false,
-		url: "matOutputLXRest/MOS_Search?sm_Dcode=" + SM_Code,
+		url: "matOutputLXRest/MOS_Search?data=" + encodeURI(JSON.stringify(data)),
 		success: function(data) {
 			console.log(data);
 			outputTable.setData(data);
 			SM_Code = outputTable.getData("selected").sm_Code;
-			console.log("sm_code val = " + SM_Code);
+			//console.log("sm_code val = " + SM_Code);
 			MOM_Search(SM_Code);
 			//matOutputTable.clearData();
 		}
@@ -191,10 +195,10 @@ var matOutputTable = new Tabulator("#matOutputTable", {
 		"navNext": "13"
 	},
 	rowAdded: function(row) {
-		console.log("추가됨");
+		//console.log("추가됨");
 		row.select();
 
-		console.log("outputTable 추가 = " + outputTable.getData("selected"));
+		//console.log("outputTable 추가 = " + outputTable.getData("selected"));
 		
 		row.update({
 			"id": matOutputTable.getDataCount(),

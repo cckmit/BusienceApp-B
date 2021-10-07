@@ -19,7 +19,7 @@
 				<span><strong>입고구분</strong></span>
 				<select id="inMatTypeListSelectBox">
 					<option value="all">all</option>
-					<c:forEach var="data" items="${inMatType}">
+					<c:forEach var="data" items="${InMatType}">
 						<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>
 					</c:forEach>
 				</select>
@@ -30,7 +30,7 @@
 				<span><strong>품목명</strong></span>
 				<input id="PRODUCT_ITEM_NAME1" class="Item_Name1 clearInput" type="text" autofocus onkeypress="javascript:if(event.keyCode==13) {itemPopup($(this).val(),'input','1','material')}">
 				<span><strong>거래처코드</strong></span> 
-				<input id="InMat_Client_Code1" class="Client_Code1 clearInput" type="text" disabled> 
+				<input id="InMat_Client_Code1" class="Client_Code1" type="text" disabled> 
 				<span><strong>거래처명</strong></span> 
 				<input id="InMat_Client_Name1" class="Client_Name1 clearInput" type="text" onkeypress="javascript:if(event.keyCode==13) {customerPopup($(this).val(),'input','1','in')}">
 			</div>

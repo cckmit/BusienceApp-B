@@ -12,8 +12,12 @@
 		<div class="input-box">
 			<div>
 				<span><strong>해당월</strong></span> 
-				<input id="LastDatest" type="text" value="${LastDate}"> 
-				<input id="LastDay" type="hidden" value="${LastDay}" disabled>
+				<c:forEach var="item" items="${LastMonth}">
+				<input id="LastDatest" type="text" value="${item.CHILD_TBL_RMARK}"> 
+				</c:forEach>
+				<c:forEach var="dayitem" items="${LastDay}">
+				<input id="LastDay" type="hidden" value="${dayitem.CHILD_TBL_RMARK}" disabled>
+				</c:forEach>
 			</div>
 		</div>
 	</div>

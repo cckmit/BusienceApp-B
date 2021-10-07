@@ -19,14 +19,14 @@
 				<span><strong>입고구분</strong></span>
 				<select id="inMatTypeCustomerViewSelectBox">
 					<option value="all">all</option>
-					<c:forEach var="data" items="${inMatType}">
+					<c:forEach var="data" items="${InMatType}">
 						<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>
 					</c:forEach>
 				</select> 
 			</div>
 			<div>
 				<span><strong>거래처코드</strong></span> 
-				<input id="InMat_Client_Code2" class="Client_Code2" type="text" disabled> 
+				<input id="InMat_Client_Code2" class="Client_Code2 clearInput" type="text" disabled> 
 				<span><strong>거래처명</strong></span> 
 				<input id="InMat_Client_Name2" class="Client_Name2 clearInput" type="text"
 				onkeypress="javascript:if(event.keyCode==13) {customerPopup($(this).val(),'input','2','in')}">

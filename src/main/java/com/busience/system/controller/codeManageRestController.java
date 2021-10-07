@@ -96,7 +96,7 @@ public class codeManageRestController {
 		return list;
 	}
 
-	@RequestMapping(value = "/insert", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping("/insert")
 	public String insert(HttpServletRequest request)
 			throws SQLException, UnknownHostException, ClassNotFoundException, ParseException {
 
@@ -107,13 +107,14 @@ public class codeManageRestController {
 		String CHILD_TBL_RMARK = request.getParameter("CHILD_TBL_RMARK");
 		String CHILD_TBL_USE_STATUS = request.getParameter("CHILD_TBL_USE_STATUS");
 
-
-		String sql = "select IFNULL(max(CHILD_TBL_NO+0)+1,1) CHILD_TBL_NO, IFNULL(max(CHILD_TBL_NUM+0)+1,1) CHILD_TBL_NUM from DTL_TBL where ";
+		String CHILD_TBL_NUM = "";
+		
+		String sql = "select IFNULL(max(CHILD_TBL_NO+0)+1,1) CHILD_TBL_NO, cast(IFNULL(max(CHILD_TBL_NUM+0)+1,1) as char(2)) CHILD_TBL_NUM from DTL_TBL where ";
 		sql += "NEW_TBL_CODE = '" + NEW_TBL_CODE + "'";
 
 		System.out.println(sql);
 
-		String CHILD_TBL_NUM = "";
+		
 
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -125,6 +126,8 @@ public class codeManageRestController {
 			CHILD_TBL_NO = rs.getString("CHILD_TBL_NO");
 		}
 
+		System.out.println(CHILD_TBL_NUM);
+		System.out.println("NEW_TBL_CODE + CHILD_TBL_NUM =" + NEW_TBL_CODE+CHILD_TBL_NUM);
 		System.out.println(CHILD_TBL_NUM);
 
 		sql = "INSERT INTO DTL_TBL " + "VALUES (" + "'" + NEW_TBL_CODE + CHILD_TBL_NUM + "'," + "'" + NEW_TBL_CODE + "'," + "'"
@@ -168,7 +171,7 @@ public class codeManageRestController {
 		return "Success";
 	}
 
-	@RequestMapping(value = "/update", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping("/update")
 	public String update(HttpServletRequest request) throws SQLException, UnknownHostException, ClassNotFoundException {
 		String NEW_TBL_CODE = request.getParameter("NEW_TBL_CODE");
 		String CHILD_TBL_NUM = request.getParameter("CHILD_TBL_NUM");

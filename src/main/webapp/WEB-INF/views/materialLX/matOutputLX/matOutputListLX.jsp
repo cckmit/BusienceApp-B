@@ -19,21 +19,21 @@
 				<span><strong>출고구분</strong></span>
 				<select id="outMatTypeListSelectBox">
 					<option value="all">all</option>
-					<c:forEach var="data" items="${outMatType}">
+					<c:forEach var="data" items="${OutMatType}">
 						<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>
 					</c:forEach>
 				</select>
 			</div>
 			<div>
 				<span><strong>품목코드</strong></span>
-				<input id="PRODUCT_ITEM_CODE1" class="Item_Code1" type="text" disabled>
+				<input id="PRODUCT_ITEM_CODE1" class="Item_Code1 " type="text" disabled>
 				<span><strong>품목명</strong></span>
 				<input id="PRODUCT_ITEM_NAME1" class="Item_Name1 clearInput" type="text" autofocus onkeypress="javascript:if(event.keyCode==13) {itemPopup($(this).val(),'input','1','material')}">
 				<span><strong>부서명</strong></span>
 				<select id="outMatDeptListSelectBox"
 					style="width: 100px;">
 					<option value="all">all</option>
-					<c:forEach var="data" items="${outMatDept}">
+					<c:forEach var="data" items="${OutMatDept}">
 						<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>
 					</c:forEach>
 				</select> 

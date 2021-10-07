@@ -34,7 +34,13 @@ public class matOutputLXRestController {
 	DataSource dataSource;
 
 	@RequestMapping(value = "/MOS_Search", method = RequestMethod.GET)
-	public List<StockMat_tbl> MOS_Search(@RequestParam(value = "sm_Dcode", required = false) String sm_Dcode) throws SQLException {
+	public List<StockMat_tbl> MOS_Search(HttpServletRequest request) throws SQLException, ParseException {
+		String originData = request.getParameter("data");
+		System.out.println("data : " + originData);
+		JSONParser parser = new JSONParser();
+		JSONObject obj = (JSONObject) parser.parse(originData);
+		System.out.println(obj);
+		
 		List<StockMat_tbl> list = new ArrayList<StockMat_tbl>();
 
 		String sql = "SELECT SM_Code, pit.PRODUCT_ITEM_NAME as SM_Name, SM_Out_Qty, (SM_Last_Qty+SM_In_Qty-SM_Out_Qty) SM_Last_Qty\r\n"
@@ -43,6 +49,12 @@ public class matOutputLXRestController {
 
 		String where = " WHERE SM_Last_Qty+SM_In_Qty-SM_Out_Qty > 0";
 
+		
+		if(obj.get("itemCode") != null && !obj.get("itemCode").equals("")) {
+		   where += " and SM_Code like '%" + obj.get("itemCode") + "%'";
+		}
+		 
+		
 		sql += where;
 		System.out.println("MRL_Search =" + sql);
 
