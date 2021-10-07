@@ -6,11 +6,38 @@ var dataList2 = {
 	"data": []
 }
 
-window.onload = function() {
-	tableInit1();
-	tableInit2();	
-	//SubmenuSelector("1", "13118");
-}
+var table = new Tabulator("#example-table1", {
+	height: "calc(100% - 175px)",
+	responsiveLayout: "hide",
+	movableColumns: true,
+	headerFilterPlaceholder: null,
+	rowSelectionChanged: function(data, rows) {
+		console.log(data);
+		dataList.data = data;
+		console.log(dataList);
+	},
+	columns: [
+		{formatter:"rowSelection", titleFormatter:"rowSelection", headerHozAlign:"center", hozAlign:"center", headerSort:false, width:40},
+		{ title: "그룹명", field: "child_TBL_TYPE", headerHozAlign: "center", hozAlign: "right", width: 100, headerFilter:"input" },
+		{ title: "프로그램명", field: "new_TBL_CODE", headerHozAlign: "center", hozAlign: "right", width: 150, headerFilter:"input" }
+	],
+});
+
+var table2 = new Tabulator("#example-table2", {
+	height: "calc(100% - 175px)",
+	selectable:1, //make rows selectable
+	responsiveLayout: "hide",
+	movableColumns: true,
+	headerFilterPlaceholder: null,
+	rowSelectionChanged: function(data, rows) {
+		dataList2.data = data;
+	},
+	columns: [
+		{formatter:"rowSelection", titleFormatter:"rowSelection", headerHozAlign:"center", hozAlign:"center", headerSort:false, width:40},
+		{ title: "그룹명", field: "group_Name", headerHozAlign: "center", hozAlign: "right", minWidth: 60 , headerFilter:"input"},
+		{ title: "프로그램명", field: "program_Name", headerHozAlign: "center", hozAlign: "right", minWidth: 40 , headerFilter:"input"}
+	],
+});
 
 function tableInit1() {
 	$.ajax({
@@ -19,23 +46,6 @@ function tableInit1() {
 		success: function(data) {
 			datas = data;
 
-			var table = new Tabulator("#example-table1", {
-				height: "calc(100% - 175px)",
-				data: datas,
-				responsiveLayout: "hide",
-				movableColumns: true,
-				headerFilterPlaceholder: null,
-				rowSelectionChanged: function(data, rows) {
-					console.log(data);
-					dataList.data = data;
-					console.log(dataList);
-				},
-				columns: [
-					{formatter:"rowSelection", titleFormatter:"rowSelection", headerHozAlign:"center", hozAlign:"center", headerSort:false, width:40},
-					{ title: "그룹명", field: "child_TBL_TYPE", headerHozAlign: "center", hozAlign: "right", width: 100, headerFilter:"input" },
-					{ title: "프로그램명", field: "new_TBL_CODE", headerHozAlign: "center", hozAlign: "right", width: 150, headerFilter:"input" }
-				],
-			});
 		}
 	});
 }
@@ -48,22 +58,6 @@ function tableInit2() {
 			datas = data;
 			console.log(datas);
 
-			var table = new Tabulator("#example-table2", {
-				height: "calc(100% - 175px)",
-				selectable:1, //make rows selectable
-				data: datas,
-				responsiveLayout: "hide",
-				movableColumns: true,
-				headerFilterPlaceholder: null,
-				rowSelectionChanged: function(data, rows) {
-					dataList2.data = data;
-				},
-				columns: [
-					{formatter:"rowSelection", titleFormatter:"rowSelection", headerHozAlign:"center", hozAlign:"center", headerSort:false, width:40},
-					{ title: "그룹명", field: "group_Name", headerHozAlign: "center", hozAlign: "right", minWidth: 60 , headerFilter:"input"},
-					{ title: "프로그램명", field: "program_Name", headerHozAlign: "center", hozAlign: "right", minWidth: 40 , headerFilter:"input"}
-				],
-			});
 		}
 	});
 }
@@ -102,13 +96,13 @@ function delBtn(){
 	}
 	
 	$.ajax({
-				method : "POST",
-				data : null,
-				url : "usermenuManageRest/delete?dataList="
-						+ encodeURI(JSON.stringify(dataList2)),
-				success : function(data, testStatus) {
-					location.reload();
-				}
+		method : "POST",
+		data : null,
+		url : "usermenuManageRest/delete?dataList="
+				+ encodeURI(JSON.stringify(dataList2)),
+		success : function(data, testStatus) {
+			location.reload();
+		}
 	});
 }
 

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.system.Dto.MENU_MGMT_TBL;
+import com.busience.system.Dto.Menu_MGMT_tbl;
 
 @RestController("menuManageRestController")
 @RequestMapping("menuManageRest")
@@ -30,8 +30,8 @@ public class menuManageRestController {
 	DataSource dataSource;
 
 	@GetMapping("/MMS_Search")
-	public List<MENU_MGMT_TBL> view(HttpServletRequest request) throws SQLException{
-		List<MENU_MGMT_TBL> list = new ArrayList<MENU_MGMT_TBL>();
+	public List<Menu_MGMT_tbl> view(HttpServletRequest request) throws SQLException{
+		List<Menu_MGMT_tbl> list = new ArrayList<Menu_MGMT_tbl>();
 		
 		String sql = "SELECT\r\n"
 				+ "A.Menu_User_Code,\r\n"
@@ -52,14 +52,14 @@ public class menuManageRestController {
 		ResultSet rs = pstmt.executeQuery();
 
 		while (rs.next()) {
-			MENU_MGMT_TBL data = new MENU_MGMT_TBL();
-			data.setMENU_USER_CODE(rs.getString("MENU_USER_CODE"));
-			data.setMENU_PROGRAM_CODE(rs.getString("MENU_PROGRAM_CODE"));
-			data.setMENU_READ_USE_STATUS(rs.getString("MENU_READ_USE_STATUS"));
-			data.setMENU_WRITE_USE_STATUS(rs.getString("MENU_WRITE_USE_STATUS"));
-			data.setMENU_DEL_USE_STATUS(rs.getString("MENU_delete_USE_STATUS"));
-			data.setMENU_MGMT_USE_STATU(rs.getString("MENU_MGMT_USE_STATUS"));
-			data.setMENU_PROGRAM_NAME(rs.getString("Menu_Name"));
+			Menu_MGMT_tbl data = new Menu_MGMT_tbl();
+			data.setMenu_User_Code(rs.getString("Menu_User_Code"));
+			data.setMenu_Program_Code(rs.getString("Menu_Program_Code"));
+			data.setMenu_Program_Name(rs.getString("Menu_Name"));
+			data.setMenu_Read_Use_Status(rs.getString("Menu_Read_Use_Status"));
+			data.setMenu_Write_Use_Status(rs.getString("Menu_Write_Use_Status"));
+			data.setMenu_Delete_Use_Status(rs.getString("Menu_Delete_Use_Status"));
+			data.setMenu_MGMT_Use_Status(rs.getString("Menu_MGMT_Use_Status"));
 			list.add(data);
 		}
 		
@@ -73,11 +73,12 @@ public class menuManageRestController {
 	// MM_Update
 	@GetMapping("/MM_Update")
 	public String MM_Update(HttpServletRequest request) throws ParseException, SQLException, UnknownHostException, ClassNotFoundException {
-		String originData = request.getParameter("data");
 		JSONParser parser = new JSONParser();
-		JSONArray arr = (JSONArray) parser.parse(originData);
-
-		String sql;
+		
+		String data = request.getParameter("data");
+		JSONArray arr = (JSONArray) parser.parse(data);
+		
+		String sql = null;
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -94,14 +95,14 @@ public class menuManageRestController {
 				JSONObject obj = (JSONObject) arr.get(i);
 				System.out.println(obj);
 				
-				sql = "UPDATE `RIGHTS_MGMT_TBL`"
-						+ "SET "
-						+ "Menu_Read_Use_Status = '"+obj.get("menu_Read_Use_Status")+"'"
-						+ "Menu_Write_Use_Status = '"+obj.get("menu_Write_Use_Status")+"'"
-						+ "Menu_Delete_Use_Status = '"+obj.get("menu_DEL_USE_STATUS")+"'"
-						+ "Menu_MGMT_Use_Status = '"+obj.get("menu_MGMT_Use_Status")+"'"
-						+ "WHERE Menu_User_Code = 'test01'"
-						+ "AND Menu_Program_Code = '"+obj.get("menu_PROGRAM_Code")+"'";
+				sql = "UPDATE `Menu_MGMT_tbl`\r\n"
+						+ "SET \r\n"
+						+ "Menu_Read_Use_Status = "+obj.get("menu_Read_Use_Status")+",\r\n"
+						+ "Menu_Write_Use_Status = "+obj.get("menu_Write_Use_Status")+",\r\n"
+						+ "Menu_Delete_Use_Status = "+obj.get("menu_Delete_Use_Status")+",\r\n"
+						+ "Menu_MGMT_Use_Status = "+obj.get("menu_MGMT_Use_Status")+"\r\n"
+						+ "where Menu_User_Code = '"+obj.get("menu_User_Code")+"'\r\n"
+						+ "AND Menu_Program_Code = '"+obj.get("menu_Program_Code")+"'";
 
 				System.out.println("sql = " + sql);
 				pstmt = conn.prepareStatement(sql);
