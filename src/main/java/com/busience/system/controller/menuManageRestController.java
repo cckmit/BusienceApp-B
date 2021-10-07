@@ -1,5 +1,6 @@
 package com.busience.system.controller;
 
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,6 +11,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,4 +70,64 @@ public class menuManageRestController {
 		return list;
 	}
 	
+	// MM_Update
+	@GetMapping("/MM_Update")
+	public String MM_Update(HttpServletRequest request) throws ParseException, SQLException, UnknownHostException, ClassNotFoundException {
+		String originData = request.getParameter("data");
+		JSONParser parser = new JSONParser();
+		JSONArray arr = (JSONArray) parser.parse(originData);
+
+		String sql;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String sql_result = null;
+
+		try {
+			conn = dataSource.getConnection();
+			conn.setAutoCommit(false);
+			
+			//Sales_OrderList_tbl
+			for(int i=0;i<arr.size();i++) {
+				JSONObject obj = (JSONObject) arr.get(i);
+				System.out.println(obj);
+				
+				sql = "UPDATE `RIGHTS_MGMT_TBL`"
+						+ "SET "
+						+ "Menu_Read_Use_Status = '"+obj.get("menu_Read_Use_Status")+"'"
+						+ "Menu_Write_Use_Status = '"+obj.get("menu_Write_Use_Status")+"'"
+						+ "Menu_Delete_Use_Status = '"+obj.get("menu_DEL_USE_STATUS")+"'"
+						+ "Menu_MGMT_Use_Status = '"+obj.get("menu_MGMT_Use_Status")+"'"
+						+ "WHERE Menu_User_Code = 'test01'"
+						+ "AND Menu_Program_Code = '"+obj.get("menu_PROGRAM_Code")+"'";
+
+				System.out.println("sql = " + sql);
+				pstmt = conn.prepareStatement(sql);
+				pstmt.executeUpdate();
+			}
+			
+			conn.commit();
+			sql_result = "success";
+		} catch(SQLException e) {
+			e.printStackTrace();
+			if(conn!=null) {
+				conn.rollback();
+			}
+			sql_result = "error";
+		} finally {
+			if(rs!=null) {
+				rs.close();
+			}
+			if(pstmt!=null) {
+				pstmt.close();
+			}
+			if(conn!=null) {
+				conn.close();
+			}
+		}
+		
+		return sql_result;
+	}
 }

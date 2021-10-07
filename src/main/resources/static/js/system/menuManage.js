@@ -11,18 +11,15 @@ var table = new Tabulator("#example-table1",{
 	},
 	rowSelected:function(row){
 		MMS_Search(row.getData().user_CODE)
-		//$('#modifyinitbtn').removeClass('unUseBtn');
+		$('#modifyinitbtn').removeClass('unUseBtn');
     },
-	rowDblClick: function(e, row) {
-		
-	},
 	columns: [
 		{ title: "사용자 코드", field: "user_CODE", headerHozAlign: "center", headerFilter:"input"},
 		{ title: "사용자 명",	field: "user_NAME",	headerHozAlign: "center", headerFilter:"input"},
 		{ title: "부서", field: "dept_NAME",	headerHozAlign: "center", headerFilter:"input"},
 		{ title: "타입", field: "user_TYPE_NAME", hozAlign: "right",	headerHozAlign: "center", headerFilter:"input"},
 		{ title: "사용유무", field: "user_USE_STATUS", headerHozAlign: "center", headerHozAlign: "center", hozAlign: "center",
-			formatter: "tickCross",	sorter:"boolean", editor:true}
+			formatter: "tickCross",	sorter:"boolean"}
 	]
 });
 
@@ -34,7 +31,8 @@ var table2 = new Tabulator("#example-table2", {
 		columns: [
 			{ formatter:"rowSelection", titleFormatter:"rowSelection", headerHozAlign:"center", hozAlign:"center", headerSort:false, width:40},
 			{ title: "순번", field: "rownum", formatter: "rownum", hozAlign:"right"},
-			{ title: "프로그램 명", field: "menu_PROGRAM_NAME", hozAlign: "left", headerHozAlign: "center", headerFilter:"input" },
+			{ title: "메뉴코드", field: "menu_PROGRAM_Code"},
+			{ title: "메뉴명", field: "menu_PROGRAM_NAME", hozAlign: "left", headerHozAlign: "center", headerFilter:"input" },
 			{ title: "읽기", field: "menu_READ_USE_STATUS", headerHozAlign: "center", hozAlign: "center",
 				formatter: "tickCross",	sorter:"boolean", editor:true},
 			{ title: "쓰기", field: "menu_WRITE_USE_STATUS",	headerHozAlign: "center", hozAlign: "center",
@@ -56,30 +54,23 @@ function modifyModalShow() {
 }
 
 function modBtn() {
-	if (dataList.data.length <= 0) {
+	
+	var selectedRow	= table2.getData('selected');
+	
+	if (selectedRow.length == 0) {
 		alert("수정할 행을 선택한 후에 수정을 시도하여 주십시오.")
 		return;
 	}
-
-	alert("수정 완료 하였습니다.");
-
-	hiddenInput("permissionFrm", "modifier","test");
-	hiddenInput("permissionFrm", "dataList", JSON.stringify(dataList));
-	frmSubmit("permissionFrm", "post", "menuManage/update");
-}
-
-function frmSubmit(frmid, method, action) {
-	frm = document.getElementById(frmid);
-	frm.method = method;
-	frm.action = action;
-	frm.submit();
-}
-
-function hiddenInput(frmid, name, value) {
-	frm = document.getElementById(frmid);
-	var hidden = document.createElement("input");
-	hidden.setAttribute("type", "hidden");
-	hidden.setAttribute("name", name);
-	hidden.setAttribute("value", value);
-	frm.appendChild(hidden);
+	
+	console.log(selectedRow);
+	
+	$.ajax({
+		method: "get",
+		url: "menuManageRest/MM_Update?data=" + encodeURI(JSON.stringify(selectedRow)),
+		success: function(data) {
+			
+			alert("수정 완료 하였습니다.");
+			TAS_Search(table.getData('selected')[0].user_CODE)
+		}
+	});
 }
