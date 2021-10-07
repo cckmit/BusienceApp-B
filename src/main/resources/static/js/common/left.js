@@ -2,7 +2,6 @@
     $(".sidebar-busience li a").removeClass("active");
     $(this).addClass("active");
 });
-console.log("위임")
 var parents_sidebar_menu
 var child_sidebar_menu
 
@@ -17,8 +16,7 @@ $.ajax({
 			url: "childMenuSelect",
 			success: function(data) {
 				child_sidebar_menu = data
-				console.log(parents_sidebar_menu);
-				console.log(child_sidebar_menu);
+				
 				$(".sidebar-busience .sidebar-menu").append(
 					
 					dynamic_sidebar_menu(parents_sidebar_menu, child_sidebar_menu)
@@ -36,9 +34,11 @@ function dynamic_sidebar_menu(parents, child){
 					+'<ul id="subPages"'+parents[i].child_TBL_NUM+' class="collapse">'
 					
 		for(let j=0;j<child.length;j++){
-			let menu_num = child[j].child_TBL_RMARK.split('/')
-			if(menu_num[1] == parents[i].child_TBL_NUM){
-				tag += '<li><a href="/'+menu_num[0]+'"><span>'+child[j].child_TBL_TYPE+'</span></a></li>'
+			
+			let menu_num = parseInt(child[j].menu_Parent_No)
+			
+			if(menu_num == parents[i].child_TBL_NUM){
+				tag += '<li><a href="/'+child[j].menu_PageName+'"><span>'+child[j].menu_Name+'</span></a></li>'
 			}
 		}
 						
