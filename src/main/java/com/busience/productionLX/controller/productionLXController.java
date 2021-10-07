@@ -1,9 +1,5 @@
 package com.busience.productionLX.controller;
 
-import java.sql.SQLException;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,28 +17,28 @@ public class productionLXController {
 	//proItemSumLX
 	@GetMapping("proItemSumLX")
 	public String proItemSumLX(Model model) {
-		model.addAttribute("pageName", "생산실적 관리(제품별)");
+		model.addAttribute("pageName", "생산 실적 관리(제품별)");
 		return "productionLX/proItemSumLX";
 	}
 
 	//proMachineSumLX
 	@GetMapping("proMachineSumLX")
 	public String proMachineSumLX(Model model) {
-		model.addAttribute("pageName", "생산실적 관리(설비별)");
+		model.addAttribute("pageName", "생산 실적 관리(설비별)");
 		return "productionLX/proMachineSumLX";
 	}
 	
 	//proItemListLX
 	@GetMapping("proItemListLX")
 	public String proItemListLX(Model model) {
-		model.addAttribute("pageName", "생산실적 이력관리(제품별)");
+		model.addAttribute("pageName", "생산 이력 관리(제품별)");
 		return "productionLX/proItemListLX";
 	}
 	
 	//proMachineListLX
 	@GetMapping("proMachineListLX")
 	public String proMachineListLX(Model model) {
-		model.addAttribute("pageName", "생산실적 이력관리(설비별)");
+		model.addAttribute("pageName", "생산 이력 관리(설비별)");
 		return "productionLX/proMachineListLX";
 	}
 	
