@@ -2,6 +2,7 @@ var salesInputListTable = new Tabulator("#salesInputListTable", {
 	//페이징
 	pagination:"local",
 	paginationSize:20,
+	headerFilterPlaceholder: null,
 	height:"calc(100% - 175px)",
  	columns:[ //Define Table Columns
  	{title:"순번", field:"id", headerHozAlign: "center", headerFilter:true, hozAlign: "center"},
@@ -41,6 +42,7 @@ var salesInputItemViewTable = new Tabulator("#salesInputItemViewTable", {
 	//페이징
 	pagination:"local",
 	paginationSize:20,
+	headerFilterPlaceholder: null,
 	height:"calc(100% - 175px)",
 	rowFormatter: function(row){
 		if(row.getData().sales_InMat_Rcv_Clsfc == "Sub Total"){

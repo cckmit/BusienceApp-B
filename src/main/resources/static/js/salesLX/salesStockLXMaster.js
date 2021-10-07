@@ -2,6 +2,7 @@ var salesStockLotListTable = new Tabulator("#salesStockLotListTable", {
 	//페이징
 	pagination:"local",
 	paginationSize:20,
+	headerFilterPlaceholder: null,
 	rowFormatter: function(row){
 		if(row.getData().sales_LMaster_LotNo == "Sub Total"){
             row.getElement().style.backgroundColor = "#c0c0c0";
@@ -43,6 +44,7 @@ var salesStockItemListTable = new Tabulator("#salesStockItemListTable", {
 	//페이징
 	pagination:"local",
 	paginationSize:20,
+	headerFilterPlaceholder: null,
 	height:"73.6vh",
  	//height:650, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
  	columns:[ //Define Table Columns

@@ -46,7 +46,4 @@
        <put-attribute name="body" value="/WEB-INF/views/monitoring/workorderoi.jsp" />
    </definition>   
    
-   <definition name="work_order_TAB2" extends="nomalLayout">
-       <put-attribute name="body" value="/WEB-INF/views/work_order_TAB2.jsp" />
-   </definition>
 </tiles-definitions>

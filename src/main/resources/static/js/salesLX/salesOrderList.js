@@ -2,6 +2,7 @@ var salesOrderListTable = new Tabulator("#salesOrderListTable", {
 	//페이징
 	pagination: "local",
 	paginationSize: 20,
+	headerFilterPlaceholder: null,
 	height: "calc(100% - 175px)",
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
@@ -84,6 +85,7 @@ var salesOrderListSubTable = new Tabulator("#salesOrderListSubTable", {
 	//페이징
 	pagination: "local",
 	paginationSize: 20,
+	headerFilterPlaceholder: null,
 	//Sub Total 색상
 	rowFormatter: function(row) {
 		if (row.getData().sales_Order_lNot_Stocked <= 0) {
