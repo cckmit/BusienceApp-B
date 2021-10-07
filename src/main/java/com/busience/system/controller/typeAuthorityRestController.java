@@ -34,7 +34,7 @@ public class typeAuthorityRestController {
 	DataSource dataSource;
 
 	//TAM_Search
-	@RequestMapping(value = "/TAM_Search", method = { RequestMethod.GET, RequestMethod.POST })
+	@GetMapping("/TAM_Search")
 	public List<DTL_TBL> TAM_Search() throws ParseException, SQLException {
 
 		String sql = "SELECT\r\n"
@@ -73,17 +73,17 @@ public class typeAuthorityRestController {
 	}
 	
 	//TAS_Search
-	@RequestMapping(value = "/TAS_Search", method = { RequestMethod.GET, RequestMethod.POST })
+	@GetMapping("/TAS_Search")
 	public List<RIGHTS_MGMT_TBL> TAS_Search(HttpServletRequest request) throws ParseException, SQLException {
 
-		String sql = "select\r\n"
-				+ "A.RIGHTS_USER_TYPE,\r\n"
-				+ "A.RIGHTS_PROGRAM_CODE,\r\n"
-				+ "B.CHILD_TBL_TYPE,\r\n"
-				+ "A.RIGHTS_MGMT_USE_STATUS\r\n"
-				+ "from RIGHTS_MGMT_TBL A\r\n"
-				+ "inner join DTL_TBL B on A.RIGHTS_PROGRAM_CODE = B.CHILD_TBL_NO\r\n"
-				+ "where RIGHTS_USER_TYPE = '"+request.getParameter("RIGHTS_USER_TYPE")+"'";
+		String sql = "SELECT \r\n"
+				+ "A.Rights_User_Type,\r\n"
+				+ "A.Rights_Program_Code,\r\n"
+				+ "B.Menu_Name,\r\n"
+				+ "A.Rights_MGMT_Use_Status\r\n"
+				+ "FROM Rights_MGMT_tbl A\r\n"
+				+ "inner join Menu_tbl B on A.Rights_Program_Code = B.Menu_Code\r\n"
+				+ "where Rights_User_Type = '"+request.getParameter("RIGHTS_USER_TYPE")+"'";
 
 		System.out.println(sql);
 		Connection conn = dataSource.getConnection();
@@ -94,10 +94,10 @@ public class typeAuthorityRestController {
 
 		while (rs.next()) {
 			RIGHTS_MGMT_TBL data = new RIGHTS_MGMT_TBL();
-			data.setRIGHTS_PROGRAM_CODE(rs.getString("RIGHTS_PROGRAM_CODE"));
-			data.setRIGHTS_MGMT_USE_STATUS(rs.getString("RIGHTS_MGMT_USE_STATUS"));
-			data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
-			data.setRIGHTS_USER_TYPE(rs.getString("RIGHTS_USER_TYPE"));
+			data.setRights_User_Type(rs.getString("Rights_User_Type"));
+			data.setRights_Program_Code(rs.getString("Rights_Program_Code"));
+			data.setRights_Program_Name(rs.getString("Menu_Name"));
+			data.setRights_MGMT_Use_Status(rs.getString("Rights_MGMT_Use_Status"));
 			menuList.add(data);
 		}
 

@@ -26,10 +26,10 @@ var typeAuthoritySubTable = new Tabulator("#typeAuthoritySubTable", {
 	height: "calc(100% - 175px)",
 	columns: [
 		{formatter:"rowSelection", titleFormatter:"rowSelection", headerHozAlign:"center", hozAlign:"center", headerSort:false},
-		{ title: "코드", field: "rights_PROGRAM_CODE", hozAlign: "right"},
-		{ title: "프로그램 명", field: "child_TBL_TYPE"},
-		{ title: "사용유무", field: "rights_MGMT_USE_STATUS", headerHozAlign: "center", hozAlign: "center", formatter: "tickCross",
-			editor: "select", editorParams: { values: { "true": "사용", "false": "미사용" }}}
+		{ title: "순번", field: "rownum", formatter:"rownum", hozAlign: "right"},
+		{ title: "프로그램 명", field: "rights_Program_Name"},
+		{ title: "사용유무", field: "rights_MGMT_Use_Status", hozAlign: "center",
+			formatter: "tickCross",	sorter:"boolean", editor:true}
 	]
 });
 
@@ -59,7 +59,7 @@ function modBtn() {
 		method: "get",
 		url: "typeAuthorityRest/TA_Update?data=" + encodeURI(JSON.stringify(selectedRow)),
 		success: function(data) {
-			console.log(data);
+			
 			alert("수정 완료 하였습니다.");
 			TAS_Search(typeAuthorityMasterTable.getData('selected')[0].child_TBL_NO)
 		}

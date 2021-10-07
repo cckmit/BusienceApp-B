@@ -20,10 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class menuManageController {
-
+/*
 	@Autowired
 	DataSource dataSource;
-
 	@RequestMapping(value = "menuManage/update",method = {RequestMethod.POST})
 	public String update(HttpServletRequest request) throws ParseException, SQLException, UnknownHostException, ClassNotFoundException
 	{
@@ -48,13 +47,13 @@ public class menuManageController {
 						+ "MENU_READ_USE_STATUS = '"+datas.get("menu_READ_USE_STATUS")+"',\r\n"
 						+ "MENU_WRITE_USE_STATUS = '"+datas.get("menu_WRITE_USE_STATUS")+"',\r\n"
 						+ "MENU_DEL_USE_STATUS = '"+datas.get("menu_DEL_USE_STATUS")+"',\r\n";
-				/*
+				
 				String sql = "UPDATE MENU_MGMT_TBL\r\n"
 						+ "SET\r\n"
 						+ "MENU_READ_USE_STATUS = '"+"true"+"',\r\n"
 						+ "MENU_WRITE_USE_STATUS = '"+"true"+"',\r\n"
 						+ "MENU_DEL_USE_STATUS = '"+"true"+"',\r\n";
-				*/
+				
 				
 				if(datas.get("menu_READ_USE_STATUS").equals("false"))
 					sql		+= "MENU_MGMT_USE_STATUS = '"+"false"+"'\r\n";
@@ -76,5 +75,5 @@ public class menuManageController {
 		}
 		
 		return "redirect:/menuManage";
-	}
+	}*/
 }
