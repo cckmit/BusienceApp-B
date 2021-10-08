@@ -1,18 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
-<!-- userMenuRegisterModal -->
-<jsp:include page="../modal/system/userMenuRegisterModal.jsp"></jsp:include>
-
-<!-- userMenuModifyModal -->
-<jsp:include page="../modal/system/userMenuModifyModal.jsp"></jsp:include>
-
-<!-- Delete Message Modal -->
-<jsp:include page="../modal/message/deleteYesNo.jsp"></jsp:include>
-
-<!-- Insert Message Modal -->
-<jsp:include page="../modal/message/insertYesNo.jsp"></jsp:include>
-
+	
 	<div class="soloView">
 		<!-- MAIN -->
 		<div class="main">

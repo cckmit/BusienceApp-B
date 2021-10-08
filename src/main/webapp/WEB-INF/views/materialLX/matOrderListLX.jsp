@@ -10,8 +10,7 @@
 				<!-- 버튼 -->
 				<div class="input-button">
 					<img src="/images/button/Search.png" id="MOL_SearchBtn"/> 
-					<img src="/images/button/Print.png" id="MOL_PrintBtn"/>
-					<img src="/images/button/Mail.png" id="MOL_MailBtn"/>
+					<!-- <img src="/images/button/Print.png" id="MOL_PrintBtn"/> -->
 				</div>
 				<!-- 버튼 -->
 				<div class="input-box">

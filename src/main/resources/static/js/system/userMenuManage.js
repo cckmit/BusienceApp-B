@@ -58,6 +58,7 @@ $("#UMM_ADDBtn").click(function(){
 		url: "userMenuManageRest/userMenuInsert?data="+encodeURI(JSON.stringify(selectedRow)),
 		success: function(data) {
 			if(data == "success"){
+				alert("저장되었습니다.");
 				UML_Search();
 			}
 		}
@@ -77,6 +78,7 @@ $("#UMM_DeleteBtn").click(function(){
 		url: "userMenuManageRest/userMenuDelete?data="+encodeURI(JSON.stringify(selectedRow)),
 		success: function(data) {
 			if(data == "success"){
+				alert("삭제되었습니다.");
 				UML_Search();
 			}
 		}

@@ -14,7 +14,7 @@
 							<span><strong>품목종류</strong></span>
 							<select class="Item_Type" onchange="BIL_Search()">
 								<option value="all">all</option>
-								<c:forEach var="data" items="${typeList}">
+								<c:forEach var="data" items="${mtrlClsfcList}">
 									<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>
 								</c:forEach>
 							</select> 
