@@ -11,7 +11,6 @@ var userManageTable = new Tabulator("#userManageTable", {
 	rowClick:function(e, row){
 		row.getTable().deselectRow();
 		row.select();
-
 	}, 
 	rowDblClick: function(e, row) {
 		//모달창 띄움
@@ -51,7 +50,7 @@ function nextFocus(next) {
 	}
 }
 
-// ADD버튼을 클릭을 할때 모달창을 여는 이벤트
+// ADD버튼을 클릭할때 모달창을 여는 이벤트
 $("#userAddBtn").click(function() {
 	registerModalShow()
 });

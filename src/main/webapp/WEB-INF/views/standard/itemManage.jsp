@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	
 <!-- Insert Modal -->
 <jsp:include page="../modal/standard/itemRegisterModal.jsp"></jsp:include>
 
@@ -21,11 +21,11 @@
 	<div class="main">
 		<div class="top-var">
 			<div class="input-button">
-				<img src="/images/button/ADD.png" id="registerModal"/>
+				<img src="/images/button/ADD.png" id="itemADDBtn"/>
 					
-				<img src="/images/button/Update.png" id="modifyModal" onclick="updatedeleteView()"/>
+				<img src="/images/button/Update.png" id="itemUpdateBtn"/>
 					
-			 	<img src="/images/button/Delete.png" id="modifyModal" onclick="updatedeleteView()"/>
+			 	<img src="/images/button/Delete.png" id="itemDeleteBtn"/>
 			</div>
 		</div>
 
