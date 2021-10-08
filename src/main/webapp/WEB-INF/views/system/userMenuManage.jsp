@@ -18,18 +18,16 @@
 		<div class="main">
 			<div class="top-var">
 				<div class="input-button" style="width: 100%">
-					<img id="custom-btn-default" style="margin-right: 46%"
-						src="/images/button/ADD.png" onclick="insertModal2()"/>
+					<img id="UMM_ADDBtn" style="margin-right: 46%" src="/images/button/ADD.png"/>
 						
-					<img id="custom-btn-default"
-						src="/images/button/Delete.png" onclick="deleteModal()"/>	
+					<img id="UMM_DeleteBtn" src="/images/button/Delete.png"/>	
 				</div>
 			</div>
 			
-			<div id="example-table1" style="float:left; width:calc(50% - 5px); margin-right: 10px;"></div>
-			<div id="example-table2" style="float:left; width:calc(50% - 5px);"></div>
+			<div id="allMenuListTable" style="float:left; width:calc(50% - 5px); margin-right: 10px;"></div>
+			<div id="userMenuListTable" style="float:left; width:calc(50% - 5px);"></div>
 		</div>
 		<!-- END MAIN -->
 	</div>
 
-<script src="/js/system/usermenuManage.js"></script>
+<script src="/js/system/userMenuManage.js"></script>
