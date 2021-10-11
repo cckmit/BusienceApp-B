@@ -1,20 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	
-<!-- Insert Modal -->
-<jsp:include page="../modal/standard/itemRegisterModal.jsp"></jsp:include>
 
 <!-- Update Modal -->
-<jsp:include page="../modal/standard/itemModifyModal.jsp"></jsp:include>
-
-<!-- Delete Massage Modal -->
-<jsp:include page="../modal/message/deleteYesNo.jsp"></jsp:include>
-
-<!-- Modify Message Modal -->
-<jsp:include page="../modal/message/modifyYesNo.jsp"></jsp:include>
-
-<!-- Insert Message Modal -->
-<jsp:include page="../modal/message/insertYesNo.jsp"></jsp:include>
+<jsp:include page="../modal/standard/itemManageModal.jsp"></jsp:include>
 
 <div class="soloView">
 	<!-- MAIN -->

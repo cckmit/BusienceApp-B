@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.busience.common.domain.Menu;
-import com.busience.common.mapper.Menu_Mapper;
+import com.busience.common.mapper.MenuMapper;
 import com.busience.common.persistence.MenuRepository;
 
 @Service
 @Transactional
-public class Menu_Service {
+public class MenuService {
 		
 	//jpa
 	@Autowired
@@ -27,15 +27,15 @@ public class Menu_Service {
 	} 
 	
 	//mybatis
-	private Menu_Mapper menu_Mapper;
+	private MenuMapper menuMapper;
 			
-	public Menu_Service(Menu_Mapper menu_Mapper) {
-		this.menu_Mapper = menu_Mapper;
+	public MenuService(MenuMapper menuMapper) {
+		this.menuMapper = menuMapper;
 	}
 		
 	//가입시 메뉴 저장
     public int insertMenuNewUser(String string) {
-    	return menu_Mapper.insertMenuNewUser(string);
+    	return menuMapper.insertMenuNewUser(string);
     }
 
 }

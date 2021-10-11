@@ -1,3 +1,12 @@
+function nextFocus(next) {
+	if (event.keyCode == 13) {
+		$('#' + next).focus();
+	}
+}
+
+//입력 및 업데이트 할 리스트
+var pickValue = ["user_CODE", "user_NAME", "company", "user_USE_STATUS", "user_TYPE", "dept_CODE"];
+
 var userManageTable = new Tabulator("#userManageTable", {
 	//페이징
 	pagination: "local",
@@ -17,7 +26,7 @@ var userManageTable = new Tabulator("#userManageTable", {
 		modifyModalShow();
 	},
 	rowSelected:function(row){
-    	var jsonData = fromRowToJson(row);
+    	var jsonData = fromRowToJson(row, pickValue);
 		modalInputBox(jsonData);
     },
 	columns: [
@@ -35,23 +44,9 @@ var userManageTable = new Tabulator("#userManageTable", {
 	]
 });
 
-function fromRowToJson(row){
-	var pickValue = ["user_CODE", "user_NAME", "company", "user_USE_STATUS", "user_TYPE", "dept_CODE"];
-	var jsonData = new Object();
-	pickValue.forEach(function(item,index,arr2){
-		jsonData[item] = row.getData()[item]
-	})
-	return jsonData;
-}
-
-function nextFocus(next) {
-	if (event.keyCode == 13) {
-		$('#' + next).focus();
-	}
-}
-
 // ADD버튼을 클릭할때 모달창을 여는 이벤트
-$("#userAddBtn").click(function() {
+$("#userADDBtn").click(function() {
+	userManageTable.deselectRow();
 	registerModalShow()
 });
 
@@ -70,6 +65,7 @@ function registerModalShow(){
 	});
 }
 
+//모달창내 등록버튼
 $("#userRegisterBtn").click(function(){
 	userRegister();
 })
@@ -135,6 +131,7 @@ function modifyModalShow(){
 	});
 }
 
+//모달창내 수정버튼
 $("#userModifyBtn").click(function(){
 	userModify();
 })
@@ -144,7 +141,7 @@ function userModify() {
 	var datas = {USER_CODE : $("#user_CODE").val(),
 			USER_NAME : $("#user_NAME").val(),
 			COMPANY : $("#company").val(),
-			USER_USE_STATUS : "true",
+			USER_USE_STATUS : $("#user_USE_STATUS").is(":checked"),
 			USER_TYPE : $("#user_TYPE").val(),
 			DEPT_CODE : $("#dept_CODE").val()}
 

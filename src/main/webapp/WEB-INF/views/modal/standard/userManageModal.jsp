@@ -53,7 +53,7 @@
 						<div class="col-sm-9">
 							<input type="checkbox" class="form-control-plaintext"
 								OnKeyDown="nextFocus('user_PASSWORD')"
-								id="user_USE_STATUS">
+								id="user_USE_STATUS" checked>
 						</div>
 					</div>
 					
@@ -80,9 +80,9 @@
 						</div>
 					</div>
 					
-					<button type="button" id="userRegisterBtn" class="btn btn-primary insert" data-toggle="modal">저장</button>
+					<button type="button" id="userRegisterBtn" class="btn btn-primary insert">저장</button>
 
-					<button type="button" id="userModifyBtn" class="btn btn-primary modify" data-toggle="modal">수정</button>	
+					<button type="button" id="userModifyBtn" class="btn btn-primary modify">수정</button>	
 					<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
 				</form>
 			</div>

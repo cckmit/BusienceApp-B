@@ -1,11 +1,11 @@
 package com.busience.standard.controller;
 
 import java.net.UnknownHostException;
+import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
+import org.apache.tomcat.util.json.ParseException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.busience.common.service.ItemService;
+import com.busience.common.service.MenuService;
 import com.busience.standard.Dto.PRODUCT_INFO_TBL;
 
 @RestController("itemManageRestController")
@@ -30,6 +33,12 @@ public class itemManageRestController {
 
 	@Autowired
 	DataSource dataSource;
+	
+	private ItemService itemService;
+	
+	public itemManageRestController(ItemService itemService) {
+		this.itemService = itemService;
+	}
 
 	@GetMapping("/itemManageSelect")
 	public List<PRODUCT_INFO_TBL> itemManageSelect(HttpServletRequest request) throws SQLException {
@@ -126,186 +135,39 @@ public class itemManageRestController {
 		return list;
 	}
 
-	@RequestMapping(value = "/itemManageInsert", method = RequestMethod.POST)
-	public String itemManageInsert(HttpServletRequest request, Model model)
-			throws SQLException, org.json.simple.parser.ParseException, UnknownHostException, ClassNotFoundException {
-		String data = request.getParameter("data");
-		JSONParser parser = new JSONParser();
-		JSONObject obj = (JSONObject) parser.parse(data);
-		System.out.println(obj.toJSONString());
+	@GetMapping("/itemManageInsert")
+	public String itemManageInsert(PRODUCT_INFO_TBL product_INFO_TBL, Principal principal) {
+		String modifier = principal.getName();
 
-		Connection conn = dataSource.getConnection();
-		String checkSql = "select PRODUCT_ITEM_CODE from PRODUCT_INFO_TBL where PRODUCT_ITEM_CODE='"
-				+ obj.get("PRODUCT_ITEM_CODE") + "'";
-		PreparedStatement pstmt = conn.prepareStatement(checkSql);
-		ResultSet rs = pstmt.executeQuery();
+		product_INFO_TBL.setPRODUCT_MODIFIER(modifier);
 
-		// �ߺ�üũ
-		while (rs.next()) {
-			String check_PRODUCT_ITEM_CODE = rs.getString("PRODUCT_ITEM_CODE");
-
-			if (check_PRODUCT_ITEM_CODE.length() > 0) {
-				return "Overlap";
-			}
-		}
+		//update
+		itemService.insertItemCode(product_INFO_TBL);
 		
-		HttpSession httpSession = request.getSession();
-		String modifier = (String) httpSession.getAttribute("id");
-		// insert가 두번 출력되어 오류나는 상황이 발생해서 insert ignore into 문 사용함
-		String sql = "insert ignore into PRODUCT_INFO_TBL values (";
-		sql += "'" + obj.get("PRODUCT_BUSINESS_PLACE") + "',";
-		sql += "'" + obj.get("PRODUCT_ITEM_CODE") + "',";
-		sql += "'" + obj.get("PRODUCT_OLD_ITEM_CODE") + "',";
-		sql += "'" + obj.get("PRODUCT_ITEM_NAME") + "',";
-		sql += "'" + obj.get("PRODUCT_INFO_STND_1") + "',";
-		sql += "'" + obj.get("PRODUCT_INFO_STND_2") + "',";
-		sql += "'" + obj.get("PRODUCT_UNIT") + "',";
-		sql += "'" + obj.get("PRODUCT_MATERIAL") + "',";
-		sql += "'" + obj.get("PRODUCT_MTRL_CLSFC") + "',";
-		sql += "'" + obj.get("PRODUCT_ITEM_CLSFC_1") + "',";
-		sql += "'" + obj.get("PRODUCT_ITEM_CLSFC_2") + "',";
-		sql += "" + obj.get("PRODUCT_UNIT_PRICE") + ",";
-		sql += "'" + obj.get("PRODUCT_SUBSID_MATL_MGMT") + "',";
-		sql += "'" + obj.get("PRODUCT_ITEM_STTS") + "',";
-		sql += "'" + obj.get("PRODUCT_BASIC_WAREHOUSE") + "',";
-		sql += "'" + obj.get("PRODUCT_SAVE_AREA") + "',";
-		sql += "" + obj.get("PRODUCT_SFTY_STOCK") + ",";
-		sql += "'" + obj.get("PRODUCT_BUYER") + "',";
-		sql += "'" + obj.get("PRODUCT_WRHSN_INSPC") + "',";
-		sql += "'" + obj.get("PRODUCT_USE_STATUS") + "',";
-		sql += "now(),";
-		sql += "'" + modifier + "')";
-
-		// HomeController.LogInsert("", "1. Insert", sql, request);
-
-		System.out.println(sql);
-		// System.out.println(obj.get("PRODUCT_USE_STATUS"));
-
-		pstmt = conn.prepareStatement(sql);
-		pstmt.executeUpdate();
-		
-		//등록한 기본창고에 따라 맞춰서 StockMat_tbl에 리스트가 추가된다
-		//101(자재창고), 102(생산창고), 103(제품창고)
-		//생산창고가 현재 없으므로 일단 제품창고에 넣어놓는다.
-		if(obj.get("PRODUCT_BASIC_WAREHOUSE").equals("101") && obj.get("PRODUCT_BASIC_WAREHOUSE").equals("102")) {
-			sql = "insert into Sales_StockMatLX_tbl values ("; 
-			sql += "'" + obj.get("PRODUCT_ITEM_CODE") + "',"; 
-			sql += "'0',"; 
-			sql += "'0',"; 
-			sql += "'0',"; 
-			sql += "(select CHILD_TBL_RMARK from DTL_TBL where CHILD_TBL_NO=206)";
-			sql += ")";
-		}
-		if(obj.get("PRODUCT_BASIC_WAREHOUSE").equals("103")) {
-			sql = "insert into StockMatLX_tbl values ("; 
-			sql += "'" + obj.get("PRODUCT_ITEM_CODE") + "',"; 
-			sql += "'0',"; 
-			sql += "'0',"; 
-			sql += "'0',"; 
-			sql += "(select CHILD_TBL_RMARK from DTL_TBL where CHILD_TBL_NO=203)";
-			sql += ")";
-		}
-		
-		// 자재분류가 스페어일 경우에는 스페어 파트에 코드, 네임, 규격 데이터를 삽입한다.
-		if(obj.get("PRODUCT_MTRL_CLSFC").equals("57")) {
-			sql = "insert into Spare_Part_tbl values (";
-			sql += "'" + obj.get("PRODUCT_ITEM_CODE")+ "',";
-			sql += "'" + "',";
-			sql += "'" + "',";
-			sql += "'" + "',";
-			sql += "'" + 0 + "',";
-			sql += null+",";
-			sql += "'" + "true" + "',";
-			sql += null+",";
-			sql += null+",";
-			sql += "'" + "',";
-			sql += "'" + "')";
-		}
-				  
-		System.out.println(sql);
-		pstmt = conn.prepareStatement(sql); 
-		pstmt.executeUpdate();
-		
-		rs.close();
-		pstmt.close();
-		conn.close();
-
 		return "Success";
 	}
 
 	// ����
-	@RequestMapping(value = "/itemManageUpdate", method = RequestMethod.POST)
-	public String itemManageUpdate(HttpServletRequest request, Model model)
-			throws SQLException, org.json.simple.parser.ParseException, UnknownHostException, ClassNotFoundException {
-		String data = request.getParameter("data");
-		JSONParser parser = new JSONParser();
-		JSONObject obj = (JSONObject) parser.parse(data);
+	@GetMapping("/itemManageUpdate")
+	public String itemManageUpdate(PRODUCT_INFO_TBL product_INFO_TBL, Principal principal) {
+		
+		String modifier = principal.getName();
 
-		// System.out.println(obj.toJSONString());
+		product_INFO_TBL.setPRODUCT_MODIFIER(modifier);
 
-		HttpSession httpSession = request.getSession();
-		String modifier = (String) httpSession.getAttribute("id");
-
-		String sql = "update PRODUCT_INFO_TBL set ";
-		sql += "PRODUCT_BUSINESS_PLACE='" + obj.get("PRODUCT_BUSINESS_PLACE") + "'";
-		sql += ",PRODUCT_OLD_ITEM_CODE='" + obj.get("PRODUCT_OLD_ITEM_CODE") + "'";
-		sql += ",PRODUCT_ITEM_NAME='" + obj.get("PRODUCT_ITEM_NAME") + "'";
-		sql += ",PRODUCT_INFO_STND_1='" + obj.get("PRODUCT_INFO_STND_1") + "'";
-		sql += ",PRODUCT_INFO_STND_2='" + obj.get("PRODUCT_INFO_STND_2") + "'";
-		sql += ",PRODUCT_UNIT='" + obj.get("PRODUCT_UNIT") + "'";
-		sql += ",PRODUCT_MATERIAL='" + obj.get("PRODUCT_MATERIAL") + "'";
-		sql += ",PRODUCT_MTRL_CLSFC='" + obj.get("PRODUCT_MTRL_CLSFC") + "'";
-		sql += ",PRODUCT_ITEM_CLSFC_1='" + obj.get("PRODUCT_ITEM_CLSFC_1") + "'";
-		sql += ",PRODUCT_ITEM_CLSFC_2='" + obj.get("PRODUCT_ITEM_CLSFC_2") + "'";
-		sql += ",PRODUCT_SUBSID_MATL_MGMT='" + obj.get("PRODUCT_SUBSID_MATL_MGMT") + "'";
-		sql += ",PRODUCT_ITEM_STTS='" + obj.get("PRODUCT_ITEM_STTS") + "'";
-		sql += ",PRODUCT_BASIC_WAREHOUSE='" + obj.get("PRODUCT_BASIC_WAREHOUSE") + "'";
-		sql += ",PRODUCT_SFTY_STOCK=" + obj.get("PRODUCT_SFTY_STOCK") + "";
-		sql += ",PRODUCT_BUYER='" + obj.get("PRODUCT_BUYER") + "'";
-		sql += ",PRODUCT_WRHSN_INSPC='" + obj.get("PRODUCT_WRHSN_INSPC") + "'";
-		sql += ",PRODUCT_USE_STATUS='" + obj.get("PRODUCT_USE_STATUS") + "'";
-		sql += ",PRODUCT_MODIFIER='" + modifier + "'";
-		sql += ",PRODUCT_MODIFY_D=now()";
-		sql += " where PRODUCT_ITEM_CODE='" + obj.get("PRODUCT_ITEM_CODE") + "'";
-
-		//System.out.println(sql);
-		// HomeController.LogInsert("", "2. Update", sql, request);
-
-		Connection conn = dataSource.getConnection();
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt = conn.prepareStatement(sql);
-		pstmt.executeUpdate();
-		pstmt.close();
-		conn.close();
-
+		//update
+		itemService.updateItemCode(product_INFO_TBL);
+		
 		return "Success";
 	}
 
 	// ����
-	@RequestMapping(value = "/itemManageDelete", method = RequestMethod.POST)
-	public String itemManageDelete(HttpServletRequest request, Model model)
-			throws SQLException, ParseException, UnknownHostException, ClassNotFoundException {
-		String PRODUCT_ITEM_CODE = request.getParameter("PRODUCT_ITEM_CODE");
-
-		// System.out.println("PRODUCT_ITEM_CODE");
-
-		String sql = "delete from PRODUCT_INFO_TBL where PRODUCT_ITEM_CODE='" + PRODUCT_ITEM_CODE + "'";
-
-		// HomeController.LogInsert("", "3. Delete", sql, request);
-		//System.out.println(sql);
-		Connection conn = dataSource.getConnection();
-		PreparedStatement pstmt = null;
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return "error";
-		} finally {
-			pstmt.close();
-			conn.close();
-		}
-
-		return PRODUCT_ITEM_CODE;
+	@GetMapping("/itemManageDelete")
+	public String itemManageDelete(PRODUCT_INFO_TBL product_INFO_TBL) {
+		
+		//update
+		itemService.deleteItemCode(product_INFO_TBL.getPRODUCT_ITEM_CODE());
+		
+		return "Success";
 	}
 }

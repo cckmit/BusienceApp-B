@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 @Mapper
-public interface Menu_Mapper {
+public interface MenuMapper {
 
 	@Insert("insert into Menu_MGMT_tbl\r\n"
 			+ "select #{userCode}, CHILD_TBL_NO, 'true', 'true', 'true', 'true'\r\n"

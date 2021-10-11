@@ -20,14 +20,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.domain.Menu;
-import com.busience.common.service.Menu_Service;
+import com.busience.common.service.MenuService;
 import com.busience.standard.Dto.DTL_TBL;
 
 @RestController
 public class CommonRestController {
 	
 	@Autowired
-	Menu_Service menu_Service;
+	MenuService menu_Service;
 	
 	@Autowired
 	DataSource dataSource;
