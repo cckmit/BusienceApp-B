@@ -28,10 +28,10 @@ public class SystemController {
 		return "system/codeManage";
 	}
 	
-	@GetMapping("/usermenuManage")
-	public String usermenuManage(Model model) {
+	@GetMapping("/userMenuManage")
+	public String userMenuManage(Model model) {
 		
 		model.addAttribute("pageName", "사용자 메뉴 관리");
-		return "system/usermenuManage";
+		return "system/userMenuManage";
 	}
 }

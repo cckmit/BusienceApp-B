@@ -12,15 +12,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.busience.common.domain.Menu;
+import com.busience.common.service.MenuService;
 import com.busience.standard.Dto.DTL_TBL;
 
 @RestController
 public class CommonRestController {
+	
+	@Autowired
+	MenuService menu_Service;
+	
 	@Autowired
 	DataSource dataSource;
 	
@@ -88,12 +96,14 @@ public class CommonRestController {
 		String modifier = principal.getName();
 		
 		String sql = "SELECT \r\n"
-				+ "distinct A.CHILD_TBL_NUM,\r\n"
-				+ "A.CHILD_TBL_TYPE\r\n"
-				+ "FROM DTL_TBL A\r\n"
-				+ "inner join User_Menu_Tbl B on A.CHILD_TBL_NO = B.Group_Code\r\n"
-				+ "where User_Code = '"+modifier+"'\r\n"
-				+ "order by CHILD_TBL_NUM*1;";
+				+ "distinct cast(B.Menu_Parent_No as unsigned ) CHILD_TBL_NUM,\r\n"
+				+ "C.CHILD_TBL_TYPE\r\n"
+				+ "FROM User_Menu_tbl A\r\n"
+				+ "inner join Menu_tbl B on A.Program_Code = B.Menu_Code\r\n"
+				+ "inner join (\r\n"
+				+ "	select * from DTL_TBL where NEW_TBL_CODE = 16\r\n"
+				+ ") C on cast(B.Menu_Parent_No as unsigned ) = C.CHILD_TBL_NUM\r\n"
+				+ "where  A.User_Code = '"+modifier+"';";
 		
 		//System.out.println(request.getParameter("NEW_TBL_CODE"));
 		Connection conn = dataSource.getConnection();
@@ -117,40 +127,50 @@ public class CommonRestController {
 	}
 	// 공통코드 찾기
 	@GetMapping("/childMenuSelect")
-	public List<DTL_TBL> childMenuSelect(Principal principal) throws SQLException {
+	public List<Menu> childMenuSelect(Principal principal) throws SQLException {
 		
 		String modifier = principal.getName();
 		
 		String sql = "SELECT \r\n"
-				+ "A.CHILD_TBL_NO,\r\n"
-				+ "A.CHILD_TBL_NUM,\r\n"
-				+ "A.CHILD_TBL_TYPE,\r\n"
-				+ "A.CHILD_TBL_RMARK\r\n"
-				+ "FROM DTL_TBL A\r\n"
-				+ "inner join User_Menu_Tbl B on A.CHILD_TBL_NO = B.Program_Code\r\n"
-				+ "where User_Code = '"+modifier+"'\r\n"
-				+ "order by CHILD_TBL_NUM*1;";
+				+ "B.Menu_Code,\r\n"
+				+ "B.Menu_Parent_No,\r\n"
+				+ "B.Menu_Child_No,\r\n"
+				+ "B.Menu_Name,\r\n"
+				+ "B.Menu_PageName\r\n"
+				+ "FROM User_Menu_tbl A\r\n"
+				+ "inner join Menu_tbl B on A.Program_Code = B.Menu_Code\r\n"
+				+ "where A.User_Code = '"+modifier+"'";
 		
 		//System.out.println(request.getParameter("NEW_TBL_CODE"));
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
 		
-		List<DTL_TBL> deptList = new ArrayList<DTL_TBL>();
+		List<Menu> menuList = new ArrayList<Menu>();
 		
 		while (rs.next()) {
-			DTL_TBL data =new DTL_TBL();
-			data.setCHILD_TBL_NO(rs.getString("CHILD_TBL_NO"));
-			data.setCHILD_TBL_NUM(rs.getString("CHILD_TBL_NUM"));
-			data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
-			data.setCHILD_TBL_RMARK(rs.getString("CHILD_TBL_RMARK"));
-			deptList.add(data);
+			Menu data = new Menu();
+			data.setMenu_Code(rs.getString("menu_Code"));
+			data.setMenu_Parent_No(rs.getString("menu_Parent_No"));
+			data.setMenu_Child_No(rs.getString("menu_Child_No"));
+			data.setMenu_Name(rs.getString("menu_Name"));
+			data.setMenu_PageName(rs.getString("menu_PageName"));
+			menuList.add(data);
 		}
 		
 		rs.close();
 		pstmt.close();
 		conn.close();
 		
-		return deptList;
+		return menuList;
 	}
+	
+	// 모든 회원 조회
+	@GetMapping("/menuList")
+	public ResponseEntity<List<Menu>> getAllmembers() {
+		List<Menu> member = menu_Service.findAll();
+		System.out.println(member);
+		return new ResponseEntity<List<Menu>>(member, HttpStatus.OK);
+	}
+	
 }

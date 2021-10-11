@@ -42,6 +42,15 @@ function ResetBtn() {
 	}
 }
 
+function fromRowToJson(row, valueList){
+	
+	var jsonData = new Object();
+	valueList.forEach(function(item,index,arr2){
+		jsonData[item] = row.getData()[item]
+	})
+	return jsonData;
+}
+
 //json데이터 modal로 데이터 넣기
 function modalInputBox(json){
 	for (var key in json){

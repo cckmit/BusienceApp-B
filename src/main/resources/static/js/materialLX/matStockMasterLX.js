@@ -2,6 +2,7 @@ var matStockItemListTable = new Tabulator("#matStockItemListTable", {
 	//페이징
 	pagination:"local",
 	paginationSize:20,
+	headerFilterPlaceholder: null,
 	height:"calc(100% - 175px)",
  	columns:[ //Define Table Columns
  	{title:"순번", field:"id", headerHozAlign: "center", headerFilter:true, hozAlign: "center"},
@@ -11,7 +12,7 @@ var matStockItemListTable = new Tabulator("#matStockItemListTable", {
  	{title:"규격", field:"lmaster_ItemSTND_1", headerHozAlign:"center", headerFilter:true, hozAlign:"left", width:120},
  	{title:"단위", field:"lmaster_ItemUNIT", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
  	{title:"재고수량", field:"lmaster_InQty", headerHozAlign:"center", headerFilter:true, hozAlign:"right"}
- 	],
+ 	]
 });
 
 function MS_ItemListViewSearchBtn() {

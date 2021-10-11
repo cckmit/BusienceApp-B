@@ -11,7 +11,7 @@
 			<div class="top-var">
 				<div class="input-button">
 				
-					<img src="/images/button/ADD.png" id="userAddBtn"/>
+					<img src="/images/button/ADD.png" id="userADDBtn"/>
 					
 					<img src="/images/button/Update.png" id="userUpdateBtn"/>
 				</div>

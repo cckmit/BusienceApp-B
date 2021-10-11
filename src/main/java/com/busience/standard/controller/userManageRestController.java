@@ -20,9 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.domain.Member;
-import com.busience.common.mapper.Menu_Mapper;
 import com.busience.common.persistence.MemberRepository;
-import com.busience.common.service.Menu_Service;
+import com.busience.common.service.MenuService;
 import com.busience.standard.Dto.USER_INFO_TBL;
 
 @RestController("userManageRestController")
@@ -38,10 +37,10 @@ public class userManageRestController {
 	@Autowired
 	DataSource dataSource;
 	
-	private Menu_Service menu_Service;
+	private MenuService menuService;
 	
-	public userManageRestController(Menu_Service menu_Service) {
-		this.menu_Service = menu_Service;
+	public userManageRestController(MenuService menuService) {
+		this.menuService = menuService;
 	}
 	
 	@GetMapping("/userManageRestSelect")
@@ -108,7 +107,7 @@ public class userManageRestController {
 		repo.save(member);
 		
 		//사용자 메뉴 생성
-		menu_Service.insertMenuNewUser(member.getUSER_CODE());
+		menuService.insertMenuNewUser(member.getUSER_CODE());	
 		
 		return "Success";
 	}

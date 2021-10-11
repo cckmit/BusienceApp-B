@@ -2,6 +2,7 @@ var salesOutputListTable = new Tabulator("#salesOutputListTable", {
 	//페이징
 	pagination:"local",
 	paginationSize:20,
+	headerFilterPlaceholder: null,
 	height:"calc(100% - 175px)",
  	columns:[ //Define Table Columns
  	{title:"순번", field:"id", headerHozAlign: "center", headerFilter:true, hozAlign: "center"},
@@ -48,6 +49,7 @@ var salesOutputItemViewTable = new Tabulator("#salesOutputItemViewTable", {
 	//페이징
 	pagination:"local",
 	paginationSize:20,
+	headerFilterPlaceholder: null,
 	height:"calc(100% - 175px)",
 	rowFormatter: function(row){
 		if(row.getData().sales_OutMat_Send_Clsfc == "Sub Total"){
