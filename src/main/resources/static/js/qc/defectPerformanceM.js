@@ -1,5 +1,5 @@
 	var defectPerformance = new Tabulator("#defectPerformance", {
-			height:"calc(100% - 175px)",
+			height: "45%",
 			//복사하여 엑셀 붙여넣기 가능
 			clipboard: true,
 			rowClick:function(e, row){
@@ -34,51 +34,81 @@
 						
 				    }
 					,cellEditCancelled:function(cell){
-				    
-						if(isNaN(cell.getValue()))
-						{
-							alert("불량 수량은 숫자를 입력하여 주십시오.");
-							cell.restoreOldValue();
-							return;
-						}
-}
+				    }
 					,cellEdited(cell){
-						
-						if(isNaN(cell.getValue()))
-						{
-							alert("불량 수량은 숫자를 입력하여 주십시오.");
-							cell.restoreOldValue();
-							return;
-						}
-						
 				    }
 				},
 			]
 		});
 		
 		var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
-			height:"calc(100% - 175px)",
+			height: "45%",
 			//복사하여 엑셀 붙여넣기 가능
 			clipboard: true,
 			rowClick:function(e, row){
 				if (e.detail == 1){
-					$.get("defectInsertRest/DEFECT_INFO_TBL_Load?oqcinspect_OqcInNo=" + row.getData().oqcinspect_OqcInNo, function(data) {
-						defectPerformance.setData(data);
-						//defectPerformance.
-						//row.getCell("order_mCode").edit();
+					$.get("defectPerformanceMRest/DEFECT_INFO_TBL_Load?oqcinspect_OqcInNo=" + row.getData().oqcinspect_OqcInNo, function(data) {
 						WorkOrder_tbl.deselectRow();
 						row.select();
 						
-						var value = String(defectPerformance.getRows()[0].getCell("defect_ABR").getValue());
+						defectPerformance.setData(data);
 						
-						if(value != "null" && value.split('.').length > 0)
-							defectPerformance.getRows()[0].update({"defect_ABR":value.split('.')[0]});
-						else
+						drawArray = [];
+					  	drawArray.push([ '불량 개수', '불량 개수', ]);
+					  	
+					  	defect_USE_STATUS = "";	
+					  	defect_USE_STATUS = data[0].defect_USE_STATUS;
+					  	
+					  	gita_defect_ABR = 0;
+					  	gita_defect_ABR_value = "기타 - ";
+					  	
+						for(i=0;i<data.length;i++)
 						{
-							defectPerformance.getRows()[0].update({"defect_ABR":value == "null"?0:value});
+							if(i<=4)
+							{
+								drawArray.push([ String(data[i].defect_NAME), data[i].defect_ABR == "null"?0:parseInt(data[i].defect_ABR) ]);
+							}
+							else
+							{
+								gita_defect_ABR += data[i].defect_ABR == "null"?0:parseInt(data[i].defect_ABR);
+								
+								//gita_defect_ABR_value += " " + data[i].defect_NAME + " 개수:" + data[i].defect_ABR == "null"?0:parseInt(data[i].defect_ABR);
+								
+								num = data[i].defect_ABR == "null" ?0:parseInt(data[i].defect_ABR);
+								
+								if(isNaN(num))
+									num = 0;
+								
+								gita_defect_ABR_value += " " + String(data[i].defect_NAME) + " 개수: "+ num + " , ";
+							}
 						}
 						
-						defectPerformance.getRows()[0].getCell("defect_ABR").edit();
+						drawArray.push([ "기타", gita_defect_ABR ]);
+						
+						var data = google.visualization.arrayToDataTable(drawArray);
+		
+					    var options = {
+					    	title: '작업 지시 번호 : '+defect_USE_STATUS+" 제품 이름 : "+row.getData().product_ITEM_NAME,
+					        chartArea: {width: '50%'},
+					        hAxis: {
+					          title: gita_defect_ABR_value,
+					          minValue: 0
+					        },
+					        vAxis: {
+					        }
+					    };
+					    
+					    var view = new google.visualization.DataView(data);
+						view.setColumns([ 0, 1, {
+							calc : "stringify",
+							sourceColumn : 1,
+							type : "string",
+							role : "annotation"
+						} ]);
+					
+					    var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+					
+					    chart.draw(view, options);
 					});
 				}
 			},
@@ -87,9 +117,7 @@
 		    
 			columns:[
 				{ title: "작업지시No", field: "oqcinspect_OqcInNo", headerHozAlign: "center", width: 160 },
-				{ title: "제품코드", field: "product_ITEM_CODE", headerHozAlign: "center", width: 100 },
 				{ title: "제품이름", field: "product_ITEM_NAME", headerHozAlign: "center", width: 180},
-				{ title: "설비코드", field: "cus_Code", headerHozAlign: "center", width: 100 },
 				{ title: "설비이름", field: "cus_Name", headerHozAlign: "center", width: 180 },
 				{ title: "규격", field: "product_INFO_STND_1", headerHozAlign: "center"},		
 				{ title: "상태", field: "oqcinspect_Prcsn_Clsfc_Name", headerHozAlign: "center"},	
@@ -162,8 +190,42 @@
 			}
 		}
 		
+		// ---------------------------------------------------------------------------
+		
+		google.charts.load('current', {packages: ['corechart', 'bar']});
+		google.charts.setOnLoadCallback(drawBasic);
+		
+		function drawBasic() {
+		
+			  $.get("defectPerformanceMRest/Defect_Export_Init", function(data) {
+			  		drawArray = [];
+			  		drawArray.push([ '불량 개수', '불량 개수', ]);
+			  
+					data.forEach(function(element){
+					    drawArray.push([ String(element.defect_NAME), 0 ]);
+					});
+					
+					var data = google.visualization.arrayToDataTable(drawArray);
+		
+				    var options = {
+				        chartArea: {width: '50%'},
+				        hAxis: {
+				          minValue: 0
+				        },
+				        vAxis: {
+				        }
+				    };
+				
+				    var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+				
+				    chart.draw(data, options);
+			  });
+		
+		      
+		}
+		
+		// ---------------------------------------------------------------------------
+		
 		window.onload = function(){
              MI_searchBtn1();
         }
-		
-		
