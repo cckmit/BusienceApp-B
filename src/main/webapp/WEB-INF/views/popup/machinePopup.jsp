@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<link href="${contextPath}/resources/css/popup/popup.css" rel="stylesheet" />
+<link href="/css/popup/popup.css" rel="stylesheet" />
 <div class="main">
 	<div class="top-var">
 		<div class="popup-box">

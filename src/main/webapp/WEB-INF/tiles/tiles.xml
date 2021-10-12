@@ -12,34 +12,14 @@
        <put-attribute name="body" value="/WEB-INF/views/popup/{1}.jsp" />
    </definition>
 
-	<definition name="normal/*/*" extends="nomalLayout">
+   <definition name="normal/*/*" extends="nomalLayout">
        <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
    </definition>
-   <!-- 
-	<definition name="work_order_TAB" extends="nomalLayout">
-       <put-attribute name="body" value="/WEB-INF/views/productionLX/work_order_TAB.jsp" />
-   </definition> -->
    
-   <definition name="workMonitoring" extends="nomalLayout">
-       <put-attribute name="body" value="/WEB-INF/views/monitoring/workMonitoring.jsp" />
+   <definition name="normal/*/*/*" extends="nomalLayout">
+       <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
    </definition>
    
-   <definition name="equipMonitoring" extends="nomalLayout">
-       <put-attribute name="body" value="/WEB-INF/views/monitoring/Graphic/Graphic1.jsp" />
-   </definition>
-   
-   <definition name="normal/workorderoi" extends="nomalLayout">
-       <put-attribute name="body" value="/WEB-INF/views/monitoring/workorderoi.jsp" />
-   </definition>   
-   
-   <definition name="normal/defectInsertM" extends="nomalLayout">
-       <put-attribute name="body" value="/WEB-INF/views/qc/defectInsertM.jsp" />
-   </definition> 
-   
-   <definition name="normal/defectPerformanceM" extends="nomalLayout">
-       <put-attribute name="body" value="/WEB-INF/views/qc/defectPerformanceM.jsp" />
-   </definition>
-
    <!-- main -->
    <definition name="tilesLayout" template="/WEB-INF/views/common/tilesLayout.jsp">
        <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />

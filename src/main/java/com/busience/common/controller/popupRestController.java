@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,11 +33,30 @@ public class popupRestController {
 	JdbcTemplate jdbctemplate;
 	
 	//itemPopup
-	@RequestMapping(value = "/itemPopupSelect", method = RequestMethod.GET)
+	@GetMapping("/itemPopupSelect")
 	public List<PRODUCT_INFO_TBL> itemPopupSelect(
 			@RequestParam(value = "item_Word", required = false) String item_Word,
 			@RequestParam(value = "search_value", required = false) String search_value) throws SQLException {
-
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		conn = dataSource.getConnection();
+		
+		String terms = null;
+		String terms_sql = "select CHILD_TBL_RMARK from DTL_TBL\r\n"
+				+ "where NEW_TBL_CODE = 37 and CHILD_TBL_TYPE = '"+search_value+"'";
+		
+		pstmt = conn.prepareStatement(terms_sql);
+		rs = pstmt.executeQuery();
+		
+		while (rs.next()) {
+			terms = rs.getString("CHILD_TBL_RMARK");
+		}
+		System.out.println("============");
+		System.out.println(terms);
+		
 		String sql = "";
 		
 		sql = " select PRODUCT_ITEM_CODE,\r\n"
@@ -45,26 +65,13 @@ public class popupRestController {
 				+ " PRODUCT_UNIT_PRICE\r\n"
 				+ " from PRODUCT_INFO_TBL\r\n"
 				+ " where (PRODUCT_ITEM_CODE like '%" + item_Word + "%' or PRODUCT_ITEM_NAME like '%" + item_Word + "%')\r\n"
-				+ " and PRODUCT_USE_STATUS='true'";
+				+ " and PRODUCT_USE_STATUS='true'"
+				+ " and PRODUCT_MTRL_CLSFC in ("+terms+")";
 		
-		 if(search_value.equals("all")) {
-	    	   //all 일경우 그냥 넘어감
-	       }else {
-	    	   //그외 일경우
-	    	   if(search_value.equals("material")) {
-	    		   
-	    		   search_value = "51,52,53,56,57";
-	    	   }else if(search_value.equals("sales")) {
-	    		   
-	    		   search_value = "55";
-	    	   }
-	    	   sql += " and PRODUCT_MTRL_CLSFC in ("+search_value+")";
-	       }
-		System.out.println("itemPopupSelect =" + sql);
+		pstmt = conn.prepareStatement(sql);
+		rs = pstmt.executeQuery();
 
-		Connection conn = dataSource.getConnection();
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		ResultSet rs = pstmt.executeQuery();
+		System.out.println("itemPopupSelect =" + sql);
 		
 		List<PRODUCT_INFO_TBL> list = new ArrayList<PRODUCT_INFO_TBL>();
 
@@ -76,8 +83,8 @@ public class popupRestController {
 			data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
 			data.setPRODUCT_UNIT_PRICE(rs.getInt("PRODUCT_UNIT_PRICE"));
 			list.add(data);
-		}
-
+		}	
+	
 		rs.close();
 		pstmt.close();
 		conn.close();
@@ -86,7 +93,7 @@ public class popupRestController {
 	}
 
 	// machinePopup
-	@RequestMapping(value = "/machinePopupSelect", method = RequestMethod.GET)
+	@GetMapping("/machinePopupSelect")
 	public List<EQUIPMENT_INFO_TBL> machinePopupSelect(
 			@RequestParam(value = "machine_Word", required = false) String machine_Word) throws SQLException {
 		
@@ -155,18 +162,13 @@ public class popupRestController {
        
        String sql = "";
 
-       sql = " select Cus_Code, Cus_Name from Customer_tbl\r\n"
-       		+ "where (Cus_Code like '%" + cus_Word + "%' or Cus_Name like '%" + cus_Word + "%')";
+       sql = "select A.Cus_Code, A.Cus_Name\r\n"
+       		+ "from Customer_tbl A\r\n"
+       		+ "inner join ("
+       			+ "select * from DTL_TBL where NEW_TBL_CODE = '28'"
+       		+ ") B on A.Cus_Clsfc = B.CHILD_TBL_NO\r\n"
+       		+ "where (A.Cus_Code like '%"+cus_Word+"%' or A.Cus_Name like '%"+cus_Word+"%') and B.CHILD_TBL_RMARK='"+search_value+"'";
 
-       System.out.println(search_value);
-       if(search_value.equals("in")) {
-    	   
-    	   sql += " and Cus_Clsfc='281'";
-       }else if (search_value.equals("out")) {
-    	   
-    	   sql += " and Cus_Clsfc='282'";
-       }
-       
        System.out.println(sql);
 
        Connection conn = dataSource.getConnection();

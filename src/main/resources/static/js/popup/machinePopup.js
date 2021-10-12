@@ -16,7 +16,7 @@ $(document).keyup(function(e) {
 
 // 팝업 종료
 function exitfrn() {
-	window.close();
+	//window.close();
 }
 
 var machinePopupTable = new Tabulator("#machinePopupTable", {
