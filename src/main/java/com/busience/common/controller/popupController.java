@@ -12,30 +12,30 @@ public class popupController {
 	//itemPopup
 	@GetMapping("/itemPopup")
 	public String itemPopup() {
-		return "popup/itemPopup";
+		return "normal/popup/itemPopup";
 	}
 	
 	//machinePopup
 	@GetMapping("/machinePopup")
 	public String machinePopup() {
-		return "popup/machinePopup";
+		return "normal/popup/machinePopup";
 	}
 	
 	//moldPopup
 	@GetMapping("/moldPopup")
 	public String moldPopup() {
-		return "popup/moldPopup";
+		return "normal/popup/moldPopup";
 	}
 	
 	//defectPopup
 	@GetMapping("/defectPopup")
 	public String defectPopup() {
-		return "popup/defectPopup";
+		return "normal/popup/defectPopup";
 	}
 	
 	//customerPopup
 	@GetMapping("/customerPopup")
 	public String customerPopup() {
-	   return "popup/customerPopup";
+	   return "normal/popup/customerPopup";
 	}
 }

@@ -158,7 +158,7 @@ public class matInReturnLXRestController {
 			where += " and A.InMat_Client_Code like '%" + obj.get("inMat_Client_Code") + "%'";
 		}
 		
-		where += " and A.InMat_Rcv_Clsfc = '175'";
+		where += " and A.InMat_Rcv_Clsfc = '207'";
 		
 		sql += where;
 		System.out.println(sql);

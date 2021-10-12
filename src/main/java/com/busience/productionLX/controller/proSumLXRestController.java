@@ -63,7 +63,7 @@ public class proSumLXRestController {
 		}
 		sql += where;
 
-		sql += " group by A.PRODUCTION_WorkOrder_ONo, A.PRODUCTION_Equipment_Code  with rollup";
+		sql += " group by A.PRODUCTION_WorkOrder_ONo with rollup";
 
 		System.out.println(sql);
 		Connection conn = dataSource.getConnection();
@@ -74,16 +74,15 @@ public class proSumLXRestController {
 		List<PRODUCTION_INFO_TBL> list = new ArrayList<PRODUCTION_INFO_TBL>();
 
 		while (rs.next()) {
-			if (rs.getString("PRODUCTION_EQUIPMENT_CODE") == null) {
+			if (rs.getString("PRODUCTION_WorkOrder_ONo") == null) {
 				PRODUCTION_INFO_TBL data1 = new PRODUCTION_INFO_TBL();
-				i++;
-				data1.setId(i);
-				// ���� Sub Total
-				data1.setPRODUCTION_WorkOrder_ONo("Sub Total");
-				data1.setPRODUCTION_EQUIPMENT_CODE(rs.getString("PRODUCTION_EQUIPMENT_CODE"));
-				data1.setPRODUCTION_EQUIPMENT_INFO_NAME(rs.getString("PRODUCTION_EQUIPMENT_INFO_NAME"));
+				
+				data1.setPRODUCTION_WorkOrder_ONo("Grand Total");
+				data1.setPRODUCTION_EQUIPMENT_CODE("");
+				data1.setPRODUCTION_EQUIPMENT_INFO_NAME("");
 				data1.setPRODUCTION_P_Qty(rs.getInt("PRODUCTION_P_Qty")); // �������?
 				list.add(data1);
+				
 			} else {
 				PRODUCTION_INFO_TBL data1 = new PRODUCTION_INFO_TBL();
 				i++;
@@ -99,16 +98,16 @@ public class proSumLXRestController {
 			}
 		}
 		// ���� Grand Total
-		if (list.size() > 0) {
-			if (list.get(list.size() - 1).getPRODUCTION_P_Qty() == list.get(list.size() - 2).getPRODUCTION_P_Qty()) {
-				list.get(list.size() - 2).setPRODUCTION_WorkOrder_ONo("Grand Total");
-				list.remove(list.size() - 1);
-			} else {
-				list.get(list.size() - 1).setPRODUCTION_WorkOrder_ONo("Grand Total");
-				list.get(list.size() - 1).setPRODUCTION_EQUIPMENT_CODE("");
-				list.get(list.size() - 1).setPRODUCTION_EQUIPMENT_INFO_NAME("");
-			}
-		}
+		/*
+		 * if (list.size() > 0) { if (list.get(list.size() - 1).getPRODUCTION_P_Qty() ==
+		 * list.get(list.size() - 2).getPRODUCTION_P_Qty()) { list.get(list.size() -
+		 * 2).setPRODUCTION_WorkOrder_ONo("Grand Total"); list.remove(list.size() - 1);
+		 * } else { list.get(list.size() -
+		 * 1).setPRODUCTION_WorkOrder_ONo("Grand Total"); list.get(list.size() -
+		 * 1).setPRODUCTION_EQUIPMENT_CODE(""); list.get(list.size() -
+		 * 1).setPRODUCTION_EQUIPMENT_INFO_NAME(""); } }
+		 */
+		
 		rs.close();
 		pstmt.close();
 		pstmt.close();
@@ -148,7 +147,7 @@ public class proSumLXRestController {
 		}
 		sql += where;
 
-		sql += " group by A.PRODUCTION_WorkOrder_ONo, Production_PRODUCT_CODE with rollup";
+		sql += " group by A.PRODUCTION_WorkOrder_ONo with rollup";
 
 		System.out.println(sql);
 		Connection conn = dataSource.getConnection();
@@ -159,15 +158,14 @@ public class proSumLXRestController {
 		List<PRODUCTION_INFO_TBL> list = new ArrayList<PRODUCTION_INFO_TBL>();
 
 		while (rs.next()) {
-			if (rs.getString("Production_PRODUCT_CODE") == null) {
+			if (rs.getString("PRODUCTION_WorkOrder_ONo") == null) {
 				PRODUCTION_INFO_TBL data1 = new PRODUCTION_INFO_TBL();
 				// ��ǰ Sub Total
-				i++;
-				data1.setId(i);
-				data1.setPRODUCTION_WorkOrder_ONo("Sub Total");
-				data1.setPRODUCTION_PRODUCT_CODE(rs.getString("PRODUCTION_PRODUCT_CODE"));
-				data1.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
-				data1.setPRODUCTION_P_Qty(rs.getInt("PRODUCTION_P_Qty")); // �������
+				data1.setPRODUCTION_WorkOrder_ONo("Grand Total");
+				data1.setPRODUCTION_P_Qty(rs.getInt("PRODUCTION_P_Qty"));
+				data1.setPRODUCTION_PRODUCT_CODE("");
+				data1.setPRODUCT_ITEM_NAME("");
+				
 				list.add(data1);
 			} else {
 				PRODUCTION_INFO_TBL data1 = new PRODUCTION_INFO_TBL();
@@ -183,17 +181,15 @@ public class proSumLXRestController {
 				list.add(data1);
 			}
 		}
-		// ��ǰ Grand Total
-		if (list.size() > 0) {
-			if (list.get(list.size() - 1).getPRODUCTION_P_Qty() == list.get(list.size() - 2).getPRODUCTION_P_Qty()) {
-				list.get(list.size() - 2).setPRODUCTION_WorkOrder_ONo("Grand Total");
-				list.remove(list.size() - 1);
-			} else {
-				list.get(list.size() - 1).setPRODUCTION_WorkOrder_ONo("Grand Total");
-				list.get(list.size() - 1).setPRODUCTION_PRODUCT_CODE("");
-				list.get(list.size() - 1).setPRODUCT_ITEM_NAME("");
-			}
-		}
+		/*
+		 * // ��ǰ Grand Total if (list.size() > 0) { if (list.get(list.size() -
+		 * 1).getPRODUCTION_P_Qty() == list.get(list.size() - 2).getPRODUCTION_P_Qty())
+		 * { list.get(list.size() - 2).setPRODUCTION_WorkOrder_ONo("Grand Total");
+		 * list.remove(list.size() - 1); } else { list.get(list.size() -
+		 * 1).setPRODUCTION_WorkOrder_ONo("Grand Total"); list.get(list.size() -
+		 * 1).setPRODUCTION_PRODUCT_CODE(""); list.get(list.size() -
+		 * 1).setPRODUCT_ITEM_NAME(""); } }
+		 */
 		rs.close();
 		pstmt.close();
 		conn.close();

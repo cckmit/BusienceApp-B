@@ -1,33 +1,6 @@
-<%@page import="java.sql.ResultSet"%>
-<%@page import="java.sql.PreparedStatement"%>
-<%@page import="java.sql.DriverManager"%>
-<%@page import="java.sql.Connection"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
-
-<%
-	String sql = "select * from MENU_MGMT_TBL where MENU_USER_CODE = 'admin' and MENU_PROGRAM_CODE = '13211'";
-
-Class.forName("com.mysql.jdbc.Driver");
-Connection con = DriverManager.getConnection("jdbc:mysql://busience2.cafe24.com:3306/busience2", "busience2",
-		"business12!!");
-PreparedStatement pstmt = con.prepareStatement(sql);
-ResultSet rs = pstmt.executeQuery(sql);
-
-boolean MENU_WRITE_USE_STATUS = false;
-boolean MENU_DEL_USE_STATUS = false;
-
-while (rs.next()) {
-	if (rs.getString("MENU_WRITE_USE_STATUS").equals("true"))
-		MENU_WRITE_USE_STATUS = true;
-
-	if (rs.getString("MENU_DEL_USE_STATUS").equals("true"))
-		MENU_DEL_USE_STATUS = true;
-}
-%>
-
 <div class="soloView">
 	<!-- MAIN -->
 	<div class="main">
@@ -57,16 +30,16 @@ while (rs.next()) {
 	<!-- END MAIN -->
 </div>
 <!-- Insert Modal -->
-<div class="modal fade" id="spareImginsertModal" tabindex="-1"
+<%-- <div class="modal fade" id="spareImginsertModal" tabindex="-1"
 	role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
 	style="line-height: 17px;">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h3>사진 업로드</h3>
-				<%-- <img src="${contextPath}/resources/assets/img/inputHeader.jpg"
+				<img src="${contextPath}/resources/assets/img/inputHeader.jpg"
 					alt="" style="width: 40%; height: auto;" loading="lazy"
-					style="position: relative;"> --%>
+					style="position: relative;">
 			</div>
 			<div class="modal-body">
 				<form id="formSubmit" action="spareTypeRest/spareImgUpload"
@@ -102,18 +75,18 @@ while (rs.next()) {
 			</div>
 		</div>
 	</div>
-</div>
+</div> --%>
 <!-- update, delete Modal -->
-<div class="modal fade" id="spareImgUpdateModal" tabindex="-1"
+<%-- <div class="modal fade" id="spareImgUpdateModal" tabindex="-1"
 	role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
 	style="line-height: 17px;">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h3>사진 수정·삭제</h3>
-				<%-- <img src="${contextPath}/resources/assets/img/inputHeader.jpg"
+				<img src="${contextPath}/resources/assets/img/inputHeader.jpg"
 					alt="" style="width: 40%; height: auto;" loading="lazy"
-					style="position: relative;"> --%>
+					style="position: relative;">
 			</div>
 			<div class="modal-body">
 				<form id="updateformSubmit" action="spareTypeRest/spareImgUpdate"
@@ -152,7 +125,7 @@ while (rs.next()) {
 			</div>
 		</div>
 	</div>
-</div>
+</div> --%>
 <!-- 프린트페이지에 보낼 데이터 -->
 <input type="hidden" id="comProducer" name="comProducer">
 <input type="hidden" id="comModel" name="comModel" value="">

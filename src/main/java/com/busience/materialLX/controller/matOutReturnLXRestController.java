@@ -123,7 +123,7 @@ public class matOutReturnLXRestController {
 			where += " and A.OutMat_Code like '%" + obj.get("outMat_Code") + "%'";
 		}
 		
-		where += " and A.OutMat_Send_Clsfc = '183'";
+		where += " and A.OutMat_Send_Clsfc = '210'";
 		
 		
 		sql += where;
