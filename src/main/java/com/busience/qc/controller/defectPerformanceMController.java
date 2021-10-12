@@ -190,7 +190,7 @@ public class defectPerformanceMController {
 		
 		*/
 		
-		return "normal/defectPerformanceM";
+		return "normal/qc/defectPerformanceM";
 	}
 	
 }

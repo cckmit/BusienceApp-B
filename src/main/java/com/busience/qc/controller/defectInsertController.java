@@ -20,12 +20,13 @@ public class defectInsertController {
 
 	@GetMapping("defectInsert")
 	public String defectInsert(Model model, HttpServletRequest request) throws SQLException, ClassNotFoundException {
+		model.addAttribute("pageName", "불량 실적 입력");
 		return "qc/defectInsert";
 	}
 	
 	@GetMapping("defectInsertM")
 	public String defectInsertM(Model model, HttpServletRequest request) throws SQLException, ClassNotFoundException {
-		return "normal/defectInsertM";
+		return "normal/qc/defectInsertM";
 	}
 	
 }

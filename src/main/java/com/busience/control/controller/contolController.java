@@ -24,22 +24,13 @@ public class contolController {
 	//workMonitoring
 	@GetMapping("workMonitoring")
 	public String workMonitoring(Model model) {
-		return "workMonitoring";
+		//return "workMonitoring";
+		return "normal/monitoring/workMonitoring";
 	}
 	
 	//equipMonitoring
 	@GetMapping("equipMonitoring")
 	public String equipMonitoring(Model model) {
-		return "equipMonitoring";
-	}
-	
-	@GetMapping("Graphic2")
-	public String Graphic2(Model model) {
-		return "monitoring/Graphic/Graphic2";
-	}
-	
-	@GetMapping("React1")
-	public String React1(Model model) {
-		return "React/React1";
+		return "normal/monitoring/equipMonitoring";
 	}
 }

@@ -15,7 +15,7 @@ public class workOrderOIContoller {
 
 	@GetMapping("workorderoi")
 	public String orderMaster(Model model, HttpServletRequest request) throws SQLException {
-		return "normal/workorderoi";
+		return "normal/monitoring/workorderoi";
 	}
 	
 }
