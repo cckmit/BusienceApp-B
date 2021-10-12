@@ -15,6 +15,7 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -109,12 +110,10 @@ public class codeManageRestController {
 
 		String CHILD_TBL_NUM = "";
 		
-		String sql = "select IFNULL(max(CHILD_TBL_NO+0)+1,1) CHILD_TBL_NO, cast(IFNULL(max(CHILD_TBL_NUM+0)+1,1) as char(2)) CHILD_TBL_NUM from DTL_TBL where ";
-		sql += "NEW_TBL_CODE = '" + NEW_TBL_CODE + "'";
+		String sql = "select CAST(IFNULL(max(CHILD_TBL_NO+0)+1,1) as char) CHILD_TBL_NO, "
+				+ "(select CAST(IFNULL(max(CHILD_TBL_NUM+0)+1,1) as char) FROM DTL_TBL WHERE NEW_TBL_CODE='" + NEW_TBL_CODE + "') CHILD_TBL_NUM from DTL_TBL";
 
 		System.out.println(sql);
-
-		
 
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -126,11 +125,9 @@ public class codeManageRestController {
 			CHILD_TBL_NO = rs.getString("CHILD_TBL_NO");
 		}
 
-		System.out.println(CHILD_TBL_NUM);
-		System.out.println("NEW_TBL_CODE + CHILD_TBL_NUM =" + NEW_TBL_CODE+CHILD_TBL_NUM);
-		System.out.println(CHILD_TBL_NUM);
+		//System.out.println(CHILD_TBL_NO);
 
-		sql = "INSERT INTO DTL_TBL " + "VALUES (" + "'" + NEW_TBL_CODE + CHILD_TBL_NUM + "'," + "'" + NEW_TBL_CODE + "'," + "'"
+		sql = "INSERT INTO DTL_TBL " + "VALUES (" + "'" + CHILD_TBL_NO + "'," + "'" + NEW_TBL_CODE + "'," + "'"
 				+ CHILD_TBL_NUM + "'," + "'" + CHILD_TBL_TYPE + "'," + "'" + CHILD_TBL_RMARK + "'," + "'"
 				+ CHILD_TBL_USE_STATUS + "')";
 
@@ -141,29 +138,23 @@ public class codeManageRestController {
 		pstmt.executeUpdate();
 		
 		// 권한관리일 경우에 데이터를 입력하는 코드 권한관리는 1
-		if(NEW_TBL_CODE.equals("1"))
-		{
-			List<DTL_TBL> list1 = jdbctemplate.query("SELECT * FROM DTL_TBL WHERE NEW_TBL_CODE = '13'", new RowMapper<DTL_TBL>() {
-				@Override
-				public DTL_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
-						DTL_TBL data = new DTL_TBL();
-						data.setNEW_TBL_CODE(rs.getString("NEW_TBL_CODE"));
-						data.setCHILD_TBL_NO(rs.getString("CHILD_TBL_NO"));
-						data.setCHILD_TBL_NUM(rs.getString("CHILD_TBL_NUM"));
-						data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
-						data.setCHILD_TBL_RMARK(rs.getString("CHILD_TBL_RMARK"));
-						data.setCHILD_TBL_USE_STATUS(rs.getString("CHILD_TBL_USE_STATUS"));
-						return data;
-					}}
-				);
-			
-			//jdbctemplate.update("delete from RIGHTS_MGMT_TBL");
-			
-			for (int j = 0; j < list1.size(); j++) {
-				jdbctemplate.update("insert into RIGHTS_MGMT_TBL values(?,?,?)",CHILD_TBL_NO,list1.get(j).getCHILD_TBL_NO(),"true");
-			}
-		}
-		
+		/*
+		 * if(NEW_TBL_CODE.equals("1")) { List<DTL_TBL> list1 =
+		 * jdbctemplate.query("SELECT * FROM DTL_TBL WHERE NEW_TBL_CODE = '13'", new
+		 * RowMapper<DTL_TBL>() {
+		 * 
+		 * @Override public DTL_TBL mapRow(ResultSet rs, int rowNum) throws SQLException
+		 * { DTL_TBL data = new DTL_TBL();
+		 * data.setNEW_TBL_CODE(rs.getString("NEW_TBL_CODE"));
+		 * data.setCHILD_TBL_NO(rs.getString("CHILD_TBL_NO"));
+		 * data.setCHILD_TBL_NUM(rs.getString("CHILD_TBL_NUM"));
+		 * data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
+		 * data.setCHILD_TBL_RMARK(rs.getString("CHILD_TBL_RMARK"));
+		 * data.setCHILD_TBL_USE_STATUS(rs.getString("CHILD_TBL_USE_STATUS")); return
+		 * data; }} );
+		 * 
+		 * }
+		 */
 		rs.close();
 		pstmt.close();
 		conn.close();
@@ -186,7 +177,7 @@ public class codeManageRestController {
 		sql += " where NEW_TBL_CODE=" + NEW_TBL_CODE;
 		sql += " and CHILD_TBL_NUM=" + CHILD_TBL_NUM;
 
-		// System.out.println(sql);
+		System.out.println(sql);
 		// HomeController.LogInsert("", "2. Update", sql, request);
 
 		Connection conn = dataSource.getConnection();
