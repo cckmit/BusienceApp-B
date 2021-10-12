@@ -8,12 +8,17 @@
    <definition name="nomalLayout" template="/WEB-INF/views/common/normalLayout.jsp">
        <put-attribute name="body" value="" />
    </definition>
-   <definition name="popup/*" extends="nomalLayout">
-       <put-attribute name="body" value="/WEB-INF/views/popup/{1}.jsp" />
+   
+   <definition name="normal/*" extends="nomalLayout">
+       <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
    </definition>
-
-	<definition name="normal/*/*" extends="nomalLayout">
+   
+   <definition name="normal/*/*" extends="nomalLayout">
        <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+   </definition>
+   
+   <definition name="normal/*/*/*" extends="nomalLayout">
+       <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
    </definition>
 
    <!-- main -->
@@ -26,9 +31,14 @@
        <put-attribute name="body" value="/WEB-INF/views/main.jsp" />
    </definition>
    
+   <definition name="*" extends="tilesLayout">
+       <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+   </definition>
+      
    <definition name="*/*" extends="tilesLayout">
        <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
    </definition>
+   
     <definition name="*/*/*" extends="tilesLayout">
        <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
    </definition>

@@ -12,7 +12,7 @@
 		<div class="input-box">
 			<div>
 				<span><strong>품목종류</strong></span>
-				<select class="Item_Type1">
+				<select class="Item_Type1" onchange="BIL_Search1()">
 					<option value="all">all</option>
 					<c:forEach var="data" items="${mtrlClsfcList}">
 						<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>

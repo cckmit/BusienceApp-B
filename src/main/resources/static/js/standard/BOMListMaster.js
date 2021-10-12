@@ -6,7 +6,6 @@ var BOMitemListTable1 = new Tabulator("#BOMitemListTable1", {
 	ajaxContentType:"json",
 	ajaxURL : "BOMRest/BOMitemList",
 	rowClick:function(e, row){
-		console.log("변경")
 		//테이블 초기화
 		BOMExpListTable.clearData();
 		//선택된행 표시
@@ -36,7 +35,6 @@ function BIL_Search1(){
 		url : "BOMRest/BOMitemList?PRODUCT_ITEM_CODE="+ $('.Item_Code1').val()
 								+"&Item_Type="+$('.Item_Type1').val(),
 		success : function(data) {
-			console.log(data);
 			BOMitemListTable1.setData(data);
 		}
 	});
@@ -198,7 +196,6 @@ function BIL_Search2(){
 		url : "BOMRest/BOMitemList?PRODUCT_ITEM_CODE="+ $('.Item_Code2').val()
 								+"&Item_Type="+$('.Item_Type2').val(),
 		success : function(data) {
-			console.log(data);
 			BOMitemListTable2.setData(data);
 		}
 	});

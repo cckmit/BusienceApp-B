@@ -19,7 +19,7 @@
 							<span><strong>제품코드</strong></span>
 							<input id="salesCode" class="Item_Code" type="text" disabled>
 							<span><strong>제품명</strong></span>
-							<input id="salesName" class="Item_Name clearInput" style="width: 200px;" type="text" autofocus onkeypress="javascript:if(event.keyCode==13) {itemPopup2($(this).val(),'input','','55')}">
+							<input id="salesName" class="Item_Name clearInput" style="width: 200px;" type="text" autofocus onkeypress="javascript:if(event.keyCode==13) {itemPopup($(this).val(),'input','','sales')}">
 						</div>
 					</div>
 				</div>
