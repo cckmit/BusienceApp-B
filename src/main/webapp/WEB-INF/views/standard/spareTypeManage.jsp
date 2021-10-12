@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="soloView">
 	<!-- MAIN -->
 	<div class="main">
@@ -30,16 +30,16 @@
 	<!-- END MAIN -->
 </div>
 <!-- Insert Modal -->
-<div class="modal fade" id="spareImginsertModal" tabindex="-1"
+<%-- <div class="modal fade" id="spareImginsertModal" tabindex="-1"
 	role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
 	style="line-height: 17px;">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h3>사진 업로드</h3>
-				<%-- <img src="${contextPath}/resources/assets/img/inputHeader.jpg"
+				<img src="${contextPath}/resources/assets/img/inputHeader.jpg"
 					alt="" style="width: 40%; height: auto;" loading="lazy"
-					style="position: relative;"> --%>
+					style="position: relative;">
 			</div>
 			<div class="modal-body">
 				<form id="formSubmit" action="spareTypeRest/spareImgUpload"
@@ -75,18 +75,18 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> --%>
 <!-- update, delete Modal -->
-<div class="modal fade" id="spareImgUpdateModal" tabindex="-1"
+<%-- <div class="modal fade" id="spareImgUpdateModal" tabindex="-1"
 	role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
 	style="line-height: 17px;">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h3>사진 수정·삭제</h3>
-				<%-- <img src="${contextPath}/resources/assets/img/inputHeader.jpg"
+				<img src="${contextPath}/resources/assets/img/inputHeader.jpg"
 					alt="" style="width: 40%; height: auto;" loading="lazy"
-					style="position: relative;"> --%>
+					style="position: relative;">
 			</div>
 			<div class="modal-body">
 				<form id="updateformSubmit" action="spareTypeRest/spareImgUpdate"
@@ -125,7 +125,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> --%>
 <!-- 프린트페이지에 보낼 데이터 -->
 <input type="hidden" id="comProducer" name="comProducer">
 <input type="hidden" id="comModel" name="comModel" value="">
