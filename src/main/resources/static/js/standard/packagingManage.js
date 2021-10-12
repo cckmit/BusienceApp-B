@@ -168,12 +168,13 @@ var packagingManageTable = new Tabulator("#packagingManageTable",{
 		if(packagingManageTable.getDataCount("selected")!=0){
 			row.update(packagingManageTable.getData("selected")[0])
 		}else{
-			row.update({packaging_Cus_Status : '281',
+			row.update({packaging_Cus_Status : '240',
 						packaging_Cus_Name : '',
 						packaging_ItemName : '',
 						packaging_Min_Order_Qty : 0,
 						packaging_Small_Unit : 0,
 						packaging_Big_Box : 0,
+						packaging_Rate : 0,
 						packaging_Use_Status : true})
 		}
 		row.update({id:0})

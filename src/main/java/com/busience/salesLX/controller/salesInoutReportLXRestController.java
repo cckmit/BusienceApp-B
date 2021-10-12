@@ -35,12 +35,12 @@ public class salesInoutReportLXRestController {
 		JSONObject obj = (JSONObject) parser.parse(originData);
 		System.out.println(obj);
 		String sql = "select A.Sales_Code,\r\n" + "B.PRODUCT_ITEM_NAME sales_Name,\r\n"
-				+ "case when A.Sales_Clsfc='171' then A.Sales_Qty else 0 end as Sales_InMat_Qty,\r\n"
-				+ "case when A.Sales_Clsfc='175' then A.Sales_Qty else 0 end as Sales_InReturn_Qty,\r\n"
-				+ "case when A.Sales_Clsfc in (172,173,174) then A.Sales_Qty else 0 end as Sales_InOther_Qty,\r\n"
-				+ "case when A.Sales_Clsfc='191' then A.Sales_Qty else 0 end as Sales_OutMat_Qty,\r\n"
-				+ "case when A.Sales_Clsfc='194' then A.Sales_Qty else 0 end as Sales_OutReturn_Qty,\r\n"
-				+ "case when A.Sales_Clsfc in (192, 193) then A.Sales_Qty else 0 end as Sales_OutOther_Qty,\r\n"
+				+ "case when A.Sales_Clsfc='203' then A.Sales_Qty else 0 end as Sales_InMat_Qty,\r\n"
+				+ "case when A.Sales_Clsfc='207' then A.Sales_Qty else 0 end as Sales_InReturn_Qty,\r\n"
+				+ "case when A.Sales_Clsfc in (204,205,206) then A.Sales_Qty else 0 end as Sales_InOther_Qty,\r\n"
+				+ "case when A.Sales_Clsfc='211' then A.Sales_Qty else 0 end as Sales_OutMat_Qty,\r\n"
+				+ "case when A.Sales_Clsfc='214' then A.Sales_Qty else 0 end as Sales_OutReturn_Qty,\r\n"
+				+ "case when A.Sales_Clsfc in (212, 213) then A.Sales_Qty else 0 end as Sales_OutOther_Qty,\r\n"
 				+ "A.Sales_Clsfc,\r\n" + "C.CHILD_TBL_TYPE,\r\n" + "A.Sales_Date\r\n"
 				+ "from (SELECT Sales_InMat_Code Sales_Code, sum(Sales_InMat_Qty) Sales_Qty, Sales_InMat_Rcv_Clsfc Sales_Clsfc, Sales_InMat_Date Sales_Date\r\n"
 				+ "FROM Sales_InMatLX_tbl\r\n" + "group by Sales_InMat_Code, Sales_InMat_Rcv_Clsfc\r\n"

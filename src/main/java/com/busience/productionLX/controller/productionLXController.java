@@ -68,7 +68,6 @@ public class productionLXController {
 	public String orderMaster(Model model) {
 
 		model.addAttribute("pageName", "작업 지시");
-		model.addAttribute("user_name", "관리자");
 
 		return "productionLX/workorder";
 	}
