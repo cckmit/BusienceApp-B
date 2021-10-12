@@ -69,4 +69,17 @@ public class QCController {
 		
 		return "qc/oqcOutputDefectrate/oqcMaster";
 	}
+	
+	// defectInsert
+	@GetMapping("defectInsert")
+	public String defectInsert(Model model, HttpServletRequest request) throws SQLException, ClassNotFoundException {
+		model.addAttribute("pageName", "불량 실적 입력");
+		return "qc/defectInsert";
+	}
+	
+	// defectInsertM
+	@GetMapping("defectInsertM")
+	public String defectInsertM(Model model, HttpServletRequest request) throws SQLException, ClassNotFoundException {
+		return "normal/qc/defectInsertM";
+	}
 }

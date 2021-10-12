@@ -1,5 +1,9 @@
 package com.busience.control.controller;
 
+import java.sql.SQLException;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,4 +37,10 @@ public class contolController {
 	public String equipMonitoring(Model model) {
 		return "normal/monitoring/equipMonitoring";
 	}
+	
+	@GetMapping("workorderoi")
+	public String orderMaster(Model model, HttpServletRequest request) throws SQLException {
+		return "normal/monitoring/workorderoi";
+	}
+	
 }
