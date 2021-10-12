@@ -59,7 +59,7 @@ public class defectInsertRestController {
 				+ "	Left JOIN	PRODUCT_INFO_TBL a2 ON a1.WorkOrder_ItemCode = a2.PRODUCT_ITEM_CODE\r\n"
 				+ "	LEFT JOIN	EQUIPMENT_INFO_TBL a3 ON a1.WorkOrder_EquipCode = a3.EQUIPMENT_INFO_CODE\r\n"
 				+ "	LEFT JOIN	DTL_TBL a4 ON a1.WorkOrder_WorkStatus = a4.CHILD_TBL_NO\r\n"
-				+ "	WHERE			a1.WorkOrder_WorkStatus = 294\r\n"
+				+ "	WHERE			a1.WorkOrder_WorkStatus = 245\r\n"
 				+ "	AND			a1.WorkOrder_RQty > 0\r\n"
 				+ "	AND			a1.WorkOrder_CompleteTime between '"+obj.get("startDate")+"' and '"+obj.get("endDate")+"'\r\n"
 				+ ")	t1\r\n"
@@ -117,15 +117,6 @@ public class defectInsertRestController {
 			
 			jdbctemplate.update(sql,obj.get("defect_USE_STATUS"),obj.get("defect_CODE"),obj.get("defect_ABR"),obj.get("defect_ABR"));
 		});
-		
-		/*
-		String sql = "INSERT INTO defectPerformance\r\n"
-				+ "VALUES (?,?)\r\n"
-				+ "ON DUPLICATE KEY\r\n"
-				+ "UPDATE Defect_DQty = ?";
-		
-		jdbctemplate.update(sql,obj.get("oqcinspect_OqcInNo"),obj.get("oqcinspect_DQty"),obj.get("oqcinspect_DQty"));
-		*/
 	}
 	
 	@RequestMapping(value = "/DEFECT_INFO_TBL_Load",method = RequestMethod.GET)

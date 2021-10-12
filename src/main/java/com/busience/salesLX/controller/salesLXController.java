@@ -85,8 +85,8 @@ public class salesLXController {
 	public String salesInputMaster(Model model) {
 
 		// 입고구분
-		String salesInputMaster = Integer.toString(17);
-		model.addAttribute("salesInputMaster", dtl_Service.getAlldtl(salesInputMaster));
+		String InputType = Integer.toString(17);
+		model.addAttribute("InputType", dtl_Service.getAlldtl(InputType));
 		
 		// 메뉴명
 		model.addAttribute("pageName", "제품 입고 조회");
@@ -99,8 +99,8 @@ public class salesLXController {
 	public String salesOutputMaster(Model model) {
 		
 		// 출하구분
-		String salesOutputMaster = Integer.toString(19);
-		model.addAttribute("salesOutputMaster", dtl_Service.getAlldtl(salesOutputMaster));
+		String OutputType = Integer.toString(19);
+		model.addAttribute("OutputType", dtl_Service.getAlldtl(OutputType));
 		// 메뉴명
 		model.addAttribute("pageName", "제품 출하 조회");
 		

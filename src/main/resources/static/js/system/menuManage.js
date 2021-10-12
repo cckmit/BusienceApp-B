@@ -1,4 +1,4 @@
-var table = new Tabulator("#example-table1",{
+var menuManageMasterTable = new Tabulator("#menuManageMasterTable",{
 	layoutColumnsOnNewData : true,
 	headerFilterPlaceholder: null,
 	height: "calc(100% - 175px)",
@@ -11,75 +11,64 @@ var table = new Tabulator("#example-table1",{
 	},
 	rowSelected:function(row){
 		MMS_Search(row.getData().user_CODE)
-		//$('#modifyinitbtn').removeClass('unUseBtn');
+		$('#MM_UpdateBtn').removeClass('unUseBtn');
     },
-	rowDblClick: function(e, row) {
-		
-	},
 	columns: [
 		{ title: "사용자 코드", field: "user_CODE", headerHozAlign: "center", headerFilter:"input"},
 		{ title: "사용자 명",	field: "user_NAME",	headerHozAlign: "center", headerFilter:"input"},
 		{ title: "부서", field: "dept_NAME",	headerHozAlign: "center", headerFilter:"input"},
 		{ title: "타입", field: "user_TYPE_NAME", hozAlign: "right",	headerHozAlign: "center", headerFilter:"input"},
 		{ title: "사용유무", field: "user_USE_STATUS", headerHozAlign: "center", headerHozAlign: "center", hozAlign: "center",
-			formatter: "tickCross",	sorter:"boolean", editor:true}
+			formatter: "tickCross",	sorter:"boolean"}
 	]
 });
 
 
-var table2 = new Tabulator("#example-table2", {
+var menuManageSubTable = new Tabulator("#menuManageSubTable", {
 		layoutColumnsOnNewData : true,
 		headerFilterPlaceholder: null,
 		height: "calc(100% - 175px)",
 		columns: [
-			{ formatter:"rowSelection", titleFormatter:"rowSelection", headerHozAlign:"center", hozAlign:"center", headerSort:false, width:40},
+			{ formatter:"rowSelection", titleFormatter:"rowSelection", headerHozAlign:"center", hozAlign:"center", headerSort:false},
 			{ title: "순번", field: "rownum", formatter: "rownum", hozAlign:"right"},
-			{ title: "프로그램 명", field: "menu_PROGRAM_NAME", hozAlign: "left", headerHozAlign: "center", headerFilter:"input" },
-			{ title: "읽기", field: "menu_READ_USE_STATUS", headerHozAlign: "center", hozAlign: "center",
-				formatter: "tickCross",	sorter:"boolean", editor:true},
-			{ title: "쓰기", field: "menu_WRITE_USE_STATUS",	headerHozAlign: "center", hozAlign: "center",
-				formatter: "tickCross",	sorter:"boolean", editor:true},
-			{ title: "삭제",	field: "menu_DEL_USE_STATUS", headerHozAlign: "center", hozAlign: "center",
-				formatter: "tickCross",	sorter:"boolean", editor:true},
-			{ title: "사용유무", field: "menu_MGMT_USE_STATU", headerHozAlign: "center", hozAlign: "center",
-				formatter: "tickCross",	sorter:"boolean", editor:true}
+			{ title: "메뉴코드", field: "menu_Program_Code", visible:false},
+			{ title: "메뉴명", field: "menu_Program_Name", hozAlign: "left", headerHozAlign: "center", headerFilter:"input" },
+			{ title: "읽기", field: "menu_Read_Use_Status", headerHozAlign: "center", hozAlign: "center",
+				formatter: "tickCross", editor:'select', editorParams:{true : "사용", false : "미사용"}},
+			{ title: "쓰기", field: "menu_Write_Use_Status",	headerHozAlign: "center", hozAlign: "center",
+				formatter: "tickCross", editor:'select', editorParams:{true : "사용", false : "미사용"}},
+			{ title: "삭제",	field: "menu_Delete_Use_Status", headerHozAlign: "center", hozAlign: "center",
+				formatter: "tickCross", editor:'select', editorParams:{true : "사용", false : "미사용"}},
+			{ title: "사용유무", field: "menu_MGMT_Use_Status", headerHozAlign: "center", hozAlign: "center",
+				formatter: "tickCross", editor:'select', editorParams:{true : "사용", false : "미사용"}}
 		]
 	});
 
-function MMS_Search(user_CODE){
-	table2.setData("menuManageRest/MMS_Search",{MENU_USER_CODE: user_CODE})
+function MMS_Search(code){
+	menuManageSubTable.setData("menuManageRest/MMS_Search",{MENU_USER_CODE: code})
 }
 
+$('#MM_UpdateBtn').click(function(){
+	MM_Update();
+})
 
-function modifyModalShow() {
-	$("#modifyYesNo").modal("show");
-}
-
-function modBtn() {
-	if (dataList.data.length <= 0) {
+function MM_Update() {
+	
+	var selectedRow	= menuManageSubTable.getData('selected');
+	
+	if (selectedRow.length == 0) {
 		alert("수정할 행을 선택한 후에 수정을 시도하여 주십시오.")
-		return;
+		return false;
 	}
-
-	alert("수정 완료 하였습니다.");
-
-	hiddenInput("permissionFrm", "modifier","test");
-	hiddenInput("permissionFrm", "dataList", JSON.stringify(dataList));
-	frmSubmit("permissionFrm", "post", "menuManage/update");
+	
+	$.ajax({
+		method: "get",
+		url: "menuManageRest/MM_Update?&data=" + encodeURI(JSON.stringify(selectedRow)),
+		success: function(data) {
+			
+			alert("수정 완료 하였습니다.");
+			MMS_Search(menuManageMasterTable.getData('selected')[0].user_CODE)
+		}
+	});
 }
 
-function frmSubmit(frmid, method, action) {
-	frm = document.getElementById(frmid);
-	frm.method = method;
-	frm.action = action;
-	frm.submit();
-}
-
-function hiddenInput(frmid, name, value) {
-	frm = document.getElementById(frmid);
-	var hidden = document.createElement("input");
-	hidden.setAttribute("type", "hidden");
-	hidden.setAttribute("name", name);
-	hidden.setAttribute("value", value);
-	frm.appendChild(hidden);
-}

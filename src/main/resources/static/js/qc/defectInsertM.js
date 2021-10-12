@@ -34,8 +34,23 @@
 						
 				    }
 					,cellEditCancelled:function(cell){
-				    }
+				    
+						if(isNaN(cell.getValue()))
+						{
+							alert("불량 수량은 숫자를 입력하여 주십시오.");
+							cell.restoreOldValue();
+							return;
+						}
+}
 					,cellEdited(cell){
+						
+						if(isNaN(cell.getValue()))
+						{
+							alert("불량 수량은 숫자를 입력하여 주십시오.");
+							cell.restoreOldValue();
+							return;
+						}
+						
 				    }
 				},
 			]

@@ -12,9 +12,13 @@
        <put-attribute name="body" value="/WEB-INF/views/popup/{1}.jsp" />
    </definition>
 
+	<definition name="normal/*/*" extends="nomalLayout">
+       <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+   </definition>
+   <!-- 
 	<definition name="work_order_TAB" extends="nomalLayout">
        <put-attribute name="body" value="/WEB-INF/views/productionLX/work_order_TAB.jsp" />
-   </definition>
+   </definition> -->
    
    <definition name="workMonitoring" extends="nomalLayout">
        <put-attribute name="body" value="/WEB-INF/views/monitoring/workMonitoring.jsp" />
@@ -33,7 +37,7 @@
    </definition> 
    
    <definition name="normal/defectPerformanceM" extends="nomalLayout">
-       <put-attribute name="body" value="/WEB-INF/views/qc/defectInsertM.jsp" />
+       <put-attribute name="body" value="/WEB-INF/views/qc/defectPerformanceM.jsp" />
    </definition>
 
    <!-- main -->

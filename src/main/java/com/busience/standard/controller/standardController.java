@@ -126,7 +126,7 @@ public class standardController {
 		// 자재분류
 		String mtrlClsfc = Integer.toString(5);
 		model.addAttribute("mtrlClsfcList", dtl_Service.getAlldtl(mtrlClsfc));
-		model.addAttribute("pageName", "BOM");
+		model.addAttribute("pageName", "BOM 입력");
 		
 		return "standard/BOM";
 	}

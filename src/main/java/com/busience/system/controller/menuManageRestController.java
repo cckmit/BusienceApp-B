@@ -1,5 +1,6 @@
 package com.busience.system.controller;
 
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,12 +11,16 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.system.Dto.MENU_MGMT_TBL;
+import com.busience.system.Dto.Menu_MGMT_tbl;
 
 @RestController("menuManageRestController")
 @RequestMapping("menuManageRest")
@@ -25,8 +30,8 @@ public class menuManageRestController {
 	DataSource dataSource;
 
 	@GetMapping("/MMS_Search")
-	public List<MENU_MGMT_TBL> view(HttpServletRequest request) throws SQLException{
-		List<MENU_MGMT_TBL> list = new ArrayList<MENU_MGMT_TBL>();
+	public List<Menu_MGMT_tbl> view(HttpServletRequest request) throws SQLException{
+		List<Menu_MGMT_tbl> list = new ArrayList<Menu_MGMT_tbl>();
 		
 		String sql = "SELECT\r\n"
 				+ "A.Menu_User_Code,\r\n"
@@ -47,14 +52,14 @@ public class menuManageRestController {
 		ResultSet rs = pstmt.executeQuery();
 
 		while (rs.next()) {
-			MENU_MGMT_TBL data = new MENU_MGMT_TBL();
-			data.setMENU_USER_CODE(rs.getString("MENU_USER_CODE"));
-			data.setMENU_PROGRAM_CODE(rs.getString("MENU_PROGRAM_CODE"));
-			data.setMENU_READ_USE_STATUS(rs.getString("MENU_READ_USE_STATUS"));
-			data.setMENU_WRITE_USE_STATUS(rs.getString("MENU_WRITE_USE_STATUS"));
-			data.setMENU_DEL_USE_STATUS(rs.getString("MENU_delete_USE_STATUS"));
-			data.setMENU_MGMT_USE_STATU(rs.getString("MENU_MGMT_USE_STATUS"));
-			data.setMENU_PROGRAM_NAME(rs.getString("Menu_Name"));
+			Menu_MGMT_tbl data = new Menu_MGMT_tbl();
+			data.setMenu_User_Code(rs.getString("Menu_User_Code"));
+			data.setMenu_Program_Code(rs.getString("Menu_Program_Code"));
+			data.setMenu_Program_Name(rs.getString("Menu_Name"));
+			data.setMenu_Read_Use_Status(rs.getString("Menu_Read_Use_Status"));
+			data.setMenu_Write_Use_Status(rs.getString("Menu_Write_Use_Status"));
+			data.setMenu_Delete_Use_Status(rs.getString("Menu_Delete_Use_Status"));
+			data.setMenu_MGMT_Use_Status(rs.getString("Menu_MGMT_Use_Status"));
 			list.add(data);
 		}
 		
@@ -65,4 +70,65 @@ public class menuManageRestController {
 		return list;
 	}
 	
+	// MM_Update
+	@GetMapping("/MM_Update")
+	public String MM_Update(HttpServletRequest request) throws ParseException, SQLException, UnknownHostException, ClassNotFoundException {
+		JSONParser parser = new JSONParser();
+		
+		String data = request.getParameter("data");
+		JSONArray arr = (JSONArray) parser.parse(data);
+		
+		String sql = null;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String sql_result = null;
+
+		try {
+			conn = dataSource.getConnection();
+			conn.setAutoCommit(false);
+			
+			//Sales_OrderList_tbl
+			for(int i=0;i<arr.size();i++) {
+				JSONObject obj = (JSONObject) arr.get(i);
+				System.out.println(obj);
+				
+				sql = "UPDATE `Menu_MGMT_tbl`\r\n"
+						+ "SET \r\n"
+						+ "Menu_Read_Use_Status = "+obj.get("menu_Read_Use_Status")+",\r\n"
+						+ "Menu_Write_Use_Status = "+obj.get("menu_Write_Use_Status")+",\r\n"
+						+ "Menu_Delete_Use_Status = "+obj.get("menu_Delete_Use_Status")+",\r\n"
+						+ "Menu_MGMT_Use_Status = "+obj.get("menu_MGMT_Use_Status")+"\r\n"
+						+ "where Menu_User_Code = '"+obj.get("menu_User_Code")+"'\r\n"
+						+ "AND Menu_Program_Code = '"+obj.get("menu_Program_Code")+"'";
+
+				System.out.println("sql = " + sql);
+				pstmt = conn.prepareStatement(sql);
+				pstmt.executeUpdate();
+			}
+			
+			conn.commit();
+			sql_result = "success";
+		} catch(SQLException e) {
+			e.printStackTrace();
+			if(conn!=null) {
+				conn.rollback();
+			}
+			sql_result = "error";
+		} finally {
+			if(rs!=null) {
+				rs.close();
+			}
+			if(pstmt!=null) {
+				pstmt.close();
+			}
+			if(conn!=null) {
+				conn.close();
+			}
+		}
+		
+		return sql_result;
+	}
 }

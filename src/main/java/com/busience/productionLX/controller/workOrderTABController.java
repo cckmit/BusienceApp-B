@@ -43,6 +43,6 @@ public class workOrderTABController {
 			}
 		}));
 		
-		return "work_order_TAB";
+		return "normal/productionLX/work_order_TAB";
 	}
 }

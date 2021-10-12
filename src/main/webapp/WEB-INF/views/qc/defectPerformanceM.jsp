@@ -41,9 +41,10 @@ html, body {
 			</div>
 		</div>
 		<div id="WorkOrder_tbl"></div>
-		<div id="defectPerformance" style="border-top: solid;"></div>
+		<div id="chart_div" style="height: 45%;"></div>
+		<div id="defectPerformance" style="border-top: solid; visibility: hidden;"></div>
 
-		<script src="/js/qc/defectInsertM.js"></script>
+		<script src="/js/qc/defectPerformanceM.js"></script>
 	</div>
 </div>
 		

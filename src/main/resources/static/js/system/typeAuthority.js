@@ -29,7 +29,7 @@ var typeAuthoritySubTable = new Tabulator("#typeAuthoritySubTable", {
 		{ title: "순번", field: "rownum", formatter:"rownum", hozAlign: "right"},
 		{ title: "프로그램 명", field: "rights_Program_Name"},
 		{ title: "사용유무", field: "rights_MGMT_Use_Status", hozAlign: "center",
-			formatter: "tickCross",	sorter:"boolean", editor:true}
+			formatter: "tickCross", editor:'select', editorParams:{true : "사용", false : "미사용"}}
 	]
 });
 

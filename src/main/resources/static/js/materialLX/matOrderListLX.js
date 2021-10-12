@@ -229,10 +229,6 @@ function MOLSS_Search(order_lCode) {
 	});
 }
 
-$('#MOL_MailBtn').click(function() {
-	mail_fun();
-});
-	
 $('#MOL_PrintBtn').click(function(){
 	print_fun();
 });
@@ -278,32 +274,4 @@ function print_fun()
         form.appendChild(hiddenField);
         
         form.submit();
-}
-	
-function mail_fun()
-{
-		selectedData = matOrderListTable.getData("selected");
-		
-		console.log(selectedData);
-		
-		if(selectedData.length == 0)
-		{
-			alert("행을 선택해주세요. 선택한 행의 데이터를 인쇄 할 수 있습니다.");
-			return;
-		}
-		
-        var dataList = {
-    			"data": []
-    	}
-        
-        dataList.data = selectedData;
-        
-        $.ajax({
-    		method : "POST",
-    		url : "matOrderLXReportRest/send_email?dataList="+ encodeURI(JSON.stringify(dataList)),
-    		success : function(data) {
-    			console.log(data);
-    			alert("메일 전송 완료하였습니다.");
-    		}
-    	});
 }
