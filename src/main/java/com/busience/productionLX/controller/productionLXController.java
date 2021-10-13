@@ -56,11 +56,25 @@ public class productionLXController {
 		return "productionLX/proMachineSumLX";
 	}
 
+	// proMachineSumLXX
+	@GetMapping("proMachineSumLXX")
+	public String proMachineSumLXX(Model model) {
+		model.addAttribute("pageName", "생산 실적 관리(설비별)");
+		return "productionLX/proMachineSumLXX";
+	}
+
 	// proItemListLX
 	@GetMapping("proItemListLX")
 	public String proItemListLX(Model model) {
 		model.addAttribute("pageName", "생산 이력 관리(제품별)");
 		return "productionLX/proItemListLX";
+	}
+
+	// proItemListLXX
+	@GetMapping("proItemListLXX")
+	public String proItemListLXX(Model model) {
+		model.addAttribute("pageName", "생산 이력 관리(제품별)");
+		return "productionLX/proItemListLXX";
 	}
 
 	// proMachineListLX
@@ -70,11 +84,25 @@ public class productionLXController {
 		return "productionLX/proMachineListLX";
 	}
 
+	// proMachineListLXX
+	@GetMapping("proMachineListLXX")
+	public String proMachineListLXX(Model model) {
+		model.addAttribute("pageName", "생산 이력 관리(설비별)");
+		return "productionLX/proMachineListLXX";
+	}
+
 	// proSumMonth
 	@GetMapping("proSumMonth")
 	public String proSumMonth(Model model) {
 		model.addAttribute("pageName", "생산 실적 관리(월별)");
 		return "productionLX/proSumMonth";
+	}
+
+	// proSumMonth2
+	@GetMapping("proSumMonthX")
+	public String proSumMonth2(Model model) {
+		model.addAttribute("pageName", "생산 실적 관리(월별)");
+		return "productionLX/proSumMonthX";
 	}
 
 	// proSumYear
@@ -84,6 +112,13 @@ public class productionLXController {
 		return "productionLX/proSumYear";
 	}
 
+	// proSumYear
+	@GetMapping("proSumYearX")
+	public String proSumYearX(Model model) {
+		model.addAttribute("pageName", "생산 실적 관리(연별)");
+		return "productionLX/proSumYearX";
+	}
+
 	// workorder
 	@GetMapping("workorder")
 	public String orderMaster(Model model) {
@@ -91,12 +126,6 @@ public class productionLXController {
 		model.addAttribute("pageName", "작업 지시");
 
 		return "productionLX/workorder";
-	}
-
-	// workorder_auto_data_send
-	@GetMapping("workorder_auto_data_send")
-	public String workorder_auto_data_send(Model model) {
-		return "productionLX/workorder_auto_data_send";
 	}
 
 	// workorderList

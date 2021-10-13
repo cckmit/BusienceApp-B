@@ -1,5 +1,6 @@
 package com.busience.productionLX.controller;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -8,6 +9,8 @@ import javax.sql.DataSource;
 
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,11 +22,11 @@ import com.busience.productionLX.dto.PRODUCTION_INFO_TBL;
 public class proResultLXXRestController {
 
 	@Autowired
-	DataSource dataSource;
+	JdbcTemplate jdbctemplate;
 
 	// proResultSelect
 	@RequestMapping(value = "/proResultSelect", method = RequestMethod.GET)
-	public String proResultSelect(HttpServletRequest request)
+	public List<PRODUCTION_INFO_TBL> proResultSelect(HttpServletRequest request)
 			throws ParseException, SQLException, org.json.simple.parser.ParseException {
 		String startDate = request.getParameter("startDate");
 		String endDate = request.getParameter("endDate");
@@ -49,8 +52,26 @@ public class proResultLXXRestController {
 		}
 
 		sql += where;
-
-		return null;
+		
+		return jdbctemplate.query(sql, new RowMapper<PRODUCTION_INFO_TBL>() {
+			@Override
+			public PRODUCTION_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
+				PRODUCTION_INFO_TBL data = new PRODUCTION_INFO_TBL();
+				data.setPRODUCTION_WorkOrder_ONo(rs.getString("PRODUCTION_SERIAL_NUM"));
+				data.setPRODUCTION_INFO_NUM(rs.getString("PRODUCTION_INFO_NUM"));
+				
+				data.setPRODUCTION_EQUIPMENT_CODE(rs.getString("PRODUCTION_EQUIPMENT_CODE"));
+				data.setPRODUCTION_EQUIPMENT_INFO_NAME(rs.getString("PRODUCTION_EQUIPMENT_INFO_NAME"));
+				
+				data.setPRODUCTION_PRODUCT_CODE(rs.getString("PRODUCTION_PRODUCT_CODE"));
+				data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
+				data.setPRODUCTION_Date(rs.getString("PRODUCTION_MODIFY_D"));
+				
+				data.setPRODUCTION_P_Qty(rs.getInt("PRODUCTION_VOLUME"));
+				
+				return data;
+			}
+		},startDate,endDate);
 	}
 
 }
