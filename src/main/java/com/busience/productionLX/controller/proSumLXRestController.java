@@ -27,7 +27,7 @@ public class proSumLXRestController {
 
 	@Autowired
 	DataSource dataSource;
-	
+
 	@Autowired
 	JdbcTemplate jdbctemplate;
 
@@ -76,13 +76,13 @@ public class proSumLXRestController {
 		while (rs.next()) {
 			if (rs.getString("PRODUCTION_WorkOrder_ONo") == null) {
 				PRODUCTION_INFO_TBL data1 = new PRODUCTION_INFO_TBL();
-				
+
 				data1.setPRODUCTION_WorkOrder_ONo("Grand Total");
 				data1.setPRODUCTION_EQUIPMENT_CODE("");
 				data1.setPRODUCTION_EQUIPMENT_INFO_NAME("");
 				data1.setPRODUCTION_P_Qty(rs.getInt("PRODUCTION_P_Qty")); // �������?
 				list.add(data1);
-				
+
 			} else {
 				PRODUCTION_INFO_TBL data1 = new PRODUCTION_INFO_TBL();
 				i++;
@@ -107,7 +107,7 @@ public class proSumLXRestController {
 		 * 1).setPRODUCTION_EQUIPMENT_CODE(""); list.get(list.size() -
 		 * 1).setPRODUCTION_EQUIPMENT_INFO_NAME(""); } }
 		 */
-		
+
 		rs.close();
 		pstmt.close();
 		pstmt.close();
@@ -165,7 +165,7 @@ public class proSumLXRestController {
 				data1.setPRODUCTION_P_Qty(rs.getInt("PRODUCTION_P_Qty"));
 				data1.setPRODUCTION_PRODUCT_CODE("");
 				data1.setPRODUCT_ITEM_NAME("");
-				
+
 				list.add(data1);
 			} else {
 				PRODUCTION_INFO_TBL data1 = new PRODUCTION_INFO_TBL();
@@ -205,19 +205,12 @@ public class proSumLXRestController {
 		String PRODUCT_ITEM_NAME = request.getParameter("PRODUCT_ITEM_NAME");
 		String where = "";
 
-		String sql = "SELECT\r\n"
-				+ "			A.*,SUM(A.PRODUCTION_VOLUME) PRODUCTION_VOLUME_S,\r\n"
+		String sql = "SELECT\r\n" + "			A.*,SUM(A.PRODUCTION_VOLUME) PRODUCTION_VOLUME_S,\r\n"
 				+ "			B.PRODUCT_ITEM_NAME,\r\n"
-				+ "			C.EQUIPMENT_INFO_NAME PRODUCTION_EQUIPMENT_INFO_NAME\r\n"
-				+ "FROM		\r\n"
-				+ "(\r\n"
-				+ "		SELECT \r\n"
-				+ "				*\r\n"
-				+ "		FROM\r\n"
-				+ "				PRODUCTION_MGMT_TBL_X\r\n"
-				+ "		WHERE PRODUCTION_MODIFY_D BETWEEN ? and ?\r\n"
-				+ ") A\r\n"
-				+ "left join PRODUCT_INFO_TBL B on Production_PRODUCT_CODE = B.PRODUCT_ITEM_CODE\r\n"
+				+ "			C.EQUIPMENT_INFO_NAME PRODUCTION_EQUIPMENT_INFO_NAME\r\n" + "FROM		\r\n" + "(\r\n"
+				+ "		SELECT \r\n" + "				*\r\n" + "		FROM\r\n"
+				+ "				PRODUCTION_MGMT_TBL_X\r\n" + "		WHERE PRODUCTION_MODIFY_D BETWEEN ? and ?\r\n"
+				+ ") A\r\n" + "left join PRODUCT_INFO_TBL B on Production_PRODUCT_CODE = B.PRODUCT_ITEM_CODE\r\n"
 				+ "left join EQUIPMENT_INFO_TBL C on A.PRODUCTION_Equipment_Code = C.EQUIPMENT_INFO_CODE";
 
 		// ��ǰ�ڵ� �˻�
@@ -232,27 +225,100 @@ public class proSumLXRestController {
 		}
 		sql += where;
 
-		sql += " group BY A.PRODUCTION_PRODUCT_CODE";
-		
-		
-		
+		sql += " group BY A.PRODUCTION_PRODUCT_CODE with rollup";
+
 		return jdbctemplate.query(sql, new RowMapper<PRODUCTION_INFO_TBL>() {
 			@Override
 			public PRODUCTION_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
 				PRODUCTION_INFO_TBL data = new PRODUCTION_INFO_TBL();
-				data.setPRODUCTION_WorkOrder_ONo(rs.getString("PRODUCTION_SERIAL_NUM"));
 				
-				data.setPRODUCTION_EQUIPMENT_CODE(rs.getString("PRODUCTION_EQUIPMENT_CODE"));
-				data.setPRODUCTION_EQUIPMENT_INFO_NAME(rs.getString("PRODUCTION_EQUIPMENT_INFO_NAME"));
 				
-				data.setPRODUCTION_PRODUCT_CODE(rs.getString("PRODUCTION_PRODUCT_CODE"));
-				data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
-				data.setPRODUCTION_Date(rs.getString("PRODUCTION_MODIFY_D"));
-				
-				data.setPRODUCTION_P_Qty(rs.getInt("PRODUCTION_VOLUME_S"));
-				
+				if (rs.getString("PRODUCTION_PRODUCT_CODE") == null)
+				{
+					data.setPRODUCTION_WorkOrder_ONo("Grand Total");
+					data.setPRODUCTION_P_Qty(rs.getInt("PRODUCTION_VOLUME_S"));
+					data.setPRODUCTION_PRODUCT_CODE("");
+					data.setPRODUCT_ITEM_NAME("");
+				}
+				else
+				{
+					data.setPRODUCTION_WorkOrder_ONo(rs.getString("PRODUCTION_SERIAL_NUM"));
+
+					data.setPRODUCTION_EQUIPMENT_CODE(rs.getString("PRODUCTION_EQUIPMENT_CODE"));
+					data.setPRODUCTION_EQUIPMENT_INFO_NAME(rs.getString("PRODUCTION_EQUIPMENT_INFO_NAME"));
+
+					data.setPRODUCTION_PRODUCT_CODE(rs.getString("PRODUCTION_PRODUCT_CODE"));
+					data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
+					data.setPRODUCTION_Date(rs.getString("PRODUCTION_MODIFY_D"));
+
+					data.setPRODUCTION_P_Qty(rs.getInt("PRODUCTION_VOLUME_S"));
+				}
+
 				return data;
 			}
-		},startDate,endDate);
+		}, startDate, endDate);
+	}
+
+	// proItemSumSelect3
+	@RequestMapping(value = "/proMachineSumSelect3", method = RequestMethod.GET)
+	public List<PRODUCTION_INFO_TBL> proMachineSumSelect3(HttpServletRequest request) {
+		String startDate = request.getParameter("startDate");
+		String endDate = request.getParameter("endDate");
+		String EQUIPMENT_INFO_CODE = request.getParameter("EQUIPMENT_INFO_CODE");
+		String EQUIPMENT_INFO_NAME = request.getParameter("EQUIPMENT_INFO_NAME");
+		String where = "";
+
+		String sql = "SELECT\r\n" + "			A.*,SUM(A.PRODUCTION_VOLUME) PRODUCTION_VOLUME_S,\r\n"
+				+ "			B.PRODUCT_ITEM_NAME,\r\n"
+				+ "			C.EQUIPMENT_INFO_NAME PRODUCTION_EQUIPMENT_INFO_NAME\r\n" + "FROM		\r\n" + "(\r\n"
+				+ "		SELECT \r\n" + "				*\r\n" + "		FROM\r\n"
+				+ "				PRODUCTION_MGMT_TBL_X\r\n" + "		WHERE PRODUCTION_MODIFY_D BETWEEN ? and ?\r\n"
+				+ ") A\r\n" + "left join PRODUCT_INFO_TBL B on Production_PRODUCT_CODE = B.PRODUCT_ITEM_CODE\r\n"
+				+ "left join EQUIPMENT_INFO_TBL C on A.PRODUCTION_Equipment_Code = C.EQUIPMENT_INFO_CODE";
+
+		// �����ڵ� �˻�
+		if (EQUIPMENT_INFO_CODE != null) {
+			where += " and A.PRODUCTION_Equipment_Code like '%" + EQUIPMENT_INFO_CODE + "%'"
+					+ " and C.EQUIPMENT_INFO_NAME like '%" + EQUIPMENT_INFO_NAME + "%'";
+		}
+		// �����? �˻�
+		else {
+			where += " and (C.EQUIPMENT_INFO_NAME like '%" + EQUIPMENT_INFO_NAME + "%'"
+					+ " OR A.PRODUCTION_Equipment_Code like '%" + EQUIPMENT_INFO_NAME + "%')";
+		}
+		sql += where;
+
+		sql += " group BY A.PRODUCTION_EQUIPMENT_CODE with rollup";
+
+		return jdbctemplate.query(sql, new RowMapper<PRODUCTION_INFO_TBL>() {
+			@Override
+			public PRODUCTION_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
+				PRODUCTION_INFO_TBL data = new PRODUCTION_INFO_TBL();
+				
+				
+				if (rs.getString("PRODUCTION_EQUIPMENT_CODE") == null)
+				{
+					data.setPRODUCTION_WorkOrder_ONo("Grand Total");
+					data.setPRODUCTION_P_Qty(rs.getInt("PRODUCTION_VOLUME_S"));
+					data.setPRODUCTION_PRODUCT_CODE("");
+					data.setPRODUCT_ITEM_NAME("");
+				}
+				else
+				{
+					data.setPRODUCTION_WorkOrder_ONo(rs.getString("PRODUCTION_SERIAL_NUM"));
+
+					data.setPRODUCTION_EQUIPMENT_CODE(rs.getString("PRODUCTION_EQUIPMENT_CODE"));
+					data.setPRODUCTION_EQUIPMENT_INFO_NAME(rs.getString("PRODUCTION_EQUIPMENT_INFO_NAME"));
+
+					data.setPRODUCTION_PRODUCT_CODE(rs.getString("PRODUCTION_PRODUCT_CODE"));
+					data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
+					data.setPRODUCTION_Date(rs.getString("PRODUCTION_MODIFY_D"));
+
+					data.setPRODUCTION_P_Qty(rs.getInt("PRODUCTION_VOLUME_S"));
+				}
+
+				return data;
+			}
+		}, startDate, endDate);
 	}
 }
