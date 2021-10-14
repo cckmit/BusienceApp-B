@@ -38,15 +38,16 @@ public class matOutputReportLXRestController {
 		//System.out.println(obj);
 
 		String sql = "select\r\n" + " omt.OutMat_Date,\r\n" + "	dt2.CHILD_TBL_TYPE OutMat_Send_Clsfc_Name,\r\n"
-				+ " omt.OutMat_Consignee,\r\n" + " omt.OutMat_Dept_Code,\r\n"
+				+ " omt.OutMat_Consignee,\r\n" + " dt3.CHILD_TBL_TYPE OutMat_Consignee_Name,\r\n" + " omt.OutMat_Dept_Code,\r\n"
 				+ "	dt.CHILD_TBL_TYPE OutMat_Dept_Name,\r\n" + "	omt.OutMat_Code,\r\n"
 				+ "	pit.PRODUCT_ITEM_NAME OutMat_Name,\r\n" + "	pit.PRODUCT_INFO_STND_1 Outmat_STND_1,\r\n"
-				+ "	dt3.CHILD_TBL_TYPE OutMat_UNIT,\r\n" + "	omt.OutMat_Qty,\r\n" + "	omt.OutMat_Modifier,\r\n"
+				+ "	dt4.CHILD_TBL_TYPE OutMat_UNIT,\r\n" + "	omt.OutMat_Qty,\r\n" + "	omt.OutMat_Modifier,\r\n"
 				+ "	omt.OutMat_dInsert_Time\r\n" + "from\r\n" + "	OutMatLX_tbl omt\r\n"
 				+ "inner join DTL_TBL dt on\r\n" + "	omt.OutMat_Dept_Code = dt.CHILD_TBL_NO\r\n"
 				+ "inner join DTL_TBL dt2 on\r\n" + "	omt.OutMat_Send_Clsfc = dt2.CHILD_TBL_NO\r\n"
+				+ "inner join DTL_TBL dt3 on\r\n" + "	omt.OutMat_Consignee = dt3.CHILD_TBL_NO\r\n"
 				+ "inner join PRODUCT_INFO_TBL pit on\r\n" + "	omt.OutMat_Code = pit.PRODUCT_ITEM_CODE\r\n"
-				+ "left outer join DTL_TBL dt3 on\r\n" + "	pit.PRODUCT_UNIT = dt3.CHILD_TBL_NO";
+				+ "left outer join DTL_TBL dt4 on\r\n" + "	pit.PRODUCT_UNIT = dt4.CHILD_TBL_NO";
 
 		String where = " where omt.OutMat_Date between '" + obj.get("startDate") + " 00:00:00' and '"
 				+ obj.get("endDate") + " 23:59:59' ";
@@ -85,6 +86,7 @@ public class matOutputReportLXRestController {
 			data.setOutMat_Date(rs.getString("OutMat_Date"));
 			data.setOutMat_Send_Clsfc_Name(rs.getString("OutMat_Send_Clsfc_Name"));
 			data.setOutMat_Consignee(rs.getString("OutMat_Consignee"));
+			data.setOutMat_Consignee_Name(rs.getString("OutMat_Consignee_Name"));
 			data.setOutMat_Dept_Code(rs.getString("OutMat_Dept_Code"));
 			data.setOutMat_Dept_Name(rs.getString("OutMat_Dept_Name"));
 			data.setOutMat_Code(rs.getString("OutMat_Code"));
@@ -114,15 +116,15 @@ public class matOutputReportLXRestController {
 		JSONObject obj = (JSONObject) parser.parse(originData);
 		//System.out.println(obj);
 		String sql = "select\r\n" + " omt.OutMat_Date,\r\n" + "	dt2.CHILD_TBL_TYPE OutMat_Send_Clsfc_Name,\r\n"
-				+ " omt.OutMat_Consignee,\r\n" + "	omt.OutMat_Dept_Code,\r\n"
+				+ " omt.OutMat_Consignee,\r\n" + " dt3.CHILD_TBL_TYPE OutMat_Consignee_Name,\r\n" + " omt.OutMat_Dept_Code,\r\n"
 				+ "	dt.CHILD_TBL_TYPE OutMat_Dept_Name,\r\n" + "	omt.OutMat_Code,\r\n"
 				+ "	pit.PRODUCT_ITEM_NAME OutMat_Name,\r\n" + "	pit.PRODUCT_INFO_STND_1 Outmat_STND_1,\r\n"
-				+ "	dt3.CHILD_TBL_TYPE OutMat_UNIT,\r\n" + "	sum(omt.OutMat_Qty) OutMat_Qty \r\n" + " from\r\n"
+				+ "	dt4.CHILD_TBL_TYPE OutMat_UNIT,\r\n" + "	sum(omt.OutMat_Qty) OutMat_Qty \r\n" + " from\r\n"
 				+ " OutMatLX_tbl omt\r\n" + "inner join DTL_TBL dt on \r\n"
 				+ "	omt.OutMat_Dept_Code = dt.CHILD_TBL_NO\r\n" + "inner join DTL_TBL dt2 on\r\n"
 				+ "	omt.OutMat_Send_Clsfc = dt2.CHILD_TBL_NO\r\n" + "inner join PRODUCT_INFO_TBL pit on\r\n"
-				+ "	omt.OutMat_Code = pit.PRODUCT_ITEM_CODE\r\n" + " left outer join DTL_TBL dt3 on\r\n"
-				+ "	pit.PRODUCT_UNIT = dt3.CHILD_TBL_NO";
+				+ "	omt.OutMat_Code = pit.PRODUCT_ITEM_CODE\r\n" + "inner join DTL_TBL dt3 on\r\n" + " omt.OutMat_Consignee = dt3.CHILD_TBL_NO\r\n" + " left outer join DTL_TBL dt4 on\r\n"
+				+ "	pit.PRODUCT_UNIT = dt4.CHILD_TBL_NO";
 
 		String where = " where omt.OutMat_Date between '" + obj.get("startDate") + " 00:00:00' and '"
 				+ obj.get("endDate") + " 23:59:59' ";
@@ -180,6 +182,7 @@ public class matOutputReportLXRestController {
 				data.setOutMat_Dept_Code(rs.getString("outMat_Dept_Code"));
 				data.setOutMat_Dept_Name(rs.getString("outMat_Dept_Name"));
 				data.setOutMat_Consignee(rs.getString("outMat_Consignee"));
+				data.setOutMat_Consignee_Name(rs.getString("outMat_Consignee_Name"));
 				data.setOutMat_Code(rs.getString("outMat_Code"));
 				data.setOutMat_Name(rs.getString("outMat_Name"));
 				data.setOutMat_STND_1(rs.getString("outMat_STND_1"));
@@ -207,13 +210,14 @@ public class matOutputReportLXRestController {
 		//System.out.println(obj);
 		String sql = "select\r\n" + " omt.OutMat_Date,\r\n" + "	dt2.CHILD_TBL_TYPE OutMat_Send_Clsfc_Name,\r\n"
 				+ "	omt.OutMat_Dept_Code,\r\n" + "	dt.CHILD_TBL_TYPE OutMat_Dept_Name,\r\n"
-				+ " omt.OutMat_Consignee,\r\n" + " omt.OutMat_Code,\r\n" + "	pit.PRODUCT_ITEM_NAME OutMat_Name,\r\n"
-				+ "	pit.PRODUCT_INFO_STND_1 Outmat_STND_1,\r\n" + "	dt3.CHILD_TBL_TYPE OutMat_UNIT,\r\n"
+				+ " omt.OutMat_Consignee,\r\n" + " dt3.CHILD_TBL_TYPE OutMat_Consignee_Name,\r\n" + " omt.OutMat_Code,\r\n" + "	pit.PRODUCT_ITEM_NAME OutMat_Name,\r\n"
+				+ "	pit.PRODUCT_INFO_STND_1 Outmat_STND_1,\r\n" + "	dt4.CHILD_TBL_TYPE OutMat_UNIT,\r\n"
 				+ " sum(omt.OutMat_Qty) OutMat_Qty\r\n" + " from\r\n" + " OutMatLX_tbl omt\r\n"
 				+ "inner join DTL_TBL dt on\r\n" + "	omt.OutMat_Dept_Code = dt.CHILD_TBL_NO\r\n"
 				+ "inner join DTL_TBL dt2 on\r\n" + "	omt.OutMat_Send_Clsfc = dt2.CHILD_TBL_NO\r\n"
+				+ "inner join DTL_TBL dt3 on\r\n" + "	omt.OutMat_Consignee = dt3.CHILD_TBL_NO\r\n"
 				+ "inner join PRODUCT_INFO_TBL pit on\r\n" + "	omt.OutMat_Code = pit.PRODUCT_ITEM_CODE\r\n"
-				+ "left outer join DTL_TBL dt3 on\r\n" + "	pit.PRODUCT_UNIT = dt3.CHILD_TBL_NO";
+				+ "left outer join DTL_TBL dt4 on\r\n" + "	pit.PRODUCT_UNIT = dt4.CHILD_TBL_NO";
 
 		String where = " where omt.OutMat_Date between '" + obj.get("startDate") + " 00:00:00' and '"
 				+ obj.get("endDate") + " 23:59:59' ";
@@ -270,6 +274,7 @@ public class matOutputReportLXRestController {
 				data.setOutMat_Dept_Code(rs.getString("outMat_Dept_Code"));
 				data.setOutMat_Dept_Name(rs.getString("outMat_Dept_Name"));
 				data.setOutMat_Consignee(rs.getString("outMat_Consignee"));
+				data.setOutMat_Consignee_Name(rs.getString("outMat_Consignee_Name"));
 				data.setOutMat_Code(rs.getString("outMat_Code"));
 				data.setOutMat_Name(rs.getString("outMat_Name"));
 				data.setOutMat_STND_1(rs.getString("outMat_STND_1"));
@@ -339,6 +344,7 @@ public class matOutputReportLXRestController {
 		//System.out.println("MO_DeliverySearch_Prcs_Date : " + sql);
 
 		String RawDate_Flag = "";
+		String sql_result = null;
 
 		while (rs.next()) {
 			RawDate_Flag = rs.getString("YM_Prcs_Date");
@@ -347,17 +353,17 @@ public class matOutputReportLXRestController {
 		//System.out.println("RawDate_Flag :" + RawDate_Flag);
 
 		if (RawDate_Flag.equals("")) {
-			//System.out.println("占쏙옙占쏙옙占싱억옙");
-			return "DateFormat";
+			System.out.println("error");
+			sql_result = "DateFormat";
 		} else if (!RawDate_Flag.equals("")) {
-			return "Success";
+			sql_result = "Success";
 		}
 
 		rs.close();
 		pstmt.close();
 		conn.close();
 
-		return RawDate_Flag;
+		return sql_result;
 	}
 
 	// MO_DeliveryView list
@@ -373,7 +379,7 @@ public class matOutputReportLXRestController {
 
 		String sql = "select \r\n" + "OutMat_No,\r\n" + "OutMat_Dept_Code,\r\n"
 				+ "dt.CHILD_TBL_TYPE OutMat_Dept_Name,\r\n" + "sum(OutMat_Qty) OutMat_Qty\r\n"
-				+ "from OutMatLX_tbl omt\r\n" + "inner join DTL_TBL dt on omt.OutMat_Dept_Code = dt.CHILD_TBL_NO";
+				+ "from OutMat_tbl omt\r\n" + "inner join DTL_TBL dt on omt.OutMat_Dept_Code = dt.CHILD_TBL_NO";
 
 		String where = " where omt.OutMat_Date between '" + obj.get("PrcsDate") + "01 00:00:00' and '"
 				+ obj.get("PrcsDate") + obj.get("LastDay") + " 23:59:59' ";
@@ -507,7 +513,7 @@ public class matOutputReportLXRestController {
 				+ "	dt2.CHILD_TBL_TYPE OutMat_Send_Clsfc_Name,\r\n" + "	omt.OutMat_Code,\r\n"
 				+ "	omt.OutMat_Dept_Code,\r\n" + "	pit.PRODUCT_ITEM_NAME OutMat_Name,\r\n"
 				+ "	pit.PRODUCT_INFO_STND_1 Outmat_STND_1,\r\n" + "	dt3.CHILD_TBL_TYPE OutMat_UNIT,\r\n"
-				+ "	sum(omt.OutMat_Qty) OutMat_Qty\r\n" + "from\r\n" + "	OutMatLX_tbl omt\r\n"
+				+ "	sum(omt.OutMat_Qty) OutMat_Qty\r\n" + "from\r\n" + "	OutMat_tbl omt\r\n"
 				+ "inner join DTL_TBL dt2 on\r\n" + "	omt.OutMat_Send_Clsfc = dt2.CHILD_TBL_NO\r\n"
 				+ "inner join PRODUCT_INFO_TBL pit on\r\n" + "	omt.OutMat_Code = pit.PRODUCT_ITEM_CODE\r\n"
 				+ "left outer join DTL_TBL dt3 on\r\n" + "	pit.PRODUCT_UNIT = dt3.CHILD_TBL_NO";
@@ -521,7 +527,7 @@ public class matOutputReportLXRestController {
 
 		sql += " group by omt.OutMat_Code with rollup";
 		//System.out.println("where : " + where);
-		//System.out.println(sql);
+		System.out.println(sql);
 
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);

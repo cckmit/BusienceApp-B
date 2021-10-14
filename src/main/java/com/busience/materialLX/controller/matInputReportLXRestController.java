@@ -364,6 +364,7 @@ public class matInputReportLXRestController {
 		// System.out.println("처占쏙옙占쏙옙占쏙옙 占싯삼옙 : " + sql);
 
 		String RawDate_Flag = "";
+		String sql_result = null;
 
 		while (rs.next()) {
 			RawDate_Flag = rs.getString("YM_Prcs_Date");
@@ -372,15 +373,15 @@ public class matInputReportLXRestController {
 		// System.out.println("RawDate_Flag :" + RawDate_Flag);
 
 		if (RawDate_Flag.equals("")) {
-			// System.out.println("占쏙옙占쏙옙占싱억옙");
-			return "DateFormat";
+			System.out.println("error");
+			sql_result = "DateFormat";
 		} else if (!RawDate_Flag.equals("")) {
-			return "Success";
+			sql_result = "Success";
 		}
 
 		rs.close();
 
-		return RawDate_Flag;
+		return sql_result;
 
 	}
 
@@ -397,7 +398,7 @@ public class matInputReportLXRestController {
 
 		String sql = "select \r\n" + "A.InMat_No,\r\n" + "A.InMat_Client_Code,\r\n"
 				+ "B.Cus_Name InMat_Client_Name,\r\n" + "A.InMat_Qty,\r\n" + "sum(A.InMat_Price) InMat_Price \r\n"
-				+ "from InMatLX_tbl A\r\n" + "inner join Customer_tbl B\r\n" + "on A.InMat_Client_Code = B.Cus_Code \r\n";
+				+ "from InMat_tbl A\r\n" + "inner join Customer_tbl B\r\n" + "on A.InMat_Client_Code = B.Cus_Code \r\n";
 
 		String where = " where A.InMat_Date between '" + obj.get("PrcsDate") + "01 00:00:00' and '"
 				+ obj.get("PrcsDate") + obj.get("LastDay") + " 23:59:59' ";
@@ -410,7 +411,7 @@ public class matInputReportLXRestController {
 
 		sql += " group by InMat_Client_Code with rollup";
 		// System.out.println("where : " + where);
-		// System.out.println(sql);
+		System.out.println("MI_DeliveryView = " + sql);
 
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
@@ -537,7 +538,7 @@ public class matInputReportLXRestController {
 				+ "A.InMat_Code,\r\n" + "A.InMat_Client_Code,\r\n" + "C.PRODUCT_ITEM_NAME InMat_Name,\r\n"
 				+ "C.PRODUCT_INFO_STND_1 InMat_STND_1,\r\n" + "D.CHILD_TBL_TYPE InMat_UNIT,\r\n"
 				+ "sum(A.InMat_Qty) InMat_Qty,\r\n" + "sum(A.InMat_Unit_Price) InMat_Unit_Price, \r\n"
-				+ "sum(A.InMat_Price) InMat_Price \r\n" + "from InMatLX_tbl A\r\n" + "inner join PRODUCT_INFO_TBL C\r\n"
+				+ "sum(A.InMat_Price) InMat_Price \r\n" + "from InMat_tbl A\r\n" + "inner join PRODUCT_INFO_TBL C\r\n"
 				+ "on A.InMat_Code = C.PRODUCT_ITEM_CODE \r\n" + "left outer join DTL_TBL D\r\n"
 				+ "on C.PRODUCT_UNIT = D.CHILD_TBL_NO\r\n" + "left outer join DTL_TBL E\r\n"
 				+ "on A.InMat_Rcv_Clsfc = E.CHILD_TBL_NO";

@@ -238,7 +238,7 @@ var PrcsDate = years + PrcsYear + '-' + PrcsMonth + '-';
 var salesDeliveryLastCustomerTable = new Tabulator("#salesDeliveryLastCustomerTable", { 
 	 //Sub Total 색상
 	rowFormatter: function(row){
-		if(row.getData().sales_OutMat_Cus_No == "Sub Total"){
+		if(row.getData().sales_OutMat_Send_Clsfc_Name == "Sub Total"){
             row.getElement().style.backgroundColor = "#c0c0c0";
          }
     },
@@ -258,7 +258,7 @@ var salesDeliveryLastCustomerTable = new Tabulator("#salesDeliveryLastCustomerTa
 });
 
 function SOC_DeliveryLastCustomer(sales_OutMat_Client_Code) {
-
+ console.log("실행")
 		// 처리연월
 var date = new Date();
 var year = date.getFullYear();

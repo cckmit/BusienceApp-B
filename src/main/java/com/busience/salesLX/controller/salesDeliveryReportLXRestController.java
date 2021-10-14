@@ -42,7 +42,7 @@ public class salesDeliveryReportLXRestController {
 				+ "somt.Sales_OutMat_Code,\r\n" + "pit.PRODUCT_ITEM_NAME Sales_OutMat_Name,\r\n"
 				+ "pit.PRODUCT_INFO_STND_1 Sales_OutMat_STND_1,\r\n" + "dt2.CHILD_TBL_TYPE Sales_OutMat_UNIT,\r\n"
 				+ "sum(somt.Sales_OutMat_Qty) Sales_OutMat_Qty,\r\n"
-				+ "sum(somt.Sales_OutMat_Price) Sales_OutMat_Price \r\n " + "from Sales_OutMatLX_tbl somt \r\n"
+				+ "sum(somt.Sales_OutMat_Price) Sales_OutMat_Price \r\n " + "from Sales_OutMat_tbl somt \r\n"
 				+ "inner join DTL_TBL dt on somt.Sales_OutMat_Send_Clsfc = dt.CHILD_TBL_NO\r\n"
 				+ "inner join Customer_tbl ct on somt.Sales_OutMat_Client_Code  = ct.Cus_Code\r\n"
 				+ "inner join PRODUCT_INFO_TBL pit on somt.Sales_OutMat_Code = pit.PRODUCT_ITEM_CODE\r\n"
@@ -63,7 +63,7 @@ public class salesDeliveryReportLXRestController {
 
 		sql += " group by somt.Sales_OutMat_Client_Code, somt.Sales_OutMat_Date with rollup";
 
-		System.out.println(sql);
+		System.out.println("SOCL_Search = " + sql);
 
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -173,6 +173,7 @@ public class salesDeliveryReportLXRestController {
 		System.out.println("prcs_date search = " + sql);
 
 		String RawDate_Flag = "";
+		String sql_result = null;
 
 		while (rs.next()) {
 			RawDate_Flag = rs.getString("Sales_YM_Prcs_Date");
@@ -182,16 +183,16 @@ public class salesDeliveryReportLXRestController {
 
 		if (RawDate_Flag.equals("")) {
 			System.out.println("error");
-			return "DateFormat";
+			sql_result = "DateFormat";
 		} else if (!RawDate_Flag.equals("")) {
-			return "Success";
+			sql_result = "Success";
 		}
 
 		rs.close();
 		pstmt.close();
 		conn.close();
 
-		return RawDate_Flag;
+		return sql_result;
 
 	}
 
@@ -208,7 +209,7 @@ public class salesDeliveryReportLXRestController {
 
 		String sql = "select \r\n" + "somt.Sales_OutMat_No,\r\n" + "somt.Sales_OutMat_Client_Code,\r\n"
 				+ "ct.Cus_Name Sales_OutMat_Client_Name,\r\n" + "sum(somt.Sales_OutMat_Qty) Sales_OutMat_Qty\r\n"
-				+ "from Sales_OutMatLX_tbl somt \r\n"
+				+ "from Sales_OutMat_tbl somt \r\n"
 				+ "inner join Customer_tbl ct on somt.Sales_OutMat_Client_Code = ct.Cus_Code";
 
 		String where = " where somt.Sales_OutMat_Date between '" + obj.get("PrcsDate") + "01 00:00:00' and '"
@@ -219,7 +220,7 @@ public class salesDeliveryReportLXRestController {
 		sql += " group by Sales_OutMat_Client_Code with rollup";
 
 		System.out.println("where = " + where);
-		System.out.println(sql);
+		System.out.println("SOC_DeliveryView = " + sql);
 
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
@@ -346,13 +347,13 @@ public class salesDeliveryReportLXRestController {
 		JSONParser parser = new JSONParser();
 		JSONObject obj = (JSONObject) parser.parse(originData);
 		System.out.println(obj);
-
+		System.out.println("========================");
 		String sql = "select \r\n" + "somt.Sales_OutMat_No,\r\n" + "somt.Sales_OutMat_Cus_No, "
 				+ "somt.Sales_OutMat_Date,\r\n" + "dt.CHILD_TBL_TYPE Sales_OutMat_Send_Clsfc_Name,\r\n"
 				+ "somt.Sales_OutMat_Code,\r\n" + "somt.Sales_OutMat_Client_Code,\r\n"
 				+ "pit.PRODUCT_ITEM_NAME Sales_OutMat_Name,\r\n" + "pit.PRODUCT_INFO_STND_1 Sales_OutMat_STND_1,\r\n"
 				+ "dt2.CHILD_TBL_TYPE Sales_OutMat_UNIT,\r\n" + "sum(somt.Sales_OutMat_Qty) Sales_OutMat_Qty,\r\n"
-				+ "sum(somt.Sales_OutMat_Price) Sales_OutMat_Price \r\n " + "from Sales_OutMatLX_tbl somt \r\n"
+				+ "sum(somt.Sales_OutMat_Price) Sales_OutMat_Price \r\n " + "from Sales_OutMat_tbl somt \r\n"
 				+ "inner join DTL_TBL dt on somt.Sales_OutMat_Send_Clsfc = dt.CHILD_TBL_NO\r\n"
 				+ "inner join PRODUCT_INFO_TBL pit on somt.Sales_OutMat_Code = pit.PRODUCT_ITEM_CODE\r\n"
 				+ "inner join DTL_TBL dt2 on pit.PRODUCT_UNIT = dt2.CHILD_TBL_NO";
@@ -367,7 +368,7 @@ public class salesDeliveryReportLXRestController {
 		sql += " group by somt.Sales_OutMat_Code with rollup";
 
 		System.out.println("where = " + where);
-		System.out.println(sql);
+		System.out.println("SOC_DeliveryLastCustomer =" + sql);
 
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -375,7 +376,7 @@ public class salesDeliveryReportLXRestController {
 
 		while (rs.next()) {
 			Sales_OutMat_tbl data = new Sales_OutMat_tbl();
-			if (rs.getString("Sales_OutMat_Code") == null) {
+			if (rs.getString("sales_OutMat_Code") == null) {
 
 				data.setSales_OutMat_Send_Clsfc_Name("Sub Total");
 				data.setSales_OutMat_Qty(rs.getInt("sales_OutMat_Qty"));
@@ -402,7 +403,6 @@ public class salesDeliveryReportLXRestController {
 		}
 
 		if (list.size() > 0) {
-			list.get(list.size() - 1).setSales_OutMat_Send_Clsfc_Name("");
 			list.get(list.size() - 1).setSales_OutMat_Code("");
 			list.get(list.size() - 1).setSales_OutMat_Name("");
 			list.get(list.size() - 1).setSales_OutMat_STND_1("");
