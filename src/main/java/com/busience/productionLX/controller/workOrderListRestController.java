@@ -271,6 +271,8 @@ public class workOrderListRestController {
 		sql = "select (select sum(PRODUCTION_Volume) from PRODUCTION_MGMT_TBL2 a1 where a1.PRODUCTION_WorkOrder_ONo=t1.WorkOrder_ONo) WorkOrder_RQty2,t4.EQUIPMENT_INFO_NAME WorkOrder_EquipName,t1.*,t2.CHILD_TBL_Type WorkOrder_WorkStatusName,t3.PRODUCT_ITEM_NAME WorkOrder_ItemName,t3.*,(select a.Sales_SM_Last_Qty+a.Sales_SM_In_Qty-a.Sales_SM_Out_Qty from Sales_StockMatLX_tbl a where a.Sales_SM_Code=t1.WorkOrder_ItemCode) Qty from WorkOrder_tbl t1 inner join DTL_TBL t2 on t1.WorkOrder_WorkStatus = t2.CHILD_TBL_NO inner join PRODUCT_INFO_TBL t3 on t1.WorkOrder_ItemCode=t3.PRODUCT_ITEM_CODE inner join EQUIPMENT_INFO_TBL t4 on t1.WorkOrder_EquipCode=t4.EQUIPMENT_INFO_CODE";
 		sql += where;
 
+		//System.out.println("workorderList_top = " + sql);
+		
 		list = jdbctemplate.query(sql, new RowMapper<WorkOrder_tbl>() {
 			@Override
 			public WorkOrder_tbl mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -369,6 +371,8 @@ public class workOrderListRestController {
 
 		sql = "select (select sum(PRODUCTION_Volume) from PRODUCTION_MGMT_TBL2 a1 where a1.PRODUCTION_WorkOrder_ONo=t1.WorkOrder_ONo) WorkOrder_RQty2,t4.EQUIPMENT_INFO_NAME WorkOrder_EquipName,t1.*,t2.CHILD_TBL_Type WorkOrder_WorkStatusName,t3.PRODUCT_ITEM_NAME WorkOrder_ItemName,t3.*,(select a.Sales_SM_Last_Qty+a.Sales_SM_In_Qty-a.Sales_SM_Out_Qty from Sales_StockMatLX_tbl a where a.Sales_SM_Code=t1.WorkOrder_ItemCode) Qty from WorkOrder_tbl t1 inner join DTL_TBL t2 on t1.WorkOrder_WorkStatus = t2.CHILD_TBL_NO inner join PRODUCT_INFO_TBL t3 on t1.WorkOrder_ItemCode=t3.PRODUCT_ITEM_CODE inner join EQUIPMENT_INFO_TBL t4 on t1.WorkOrder_EquipCode=t4.EQUIPMENT_INFO_CODE";
 		sql += where;
+		
+		//System.out.println("workorderList_down = " + sql);
 
 		list = jdbctemplate.query(sql, new RowMapper<WorkOrder_tbl>() {
 			@Override
@@ -432,7 +436,7 @@ public class workOrderListRestController {
 		// 접속자 정보
 		String modifier = principal.getName();
 
-		String sql = "update WorkOrder_tbl set WorkOrder_WorkStatus='292',WorkOrder_ReceiptTime=now(),WorkOrder_Worker='"
+		String sql = "update WorkOrder_tbl set WorkOrder_WorkStatus='243',WorkOrder_ReceiptTime=now(),WorkOrder_Worker='"
 				+ modifier + "'" + " where workOrder_ONo='" + workOrder_ONo + "'";
 		System.out.println(sql);
 
@@ -474,7 +478,7 @@ public class workOrderListRestController {
 		// 접속자 정보
 		String modifier = principal.getName();
 
-		String sql = "update WorkOrder_tbl set WorkOrder_WorkStatus='291',WorkOrder_ReceiptTime=now(),WorkOrder_Worker='"
+		String sql = "update WorkOrder_tbl set WorkOrder_WorkStatus='242',WorkOrder_ReceiptTime=now(),WorkOrder_Worker='"
 				+ modifier + "',WorkOrder_ReceiptTime=null" + " where workOrder_ONo='" + workOrder_ONo + "'";
 		System.out.println(sql);
 
