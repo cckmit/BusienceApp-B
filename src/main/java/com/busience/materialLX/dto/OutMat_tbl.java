@@ -18,6 +18,7 @@ public class OutMat_tbl {
 	private String OutMat_Dept_Name;
 	private String OutMat_Name;
 	private String OutMat_Send_Clsfc_Name;
+	private String OutMat_Consignee_Name;
 	private int OutReturn_Qty;
 
 	private String OutMat_STND_1;
@@ -142,6 +143,14 @@ public class OutMat_tbl {
 
 	public void setOutMat_Send_Clsfc_Name(String outMat_Send_Clsfc_Name) {
 		OutMat_Send_Clsfc_Name = outMat_Send_Clsfc_Name;
+	}
+
+	public String getOutMat_Consignee_Name() {
+		return OutMat_Consignee_Name;
+	}
+
+	public void setOutMat_Consignee_Name(String outMat_Consignee_Name) {
+		OutMat_Consignee_Name = outMat_Consignee_Name;
 	}
 
 	public int getOutReturn_Qty() {

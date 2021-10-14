@@ -89,7 +89,7 @@ public class matOutputLXRestController {
 			throws ParseException, SQLException {
 		List<OutMat_tbl> list = new ArrayList<OutMat_tbl>();
 
-		String sql = " SELECT OutMat_No, OutMat_Code, OutMat_Qty, OutMat_Consignee, OutMat_Send_Clsfc, OutMat_Date FROM OutMatLX_tbl";
+		String sql = " SELECT OutMat_No, OutMat_Code, OutMat_Qty, OutMat_Consignee, OutMat_Dept_Code, OutMat_Send_Clsfc, OutMat_Date FROM OutMatLX_tbl";
 
 		String where = " WHERE OutMat_Code = '" + sm_Code + "'" + " order by OutMat_No";
 
@@ -112,6 +112,7 @@ public class matOutputLXRestController {
 			data.setOutMat_Code(rs.getString("outMat_Code"));
 			data.setOutMat_Qty(rs.getInt("outMat_Qty"));
 			data.setOutMat_Consignee(rs.getString("outMat_Consignee"));
+			data.setOutMat_Dept_Code(rs.getString("outMat_Dept_Code"));
 			data.setOutMat_Send_Clsfc(rs.getString("outMat_Send_Clsfc"));
 			data.setOutMat_Date(rs.getString("outMat_Date"));
 			list.add(data);
@@ -153,13 +154,13 @@ public class matOutputLXRestController {
 			for (int i = 0; i < arr.size(); i++) {
 				JSONObject listobj = (JSONObject) arr.get(i);
 				System.out.println(listobj);
-
+				// 수화인의 부서는 31로 통일.
 				// OutMat insert
 				OutMatLX_tbl_sql = " insert into OutMatLX_tbl(\r\n" + " OutMat_No,\r\n" + " OutMat_Code,\r\n"
 						+ " OutMat_Qty,\r\n" + " OutMat_Consignee," + " OutMat_Dept_Code, " + " OutMat_Send_Clsfc,\r\n" + " OutMat_Date,\r\n"
 						+ " OutMat_dInsert_Time,\r\n" + " OutMat_Modifier" + ") values (" + "'" + listobj.get("id") + "', "
 						+ "'" + listobj.get("outMat_Code") + "',\r\n" + "'" + listobj.get("outMat_Qty")
-						+ "',\r\n" + "'" + listobj.get("outMat_Consignee") + "',\r\n" + "'31', " + "'"
+						+ "',\r\n" + "'" + listobj.get("outMat_Consignee") + "',\r\n" + "'13', " + "'"
 						+ listobj.get("outMat_Send_Clsfc") + "', " + " now(),\r\n"
 						+ "now(),\r\n" + "'" + modifier + "')";
 

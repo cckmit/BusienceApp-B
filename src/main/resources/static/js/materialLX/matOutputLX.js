@@ -111,7 +111,7 @@ $.ajax({
 	success: function(datas) {
 		console.log("매니저 조회 완료");
 		for (i = 0; i < datas.length; i++) {
-			manager_arr[datas[i].child_TBL_TYPE] = datas[i].child_TBL_TYPE;
+			manager_arr[datas[i].child_TBL_NO] = datas[i].child_TBL_TYPE;
 		}
 	}
 });
@@ -231,7 +231,7 @@ var matOutputTable = new Tabulator("#matOutputTable", {
 		{ title: "코드", field: "outMat_Code", headerHozAlign: "center" },
 		{ title: "수량", field: "outMat_Qty", headerHozAlign: "center", hozAlign: "right", editor: MOM_InputEditor, editable: editCheck },
 		{
-			title: "수화인", field: "outMat_Consignee", headerHozAlign: "center", hozAlign: "left", editor: "select",  editable: editCheck,
+			title: "수취인", field: "outMat_Consignee", headerHozAlign: "center", hozAlign: "left", editor: "select",  editable: editCheck,
 			formatter: function(cell, formatterParams) {
 				var value = cell.getValue();
 				if (manager_arr[value] != null) {
@@ -293,7 +293,7 @@ function MOM_Save() {
 	}
 	
 	if (rowData[0].outMat_Consignee == "") {
-		alert("수화인을 입력하세요.");
+		alert("수취인을 입력하세요.");
 		return false;
 	}
 

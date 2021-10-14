@@ -86,7 +86,7 @@ public class workOrderTABRestController {
 				+ "		FROM WorkOrder_tbl t1\r\n"
 				+ "		LEFT JOIN PRODUCT_INFO_TBL t2\r\n"
 				+ "		ON t1.WorkOrder_ItemCode = t2.PRODUCT_ITEM_CODE\r\n"
-				+ "		where t1.WorkOrder_EquipCode = ? and t1.WorkOrder_OrderTime between '"+request.getParameter("startDate")+" 00:00:00' and '"+request.getParameter("endDate")+" 23:59:59' and t1.WorkOrder_WorkStatus <> 294 ORDER BY t1.WorkOrder_OrderTime DESC";
+				+ "		where t1.WorkOrder_EquipCode = ? and t1.WorkOrder_OrderTime between '"+request.getParameter("startDate")+" 00:00:00' and '"+request.getParameter("endDate")+" 23:59:59' and t1.WorkOrder_WorkStatus <> 245 ORDER BY t1.WorkOrder_OrderTime DESC";
 		
 		System.out.println(sql);
 		

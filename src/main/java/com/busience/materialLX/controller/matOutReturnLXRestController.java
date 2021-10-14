@@ -49,12 +49,17 @@ public class matOutReturnLXRestController {
 				+ " A.OutMat_Send_Clsfc,\r\n"
 				+ " E.CHILD_TBL_TYPE OutMat_Send_Clsfc_Name,\r\n"
 				+ " A.OutMat_Consignee,\r\n"
+				+ " F.CHILD_TBL_TYPE OutMat_Consignee_Name,\r\n"
+				+ " A.OutMat_Dept_Code,\r\n"
+				+ " G.CHILD_TBL_TYPE OutMat_Dept_Name,\r\n"
 				+ " A.OutMat_Date,\r\n"
 				+ " A.OutMat_dInsert_Time,\r\n"
 				+ " A.OutMat_Modifier\r\n"
 				+ " FROM OutMatLX_tbl A\r\n"
 				+ " inner join PRODUCT_INFO_TBL B on A.OutMat_Code = B.PRODUCT_ITEM_CODE\r\n"
-				+ " inner join DTL_TBL E on A.OutMat_Send_Clsfc = E.CHILD_TBL_NO\r\n";
+				+ " inner join DTL_TBL E on A.OutMat_Send_Clsfc = E.CHILD_TBL_NO\r\n"
+				+ " inner join DTL_TBL F on A.OutMat_Consignee = F.CHILD_TBL_NO\r\n"
+				+ " inner join DTL_TBL G on A.OutMat_Dept_Code = G.CHILD_TBL_NO\r\n";
 				
 		//품목별 검색
 		if (obj.get("outMat_Code") != null && !obj.get("outMat_Code").equals("")) {
@@ -78,6 +83,9 @@ public class matOutReturnLXRestController {
 			data.setOutMat_Send_Clsfc(rs.getString("OutMat_Send_Clsfc"));
 			data.setOutMat_Send_Clsfc_Name(rs.getString("OutMat_Send_Clsfc_Name"));
 			data.setOutMat_Consignee(rs.getString("OutMat_Consignee"));
+			data.setOutMat_Consignee_Name(rs.getString("OutMat_Consignee_Name"));
+			data.setOutMat_Dept_Code(rs.getString("OutMat_Dept_Code"));
+			data.setOutMat_Dept_Name(rs.getString("OutMat_Dept_Name"));
 			data.setOutMat_Date(rs.getString("OutMat_Date"));
 			data.setOutMat_dInsert_Time(rs.getString("OutMat_dInsert_Time"));
 			data.setOutMat_Modifier(rs.getString("OutMat_Modifier"));
@@ -108,13 +116,17 @@ public class matOutReturnLXRestController {
 				+ " A.OutMat_Send_Clsfc,\r\n"
 				+ " E.CHILD_TBL_TYPE OutMat_Send_Clsfc_Name,\r\n"
 				+ " A.OutMat_Consignee,\r\n"
+				+ " F.CHILD_TBL_TYPE OutMat_Consignee_Name,\r\n"
+				+ " A.OutMat_Dept_Code,\r\n"
+				+ " G.CHILD_TBL_TYPE OutMat_Dept_Name,\r\n"
 				+ " A.OutMat_Date,\r\n"
 				+ " A.OutMat_dInsert_Time,\r\n"
 				+ " A.OutMat_Modifier\r\n"
 				+ " FROM OutMatLX_tbl A\r\n"
 				+ " inner join PRODUCT_INFO_TBL B on A.OutMat_Code = B.PRODUCT_ITEM_CODE\r\n"
-				+ " inner join DTL_TBL E on A.OutMat_Send_Clsfc = E.CHILD_TBL_NO\r\n";
-				
+				+ " inner join DTL_TBL E on A.OutMat_Send_Clsfc = E.CHILD_TBL_NO\r\n"
+				+ " inner join DTL_TBL F on A.OutMat_Consignee = F.CHILD_TBL_NO\r\n"
+				+ " inner join DTL_TBL G on A.OutMat_Dept_Code = G.CHILD_TBL_NO\r\n";
 		
 		String where = " where A.OutMat_dInsert_Time between '"+obj.get("startDate")+" 00:00:00' and '"+obj.get("endDate")+" 23:59:59' \r\n";
 		
@@ -142,6 +154,9 @@ public class matOutReturnLXRestController {
 			data.setOutMat_Send_Clsfc(rs.getString("OutMat_Send_Clsfc"));
 			data.setOutMat_Send_Clsfc_Name(rs.getString("OutMat_Send_Clsfc_Name"));
 			data.setOutMat_Consignee(rs.getString("OutMat_Consignee"));
+			data.setOutMat_Consignee_Name(rs.getString("OutMat_Consignee_Name"));
+			data.setOutMat_Dept_Code(rs.getString("OutMat_Dept_Code"));
+			data.setOutMat_Dept_Name(rs.getString("OutMat_Dept_Name"));
 			data.setOutMat_Date(rs.getString("OutMat_Date"));
 			data.setOutMat_dInsert_Time(rs.getString("OutMat_dInsert_Time"));
 			data.setOutMat_Modifier(rs.getString("OutMat_Modifier"));
@@ -270,7 +285,6 @@ public class matOutReturnLXRestController {
 					OutMat_No = rs.getInt("OutMat_No");
 				}
 				
-				
 				// 출고 테이블에 저장한다.
 				OutMatLX_tbl_sql = "INSERT INTO OutMatLX_tbl\r\n"
 						+ "(OutMat_No,\r\n"
@@ -279,6 +293,7 @@ public class matOutReturnLXRestController {
 						+ "OutMat_Date,\r\n"
 						+ "OutMat_Send_Clsfc,\r\n"
 						+ "OutMat_Consignee,\r\n"
+						+ "OutMat_Dept_Code,\r\n"
 						+ "OutMat_dInsert_Time,\r\n"
 						+ "OutMat_Modifier\r\n"
 						+ ")VALUES(\r\n"
@@ -288,8 +303,9 @@ public class matOutReturnLXRestController {
 						+ "'"+ obj.get("outMat_Code") + "',\r\n"
 						+ " -"+ obj.get("outReturn_Qty") + ",\r\n"
 						+ "'"+obj.get("outMat_Date")+"',\r\n"
-						+ "'183',\r\n"
+						+ "'210',\r\n"
 						+ "'"+ obj.get("outMat_Consignee") + "',\r\n"
+						+ "'"+ obj.get("outMat_Dept_Code") +"',\r\n"
 						+ " now(),\r\n"
 						+ "'"+ modifier + "'"
 						+ ")";
@@ -380,6 +396,8 @@ public class matOutReturnLXRestController {
 							+ "OutMat_Code,\r\n"
 							+ "OutMat_Qty,\r\n"
 							+ "OutMat_Send_Clsfc,\r\n"
+							+ "OutMat_Consignee,\r\n"
+							+ "OutMat_Dept_Code,\r\n"
 							+ "OutMat_Date,\r\n"
 							+ "OutMat_dInsert_Time,\r\n"
 							+ "OutMat_Modifier)\r\n"
@@ -389,7 +407,9 @@ public class matOutReturnLXRestController {
 							+ " ORDER BY OutMat_No DESC LIMIT 1),\r\n"
 							+ "'"+ obj.get("sales_Code") + "',\r\n"
 							+ ""+ obj.get("sales_Qty") + ",\r\n"
-							+ "'193',\r\n"
+							+ "'213',\r\n"
+							+ "'"+ obj.get("outMat_Consignee") + "',\r\n"
+							+ "'"+ obj.get("outMat_Dept_Code") +"',\r\n"
 							+ "'"+obj.get("inMat_Date")+"',\r\n"
 							+ "now(),"
 							+ "'"+ modifier + "'"
@@ -426,7 +446,7 @@ public class matOutReturnLXRestController {
 							+ " -"+obj.get("sales_Qty")+"*"+obj.get("sales_Unit_Price")+",\r\n"
 							+ " '"+obj.get("sales_Client_Code")+"',\r\n"
 							+ " '"+obj.get("inMat_Date")+"',\r\n"
-							+ "	'175',\r\n"
+							+ "	'207',\r\n"
 							+ " now(),\r\n"
 							+ " '"+modifier+"')";
 					
@@ -461,7 +481,7 @@ public class matOutReturnLXRestController {
 							+ ""+ obj.get("sales_Qty") + ",\r\n"
 							+ "'"+ obj.get("sales_Unit_Price") + "',\r\n"
 							+ "'"+ obj.get("sales_Price") + "',\r\n"
-							+ "'193',\r\n"
+							+ "'213',\r\n"
 							+ "'"+ modifier + "',\r\n"
 							+ "now())";
 					

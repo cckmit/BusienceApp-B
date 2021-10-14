@@ -44,7 +44,7 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 			{
 				//Right_Move(cell,"right");
 				console.log(cell.getValue());
-				if(cell.getValue()=="292")
+				if(cell.getValue()=="243")
 				{
 					$.ajax({
 							method : "GET",
@@ -174,7 +174,7 @@ var WorkOrder_tbl2 = new Tabulator("#WorkOrder_tbl2", {
 			{
 				//Right_Move(cell,"right");
 				console.log(cell.getValue());
-				if(cell.getValue()=="291")
+				if(cell.getValue()=="242")
 				{
 					$.ajax({
 							method : "GET",

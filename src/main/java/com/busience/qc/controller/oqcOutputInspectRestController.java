@@ -106,7 +106,6 @@ public class oqcOutputInspectRestController {
 		list.sort(new Comparator<WorkOrder_tbl>() {
 			@Override
 			public int compare(WorkOrder_tbl o1, WorkOrder_tbl o2) {
-				// TODO Auto-generated method stub
 				int a = Integer.parseInt(o1.getWorkOrder_EquipCode().substring(1));
 				int b = Integer.parseInt(o2.getWorkOrder_EquipCode().substring(1));
 

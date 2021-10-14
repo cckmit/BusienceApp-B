@@ -225,12 +225,14 @@ $('#FI_SearchBtn').click(function(){
 })
 
 function Search(){
-	data = {
+	jsonData = {
 		startDate: $("#startDate").val(),
-		endDate: $("#endDate").val(),
-		PRODUCT_ITEM_CODE: $("#PRODUCT_ITEM_CODE2").val()
+		endDate: $("#endDate").val()
 	}
+	
+	WorkOrder_tbl.setData("workOrderRest/MI_Search3",jsonData);
 
+	/*
 	$.ajax({
 		method : "GET",
 		dataType : "json",
@@ -245,6 +247,7 @@ function Search(){
 			WorkOrder_tbl.setData(data);
 		}
 	});
+	*/
 }
 
 function newRow_Add()
