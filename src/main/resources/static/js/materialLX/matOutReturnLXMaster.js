@@ -84,7 +84,10 @@ var matOutReturnInsertTable = new Tabulator("#matOutReturnInsertTable", {
 		{ title: "출고수량", field: "outMat_Qty", align: "right", headerHozAlign: "center" },
 		{ title: "반품수량", field: "outReturn_Qty", align: "right", editor: MORI_InputEditor, headerHozAlign: "center"},
 		{ title: "출고구분", field: "outMat_Send_Clsfc_Name", headerHozAlign: "center" },
-		{ title: "수화인", field: "outMat_Consignee", headerHozAlign: "center" },
+		{ title: "수화인코드", field: "outMat_Consignee", headerHozAlign: "center", visible:false},
+		{ title: "수화인", field: "outMat_Consignee_Name", headerHozAlign: "center" },
+		{ title: "부서코드", field: "outMat_Dept_Code", headerHozAlign: "center", visible:false},
+		{ title: "부서명", field: "outMat_Dept_Name", headerHozAlign: "center" },
 		{ title: "출고일", field: "outMat_Date", headerHozAlign: "center", formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
 		{ title: "데이터삽입시간", field: "outMat_dInsert_Time", headerHozAlign: "center",
 			formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
@@ -115,6 +118,7 @@ function MORI_Save() {
 	//선택된 행만 저장
 	//만약 선택된행에서 반품수량이 0 이면 저장 안함
 	selectedData = matOutReturnInsertTable.getData("selected");
+	console.log("selectedData = " + selectedData);
 
 	if (selectedData.length == 0) {
 		alert("저장할 목록이 없습니다. 행을 선택해 주세요.");
@@ -160,7 +164,10 @@ var matOutReturnSearchTable = new Tabulator("#matOutReturnSearchTable", {
 		{ title: "품목명", field: "outMat_Name", headerHozAlign: "center" },
 		{ title: "반품수량", field: "outReturn_Qty", align: "right", headerHozAlign: "center" },
 		{ title: "출고구분", field: "outMat_Send_Clsfc_Name", headerHozAlign: "center" },
-		{ title: "수화인", field: "outMat_Consignee", headerHozAlign: "center" },
+		{ title: "수화인코드", field: "outMat_Consignee", headerHozAlign: "center", visible:false},
+		{ title: "수화인", field: "outMat_Consignee_Name", headerHozAlign: "center" },
+		{ title: "부서코드", field: "outMat_Dept_Code", headerHozAlign: "center", visible:false},
+		{ title: "부서명", field: "outMat_Dept_Name", headerHozAlign: "center" },
 		{ title: "출고일", field: "outMat_Date", headerHozAlign: "center",
 			formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
 		{ title: "반품일", field: "outMat_dInsert_Time", headerHozAlign: "center",
@@ -374,7 +381,10 @@ var matOutReturnSalesDeliveryTable = new Tabulator("#matOutReturnSalesDeliveryTa
 		{title: "품목이름", field: "sales_Name", headerHozAlign: "center", width: 130 },
 		{title: "거래처코드", field: "sales_Client_Code", headerHozAlign: "center", editor: MORSD_InputEditor, width: 100 },
 		{title: "거래처명", field: "sales_Client_Name", headerHozAlign: "center", editor: MORSD_InputEditor, width: 150},
-		{title: "수화인", field: "outMat_Consignee", headerHozAlign: "center", visible:false},
+		{title: "수화인코드", field: "outMat_Consignee", headerHozAlign: "center", visible:false},
+		{title: "수화인", field: "outMat_Consignee_Name", headerHozAlign: "center" },
+		{title: "부서코드", field: "outMat_Dept_Code", headerHozAlign: "center", visible:false},
+		{title: "부서명", field: "outMat_Dept_Name", headerHozAlign: "center" },
 		{title: "재고수량", field: "inMat_Qty", headerHozAlign: "center", align: "right", width: 100 },
 		{title: "판매수량", field: "sales_Qty", headerHozAlign: "center", align: "right", editor: MORSD_InputEditor, width: 100,
 			cellEdited:function(cell){

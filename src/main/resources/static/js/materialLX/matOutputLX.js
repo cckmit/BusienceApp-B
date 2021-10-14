@@ -111,7 +111,7 @@ $.ajax({
 	success: function(datas) {
 		console.log("매니저 조회 완료");
 		for (i = 0; i < datas.length; i++) {
-			manager_arr[datas[i].child_TBL_TYPE] = datas[i].child_TBL_TYPE;
+			manager_arr[datas[i].child_TBL_NO] = datas[i].child_TBL_TYPE;
 		}
 	}
 });
