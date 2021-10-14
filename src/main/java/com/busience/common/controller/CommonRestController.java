@@ -15,12 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.domain.Menu;
+import com.busience.common.domain.Production;
 import com.busience.common.service.MenuService;
+import com.busience.common.service.ProductionService;
+import com.busience.productionLX.dto.WorkOrder_tbl;
 import com.busience.standard.Dto.DTL_TBL;
 
 @RestController
@@ -32,8 +33,14 @@ public class CommonRestController {
 	@Autowired
 	DataSource dataSource;
 	
+	private ProductionService productionService;
+	
+	public CommonRestController(ProductionService productionService) {
+		this.productionService = productionService;
+	}
+	
 	// 공통코드 찾기
-	@RequestMapping(value = "/dtl_tbl_select", method = {RequestMethod.GET,RequestMethod.POST})
+	@GetMapping("/dtl_tbl_select")
 	public List<DTL_TBL> dtl_tbl_select(HttpServletRequest request) throws SQLException {
 		String sql = "select * from DTL_TBL where NEW_TBL_CODE='"+request.getParameter("NEW_TBL_CODE")+"' order by CHILD_TBL_NUM*1";
 		//System.out.println(request.getParameter("NEW_TBL_CODE"));
@@ -43,8 +50,7 @@ public class CommonRestController {
 		
 		List<DTL_TBL> deptList = new ArrayList<DTL_TBL>();
 		
-		while (rs.next()) 
-		{
+		while (rs.next()) {
 			DTL_TBL data =new DTL_TBL();
 			data.setCHILD_TBL_NO(rs.getString("CHILD_TBL_NO"));
 			data.setNEW_TBL_CODE(rs.getString("NEW_TBL_CODE"));
@@ -62,7 +68,7 @@ public class CommonRestController {
 		return deptList;
 	}
 	// 공통코드 찾기
-	@RequestMapping(value = "/manager_select", method = {RequestMethod.GET,RequestMethod.POST})
+	@GetMapping(value = "/manager_select")
 	public List<DTL_TBL> manager_select(HttpServletRequest request) throws SQLException {
 		String sql = "select * from DTL_TBL where NEW_TBL_CODE='"+request.getParameter("NEW_TBL_CODE")+"'" + " and CHILD_TBL_NUM NOT IN('3','4','5') and CHILD_TBL_USE_STATUS='true'";
 		//System.out.println(request.getParameter("NEW_TBL_CODE"));
@@ -168,9 +174,28 @@ public class CommonRestController {
 	// 모든 회원 조회
 	@GetMapping("/menuList")
 	public ResponseEntity<List<Menu>> getAllmembers() {
-		List<Menu> member = menu_Service.findAll();
-		System.out.println(member);
-		return new ResponseEntity<List<Menu>>(member, HttpStatus.OK);
+		List<Menu> menu = menu_Service.findAll();
+		
+		return new ResponseEntity<List<Menu>>(menu, HttpStatus.OK);
 	}
 	
+	//생산 데이터 받는 코드
+	@GetMapping("/bsapp2")
+	public void production(String equip_id, int count) {
+		
+		Production production = new Production();
+		
+		List<WorkOrder_tbl> WorkOrder = new ArrayList<WorkOrder_tbl>(productionService.getWorkOrder(equip_id));
+		//작업지시 리스트를 확인함
+
+		//설비코드와 매칭을 시킴
+		
+		//결과에 따라 지시번호를 맞춰 db에 저장
+		production.setPRODUCTION_WorkOrder_ONo(WorkOrder.get(0).getWorkOrder_ONo());
+		production.setPRODUCTION_Equipment_Code(equip_id);
+		production.setPRODUCTION_Volume(count);
+		
+		System.out.println(production);
+		productionService.insertMenuNewUser(production);
+	}
 }

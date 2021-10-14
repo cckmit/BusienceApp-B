@@ -28,7 +28,7 @@ public class MainController {
 	}
 		
 	@GetMapping("/main")
-	public String main(Model model, Principal principal) throws ClassNotFoundException, SQLException {
+	public String main(Model model, Principal principal) {
 		model.addAttribute("pageName", "메인");
 		
 		return "main";

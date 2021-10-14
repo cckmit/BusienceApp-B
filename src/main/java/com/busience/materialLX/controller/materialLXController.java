@@ -61,7 +61,7 @@ public class materialLXController {
 	
 	// matInputMasterLX
 	@GetMapping("matInputMasterLX")
-	public String matInputMasterLX(Model model, HttpServletRequest request) {
+	public String matInputMasterLX(Model model) {
 			
 		// 입고구분
 		String InMatType = Integer.toString(17);
