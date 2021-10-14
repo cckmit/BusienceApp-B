@@ -69,7 +69,7 @@ public class matOutputReportLXRestController {
 		sql += " order by omt.OutMat_Date";
 
 		//System.out.println("where : " + where);
-		System.out.println(sql);
+		//System.out.println(sql);
 
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -527,7 +527,7 @@ public class matOutputReportLXRestController {
 
 		sql += " group by omt.OutMat_Code with rollup";
 		//System.out.println("where : " + where);
-		//System.out.println(sql);
+		System.out.println(sql);
 
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
