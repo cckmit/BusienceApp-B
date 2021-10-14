@@ -102,19 +102,19 @@ document.getElementById("endDate").onchange = function() {
 function radio_select(value) {
 	document.getElementsByName("options1").forEach(e => e.removeAttribute("disabled", ''));
 
-	if (value === "291") {
+	if (value === "242") {
 		document.getElementsByName('options1')[0].checked = true;
 		document.getElementsByName('options1')[0].focus();
 	}
-	else if (value === "292") {
+	else if (value === "243") {
 		document.getElementsByName('options1')[1].checked = true;
 		document.getElementsByName('options1')[1].focus();
 	}
-	else if (value === "293") {
+	else if (value === "244") {
 		document.getElementsByName('options1')[2].checked = true;
 		document.getElementsByName('options1')[2].focus();
 	}
-	else if (value === "294") {
+	else if (value === "245") {
 		document.getElementsByName('options1')[3].checked = true;
 		document.getElementsByName('options1')[3].focus();
 		document.getElementsByName("options1").forEach(e => e.setAttribute("disabled", ''));
@@ -127,10 +127,10 @@ $('input[type=radio][name=options1]').change(function() {
 
 	if (initData.workOrder_WorkStatus !== this.getAttribute("value")) {
 		// 미접수
-		if (initData.workOrder_WorkStatus === "291") {
-			if (this.getAttribute("value") === "293" || this.getAttribute("value") === "294") {
+		if (initData.workOrder_WorkStatus === "242") {
+			if (this.getAttribute("value") === "245" || this.getAttribute("value") === "244") {
 				alert("미접수된 데이터는 접수완료를 선택하여 주십시오.");
-				radio_select("291");
+				radio_select("242");
 				return;
 			}
 
@@ -142,14 +142,14 @@ $('input[type=radio][name=options1]').change(function() {
 			});
 		}
 		// 접수완료
-		else if (initData.workOrder_WorkStatus === "292") {
-			if (this.getAttribute("value") === "294") {
+		else if (initData.workOrder_WorkStatus === "243") {
+			if (this.getAttribute("value") === "245") {
 				alert("접수완료된 데이터는 작업시작을 선택하여 주십시오.");
-				radio_select("292");
+				radio_select("243");
 				return;
 			}
 
-			if (this.getAttribute("value") === "291") {
+			if (this.getAttribute("value") === "242") {
 				$.get("workOrderListRest/OrderUpdate2?workOrder_ONo=" + initData.workOrder_ONo, function(data) {
 					initRow.update({ "workOrder_ReceiptTime": null, "workOrder_WorkStatus": data.workOrder_WorkStatus });
 					initData = data;
@@ -157,14 +157,14 @@ $('input[type=radio][name=options1]').change(function() {
 				return;
 			}
 
-			if (this.getAttribute("value") === "293") {
+			if (this.getAttribute("value") === "244") {
 				//alert(initData.workOrder_EquipCode);
 				//alert(workOrder_EquipCode);
 
 				$.get("workListRest/OrderUpdate?workOrder_ONo=" + initData.workOrder_ONo + "&workOrder_EquipCode=" + workOrder_EquipCode, function(data) {
 					if (data === "OK") {
 						alert("해당 호기에 이미 작업시작이 된 데이터가 존재합니다.");
-						radio_select("292");
+						radio_select("243");
 						return;
 					}
 					else {
@@ -178,10 +178,10 @@ $('input[type=radio][name=options1]').change(function() {
 			}
 		}
 		// 작업시작
-		else if (initData.workOrder_WorkStatus === "293") {
-			if (this.getAttribute("value") === "291" || this.getAttribute("value") === "292") {
+		else if (initData.workOrder_WorkStatus === "244") {
+			if (this.getAttribute("value") === "242" || this.getAttribute("value") === "243") {
 				alert("작업시작된 데이터는 작업완료를 선택하여 주십시오.");
-				radio_select("293");
+				radio_select("244");
 				return;
 			}
 
@@ -201,8 +201,8 @@ window.onload = function() {
 	var array = document.getElementsByName("options1");
 	array[array.length - 1].setAttribute("disabled", '');
 
-	document.getElementById("295").style.display = "none";
-	document.getElementById("295c").style.display = "none";
+	document.getElementById("246").style.display = "none";
+	document.getElementById("246c").style.display = "none";
 
 	workOrder_EquipCode = "M001";
 

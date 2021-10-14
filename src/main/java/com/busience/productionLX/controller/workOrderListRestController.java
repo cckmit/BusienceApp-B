@@ -207,7 +207,6 @@ public class workOrderListRestController {
 		list.sort(new Comparator<WorkOrder_tbl>() {
 			@Override
 			public int compare(WorkOrder_tbl o1, WorkOrder_tbl o2) {
-				// TODO Auto-generated method stub
 				int a = Integer.parseInt(o1.getWorkOrder_EquipCode().substring(1));
 				int b = Integer.parseInt(o2.getWorkOrder_EquipCode().substring(1));
 
@@ -226,6 +225,7 @@ public class workOrderListRestController {
 		return list;
 	}
 
+	// ERROR : 작업지시조회 프로그램 - 미접수를 접수완료로 바꿔도 아래로 내려가지 않음
 	@RequestMapping(value = "/workorderList_top", method = RequestMethod.GET)
 	public List<WorkOrder_tbl> workorderList_top(HttpServletRequest request)
 			throws org.json.simple.parser.ParseException, SQLException {
@@ -305,7 +305,6 @@ public class workOrderListRestController {
 		list.sort(new Comparator<WorkOrder_tbl>() {
 			@Override
 			public int compare(WorkOrder_tbl o1, WorkOrder_tbl o2) {
-				// TODO Auto-generated method stub
 				int a = Integer.parseInt(o1.getWorkOrder_EquipCode().substring(1));
 				int b = Integer.parseInt(o2.getWorkOrder_EquipCode().substring(1));
 
@@ -404,7 +403,6 @@ public class workOrderListRestController {
 		list.sort(new Comparator<WorkOrder_tbl>() {
 			@Override
 			public int compare(WorkOrder_tbl o1, WorkOrder_tbl o2) {
-				// TODO Auto-generated method stub
 				int a = Integer.parseInt(o1.getWorkOrder_EquipCode().substring(1));
 				int b = Integer.parseInt(o2.getWorkOrder_EquipCode().substring(1));
 

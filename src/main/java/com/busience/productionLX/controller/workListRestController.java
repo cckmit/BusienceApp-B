@@ -70,9 +70,9 @@ public class workListRestController {
 			where += " and t1.WorkOrder_EquipCode='" + Machine_Code + "'";
 
 		if ((String) obj.get("order_flag") != null) {
-			where = " where (t1.WorkOrder_WorkStatus='292' or t1.WorkOrder_WorkStatus='293' or t1.WorkOrder_WorkStatus='294') ";
+			where = " where (t1.WorkOrder_WorkStatus='243' or t1.WorkOrder_WorkStatus='244' or t1.WorkOrder_WorkStatus='245') ";
 			where += "and t1.WorkOrder_ReceiptTime between '" + startDate + " 00:00:00' and '" + endDate
-					+ " 23:59:59' and t1.WorkOrder_WorkStatus<>'293' ";
+					+ " 23:59:59' and t1.WorkOrder_WorkStatus<>'244' ";
 			if (!PRODUCT_ITEM_CODE.equals(""))
 				where += " and t1.WorkOrder_ItemCode='" + PRODUCT_ITEM_CODE + "'";
 
@@ -99,7 +99,7 @@ public class workListRestController {
 			// on t1.WorkOrder_EquipCode=t4.EQUIPMENT_INFO_CODE where
 			// t1.WorkOrder_WorkStatus='293' order by
 			// WorkOrder_EquipCode,t1.WorkOrder_ReceiptTime desc, t1.WorkOrder_No desc";
-			String sql2 = "select WorkOrder_RQty,t4.EQUIPMENT_INFO_NAME WorkOrder_EquipName,t1.*,t2.CHILD_TBL_Type WorkOrder_WorkStatusName,t3.PRODUCT_ITEM_NAME WorkOrder_ItemName,t3.*,(select a.Sales_SM_Last_Qty+a.Sales_SM_In_Qty-a.Sales_SM_Out_Qty from Sales_StockMatLX_tbl a where a.Sales_SM_Code=t1.WorkOrder_ItemCode) Qty from WorkOrder_tbl t1 inner join DTL_TBL t2 on t1.WorkOrder_WorkStatus = t2.CHILD_TBL_NO inner join PRODUCT_INFO_TBL t3 on t1.WorkOrder_ItemCode=t3.PRODUCT_ITEM_CODE inner join EQUIPMENT_INFO_TBL t4 on t1.WorkOrder_EquipCode=t4.EQUIPMENT_INFO_CODE where t1.WorkOrder_WorkStatus='293' order by WorkOrder_EquipCode,t1.WorkOrder_ReceiptTime desc, t1.WorkOrder_No desc";
+			String sql2 = "select WorkOrder_RQty,t4.EQUIPMENT_INFO_NAME WorkOrder_EquipName,t1.*,t2.CHILD_TBL_Type WorkOrder_WorkStatusName,t3.PRODUCT_ITEM_NAME WorkOrder_ItemName,t3.*,(select a.Sales_SM_Last_Qty+a.Sales_SM_In_Qty-a.Sales_SM_Out_Qty from Sales_StockMatLX_tbl a where a.Sales_SM_Code=t1.WorkOrder_ItemCode) Qty from WorkOrder_tbl t1 inner join DTL_TBL t2 on t1.WorkOrder_WorkStatus = t2.CHILD_TBL_NO inner join PRODUCT_INFO_TBL t3 on t1.WorkOrder_ItemCode=t3.PRODUCT_ITEM_CODE inner join EQUIPMENT_INFO_TBL t4 on t1.WorkOrder_EquipCode=t4.EQUIPMENT_INFO_CODE where t1.WorkOrder_WorkStatus='244' order by WorkOrder_EquipCode,t1.WorkOrder_ReceiptTime desc, t1.WorkOrder_No desc";
 
 			pstmt = conn.prepareStatement(sql2);
 			rs = pstmt.executeQuery();
@@ -169,7 +169,6 @@ public class workListRestController {
 		list.sort(new Comparator<WorkOrder_tbl>() {
 			@Override
 			public int compare(WorkOrder_tbl o1, WorkOrder_tbl o2) {
-				// TODO Auto-generated method stub
 				int a = Integer.parseInt(o1.getWorkOrder_EquipCode().substring(1));
 				int b = Integer.parseInt(o2.getWorkOrder_EquipCode().substring(1));
 
