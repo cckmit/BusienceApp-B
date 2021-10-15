@@ -19,14 +19,13 @@
     </head>
     <body>
         <div style="margin:10; width: 100%;height: 100%; position: absolute; border: solid;">
-        	<div style="padding: 5px;">
-        		<select class="form-select form-select-lg" id="eqselect" name="eqselectn" style="width: 180px; height: 35px; font-size: 20px;" aria-label=".form-select-lg example">
-	        		<c:forEach var="item" items="${list}">
-	        			<option value="${item.EQUIPMENT_INFO_CODE}">${item.EQUIPMENT_INFO_NAME}</option>
-	        		</c:forEach>
-        		</select>
+        	<select class="form-select form-select-lg" id="eqselect" name="eqselectn" style="width: 180px; height: 35px; font-size: 20px;" aria-label=".form-select-lg example">
+        		<c:forEach var="item" items="${list}">
+        			<option value="${item.EQUIPMENT_INFO_CODE}">${item.EQUIPMENT_INFO_NAME}</option>
+        		</c:forEach>
+        	</select>
         	
-        		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         	
         		<span><strong>작업지시일</strong></span> 
 				<input id="startDate" class="today" type="date"> 
@@ -37,10 +36,8 @@
 				
 				<span></span>
 				<strong style="color: red;">기준일 : <fmt:formatDate value="${nowDate}" pattern="yyyy-MM-dd" /></strong>
-        	</div>
         	
-        	
-			<div style="padding: 5px;" class="btn-group-lg" role="group" aria-label="Basic radio toggle button group" >
+			<div class="btn-group-lg" role="group" aria-label="Basic radio toggle button group" >
 				<c:forEach var="item" items="${list2}">
 					<input type="radio" class="btn-check" name="options1" id="${item.CHILD_TBL_NO}" value="${item.CHILD_TBL_NO}" autocomplete="off"/>
 				<label class="btn btn-outline-primary border border-secondary" name="labelOptions" style="border: solid;" id="${item.CHILD_TBL_NO}c" for="${item.CHILD_TBL_NO}">${item.CHILD_TBL_TYPE}</label>

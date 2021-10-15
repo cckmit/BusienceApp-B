@@ -37,5 +37,4 @@ public class MenuService {
     public int insertMenuNewUser(String string) {
     	return menuMapper.insertMenuNewUser(string);
     }
-
 }

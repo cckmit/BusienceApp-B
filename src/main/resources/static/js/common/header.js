@@ -1,6 +1,6 @@
 var parents_menu
 var child_menu
-var division_line = ["불량 정보 관리", "출고 반품 관리", "생산 실적 관리(연별)", "수주 조회", "판매 반품 관리", "납품 현황 조회", "작업지시 TAB"]
+var division_line = ["불량 정보 관리", "출고 반품 관리", "생산 실적 관리(연별)", "수주 조회", "판매 반품 관리", "납품 현황 조회", "작업지시 Tablet","생산 실적 관리(연별)X"]
 
 $.ajax({
 	method: "GET",

@@ -158,7 +158,7 @@ public class productionLXController {
 
 	// WorkOrderTAB
 	@GetMapping("WorkOrderTAB")
-	public String WorkOrderTAB2(Model model, HttpServletRequest request) throws SQLException {
+	public String WorkOrderTAB(Model model, HttpServletRequest request) throws SQLException {
 		model.addAttribute("list",
 				jdbctemplate.query("SELECT * FROM EQUIPMENT_INFO_TBL", new RowMapper<EQUIPMENT_INFO_TBL>() {
 					@Override
@@ -182,5 +182,11 @@ public class productionLXController {
 				}));
 
 		return "normal/productionLX/work_order_TAB";
+	}
+
+	// WorkOrderTAB
+	@GetMapping("WorkOrderTABX")
+	public String WorkOrderTABX(Model model, HttpServletRequest request) throws SQLException {
+		return "normal/productionLX/work_order_TABX";
 	}
 }

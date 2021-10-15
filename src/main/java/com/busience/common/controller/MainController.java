@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,7 +29,7 @@ public class MainController {
 	}
 		
 	@GetMapping("/main")
-	public String main(Model model, Principal principal) throws ClassNotFoundException, SQLException {
+	public String main(Model model, Principal principal) {
 		model.addAttribute("pageName", "메인");
 		
 		return "main";

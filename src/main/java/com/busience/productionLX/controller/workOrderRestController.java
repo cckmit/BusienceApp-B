@@ -19,6 +19,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +35,9 @@ public class workOrderRestController {
 
 	@Autowired
 	DataSource dataSource;
+	
+	@Autowired
+	JdbcTemplate jdbctemplate;
 
 	// 위 그리드 재고수량
 	@RequestMapping(value = "/MI_Search1", method = RequestMethod.GET)
@@ -63,6 +68,7 @@ public class workOrderRestController {
 	}
 
 	// 수주현황
+	// ERROR : 작업지시 - 작업지시완료일을 입력하면 뒤에 조회되는 기능 : Sales_OrderMasterLX_tbl에 데이터가 많이 삭제되서 조회가 안됨 ex) A01001 코드가 없음
 	@RequestMapping(value = "/MI_Search2", method = RequestMethod.GET)
 	public List<Sales_OrderMasterList_tbl> MI_Search2(HttpServletRequest request) throws SQLException, ParseException {
 		String originData = request.getParameter("data");
@@ -123,59 +129,50 @@ public class workOrderRestController {
 	// 맨위에 그리드 서치기능
 	@RequestMapping(value = "/MI_Search3", method = RequestMethod.GET)
 	public List<WorkOrder_tbl> MI_Search3(HttpServletRequest request) throws SQLException, ParseException {
-		String originData = request.getParameter("data");
-		JSONParser parser = new JSONParser();
-		JSONObject obj = (JSONObject) parser.parse(originData);
+		String startDate = request.getParameter("startDate")+" 00:00:00";
+		String endDate = request.getParameter("endDate")+" 23:59:59";
 
-		String sql = "select t4.EQUIPMENT_INFO_NAME WorkOrder_EquipName,t1.*,t2.CHILD_TBL_Type WorkOrder_WorkStatusName,t3.PRODUCT_ITEM_NAME WorkOrder_ItemName,t3.*,(select a.Sales_SM_Last_Qty+a.Sales_SM_In_Qty-a.Sales_SM_Out_Qty from Sales_StockMat_tbl a where a.Sales_SM_Code=t1.WorkOrder_ItemCode) Qty from WorkOrder_tbl t1 inner join DTL_TBL t2 on t1.WorkOrder_WorkStatus = t2.CHILD_TBL_NO inner join PRODUCT_INFO_TBL t3 on t1.WorkOrder_ItemCode=t3.PRODUCT_ITEM_CODE inner join EQUIPMENT_INFO_TBL t4 on t1.WorkOrder_EquipCode=t4.EQUIPMENT_INFO_CODE where WorkOrder_WorkStatus = 291";
-		String where = " and t1.WorkOrder_RegisterTime between '" + obj.get("startDate") + " 00:00:00' and '"
-				+ obj.get("endDate") + " 23:59:59' order by t1.WorkOrder_RegisterTime desc, t1.WorkOrder_No desc";
+		String sql = "select t4.EQUIPMENT_INFO_NAME WorkOrder_EquipName,t1.*,t2.CHILD_TBL_Type WorkOrder_WorkStatusName,t3.PRODUCT_ITEM_NAME WorkOrder_ItemName,t3.*,(select a.Sales_SM_Last_Qty+a.Sales_SM_In_Qty-a.Sales_SM_Out_Qty from Sales_StockMat_tbl a where a.Sales_SM_Code=t1.WorkOrder_ItemCode) Qty from WorkOrder_tbl t1 inner join DTL_TBL t2 on t1.WorkOrder_WorkStatus = t2.CHILD_TBL_NO inner join PRODUCT_INFO_TBL t3 on t1.WorkOrder_ItemCode=t3.PRODUCT_ITEM_CODE inner join EQUIPMENT_INFO_TBL t4 on t1.WorkOrder_EquipCode=t4.EQUIPMENT_INFO_CODE where WorkOrder_WorkStatus = 242";
+		String where = " and t1.WorkOrder_RegisterTime between ? and "
+				+ "? order by t1.WorkOrder_RegisterTime desc, t1.WorkOrder_No desc";
 
 		sql += where;
 
 		System.out.println(sql);
+		
+		return jdbctemplate.query(sql, new RowMapper<WorkOrder_tbl>() {
 
-		Connection conn = dataSource.getConnection();
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		ResultSet rs = pstmt.executeQuery();
+			@Override
+			public WorkOrder_tbl mapRow(ResultSet rs, int rowNum) throws SQLException {
+				WorkOrder_tbl data = new WorkOrder_tbl();
+				data.setWorkOrder_ONo(rs.getString("WorkOrder_ONo"));
+				data.setWorkOrder_ItemCode(rs.getString("WorkOrder_ItemCode"));
+				data.setWorkOrder_ItemName(rs.getString("WorkOrder_ItemName"));
+				data.setWorkOrder_EquipCode(rs.getString("WorkOrder_EquipCode"));
+				data.setWorkOrder_EquipName(rs.getString("WorkOrder_EquipName"));
+				data.setWorkOrder_PQty(rs.getString("WorkOrder_PQty"));
+				data.setWorkOrder_RQty(rs.getString("WorkOrder_RQty"));
+				data.setWorkOrder_RegisterTime(rs.getString("WorkOrder_RegisterTime").substring(0, 10));
+				data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime"));
 
-		List<WorkOrder_tbl> list = new ArrayList<WorkOrder_tbl>();
+				String value = rs.getString("WorkOrder_OrderTime");
+				value = value.substring(0, value.length() - 2);
 
-		while (rs.next()) {
-			WorkOrder_tbl data = new WorkOrder_tbl();
-			data.setWorkOrder_ONo(rs.getString("WorkOrder_ONo"));
-			data.setWorkOrder_ItemCode(rs.getString("WorkOrder_ItemCode"));
-			data.setWorkOrder_ItemName(rs.getString("WorkOrder_ItemName"));
-			data.setWorkOrder_EquipCode(rs.getString("WorkOrder_EquipCode"));
-			data.setWorkOrder_EquipName(rs.getString("WorkOrder_EquipName"));
-			data.setWorkOrder_PQty(rs.getString("WorkOrder_PQty"));
-			data.setWorkOrder_RQty(rs.getString("WorkOrder_RQty"));
-			data.setWorkOrder_RegisterTime(rs.getString("WorkOrder_RegisterTime").substring(0, 10));
-			data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime"));
-
-			String value = rs.getString("WorkOrder_OrderTime");
-			value = value.substring(0, value.length() - 2);
-
-			data.setWorkOrder_OrderTime(value);
-			data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime").substring(0, 10));
-			data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime"));
-			data.setWorkOrder_WorkStatus(rs.getString("WorkOrder_WorkStatus"));
-			data.setWorkOrder_WorkStatusName(rs.getString("WorkOrder_WorkStatusName"));
-			data.setWorkOrder_WorkStatusName(rs.getString("WorkOrder_WorkStatusName"));
-			data.setWorkOrder_Worker(rs.getString("WorkOrder_Worker"));
-			data.setWorkOrder_Remark(rs.getString("WorkOrder_Remark"));
-			data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
-			data.setPRODUCT_UNIT_PRICE(rs.getString("PRODUCT_UNIT_PRICE"));
-			data.setQty(rs.getString("Qty"));
-			data.setDbdata_flag("y");
-			list.add(data);
-		}
-
-		rs.close();
-		pstmt.close();
-		conn.close();
-
-		return list;
+				data.setWorkOrder_OrderTime(value);
+				data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime").substring(0, 10));
+				data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime"));
+				data.setWorkOrder_WorkStatus(rs.getString("WorkOrder_WorkStatus"));
+				data.setWorkOrder_WorkStatusName(rs.getString("WorkOrder_WorkStatusName"));
+				data.setWorkOrder_WorkStatusName(rs.getString("WorkOrder_WorkStatusName"));
+				data.setWorkOrder_Worker(rs.getString("WorkOrder_Worker"));
+				data.setWorkOrder_Remark(rs.getString("WorkOrder_Remark"));
+				data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
+				data.setPRODUCT_UNIT_PRICE(rs.getString("PRODUCT_UNIT_PRICE"));
+				data.setQty(rs.getString("Qty"));
+				data.setDbdata_flag("y");
+				return data;
+			}
+		},startDate,endDate);
 	}
 
 	@RequestMapping(value = "/MO_Save", method = RequestMethod.GET)
