@@ -132,11 +132,11 @@ public class typeAuthorityRestController {
 				JSONObject obj = (JSONObject) arr.get(i);
 				System.out.println(obj);
 				
-				sql = "UPDATE `RIGHTS_MGMT_TBL`"
+				sql = "UPDATE `Rights_MGMT_tbl`"
 						+ "SET "
-						+ "RIGHTS_MGMT_USE_STATUS = '"+obj.get("rights_MGMT_USE_STATUS")+"'"
-						+ "WHERE RIGHTS_USER_TYPE = '"+obj.get("rights_USER_TYPE")+"'"
-						+ "AND RIGHTS_PROGRAM_CODE = '"+obj.get("rights_PROGRAM_CODE")+"'";
+						+ "RIGHTS_MGMT_USE_STATUS = "+obj.get("rights_MGMT_Use_Status")+""
+						+ " WHERE RIGHTS_USER_TYPE = '"+obj.get("rights_User_Type")+"'"
+						+ " AND RIGHTS_PROGRAM_CODE = '"+obj.get("rights_Program_Code")+"'";
 
 				System.out.println("sql = " + sql);
 				pstmt = conn.prepareStatement(sql);
