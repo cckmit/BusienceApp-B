@@ -5,39 +5,6 @@ var new_TBL_CODE = 0;
 var child_TBL_NUM = 0;
 
 
-function insertModal() {
-	$("#insertYesNo").modal("show");
-}
-
-function insBtn() {
-	if (document.getElementById("CHILD_TBL_TYPE").value == "") {
-		alert("코드명은 반드시 입력하셔야 합니다.");
-		return;
-	}
-	
-	var CHILD_TBL_USE_STATUS_VALUE = document.getElementById("CHILD_TBL_USE_STATUS").checked;
-	//console.log(CHILD_TBL_USE_STATUS_VALUE);
-	
-	$.ajax({
-		method: "GET",
-		data: {
-			CHILD_TBL_NO : child_TBL_NO,
-			NEW_TBL_CODE: new_TBL_CODE,
-			CHILD_TBL_TYPE: document.getElementById("CHILD_TBL_TYPE").value,
-			CHILD_TBL_RMARK: document.getElementById("CHILD_TBL_RMARK").value,
-			CHILD_TBL_USE_STATUS: CHILD_TBL_USE_STATUS_VALUE
-		},
-		url: "codeManageRest/insert",
-		success: function(data) {
-			if (data == "Success") {
-				alert("저장 완료 하였습니다.");
-
-				location.reload();
-			}
-		}
-	});
-}
-
 function GridSetting1(orgindata) {
 	table = new Tabulator("#example-table1", {
 		rowSelectionChanged: function(data, rows) {
@@ -85,6 +52,49 @@ function GridSetting1(orgindata) {
 	});
 }
 
+function insertModal() {
+	var selectedRow = table.getData("selected");
+	
+	if(selectedRow.length == 0){
+		alert("수정할 행을 선택하세요.");
+		return false;
+	}
+	
+	$("#insertYesNo").modal("show");
+}
+
+
+function insBtn() {
+	if (document.getElementById("CHILD_TBL_TYPE").value == "") {
+		alert("코드명은 반드시 입력하셔야 합니다.");
+		return;
+	}
+	
+	var CHILD_TBL_USE_STATUS_VALUE = document.getElementById("CHILD_TBL_USE_STATUS").checked;
+	//console.log(CHILD_TBL_USE_STATUS_VALUE);
+	
+	$.ajax({
+		method: "GET",
+		data: {
+			CHILD_TBL_NO : child_TBL_NO,
+			NEW_TBL_CODE: new_TBL_CODE,
+			CHILD_TBL_TYPE: document.getElementById("CHILD_TBL_TYPE").value,
+			CHILD_TBL_RMARK: document.getElementById("CHILD_TBL_RMARK").value,
+			CHILD_TBL_USE_STATUS: CHILD_TBL_USE_STATUS_VALUE
+		},
+		url: "codeManageRest/insert",
+		success: function(data) {
+			if (data == "Success") {
+				alert("저장 완료 하였습니다.");
+
+				location.reload();
+			}
+		}
+	});
+}
+
+
+
 function GridSetting2(NEW_TBL_CODE) {
 	$.ajax({
 		method: "GET",
@@ -92,7 +102,7 @@ function GridSetting2(NEW_TBL_CODE) {
 		success: function(data) {
 			datas = data;
 			console.log(datas);
-			table = new Tabulator("#example-table2", {
+			table2 = new Tabulator("#example-table2", {
 				rowDblClick: function(e, row) {
 					//e - the click event object
 					//row - row component
