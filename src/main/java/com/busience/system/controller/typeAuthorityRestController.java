@@ -47,7 +47,7 @@ public class typeAuthorityRestController {
 				+ "FROM DTL_TBL\r\n"
 				+ "where NEW_TBL_CODE = '1';";
 
-		System.out.println(sql);
+		System.out.println("TAM_Search = " + sql);
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
@@ -85,7 +85,7 @@ public class typeAuthorityRestController {
 				+ "inner join Menu_tbl B on A.Rights_Program_Code = B.Menu_Code\r\n"
 				+ "where Rights_User_Type = '"+request.getParameter("RIGHTS_USER_TYPE")+"'";
 
-		System.out.println(sql);
+		System.out.println("TAS_Search = " + sql);
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
@@ -132,13 +132,13 @@ public class typeAuthorityRestController {
 				JSONObject obj = (JSONObject) arr.get(i);
 				System.out.println(obj);
 				
-				sql = "UPDATE `RIGHTS_MGMT_TBL`"
-						+ "SET "
-						+ "RIGHTS_MGMT_USE_STATUS = '"+obj.get("rights_MGMT_USE_STATUS")+"'"
-						+ "WHERE RIGHTS_USER_TYPE = '"+obj.get("rights_USER_TYPE")+"'"
-						+ "AND RIGHTS_PROGRAM_CODE = '"+obj.get("rights_PROGRAM_CODE")+"'";
+				sql = "UPDATE `Rights_MGMT_tbl`\r\n"
+						+ "SET \r\n"
+						+ "RIGHTS_MGMT_USE_STATUS = "+obj.get("rights_MGMT_Use_Status")+"\r\n"
+						+ "WHERE RIGHTS_USER_TYPE = '"+obj.get("rights_User_Type")+"'\r\n"
+						+ "AND RIGHTS_PROGRAM_CODE = '"+obj.get("rights_Program_Code")+"'";
 
-				System.out.println("sql = " + sql);
+				System.out.println("TA_Update = " + sql);
 				pstmt = conn.prepareStatement(sql);
 				pstmt.executeUpdate();
 			}
