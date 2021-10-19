@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.domain.Member;
-import com.busience.common.persistence.MemberRepository;
 import com.busience.common.service.MenuService;
 import com.busience.standard.Dto.USER_INFO_TBL;
 
@@ -30,9 +29,6 @@ public class userManageRestController {
 
 	@Autowired
 	PasswordEncoder pwEncoder;
-	
-	@Autowired
-	MemberRepository repo;
 	
 	@Autowired
 	DataSource dataSource;
@@ -104,7 +100,7 @@ public class userManageRestController {
 		member.setUSER_PASSWORD(encryptPw);
 		member.setUSER_MODIFIER(principal.getName());
 		
-		repo.save(member);
+		//repo.save(member);
 		
 		//사용자 메뉴 생성
 		menuService.insertMenuNewUser(member.getUSER_CODE());	
@@ -117,6 +113,7 @@ public class userManageRestController {
 	@PutMapping("/userManageUpdate")
 	public String userManageUpdate(Member member) {
 		System.out.println(member);
+		/*
 		repo.findById(member.getUSER_CODE()).ifPresent(origin -> {
 			origin.setUSER_NAME(member.getUSER_NAME());
 			origin.setCOMPANY(member.getCOMPANY());
@@ -126,7 +123,7 @@ public class userManageRestController {
 
 			repo.save(origin);
 		});
-		
+		*/
 		return "Success";
 	}
 
@@ -135,13 +132,13 @@ public class userManageRestController {
 	public String userManagePW(Member member) {
 		
 		String encryptPw = pwEncoder.encode(member.getUSER_PASSWORD());
-		
+		/*
 		repo.findById(member.getUSER_CODE()).ifPresent(origin -> {
 			origin.setUSER_PASSWORD(encryptPw);
 			
 			repo.save(origin);
 		});
-		
+		*/
 		return "Success";
 	}
 

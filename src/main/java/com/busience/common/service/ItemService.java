@@ -1,8 +1,7 @@
 package com.busience.common.service;
 
-import javax.transaction.Transactional;
-
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.busience.common.mapper.ItemMapper;
 import com.busience.standard.Dto.PRODUCT_INFO_TBL;

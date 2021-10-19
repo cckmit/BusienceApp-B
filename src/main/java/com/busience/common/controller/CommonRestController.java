@@ -174,7 +174,7 @@ public class CommonRestController {
 	// 모든 회원 조회
 	@GetMapping("/menuList")
 	public ResponseEntity<List<Menu>> getAllmembers() {
-		List<Menu> menu = menu_Service.findAll();
+		List<Menu> menu = menu_Service.getAllmenu();
 		
 		return new ResponseEntity<List<Menu>>(menu, HttpStatus.OK);
 	}

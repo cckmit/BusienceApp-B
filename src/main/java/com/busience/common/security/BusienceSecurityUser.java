@@ -23,14 +23,14 @@ public class BusienceSecurityUser extends User{
 	public BusienceSecurityUser(Member member) {
 		
 		super(member.getUSER_CODE(), member.getUSER_PASSWORD(), makeGrantedAuthority(member.getUSER_TYPE()));
-		
+
 		this.member = member;
 	}
 
 	private static List<GrantedAuthority> makeGrantedAuthority(String string) {
 		
 		List<GrantedAuthority> list = new ArrayList<>();
-		
+
 		if(string != null) {
 			list.add(new SimpleGrantedAuthority(ROLE_PREFIX+"ADMIN"));
 		}

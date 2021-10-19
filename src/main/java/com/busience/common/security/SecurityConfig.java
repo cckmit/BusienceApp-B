@@ -1,5 +1,7 @@
 package com.busience.common.security;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,23 +37,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.defaultSuccessUrl("/main")
 			.permitAll();
 			
-		
-		
 		http.logout()
 			.logoutUrl("/logout").invalidateHttpSession(true)
 			.permitAll();
 		
 		http.userDetailsService(busienceUsersService);
 	}
-	
+
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 	
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+		
 		auth.userDetailsService(busienceUsersService)
 			.passwordEncoder(passwordEncoder());
-		
+				
 	}
 }

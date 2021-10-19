@@ -1,36 +1,29 @@
 package com.busience.common.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.busience.common.domain.Menu;
 import com.busience.common.mapper.MenuMapper;
-import com.busience.common.persistence.MenuRepository;
+import com.busience.standard.Dto.DTL_TBL;
 
 @Service
 @Transactional
 public class MenuService {
-		
-	//jpa
-	@Autowired
-	MenuRepository menuRepository;
-	
-	public List<Menu> findAll() {
-		List<Menu> Menus = new ArrayList<>();
-		menuRepository.findAll().forEach(e -> Menus.add(e));
-		return Menus;
-	} 
-	
+
 	//mybatis
 	private MenuMapper menuMapper;
 			
 	public MenuService(MenuMapper menuMapper) {
 		this.menuMapper = menuMapper;
+	}
+	
+	//메뉴 리스트
+	public List<Menu> getAllmenu() {
+		final List<Menu> menuList = menuMapper.selectMenuList();
+        return menuList;
 	}
 		
 	//가입시 메뉴 저장

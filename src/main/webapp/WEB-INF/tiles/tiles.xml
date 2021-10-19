@@ -27,6 +27,7 @@
        <put-attribute name="left" value="/WEB-INF/views/common/left.jsp" />
        <put-attribute name="body" value="" />
    </definition>
+   
    <definition name="main" extends="tilesLayout">
        <put-attribute name="body" value="/WEB-INF/views/main.jsp" />
    </definition>

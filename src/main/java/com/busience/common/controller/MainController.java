@@ -1,21 +1,11 @@
 package com.busience.common.controller;
 
-import java.security.Principal;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class MainController {
@@ -29,7 +19,7 @@ public class MainController {
 	}
 		
 	@GetMapping("/main")
-	public String main(Model model, Principal principal) {
+	public String main(Model model) {
 		model.addAttribute("pageName", "메인");
 		
 		return "main";
