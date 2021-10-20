@@ -1,6 +1,7 @@
 package com.busience.standard.controller;
 
 import java.net.UnknownHostException;
+import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,6 +19,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,7 +33,7 @@ public class MachineManageRestController {
 	@Autowired
 	DataSource dataSource;
 
-	@RequestMapping(value = "/machineManageSelect",method = RequestMethod.GET)
+	@GetMapping("/machineManageSelect")
 	public List<EQUIPMENT_INFO_TBL> machineManageSelect() throws SQLException {
 		List<EQUIPMENT_INFO_TBL> list = new ArrayList<EQUIPMENT_INFO_TBL>();
 		
@@ -41,11 +43,18 @@ public class MachineManageRestController {
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
 		
+		
+		
 		int i = 0;
 		while(rs.next()) {
 			EQUIPMENT_INFO_TBL data = new EQUIPMENT_INFO_TBL();
 			i++;
 			data.setId(i);
+			
+			if(rs.getString("EQUIPMENT_INFO_ABR") == "null") {
+				data.setEQUIPMENT_INFO_ABR("");
+			}
+			
 			data.setEQUIPMENT_BUSINESS_PLACE(rs.getString("EQUIPMENT_BUSINESS_PLACE"));
 			data.setEQUIPMENT_BUSINESS_PLACE_NAME(rs.getString("EQUIPMENT_BUSINESS_PLACE_NAME"));
 			data.setEQUIPMENT_INFO_CODE(rs.getString("EQUIPMENT_INFO_CODE"));
@@ -75,8 +84,8 @@ public class MachineManageRestController {
 		return list;
 	}
 	
-	@RequestMapping(value = "/machineManageInsert", method = RequestMethod.POST)
-	public String machineManageInsert(HttpServletRequest request, EQUIPMENT_INFO_TBL Equipment, Model model)
+	@GetMapping("/machineManageInsert")
+	public String machineManageInsert(HttpServletRequest request, EQUIPMENT_INFO_TBL Equipment, Principal principal)
 			throws ParseException, SQLException, UnknownHostException, ClassNotFoundException {
 		String data = request.getParameter("data");
 		System.out.println("data : " + data);
@@ -100,9 +109,8 @@ public class MachineManageRestController {
 			}
 		}
 
-		HttpSession httpSession = request.getSession();
-		String modifier = (String) httpSession.getAttribute("id");
-
+		String modifier = principal.getName();
+		System.out.println("modifier = " + modifier);
 		// ��¥ ����
 		java.util.Date date = new java.util.Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -144,8 +152,8 @@ public class MachineManageRestController {
 	  
 
 	// ����
-	@RequestMapping(value = "/machineManageUpdate", method = RequestMethod.POST)
-	public String machineManageUpdate(HttpServletRequest request, Model model)
+	@GetMapping("/machineManageUpdate")
+	public String machineManageUpdate(HttpServletRequest request, Principal principal)
 			throws SQLException, org.json.simple.parser.ParseException, UnknownHostException, ClassNotFoundException {
 		String data = request.getParameter("data");
 		JSONParser parser = new JSONParser();
@@ -153,8 +161,7 @@ public class MachineManageRestController {
 
 		//System.out.println(obj.toJSONString());
 		
-		HttpSession httpSession = request.getSession();
-		String modifier = (String) httpSession.getAttribute("id");
+		String modifier = principal.getName();
 
 		// ��¥ ����
 		java.util.Date date = new java.util.Date();
@@ -194,7 +201,7 @@ public class MachineManageRestController {
 	}
 
 	// ����
-	@RequestMapping(value = "/machineManageDelete", method = RequestMethod.POST)
+	@GetMapping("/machineManageDelete")
 	public String machineManageDelete(HttpServletRequest request, Model model) throws SQLException, ParseException, UnknownHostException, ClassNotFoundException {
 		String EQUIPMENT_INFO_CODE = request.getParameter("EQUIPMENT_INFO_CODE");
 
@@ -222,7 +229,7 @@ public class MachineManageRestController {
 	}
 	
 	// sparePart 설비 코드 조회
-	@RequestMapping(value="", method=RequestMethod.GET)
+	@GetMapping("/")
 	public List<EQUIPMENT_INFO_TBL> spareMachineTypeView(HttpServletRequest request) {
 		
 		List<EQUIPMENT_INFO_TBL> list = new ArrayList<EQUIPMENT_INFO_TBL>();

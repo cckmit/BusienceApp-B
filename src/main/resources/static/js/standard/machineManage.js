@@ -12,7 +12,7 @@ function date_change(today) {
 // 삭제
 function delBtn() {
 	$.ajax({
-		method: "POST",
+		method: "get",
 		data: null,
 		url: "machineManageRest/machineManageDelete?EQUIPMENT_INFO_CODE=" + document.getElementById("EQUIPMENT_INFO_CODE").value,
 		success: function(data) {
@@ -36,12 +36,18 @@ function insBtn() {
 	// 설비코드
 	if (document.getElementById("EQUIPMENT_INFO_CODE").value == "") {
 		alert("설비 코드는 반드시 입력하셔야 합니다.");
-		return;
+		return $("#EQUIPMENT_INFO_CODE").focus();;
 	}
 	if (document.getElementById("EQUIPMENT_INFO_CODE").value.length > 10) {
 		alert("설비 코드는 10글자 이하로 입력해주세요.");
-		return;
+		return $("#EQUIPMENT_INFO_CODE").focus();;
 	}
+	
+	if (document.getElementById("EQUIPMENT_RECEIVED_D").value == "") {
+		alert("구입일자를 입력해주세요.");
+		return $("#EQUIPMENT_RECEIVED_D").focus();
+	}
+
 
 	data = {
 		EQUIPMENT_BUSINESS_PLACE: $("#EQUIPMENT_BUSINESS_PLACE option:selected").val(),
@@ -65,7 +71,7 @@ function insBtn() {
 	console.log(code);
 
 	$.ajax({
-		method: "POST",
+		method: "get",
 		url: "machineManageRest/machineManageInsert?data=" + encodeURI(JSON.stringify(data)) + "",
 		data: null,
 		success: function(data, testStatus) {
@@ -107,8 +113,14 @@ function modBtn() {
 		EQUIPMENT_INFO_RMARK: document.getElementById("EQUIPMENT_INFO_RMARK").value,
 		EQUIPMENT_USE_STATUS: document.getElementById("EQUIPMENT_USE_STATUS").checked
 	}
+
+	if (document.getElementById("EQUIPMENT_RECEIVED_D").value == "") {
+		alert("구입일자를 입력해주세요.");
+		return $("#EQUIPMENT_RECEIVED_D").focus();
+	}
+
 	$.ajax({
-		method: "POST",
+		method: "get",
 		data: null,
 		url: "machineManageRest/machineManageUpdate?data=" + encodeURI(JSON.stringify(data)) + "",
 		success: function(data) {
@@ -316,6 +328,7 @@ function insert() {
 	if ($('#machineModal .insert').hasClass('none')) {
 		$('#machineModal .insert').removeClass('none');
 	}
+
 	// 포커스부여
 	$("#machineModal").on("shown.bs.modal", function() {
 		$('#EQUIPMENT_INFO_CODE').focus();
@@ -333,6 +346,7 @@ function modify() {
 		if ($('#machineModal .modify').hasClass('none')) {
 			$('#machineModal .modify').removeClass('none');
 		}
+
 		// 포커스부여
 		$("#machineModal").on("shown.bs.modal", function() {
 			$('#EQUIPMENT_INFO_NAME').focus();
