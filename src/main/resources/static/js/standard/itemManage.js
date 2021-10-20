@@ -122,6 +122,11 @@ function itemRegister() {
 		return $("#product_ITEM_CODE").focus();
 	}
 	
+	if (datas.PRODUCT_UNIT_PRICE.length == 0) {
+		alert("단가를 입력해야 합니다.");
+		return $("#product_Unit_Price").focus();
+	}
+	
 	$.ajax({
 		method : "get",
 		url : "itemManageRest/itemManageInsert",
@@ -129,6 +134,7 @@ function itemRegister() {
 		success : function(data) {
 			if (data == "Success") {
 				alert("저장 되었습니다.");
+				console.log(datas);
 				itemManageTable.replaceData();
 				
 				$("#itemManageModal").modal("hide");
@@ -181,7 +187,7 @@ function itemModify() {
 		PRODUCT_MTRL_CLSFC: $("#product_MTRL_CLSFC").val(),
 		PRODUCT_ITEM_CLSFC_1: $("#product_ITEM_CLSFC_1").val(),
 		PRODUCT_ITEM_CLSFC_2: $("#product_ITEM_CLSFC_2").val(),
-		PRODUCT_UNIT_PRICE: $("#product_Unit_Price").val(),
+		PRODUCT_UNIT_PRICE: $("#product_UNIT_PRICE").val(),
 		PRODUCT_SUBSID_MATL_MGMT: $("#product_SUBSID_MATL_MGMT").is(":checked"),
 		PRODUCT_ITEM_STTS: $("#product_ITEM_STTS").val(),
 		PRODUCT_BASIC_WAREHOUSE: $("#product_BASIC_WAREHOUSE").val(),
@@ -191,6 +197,11 @@ function itemModify() {
 		PRODUCT_USE_STATUS: $("#product_USE_STATUS").is(":checked")
 	};
 
+	if (datas.PRODUCT_UNIT_PRICE.length == 0) {
+		alert("단가를 입력해야 합니다.");
+		return $("#product_Unit_Price").focus();
+	}
+	
 	$.ajax({
 		method: "get",
 		data: datas,
@@ -198,6 +209,7 @@ function itemModify() {
 		success : function(data) {
 			if (data == "Success") {
 				alert("저장 되었습니다.");
+				console.log(datas);
 				itemManageTable.replaceData();
 				
 				$("#itemManageModal").modal("hide");

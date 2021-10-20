@@ -115,7 +115,7 @@ public class itemManageRestController {
 			data.setPRODUCT_ITEM_CLSFC_1_NAME(rs.getString("PRODUCT_ITEM_CLSFC_1_NAME"));
 			data.setPRODUCT_ITEM_CLSFC_2(rs.getString("PRODUCT_ITEM_CLSFC_2"));
 			data.setPRODUCT_ITEM_CLSFC_2_NAME(rs.getString("PRODUCT_ITEM_CLSFC_2_NAME"));
-			data.setPRODUCT_UNIT_PRICE(rs.getInt("PRODUCT_UNIT_PRICE"));
+			data.setPRODUCT_UNIT_PRICE(rs.getInt("product_Unit_Price"));
 			data.setPRODUCT_SUBSID_MATL_MGMT(rs.getString("PRODUCT_SUBSID_MATL_MGMT"));
 			data.setPRODUCT_ITEM_STTS(rs.getString("PRODUCT_ITEM_STTS"));
 			data.setPRODUCT_ITEM_STTS_NAME(rs.getString("PRODUCT_ITEM_STTS_NAME"));

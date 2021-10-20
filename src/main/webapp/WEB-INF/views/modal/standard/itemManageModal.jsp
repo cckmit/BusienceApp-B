@@ -67,7 +67,7 @@
 							<div class="col-sm-5">
 								<input type="text" style="width: 80%; height: 25px;"
 									class="form-control-plaintext" id="product_INFO_STND_2"
-									OnKeyDown="nextFocus('product_Unit_Price')">
+									OnKeyDown="nextFocus('product_UNIT_PRICE')">
 							</div>
 						</div>
 						<br> <br>
@@ -75,7 +75,7 @@
 							<label class="col-sm-3 control-label">&nbsp;&nbsp;단&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;가</label>
 							<div class="col-sm-5">
 								<input type="number" style="width: 80%; height: 25px;"
-									class="form-control-plaintext" id="product_Unit_Price"
+									class="form-control-plaintext" id="product_UNIT_PRICE"
 									OnKeyDown="nextFocus('product_UNIT')">
 							</div>
 						</div>
