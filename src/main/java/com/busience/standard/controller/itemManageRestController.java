@@ -63,6 +63,7 @@ public class itemManageRestController {
 				+ "F.CHILD_TBL_TYPE PRODUCT_ITEM_CLSFC_1_NAME,\r\n"
 				+ "A.PRODUCT_ITEM_CLSFC_2,\r\n"
 				+ "G.CHILD_TBL_TYPE PRODUCT_ITEM_CLSFC_2_NAME,\r\n"
+				+ "A.PRODUCT_UNIT_PRICE,\r\n"
 				+ "A.PRODUCT_SUBSID_MATL_MGMT,\r\n"
 				+ "A.PRODUCT_ITEM_STTS,\r\n"
 				+ "H.CHILD_TBL_TYPE PRODUCT_ITEM_STTS_NAME,\r\n"
@@ -114,6 +115,7 @@ public class itemManageRestController {
 			data.setPRODUCT_ITEM_CLSFC_1_NAME(rs.getString("PRODUCT_ITEM_CLSFC_1_NAME"));
 			data.setPRODUCT_ITEM_CLSFC_2(rs.getString("PRODUCT_ITEM_CLSFC_2"));
 			data.setPRODUCT_ITEM_CLSFC_2_NAME(rs.getString("PRODUCT_ITEM_CLSFC_2_NAME"));
+			data.setPRODUCT_UNIT_PRICE(rs.getInt("PRODUCT_UNIT_PRICE"));
 			data.setPRODUCT_SUBSID_MATL_MGMT(rs.getString("PRODUCT_SUBSID_MATL_MGMT"));
 			data.setPRODUCT_ITEM_STTS(rs.getString("PRODUCT_ITEM_STTS"));
 			data.setPRODUCT_ITEM_STTS_NAME(rs.getString("PRODUCT_ITEM_STTS_NAME"));

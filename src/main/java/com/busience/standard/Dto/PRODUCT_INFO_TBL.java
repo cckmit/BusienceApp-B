@@ -16,7 +16,7 @@ public class PRODUCT_INFO_TBL {
 	private String PRODUCT_ITEM_NAME; // 품명
 	private String PRODUCT_INFO_STND_1; // 규격1
 	private String PRODUCT_INFO_STND_2; // 규격2
-	private int PRODUCT_UNIT_PRICE;
+	private int PRODUCT_UNIT_PRICE; // 단가
 	private String PRODUCT_UNIT; // 단위코드(세부코드)
 	private String PRODUCT_UNIT_NAME; // 단위명(세부코드)
 	private String PRODUCT_MATERIAL; // 재질코드(세부코드)
