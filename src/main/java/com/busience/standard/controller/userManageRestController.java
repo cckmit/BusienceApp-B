@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.domain.Member;
+import com.busience.common.service.MemberService;
 import com.busience.common.service.MenuService;
 import com.busience.standard.Dto.USER_INFO_TBL;
 
@@ -33,12 +34,12 @@ public class userManageRestController {
 	@Autowired
 	DataSource dataSource;
 	
-	private MenuService menuService;
+	@Autowired
+	MenuService menuService;
 	
-	public userManageRestController(MenuService menuService) {
-		this.menuService = menuService;
-	}
-	
+	@Autowired
+	MemberService memberService;
+		
 	@GetMapping("/userManageRestSelect")
 	public List<USER_INFO_TBL> userManageRestSelect() throws SQLException {
 		List<USER_INFO_TBL> list = new ArrayList<USER_INFO_TBL>();
@@ -100,45 +101,37 @@ public class userManageRestController {
 		member.setUSER_PASSWORD(encryptPw);
 		member.setUSER_MODIFIER(principal.getName());
 		
-		//repo.save(member);
+		int YN = 0;
 		
-		//사용자 메뉴 생성
-		menuService.insertMenuNewUser(member.getUSER_CODE());	
+		//유저등록
+		YN = memberService.userRegister(member);
+		System.out.println("===================");
+		System.out.println(YN);
 		
 		return "Success";
 	}
 	
 	// update
-	@Transactional
 	@PutMapping("/userManageUpdate")
-	public String userManageUpdate(Member member) {
-		System.out.println(member);
-		/*
-		repo.findById(member.getUSER_CODE()).ifPresent(origin -> {
-			origin.setUSER_NAME(member.getUSER_NAME());
-			origin.setCOMPANY(member.getCOMPANY());
-			origin.setUSER_USE_STATUS(member.getUSER_USE_STATUS());
-			origin.setUSER_TYPE(member.getUSER_TYPE());
-			origin.setDEPT_CODE(member.getDEPT_CODE());
+	public String userManageUpdate(Member member, Principal principal) {
 
-			repo.save(origin);
-		});
-		*/
+		member.setUSER_MODIFIER(principal.getName());
+		
+		memberService.userModify(member);
+		
 		return "Success";
 	}
 
-	@Transactional
 	@PutMapping("/userManagePW")
-	public String userManagePW(Member member) {
+	public String userManagePW(Member member, Principal principal) {
 		
 		String encryptPw = pwEncoder.encode(member.getUSER_PASSWORD());
-		/*
-		repo.findById(member.getUSER_CODE()).ifPresent(origin -> {
-			origin.setUSER_PASSWORD(encryptPw);
-			
-			repo.save(origin);
-		});
-		*/
+		
+		member.setUSER_PASSWORD(encryptPw);
+		member.setUSER_MODIFIER(principal.getName());
+		
+		memberService.passwordModify(member);
+		
 		return "Success";
 	}
 
