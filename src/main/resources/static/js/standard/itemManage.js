@@ -107,7 +107,7 @@ function itemRegister() {
 		PRODUCT_MTRL_CLSFC: $("#product_MTRL_CLSFC").val(),
 		PRODUCT_ITEM_CLSFC_1: $("#product_ITEM_CLSFC_1").val(),
 		PRODUCT_ITEM_CLSFC_2: $("#product_ITEM_CLSFC_2").val(),
-		PRODUCT_UNIT_PRICE: $("#product_Unit_Price").val(),
+		PRODUCT_UNIT_PRICE: $("#product_UNIT_PRICE").val(),
 		PRODUCT_SUBSID_MATL_MGMT: $("#product_SUBSID_MATL_MGMT").is(":checked"),
 		PRODUCT_ITEM_STTS: $("#product_ITEM_STTS").val(),
 		PRODUCT_BASIC_WAREHOUSE: $("#product_BASIC_WAREHOUSE").val(),
@@ -124,7 +124,7 @@ function itemRegister() {
 	
 	if (datas.PRODUCT_UNIT_PRICE.length == 0) {
 		alert("단가를 입력해야 합니다.");
-		return $("#product_Unit_Price").focus();
+		return $("#product_UNIT_PRICE").focus();
 	}
 	
 	$.ajax({
@@ -199,7 +199,7 @@ function itemModify() {
 
 	if (datas.PRODUCT_UNIT_PRICE.length == 0) {
 		alert("단가를 입력해야 합니다.");
-		return $("#product_Unit_Price").focus();
+		return $("#product_UNIT_PRICE").focus();
 	}
 	
 	$.ajax({
