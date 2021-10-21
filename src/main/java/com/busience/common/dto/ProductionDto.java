@@ -1,4 +1,4 @@
-package com.busience.common.domain;
+package com.busience.common.dto;
 
 import java.time.LocalDateTime;
 
@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Production {
+public class ProductionDto {
 
 	private String PRODUCTION_WorkOrder_ONo;
 	

@@ -83,8 +83,8 @@ public class standardController {
 	public String customer(Model model){
 
 		// 납품조건
-		String customer = Integer.toString(15);
-		model.addAttribute("customerList", dtl_Service.getAlldtl(customer));
+		String paymentMethod = Integer.toString(15);
+		model.addAttribute("paymentMethodList", dtl_Service.getAlldtl(paymentMethod));
 		
 		// 페이지명
 		model.addAttribute("pageName", "거래처 관리");

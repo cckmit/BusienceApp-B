@@ -287,6 +287,11 @@ function delBtn() {
 		data: null,
 		url: "customerManageRest/delete?Cus_Code="
 			+ cus_Code,
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success: function(data, testStatus) {
 		}
 	});
@@ -318,6 +323,11 @@ function modBtn() {
 		data: datas,
 		url: "customerManageRest/update?data="
 			+ encodeURI(JSON.stringify(datas)),
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success: function(data, testStatus) {
 		}
 	});
@@ -404,6 +414,11 @@ function insBtn() {
 		data: datas,
 		url: "customerManageRest/insert?data="
 			+ encodeURI(JSON.stringify(datas)),
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success: function(data, testStatus) {
 			if (data == "Overlap")
 				alert("중복코드를 입력하셨습니다. 다른 코드를 입력해주세요.");

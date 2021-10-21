@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.busience.common.dao.MemberDao">
+	<select id="viewDao" resultType="com.busience.common.dto.MemberDto">
+		select * from USER_INFO_TBL where USER_CODE = #{USER_CODE}
+	</select>
+	
+	<insert id="insertUser">
+		insert into USER_INFO_TBL (
+				USER_CODE, USER_PASSWORD, USER_NAME, USER_TYPE,
+				COMPANY, DEPT_CODE, USER_MODIFIER, USER_USE_STATUS
+			) values(
+				#{USER_CODE}, #{USER_PASSWORD}, #{USER_NAME}, #{USER_TYPE},
+				#{COMPANY}, #{DEPT_CODE}, #{USER_MODIFIER}, #{USER_USE_STATUS}
+			)
+	</insert>
+	
+	<insert id="insertMenuNewUser">
+		insert into Menu_MGMT_tbl
+			select #{userCode}, Menu_Code, 'true', 'true', 'true', 'true'
+			from Menu_tbl
+	</insert>
+	
+	<update id="updateUser">
+		update USER_INFO_TBL
+			set
+			USER_NAME = #{USER_NAME},
+			USER_TYPE = #{USER_TYPE},
+			COMPANY = #{COMPANY},
+			DEPT_CODE = #{DEPT_CODE},
+			USER_MODIFIER = #{USER_MODIFIER},
+			USER_MODIFY_D = now(),
+			USER_USE_STATUS = #{USER_USE_STATUS}
+			where USER_CODE = #{USER_CODE}
+	</update>
+	
+	<update id="updatePassword">
+		update USER_INFO_TBL
+			set
+			USER_PASSWORD = #{USER_PASSWORD},
+			USER_MODIFIER = #{USER_MODIFIER},
+			USER_MODIFY_D = now()
+			where USER_CODE = #{USER_CODE}
+	</update>
+</mapper>

@@ -1,4 +1,4 @@
-package com.busience.common.mapper;
+package com.busience.common.dao;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
-import com.busience.common.domain.Production;
+import com.busience.common.dto.ProductionDto;
 import com.busience.productionLX.dto.WorkOrder_tbl;
 
 @Mapper
@@ -29,5 +29,5 @@ public interface ProductionMapper {
 			+ "(#{PRODUCTION_WorkOrder_ONo},\r\n"
 			+ "#{PRODUCTION_Equipment_Code},\r\n"
 			+ "#{PRODUCTION_Volume})")
-	int insertProduction(Production production);
+	int insertProduction(ProductionDto production);
 }

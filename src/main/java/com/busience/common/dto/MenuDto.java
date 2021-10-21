@@ -1,4 +1,4 @@
-package com.busience.common.domain;
+package com.busience.common.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Menu {
+public class MenuDto {
 
 	private String Menu_Code;
 	

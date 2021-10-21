@@ -12,16 +12,14 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.common.domain.Member;
+import com.busience.common.dto.MemberDto;
 import com.busience.common.service.MemberService;
-import com.busience.common.service.MenuService;
 import com.busience.standard.Dto.USER_INFO_TBL;
 
 @RestController("userManageRestController")
@@ -35,11 +33,8 @@ public class userManageRestController {
 	DataSource dataSource;
 	
 	@Autowired
-	MenuService menuService;
-	
-	@Autowired
 	MemberService memberService;
-		
+			
 	@GetMapping("/userManageRestSelect")
 	public List<USER_INFO_TBL> userManageRestSelect() throws SQLException {
 		List<USER_INFO_TBL> list = new ArrayList<USER_INFO_TBL>();
@@ -94,26 +89,22 @@ public class userManageRestController {
 
 	// insert
 	@PostMapping("/userManageInsert")
-	public String userManageInsert(Member member, Principal principal) {
+	public String userManageInsert(MemberDto member, Principal principal) {
 
 		String encryptPw = pwEncoder.encode(member.getUSER_PASSWORD());
 		
 		member.setUSER_PASSWORD(encryptPw);
 		member.setUSER_MODIFIER(principal.getName());
 		
-		int YN = 0;
-		
 		//유저등록
-		YN = memberService.userRegister(member);
-		System.out.println("===================");
-		System.out.println(YN);
+		memberService.userRegister(member);
 		
 		return "Success";
 	}
 	
 	// update
 	@PutMapping("/userManageUpdate")
-	public String userManageUpdate(Member member, Principal principal) {
+	public String userManageUpdate(MemberDto member, Principal principal) {
 
 		member.setUSER_MODIFIER(principal.getName());
 		
@@ -123,7 +114,7 @@ public class userManageRestController {
 	}
 
 	@PutMapping("/userManagePW")
-	public String userManagePW(Member member, Principal principal) {
+	public String userManagePW(MemberDto member, Principal principal) {
 		
 		String encryptPw = pwEncoder.encode(member.getUSER_PASSWORD());
 		

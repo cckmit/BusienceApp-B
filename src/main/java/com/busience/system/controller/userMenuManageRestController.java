@@ -51,9 +51,10 @@ public class userMenuManageRestController {
 				+ "left outer join (\r\n"
 				+ " SELECT * FROM User_Menu_tbl where User_Code = '"+userCode+"'\r\n"
 				+ ") C on A.Menu_Code = C.Program_Code\r\n"
-				+ "where B.NEW_TBL_CODE = '16';";
+				+ "where B.NEW_TBL_CODE = '16'\r\n"
+				+ "order by Menu_Code;";
 		
-		System.out.println(sql);
+		System.out.println("userMenuSearch = " + sql);
 		
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);

@@ -13,6 +13,8 @@ import javax.sql.DataSource;
 
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,9 +28,8 @@ public class customerManageRestController {
 	@Autowired
 	DataSource dataSource;
 	
-	@RequestMapping(value = "/view",method = RequestMethod.GET)
-	public List<Customer_tbl> view() throws SQLException
-	{
+	@GetMapping("/view")
+	public List<Customer_tbl> view() throws SQLException {
 		List<Customer_tbl> list = new ArrayList<Customer_tbl>();
 		
 		String sql = "SELECT Cus_Code, Cus_Name, Cus_Status, dt2.CHILD_TBL_TYPE Cus_Clsfc, Cus_Rprsn, Cus_Mng, Cus_Co, Cus_Co_EstYr, Cus_Rprsn_PhNr, Cus_Mng_PhNr, Cus_Mng_Email, \r\n"
@@ -73,7 +74,7 @@ public class customerManageRestController {
 		return list;
 	}
 	
-	@RequestMapping(value = "/insert",method = RequestMethod.POST)
+	@PostMapping("/insert")
 	public String insert(HttpServletRequest request) throws SQLException
 	{
 		Customer_tbl insert_Data = new Customer_tbl();
@@ -164,7 +165,7 @@ public class customerManageRestController {
 		return "Success";
 	}
 	
-	@RequestMapping(value = "/update",method = RequestMethod.POST)
+	@PostMapping("/update")
 	public String update(HttpServletRequest request) throws SQLException
 	{
 		Customer_tbl update_Data = new Customer_tbl();
@@ -226,9 +227,8 @@ public class customerManageRestController {
 		return "Success";
 	}
 	
-	@RequestMapping(value = "delete",method = {RequestMethod.POST})
-	public void delete(HttpServletRequest request) throws ParseException, SQLException, UnknownHostException, ClassNotFoundException
-	{
+	@PostMapping("delete")
+	public void delete(HttpServletRequest request) throws ParseException, SQLException, UnknownHostException, ClassNotFoundException {
 		String no = request.getParameter("cus_Code");
 		
 		String sql = "delete from Customer_tbl where Cus_Code = '"+no+"'";

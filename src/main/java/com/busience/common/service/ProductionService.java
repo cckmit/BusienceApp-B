@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.busience.common.domain.Production;
-import com.busience.common.mapper.ProductionMapper;
+import com.busience.common.dao.ProductionMapper;
+import com.busience.common.dto.ProductionDto;
 import com.busience.productionLX.dto.WorkOrder_tbl;
 import com.busience.standard.Dto.DTL_TBL;
 
@@ -19,7 +19,7 @@ public class ProductionService {
 	}
 		
 	//가입시 메뉴 저장
-    public int insertMenuNewUser(Production production) {
+    public int insertMenuNewUser(ProductionDto production) {
     	return productionMapper.insertProduction(production);
     }
     

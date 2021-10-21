@@ -1,4 +1,4 @@
-package com.busience.common.mapper;
+package com.busience.common.dao;
 
 import java.util.List;
 

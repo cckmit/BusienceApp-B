@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.busience.common.mapper.DTL_Mapper;
+import com.busience.common.dao.DTL_Mapper;
 import com.busience.standard.Dto.DTL_TBL;
 
 @Service

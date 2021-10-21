@@ -1,4 +1,4 @@
-package com.busience.common.domain;
+package com.busience.common.dto;
 
 import java.time.LocalDateTime;
 
@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Member {
+public class MemberDto {
 	
 	private String USER_CODE;
 	
