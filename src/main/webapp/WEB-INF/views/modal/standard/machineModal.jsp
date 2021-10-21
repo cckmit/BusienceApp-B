@@ -23,7 +23,8 @@
 								for="EQUIPMENT_BUSINESS_PLACE">&nbsp;&nbsp;사&nbsp;&nbsp;&nbsp;&nbsp;업&nbsp;&nbsp;&nbsp;&nbsp;장&nbsp;</label>
 							<div class="col-sm-9">
 								<select id="EQUIPMENT_BUSINESS_PLACE"
-									style="width: 50%; height: 25px;">
+									style="width: 50%; height: 25px;"
+									OnKeyDown="nextFocus('EQUIPMENT_INFO_CODE')">
 									<c:forEach var="data" items="${companyList}">
 										<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>
 									</c:forEach>
@@ -110,7 +111,7 @@
 						<label class="col-sm-2 control-label" for="EQUIPMENT_STATUS">&nbsp;&nbsp;설&nbsp;비&nbsp;상&nbsp;태</label>
 						<div class="col-sm-3">
 							<select id="EQUIPMENT_STATUS" style="width: 80%; height: 25px;"
-								OnKeyDown="nextFocus('insert_defect_USE_STATUS')">
+								OnKeyDown="nextFocus('EQUIPMENT_USE_STATUS')">
 								<c:forEach var="data" items="${equipmentStatusList}">
 									<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>
 								</c:forEach>
@@ -127,7 +128,7 @@
 						<label class="col-sm-2 control-label" for="EQUIPMENT_USE_STATUS">&nbsp;&nbsp;사&nbsp;용&nbsp;유&nbsp;무</label>
 						<div class="col-sm-3">
 							<input type="checkbox" id="EQUIPMENT_USE_STATUS"
-								OnKeyDown="nextFocus('insert_defect_RMRKS')">
+								OnKeyDown="nextFocus('EQUIPMENT_INFO_RMARK')">
 						</div>
 						<br> <br> <label class="col-sm-2 control-label"
 							for="EQUIPMENT_MANUFACTURER">&nbsp;&nbsp;제&nbsp;작&nbsp;업&nbsp;체</label>
