@@ -17,12 +17,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.common.dto.MenuDto;
 import com.busience.common.dto.ProductionDto;
-import com.busience.common.service.MenuService;
 import com.busience.common.service.ProductionService;
 import com.busience.productionLX.dto.WorkOrder_tbl;
-import com.busience.standard.Dto.DTL_TBL;
+import com.busience.standard.dto.DTL_TBL;
+import com.busience.system.dto.MenuDto;
+import com.busience.system.service.MenuService;
 
 @RestController
 public class CommonRestController {
@@ -33,11 +33,8 @@ public class CommonRestController {
 	@Autowired
 	DataSource dataSource;
 	
-	private ProductionService productionService;
-	
-	public CommonRestController(ProductionService productionService) {
-		this.productionService = productionService;
-	}
+	@Autowired
+	ProductionService productionService;
 	
 	// 공통코드 찾기
 	@GetMapping("/dtl_tbl_select")

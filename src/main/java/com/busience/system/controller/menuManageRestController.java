@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.system.Dto.Menu_MGMT_tbl;
+import com.busience.system.dto.Menu_MGMT_tbl;
 
 @RestController("menuManageRestController")
 @RequestMapping("menuManageRest")

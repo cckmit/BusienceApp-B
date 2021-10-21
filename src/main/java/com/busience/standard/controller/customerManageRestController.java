@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.standard.Dto.Customer_tbl;
+import com.busience.standard.dto.Customer_tbl;
 
 @RestController("customerManageRestController")
 @RequestMapping("customerManageRest")

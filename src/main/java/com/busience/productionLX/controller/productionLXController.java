@@ -12,8 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.busience.standard.Dto.DTL_TBL;
-import com.busience.standard.Dto.EQUIPMENT_INFO_TBL;
+import com.busience.standard.dto.DTL_TBL;
+import com.busience.standard.dto.EQUIPMENT_INFO_TBL;
 
 @Controller
 public class productionLXController {

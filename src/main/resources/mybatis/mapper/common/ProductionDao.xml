@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.busience.common.dao.ProductionDao">
+	<select id="selectWorkOrder" resultType="com.busience.common.dto.ProductionDto">
+		SELECT A.WorkOrder_ONo, A.WorkOrder_EquipCode, B.CHILD_TBL_TYPE
+			FROM WorkOrder_tbl A
+			inner join DTL_TBL B on A.WorkOrder_WorkStatus = B.CHILD_TBL_NO
+			where A.WorkOrder_EquipCode = #{equip_id} and B.CHILD_TBL_RMARK = 'S'
+	</select>
+	
+	<insert id="insertProduction">
+		INSERT INTO `PRODUCTION_MGMT_TBL2` (
+			`PRODUCTION_WorkOrder_ONo`,
+			`PRODUCTION_Equipment_Code`,
+			`PRODUCTION_Volume`
+			) VALUES (
+			#{PRODUCTION_WorkOrder_ONo},
+			#{PRODUCTION_Equipment_Code},
+			#{PRODUCTION_Volume})
+	</insert>
+
+</mapper>

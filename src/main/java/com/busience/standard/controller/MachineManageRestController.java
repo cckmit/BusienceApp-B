@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.standard.Dto.EQUIPMENT_INFO_TBL;
+import com.busience.standard.dto.EQUIPMENT_INFO_TBL;
 
 @RestController("machineManageRestController")
 @RequestMapping("machineManageRest")

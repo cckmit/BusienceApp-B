@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
-import com.busience.common.dto.MemberDto;
+import com.busience.standard.dto.UserDto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,11 +16,13 @@ import lombok.Setter;
 @Setter
 public class BusienceSecurityUser extends User{
 	
+	private static final long serialVersionUID = 1L;
+
 	private static final String ROLE_PREFIX = "ROLE_";
 	
-	private MemberDto member;
+	private UserDto member;
 	
-	public BusienceSecurityUser(MemberDto member) {
+	public BusienceSecurityUser(UserDto member) {
 		
 		super(member.getUSER_CODE(), member.getUSER_PASSWORD(), makeGrantedAuthority(member.getUSER_TYPE()));
 

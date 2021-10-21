@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.busience.common.dao.DtlDao">
+	<select id="findAll" resultType="com.busience.common.dto.DtlDto">
+		select * from DTL_TBL
+	</select>
+	
+	<select id="findByCode" resultType="com.busience.common.dto.DtlDto">
+		select * from DTL_TBL
+		where NEW_TBL_CODE= #{NEW_TBL_CODE} and CHILD_TBL_USE_STATUS='true'
+		order by CHILD_TBL_NUM*1
+	</select>
+	
+	<select id="findCodeNum" resultType="com.busience.common.dto.DtlDto">
+		select * from DTL_TBL
+		where NEW_TBL_CODE= #{NEW_TBL_CODE} and CHILD_TBL_NUM= #{CHILD_TBL_NUM} and CHILD_TBL_USE_STATUS='true'
+		order by CHILD_TBL_NUM*1
+	</select>
+	
+	<select id="findLastDay" resultType="com.busience.common.dto.DtlDto">
+		select CHILD_TBL_RMARK from DTL_TBL where NEW_TBL_CODE= #{NEW_TBL_CODE} limit 1
+	</select>
+	
+	<select id="findDeptName" resultType="com.busience.common.dto.DtlDto">
+		select * from DTL_TBL
+		where NEW_TBL_CODE= #{NEW_TBL_CODE} and CHILD_TBL_NUM > 0 and CHILD_TBL_USE_STATUS='true'
+		order by CHILD_TBL_NUM*1
+	</select>
+</mapper>
