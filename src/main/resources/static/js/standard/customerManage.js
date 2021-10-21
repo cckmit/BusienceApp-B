@@ -283,7 +283,7 @@ window.onload = function() {
 function delBtn() {
 	// 실제로 DB에서 선택한 행의 데이터를 지운다.
 	$.ajax({
-		method: "POST",
+		method: "GET",
 		data: null,
 		url: "customerManageRest/delete?Cus_Code="
 			+ cus_Code,
@@ -314,7 +314,7 @@ function modBtn() {
 	};
 
 	$.ajax({
-		method: "POST",
+		method: "GET",
 		data: datas,
 		url: "customerManageRest/update?data="
 			+ encodeURI(JSON.stringify(datas)),
@@ -400,7 +400,7 @@ function insBtn() {
 
 	console.log(datas);
 	$.ajax({
-		method: "POST",
+		method: "GET",
 		data: datas,
 		url: "customerManageRest/insert?data="
 			+ encodeURI(JSON.stringify(datas)),

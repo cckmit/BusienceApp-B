@@ -50,11 +50,6 @@ public class MachineManageRestController {
 			EQUIPMENT_INFO_TBL data = new EQUIPMENT_INFO_TBL();
 			i++;
 			data.setId(i);
-			
-			if(rs.getString("EQUIPMENT_INFO_ABR") == "null") {
-				data.setEQUIPMENT_INFO_ABR("");
-			}
-			
 			data.setEQUIPMENT_BUSINESS_PLACE(rs.getString("EQUIPMENT_BUSINESS_PLACE"));
 			data.setEQUIPMENT_BUSINESS_PLACE_NAME(rs.getString("EQUIPMENT_BUSINESS_PLACE_NAME"));
 			data.setEQUIPMENT_INFO_CODE(rs.getString("EQUIPMENT_INFO_CODE"));

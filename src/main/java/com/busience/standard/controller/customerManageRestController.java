@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +27,7 @@ public class customerManageRestController {
 	@Autowired
 	DataSource dataSource;
 	
-	@RequestMapping(value = "/view",method = RequestMethod.GET)
+	@GetMapping("/view")
 	public List<Customer_tbl> view() throws SQLException
 	{
 		List<Customer_tbl> list = new ArrayList<Customer_tbl>();
@@ -73,7 +74,7 @@ public class customerManageRestController {
 		return list;
 	}
 	
-	@RequestMapping(value = "/insert",method = RequestMethod.POST)
+	@GetMapping("/insert")
 	public String insert(HttpServletRequest request) throws SQLException
 	{
 		Customer_tbl insert_Data = new Customer_tbl();
@@ -93,7 +94,7 @@ public class customerManageRestController {
 		insert_Data.setCus_Pymn_Date(request.getParameter("cus_Pymn_Date"));
 		insert_Data.setCus_Rgstr_Nr(request.getParameter("cus_Rgstr_Nr"));
 		
-		//System.out.println(insert_Data.toString());
+		System.out.println(insert_Data.toString());
 		Connection conn = dataSource.getConnection();
 		String checkSql = "SELECT Cus_Code FROM Customer_tbl where Cus_Code=?";
 		PreparedStatement pstmt = conn.prepareStatement(checkSql);
@@ -164,7 +165,7 @@ public class customerManageRestController {
 		return "Success";
 	}
 	
-	@RequestMapping(value = "/update",method = RequestMethod.POST)
+	@GetMapping("/update")
 	public String update(HttpServletRequest request) throws SQLException
 	{
 		Customer_tbl update_Data = new Customer_tbl();
@@ -226,7 +227,7 @@ public class customerManageRestController {
 		return "Success";
 	}
 	
-	@RequestMapping(value = "delete",method = {RequestMethod.POST})
+	@GetMapping("delete")
 	public void delete(HttpServletRequest request) throws ParseException, SQLException, UnknownHostException, ClassNotFoundException
 	{
 		String no = request.getParameter("cus_Code");
