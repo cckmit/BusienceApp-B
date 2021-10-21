@@ -53,7 +53,7 @@ function insBtn() {
 		EQUIPMENT_BUSINESS_PLACE: $("#EQUIPMENT_BUSINESS_PLACE option:selected").val(),
 		EQUIPMENT_INFO_CODE: document.getElementById("EQUIPMENT_INFO_CODE").value,
 		EQUIPMENT_INFO_NAME: document.getElementById("EQUIPMENT_INFO_NAME").value,
-		EQUIPMENT_INFO_ABR: $("#EQUIPMENT_INFO_ABR option:selected").val(),
+		EQUIPMENT_INFO_ABR: document.getElementById("EQUIPMENT_INFO_ABR").value,
 		EQUIPMENT_HEIGHT: document.getElementById("EQUIPMENT_HEIGHT").value,
 		EQUIPMENT_WIDTH: document.getElementById("EQUIPMENT_WIDTH").value,
 		EQUIPMENT_DEPTH: document.getElementById("EQUIPMENT_DEPTH").value,
