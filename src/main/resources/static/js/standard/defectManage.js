@@ -193,9 +193,13 @@ function delBtn() {
 	// 실제로 DB에서 선택한 행의 데이터를 지운다.
 	$.ajax({
 		method: "POST",
-		data: null,
 		url: "defectManageRest/delete?DEFECT_CODE="
 			+ defect_CODE,
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success: function(data, testStatus) {
 		}
 	});
@@ -231,6 +235,11 @@ function modBtn() {
 		data: datas,
 		url: "defectManageRest/update?data="
 			+ encodeURI(JSON.stringify(datas)),
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success: function(data, testStatus) {
 		}
 	});
@@ -301,6 +310,11 @@ function insBtn() {
 		data: datas,
 		url: "defectManageRest/insert?data="
 			+ encodeURI(JSON.stringify(datas)),
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success: function(data) {
 			if (data == "Overlap")
 				alert("중복코드를 입력하셨습니다. 다른 코드를 입력해주세요.");

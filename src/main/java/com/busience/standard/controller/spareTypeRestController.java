@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.busience.standard.Dto.Machine_File_tbl;
-import com.busience.standard.Dto.Spare_Type_tbl;
+import com.busience.standard.dto.Machine_File_tbl;
+import com.busience.standard.dto.Spare_Type_tbl;
 
 @RestController("spareTypeRestController")
 @RequestMapping("spareTypeRest")

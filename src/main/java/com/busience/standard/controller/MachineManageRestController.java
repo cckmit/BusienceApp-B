@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import org.json.simple.JSONObject;
@@ -20,11 +19,12 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.standard.Dto.EQUIPMENT_INFO_TBL;
+import com.busience.standard.dto.EQUIPMENT_INFO_TBL;
 
 @RestController("machineManageRestController")
 @RequestMapping("machineManageRest")
@@ -42,8 +42,6 @@ public class MachineManageRestController {
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
-		
-		
 		
 		int i = 0;
 		while(rs.next()) {
@@ -79,7 +77,7 @@ public class MachineManageRestController {
 		return list;
 	}
 	
-	@GetMapping("/machineManageInsert")
+	@PostMapping("/machineManageInsert")
 	public String machineManageInsert(HttpServletRequest request, EQUIPMENT_INFO_TBL Equipment, Principal principal)
 			throws ParseException, SQLException, UnknownHostException, ClassNotFoundException {
 		String data = request.getParameter("data");
@@ -105,7 +103,7 @@ public class MachineManageRestController {
 		}
 
 		String modifier = principal.getName();
-		System.out.println("modifier = " + modifier);
+		
 		// ��¥ ����
 		java.util.Date date = new java.util.Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -142,12 +140,9 @@ public class MachineManageRestController {
 
 		return "Success";
 	}
-	// ���� ���� �޼ҵ�
 	
-	  
-
 	// ����
-	@GetMapping("/machineManageUpdate")
+	@PostMapping("/machineManageUpdate")
 	public String machineManageUpdate(HttpServletRequest request, Principal principal)
 			throws SQLException, org.json.simple.parser.ParseException, UnknownHostException, ClassNotFoundException {
 		String data = request.getParameter("data");
@@ -196,7 +191,7 @@ public class MachineManageRestController {
 	}
 
 	// ����
-	@GetMapping("/machineManageDelete")
+	@RequestMapping(value = "/machineManageDelete", method = RequestMethod.POST)
 	public String machineManageDelete(HttpServletRequest request, Model model) throws SQLException, ParseException, UnknownHostException, ClassNotFoundException {
 		String EQUIPMENT_INFO_CODE = request.getParameter("EQUIPMENT_INFO_CODE");
 
@@ -224,7 +219,7 @@ public class MachineManageRestController {
 	}
 	
 	// sparePart 설비 코드 조회
-	@GetMapping("/")
+	@RequestMapping(value="", method=RequestMethod.GET)
 	public List<EQUIPMENT_INFO_TBL> spareMachineTypeView(HttpServletRequest request) {
 		
 		List<EQUIPMENT_INFO_TBL> list = new ArrayList<EQUIPMENT_INFO_TBL>();

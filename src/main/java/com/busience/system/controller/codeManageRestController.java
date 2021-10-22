@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.standard.Dto.CMN_TBL;
-import com.busience.standard.Dto.DTL_TBL;
+import com.busience.standard.dto.CMN_TBL;
+import com.busience.standard.dto.DTL_TBL;
 
 @RestController("codeManageRestController")
 @RequestMapping("codeManageRest")

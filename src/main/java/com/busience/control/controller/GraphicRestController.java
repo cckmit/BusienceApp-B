@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.standard.Dto.Equip_Monitoring_TBL;
+import com.busience.standard.dto.Equip_Monitoring_TBL;
 
 @RestController
 @RequestMapping("GraphicRest")

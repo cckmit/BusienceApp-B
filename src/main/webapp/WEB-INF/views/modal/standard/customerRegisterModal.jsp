@@ -40,7 +40,7 @@
 							<select id="insert_cus_Status"
 								class="form-select form-select-sm"
 								onkeydown="javascript:if(event.keyCode==13) {document.getElementById('insert_cus_Rprsn').focus()}">
-								<c:forEach var="data" items="${customerList}">
+								<c:forEach var="data" items="${paymentMethodList}">
 									<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>
 								</c:forEach>
 							</select>

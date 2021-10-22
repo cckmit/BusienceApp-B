@@ -1,5 +1,5 @@
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.busience.standard.Dto.EQUIPMENT_INFO_TBL"%>
+<%@page import="com.busience.standard.dto.EQUIPMENT_INFO_TBL"%>
 <%@page import="java.util.List"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>

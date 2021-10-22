@@ -17,12 +17,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.common.domain.Menu;
-import com.busience.common.domain.Production;
-import com.busience.common.service.MenuService;
+import com.busience.common.dto.ProductionDto;
 import com.busience.common.service.ProductionService;
 import com.busience.productionLX.dto.WorkOrder_tbl;
-import com.busience.standard.Dto.DTL_TBL;
+import com.busience.standard.dto.DTL_TBL;
+import com.busience.system.dto.MenuDto;
+import com.busience.system.service.MenuService;
 
 @RestController
 public class CommonRestController {
@@ -33,11 +33,8 @@ public class CommonRestController {
 	@Autowired
 	DataSource dataSource;
 	
-	private ProductionService productionService;
-	
-	public CommonRestController(ProductionService productionService) {
-		this.productionService = productionService;
-	}
+	@Autowired
+	ProductionService productionService;
 	
 	// 공통코드 찾기
 	@GetMapping("/dtl_tbl_select")
@@ -133,7 +130,7 @@ public class CommonRestController {
 	}
 	// 공통코드 찾기
 	@GetMapping("/childMenuSelect")
-	public List<Menu> childMenuSelect(Principal principal) throws SQLException {
+	public List<MenuDto> childMenuSelect(Principal principal) throws SQLException {
 		
 		String modifier = principal.getName();
 		
@@ -152,10 +149,10 @@ public class CommonRestController {
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
 		
-		List<Menu> menuList = new ArrayList<Menu>();
+		List<MenuDto> menuList = new ArrayList<MenuDto>();
 		
 		while (rs.next()) {
-			Menu data = new Menu();
+			MenuDto data = new MenuDto();
 			data.setMenu_Code(rs.getString("menu_Code"));
 			data.setMenu_Parent_No(rs.getString("menu_Parent_No"));
 			data.setMenu_Child_No(rs.getString("menu_Child_No"));
@@ -173,17 +170,17 @@ public class CommonRestController {
 	
 	// 모든 회원 조회
 	@GetMapping("/menuList")
-	public ResponseEntity<List<Menu>> getAllmembers() {
-		List<Menu> menu = menu_Service.getAllmenu();
+	public ResponseEntity<List<MenuDto>> getAllmembers() {
+		List<MenuDto> menu = menu_Service.menuList();
 		
-		return new ResponseEntity<List<Menu>>(menu, HttpStatus.OK);
+		return new ResponseEntity<List<MenuDto>>(menu, HttpStatus.OK);
 	}
 	
 	//생산 데이터 받는 코드
 	@GetMapping("/bsapp2")
 	public void production(String equip_id, int count) {
 		
-		Production production = new Production();
+		ProductionDto production = new ProductionDto();
 		
 		List<WorkOrder_tbl> WorkOrder = new ArrayList<WorkOrder_tbl>(productionService.getWorkOrder(equip_id));
 		//작업지시 리스트를 확인함

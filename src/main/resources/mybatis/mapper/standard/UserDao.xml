@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.busience.standard.dao.UserDao">
+	<select id="selectUser" resultType="com.busience.standard.dto.UserDto">
+		select * from USER_INFO_TBL where USER_CODE = #{USER_CODE}
+	</select>
+	
+	<select id="selectUserList" resultType="com.busience.standard.dto.UserDto">
+		SELECT 
+			A.USER_CODE, A.USER_NAME,
+			A.USER_TYPE, B.CHILD_TBL_TYPE USER_TYPE_NAME,
+			A.COMPANY, C.CHILD_TBL_TYPE COMPANY_NAME,
+			A.DEPT_CODE, D.CHILD_TBL_TYPE DEPT_NAME,
+			A.USER_MODIFIER, A.USER_MODIFY_D,
+			A.USER_USE_STATUS, A.USER_REGDTATE
+			 FROM USER_INFO_TBL A
+			left outer join DTL_TBL B on A.USER_TYPE = B.CHILD_TBL_NO
+			left outer join DTL_TBL C on A.COMPANY = C.CHILD_TBL_NO
+			left outer join DTL_TBL D on A.DEPT_CODE = D.CHILD_TBL_NO
+	</select>
+	
+	<insert id="insertUser">
+		insert into USER_INFO_TBL (
+				USER_CODE, USER_PASSWORD, USER_NAME, USER_TYPE,
+				COMPANY, DEPT_CODE, USER_MODIFIER, USER_USE_STATUS
+			) values(
+				#{USER_CODE}, #{USER_PASSWORD}, #{USER_NAME}, #{USER_TYPE},
+				#{COMPANY}, #{DEPT_CODE}, #{USER_MODIFIER}, #{USER_USE_STATUS}
+			)
+	</insert>
+	
+	<insert id="insertMenuNewUser">
+		insert into Menu_MGMT_tbl
+			select #{userCode}, Menu_Code, 'true', 'true', 'true', 'true'
+			from Menu_tbl
+	</insert>
+	
+	<update id="updateUser">
+		update USER_INFO_TBL
+			set
+			USER_NAME = #{USER_NAME},
+			USER_TYPE = #{USER_TYPE},
+			COMPANY = #{COMPANY},
+			DEPT_CODE = #{DEPT_CODE},
+			USER_MODIFIER = #{USER_MODIFIER},
+			USER_MODIFY_D = now(),
+			USER_USE_STATUS = #{USER_USE_STATUS}
+			where USER_CODE = #{USER_CODE}
+	</update>
+	
+	<update id="updatePassword">
+		update USER_INFO_TBL
+			set
+			USER_PASSWORD = #{USER_PASSWORD},
+			USER_MODIFIER = #{USER_MODIFIER},
+			USER_MODIFY_D = now()
+			where USER_CODE = #{USER_CODE}
+	</update>
+</mapper>

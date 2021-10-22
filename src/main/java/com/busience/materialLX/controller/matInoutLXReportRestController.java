@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.standard.Dto.LotTranse_tbl;
+import com.busience.standard.dto.LotTranse_tbl;
 
 @RestController("matInoutLXReportRestController")
 @RequestMapping("matInoutLXReportRest")

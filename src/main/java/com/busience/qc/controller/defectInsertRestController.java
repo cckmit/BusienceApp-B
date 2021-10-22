@@ -2,7 +2,6 @@ package com.busience.qc.controller;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,11 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.productionLX.dto.WorkOrder_tbl;
 import com.busience.qc.dto.OQCInspect_tbl;
-import com.busience.standard.Dto.DEFECT_INFO_TBL;
-import com.busience.standard.Dto.DTL_TBL;
-import com.busience.standard.Dto.DefectPerformance;
+import com.busience.standard.dto.DEFECT_INFO_TBL;
 
 @RestController
 @RequestMapping("defectInsertRest")

@@ -12,8 +12,7 @@ function date_change(today) {
 // 삭제
 function delBtn() {
 	$.ajax({
-		method: "get",
-		data: null,
+		method: "POST",
 		url: "machineManageRest/machineManageDelete?EQUIPMENT_INFO_CODE=" + document.getElementById("EQUIPMENT_INFO_CODE").value,
 		success: function(data) {
 			console.log(data);
@@ -36,24 +35,18 @@ function insBtn() {
 	// 설비코드
 	if (document.getElementById("EQUIPMENT_INFO_CODE").value == "") {
 		alert("설비 코드는 반드시 입력하셔야 합니다.");
-		return $("#EQUIPMENT_INFO_CODE").focus();;
+		return;
 	}
 	if (document.getElementById("EQUIPMENT_INFO_CODE").value.length > 10) {
 		alert("설비 코드는 10글자 이하로 입력해주세요.");
-		return $("#EQUIPMENT_INFO_CODE").focus();;
+		return;
 	}
-	
-	if (document.getElementById("EQUIPMENT_RECEIVED_D").value == "") {
-		alert("구입일자를 입력해주세요.");
-		return $("#EQUIPMENT_RECEIVED_D").focus();
-	}
-
 
 	data = {
 		EQUIPMENT_BUSINESS_PLACE: $("#EQUIPMENT_BUSINESS_PLACE option:selected").val(),
 		EQUIPMENT_INFO_CODE: document.getElementById("EQUIPMENT_INFO_CODE").value,
 		EQUIPMENT_INFO_NAME: document.getElementById("EQUIPMENT_INFO_NAME").value,
-		EQUIPMENT_INFO_ABR: document.getElementById("EQUIPMENT_INFO_ABR").value,
+		EQUIPMENT_INFO_ABR: $("#EQUIPMENT_INFO_ABR option:selected").val(),
 		EQUIPMENT_HEIGHT: document.getElementById("EQUIPMENT_HEIGHT").value,
 		EQUIPMENT_WIDTH: document.getElementById("EQUIPMENT_WIDTH").value,
 		EQUIPMENT_DEPTH: document.getElementById("EQUIPMENT_DEPTH").value,
@@ -71,9 +64,13 @@ function insBtn() {
 	console.log(code);
 
 	$.ajax({
-		method: "get",
-		url: "machineManageRest/machineManageInsert?data=" + encodeURI(JSON.stringify(data)) + "",
-		data: null,
+		method: "post",
+		url: "machineManageRest/machineManageInsert?data=" + encodeURI(JSON.stringify(data)),
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success: function(data, testStatus) {
 			//console.log("data : " + data);
 			if (data == "Overlap")
@@ -113,16 +110,14 @@ function modBtn() {
 		EQUIPMENT_INFO_RMARK: document.getElementById("EQUIPMENT_INFO_RMARK").value,
 		EQUIPMENT_USE_STATUS: document.getElementById("EQUIPMENT_USE_STATUS").checked
 	}
-
-	if (document.getElementById("EQUIPMENT_RECEIVED_D").value == "") {
-		alert("구입일자를 입력해주세요.");
-		return $("#EQUIPMENT_RECEIVED_D").focus();
-	}
-
 	$.ajax({
-		method: "get",
-		data: null,
+		method: "post",
 		url: "machineManageRest/machineManageUpdate?data=" + encodeURI(JSON.stringify(data)) + "",
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success: function(data) {
 			console.log(data);
 			alert("수정 성공 하였습니다.");
@@ -328,7 +323,6 @@ function insert() {
 	if ($('#machineModal .insert').hasClass('none')) {
 		$('#machineModal .insert').removeClass('none');
 	}
-
 	// 포커스부여
 	$("#machineModal").on("shown.bs.modal", function() {
 		$('#EQUIPMENT_INFO_CODE').focus();
@@ -346,7 +340,6 @@ function modify() {
 		if ($('#machineModal .modify').hasClass('none')) {
 			$('#machineModal .modify').removeClass('none');
 		}
-
 		// 포커스부여
 		$("#machineModal").on("shown.bs.modal", function() {
 			$('#EQUIPMENT_INFO_NAME').focus();
@@ -375,6 +368,4 @@ window.onload = function() {
 			machineManageTable.setData(data);
 		}
 	})
-
-	//SubmenuSelector("2", "13231");
 }
