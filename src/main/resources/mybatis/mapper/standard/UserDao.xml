@@ -35,7 +35,7 @@
 	
 	<insert id="insertMenuNewUser">
 		insert into Menu_MGMT_tbl
-			select #{userCode}, Menu_Code, 'true', 'true', 'true', 'true'
+			select #{userCode}, Menu_Code, true, true, true, true
 			from Menu_tbl
 	</insert>
 	

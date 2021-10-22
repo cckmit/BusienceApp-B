@@ -42,7 +42,7 @@ public class salesDeliveryReportLXRestController {
 				+ "somt.Sales_OutMat_Code,\r\n" + "pit.PRODUCT_ITEM_NAME Sales_OutMat_Name,\r\n"
 				+ "pit.PRODUCT_INFO_STND_1 Sales_OutMat_STND_1,\r\n" + "dt2.CHILD_TBL_TYPE Sales_OutMat_UNIT,\r\n"
 				+ "sum(somt.Sales_OutMat_Qty) Sales_OutMat_Qty,\r\n"
-				+ "sum(somt.Sales_OutMat_Price) Sales_OutMat_Price \r\n " + "from Sales_OutMat_tbl somt \r\n"
+				+ "sum(somt.Sales_OutMat_Price) Sales_OutMat_Price \r\n " + "from Sales_OutMatLX_tbl somt \r\n"
 				+ "inner join DTL_TBL dt on somt.Sales_OutMat_Send_Clsfc = dt.CHILD_TBL_NO\r\n"
 				+ "inner join Customer_tbl ct on somt.Sales_OutMat_Client_Code  = ct.Cus_Code\r\n"
 				+ "inner join PRODUCT_INFO_TBL pit on somt.Sales_OutMat_Code = pit.PRODUCT_ITEM_CODE\r\n"
@@ -209,7 +209,7 @@ public class salesDeliveryReportLXRestController {
 
 		String sql = "select \r\n" + "somt.Sales_OutMat_No,\r\n" + "somt.Sales_OutMat_Client_Code,\r\n"
 				+ "ct.Cus_Name Sales_OutMat_Client_Name,\r\n" + "sum(somt.Sales_OutMat_Qty) Sales_OutMat_Qty\r\n"
-				+ "from Sales_OutMat_tbl somt \r\n"
+				+ "from Sales_OutMatLX_tbl somt \r\n"
 				+ "inner join Customer_tbl ct on somt.Sales_OutMat_Client_Code = ct.Cus_Code";
 
 		String where = " where somt.Sales_OutMat_Date between '" + obj.get("PrcsDate") + "01 00:00:00' and '"
@@ -353,7 +353,7 @@ public class salesDeliveryReportLXRestController {
 				+ "somt.Sales_OutMat_Code,\r\n" + "somt.Sales_OutMat_Client_Code,\r\n"
 				+ "pit.PRODUCT_ITEM_NAME Sales_OutMat_Name,\r\n" + "pit.PRODUCT_INFO_STND_1 Sales_OutMat_STND_1,\r\n"
 				+ "dt2.CHILD_TBL_TYPE Sales_OutMat_UNIT,\r\n" + "sum(somt.Sales_OutMat_Qty) Sales_OutMat_Qty,\r\n"
-				+ "sum(somt.Sales_OutMat_Price) Sales_OutMat_Price \r\n " + "from Sales_OutMat_tbl somt \r\n"
+				+ "sum(somt.Sales_OutMat_Price) Sales_OutMat_Price \r\n " + "from Sales_OutMatLX_tbl somt \r\n"
 				+ "inner join DTL_TBL dt on somt.Sales_OutMat_Send_Clsfc = dt.CHILD_TBL_NO\r\n"
 				+ "inner join PRODUCT_INFO_TBL pit on somt.Sales_OutMat_Code = pit.PRODUCT_ITEM_CODE\r\n"
 				+ "inner join DTL_TBL dt2 on pit.PRODUCT_UNIT = dt2.CHILD_TBL_NO";

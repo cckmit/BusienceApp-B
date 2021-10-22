@@ -28,7 +28,7 @@ import com.busience.system.service.MenuService;
 public class CommonRestController {
 	
 	@Autowired
-	MenuService menu_Service;
+	MenuService menuService;
 	
 	@Autowired
 	DataSource dataSource;
@@ -171,7 +171,7 @@ public class CommonRestController {
 	// 모든 회원 조회
 	@GetMapping("/menuList")
 	public ResponseEntity<List<MenuDto>> getAllmembers() {
-		List<MenuDto> menu = menu_Service.menuList();
+		List<MenuDto> menu = menuService.menuList();
 		
 		return new ResponseEntity<List<MenuDto>>(menu, HttpStatus.OK);
 	}

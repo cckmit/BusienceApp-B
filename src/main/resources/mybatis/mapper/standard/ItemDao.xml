@@ -56,6 +56,14 @@
 		)
 	</insert>
 	
+	<insert id="insertItemInSalesStock">
+		insert into sales_StockMatLX_tbl values(#{itemCode}, 0, 0, 0, null, '2101');
+	</insert>
+	
+	<insert id="insertItemInStock">
+		insert into stockMatLX_tbl values(#{itemCode}, 0, 0, 0, null, '2101');
+	</insert>
+	
 	<update id="updateItemCode">
 		update PRODUCT_INFO_TBL
 			set

@@ -15,6 +15,12 @@ public interface ItemDao {
 	
 	//등록
 	public int insertItemCode(PRODUCT_INFO_TBL product_INFO_TBL);
+	
+	//제품 등록시 영업 재고테이블에 등록
+	public int insertItemInSalesStock(@Param("itemCode") String itemCode);
+	
+	//제품 등록시 자재 재고테이블에 등록
+	public int insertItemInStock(@Param("itemCode") String itemCode);
 
 	//수정
 	public int updateItemCode(PRODUCT_INFO_TBL product_INFO_TBL);
