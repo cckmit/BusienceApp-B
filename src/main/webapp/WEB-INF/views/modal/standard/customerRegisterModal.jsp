@@ -50,7 +50,7 @@
 						<div class="col-sm-3">
 							<input type="text" class="form-control-plaintext"
 								id="insert_cus_Rprsn"
-								style="border: 0.5px solid #858585; width: 80%;"
+								style="border: 0.5px solid #858585; width: 95%;"
 								placeholder="대표자명 입력"
 								onkeydown="javascript:if(event.keyCode==13) {document.getElementById('insert_cus_Mng').focus()}">
 						</div>

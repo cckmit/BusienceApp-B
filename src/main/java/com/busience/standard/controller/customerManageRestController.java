@@ -170,20 +170,20 @@ public class customerManageRestController {
 	{
 		Customer_tbl update_Data = new Customer_tbl();
 		
-		update_Data.setCus_Code(request.getParameter("cus_Code"));
-		update_Data.setCus_Name(request.getParameter("cus_Name"));
-		update_Data.setCus_Status(request.getParameter("cus_Status"));
-		update_Data.setCus_Clsfc(request.getParameter("cus_Clsfc"));
-		update_Data.setCus_Rprsn(request.getParameter("cus_Rprsn"));
-		update_Data.setCus_Mng(request.getParameter("cus_Mng"));
-		update_Data.setCus_Co(request.getParameter("cus_Co"));
-		update_Data.setCus_Co_EstYr(request.getParameter("cus_Co_EstYr"));
-		update_Data.setCus_Rprsn_PhNr(request.getParameter("cus_Rprsn_PhNr"));
-		update_Data.setCus_Mng_PhNr(request.getParameter("cus_Mng_PhNr"));
-		update_Data.setCus_Mng_Email(request.getParameter("cus_Mng_Email"));
-		update_Data.setCus_Adr(request.getParameter("cus_Adr"));
-		update_Data.setCus_Pymn_Date(request.getParameter("cus_Pymn_Date"));
-		update_Data.setCus_Rgstr_Nr(request.getParameter("cus_Rgstr_Nr"));
+		update_Data.setCus_Code(request.getParameter("Cus_Code"));
+		update_Data.setCus_Name(request.getParameter("Cus_Name"));
+		update_Data.setCus_Status(request.getParameter("Cus_Status"));
+		update_Data.setCus_Clsfc(request.getParameter("Cus_Clsfc"));
+		update_Data.setCus_Rprsn(request.getParameter("Cus_Rprsn"));
+		update_Data.setCus_Mng(request.getParameter("Cus_Mng"));
+		update_Data.setCus_Co(request.getParameter("Cus_Co"));
+		update_Data.setCus_Co_EstYr(request.getParameter("Cus_Co_EstYr"));
+		update_Data.setCus_Rprsn_PhNr(request.getParameter("Cus_Rprsn_PhNr"));
+		update_Data.setCus_Mng_PhNr(request.getParameter("Cus_Mng_PhNr"));
+		update_Data.setCus_Mng_Email(request.getParameter("Cus_Mng_Email"));
+		update_Data.setCus_Adr(request.getParameter("Cus_Adr"));
+		update_Data.setCus_Pymn_Date(request.getParameter("Cus_Pymn_Date"));
+		update_Data.setCus_Rgstr_Nr(request.getParameter("Cus_Rgstr_Nr"));
 		
 		String sql = "UPDATE `Customer_tbl`\r\n"
 				+ "SET\r\n"
