@@ -174,6 +174,7 @@ window.onload = function() {
 						cus_Pymn_Date = row.getData().cus_Pymn_Date;
 						$('#update_cus_Clsfc').val(row.getData().cus_Clsfc).prop("selected", true);
 						cus_Clsfc = row.getData().cus_Clsfc;
+						console.log("cus_Clsfc = " + cus_Clsfc);
 						document.getElementById("update_cus_Co_EstYr").value = row.getData().cus_Co_EstYr;
 						cus_Co_EstYr = row.getData().cus_Co_EstYr;
 
@@ -288,6 +289,7 @@ function delBtn() {
 		url: "customerManageRest/delete?Cus_Code="
 			+ cus_Code,
 		success: function(data, testStatus) {
+			alert("삭제 완료 되었습니다.");
 		}
 	});
 
@@ -295,12 +297,22 @@ function delBtn() {
 	location.reload();
 }
 
+
 function modBtn() {
+
+	var Clsfc_Select = document.getElementById("update_cus_Clsfc").value;
+	
+	if (Clsfc_Select == "매출거래처") {
+		Clsfc_Select = "241";
+	} else if (Clsfc_Select == "매입거래처") {
+		Clsfc_Select = "240";
+	}
+
 	datas = {
 		Cus_Code: document.getElementById("update_cus_Code").value,
 		Cus_Name: document.getElementById("update_cus_Name").value,
 		Cus_Status: document.getElementById("update_cus_Status").value,
-		Cus_Clsfc: document.getElementById("update_cus_Clsfc").value,
+		Cus_Clsfc: Clsfc_Select,
 		Cus_Rprsn: document.getElementById("update_cus_Rprsn").value,
 		Cus_Mng: document.getElementById("update_cus_Mng").value,
 		Cus_Co: document.getElementById("update_cus_Co").value,
@@ -313,12 +325,18 @@ function modBtn() {
 		Cus_Rgstr_Nr: document.getElementById("update_cus_Rgstr_Nr").value
 	};
 
+	console.log("update = " + datas);
+
+	//debugger;
+
 	$.ajax({
 		method: "GET",
 		data: datas,
-		url: "customerManageRest/update?data="
-			+ encodeURI(JSON.stringify(datas)),
+		url: "customerManageRest/update?data=" + encodeURI(JSON.stringify(datas)),
 		success: function(data, testStatus) {
+			if (data == "Success") {
+				alert("수정 완료하였습니다.");
+			}
 		}
 	});
 
@@ -373,7 +391,7 @@ function insertModal() {
 function insBtn() {
 	var ccode = document.getElementById("insert_cus_Code").value;
 
-	alert(ccode);
+	//alert(ccode);
 
 	if (ccode == "") {
 		alert("거래처코드는 반드시 입력하셔야 합니다.");
@@ -408,7 +426,7 @@ function insBtn() {
 			if (data == "Overlap")
 				alert("중복코드를 입력하셨습니다. 다른 코드를 입력해주세요.");
 			else if (data == "Success") {
-				//alert("저장 완료 하였습니다.");
+				alert("저장 완료 하였습니다.");
 
 				location.reload();
 			}
