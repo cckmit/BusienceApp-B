@@ -5,7 +5,7 @@
 	<div class="top-var">
 		<!-- 버튼 -->
 		<div class="input-button">
-			<img src="images/button/Search.png" onclick="SOCL_SearchBtn()"/>
+			<img src="images/button/Search.png" id="SOCL_SearchBtn"/>
 		</div>
 		<!-- 버튼 -->
 		<div class="input-box">
@@ -24,9 +24,9 @@
 			</div>
 			<div>
 				<span><strong>거래처코드</strong></span> 
-				<input id="Sales_InMat_Client_Code" class="Client_Code1" type="text" disabled> 
+				<input class="Client_Code1" type="text" disabled> 
 				<span><strong>거래처명</strong></span>
-				<input id="Sales_InMat_Client_Name" class="Client_Name1 clearInput" type="text" autofocus
+				<input class="Client_Name1 clearInput" type="text" autofocus
 					onkeypress="javascript:if(event.keyCode==13) {customerPopup($(this).val(),'input','1','out')}">
 			</div>
 		</div>

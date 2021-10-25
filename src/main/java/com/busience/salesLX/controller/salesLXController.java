@@ -122,20 +122,6 @@ public class salesLXController {
 		int OutputType = 19;
 		model.addAttribute("OutputType", dtlService.getAlldtl(OutputType));
 		
-		// 현재연월
-		int PrcsDate = 20;
-		String PrcsNum = Integer.toString(6);
-		model.addAttribute("PrcsDate", dtlService.getDate(PrcsDate, PrcsNum));
-		
-		// 전월
-		int LastMonth = 20;
-		String LastNum = Integer.toString(4);
-		model.addAttribute("LastMonth", dtlService.getDate(LastMonth, LastNum));
-		
-		// 마지막날
-		int LastDay = 2;
-		model.addAttribute("LastDay", dtlService.getLastDay(LastDay));
-		
 		// 메뉴명
 		model.addAttribute("pageName", "납품 현황 조회");
 		
