@@ -151,8 +151,8 @@
 						<div class="col-sm-2">
 							<select id="update_cus_Clsfc" class="form-select form-select-sm"
 								onkeydown="javascript:if(event.keyCode==13) {document.getElementById('update_cus_Co_EstYr').focus()}">
-								<option value="241">매출 거래처</option>
-								<option value="240">매입 거래처</option>
+								<option value="241">매출거래처</option>
+								<option value="240">매입거래처</option>
 							</select>
 						</div>
 					</div>

@@ -169,7 +169,6 @@ window.onload = function() {
 						cus_Adr = row.getData().cus_Adr;
 						document.getElementById("update_cus_Rgstr_Nr").value = row.getData().cus_Rgstr_Nr;
 						cus_Rgstr_Nr = row.getData().cus_Rgstr_Nr;
-
 						$('#update_cus_Pymn_Date').val(row.getData().cus_Pymn_Date).prop("selected", true);
 						cus_Pymn_Date = row.getData().cus_Pymn_Date;
 						$('#update_cus_Clsfc').val(row.getData().cus_Clsfc).prop("selected", true);
@@ -177,6 +176,8 @@ window.onload = function() {
 						document.getElementById("update_cus_Co_EstYr").value = row.getData().cus_Co_EstYr;
 						cus_Co_EstYr = row.getData().cus_Co_EstYr;
 
+
+						console.log("cus_Clsfc = " + cus_Clsfc);
 						customer_FLAG = true;
 
 						$("#customerModifyModal").modal("show");
@@ -302,6 +303,10 @@ function delBtn() {
 }
 
 function modBtn() {
+	
+	var update_clsfc = $('#update_cus_Clsfc').val();
+	alert(update_clsfc);
+	
 	datas = {
 		Cus_Code: document.getElementById("update_cus_Code").value,
 		Cus_Name: document.getElementById("update_cus_Name").value,
@@ -318,6 +323,10 @@ function modBtn() {
 		Cus_Pymn_Date: document.getElementById("update_cus_Pymn_Date").value,
 		Cus_Rgstr_Nr: document.getElementById("update_cus_Rgstr_Nr").value
 	};
+	
+	console.log("update = " + datas);
+	
+	debugger;
 
 	$.ajax({
 		method: "post",
