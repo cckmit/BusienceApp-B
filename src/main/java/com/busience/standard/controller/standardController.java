@@ -84,6 +84,10 @@ public class standardController {
 		int paymentMethod = 15;
 		model.addAttribute("paymentMethodList", dtlService.getAlldtl(paymentMethod));
 		
+		// 거래처 구분
+		int clsfc = 28;
+		model.addAttribute("clsfcMethodList", dtlService.getAlldtl(clsfc));
+		
 		// 페이지명
 		model.addAttribute("pageName", "거래처 관리");
 		

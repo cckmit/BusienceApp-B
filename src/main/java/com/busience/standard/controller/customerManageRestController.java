@@ -32,9 +32,9 @@ public class customerManageRestController {
 	public List<Customer_tbl> view() throws SQLException {
 		List<Customer_tbl> list = new ArrayList<Customer_tbl>();
 		
-		String sql = "SELECT Cus_Code, Cus_Name, Cus_Status, dt2.CHILD_TBL_TYPE Cus_Clsfc, Cus_Rprsn, Cus_Mng, Cus_Co, Cus_Co_EstYr, Cus_Rprsn_PhNr, Cus_Mng_PhNr, Cus_Mng_Email, \r\n"
+		String sql = "SELECT Cus_Code, Cus_Name, Cus_Status, Cus_Clsfc, Cus_Rprsn, Cus_Mng, Cus_Co, Cus_Co_EstYr, Cus_Rprsn_PhNr, Cus_Mng_PhNr, Cus_Mng_Email, \r\n"
 				+ "Cus_Adr, Cus_Pymn_Date, Cus_Rgstr_Nr, dt.CHILD_TBL_NO, dt.NEW_TBL_CODE,\r\n"
-				+ "dt.CHILD_TBL_NUM, dt.CHILD_TBL_TYPE, dt.CHILD_TBL_RMARK, dt.CHILD_TBL_USE_STATUS, dt.CHILD_TBL_TYPE Cus_Status_Name\r\n"
+				+ "dt.CHILD_TBL_NUM, dt.CHILD_TBL_TYPE, dt.CHILD_TBL_RMARK, dt.CHILD_TBL_USE_STATUS, dt.CHILD_TBL_TYPE Cus_Status_Name, dt2.CHILD_TBL_TYPE Cus_Clsfc_Name \r\n"
 				+ "FROM Customer_tbl cst\r\n"
 				+ "INNER JOIN (SELECT * FROM DTL_TBL WHERE NEW_TBL_CODE='15') dt ON cst.Cus_Status = dt.CHILD_TBL_NO\r\n"
 				+ "INNER JOIN (SELECT * FROM DTL_TBL WHERE NEW_TBL_CODE='28') dt2 ON cst.Cus_Clsfc = dt2.CHILD_TBL_NO";
@@ -63,6 +63,7 @@ public class customerManageRestController {
 			data.setCus_Pymn_Date(rs.getString("cus_Pymn_Date"));
 			data.setCus_Rgstr_Nr(rs.getString("cus_Rgstr_Nr"));
 			data.setCus_Status_Name(rs.getString("cus_Status_Name"));
+			data.setCus_Clsfc_Name(rs.getString("cus_Clsfc_Name"));
 			
 			list.add(data);
 		}
