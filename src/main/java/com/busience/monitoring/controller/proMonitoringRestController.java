@@ -1,9 +1,8 @@
-package com.busience.control.controller;
+package com.busience.monitoring.controller;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -149,7 +148,9 @@ public class proMonitoringRestController {
 		}
 		
 		//list.add(new PRODUCTION_INFO_TBL());
-		
+		rs.close();
+		pstmt.close();
+		conn.close();
 		return list;
 	}
 	
@@ -173,8 +174,8 @@ public class proMonitoringRestController {
 		pstmt.setString(1, date);
 		ResultSet rs = pstmt.executeQuery();
 		
-		ResultSetMetaData rsmd = rs.getMetaData();
-		int columnCnt = rsmd.getColumnCount(); //컬럼의 수
+		//ResultSetMetaData rsmd = rs.getMetaData();
+		//int columnCnt = rsmd.getColumnCount(); //컬럼의 수
 		
 		String PRODUCTION_CC = "";
 		String PRODUCTION_SERIAL_NUM = "";
@@ -242,8 +243,8 @@ public class proMonitoringRestController {
 		
 		rs = pstmt.executeQuery();
 		
-		rsmd = rs.getMetaData();
-		columnCnt = rsmd.getColumnCount(); //컬럼의 수
+		//rsmd = rs.getMetaData();
+		//columnCnt = rsmd.getColumnCount(); //컬럼의 수
 		
 		List<PRODUCTION_INFO_TBL> list = new ArrayList<PRODUCTION_INFO_TBL>();
 		
@@ -267,6 +268,9 @@ public class proMonitoringRestController {
 				list.add(data);
 			}
 		}
+		rs.close();
+		pstmt.close();
+		conn.close();
 		
 		return list;
 	}
@@ -296,10 +300,9 @@ public class proMonitoringRestController {
 		
 		ResultSet rs = pstmt.executeQuery();
 		
-		ResultSetMetaData rsmd = rs.getMetaData();
-		int columnCnt = rsmd.getColumnCount(); //컬럼의 수
+		//ResultSetMetaData rsmd = rs.getMetaData();
+		//int columnCnt = rsmd.getColumnCount(); //컬럼의 수
 		
-		List<PRODUCTION_INFO_TBL> list = new ArrayList<PRODUCTION_INFO_TBL>();
 		
 		String PRODUCTION_CC = "";
 		String PRODUCTION_SERIAL_NUM = "";
@@ -371,8 +374,8 @@ public class proMonitoringRestController {
 		
 		rs = pstmt.executeQuery();
 		
-		rsmd = rs.getMetaData();
-		columnCnt = rsmd.getColumnCount(); //컬럼의 수
+		//rsmd = rs.getMetaData();
+		//columnCnt = rsmd.getColumnCount(); //컬럼의 수
 		
 		while (rs.next()) {
 			data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
@@ -415,10 +418,8 @@ public class proMonitoringRestController {
 		
 		ResultSet rs = pstmt.executeQuery();
 		
-		ResultSetMetaData rsmd = rs.getMetaData();
-		int columnCnt = rsmd.getColumnCount(); //컬럼의 수
-		
-		List<PRODUCTION_INFO_TBL> list = new ArrayList<PRODUCTION_INFO_TBL>();
+		//ResultSetMetaData rsmd = rs.getMetaData();
+		//int columnCnt = rsmd.getColumnCount(); //컬럼의 수
 		
 		String PRODUCTION_CC = "";
 		String PRODUCTION_SERIAL_NUM = "";
@@ -490,8 +491,8 @@ public class proMonitoringRestController {
 		
 		rs = pstmt.executeQuery();
 		
-		rsmd = rs.getMetaData();
-		columnCnt = rsmd.getColumnCount(); //컬럼의 수
+		//rsmd = rs.getMetaData();
+		//columnCnt = rsmd.getColumnCount(); //컬럼의 수
 		
 		while (rs.next()) {
 			data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));

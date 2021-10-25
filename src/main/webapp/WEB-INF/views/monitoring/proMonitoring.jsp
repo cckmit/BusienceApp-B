@@ -4,8 +4,7 @@
 	<!-- MAIN -->
 	<div class="main">
 		<div class="container-fluid">
-			<h1 class="mt-4" style="font-weight: bold; color: black">생산현황
-				모니터링</h1>
+			<h1 class="mt-4" style="font-weight: bold; color: black">생산현황 모니터링</h1>
 			<p id="today">Today</p>
 			<div class="row">
 				<div class="col-md-6">

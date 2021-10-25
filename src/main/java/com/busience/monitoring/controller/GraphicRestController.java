@@ -1,4 +1,4 @@
-package com.busience.control.controller;
+package com.busience.monitoring.controller;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

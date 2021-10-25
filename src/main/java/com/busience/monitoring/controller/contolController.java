@@ -1,8 +1,4 @@
-package com.busience.control.controller;
-
-import java.sql.SQLException;
-
-import javax.servlet.http.HttpServletRequest;
+package com.busience.monitoring.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,19 +23,18 @@ public class contolController {
 	
 	//workMonitoring
 	@GetMapping("workMonitoring")
-	public String workMonitoring(Model model) {
-		//return "workMonitoring";
+	public String workMonitoring() {
 		return "normal/monitoring/workMonitoring";
 	}
 	
 	//equipMonitoring
 	@GetMapping("equipMonitoring")
-	public String equipMonitoring(Model model) {
+	public String equipMonitoring() {
 		return "normal/monitoring/equipMonitoring";
 	}
 	
 	@GetMapping("workorderoi")
-	public String orderMaster(Model model, HttpServletRequest request) throws SQLException {
+	public String orderMaster() {
 		return "normal/monitoring/workorderoi";
 	}
 	
