@@ -152,11 +152,18 @@
 							<select id="update_cus_Clsfc" class="form-select form-select-sm"
 								onkeydown="javascript:if(event.keyCode==13) {document.getElementById('update_cus_Co_EstYr').focus()}">
 								<c:forEach var="data" items="${clsfcMethodList}">
-									<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>
+									<c:choose>
+										<c:when test="${data.CHILD_TBL_TYPE eq '모든거래처'}">
+										</c:when>
+										<c:otherwise>
+											<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>
+										</c:otherwise>
+									</c:choose>
 								</c:forEach>
 							</select>
 						</div>
 					</div>
+					
 					<div class="form-group row">
 						<label class="col-sm-3 control-label">회사설립연도</label>
 						<div class="col-sm-2">
