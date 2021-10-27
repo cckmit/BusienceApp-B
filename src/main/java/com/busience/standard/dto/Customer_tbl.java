@@ -15,7 +15,7 @@ public class Customer_tbl {
 	private String Cus_Adr; // 주소
 	private String Cus_Pymn_Date; // 결제일
 	private String Cus_Rgstr_Nr; // 사업자등록번호
-
+	private String Cus_Clsfc_Name; // 분류명
 	// Ŀ���� �÷�
 	private Integer Id; // 순번
 
@@ -150,13 +150,22 @@ public class Customer_tbl {
 		Cus_Status_Name = cus_Status_Name;
 	}
 
+	public String getCus_Clsfc_Name() {
+		return Cus_Clsfc_Name;
+	}
+
+	public void setCus_Clsfc_Name(String cus_Clsfc_Name) {
+		Cus_Clsfc_Name = cus_Clsfc_Name;
+	}
+
 	@Override
 	public String toString() {
 		return "Customer_tbl [Cus_Code=" + Cus_Code + ", Cus_Name=" + Cus_Name + ", Cus_Status=" + Cus_Status
-				+ ", Cus_Rprsn=" + Cus_Rprsn + ", Cus_Mng=" + Cus_Mng + ", Cus_Co=" + Cus_Co + ", Cus_Co_EstYr="
-				+ Cus_Co_EstYr + ", Cus_Rprsn_PhNr=" + Cus_Rprsn_PhNr + ", Cus_Mng_PhNr=" + Cus_Mng_PhNr
-				+ ", Cus_Mng_Email=" + Cus_Mng_Email + ", Cus_Adr=" + Cus_Adr + ", Cus_Pymn_Date=" + Cus_Pymn_Date
-				+ ", Cus_Rgstr_Nr=" + Cus_Rgstr_Nr + ", Id=" + Id + ", Cus_Status_Name=" + Cus_Status_Name + "]";
+				+ ", Cus_Clsfc=" + Cus_Clsfc + ", Cus_Rprsn=" + Cus_Rprsn + ", Cus_Mng=" + Cus_Mng + ", Cus_Co="
+				+ Cus_Co + ", Cus_Co_EstYr=" + Cus_Co_EstYr + ", Cus_Rprsn_PhNr=" + Cus_Rprsn_PhNr + ", Cus_Mng_PhNr="
+				+ Cus_Mng_PhNr + ", Cus_Mng_Email=" + Cus_Mng_Email + ", Cus_Adr=" + Cus_Adr + ", Cus_Pymn_Date="
+				+ Cus_Pymn_Date + ", Cus_Rgstr_Nr=" + Cus_Rgstr_Nr + ", Cus_Clsfc_Name=" + Cus_Clsfc_Name + ", Id=" + Id
+				+ ", Cus_Status_Name=" + Cus_Status_Name + "]";
 	}
 
 }

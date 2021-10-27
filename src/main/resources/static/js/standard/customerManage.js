@@ -49,8 +49,7 @@ function updatedeleteView() {
 	document.getElementById("update_cus_Adr").value = cus_Adr;
 	document.getElementById("update_cus_Rgstr_Nr").value = cus_Rgstr_Nr;
 	$('#update_cus_Pymn_Date').val(cus_Pymn_Date).prop("selected", true);
-	$('#update_cus_Clsfc').val(cus_Clsfc).prop("selected", true);
-	console.log(cus_Clsfc);
+	document.getElementById("update_cus_Clsfc").value = cus_Clsfc;
 	document.getElementById("update_cus_Co_EstYr").value = cus_Co_EstYr;
 }
 
@@ -92,7 +91,7 @@ window.onload = function() {
 						document.getElementById("update_cus_Name").value = row.getData().cus_Name;
 						cus_Name = row.getData().cus_Name;
 
-						status = row.getData().cus_Status - 1;
+						status = row.getData().cus_Status;
 						$("#update_cus_Status option:eq(" + status + ")").prop("selected", true);
 						cus_Status = status;
 
@@ -113,11 +112,13 @@ window.onload = function() {
 						document.getElementById("update_cus_Rgstr_Nr").value = row.getData().cus_Rgstr_Nr;
 						cus_Rgstr_Nr = row.getData().cus_Rgstr_Nr;
 
-						//$("#update_cus_Pymn_Date option:eq(0)").prop("selected", true);
 						$('#update_cus_Pymn_Date').val(row.getData().cus_Pymn_Date).prop("selected", true);
 						cus_Pymn_Date = row.getData().cus_Pymn_Date;
-						$('#update_cus_Clsfc').val(row.getData().cus_Clsfc).prop("selected", true);
-						cus_Clsfc = row.getData().cus_Clsfc;
+						
+						clsfc = row.getData().cus_Clsfc;
+						document.getElementById("update_cus_Clsfc").value = clsfc;
+						cus_Clsfc = clsfc;
+						
 						document.getElementById("update_cus_Co_EstYr").value = row.getData().cus_Co_EstYr;
 						cus_Co_EstYr = row.getData().cus_Co_EstYr;
 
@@ -171,8 +172,11 @@ window.onload = function() {
 						cus_Rgstr_Nr = row.getData().cus_Rgstr_Nr;
 						$('#update_cus_Pymn_Date').val(row.getData().cus_Pymn_Date).prop("selected", true);
 						cus_Pymn_Date = row.getData().cus_Pymn_Date;
-						$('#update_cus_Clsfc').val(row.getData().cus_Clsfc).prop("selected", true);
-						cus_Clsfc = row.getData().cus_Clsfc;
+						
+						clsfc = row.getData().cus_Clsfc;
+						document.getElementById("update_cus_Clsfc").value = clsfc;
+						cus_Clsfc = clsfc;
+						
 						document.getElementById("update_cus_Co_EstYr").value = row.getData().cus_Co_EstYr;
 						cus_Co_EstYr = row.getData().cus_Co_EstYr;
 
@@ -203,7 +207,7 @@ window.onload = function() {
 							headerFilter: "input"
 						}, {
 							title: "분류",
-							field: "cus_Clsfc",
+							field: "cus_Clsfc_Name",
 							width: 85,
 							headerHozAlign: "center",
 							headerFilter: "input"
