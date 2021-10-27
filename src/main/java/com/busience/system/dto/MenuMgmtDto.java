@@ -2,10 +2,12 @@ package com.busience.system.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-public class Menu_MGMT_tbl {
+@ToString
+public class MenuMgmtDto {
 	private String Menu_User_Code;
 	private String Menu_Program_Code;
 	private String Menu_Program_Name;

@@ -32,14 +32,12 @@ public class typeAuthorityRestController {
 	//TAM_Search
 	@GetMapping("/TAM_Search")
 	public List<DtlDto> TAM_Search() {
-		
 		return dtlService.getAlldtl(1);
 	}
 	
 	//TAS_Search
 	@GetMapping("/TAS_Search")
 	public List<RightsMgmtDto> TAS_Search(String userType) {
-
 		return rightsMgmtService.rightsMgmtList(userType);
 	}
 	
