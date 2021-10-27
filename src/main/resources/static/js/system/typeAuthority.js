@@ -35,7 +35,7 @@ var typeAuthoritySubTable = new Tabulator("#typeAuthoritySubTable", {
 
 
 function TAS_Search(value){
-	typeAuthoritySubTable.setData("typeAuthorityRest/TAS_Search",{RIGHTS_USER_TYPE: value})
+	typeAuthoritySubTable.setData("typeAuthorityRest/TAS_Search",{userType: value})
 }
 
 function modifyModalShow() {
@@ -53,15 +53,22 @@ function modBtn() {
 		return;
 	}
 	
-	console.log(selectedRow);
-	
 	$.ajax({
-		method: "get",
-		url: "typeAuthorityRest/TA_Update?data=" + encodeURI(JSON.stringify(selectedRow)),
+		method: "post",
+		url: "typeAuthorityRest/TA_Update",
+		data: JSON.stringify(selectedRow),
+		contentType:'application/json',
+        dataType:'json',
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success: function(data) {
-			
-			alert("수정 완료 하였습니다.");
-			TAS_Search(typeAuthorityMasterTable.getData('selected')[0].child_TBL_NO)
+			if(data){
+				alert("수정 완료 하였습니다.");
+				TAS_Search(typeAuthorityMasterTable.getData('selected')[0].child_TBL_NO)	
+			}
 		}
 	});
 }
