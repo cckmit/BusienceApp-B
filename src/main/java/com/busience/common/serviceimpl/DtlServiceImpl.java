@@ -42,5 +42,22 @@ public class DtlServiceImpl implements DtlService{
 		final List<DtlDto> DeptName = dtlDao.findDeptName(NEW_TBL_CODE);
     	return DeptName;
 	}
+
+	@Override
+	public int dtlInsert(DtlDto dtlDto) {
+		DtlDto numberList = dtlDao.findSaveNo(dtlDto.getNEW_TBL_CODE());
+		String CHILD_TBL_NO_tmp = numberList.getCHILD_TBL_NO();
+		String CHILD_TBL_NUM_tmp = numberList.getCHILD_TBL_NUM();
+		
+		dtlDto.setCHILD_TBL_NO(CHILD_TBL_NO_tmp);
+		dtlDto.setCHILD_TBL_NUM(CHILD_TBL_NUM_tmp);
+				
+		return dtlDao.dtlInsertDao(dtlDto);
+	}
+
+	@Override
+	public int dtlUpdate(DtlDto dtlDto) {
+		return dtlDao.dtlUpdateDao(dtlDto);
+	}
     
 }
