@@ -30,7 +30,7 @@ function UML_Search(){
 		success: function(data) {
 			var allMenuList = []
 			var userMenuList = []
-			
+			console.log(data);
 			for(let i=0;i<data.length;i++){
 				if(data[i].user_Code == null){
 					allMenuList.push(data[i]);
@@ -54,10 +54,17 @@ $("#UMM_ADDBtn").click(function(){
 	}
 	
 	$.ajax({
-		method: "GET",
-		url: "userMenuManageRest/userMenuInsert?data="+encodeURI(JSON.stringify(selectedRow)),
+		method: "post",
+		url: "userMenuManageRest/userMenuInsert",
+		data: JSON.stringify(selectedRow),
+		contentType:'application/json',
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success: function(data) {
-			if(data == "success"){
+			if(data){
 				alert("저장되었습니다.");
 				UML_Search();
 			}
@@ -74,10 +81,17 @@ $("#UMM_DeleteBtn").click(function(){
 	}
 	
 	$.ajax({
-		method: "GET",
-		url: "userMenuManageRest/userMenuDelete?data="+encodeURI(JSON.stringify(selectedRow)),
+		method: "post",
+		url: "userMenuManageRest/userMenuDelete",
+		data: JSON.stringify(selectedRow),
+		contentType:'application/json',
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success: function(data) {
-			if(data == "success"){
+			if(data){
 				alert("삭제되었습니다.");
 				UML_Search();
 			}

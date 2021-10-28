@@ -10,7 +10,7 @@ $.ajax({
 		
 		$.ajax({
 			method: "GET",
-			url: "menuList",
+			url: "userMenuManageRest/userMenuSearch",
 			success: function(data) {
 				child_menu = data
 				
