@@ -128,9 +128,14 @@ function itemRegister() {
 	}
 	
 	$.ajax({
-		method : "get",
+		method : "post",
 		url : "itemManageRest/itemManageInsert",
 		data : datas,
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success : function(data) {
 			if (data == "Success") {
 				alert("저장 되었습니다.");
@@ -203,9 +208,14 @@ function itemModify() {
 	}
 	
 	$.ajax({
-		method: "get",
+		method: "post",
 		data: datas,
 		url: "itemManageRest/itemManageUpdate",
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success : function(data) {
 			if (data == "Success") {
 				alert("저장 되었습니다.");
@@ -241,9 +251,14 @@ function itemRemove() {
 	};
 
 	$.ajax({
-		method: "get",
+		method: "post",
 		data: datas,
 		url: "itemManageRest/itemManageDelete",
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success : function(data) {
 			if (data == "Success") {
 				alert("삭제 되었습니다.");

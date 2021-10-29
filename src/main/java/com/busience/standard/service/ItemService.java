@@ -16,5 +16,5 @@ public interface ItemService {
     public int updateItemCode(PRODUCT_INFO_TBL array);
     
     //삭제
-    public int deleteItemCode(String string);
+    public int deleteItemCode(String itemCode);
 }

@@ -57,11 +57,13 @@
 	</insert>
 	
 	<insert id="insertItemInSalesStock">
-		insert into sales_StockMatLX_tbl values(#{itemCode}, 0, 0, 0, null, '2101');
+		insert into Sales_StockMatLX_tbl (Sales_SM_Code, Sales_SM_Last_Qty, Sales_SM_In_Qty, Sales_SM_Out_Qty, Sales_SM_Prcs_Date)
+			values(#{itemCode}, 0, 0, 0, '2101');
 	</insert>
 	
 	<insert id="insertItemInStock">
-		insert into stockMatLX_tbl values(#{itemCode}, 0, 0, 0, null, '2101');
+		insert into StockMatLX_tbl (SM_Code, SM_Last_Qty, SM_In_Qty, SM_Out_Qty, SM_Prcs_Date)
+			values(#{itemCode}, 0, 0, 0, '2101');
 	</insert>
 	
 	<update id="updateItemCode">
@@ -92,6 +94,6 @@
 	
 	<delete id="deleteItemCode">
 		delete from PRODUCT_INFO_TBL
-			where PRODUCT_ITEM_CODE= #{itemCode}
+			where PRODUCT_ITEM_CODE = #{itemCode}
 	</delete>
 </mapper>
