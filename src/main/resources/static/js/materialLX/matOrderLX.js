@@ -462,7 +462,7 @@ var matOrderSubTable = new Tabulator("#matOrderSubTable", {
 	row.update({"order_lNo": next_order_lNo,
 				"order_lPrice": 0,
 				"Order_lInfo_Remark": '',
-				"order_Rcv_Clsfc": "171"});
+				"order_Rcv_Clsfc": "203"});
 	//행이 추가되면 첫셀에 포커스
 	do{
 	setTimeout(function(){

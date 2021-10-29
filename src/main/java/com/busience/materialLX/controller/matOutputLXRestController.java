@@ -154,7 +154,7 @@ public class matOutputLXRestController {
 			for (int i = 0; i < arr.size(); i++) {
 				JSONObject listobj = (JSONObject) arr.get(i);
 				System.out.println(listobj);
-				// 수화인의 부서는 31로 통일.
+				// 수화인의 부서는 13로 통일.
 				// OutMat insert
 				OutMatLX_tbl_sql = " insert into OutMatLX_tbl(\r\n" + " OutMat_No,\r\n" + " OutMat_Code,\r\n"
 						+ " OutMat_Qty,\r\n" + " OutMat_Consignee," + " OutMat_Dept_Code, " + " OutMat_Send_Clsfc,\r\n" + " OutMat_Date,\r\n"
