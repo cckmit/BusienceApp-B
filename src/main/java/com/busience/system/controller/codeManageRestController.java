@@ -33,13 +33,13 @@ public class codeManageRestController {
 		return dtlService.getAlldtl(NEW_TBL_CODE);
 	}
 
-	@RequestMapping("/insert")
-	public int insert(DtlDto dtlDto) {
+	@RequestMapping("/codeManageInsert")
+	public int codeManageInsert(DtlDto dtlDto) {
 		return dtlService.dtlInsert(dtlDto);
 	}
 
-	@RequestMapping("/update")
-	public int update(DtlDto dtlDto) {
+	@RequestMapping("/codeManageUpdate")
+	public int codeManageUpdate(DtlDto dtlDto) {
 		return dtlService.dtlUpdate(dtlDto);
 	}
 }

@@ -19,6 +19,5 @@ public class CmnServiceImpl implements CmnService{
 	@Override
 	public List<CmnDto> cmnList() {
         return cmnDao.cmnListDao();
-	}
-	
+	}	
 }

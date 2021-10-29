@@ -15,7 +15,7 @@
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label">타입명</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control-plaintext" id="CHILD_TBL_TYPE" style="width: 50%;"
+							<input type="text" class="form-control-plaintext" id="child_TBL_TYPE" style="width: 50%;"
 								onkeydown="javascript:if(event.keyCode==13) {document.getElementById('CHILD_TBL_RMARK').focus()}">
 						</div>
 					</div>
@@ -23,7 +23,7 @@
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label">비고</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control-plaintext" id="CHILD_TBL_RMARK"
+							<input type="text" class="form-control-plaintext" id="child_TBL_RMARK"
 								onkeydown="javascript:if(event.keyCode==13) {document.getElementById('CHILD_TBL_USE_STATUS').focus()}">
 						</div>
 					</div>
@@ -31,7 +31,7 @@
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label">사용유무</label>
 						<div class="col-sm-10">
-							<input type="checkbox" class="form-control-plaintext" id="CHILD_TBL_USE_STATUS"
+							<input type="checkbox" class="form-control-plaintext" id="child_TBL_USE_STATUS"
 								onkeydown="javascript:if(event.keyCode==13) {document.getElementById('insertModalInitbtn').focus()}" checked>
 						</div>
 					</div>

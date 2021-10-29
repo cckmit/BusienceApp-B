@@ -1,9 +1,8 @@
-var child_TBL_NO = 0;
-var new_TBL_CODE = 0;
-var child_TBL_NUM = 0;
+//입력 및 업데이트 할 리스트
+var pickValue = ["child_TBL_TYPE", "child_TBL_RMARK", "child_TBL_USE_STATUS"];
 
 var codeManageMasterTable = new Tabulator("#codeManageMasterTable", {
-	headerFilterPlaceholder: null,
+	layoutColumnsOnNewData : true,
 	height: "calc(100% - 175px)",
 	ajaxConfig : "get",
 	ajaxContentType:"json",
@@ -24,7 +23,7 @@ var codeManageMasterTable = new Tabulator("#codeManageMasterTable", {
 });
 
 var codeManageSubTable = new Tabulator("#codeManageSubTable", {
-	headerFilterPlaceholder: null,
+	layoutColumnsOnNewData : true,
 	height: "calc(100% - 175px)",
 	rowClick: function(e, row) {
 		row.getTable().deselectRow();
@@ -33,6 +32,10 @@ var codeManageSubTable = new Tabulator("#codeManageSubTable", {
 	rowDblClick: function(e, row) {
 		modifyModalShow();
 	},
+	rowSelected:function(row){
+		var jsonData = fromRowToJson(row, pickValue);
+		modalInputBox(jsonData);
+    },
 	//페이징
 	columns: [
 		{ title: "순번", field: "child_TBL_NUM", headerHozAlign: "center", hozAlign: "right" },
@@ -65,7 +68,6 @@ function registerModalShow(){
 	});
 }
 
-
 //모달창내 등록버튼
 $("#codeRegisterBtn").click(function(){
 	codeRegister();
@@ -73,15 +75,17 @@ $("#codeRegisterBtn").click(function(){
 
 function codeRegister() {
 	
+	var selectedRow = codeManageMasterTable.getData("selected")
+	
 	var datas = {
-			NEW_TBL_CODE : codeManageMasterTable.getData("selected")[0].new_TBL_CODE,
-			CHILD_TBL_TYPE : $("#CHILD_TBL_TYPE").val(),
-			CHILD_TBL_RMARK : $("#CHILD_TBL_RMARK").val(),
-			CHILD_TBL_USE_STATUS : $("#CHILD_TBL_USE_STATUS").is(":checked")}
+			NEW_TBL_CODE : selectedRow[0].new_TBL_CODE,
+			CHILD_TBL_TYPE : $("#child_TBL_TYPE").val(),
+			CHILD_TBL_RMARK : $("#child_TBL_RMARK").val(),
+			CHILD_TBL_USE_STATUS : $("#child_TBL_USE_STATUS").is(":checked")}
 	
 	$.ajax({
 		method : "POST",
-		url : "codeManageRest/insert",
+		url : "codeManageRest/codeManageInsert",
 		data : datas,
 		beforeSend: function (xhr) {
            var header = $("meta[name='_csrf_header']").attr("content");
@@ -91,7 +95,7 @@ function codeRegister() {
 		success : function(data) {
 			if (data) {
 				alert("저장 되었습니다.");
-				codeManageMasterTable.replaceData();
+				CMS_Search(selectedRow[0].new_TBL_CODE)
 				
 				$("#codeManageModal").modal("hide");
 			}
@@ -125,15 +129,17 @@ $("#codeModifyBtn").click(function(){
 
 function codeModify() {
 	
+	var selectedRow = codeManageSubTable.getData("selected")
+	
 	var datas = {
-			CHILD_TBL_NO : codeManageSubTable.getData("selected")[0].child_TBL_NO,
-			CHILD_TBL_TYPE : $("#CHILD_TBL_TYPE").val(),
-			CHILD_TBL_RMARK : $("#CHILD_TBL_RMARK").val(),
-			CHILD_TBL_USE_STATUS : $("#CHILD_TBL_USE_STATUS").is(":checked")}
+			CHILD_TBL_NO : selectedRow[0].child_TBL_NO,
+			CHILD_TBL_TYPE : $("#child_TBL_TYPE").val(),
+			CHILD_TBL_RMARK : $("#child_TBL_RMARK").val(),
+			CHILD_TBL_USE_STATUS : $("#child_TBL_USE_STATUS").is(":checked")}
 
 	$.ajax({
 		method : "put",
-		url : "codeManageRest/update",
+		url : "codeManageRest/codeManageUpdate",
 		data : datas,
 		beforeSend: function (xhr) {
            var header = $("meta[name='_csrf_header']").attr("content");
@@ -143,7 +149,7 @@ function codeModify() {
 		success : function(data) {
 			if (data) {
 				alert("저장 되었습니다.");
-				codeManageMasterTable.replaceData();
+				CMS_Search(selectedRow[0].new_TBL_CODE)
 				
 				$("#codeManageModal").modal("hide");
 			}

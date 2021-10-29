@@ -29,7 +29,6 @@ public class MenuMgmtServiceImpl implements MenuMgmtService{
 
 	@Override
 	public int menuMgmtUpdate(List<MenuMgmtDto> jsonDataList) {
-		System.out.println(jsonDataList);
 		try {
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 				
