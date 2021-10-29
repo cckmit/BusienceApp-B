@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -170,10 +168,8 @@ public class CommonRestController {
 	
 	// 모든 회원 조회
 	@GetMapping("/menuList")
-	public ResponseEntity<List<MenuDto>> getAllmembers() {
-		List<MenuDto> menu = menuService.menuList();
-		
-		return new ResponseEntity<List<MenuDto>>(menu, HttpStatus.OK);
+	public List<MenuDto> menuList() {
+		return menuService.menuList();
 	}
 	
 	//생산 데이터 받는 코드

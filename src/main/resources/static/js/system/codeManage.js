@@ -1,227 +1,158 @@
-element = null;
-element2 = null;
-var child_TBL_NO = 0;
-var new_TBL_CODE = 0;
-var child_TBL_NUM = 0;
+//입력 및 업데이트 할 리스트
+var pickValue = ["child_TBL_TYPE", "child_TBL_RMARK", "child_TBL_USE_STATUS"];
+
+var codeManageMasterTable = new Tabulator("#codeManageMasterTable", {
+	layoutColumnsOnNewData : true,
+	height: "calc(100% - 175px)",
+	ajaxConfig : "get",
+	ajaxContentType:"json",
+	ajaxURL : "codeManageRest/CMM_Search",
+	rowClick: function(e, row) {
+		row.getTable().deselectRow();
+		row.select();
+	},
+	rowSelected:function(row){
+		CMS_Search(row.getData().new_TBL_CODE)
+		$('#CM_ADDbtn').removeClass('unUseBtn');
+    },
+	columns: [
+		{ title: "공통코드", field: "new_TBL_CODE", headerHozAlign: "center", hozAlign: "right" },
+		{ title: "공통코드 명", field: "new_TBL_NAME", headerHozAlign: "center" },
+		{ title: "비고", field: "new_TBL_INDEX", headerHozAlign: "center"}
+	],
+});
+
+var codeManageSubTable = new Tabulator("#codeManageSubTable", {
+	layoutColumnsOnNewData : true,
+	height: "calc(100% - 175px)",
+	rowClick: function(e, row) {
+		row.getTable().deselectRow();
+		row.select();
+	},
+	rowDblClick: function(e, row) {
+		modifyModalShow();
+	},
+	rowSelected:function(row){
+		var jsonData = fromRowToJson(row, pickValue);
+		modalInputBox(jsonData);
+    },
+	//페이징
+	columns: [
+		{ title: "순번", field: "child_TBL_NUM", headerHozAlign: "center", hozAlign: "right" },
+		{ title: "타입명", field: "child_TBL_TYPE", headerHozAlign: "center" },
+		{ title: "비고", field: "child_TBL_RMARK", headerHozAlign: "center"},
+		{ title: "사용유무", field: "child_TBL_USE_STATUS", headerHozAlign: "center",	hozAlign: "center", formatter: "tickCross"}
+	]
+});
+
+function CMS_Search(dtlCode){
+	codeManageSubTable.setData("codeManageRest/CMS_Search",{NEW_TBL_CODE: dtlCode})
+}
 
 
-function GridSetting1(orgindata) {
-	table = new Tabulator("#example-table1", {
-		rowSelectionChanged: function(data, rows) {
-		},
-		rowClick: function(e, row) {
-			new_TBL_CODE = row.getData().new_TBL_CODE;
+$('#CM_ADDbtn').click(function(){
+	registerModalShow();
+})
 
-			if (element == null) {
-				element = row.getElement();
-				element.style.color = "red";
-				element.style.fontWeight = "bold";
-			}
-			else {
-				element.style.color = "black";
-				element.style.fontWeight = "normal";
-				row.getElement().style.color = "red";
-				row.getElement().style.fontWeight = "bold";
-				element = row.getElement();
-			}
-
-			$("#addinitbtn").css(
-					{
-						"opacity" : "1"
-					}
-			);
-			document.getElementById("registerModal").onclick = codeRegisterModal;
-			
-
-			GridSetting2(row.getData().new_TBL_CODE);
-		},
-		rowDblClick: function(e, row) {
-			row.select();
-		},
-		rowUpdated: function(row) {
-			alert("수정");
-		},
-		height: "calc(100% - 175px)",
-		selectable:1, //make rows selectable
-		data: orgindata,
-		columns: [
-			{ title: "공통코드", field: "new_TBL_CODE", headerHozAlign: "center", hozAlign: "right" },
-			{ title: "공통코드 명", field: "new_TBL_NAME", headerHozAlign: "center" },
-			{ title: "비고", field: "new_TBL_INDEX", headerHozAlign: "center", width: 100 }
-		],
+function registerModalShow(){
+	
+	$('.modify').addClass('none');
+	
+	if ($('.insert').hasClass('none')) {
+		$('.insert').removeClass('none');
+	}	
+	$("#codeManageModal").find('form')[0].reset();
+	
+	$("#codeManageModal").modal("show").on("shown.bs.modal", function () {
+		$("#CHILD_TBL_TYPE").focus();
 	});
 }
 
-function insertModal() {
-	var selectedRow = table.getData("selected");
+//모달창내 등록버튼
+$("#codeRegisterBtn").click(function(){
+	codeRegister();
+})
+
+function codeRegister() {
+	
+	var selectedRow = codeManageMasterTable.getData("selected")
+	
+	var datas = {
+			NEW_TBL_CODE : selectedRow[0].new_TBL_CODE,
+			CHILD_TBL_TYPE : $("#child_TBL_TYPE").val(),
+			CHILD_TBL_RMARK : $("#child_TBL_RMARK").val(),
+			CHILD_TBL_USE_STATUS : $("#child_TBL_USE_STATUS").is(":checked")}
+	
+	$.ajax({
+		method : "POST",
+		url : "codeManageRest/codeManageInsert",
+		data : datas,
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
+		success : function(data) {
+			if (data) {
+				alert("저장 되었습니다.");
+				CMS_Search(selectedRow[0].new_TBL_CODE)
+				
+				$("#codeManageModal").modal("hide");
+			}
+		}
+	});
+}
+
+function modifyModalShow(){
+	var selectedRow = codeManageSubTable.getData("selected");
 	
 	if(selectedRow.length == 0){
 		alert("수정할 행을 선택하세요.");
 		return false;
 	}
 	
-	$("#insertYesNo").modal("show");
-}
-
-
-function insBtn() {
-	if (document.getElementById("CHILD_TBL_TYPE").value == "") {
-		alert("코드명은 반드시 입력하셔야 합니다.");
-		return;
+	$('.insert').addClass('none');
+	
+	if ($('.modify').hasClass('none')) {
+		$('.modify').removeClass('none');
 	}
 	
-	var CHILD_TBL_USE_STATUS_VALUE = document.getElementById("CHILD_TBL_USE_STATUS").checked;
-	//console.log(CHILD_TBL_USE_STATUS_VALUE);
+	$("#codeManageModal").modal("show").on("shown.bs.modal", function () {
+		$("#CHILD_TBL_TYPE").focus();
+	});
+}
+
+//모달창내 수정버튼
+$("#codeModifyBtn").click(function(){
+	codeModify();
+})
+
+function codeModify() {
 	
-	$.ajax({
-		method: "GET",
-		data: {
-			CHILD_TBL_NO : child_TBL_NO,
-			NEW_TBL_CODE: new_TBL_CODE,
-			CHILD_TBL_TYPE: document.getElementById("CHILD_TBL_TYPE").value,
-			CHILD_TBL_RMARK: document.getElementById("CHILD_TBL_RMARK").value,
-			CHILD_TBL_USE_STATUS: CHILD_TBL_USE_STATUS_VALUE
-		},
-		url: "codeManageRest/insert",
-		success: function(data) {
-			if (data == "Success") {
-				alert("저장 완료 하였습니다.");
+	var selectedRow = codeManageSubTable.getData("selected")
+	
+	var datas = {
+			CHILD_TBL_NO : selectedRow[0].child_TBL_NO,
+			CHILD_TBL_TYPE : $("#child_TBL_TYPE").val(),
+			CHILD_TBL_RMARK : $("#child_TBL_RMARK").val(),
+			CHILD_TBL_USE_STATUS : $("#child_TBL_USE_STATUS").is(":checked")}
 
-				location.reload();
+	$.ajax({
+		method : "put",
+		url : "codeManageRest/codeManageUpdate",
+		data : datas,
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
+		success : function(data) {
+			if (data) {
+				alert("저장 되었습니다.");
+				CMS_Search(selectedRow[0].new_TBL_CODE)
+				
+				$("#codeManageModal").modal("hide");
 			}
 		}
 	});
 }
-
-
-
-function GridSetting2(NEW_TBL_CODE) {
-	$.ajax({
-		method: "GET",
-		url: "codeManageRest/view2?NEW_TBL_CODE=" + NEW_TBL_CODE,
-		success: function(data) {
-			datas = data;
-			console.log(datas);
-			table2 = new Tabulator("#example-table2", {
-				rowDblClick: function(e, row) {
-					//e - the click event object
-					//row - row component
-					console.log("ok");
-					console.log(row.getData());
-
-					if (element2 == null) {
-						element2 = row.getElement();
-						element2.style.color = "red";
-						element2.style.fontWeight = "bold";
-					}
-					else {
-						element2.style.color = "black";
-						element2.style.fontWeight = "normal";
-						row.getElement().style.color = "red";
-						row.getElement().style.fontWeight = "bold";
-						element2 = row.getElement();
-					}
-
-					$("#codeModifyModal").modal("show");
-
-					//child_TBL_USE_STATUS
-					if (row.getData().child_TBL_USE_STATUS == "true")
-						document.getElementById("mCHILD_TBL_USE_STATUS").checked = true;
-					else
-						document.getElementById("mCHILD_TBL_USE_STATUS").checked = false;
-						
-					child_TBL_NO = row.getData().child_TBL_NO;
-					new_TBL_CODE = row.getData().new_TBL_CODE;
-					child_TBL_NUM = row.getData().child_TBL_NUM;
-					document.getElementById("mCHILD_TBL_TYPE").value = row.getData().child_TBL_TYPE;
-					document.getElementById("mCHILD_TBL_RMARK").value = row.getData().child_TBL_RMARK;
-				},
-				rowUpdated: function(row) {
-					alert("수정");
-				},
-				//페이징
-				height: "calc(100% - 175px)",
-				selectable:1, //make rows selectable
-				data: datas,
-				columns: [
-					{ title: "순번", field: "child_TBL_NUM", headerHozAlign: "center", hozAlign: "right" },
-					{ title: "No", field: "child_TBL_NO", headerHozAlign: "center" },
-					{ title: "타입명", field: "child_TBL_TYPE", headerHozAlign: "center" },
-					{ title: "비고", field: "child_TBL_RMARK", headerHozAlign: "center", width: 100 },
-					{
-						title: "사용유무",
-						field: "child_TBL_USE_STATUS",
-						headerHozAlign: "center",
-						width: 110,
-						headerHozAlign: "center",
-						hozAlign: "center",
-						formatter: "tickCross",
-						editor: "select2",
-						editorParams: { values: { "true": "사용", "false": "미사용" } }
-					}
-				],
-			});
-		}
-	});
-}
-
-window.onload = function() {
-	$.ajax({
-		method: "GET",
-		url: "codeManageRest/view1",
-		success: function(data) {
-			GridSetting1(data);
-		}
-	});
-}
-
-// 입력 모달창에서 취소버튼을 누를때 입력 모달창 데이터를 초기화
-function insResetBtn() {
-	document.getElementById("CHILD_TBL_TYPE").value = "";
-	document.getElementById("CHILD_TBL_RMARK").value = "";
-	document.getElementById("CHILD_TBL_USE_STATUS").checked = false;
-}
-
-function modResetBtn() {
-	document.getElementById("mCHILD_TBL_TYPE").value = "";
-	document.getElementById("mCHILD_TBL_RMARK").value = "";
-	document.getElementById("mCHILD_TBL_USE_STATUS").checked = false;
-}
-
-function modBtn() {
-	$.ajax({
-		method: "GET",
-		data: {
-			NEW_TBL_CODE: new_TBL_CODE,
-			CHILD_TBL_NUM: child_TBL_NUM,
-			CHILD_TBL_TYPE: document.getElementById("mCHILD_TBL_TYPE").value,
-			CHILD_TBL_RMARK: document.getElementById("mCHILD_TBL_RMARK").value,
-			CHILD_TBL_USE_STATUS: document.getElementById("mCHILD_TBL_USE_STATUS").checked
-		},
-		url: "codeManageRest/update",
-		success: function(data) {
-			if (data == "Success") {
-				alert("수정 완료 하였습니다.");
-
-				location.reload();
-			}
-		}
-	});
-}
-// 입력버튼을 클릭을 할때 모달창을 여는 이벤트
-$("#registerModal").click(function() {
-	$("#codeRegisterModal").modal("show");
-});
-
-// 수정버튼을 클릭을 할때 모달창을 여는 이벤트
-$("#modifyModal").click(function() {
-	$("#codeModifyModal").modal("show");
-});
-
-$('#codeRegisterModal').on('show.bs.modal', function () {
-	$('#CHILD_TBL_TYPE').focus();
-});
-
-$('#coderModifyModal').on('show.bs.modal', function () {
-	$('#mCHILD_TBL_TYPE').focus();
-});

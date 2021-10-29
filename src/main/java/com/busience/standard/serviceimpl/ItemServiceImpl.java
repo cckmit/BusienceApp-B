@@ -59,8 +59,10 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public int deleteItemCode(String string) {
-		return itemDao.deleteItemCode(string);
+	public int deleteItemCode(String itemCode) {
+		System.out.println("=============");
+		System.out.println(itemCode);
+		return itemDao.deleteItemCode(itemCode);
 	}
 	
 }

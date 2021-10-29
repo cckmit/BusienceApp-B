@@ -11,5 +11,4 @@ public interface MenuDao {
 	
 	//메뉴 목록
 	public List<MenuDto> listDao();
-	
 }

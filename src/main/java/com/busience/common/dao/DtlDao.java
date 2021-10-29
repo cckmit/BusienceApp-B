@@ -23,4 +23,13 @@ public interface DtlDao {
 	
 	// 부서명 조회하기 위한 쿼리
 	public List<DtlDto> findDeptName(@Param("NEW_TBL_CODE") int NEW_TBL_CODE);
+	
+	// 저장하기위한 다음 번호 찾기
+	public DtlDto findSaveNo(int NEW_TBL_CODE);
+	
+	// 저장
+	public int dtlInsertDao(DtlDto dtlDto);
+	
+	// 삭제
+	public int dtlUpdateDao(DtlDto dtlDto);
 }

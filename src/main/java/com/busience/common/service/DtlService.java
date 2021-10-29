@@ -17,4 +17,10 @@ public interface DtlService {
     
     // 부서명 조회
     public List<DtlDto> getDeptName(int NEW_TBL_CODE);
+    
+ 	//저장
+ 	public int dtlInsert(DtlDto dtlDto);
+ 	
+ 	//삭제
+ 	public int dtlUpdate(DtlDto dtlDto);
 }

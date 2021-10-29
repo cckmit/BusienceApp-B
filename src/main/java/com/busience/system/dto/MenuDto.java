@@ -18,6 +18,4 @@ public class MenuDto {
 	private String Menu_Name;
 	
 	private String Menu_PageName;
-	
-	private boolean Menu_Use_Status;
 }

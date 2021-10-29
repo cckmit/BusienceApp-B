@@ -2,13 +2,18 @@ package com.busience.system.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-public class RIGHTS_MGMT_TBL {
+@ToString
+public class RightsMgmtDto {
+	
 	private String Rights_User_Type;
+	
 	private String Rights_Program_Code;
-	private String Rights_MGMT_Use_Status;
 	
 	private String Rights_Program_Name;
+	
+	private Boolean Rights_MGMT_Use_Status;
 }
