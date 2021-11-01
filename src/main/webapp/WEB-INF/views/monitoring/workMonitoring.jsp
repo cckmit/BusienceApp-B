@@ -23,7 +23,7 @@
 <div class="row">
 
 <%
-	Class.forName("com.mysql.jdbc.Driver");
+	Class.forName("com.mysql.cj.jdbc.Driver");
 	Connection con = DriverManager.getConnection("jdbc:mysql://busience2.cafe24.com:3306/busience2","busience2","business12!!");
 	
 	String sql = "select * from EQUIPMENT_INFO_TBL";

@@ -11,9 +11,15 @@ function date_change(today) {
 }
 // 삭제
 function delBtn() {
+	console.log("삭제실행")
 	$.ajax({
 		method: "POST",
 		url: "machineManageRest/machineManageDelete?EQUIPMENT_INFO_CODE=" + document.getElementById("EQUIPMENT_INFO_CODE").value,
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success: function(data) {
 			console.log(data);
 			alert("삭제 성공 하였습니다.");
