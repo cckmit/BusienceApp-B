@@ -7,13 +7,14 @@ $.ajax({
 	url: "menuManageRest/MMSP_Search",
 	success: function(data) {
 		parents_menu = data
+		console.log(data);
 		
 		$.ajax({
 			method: "GET",
 			url: "userMenuManageRest/userMenuSearch",
 			success: function(data) {
 				child_menu = data
-				
+				console.log(data);
 				$(".navbar-busience .navbar-menu").append(
 					dynamic_menu(parents_menu, child_menu)
 				)

@@ -8,9 +8,8 @@ var child_sidebar_menu = new Array();
 $.ajax({
 	method: "GET",
 	url: "menuManageRest/MMSP_Search",
-	success: function(data) {
-		parents_sidebar_menu = data
-		console.log(data)
+	success: function(data) {		
+	
 		for(let k=0;k<data.length;k++){
 			
 			if(data[k].user_Code == 'test01'){
@@ -22,7 +21,6 @@ $.ajax({
 			method: "GET",
 			url: "userMenuManageRest/userMenuSearch",
 			success: function(data) {
-				console.log(data);
 				
 				for(let j=0;j<data.length;j++){
 					

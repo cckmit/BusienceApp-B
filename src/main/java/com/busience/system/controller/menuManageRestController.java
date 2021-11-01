@@ -39,6 +39,7 @@ public class menuManageRestController {
 	// MM_Update
 	@PostMapping("/MM_Update")
 	public int MM_Update(@RequestBody List<MenuMgmtDto> jsonDataList) {
+		System.out.println(jsonDataList);
 		return menuMgmtService.menuMgmtUpdate(jsonDataList);
 	}
 }

@@ -20,4 +20,6 @@ public class DtlDto {
 	private String CHILD_TBL_RMARK;
 	
 	private String CHILD_TBL_USE_STATUS;
+	
+	private String User_Code;
 }
