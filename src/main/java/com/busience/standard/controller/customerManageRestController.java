@@ -228,14 +228,13 @@ public class customerManageRestController {
 		return "Success";
 	}
 	
-	@PostMapping("delete")
+	@PostMapping("/delete")
 	public void delete(HttpServletRequest request) throws ParseException, SQLException, UnknownHostException, ClassNotFoundException {
-		String no = request.getParameter("cus_Code");
+		String no = request.getParameter("Cus_Code");
 		
 		String sql = "delete from Customer_tbl where Cus_Code = '"+no+"'";
 		
-		//HomeController.LogInsert("", "3. Delete", sql, request);
-		//System.out.println(sql);
+		System.out.println("delete = "+sql);
 		
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);

@@ -142,7 +142,7 @@
 						<div class="col-sm-3">
 							<input type="text" id="EQUIPMENT_INFO_RMARK"
 								style="width: 130%; height: 25px;"
-								onkeypress="javascript:if(event.keyCode==13) {$('.focusBtn').focus()}">
+								onkeyDown="javascript:if(event.keyCode==13) {$('.focusBtn').focus()}">
 						</div>
 					</fieldset>
 					<br>

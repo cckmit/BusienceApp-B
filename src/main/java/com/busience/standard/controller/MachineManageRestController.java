@@ -104,11 +104,6 @@ public class MachineManageRestController {
 
 		String modifier = principal.getName();
 		
-		// ��¥ ����
-		java.util.Date date = new java.util.Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String datestr = sdf.format(date.getTime());
-
 		String sql = "insert into EQUIPMENT_INFO_TBL values (";
 		sql += "'" + obj.get("EQUIPMENT_BUSINESS_PLACE") + "',";
 		sql += "'" + obj.get("EQUIPMENT_INFO_CODE") + "',";
@@ -125,7 +120,7 @@ public class MachineManageRestController {
 		sql += "'" + obj.get("EQUIPMENT_STATUS") + "',";
 		sql += "'" + obj.get("EQUIPMENT_INFO_RMARK") + "',";
 		sql += "'" + obj.get("EQUIPMENT_USE_STATUS") + "',";
-		sql += "'" + datestr + "',";
+		sql += "now(),";
 		sql += "'" + modifier + "')";
 
 		System.out.println("sql : " + sql);
@@ -153,11 +148,6 @@ public class MachineManageRestController {
 		
 		String modifier = principal.getName();
 
-		// ��¥ ����
-		java.util.Date date = new java.util.Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String datestr = sdf.format(date.getTime());
-
 		String sql = "UPDATE EQUIPMENT_INFO_TBL set ";
 	      sql += "EQUIPMENT_BUSINESS_PLACE = '" + obj.get("EQUIPMENT_BUSINESS_PLACE") + "',";
 	      sql += "EQUIPMENT_INFO_CODE = '" + obj.get("EQUIPMENT_INFO_CODE") + "',";
@@ -174,7 +164,7 @@ public class MachineManageRestController {
 	      sql += "EQUIPMENT_STATUS = '" + obj.get("EQUIPMENT_STATUS") + "',";
 	      sql += "EQUIPMENT_INFO_RMARK = '" + obj.get("EQUIPMENT_INFO_RMARK") + "',";
 	      sql += "EQUIPMENT_USE_STATUS = '" + obj.get("EQUIPMENT_USE_STATUS") + "',";
-	      sql += "EQUIPMENT_MODIFY_D = '" + datestr + "',";
+	      sql += "EQUIPMENT_MODIFY_D = now(),";
 	      sql += "EQUIPMENT_MODIFIER = '" + modifier + "'";
 	      sql += " where EQUIPMENT_INFO_CODE = '" + obj.get("EQUIPMENT_INFO_CODE") + "'";
 	   
@@ -191,11 +181,11 @@ public class MachineManageRestController {
 	}
 
 	// ����
-	@RequestMapping(value = "/machineManageDelete", method = RequestMethod.POST)
+	@PostMapping("/machineManageDelete")
 	public String machineManageDelete(HttpServletRequest request, Model model) throws SQLException, ParseException, UnknownHostException, ClassNotFoundException {
 		String EQUIPMENT_INFO_CODE = request.getParameter("EQUIPMENT_INFO_CODE");
 
-		//System.out.println("EQUIPMENT_INFO_CODE");
+		System.out.println(EQUIPMENT_INFO_CODE);
 
 		String sql = "delete from EQUIPMENT_INFO_TBL where EQUIPMENT_INFO_CODE='" + EQUIPMENT_INFO_CODE + "'";
 
@@ -207,7 +197,6 @@ public class MachineManageRestController {
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("��������");
 			return "error";
 		}finally {
 			pstmt.close();

@@ -280,8 +280,6 @@ window.onload = function() {
 				});
 			}
 		});
-
-	//SubmenuSelector("2", "13221");
 }
 
 // 삭제 기능을 수행하는 함수
@@ -309,7 +307,6 @@ function delBtn() {
 function modBtn() {
 	
 	var update_clsfc = $('#update_cus_Clsfc').val();
-	alert(update_clsfc);
 	
 	datas = {
 		Cus_Code: document.getElementById("update_cus_Code").value,
@@ -327,10 +324,6 @@ function modBtn() {
 		Cus_Pymn_Date: document.getElementById("update_cus_Pymn_Date").value,
 		Cus_Rgstr_Nr: document.getElementById("update_cus_Rgstr_Nr").value
 	};
-	
-	console.log("update = " + datas);
-	
-	debugger;
 
 	$.ajax({
 		method: "post",
@@ -398,8 +391,6 @@ function insertModal() {
 function insBtn() {
 	var ccode = document.getElementById("insert_cus_Code").value;
 
-	alert(ccode);
-
 	if (ccode == "") {
 		alert("거래처코드는 반드시 입력하셔야 합니다.");
 		document.getElementById("insert_cus_Code").focus();
@@ -423,7 +414,6 @@ function insBtn() {
 		cus_Rgstr_Nr: document.getElementById("insert_cus_Rgstr_Nr").value
 	};
 
-	console.log(datas);
 	$.ajax({
 		method: "post",
 		data: datas,

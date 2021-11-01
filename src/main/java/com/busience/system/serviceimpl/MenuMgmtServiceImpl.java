@@ -27,6 +27,7 @@ public class MenuMgmtServiceImpl implements MenuMgmtService{
         return menuMgmtDao.menuMgmtListDao(userCode);
 	}
 
+	//메뉴관리 수정
 	@Override
 	public int menuMgmtUpdate(List<MenuMgmtDto> jsonDataList) {
 		try {
