@@ -5,11 +5,29 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="com.busience.system.dao.MenuMgmtDao">
+	<select id="menuMgmtParentListDao" resultType="com.busience.common.dto.DtlDto">
+		select A.CHILD_TBL_NO, A.NEW_TBL_CODE, A.CHILD_TBL_NUM, A.CHILD_TBL_TYPE, A.CHILD_TBL_RMARK, A.CHILD_TBL_USE_STATUS
+		from (select * from DTL_TBL where NEW_TBL_CODE = '16') A
+		left outer join (
+			select distinct User_Code, cast(left(Program_Code,2) as signed) as Program_Code
+		    from User_Menu_tbl where User_Code = #{User_Code}
+		) B on A.CHILD_TBL_NUM = B.Program_Code
+				
+	</select>
+
 	<select id="menuMgmtListDao" resultType="com.busience.system.dto.MenuMgmtDto">
-		SELECT A.Menu_User_Code, A.Menu_Program_Code, B.Menu_Name Menu_Program_Name, A.Menu_Read_Use_Status, A.Menu_Write_Use_Status, A.Menu_Delete_Use_Status, A.Menu_MGMT_Use_Status
-		FROM Menu_MGMT_tbl A
-		inner join Menu_tbl B on A.Menu_Program_Code = B.Menu_Code
-		where A.Menu_User_Code = #{userCode}
+		select A.Menu_Code, A.Menu_Parent_No, B.CHILD_TBL_TYPE, A.Menu_Child_No, A.Menu_Name,
+			A.Menu_PageName, C.Menu_MGMT_Use_Status, D.User_Code
+		from Menu_tbl A
+		inner join (
+			select CHILD_TBL_NUM, CHILD_TBL_TYPE from DTL_TBL where NEW_TBL_CODE = '16'
+		) B on A.Menu_Parent_No = cast(B.CHILD_TBL_NUM as signed)
+		inner join (
+			select Menu_Program_Code, Menu_MGMT_Use_Status from Menu_MGMT_tbl where Menu_User_Code = #{User_Code}
+		) C on A.Menu_Code = C.Menu_Program_Code
+		left outer join (
+			select User_Code, Program_Code from User_Menu_tbl where User_Code = #{User_Code}
+		) D on A.Menu_Code = D.Program_Code;
 	</select>
 	
 	<update id="menuMgmtUpdateDao">

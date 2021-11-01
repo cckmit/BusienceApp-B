@@ -2,23 +2,39 @@
     $(".sidebar-busience li a").removeClass("active");
     $(this).addClass("active");
 });
-var parents_sidebar_menu
-var child_sidebar_menu
+var parents_sidebar_menu = new Array();
+var child_sidebar_menu = new Array();
 
 $.ajax({
 	method: "GET",
-	url: "parentMenuSelect",
+	url: "menuManageRest/MMSP_Search",
 	success: function(data) {
 		parents_sidebar_menu = data
+		console.log(data)
+		for(let k=0;k<data.length;k++){
+			
+			if(data[k].user_Code == 'test01'){
+				parents_sidebar_menu.push(data[k]);
+			}
+		}
 		
 		$.ajax({
 			method: "GET",
-			url: "childMenuSelect",
+			url: "userMenuManageRest/userMenuSearch",
 			success: function(data) {
-				child_sidebar_menu = data
+				console.log(data);
+				
+				for(let j=0;j<data.length;j++){
+					
+					if(data[j].user_Code == 'test01'){
+						child_sidebar_menu.push(data[j]);
+					}
+				}
+				
+				
 				
 				$(".sidebar-busience .sidebar-menu").append(
-					
+							
 					dynamic_sidebar_menu(parents_sidebar_menu, child_sidebar_menu)
 				)
 			}

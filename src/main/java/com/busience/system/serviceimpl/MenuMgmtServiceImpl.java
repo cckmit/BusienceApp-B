@@ -8,6 +8,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import com.busience.common.dto.DtlDto;
 import com.busience.system.dao.MenuMgmtDao;
 import com.busience.system.dto.MenuMgmtDto;
 import com.busience.system.service.MenuMgmtService;
@@ -20,6 +21,13 @@ public class MenuMgmtServiceImpl implements MenuMgmtService{
 
 	@Autowired
 	TransactionTemplate transactionTemplate;
+	
+	//상위 메뉴 list
+	@Override
+	public List<DtlDto> menuMgmtParentList(String userCode) {
+		
+		return menuMgmtDao.menuMgmtParentListDao(userCode);
+	}
 	
 	//메뉴 리스트
 	@Override

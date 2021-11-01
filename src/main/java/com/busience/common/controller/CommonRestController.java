@@ -126,45 +126,6 @@ public class CommonRestController {
 		
 		return deptList;
 	}
-	// 공통코드 찾기
-	@GetMapping("/childMenuSelect")
-	public List<MenuDto> childMenuSelect(Principal principal) throws SQLException {
-		
-		String modifier = principal.getName();
-		
-		String sql = "SELECT \r\n"
-				+ "B.Menu_Code,\r\n"
-				+ "B.Menu_Parent_No,\r\n"
-				+ "B.Menu_Child_No,\r\n"
-				+ "B.Menu_Name,\r\n"
-				+ "B.Menu_PageName\r\n"
-				+ "FROM User_Menu_tbl A\r\n"
-				+ "inner join Menu_tbl B on A.Program_Code = B.Menu_Code\r\n"
-				+ "where A.User_Code = '"+modifier+"'";
-		
-		//System.out.println(request.getParameter("NEW_TBL_CODE"));
-		Connection conn = dataSource.getConnection();
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		ResultSet rs = pstmt.executeQuery();
-		
-		List<MenuDto> menuList = new ArrayList<MenuDto>();
-		
-		while (rs.next()) {
-			MenuDto data = new MenuDto();
-			data.setMenu_Code(rs.getString("menu_Code"));
-			data.setMenu_Parent_No(rs.getString("menu_Parent_No"));
-			data.setMenu_Child_No(rs.getString("menu_Child_No"));
-			data.setMenu_Name(rs.getString("menu_Name"));
-			data.setMenu_PageName(rs.getString("menu_PageName"));
-			menuList.add(data);
-		}
-		
-		rs.close();
-		pstmt.close();
-		conn.close();
-		
-		return menuList;
-	}
 	
 	// 모든 회원 조회
 	@GetMapping("/menuList")

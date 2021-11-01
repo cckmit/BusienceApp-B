@@ -4,7 +4,7 @@ var division_line = ["불량 정보 관리", "출고 반품 관리", "생산 실
 
 $.ajax({
 	method: "GET",
-	url: "dtl_tbl_select?NEW_TBL_CODE=16",
+	url: "menuManageRest/MMSP_Search",
 	success: function(data) {
 		parents_menu = data
 		

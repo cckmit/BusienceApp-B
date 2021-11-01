@@ -18,6 +18,8 @@
 
 <script src="/webjars/font-awesome/5.15.4/js/all.min.js"></script>
 
+<script src="/webjars/js-xlsx/dist/xlsx.full.min.js"></script>
+
 <!-- js -->
 <script src="/js/today.js"></script>
 
