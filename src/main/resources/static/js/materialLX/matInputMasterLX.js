@@ -178,7 +178,7 @@ function MI_DeliveryListSearchBtn() {
 	//alert("LastDay = " + LastDay);
 	//alert("years : " + years + " PrcsYear : " + PrcsYear + " PrcsMonth : " + PrcsMonth + '-' + LastDay);
 	PrcsDate = years + PrcsYear + '-' + PrcsMonth + '-';
-	alert(PrcsDate);
+	//alert(PrcsDate);
 	datas = {
 		PrcsDate: PrcsDate,
 		RawDate: rawDate,

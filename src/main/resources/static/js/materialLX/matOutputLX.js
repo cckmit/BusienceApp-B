@@ -4,6 +4,7 @@ var outputTable = new Tabulator("#outputTable", {
 	//페이징
 	pagination: "local",
 	paginationSize: 20,
+	paginationAddRow : "table",
 	height: "calc(100% - 175px)",
 	layoutColumnsOnNewData: true,
 	headerFilterPlaceholder: null,
@@ -49,11 +50,11 @@ var outputTable = new Tabulator("#outputTable", {
 		}
 	},
 	columns: [
-		{ title: "순번", field: "id", headerHozAlign: "center", hozAlign: "center" },
-		{ title: "코드", field: "sm_Code", headerHozAlign: "center" },
-		{ title: "품목명", field: "sm_Name", headerHozAlign: "center", hozAlign: "right" },
-		{ title: "출고수량", field: "sm_Out_Qty", headerHozAlign: "center", hozAlign: "right" },
-		{ title: "재고", field: "sm_Last_Qty", headerHozAlign: "center" }]
+		{ title: "순번", field: "id", headerHozAlign: "center", hozAlign: "center"},
+		{ title: "코드", field: "sm_Code", headerHozAlign: "center", headerFilter:true},
+		{ title: "품목명", field: "sm_Name", headerHozAlign: "center", hozAlign: "right", headerFilter:true },
+		{ title: "출고수량", field: "sm_Out_Qty", headerHozAlign: "center", hozAlign: "right", headerFilter:true },
+		{ title: "재고", field: "sm_Last_Qty", headerHozAlign: "center", headerFilter:true }]
 });
 
 
