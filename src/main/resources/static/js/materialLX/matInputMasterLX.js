@@ -178,7 +178,7 @@ function MI_DeliveryListSearchBtn() {
 	//alert("LastDay = " + LastDay);
 	//alert("years : " + years + " PrcsYear : " + PrcsYear + " PrcsMonth : " + PrcsMonth + '-' + LastDay);
 	PrcsDate = years + PrcsYear + '-' + PrcsMonth + '-';
-
+	alert(PrcsDate);
 	datas = {
 		PrcsDate: PrcsDate,
 		RawDate: rawDate,
@@ -248,6 +248,8 @@ function MI_DeliveryItem(inMat_Client_Code) {
 	var LastDay = document.getElementById('LastDay').value;
 	
 	PrcsDate = years + PrcsYear + '-' + PrcsMonth + '-';
+	alert(PrcsDate);
+	
 	data = {
 		PrcsDate: PrcsDate,
 		LastDay: LastDay,

@@ -68,7 +68,7 @@ public class materialLXController {
 		model.addAttribute("LastDay", dtlService.getLastDay(LastDay));
 		
 		// 현재연월
-		int PrcsDate = 2;
+		int PrcsDate = 20;
 		String PrcsNum = Integer.toString(3);
 		model.addAttribute("PrcsDate", dtlService.getDate(PrcsDate, PrcsNum));
 		
