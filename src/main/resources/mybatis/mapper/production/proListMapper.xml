@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.busience.productionLX.dao.ProductionMgmtDao">
+	<select id="proItemListDao" resultType="com.busience.productionLX.dto.ProductionMgmtDto">
+		SELECT
+		A.PRODUCTION_WorkOrder_No,
+		A.PRODUCTION_WorkOrder_ONo,
+		A.PRODUCTION_Product_Code,
+		B.PRODUCT_ITEM_NAME,
+		A.PRODUCTION_Equipment_Code production_EQUIPMENT_CODE,
+		C.EQUIPMENT_INFO_NAME PRODUCTION_EQUIPMENT_INFO_NAME,
+		sum(A.PRODUCTION_Volume) PRODUCTION_P_Qty,
+		date_format(A.PRODUCTION_Date,'%Y-%m-%d %T') PRODUCTION_Date
+		FROM (select * from PRODUCTION_MGMT_TBL2 where PRODUCTION_Date between #{startDate} and #{endDate} and PRODUCTION_Product_Code like CONCAT('%', #{itemCode}, '%')) A
+		inner join (select * from PRODUCT_INFO_TBL where PRODUCT_ITEM_NAME like CONCAT('%', #{itemCode}, '%')) B on A.PRODUCTION_Product_Code = B.PRODUCT_ITEM_CODE
+		inner join EQUIPMENT_INFO_TBL C on A.PRODUCTION_Equipment_Code = C.EQUIPMENT_INFO_CODE
+		group by A.PRODUCTION_Product_Code, A.PRODUCTION_WorkOrder_No with rollup	
+	</select>
+</mapper>

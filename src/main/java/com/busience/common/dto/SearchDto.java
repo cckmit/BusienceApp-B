@@ -13,6 +13,8 @@ public class SearchDto {
 	
 	private String EndDate;
 	
+	private String ItemCode;
+	
 	private String ClientCode;
 	
 	private String ItemSendClsfc;

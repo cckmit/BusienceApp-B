@@ -12,11 +12,12 @@ function Search() {
 	var jsonData = {
 		startDate : $('#startDate').val(),
 		endDate : $('#endDate').val(),
+		ItemCode : $('#PRODUCT_ITEM_CODE').val(),
 		PRODUCT_ITEM_CODE : $('#PRODUCT_ITEM_CODE').val(),
 		PRODUCT_ITEM_NAME : $('#PRODUCT_ITEM_NAME').val()
 	}
 
-	proItemListTable.setData('proListLXRest/proItemListSelect2', jsonData);
+	proItemListTable.setData('proListLXRest/proItemTestSelect', jsonData);
 }
 
 $('#SearchBtn').click(function(){

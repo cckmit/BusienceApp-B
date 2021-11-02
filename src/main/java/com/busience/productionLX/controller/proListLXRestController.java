@@ -14,11 +14,15 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.busience.common.dto.SearchDto;
 import com.busience.productionLX.dto.PRODUCTION_INFO_TBL;
+import com.busience.productionLX.dto.ProductionMgmtDto;
+import com.busience.productionLX.service.ProductionMgmtService;
 
 @RestController("proListLXRestController")
 @RequestMapping("proListLXRest")
@@ -29,7 +33,18 @@ public class proListLXRestController {
 
 	@Autowired
 	JdbcTemplate jdbctemplate;
+	
+	@Autowired
+	ProductionMgmtService productionMgmtService; 
 
+	@GetMapping("/proItemTestSelect")
+	public List<ProductionMgmtDto> proItemTestSelect(SearchDto searchDto) {
+		System.out.println(searchDto);
+		List<ProductionMgmtDto> list = productionMgmtService.proItemList(searchDto);
+		System.out.println(list);
+		return list;
+	}
+	
 	// proMachineListSelect2
 	@RequestMapping(value = "/proMachineListSelect2", method = RequestMethod.GET)
 	public List<PRODUCTION_INFO_TBL> proMachineListSelect2(HttpServletRequest request)
@@ -39,28 +54,32 @@ public class proListLXRestController {
 		String EQUIPMENT_INFO_CODE = request.getParameter("EQUIPMENT_INFO_CODE");
 		String EQUIPMENT_INFO_NAME = request.getParameter("EQUIPMENT_INFO_NAME");
 
-		String sql = "SELECT \r\n" + "A.PRODUCTION_WorkOrder_No,\r\n" + "A.PRODUCTION_WorkOrder_ONo,\r\n"
-				+ "A.PRODUCTION_Product_Code,\r\n" + "B.PRODUCT_ITEM_NAME,\r\n"
+		String sql = "SELECT \r\n"
+				+ "A.PRODUCTION_WorkOrder_No,\r\n"
+				+ "A.PRODUCTION_WorkOrder_ONo,\r\n"
+				+ "A.PRODUCTION_Product_Code,\r\n"
+				+ "B.PRODUCT_ITEM_NAME,\r\n"
 				+ "A.PRODUCTION_Equipment_Code production_EQUIPMENT_CODE,\r\n"
 				+ "C.EQUIPMENT_INFO_NAME PRODUCTION_EQUIPMENT_INFO_NAME,\r\n"
 				+ "sum(A.PRODUCTION_Volume) PRODUCTION_P_Qty,\r\n"
-				+ "date_format(A.PRODUCTION_Date,'%Y-%m-%d %T') PRODUCTION_Date\r\n" + "FROM PRODUCTION_MGMT_TBL2 A\r\n"
+				+ "date_format(A.PRODUCTION_Date,'%Y-%m-%d %T') PRODUCTION_Date\r\n"
+				+ "FROM (select * from PRODUCTION_MGMT_TBL2 where PRODUCTION_Date >= '"+startDate+" 00:00:00' and PRODUCTION_Date < '"+endDate+" 23:59:59') A\r\n"
 				+ "inner join PRODUCT_INFO_TBL B on A.PRODUCTION_Product_Code = B.PRODUCT_ITEM_CODE\r\n"
 				+ "inner join EQUIPMENT_INFO_TBL C on A.PRODUCTION_Equipment_Code = C.EQUIPMENT_INFO_CODE\r\n";
 
-		String where = " and A.PRODUCTION_Date between '" + startDate + " 00:00:00' and '" + endDate + " 23:59:59'";
+		String where = "where ";
 
 		if (EQUIPMENT_INFO_CODE != null) {
-			where += " and (A.PRODUCTION_Equipment_Code like '%" + EQUIPMENT_INFO_CODE + "%'"
+			where += " (A.PRODUCTION_Equipment_Code like '%" + EQUIPMENT_INFO_CODE + "%'"
 					+ " OR C.EQUIPMENT_INFO_NAME like '%" + EQUIPMENT_INFO_CODE + "%')";
 		} else {
-			where += " and (C.EQUIPMENT_INFO_NAME like '%" + EQUIPMENT_INFO_NAME + "%'"
+			where += " (C.EQUIPMENT_INFO_NAME like '%" + EQUIPMENT_INFO_NAME + "%'"
 					+ " OR A.PRODUCTION_Equipment_Code like '%" + EQUIPMENT_INFO_NAME + "%')";
 		}
 
 		sql += where;
 
-		sql += " group by A.PRODUCTION_Equipment_Code, A.PRODUCTION_WorkOrder_ONo, A.PRODUCTION_WorkOrder_No with rollup";
+		sql += " group by A.PRODUCTION_Equipment_Code, A.PRODUCTION_WorkOrder_No with rollup";
 
 		System.out.println(sql);
 		Connection conn = dataSource.getConnection();
@@ -128,26 +147,27 @@ public class proListLXRestController {
 				+ "A.PRODUCTION_Equipment_Code production_EQUIPMENT_CODE,\r\n"
 				+ "C.EQUIPMENT_INFO_NAME PRODUCTION_EQUIPMENT_INFO_NAME,\r\n"
 				+ "sum(A.PRODUCTION_Volume) PRODUCTION_P_Qty,\r\n"
-				+ "date_format(A.PRODUCTION_Date,'%Y-%m-%d %T') PRODUCTION_Date\r\n" + "FROM PRODUCTION_MGMT_TBL2 A\r\n"
+				+ "date_format(A.PRODUCTION_Date,'%Y-%m-%d %T') PRODUCTION_Date\r\n" 
+				+ "FROM (select * from PRODUCTION_MGMT_TBL2 where PRODUCTION_Date >= '"+startDate+" 00:00:00' and PRODUCTION_Date < '"+endDate+" 23:59:59') A\r\n"
 				+ "inner join PRODUCT_INFO_TBL B on A.PRODUCTION_Product_Code = B.PRODUCT_ITEM_CODE\r\n"
 				+ "inner join EQUIPMENT_INFO_TBL C on A.PRODUCTION_Equipment_Code = C.EQUIPMENT_INFO_CODE\r\n";
 
-		String where = " and A.PRODUCTION_Date between '" + startDate + " 00:00:00' and '" + endDate + " 23:59:59'";
+		String where = "where ";
 
 		// ��ǰ�ڵ� �˻�
 		if (PRODUCT_ITEM_CODE != null) {
-			where += " and A.PRODUCTION_Product_Code like '%" + PRODUCT_ITEM_CODE + "%'"
+			where += " A.PRODUCTION_Product_Code like '%" + PRODUCT_ITEM_CODE + "%'"
 					+ " and B.PRODUCT_ITEM_NAME like '%" + PRODUCT_ITEM_NAME + "%'";
 		}
 		// ��ǰ�� �˻�
 		else {
-			where += " and (B.PRODUCT_ITEM_NAME like '%" + PRODUCT_ITEM_NAME + "%'"
+			where += " (B.PRODUCT_ITEM_NAME like '%" + PRODUCT_ITEM_NAME + "%'"
 					+ " OR A.PRODUCTION_Product_Code like '%" + PRODUCT_ITEM_NAME + "%')";
 		}
 
 		sql += where;
 
-		sql += " group by A.PRODUCTION_Product_Code, A.PRODUCTION_WorkOrder_ONo, A.PRODUCTION_WorkOrder_No with rollup";
+		sql += " group by A.PRODUCTION_Product_Code, A.PRODUCTION_WorkOrder_No with rollup";
 
 		System.out.println(sql);
 		Connection conn = dataSource.getConnection();
@@ -231,7 +251,7 @@ public class proListLXRestController {
 		}
 		sql += where;
 
-		sql += " group BY A.PRODUCTION_PRODUCT_CODE,A.PRODUCTION_SERIAL_NUM,A.PRODUCTION_INFO_NUM with rollup";
+		sql += " group BY A.PRODUCTION_PRODUCT_CODE, A.PRODUCTION_INFO_NUM with rollup";
 
 		return jdbctemplate.query(sql, new RowMapper<PRODUCTION_INFO_TBL>() {
 			@Override
@@ -297,7 +317,7 @@ public class proListLXRestController {
 		}
 		sql += where;
 
-		sql += " group BY A.PRODUCTION_EQUIPMENT_CODE,A.PRODUCTION_SERIAL_NUM,A.PRODUCTION_INFO_NUM with rollup";
+		sql += " group BY A.PRODUCTION_EQUIPMENT_CODE, A.PRODUCTION_INFO_NUM with rollup";
 
 		return jdbctemplate.query(sql, new RowMapper<PRODUCTION_INFO_TBL>() {
 			@Override

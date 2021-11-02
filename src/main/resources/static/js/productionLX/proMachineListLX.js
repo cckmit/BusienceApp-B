@@ -50,6 +50,7 @@ var proMachineListTable = new Tabulator("#proMachineListTable", {
 	//페이징
 	pagination:"local",
 	paginationSize:20,
+	ProgressiveLoad : "load",
 	layoutColumnsOnNewData : true,
     //Sub Total 색상
 	rowFormatter: function(row){
