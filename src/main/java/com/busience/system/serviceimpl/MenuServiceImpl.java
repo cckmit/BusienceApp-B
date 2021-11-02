@@ -15,11 +15,9 @@ public class MenuServiceImpl implements MenuService{
 	@Autowired
 	MenuDao menuDao;
 
-	//메뉴 리스트
+	//유저별 메뉴 list
 	@Override
-	public List<MenuDto> menuList() {
-		final List<MenuDto> menuList = menuDao.listDao();
-        return menuList;
+	public List<MenuDto> menuList(String User_Code) {
+		return menuDao.menuListDao(User_Code);
 	}
-	
 }

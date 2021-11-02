@@ -13,9 +13,15 @@ public class MenuDto {
 	
 	private String Menu_Parent_No;
 	
+	private String Menu_Parent_Name;
+	
+	private String Menu_Icon;
+	
 	private String Menu_Child_No;
 	
 	private String Menu_Name;
 	
 	private String Menu_PageName;
+	
+	private String User_Code;
 }

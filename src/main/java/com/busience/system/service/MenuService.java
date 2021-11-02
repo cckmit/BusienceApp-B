@@ -6,6 +6,6 @@ import com.busience.system.dto.MenuDto;
 
 public interface MenuService {
 
-	//메뉴 리스트
-	public List<MenuDto> menuList();
+	//유저별 메뉴 list
+	public List<MenuDto> menuList(String User_Code);
 }
