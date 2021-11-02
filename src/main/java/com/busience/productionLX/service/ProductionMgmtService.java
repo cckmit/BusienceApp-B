@@ -7,8 +7,10 @@ import com.busience.productionLX.dto.ProductionMgmtDto;
 
 public interface ProductionMgmtService {
 	
-	// 코드 조건으로 조회
+	//품목별
     public List<ProductionMgmtDto> proItemList(SearchDto searchDto);
     
+    //기계별
+    public List<ProductionMgmtDto> proMachineList(SearchDto searchDto);   
 
 }

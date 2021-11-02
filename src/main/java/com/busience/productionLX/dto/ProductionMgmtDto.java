@@ -15,7 +15,11 @@ public class ProductionMgmtDto {
 	
 	private String PRODUCTION_Product_Code;
 	
+	private String PRODUCTION_Product_Name;
+	
 	private String PRODUCTION_Equipment_Code;
+	
+	private String PRODUCTION_Equipment_Name;
 	
 	private int PRODUCTION_Volume;
 	

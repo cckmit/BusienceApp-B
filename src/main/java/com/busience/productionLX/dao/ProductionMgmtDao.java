@@ -12,5 +12,8 @@ public interface ProductionMgmtDao {
 	
 	//proItemListDao
 	public List<ProductionMgmtDto> proItemListDao(SearchDto searchDto);
+	
+	//proMachineListDao
+	public List<ProductionMgmtDto> proMachineListDao(SearchDto searchDto);
 
 }
