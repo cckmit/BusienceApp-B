@@ -1,4 +1,4 @@
-package com.busience.system.dto;
+package com.busience.common.dto;
 
 import lombok.Getter;
 import lombok.Setter;

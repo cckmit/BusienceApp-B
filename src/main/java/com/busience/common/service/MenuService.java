@@ -1,8 +1,8 @@
-package com.busience.system.service;
+package com.busience.common.service;
 
 import java.util.List;
 
-import com.busience.system.dto.MenuDto;
+import com.busience.common.dto.MenuDto;
 
 public interface MenuService {
 

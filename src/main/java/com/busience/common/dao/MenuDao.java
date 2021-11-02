@@ -1,10 +1,10 @@
-package com.busience.system.dao;
+package com.busience.common.dao;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.busience.system.dto.MenuDto;
+import com.busience.common.dto.MenuDto;
 
 @Mapper
 public interface MenuDao {
