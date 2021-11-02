@@ -15,13 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.common.dto.DtlDto;
 import com.busience.common.dto.ProductionDto;
 import com.busience.common.service.ProductionService;
 import com.busience.productionLX.dto.WorkOrder_tbl;
 import com.busience.standard.dto.DTL_TBL;
 import com.busience.system.dto.MenuDto;
-import com.busience.system.dto.UserMenuDto;
 import com.busience.system.service.MenuService;
 
 @RestController
@@ -148,19 +146,7 @@ public class CommonRestController {
 		System.out.println(production);
 		productionService.insertMenuNewUser(production);
 	}
-	
-	//상위 메뉴 List
-	@GetMapping("/menuParentList")
-	public List<DtlDto> menuParentList(Principal principal) {
-		return menuService.menuParentList(principal.getName());
-	}
-	
-	//하위 메뉴 List
-	@GetMapping("/menuChildList")
-	public List<UserMenuDto> menuChildList(Principal principal) {
-		return menuService.menuChildList(principal.getName());
-	}
-	
+
 	//하위 메뉴 List
 	@GetMapping("/menuList")
 	public List<MenuDto> menuList(Principal principal) {

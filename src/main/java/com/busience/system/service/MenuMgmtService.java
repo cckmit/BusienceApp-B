@@ -2,7 +2,6 @@ package com.busience.system.service;
 
 import java.util.List;
 
-import com.busience.common.dto.DtlDto;
 import com.busience.system.dto.MenuMgmtDto;
 
 public interface MenuMgmtService {

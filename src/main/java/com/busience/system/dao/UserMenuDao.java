@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.busience.common.dto.DtlDto;
 import com.busience.system.dto.UserMenuDto;
 
 @Mapper
