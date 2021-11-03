@@ -149,7 +149,7 @@ public class salesOrderLXRestController {
 		String SOS_Search_sql = "select \r\n" + "ssmt.Sales_SM_Code,\r\n" + "pit.PRODUCT_ITEM_NAME Sales_SM_Name,\r\n"
 				+ "pit.PRODUCT_INFO_STND_1 Sales_SM_STND_1,\r\n"
 				+ "ssmt.Sales_SM_Last_Qty+ssmt.Sales_SM_In_Qty-ssmt.Sales_SM_Out_Qty Sales_SM_Qty\r\n"
-				+ "from Sales_StockMat_tbl ssmt \r\n"
+				+ "from Sales_StockMatLX_tbl ssmt \r\n"
 				+ "inner join PRODUCT_INFO_TBL pit on ssmt.Sales_SM_Code = pit.PRODUCT_ITEM_CODE";
 
 		String where = " where ssmt.Sales_SM_Code = '" + sales_Order_lCode + "'";

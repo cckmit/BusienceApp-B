@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.busience.system.dao.CmnDao">
+	<select id="cmnListDao" resultType="com.busience.system.dto.CmnDto">
+		select * from CMN_TBL
+	</select>
+	
+	<insert id="cmnInsertDao">
+		insert into Rights_MGMT_tbl (Rights_User_Type, Rights_Program_Code, Rights_MGMT_Use_Status)
+			select #{userType}, Menu_Code, true from Menu_tbl
+	</insert>
+</mapper>

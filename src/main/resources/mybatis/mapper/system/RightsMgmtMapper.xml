@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.busience.system.dao.RightsMgmtDao">
+	<select id="rightsMgmtListDao" resultType="com.busience.system.dto.RightsMgmtDto">
+		SELECT A.Rights_User_Type, A.Rights_Program_Code, B.Menu_Name Rights_Program_Name, A.Rights_MGMT_Use_Status
+		FROM Rights_MGMT_tbl A
+		inner join Menu_tbl B on A.Rights_Program_Code = B.Menu_Code
+		where A.Rights_User_Type = #{userType}
+	</select>
+	
+	<update id="rightsMgmtUpdateDao">
+		update Rights_MGMT_tbl
+		set
+		Rights_MGMT_Use_Status = #{Rights_MGMT_Use_Status}
+		where Rights_User_Type = #{Rights_User_Type}
+		and Rights_Program_Code = #{Rights_Program_Code}
+	</update>
+</mapper>

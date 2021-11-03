@@ -1,44 +1,37 @@
-var parents_menu
-var child_menu
-var division_line = ["불량 정보 관리", "출고 반품 관리", "생산 실적 관리(연별)", "수주 조회", "판매 반품 관리", "납품 현황 조회", "작업지시 Tablet","생산 실적 관리(연별)X"]
+var division_line = ["불량 정보 관리", "출고 반품 관리", "생산 실적 관리(연별)", "수주 조회", "판매 반품 관리", "납품 현황 조회", "작업지시 Tablet", "생산 실적 관리(연별)X"]
 
 $.ajax({
 	method: "GET",
-	url: "dtl_tbl_select?NEW_TBL_CODE=16",
+	url: "menuList",
 	success: function(data) {
-		parents_menu = data
-		
-		$.ajax({
-			method: "GET",
-			url: "menuList",
-			success: function(data) {
-				child_menu = data
-				
-				$(".navbar-busience .navbar-menu").append(
-					dynamic_menu(parents_menu, child_menu)
-				)
-			}
-		});
+		dynamic_menu(data);
+		dynamic_sidebar_menu(data);
 	}
 });
 
-function dynamic_menu(parents, child){
+function dynamic_menu(originData){
+	var parents_menu = new Map();
 	
+	//상위메뉴 모음
+	for(let k=0;k<originData.length;k++){
+		parents_menu.set(originData[k].menu_Parent_No, [originData[k].menu_Parent_Name, originData[k].menu_Icon, originData[k].menu_Parent_No]);
+	}
 	var tag = ""
 	
-	for(let i=0;i<parents.length;i++){
+	//동적메뉴 생성
+	for(let [pKey,pValue] of parents_menu) {
 		tag += "<li class='dropdown'>"
-				+"<a class='dropdown-toggle' data-toggle='dropdown'><i class='fas "+parents[i].child_TBL_RMARK+"'></i>&nbsp;<span><Strong>"+parents[i].child_TBL_TYPE+"</Strong></span></a>"
+				+"<a class='dropdown-toggle' data-toggle='dropdown'><i class='fas "+pValue[1]+"'></i>&nbsp;<span><Strong>"+pValue[0]+"</Strong></span></a>"
 				+"<ul class='dropdown-menu'>"
 				
-		for(let j=0;j<child.length;j++){
+		for(let j=0;j<originData.length;j++){
 			
-			let menu_num = parseInt(child[j].menu_Parent_No)
+			let menu_num = parseInt(originData[j].menu_Parent_No)
 			
-			if(menu_num == parents[i].child_TBL_NUM){
-				tag += "<li><a href='/"+child[j].menu_PageName+"'>"+child[j].menu_Name+"</a></li>"
+			if(menu_num == pKey){
+				tag += "<li><a href='/"+originData[j].menu_PageName+"'>"+originData[j].menu_Name+"</a></li>"
 				
-				if($.inArray(child[j].menu_Name,division_line) != -1){
+				if($.inArray(originData[j].menu_Name,division_line) != -1){
 					tag += "<li class='divider'></li>"
 				}
 			}
@@ -47,5 +40,5 @@ function dynamic_menu(parents, child){
 			+"</li>"
 	}
 	
-	return tag
+	$(".navbar-busience .navbar-menu").append(tag);
 }

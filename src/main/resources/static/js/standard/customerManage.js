@@ -49,8 +49,7 @@ function updatedeleteView() {
 	document.getElementById("update_cus_Adr").value = cus_Adr;
 	document.getElementById("update_cus_Rgstr_Nr").value = cus_Rgstr_Nr;
 	$('#update_cus_Pymn_Date').val(cus_Pymn_Date).prop("selected", true);
-	$('#update_cus_Clsfc').val(cus_Clsfc).prop("selected", true);
-	console.log(cus_Clsfc);
+	document.getElementById("update_cus_Clsfc").value = cus_Clsfc;
 	document.getElementById("update_cus_Co_EstYr").value = cus_Co_EstYr;
 }
 
@@ -92,7 +91,7 @@ window.onload = function() {
 						document.getElementById("update_cus_Name").value = row.getData().cus_Name;
 						cus_Name = row.getData().cus_Name;
 
-						status = row.getData().cus_Status - 1;
+						status = row.getData().cus_Status;
 						$("#update_cus_Status option:eq(" + status + ")").prop("selected", true);
 						cus_Status = status;
 
@@ -113,11 +112,13 @@ window.onload = function() {
 						document.getElementById("update_cus_Rgstr_Nr").value = row.getData().cus_Rgstr_Nr;
 						cus_Rgstr_Nr = row.getData().cus_Rgstr_Nr;
 
-						//$("#update_cus_Pymn_Date option:eq(0)").prop("selected", true);
 						$('#update_cus_Pymn_Date').val(row.getData().cus_Pymn_Date).prop("selected", true);
 						cus_Pymn_Date = row.getData().cus_Pymn_Date;
-						$('#update_cus_Clsfc').val(row.getData().cus_Clsfc).prop("selected", true);
-						cus_Clsfc = row.getData().cus_Clsfc;
+						
+						clsfc = row.getData().cus_Clsfc;
+						document.getElementById("update_cus_Clsfc").value = clsfc;
+						cus_Clsfc = clsfc;
+						
 						document.getElementById("update_cus_Co_EstYr").value = row.getData().cus_Co_EstYr;
 						cus_Co_EstYr = row.getData().cus_Co_EstYr;
 
@@ -169,14 +170,18 @@ window.onload = function() {
 						cus_Adr = row.getData().cus_Adr;
 						document.getElementById("update_cus_Rgstr_Nr").value = row.getData().cus_Rgstr_Nr;
 						cus_Rgstr_Nr = row.getData().cus_Rgstr_Nr;
-
 						$('#update_cus_Pymn_Date').val(row.getData().cus_Pymn_Date).prop("selected", true);
 						cus_Pymn_Date = row.getData().cus_Pymn_Date;
-						$('#update_cus_Clsfc').val(row.getData().cus_Clsfc).prop("selected", true);
-						cus_Clsfc = row.getData().cus_Clsfc;
+						
+						clsfc = row.getData().cus_Clsfc;
+						document.getElementById("update_cus_Clsfc").value = clsfc;
+						cus_Clsfc = clsfc;
+						
 						document.getElementById("update_cus_Co_EstYr").value = row.getData().cus_Co_EstYr;
 						cus_Co_EstYr = row.getData().cus_Co_EstYr;
 
+
+						console.log("cus_Clsfc = " + cus_Clsfc);
 						customer_FLAG = true;
 
 						$("#customerModifyModal").modal("show");
@@ -202,7 +207,7 @@ window.onload = function() {
 							headerFilter: "input"
 						}, {
 							title: "분류",
-							field: "cus_Clsfc",
+							field: "cus_Clsfc_Name",
 							width: 85,
 							headerHozAlign: "center",
 							headerFilter: "input"
@@ -275,19 +280,23 @@ window.onload = function() {
 				});
 			}
 		});
-
-	//SubmenuSelector("2", "13221");
 }
 
 // 삭제 기능을 수행하는 함수
 function delBtn() {
 	// 실제로 DB에서 선택한 행의 데이터를 지운다.
 	$.ajax({
-		method: "POST",
+		method: "post",
 		data: null,
 		url: "customerManageRest/delete?Cus_Code="
 			+ cus_Code,
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success: function(data, testStatus) {
+			alert("삭제 완료 되었습니다.");
 		}
 	});
 
@@ -296,6 +305,9 @@ function delBtn() {
 }
 
 function modBtn() {
+	
+	var update_clsfc = $('#update_cus_Clsfc').val();
+	
 	datas = {
 		Cus_Code: document.getElementById("update_cus_Code").value,
 		Cus_Name: document.getElementById("update_cus_Name").value,
@@ -314,11 +326,17 @@ function modBtn() {
 	};
 
 	$.ajax({
-		method: "POST",
+		method: "post",
 		data: datas,
 		url: "customerManageRest/update?data="
 			+ encodeURI(JSON.stringify(datas)),
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success: function(data, testStatus) {
+			alert("수정 완료 되었습니다.");
 		}
 	});
 
@@ -373,8 +391,6 @@ function insertModal() {
 function insBtn() {
 	var ccode = document.getElementById("insert_cus_Code").value;
 
-	alert(ccode);
-
 	if (ccode == "") {
 		alert("거래처코드는 반드시 입력하셔야 합니다.");
 		document.getElementById("insert_cus_Code").focus();
@@ -398,17 +414,21 @@ function insBtn() {
 		cus_Rgstr_Nr: document.getElementById("insert_cus_Rgstr_Nr").value
 	};
 
-	console.log(datas);
 	$.ajax({
-		method: "POST",
+		method: "post",
 		data: datas,
 		url: "customerManageRest/insert?data="
 			+ encodeURI(JSON.stringify(datas)),
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success: function(data, testStatus) {
 			if (data == "Overlap")
 				alert("중복코드를 입력하셨습니다. 다른 코드를 입력해주세요.");
 			else if (data == "Success") {
-				//alert("저장 완료 하였습니다.");
+				alert("저장 완료 하였습니다.");
 
 				location.reload();
 			}

@@ -1,4 +1,4 @@
-<%@page import="com.busience.standard.Dto.DTL_TBL"%>
+<%@page import="com.busience.common.dto.DtlDto"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -43,7 +43,7 @@
 											<td width="100" style="text-align: right;">
 												<strong></strong>
 											</td>
-											<td width="140"><input id="OQCInspect_Lot_No" type="text" style="width: 100%;" disabled="disabled;"></td>
+											<td width="140"><input id="OQCInspect_Lot_No" type="text" style="width: 100%;" disabled="disabled"></td>
 										</tr>
 										
 										<tr>
@@ -185,7 +185,7 @@
 	</c:forEach>
 	
 	<%
-		List<DTL_TBL> list = (List<DTL_TBL>)request.getAttribute("checkList");
+		List<DtlDto> list = (List<DtlDto>)request.getAttribute("checkList");
 		
 		for(int i=0;i<list.size();i++)
 			System.out.println(list.get(i).toString());

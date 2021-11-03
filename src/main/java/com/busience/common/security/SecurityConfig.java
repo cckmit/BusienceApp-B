@@ -9,30 +9,36 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
+public class SecurityConfig extends WebSecurityConfigurerAdapter{
+	
 	@Autowired
 	AuthFailureHandler authFailureHandler;
 
 	@Autowired
 	BusienceUsersService busienceUsersService;
-
+	
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-
-		http.authorizeRequests().antMatchers("/css/**", "/js/**", "/fonts/**", "/images/**", "/bsapp2", "/bsapp3","/workOrderStartBB")
-				.permitAll();
-
-		http.authorizeRequests().antMatchers("/*").hasRole("ADMIN");
-
-		http.formLogin().loginPage("/")
-				// .failureHandler(authFailureHandler)
-				.defaultSuccessUrl("/main").permitAll();
-
-		http.logout().logoutUrl("/logout").invalidateHttpSession(true).permitAll();
-
+	protected void configure(HttpSecurity http) throws Exception{
+		
+		http.authorizeRequests()
+			.antMatchers("/css/**","/js/**","/fonts/**","/images/**","/bsapp2").permitAll();
+		
+		http.authorizeRequests()
+			.antMatchers("/*").hasRole("ADMIN");
+		
+		http.formLogin()
+			.loginPage("/")
+			//.failureHandler(authFailureHandler)
+			.defaultSuccessUrl("/main")
+			.permitAll();
+			
+		http.logout()
+			.logoutUrl("/logout").invalidateHttpSession(true)
+			.permitAll();
+		
 		http.userDetailsService(busienceUsersService);
 	}
 
@@ -40,9 +46,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(busienceUsersService).passwordEncoder(passwordEncoder());
-
+	
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+		
+		auth.userDetailsService(busienceUsersService)
+			.passwordEncoder(passwordEncoder());
+				
 	}
 }

@@ -1,6 +1,7 @@
 package com.busience.standard.controller;
 
 import java.net.UnknownHostException;
+import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,11 +15,12 @@ import javax.sql.DataSource;
 
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.standard.Dto.DEFECT_INFO_TBL;
+import com.busience.standard.dto.DEFECT_INFO_TBL;
 
 @RestController("defectManageRestController")
 @RequestMapping("defectManageRest")
@@ -27,7 +29,7 @@ public class defectManageRestController {
 	@Autowired
 	DataSource dataSource;
 	
-	@RequestMapping(value = "/view",method = RequestMethod.GET)
+	@GetMapping("/view")
 	public List<DEFECT_INFO_TBL> view() throws SQLException
 	{
 		List<DEFECT_INFO_TBL> list = new ArrayList<DEFECT_INFO_TBL>();
@@ -70,7 +72,7 @@ public class defectManageRestController {
 		return list;
 	}
 	
-	@RequestMapping(value = "delete",method = {RequestMethod.POST})
+	@PostMapping("delete")
 	public void delete(HttpServletRequest request) throws ParseException, SQLException, UnknownHostException, ClassNotFoundException
 	{
 		String no = request.getParameter("DEFECT_CODE");
@@ -87,8 +89,8 @@ public class defectManageRestController {
 		conn.close();
 	}
 	
-	@RequestMapping(value = "/insert",method = RequestMethod.POST)
-	public String insert(HttpServletRequest request) throws SQLException
+	@PostMapping("/insert")
+	public String insert(HttpServletRequest request, Principal principal) throws SQLException
 	{
 		String DEFECT_CODE = request.getParameter("DEFECT_CODE");
 		String DEFECT_NAME = request.getParameter("DEFECT_NAME");
@@ -117,6 +119,8 @@ public class defectManageRestController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/HH/mm/ss");
 		String datestr = sdf.format(date.getTime());
 		
+		String modifier = principal.getName();
+		
 		String sql = "insert into DEFECT_INFO_TBL(DEFECT_CODE,DEFECT_NAME,DEFECT_ABR,DEFECT_RMRKS,DEFECT_USE_STATUS,DEFECT_MODIFY_D,DEFECT_MODIFIER) values ('";
 		sql += DEFECT_CODE;
 		sql += "','"+DEFECT_NAME;
@@ -124,7 +128,7 @@ public class defectManageRestController {
 		sql += "','"+DEFECT_RMRKS;
 		sql += "','"+DEFECT_USE_STATUS;
 		sql += "','"+datestr;
-		sql += "','admin')";
+		sql += "','"+modifier+"')";
 		
 		pstmt = conn.prepareStatement(sql);
 		pstmt.executeUpdate();
@@ -134,8 +138,8 @@ public class defectManageRestController {
 		return "Success";
 	}
 	
-	@RequestMapping(value = "/update",method = RequestMethod.POST)
-	public String update(HttpServletRequest request) throws SQLException
+	@PostMapping("/update")
+	public String update(HttpServletRequest request, Principal principal) throws SQLException
 	{
 		String DEFECT_CODE = request.getParameter("DEFECT_CODE");
 		String DEFECT_NAME = request.getParameter("DEFECT_NAME");
@@ -149,11 +153,13 @@ public class defectManageRestController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/HH/mm/ss");
 		String datestr = sdf.format(date.getTime());
 		
+		String modifier = principal.getName();
+		
 		String sql = "update DEFECT_INFO_TBL set DEFECT_NAME='"+DEFECT_NAME;
 		sql += "',DEFECT_ABR='"+DEFECT_ABR;
 		sql += "',DEFECT_USE_STATUS='"+DEFECT_USE_STATUS;
 		sql += "',DEFECT_RMRKS='"+DEFECT_RMRKS;
-		sql += "',DEFECT_MODIFIER='admin";
+		sql += "',DEFECT_MODIFIER='"+ modifier;
 		sql += "',DEFECT_MODIFY_D='"+datestr;
 		sql += "' where DEFECT_CODE='"+DEFECT_CODE+"'";
 		

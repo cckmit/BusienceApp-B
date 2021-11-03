@@ -15,7 +15,7 @@
 			<div class="modal-body">
 				<form class="form-horizontal">
 					<div class="form-group row">
-						<label class="col-sm-3 control-label" style="color: red;">거&nbsp;&nbsp;&nbsp;래&nbsp;&nbsp;&nbsp;처&nbsp;&nbsp;&nbsp;코&nbsp;&nbsp;드</label>
+						<label class="col-sm-3 control-label" style="color: red;">거&nbsp;래&nbsp;처&nbsp;코&nbsp;드</label>
 						<div class="col-sm-2">
 							<input type="text" class="form-control-plaintext"
 								id="insert_cus_Code"
@@ -35,18 +35,18 @@
 					</div>
 
 					<div class="form-group row">
-						<label class="col-sm-3 control-label">상&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;태</label>
+						<label class="col-sm-3 control-label">상&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;태</label>
 						<div class="col-sm-2">
 							<select id="insert_cus_Status"
 								class="form-select form-select-sm"
 								onkeydown="javascript:if(event.keyCode==13) {document.getElementById('insert_cus_Rprsn').focus()}">
-								<c:forEach var="data" items="${inoutList}">
+								<c:forEach var="data" items="${paymentMethodList}">
 									<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>
 								</c:forEach>
 							</select>
 						</div>
 
-						<label class="col-sm-3 control-label">대&nbsp;&nbsp;&nbsp;표&nbsp;&nbsp;&nbsp;자&nbsp;&nbsp;&nbsp;명</label>
+						<label class="col-sm-3 control-label">대&nbsp;&nbsp;표&nbsp;&nbsp;자&nbsp;&nbsp;명</label>
 						<div class="col-sm-3">
 							<input type="text" class="form-control-plaintext"
 								id="insert_cus_Rprsn"
@@ -57,7 +57,7 @@
 					</div>
 
 					<div class="form-group row">
-						<label class="col-sm-3 control-label">담&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;당&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;자&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;명</label>
+						<label class="col-sm-3 control-label">담&nbsp;&nbsp;당&nbsp;&nbsp;자&nbsp;&nbsp;명</label>
 						<div class="col-sm-2">
 							<input type="text" class="form-control-plaintext"
 								id="insert_cus_Mng"
@@ -66,7 +66,7 @@
 								onkeydown="javascript:if(event.keyCode==13) {document.getElementById('insert_cus_Co').focus()}">
 						</div>
 
-						<label class="col-sm-3 control-label">회&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;사&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;명</label>
+						<label class="col-sm-3 control-label">회&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;사&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;명</label>
 						<div class="col-sm-3">
 							<input type="text" class="form-control-plaintext"
 								id="insert_cus_Co"
@@ -85,7 +85,7 @@
 								placeholder="연도 입력">
 						</div>
 						 -->
-						<label class="col-sm-3 control-label">결&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;제&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;일</label>
+						<label class="col-sm-3 control-label">결&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;제&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;일</label>
 						<div class="col-sm-2">
 							<select id="insert_cus_Pymn_Date"
 								class="form-select form-select-sm"
@@ -128,7 +128,7 @@
 					</div>
 
 					<div class="form-group row">
-						<label class="col-sm-3 control-label">주&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소</label>
+						<label class="col-sm-3 control-label">주&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소</label>
 						<div class="col-sm-8">
 							<input type="text" class="form-control-plaintext"
 								id="insert_cus_Adr"
@@ -149,17 +149,24 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-3 control-label">거&nbsp;&nbsp;&nbsp;래&nbsp;&nbsp;&nbsp;처&nbsp;&nbsp;&nbsp;분&nbsp;&nbsp;류</label>
+						<label class="col-sm-3 control-label">거&nbsp;래&nbsp;처&nbsp;분&nbsp;류</label>
 						<div class="col-sm-2">
 							<select id="insert_cus_Clsfc" class="form-select form-select-sm"
 								onkeydown="javascript:if(event.keyCode==13) {document.getElementById('insert_cus_Co_EstYr').focus()}">
-								<option value="282">매출 거래처</option>
-								<option value="281">매입 거래처</option>
+								<c:forEach var="data" items="${clsfcMethodList}">
+									<c:choose>
+										<c:when test="${data.CHILD_TBL_TYPE eq '모든거래처'}">
+										</c:when>
+										<c:otherwise>
+											<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
 							</select>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-3 control-label">회&nbsp;사&nbsp;설&nbsp;립&nbsp;연&nbsp;도</label>
+						<label class="col-sm-3 control-label">회사설립연도</label>
 						<div class="col-sm-2">
 							<input type="date" class="form-control-plaintext"
 								id="insert_cus_Co_EstYr" style="border: 0.5px solid #858585;"

@@ -9,7 +9,7 @@ function nextFocus(next) {
 var pickValue = ["product_BUSINESS_PLACE", "product_ITEM_CODE", "product_OLD_ITEM_CODE",
 					"product_ITEM_NAME", "product_INFO_STND_1", "product_INFO_STND_2",
 					"product_UNIT", "product_MATERIAL", "product_MTRL_CLSFC",
-					"product_ITEM_CLSFC_1", "product_ITEM_CLSFC_2", "product_SUBSID_MATL_MGMT",
+					"product_ITEM_CLSFC_1", "product_ITEM_CLSFC_2", "product_UNIT_PRICE", "product_SUBSID_MATL_MGMT",
 					"product_ITEM_STTS", "product_BASIC_WAREHOUSE", "product_SAVE_AREA",
 					"product_SFTY_STOCK", "product_BUYER", "product_WRHSN_INSPC", "product_USE_STATUS"];
 
@@ -49,6 +49,7 @@ var itemManageTable = new Tabulator("#itemManageTable",	{
 			{ title: "자재분류", field: "product_MTRL_CLSFC_NAME", headerHozAlign: "center", headerFilter: "input"},
 			{ title: "품목분류1", field: "product_ITEM_CLSFC_1_NAME", headerHozAlign: "center", headerFilter: "input"},
 			{ title: "품목분류2", field: "product_ITEM_CLSFC_2_NAME", headerHozAlign: "center", headerFilter: "input"},
+			{ title: "단가", field: "product_UNIT_PRICE", headerHozAlign: "center", headerFilter: "input"},
 			{ title: "부자재관리", field: "product_SUBSID_MATL_MGMT", headerHozAlign: "center",hozAlign: "center",
 				formatter: "tickCross", headerFilter: true, headerFilterParams: { values: {	"true": "사용", "false": "미사용"}}},
 			{ title: "품목상태", field: "product_ITEM_STTS_NAME", headerHozAlign: "center", headerFilter: "input"},
@@ -106,6 +107,7 @@ function itemRegister() {
 		PRODUCT_MTRL_CLSFC: $("#product_MTRL_CLSFC").val(),
 		PRODUCT_ITEM_CLSFC_1: $("#product_ITEM_CLSFC_1").val(),
 		PRODUCT_ITEM_CLSFC_2: $("#product_ITEM_CLSFC_2").val(),
+		PRODUCT_UNIT_PRICE: $("#product_UNIT_PRICE").val(),
 		PRODUCT_SUBSID_MATL_MGMT: $("#product_SUBSID_MATL_MGMT").is(":checked"),
 		PRODUCT_ITEM_STTS: $("#product_ITEM_STTS").val(),
 		PRODUCT_BASIC_WAREHOUSE: $("#product_BASIC_WAREHOUSE").val(),
@@ -120,13 +122,24 @@ function itemRegister() {
 		return $("#product_ITEM_CODE").focus();
 	}
 	
+	if (datas.PRODUCT_UNIT_PRICE.length == 0) {
+		alert("단가를 입력해야 합니다.");
+		return $("#product_UNIT_PRICE").focus();
+	}
+	
 	$.ajax({
-		method : "get",
+		method : "post",
 		url : "itemManageRest/itemManageInsert",
 		data : datas,
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success : function(data) {
 			if (data == "Success") {
 				alert("저장 되었습니다.");
+				console.log(datas);
 				itemManageTable.replaceData();
 				
 				$("#itemManageModal").modal("hide");
@@ -179,6 +192,7 @@ function itemModify() {
 		PRODUCT_MTRL_CLSFC: $("#product_MTRL_CLSFC").val(),
 		PRODUCT_ITEM_CLSFC_1: $("#product_ITEM_CLSFC_1").val(),
 		PRODUCT_ITEM_CLSFC_2: $("#product_ITEM_CLSFC_2").val(),
+		PRODUCT_UNIT_PRICE: $("#product_UNIT_PRICE").val(),
 		PRODUCT_SUBSID_MATL_MGMT: $("#product_SUBSID_MATL_MGMT").is(":checked"),
 		PRODUCT_ITEM_STTS: $("#product_ITEM_STTS").val(),
 		PRODUCT_BASIC_WAREHOUSE: $("#product_BASIC_WAREHOUSE").val(),
@@ -188,13 +202,24 @@ function itemModify() {
 		PRODUCT_USE_STATUS: $("#product_USE_STATUS").is(":checked")
 	};
 
+	if (datas.PRODUCT_UNIT_PRICE.length == 0) {
+		alert("단가를 입력해야 합니다.");
+		return $("#product_UNIT_PRICE").focus();
+	}
+	
 	$.ajax({
-		method: "get",
+		method: "post",
 		data: datas,
 		url: "itemManageRest/itemManageUpdate",
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success : function(data) {
 			if (data == "Success") {
 				alert("저장 되었습니다.");
+				console.log(datas);
 				itemManageTable.replaceData();
 				
 				$("#itemManageModal").modal("hide");
@@ -226,9 +251,14 @@ function itemRemove() {
 	};
 
 	$.ajax({
-		method: "get",
+		method: "post",
 		data: datas,
 		url: "itemManageRest/itemManageDelete",
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success : function(data) {
 			if (data == "Success") {
 				alert("삭제 되었습니다.");

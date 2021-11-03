@@ -6,24 +6,23 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.busience.common.persistence.MemberRepository;
-
-import lombok.extern.java.Log;
+import com.busience.standard.service.UserService;
 
 
 @Service
-@Log
 public class BusienceUsersService implements UserDetailsService{
-	
+
 	@Autowired
-	MemberRepository repo;
+	UserService userService;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		
-		return repo.findById(username)
-				.filter(m -> m != null)
-				.map(m -> new BusienceSecurityUser(m)).get();
+
+		if(username == null) {
+        	throw new UsernameNotFoundException("User "+username+" Not Found!");
+        }
+
+		return new BusienceSecurityUser(userService.selectUser(username));
 	}
 	
 }

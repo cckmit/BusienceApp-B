@@ -12,11 +12,12 @@ function Search() {
 	var jsonData = {
 		startDate : $('#startDate').val(),
 		endDate : $('#endDate').val(),
+		MachineCode : $('#EQUIPMENT_INFO_CODE').val(),
+		MachineName : $('#EQUIPMENT_INFO_NAME').val(),
 		EQUIPMENT_INFO_CODE : $('#EQUIPMENT_INFO_CODE').val(),
 		EQUIPMENT_INFO_NAME : $('#EQUIPMENT_INFO_NAME').val()
 	}
-
-	proMachineListTable.setData('proListLXRest/proMachineListSelect2', jsonData);
+	proMachineListTable.setData('proListLXRest/proMachineTestSelect', jsonData);
 }
 
 
@@ -49,7 +50,6 @@ $('#EQUIPMENT_INFO_NAME').keypress(function(e){
 var proMachineListTable = new Tabulator("#proMachineListTable", {
 	//페이징
 	pagination:"local",
-	paginationSize:20,
 	layoutColumnsOnNewData : true,
     //Sub Total 색상
 	rowFormatter: function(row){
@@ -60,13 +60,13 @@ var proMachineListTable = new Tabulator("#proMachineListTable", {
 	height:"calc(100% - 175px)",
  	columns:[ //Define Table Columns
 	{title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
-	{title:"작업지시번호", field:"production_WorkOrder_ONo", headerHozAlign:"center"},
-	{title:"번호", field:"production_WorkOrder_No", headerHozAlign:"center",hozAlign:"center"},
- 	{title:"설비 코드", field:"production_EQUIPMENT_CODE", headerHozAlign:"center"},
- 	{title:"설비 명", field:"production_EQUIPMENT_INFO_NAME", headerHozAlign:"center"},
- 	{title:"생산 수량", field:"production_P_Qty", headerHozAlign:"center",hozAlign:"right"},
- 	{title:"품목 코드", field:"production_PRODUCT_CODE", headerHozAlign:"center"},
- 	{title:"품목 명", field:"product_ITEM_NAME", headerHozAlign:"center"},
+	{title:"작업지시번호", field:"production_WorkOrder_ONo", headerHozAlign:"center", hozAlign:"center"},
+	{title:"번호", field:"production_WorkOrder_No", headerHozAlign:"center", hozAlign:"center"},
+ 	{title:"설비 코드", field:"production_Equipment_Code", headerHozAlign:"center"},
+ 	{title:"설비 명", field:"production_Equipment_Name", headerHozAlign:"center"},
+ 	{title:"생산 수량", field:"production_Volume", headerHozAlign:"center", hozAlign:"right"},
+ 	{title:"품목 코드", field:"production_Product_Code", headerHozAlign:"center"},
+ 	{title:"품목 명", field:"production_Product_Name", headerHozAlign:"center"},
  	{title:"시간", field:"production_Date", headerHozAlign:"center"},
  	],
 });

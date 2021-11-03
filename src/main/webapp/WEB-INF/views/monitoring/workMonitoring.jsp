@@ -1,5 +1,5 @@
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.busience.standard.Dto.EQUIPMENT_INFO_TBL"%>
+<%@page import="com.busience.standard.dto.EQUIPMENT_INFO_TBL"%>
 <%@page import="java.util.List"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
@@ -23,7 +23,7 @@
 <div class="row">
 
 <%
-	Class.forName("com.mysql.jdbc.Driver");
+	Class.forName("com.mysql.cj.jdbc.Driver");
 	Connection con = DriverManager.getConnection("jdbc:mysql://busience2.cafe24.com:3306/busience2","busience2","business12!!");
 	
 	String sql = "select * from EQUIPMENT_INFO_TBL";

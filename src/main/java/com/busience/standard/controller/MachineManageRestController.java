@@ -1,6 +1,7 @@
 package com.busience.standard.controller;
 
 import java.net.UnknownHostException;
+import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import org.json.simple.JSONObject;
@@ -18,11 +18,13 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.standard.Dto.EQUIPMENT_INFO_TBL;
+import com.busience.standard.dto.EQUIPMENT_INFO_TBL;
 
 @RestController("machineManageRestController")
 @RequestMapping("machineManageRest")
@@ -31,7 +33,7 @@ public class MachineManageRestController {
 	@Autowired
 	DataSource dataSource;
 
-	@RequestMapping(value = "/machineManageSelect",method = RequestMethod.GET)
+	@GetMapping("/machineManageSelect")
 	public List<EQUIPMENT_INFO_TBL> machineManageSelect() throws SQLException {
 		List<EQUIPMENT_INFO_TBL> list = new ArrayList<EQUIPMENT_INFO_TBL>();
 		
@@ -75,8 +77,8 @@ public class MachineManageRestController {
 		return list;
 	}
 	
-	@RequestMapping(value = "/machineManageInsert", method = RequestMethod.POST)
-	public String machineManageInsert(HttpServletRequest request, EQUIPMENT_INFO_TBL Equipment, Model model)
+	@PostMapping("/machineManageInsert")
+	public String machineManageInsert(HttpServletRequest request, EQUIPMENT_INFO_TBL Equipment, Principal principal)
 			throws ParseException, SQLException, UnknownHostException, ClassNotFoundException {
 		String data = request.getParameter("data");
 		System.out.println("data : " + data);
@@ -100,14 +102,8 @@ public class MachineManageRestController {
 			}
 		}
 
-		HttpSession httpSession = request.getSession();
-		String modifier = (String) httpSession.getAttribute("id");
-
-		// ��¥ ����
-		java.util.Date date = new java.util.Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String datestr = sdf.format(date.getTime());
-
+		String modifier = principal.getName();
+		
 		String sql = "insert into EQUIPMENT_INFO_TBL values (";
 		sql += "'" + obj.get("EQUIPMENT_BUSINESS_PLACE") + "',";
 		sql += "'" + obj.get("EQUIPMENT_INFO_CODE") + "',";
@@ -124,7 +120,7 @@ public class MachineManageRestController {
 		sql += "'" + obj.get("EQUIPMENT_STATUS") + "',";
 		sql += "'" + obj.get("EQUIPMENT_INFO_RMARK") + "',";
 		sql += "'" + obj.get("EQUIPMENT_USE_STATUS") + "',";
-		sql += "'" + datestr + "',";
+		sql += "now(),";
 		sql += "'" + modifier + "')";
 
 		System.out.println("sql : " + sql);
@@ -139,13 +135,10 @@ public class MachineManageRestController {
 
 		return "Success";
 	}
-	// ���� ���� �޼ҵ�
 	
-	  
-
 	// ����
-	@RequestMapping(value = "/machineManageUpdate", method = RequestMethod.POST)
-	public String machineManageUpdate(HttpServletRequest request, Model model)
+	@PostMapping("/machineManageUpdate")
+	public String machineManageUpdate(HttpServletRequest request, Principal principal)
 			throws SQLException, org.json.simple.parser.ParseException, UnknownHostException, ClassNotFoundException {
 		String data = request.getParameter("data");
 		JSONParser parser = new JSONParser();
@@ -153,13 +146,7 @@ public class MachineManageRestController {
 
 		//System.out.println(obj.toJSONString());
 		
-		HttpSession httpSession = request.getSession();
-		String modifier = (String) httpSession.getAttribute("id");
-
-		// ��¥ ����
-		java.util.Date date = new java.util.Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String datestr = sdf.format(date.getTime());
+		String modifier = principal.getName();
 
 		String sql = "UPDATE EQUIPMENT_INFO_TBL set ";
 	      sql += "EQUIPMENT_BUSINESS_PLACE = '" + obj.get("EQUIPMENT_BUSINESS_PLACE") + "',";
@@ -177,7 +164,7 @@ public class MachineManageRestController {
 	      sql += "EQUIPMENT_STATUS = '" + obj.get("EQUIPMENT_STATUS") + "',";
 	      sql += "EQUIPMENT_INFO_RMARK = '" + obj.get("EQUIPMENT_INFO_RMARK") + "',";
 	      sql += "EQUIPMENT_USE_STATUS = '" + obj.get("EQUIPMENT_USE_STATUS") + "',";
-	      sql += "EQUIPMENT_MODIFY_D = '" + datestr + "',";
+	      sql += "EQUIPMENT_MODIFY_D = now(),";
 	      sql += "EQUIPMENT_MODIFIER = '" + modifier + "'";
 	      sql += " where EQUIPMENT_INFO_CODE = '" + obj.get("EQUIPMENT_INFO_CODE") + "'";
 	   
@@ -194,11 +181,11 @@ public class MachineManageRestController {
 	}
 
 	// ����
-	@RequestMapping(value = "/machineManageDelete", method = RequestMethod.POST)
+	@PostMapping("/machineManageDelete")
 	public String machineManageDelete(HttpServletRequest request, Model model) throws SQLException, ParseException, UnknownHostException, ClassNotFoundException {
 		String EQUIPMENT_INFO_CODE = request.getParameter("EQUIPMENT_INFO_CODE");
 
-		//System.out.println("EQUIPMENT_INFO_CODE");
+		System.out.println(EQUIPMENT_INFO_CODE);
 
 		String sql = "delete from EQUIPMENT_INFO_TBL where EQUIPMENT_INFO_CODE='" + EQUIPMENT_INFO_CODE + "'";
 
@@ -210,7 +197,6 @@ public class MachineManageRestController {
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("��������");
 			return "error";
 		}finally {
 			pstmt.close();

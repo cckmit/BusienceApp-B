@@ -13,11 +13,13 @@ import javax.sql.DataSource;
 
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.standard.Dto.Customer_tbl;
+import com.busience.standard.dto.Customer_tbl;
 
 @RestController("customerManageRestController")
 @RequestMapping("customerManageRest")
@@ -26,14 +28,13 @@ public class customerManageRestController {
 	@Autowired
 	DataSource dataSource;
 	
-	@RequestMapping(value = "/view",method = RequestMethod.GET)
-	public List<Customer_tbl> view() throws SQLException
-	{
+	@GetMapping("/view")
+	public List<Customer_tbl> view() throws SQLException {
 		List<Customer_tbl> list = new ArrayList<Customer_tbl>();
 		
-		String sql = "SELECT Cus_Code, Cus_Name, Cus_Status, dt2.CHILD_TBL_TYPE Cus_Clsfc, Cus_Rprsn, Cus_Mng, Cus_Co, Cus_Co_EstYr, Cus_Rprsn_PhNr, Cus_Mng_PhNr, Cus_Mng_Email, \r\n"
+		String sql = "SELECT Cus_Code, Cus_Name, Cus_Status, Cus_Clsfc, Cus_Rprsn, Cus_Mng, Cus_Co, Cus_Co_EstYr, Cus_Rprsn_PhNr, Cus_Mng_PhNr, Cus_Mng_Email, \r\n"
 				+ "Cus_Adr, Cus_Pymn_Date, Cus_Rgstr_Nr, dt.CHILD_TBL_NO, dt.NEW_TBL_CODE,\r\n"
-				+ "dt.CHILD_TBL_NUM, dt.CHILD_TBL_TYPE, dt.CHILD_TBL_RMARK, dt.CHILD_TBL_USE_STATUS, dt.CHILD_TBL_TYPE Cus_Status_Name\r\n"
+				+ "dt.CHILD_TBL_NUM, dt.CHILD_TBL_TYPE, dt.CHILD_TBL_RMARK, dt.CHILD_TBL_USE_STATUS, dt.CHILD_TBL_TYPE Cus_Status_Name, dt2.CHILD_TBL_TYPE Cus_Clsfc_Name \r\n"
 				+ "FROM Customer_tbl cst\r\n"
 				+ "INNER JOIN (SELECT * FROM DTL_TBL WHERE NEW_TBL_CODE='15') dt ON cst.Cus_Status = dt.CHILD_TBL_NO\r\n"
 				+ "INNER JOIN (SELECT * FROM DTL_TBL WHERE NEW_TBL_CODE='28') dt2 ON cst.Cus_Clsfc = dt2.CHILD_TBL_NO";
@@ -62,6 +63,7 @@ public class customerManageRestController {
 			data.setCus_Pymn_Date(rs.getString("cus_Pymn_Date"));
 			data.setCus_Rgstr_Nr(rs.getString("cus_Rgstr_Nr"));
 			data.setCus_Status_Name(rs.getString("cus_Status_Name"));
+			data.setCus_Clsfc_Name(rs.getString("cus_Clsfc_Name"));
 			
 			list.add(data);
 		}
@@ -73,7 +75,7 @@ public class customerManageRestController {
 		return list;
 	}
 	
-	@RequestMapping(value = "/insert",method = RequestMethod.POST)
+	@PostMapping("/insert")
 	public String insert(HttpServletRequest request) throws SQLException
 	{
 		Customer_tbl insert_Data = new Customer_tbl();
@@ -164,25 +166,25 @@ public class customerManageRestController {
 		return "Success";
 	}
 	
-	@RequestMapping(value = "/update",method = RequestMethod.POST)
+	@PostMapping("/update")
 	public String update(HttpServletRequest request) throws SQLException
 	{
 		Customer_tbl update_Data = new Customer_tbl();
 		
-		update_Data.setCus_Code(request.getParameter("cus_Code"));
-		update_Data.setCus_Name(request.getParameter("cus_Name"));
-		update_Data.setCus_Status(request.getParameter("cus_Status"));
-		update_Data.setCus_Clsfc(request.getParameter("cus_Clsfc"));
-		update_Data.setCus_Rprsn(request.getParameter("cus_Rprsn"));
-		update_Data.setCus_Mng(request.getParameter("cus_Mng"));
-		update_Data.setCus_Co(request.getParameter("cus_Co"));
-		update_Data.setCus_Co_EstYr(request.getParameter("cus_Co_EstYr"));
-		update_Data.setCus_Rprsn_PhNr(request.getParameter("cus_Rprsn_PhNr"));
-		update_Data.setCus_Mng_PhNr(request.getParameter("cus_Mng_PhNr"));
-		update_Data.setCus_Mng_Email(request.getParameter("cus_Mng_Email"));
-		update_Data.setCus_Adr(request.getParameter("cus_Adr"));
-		update_Data.setCus_Pymn_Date(request.getParameter("cus_Pymn_Date"));
-		update_Data.setCus_Rgstr_Nr(request.getParameter("cus_Rgstr_Nr"));
+		update_Data.setCus_Code(request.getParameter("Cus_Code"));
+		update_Data.setCus_Name(request.getParameter("Cus_Name"));
+		update_Data.setCus_Status(request.getParameter("Cus_Status"));
+		update_Data.setCus_Clsfc(request.getParameter("Cus_Clsfc"));
+		update_Data.setCus_Rprsn(request.getParameter("Cus_Rprsn"));
+		update_Data.setCus_Mng(request.getParameter("Cus_Mng"));
+		update_Data.setCus_Co(request.getParameter("Cus_Co"));
+		update_Data.setCus_Co_EstYr(request.getParameter("Cus_Co_EstYr"));
+		update_Data.setCus_Rprsn_PhNr(request.getParameter("Cus_Rprsn_PhNr"));
+		update_Data.setCus_Mng_PhNr(request.getParameter("Cus_Mng_PhNr"));
+		update_Data.setCus_Mng_Email(request.getParameter("Cus_Mng_Email"));
+		update_Data.setCus_Adr(request.getParameter("Cus_Adr"));
+		update_Data.setCus_Pymn_Date(request.getParameter("Cus_Pymn_Date"));
+		update_Data.setCus_Rgstr_Nr(request.getParameter("Cus_Rgstr_Nr"));
 		
 		String sql = "UPDATE `Customer_tbl`\r\n"
 				+ "SET\r\n"
@@ -226,15 +228,13 @@ public class customerManageRestController {
 		return "Success";
 	}
 	
-	@RequestMapping(value = "delete",method = {RequestMethod.POST})
-	public void delete(HttpServletRequest request) throws ParseException, SQLException, UnknownHostException, ClassNotFoundException
-	{
-		String no = request.getParameter("cus_Code");
+	@PostMapping("/delete")
+	public void delete(HttpServletRequest request) throws ParseException, SQLException, UnknownHostException, ClassNotFoundException {
+		String no = request.getParameter("Cus_Code");
 		
 		String sql = "delete from Customer_tbl where Cus_Code = '"+no+"'";
 		
-		//HomeController.LogInsert("", "3. Delete", sql, request);
-		//System.out.println(sql);
+		System.out.println("delete = "+sql);
 		
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);

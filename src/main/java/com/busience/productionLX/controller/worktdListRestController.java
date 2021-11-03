@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.productionLX.dto.PRODUCTION_MGMT_TBL2;
-import com.busience.standard.Dto.EQUIPMENT_INFO_TBL;
+import com.busience.standard.dto.EQUIPMENT_INFO_TBL;
 
 @RestController("worktdListRestController")
 @RequestMapping("worktdListRest")

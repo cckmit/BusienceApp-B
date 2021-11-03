@@ -1,20 +1,18 @@
 package com.busience.salesLX.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.busience.common.service.DTL_Service;
+import com.busience.common.service.DtlService;
 
 @Controller
 public class salesLXController {
 
-	private DTL_Service dtl_Service;
+	@Autowired
+	DtlService dtlService;
 
-	public salesLXController(DTL_Service dtl_Service) {
-		this.dtl_Service = dtl_Service;
-	}
-	
 	// salesOrderMaster
 	@GetMapping("salesOrderLX")
 	public String salesOrder(Model model) {
@@ -44,8 +42,8 @@ public class salesLXController {
 	public String salesInputLX(Model model) {
 
 		// 입고구분
-		String salesInputLX = Integer.toString(17);
-		model.addAttribute("salesInputLX", dtl_Service.getAlldtl(salesInputLX));
+		int salesInputLX = 17;
+		model.addAttribute("salesInputLX", dtlService.getAlldtl(salesInputLX));
 		
 		// 메뉴명
 		model.addAttribute("pageName", "제품 입고 관리");
@@ -85,8 +83,8 @@ public class salesLXController {
 	public String salesInputMaster(Model model) {
 
 		// 입고구분
-		String InputType = Integer.toString(17);
-		model.addAttribute("InputType", dtl_Service.getAlldtl(InputType));
+		int InputType = 17;
+		model.addAttribute("InputType", dtlService.getAlldtl(InputType));
 		
 		// 메뉴명
 		model.addAttribute("pageName", "제품 입고 조회");
@@ -99,8 +97,8 @@ public class salesLXController {
 	public String salesOutputMaster(Model model) {
 		
 		// 출하구분
-		String OutputType = Integer.toString(19);
-		model.addAttribute("OutputType", dtl_Service.getAlldtl(OutputType));
+		int OutputType = 19;
+		model.addAttribute("OutputType", dtlService.getAlldtl(OutputType));
 		// 메뉴명
 		model.addAttribute("pageName", "제품 출하 조회");
 		
@@ -121,22 +119,8 @@ public class salesLXController {
 	public String salesDeliveryMaster(Model model) {
 		
 		// 출고현황
-		String OutputType = Integer.toString(19);
-		model.addAttribute("OutputType", dtl_Service.getAlldtl(OutputType));
-		
-		// 현재연월
-		String PrcsDate = Integer.toString(20);
-		String PrcsNum = Integer.toString(6);
-		model.addAttribute("PrcsDate", dtl_Service.getDate(PrcsDate, PrcsNum));
-		
-		// 전월
-		String LastMonth = Integer.toString(20);
-		String LastNum = Integer.toString(4);
-		model.addAttribute("LastMonth", dtl_Service.getDate(LastMonth, LastNum));
-		
-		// 마지막날
-		String LastDay = Integer.toString(2);
-		model.addAttribute("LastDay", dtl_Service.getLastDay(LastDay));
+		int OutputType = 19;
+		model.addAttribute("OutputType", dtlService.getAlldtl(OutputType));
 		
 		// 메뉴명
 		model.addAttribute("pageName", "납품 현황 조회");

@@ -15,8 +15,8 @@
 					<div class="form-group row">
 						<label class="col-sm-3 control-label" style="color: red;">사&nbsp;용&nbsp;자&nbsp;&nbsp;코&nbsp;드</label>
 						<div class="col-sm-9">
-							<input style="width: 50%;" type="text"
-								class="form-control-plaintext" id="user_CODE">
+							<input style="width: 50%;" type="text" OnKeyDown="nextFocus('user_NAME')"
+								class="form-control-plaintext nextFocus" id="user_CODE">
 						</div>
 					</div>
 					<div class="form-group row">
@@ -30,16 +30,16 @@
 					<div class="form-group row">
 						<label class="col-sm-3 control-label">사&nbsp;&nbsp;&nbsp;용&nbsp;&nbsp;&nbsp;자&nbsp;&nbsp;&nbsp;명</label>
 						<div class="col-sm-9">
-							<input type="text" style="width: 50%;"
-								class="form-control-plaintext" id="user_NAME"
-								OnKeyDown="nextFocus('user_COMPANY')">
+							<input type="text" style="width: 50%;" 
+								class="form-control-plaintext nextFocus" id="user_NAME"
+								OnKeyDown="nextFocus('company')">
 						</div>
 					</div>
 
 					<div class="form-group row">
 						<label class="col-sm-3 control-label">사&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;업&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;장</label>
 						<div class="col-sm-9">
-							<select id="company"
+							<select id="company" class="nextFocus"
 								OnKeyDown="nextFocus('user_USE_STATUS')"
 								style="width: 50%; height: 27px;">
 								<c:forEach var="data" items="${companyList}">
@@ -52,7 +52,7 @@
 						<label class="col-sm-3 control-label">사&nbsp;&nbsp;&nbsp;용&nbsp;&nbsp;&nbsp;유&nbsp;&nbsp;&nbsp;무</label>
 						<div class="col-sm-9">
 							<input type="checkbox" class="form-control-plaintext"
-								OnKeyDown="nextFocus('user_PASSWORD')"
+								OnKeyDown="nextFocus('user_TYPE')"
 								id="user_USE_STATUS" checked>
 						</div>
 					</div>
@@ -61,7 +61,7 @@
 						<label for="user_TYPE" class="col-sm-3 control-label">사&nbsp;용&nbsp;자&nbsp;&nbsp;타&nbsp;입</label>
 						<div class="col-sm-9">
 							<select id="user_TYPE" style="width: 50%; height: 27px;"
-								OnKeyDown="nextFocus('user_DEPT')">
+								OnKeyDown="nextFocus('dept_CODE')">
 								<c:forEach var="data" items="${userTypeList}">
 									<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>
 								</c:forEach>
@@ -72,7 +72,7 @@
 						<label for="user_DEPT" class="col-sm-3 control-label">부&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서</label>
 						<div class="col-sm-9">
 							<select id="dept_CODE" style="width: 50%; height: 27px;"
-								OnKeyDown="nextFocus('updateModalInitbtn')">
+								OnKeyDown="javascript:if(event.keyCode==13) {$('.focusBtn').focus()}">
 								<c:forEach var="data" items="${deptList}">
 									<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>
 								</c:forEach>
@@ -80,9 +80,9 @@
 						</div>
 					</div>
 					
-					<button type="button" id="userRegisterBtn" class="btn btn-primary insert">저장</button>
+					<button type="button" id="userRegisterBtn" class="btn btn-primary insert focusBtn">저장</button>
 
-					<button type="button" id="userModifyBtn" class="btn btn-primary modify">수정</button>	
+					<button type="button" id="userModifyBtn" class="btn btn-primary modify focusBtn">수정</button>	
 					<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
 				</form>
 			</div>

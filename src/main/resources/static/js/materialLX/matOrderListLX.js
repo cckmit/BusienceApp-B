@@ -163,7 +163,7 @@ var matOrderListSubTable = new Tabulator("#matOrderListSubTable", {
 		{ title: "단가", field: "order_lUnit_Price", headerHozAlign: "center", formatter: "money",formatterParams:{ precision:false}, hozAlign: "right",
 			topCalc: function() { return "합계금액" }, width: 75},
 		
-		{title:"금액", field:"order_lPrice", headerHozAlign:"center", hozAlign:"right", formatter: "money",formatterParams:{ precision:false},
+		{title:"금액", field:"order_lPrice", headerHozAlign:"center", hozAlign:"right", formatter: "money", width: 90, formatterParams:{ precision:false},
 			topCalc :function(values, data, calcParams){
 			    var calc = 0;
 	

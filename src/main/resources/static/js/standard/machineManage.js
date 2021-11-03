@@ -11,10 +11,15 @@ function date_change(today) {
 }
 // 삭제
 function delBtn() {
+	console.log("삭제실행")
 	$.ajax({
 		method: "POST",
-		data: null,
 		url: "machineManageRest/machineManageDelete?EQUIPMENT_INFO_CODE=" + document.getElementById("EQUIPMENT_INFO_CODE").value,
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success: function(data) {
 			console.log(data);
 			alert("삭제 성공 하였습니다.");
@@ -65,9 +70,13 @@ function insBtn() {
 	console.log(code);
 
 	$.ajax({
-		method: "POST",
-		url: "machineManageRest/machineManageInsert?data=" + encodeURI(JSON.stringify(data)) + "",
-		data: null,
+		method: "post",
+		url: "machineManageRest/machineManageInsert?data=" + encodeURI(JSON.stringify(data)),
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success: function(data, testStatus) {
 			//console.log("data : " + data);
 			if (data == "Overlap")
@@ -108,9 +117,13 @@ function modBtn() {
 		EQUIPMENT_USE_STATUS: document.getElementById("EQUIPMENT_USE_STATUS").checked
 	}
 	$.ajax({
-		method: "POST",
-		data: null,
+		method: "post",
 		url: "machineManageRest/machineManageUpdate?data=" + encodeURI(JSON.stringify(data)) + "",
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success: function(data) {
 			console.log(data);
 			alert("수정 성공 하였습니다.");
@@ -361,6 +374,4 @@ window.onload = function() {
 			machineManageTable.setData(data);
 		}
 	})
-
-	//SubmenuSelector("2", "13231");
 }

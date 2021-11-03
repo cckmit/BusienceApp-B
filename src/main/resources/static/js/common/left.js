@@ -2,48 +2,42 @@
     $(".sidebar-busience li a").removeClass("active");
     $(this).addClass("active");
 });
-var parents_sidebar_menu
-var child_sidebar_menu
 
-$.ajax({
-	method: "GET",
-	url: "parentMenuSelect",
-	success: function(data) {
-		parents_sidebar_menu = data
-		
-		$.ajax({
-			method: "GET",
-			url: "childMenuSelect",
-			success: function(data) {
-				child_sidebar_menu = data
-				
-				$(".sidebar-busience .sidebar-menu").append(
-					
-					dynamic_sidebar_menu(parents_sidebar_menu, child_sidebar_menu)
-				)
-			}
-		});
+function dynamic_sidebar_menu(originData){
+	var sidbarData = new Array();
+	var parents_menu = new Map();
+	
+	//사용자 커스텀 메뉴 모음
+	for(let k=0;k<originData.length;k++){
+			
+		if(originData[k].user_Code == $('#principal_userCode').text()){
+			sidbarData.push(originData[k]);
+		}
 	}
-});
-
-function dynamic_sidebar_menu(parents, child){
+	//상위메뉴 모음
+	for(let k=0;k<sidbarData.length;k++){
+		parents_menu.set(sidbarData[k].menu_Parent_No, [sidbarData[k].menu_Parent_Name, sidbarData[k].menu_Icon, sidbarData[k].menu_Parent_No]);
+	}
+	
 	var tag = ""
-	for(let i=0;i<parents.length;i++){
+	
+	//동적메뉴 생성
+	for(let [pKey,pValue] of parents_menu) {
 		tag += '<li>'
-				+'<a href="#subPages'+parents[i].child_TBL_NUM+'" data-toggle="collapse" class="collapsed"><span>'+parents[i].child_TBL_TYPE+'</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>'
-					+'<ul id="subPages'+parents[i].child_TBL_NUM+'" class="collapse">'
+				+'<a href="#subPages'+pValue[2]+'" data-toggle="collapse" class="collapsed"><span>'+pValue[0]+'</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>'
+					+'<ul id="subPages'+pValue[2]+'" class="collapse">'
 					
-		for(let j=0;j<child.length;j++){
+		for(let j=0;j<sidbarData.length;j++){
 			
-			let menu_num = parseInt(child[j].menu_Parent_No)
+			let menu_num = parseInt(sidbarData[j].menu_Parent_No)
 			
-			if(menu_num == parents[i].child_TBL_NUM){
-				tag += '<li><a href="/'+child[j].menu_PageName+'"><span>'+child[j].menu_Name+'</span></a></li>'
+			if(menu_num == pKey){
+				tag += '<li><a href="/'+sidbarData[j].menu_PageName+'"><span>'+sidbarData[j].menu_Name+'</span></a></li>'
 			}
 		}
 						
 		tag +="</ul>"
 			+"</li>"
 	}
-	return tag
+	$(".sidebar-busience .sidebar-menu").append(tag);
 }

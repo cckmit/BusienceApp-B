@@ -325,7 +325,7 @@ public class matInputReportLXRestController {
 
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
-		// System.out.println("처占쏙옙占쏙옙占쏙옙 占싯삼옙 : " + sql);
+		System.out.println("처리연월 : " + sql);
 
 		String RawDate_Flag = "";
 

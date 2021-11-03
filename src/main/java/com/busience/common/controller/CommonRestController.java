@@ -1,7 +1,5 @@
 package com.busience.common.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,41 +9,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.common.domain.Menu;
-import com.busience.common.domain.Production;
+import com.busience.common.dto.MenuDto;
+import com.busience.common.dto.ProductionDto;
 import com.busience.common.service.MenuService;
 import com.busience.common.service.ProductionService;
 import com.busience.productionLX.dto.WorkOrder_tbl;
-import com.busience.standard.Dto.DTL_TBL;
+import com.busience.standard.dto.DTL_TBL;
 
 @RestController
 public class CommonRestController {
 	
 	@Autowired
-	MenuService menu_Service;
+	MenuService menuService;
 	
 	@Autowired
 	DataSource dataSource;
 	
 	@Autowired
-	JdbcTemplate jdbctemplate;
-	
-	private ProductionService productionService;
-	
-	public CommonRestController(ProductionService productionService) {
-		this.productionService = productionService;
-	}
+	ProductionService productionService;
 	
 	// 공통코드 찾기
 	@GetMapping("/dtl_tbl_select")
@@ -139,59 +126,12 @@ public class CommonRestController {
 		
 		return deptList;
 	}
-	// 공통코드 찾기
-	@GetMapping("/childMenuSelect")
-	public List<Menu> childMenuSelect(Principal principal) throws SQLException {
-		
-		String modifier = principal.getName();
-		
-		String sql = "SELECT \r\n"
-				+ "B.Menu_Code,\r\n"
-				+ "B.Menu_Parent_No,\r\n"
-				+ "B.Menu_Child_No,\r\n"
-				+ "B.Menu_Name,\r\n"
-				+ "B.Menu_PageName\r\n"
-				+ "FROM User_Menu_tbl A\r\n"
-				+ "inner join Menu_tbl B on A.Program_Code = B.Menu_Code\r\n"
-				+ "where A.User_Code = '"+modifier+"'";
-		
-		//System.out.println(request.getParameter("NEW_TBL_CODE"));
-		Connection conn = dataSource.getConnection();
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		ResultSet rs = pstmt.executeQuery();
-		
-		List<Menu> menuList = new ArrayList<Menu>();
-		
-		while (rs.next()) {
-			Menu data = new Menu();
-			data.setMenu_Code(rs.getString("menu_Code"));
-			data.setMenu_Parent_No(rs.getString("menu_Parent_No"));
-			data.setMenu_Child_No(rs.getString("menu_Child_No"));
-			data.setMenu_Name(rs.getString("menu_Name"));
-			data.setMenu_PageName(rs.getString("menu_PageName"));
-			menuList.add(data);
-		}
-		
-		rs.close();
-		pstmt.close();
-		conn.close();
-		
-		return menuList;
-	}
-	
-	// 모든 회원 조회
-	@GetMapping("/menuList")
-	public ResponseEntity<List<Menu>> getAllmembers() {
-		List<Menu> menu = menu_Service.findAll();
-		
-		return new ResponseEntity<List<Menu>>(menu, HttpStatus.OK);
-	}
 	
 	//생산 데이터 받는 코드
 	@GetMapping("/bsapp2")
 	public void production(String equip_id, int count) {
 		
-		Production production = new Production();
+		ProductionDto production = new ProductionDto();
 		
 		List<WorkOrder_tbl> WorkOrder = new ArrayList<WorkOrder_tbl>(productionService.getWorkOrder(equip_id));
 		//작업지시 리스트를 확인함
@@ -206,39 +146,10 @@ public class CommonRestController {
 		System.out.println(production);
 		productionService.insertMenuNewUser(production);
 	}
-	
-	@GetMapping("bsapp3")
-	public void bsapp3(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String sql = "INSERT INTO\r\n"
-				+ "PRODUCTION_MGMT_TBL_X\r\n"
-				+ "(\r\n"
-				+ "	PRODUCTION_SERIAL_NUM,\r\n"
-				+ "	PRODUCTION_EQUIPMENT_CODE,\r\n"
-				+ "	PRODUCTION_DEFECT_CODE,\r\n"
-				+ "	PRODUCTION_VOLUME,\r\n"
-				+ "	PRODUCTION_BAD,\r\n"
-				+ "	PRODUCTION_MODIFY_D,\r\n"
-				+ "	PRODUCTION_USER_CODE\r\n"
-				+ ")\r\n"
-				+ "VALUES(\r\n"
-				+ "	(SELECT PRODUCTION_SERIAL_NUM FROM WorkOrder_tbl_X WHERE PRODUCTION_EQUIPMENT_CODE=? AND PRODUCTION_CC='S'),\r\n"
-				+ "	?,\r\n"
-				+ "	'D001',\r\n"
-				+ "	?,\r\n"
-				+ "	?,\r\n"
-				+ "	NOW(),\r\n"
-				+ "	'test01'\r\n"
-				+ ")";
-		
-		PrintWriter writer = response.getWriter();
-		
-		try {
-			jdbctemplate.update(sql,request.getParameter("PRODUCTION_EQUIPMENT_CODE"),request.getParameter("PRODUCTION_EQUIPMENT_CODE"),request.getParameter("PRODUCTION_VOLUME"),request.getParameter("PRODUCTION_BAD"));
-			writer.print(true);
-		}
-		catch(Exception ex)
-		{
-			writer.print(false);
-		}
+
+	//하위 메뉴 List
+	@GetMapping("/menuList")
+	public List<MenuDto> menuList(Principal principal) {
+		return menuService.menuList(principal.getName());
 	}
 }

@@ -250,7 +250,7 @@ public class matInReturnLXRestController {
 						+ " -"+obj.get("inReturn_Qty")+"*"+obj.get("inMat_Unit_Price")+",\r\n"
 						+ " '"+obj.get("inMat_Client_Code")+"',\r\n"
 						+ " '"+obj.get("inMat_Date")+"',\r\n"
-						+ "	'175',\r\n"
+						+ "	'207',\r\n"
 						+ " now(),\r\n"
 						+ " '"+modifier+"')";
 	

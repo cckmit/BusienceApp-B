@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.busience.common.dao.DtlDao">
+	<select id="findAll" resultType="com.busience.common.dto.DtlDto">
+		select * from DTL_TBL
+	</select>
+	
+	<select id="findByCode" resultType="com.busience.common.dto.DtlDto">
+		select * from DTL_TBL
+		where NEW_TBL_CODE= #{NEW_TBL_CODE}
+		order by CHILD_TBL_NUM*1
+	</select>
+	
+	<select id="findCodeNum" resultType="com.busience.common.dto.DtlDto">
+		select * from DTL_TBL
+		where NEW_TBL_CODE= #{NEW_TBL_CODE} and CHILD_TBL_NUM= #{CHILD_TBL_NUM}
+		order by CHILD_TBL_NUM*1
+	</select>
+	
+	<select id="findLastDay" resultType="com.busience.common.dto.DtlDto">
+		select CHILD_TBL_RMARK from DTL_TBL where NEW_TBL_CODE= #{NEW_TBL_CODE} limit 1
+	</select>
+	
+	<select id="findDeptName" resultType="com.busience.common.dto.DtlDto">
+		select * from DTL_TBL
+		where NEW_TBL_CODE= #{NEW_TBL_CODE} and CHILD_TBL_NUM > 0
+		order by CHILD_TBL_NUM*1
+	</select>
+	
+	<select id="findSaveNo" resultType="com.busience.common.dto.DtlDto">
+		select CAST(IFNULL(max(CHILD_TBL_NO+0)+1,1) as char) CHILD_TBL_NO,
+			(select CAST(IFNULL(max(CHILD_TBL_NUM+0)+1,1) as char) FROM DTL_TBL
+		WHERE NEW_TBL_CODE= #{NEW_TBL_CODE}) CHILD_TBL_NUM from DTL_TBL
+	</select>
+	
+	<insert id="dtlInsertDao">
+		insert into DTL_TBL value(#{CHILD_TBL_NO}, #{NEW_TBL_CODE}, #{CHILD_TBL_NUM},
+			#{CHILD_TBL_TYPE}, #{CHILD_TBL_RMARK}, #{CHILD_TBL_USE_STATUS})
+	</insert>
+	
+	<delete id="dtlUpdateDao">
+		update DTL_TBL
+		set
+		CHILD_TBL_TYPE = #{CHILD_TBL_TYPE},
+		CHILD_TBL_RMARK = #{CHILD_TBL_RMARK},
+		CHILD_TBL_USE_STATUS = #{CHILD_TBL_USE_STATUS}
+		where CHILD_TBL_NO = #{CHILD_TBL_NO}
+	</delete>
+</mapper>

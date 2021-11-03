@@ -20,7 +20,7 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4:1.16'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
@@ -48,6 +48,7 @@ dependencies {
 	implementation 'org.apache.clerezza.ext:org.json.simple:0.4'
 	implementation 'org.apache.tiles:tiles-jsp:3.0.8'
 	implementation 'org.springframework.security:spring-security-taglibs'
+	implementation 'org.webjars:angular-google-chart:0.1.0-1'
 	
 }
 
