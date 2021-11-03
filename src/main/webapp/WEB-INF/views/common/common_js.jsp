@@ -18,8 +18,6 @@
 
 <script src="/webjars/font-awesome/5.15.4/js/all.min.js"></script>
 
-<script src="/webjars/sheetjs/2.0.0/index.js"></script>
-
 <!-- js -->
 <script src="/js/today.js"></script>
 
