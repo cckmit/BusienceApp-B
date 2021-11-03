@@ -69,3 +69,17 @@ function moldPopup(input_value,type_value,tab_value){
 	
 	openWin = window.open(url, name, option);
 }
+
+//엑셀 업로드 팝업창 			(입력값,input or grid, 탭기능이 있을떄 1부터 없으면 '')
+function excelUploadPopup(input_value,type_value,tab_value){
+	//창의 주소
+	var url = "excelUploadPopup?input_value="+input_value
+						+"&type_value="+type_value
+						+"&tab_value="+tab_value;
+	//창의 이름
+	var name = "excelUploadPopup";
+	//창의 css	
+	var option = "width = 900, height = 550, top = 100, left = 200, location = no"
+	
+	openWin = window.open(url, name, option);
+}

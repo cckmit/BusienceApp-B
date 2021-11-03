@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
+import com.busience.salesLX.dto.Sales_InMat_tbl;
 import com.busience.salesLX.dto.Sales_OutMat_tbl;
 
 @RestController("salesDeliveryReportLXRestController")
@@ -253,6 +254,19 @@ public class salesDeliveryReportLXRestController {
 		rs.close();
 		pstmt.close();
 		conn.close();
+		
+		return list;
+	}
+	
+	// excel_PreView_ajax
+	@GetMapping("/excel_PreView_ajax")
+	public List<Sales_InMat_tbl> excel_PreView_ajax(HttpServletRequest request) throws SQLException, ParseException {
+		String originData = request.getParameter("data");
+		JSONParser parser = new JSONParser();
+		JSONObject obj = (JSONObject) parser.parse(originData);
+		System.out.println(obj);
+		
+		List<Sales_InMat_tbl> list = new ArrayList<Sales_InMat_tbl>();
 		
 		return list;
 	}

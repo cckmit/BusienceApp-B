@@ -35,4 +35,10 @@ public class popupController {
 	public String customerPopup() {
 	   return "normal/popup/customerPopup";
 	}
+	
+	//excelUploadPopup
+	@GetMapping("/excelUploadPopup")
+	public String excelUploadPopup() {
+	   return "normal/popup/excelUploadPopup";
+	}
 }

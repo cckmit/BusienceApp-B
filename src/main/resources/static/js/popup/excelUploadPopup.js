@@ -1,120 +1,24 @@
-var salesDeliveryCustomerViewTable = new Tabulator("#salesDeliveryCustomerViewTable", {
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
-	layoutColumnsOnNewData: true,
-	//Sub Total 색상
-	rowFormatter: function(row) {
-		if (row.getData().sales_OutMat_Send_Clsfc == "Sub Total") {
-			row.getElement().style.backgroundColor = "#c0c0c0";
-		}
-	},
-	height: "calc(100% - 175px)",
-	columns: [ //Define Table Columns
-		{ title: "순번", field: "id", headerHozAlign: "center", hozAlign: "center" },
-		{ title: "출고일자", field: "sales_OutMat_Date", headerHozAlign: "center", hozAlign: "left", formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" } },
-		{ title: "출고구분", field: "sales_OutMat_Send_Clsfc", headerHozAlign: "center", hozAlign: "left" },
-		{ title: "거래처코드", field: "sales_OutMat_Client_Code", headerHozAlign: "center", hozAlign: "left" },
-		{ title: "품명", field: "sales_OutMat_Name", headerHozAlign: "center", hozAlign: "left" },
-		{ title: "규격", field: "sales_OutMat_STND_1", headerHozAlign: "center", hozAlign: "left" },
-		{ title: "단위", field: "sales_OutMat_UNIT", headerHozAlign: "center", hozAlign: "left" },
-		{ title: "수량", field: "sales_OutMat_Qty", headerHozAlign: "center", hozAlign: "right" },
-		{ title: "금액", field: "sales_OutMat_Price", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false } }
-	],
+//주소에서 파라미터값을 가져오기 위한 기반
+//(input_value,type_value,tab_value,search_value) 값이 들어옴
+const url = new URL(window.location.href);
+const urlParams = url.searchParams;
+
+// 다른 곳 눌렀을 때 팝업창이 꺼짐
+$(window).on("blur", function () {
+    exitfrn();
 });
 
-$("#SOCL_SearchBtn").click(function() {
-	SOCL_Search()
-})
-
-function SOCL_Search() {
-	datas = {
-		startDate: $("#sgoodsOutputCustomerView_startDate").val(),
-		endDate: $("#sgoodsOutputCustomerView_endDate").val(),
-		clientCode: $(".Client_Code1").val(),
-		itemSendClsfc: $("#outMatTypeCustomerViewSelectBox option:selected").val()
-	}
-
-	salesDeliveryCustomerViewTable.setData("salesDeliveryReportLXRest/SOCL_Search", datas);
-}
-
-var salesDeliveryListTable = new Tabulator("#salesDeliveryListTable", {
-	layoutColumnsOnNewData: true,
-	//Sub Total 색상
-	rowFormatter: function(row) {
-		if (row.getData().sales_OutMat_Client_Code == "Sub Total") {
-			row.getElement().style.backgroundColor = "#c0c0c0";
-		}
-	},
-	height: "calc(100% - 175px)",
-	//행클릭 이벤트
-	rowClick: function(e, row) {
-		salesDeliveryListTable.deselectRow();
-		row.select();
-		SDC_Search(row.getData().sales_OutMat_Client_Code)
-	},
-	columns: [ //Define Table Columns
-		{ title: "순번", field: "id", headerHozAlign: "center", hozAlign: "right" },
-		{ title: "거래처코드", field: "sales_OutMat_Client_Code", headerHozAlign: "center", hozAlign: "center" },
-		{ title: "거래처명", field: "sales_OutMat_Client_Name", headerHozAlign: "center" },
-		{ title: "수량", field: "sales_OutMat_Qty", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false } }
-	]
+$(document).keyup(function(e) {
+	if (e.keyCode == 27) {
+    	exitfrn()
+    }
 });
 
-$("#SDL_SearchBtn").click(function() {
-	SDL_Search();
-})
-
-function SDL_Search() {
-	var thisMonth = $("#selectedMonth").val() + "-01";
-	var nextMontth = new Date($("#selectedMonth").val() + "-01");
-	nextMontth = new Date(nextMontth.setMonth(nextMontth.getMonth() + 1)).toISOString().substring(0, 10);
-
-	var datas = {
-		startDate: thisMonth,
-		endDate: nextMontth
-	}
-	salesDeliveryListTable.setData("salesDeliveryReportLXRest/SDL_Search", datas);
+// 팝업 종료
+function exitfrn() {
+	//window.close();
 }
 
-var salesDeliveryCustomerTable = new Tabulator("#salesDeliveryCustomerTable", {
-	layoutColumnsOnNewData: true,
-	//Sub Total 색상
-	rowFormatter: function(row) {
-		if (row.getData().sales_OutMat_Send_Clsfc_Name == "Sub Total") {
-			row.getElement().style.backgroundColor = "#c0c0c0";
-		}
-	},
-	height: "calc(100% - 175px)",
-	columns: [ //Define Table Columns
-		{ title: "순번", field: "sales_OutMat_No", headerHozAlign: "center", hozAlign: "center" },
-		{ title: "수주번호", field: "sales_OutMat_Cus_No", headerHozAlign: "center", hozAlign: "center" },
-		{ title: "출고일자", field: "sales_OutMat_Date", headerHozAlign: "center", hozAlign: "center", formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" } },
-		{ title: "출고구분", field: "sales_OutMat_Send_Clsfc_Name", headerHozAlign: "center" },
-		{ title: "품목코드", field: "sales_OutMat_Code", headerHozAlign: "center" },
-		{ title: "품명", field: "sales_OutMat_Name", headerHozAlign: "center" },
-		{ title: "규격", field: "sales_OutMat_STND_1", headerHozAlign: "center" },
-		{ title: "단위", field: "sales_OutMat_UNIT", headerHozAlign: "center" },
-		{ title: "수량", field: "sales_OutMat_Qty", headerHozAlign: "center", hozAlign: "right" },
-		{ title: "금액", field: "sales_OutMat_Price", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false } }
-	],
-});
-
-function SDC_Search(clientCode) {
-	var thisMonth = $("#selectedMonth").val() + "-01";
-	var nextMontth = new Date($("#selectedMonth").val() + "-01");
-	nextMontth = new Date(nextMontth.setMonth(nextMontth.getMonth() + 1)).toISOString().substring(0, 10);
-
-	var datas = {
-		startDate: thisMonth,
-		endDate: nextMontth,
-		clientCode: clientCode
-	}
-	salesDeliveryCustomerTable.setData("salesDeliveryReportLXRest/SDC_Search", datas);
-}
-
-
-// excel 세금계산서 양식 미리보기
 var excelViewerTable = new Tabulator("#excelViewerTable", {
 	layoutColumnsOnNewData: true,
 	//Sub Total 색상
@@ -182,30 +86,45 @@ var excelViewerTable = new Tabulator("#excelViewerTable", {
 	],
 });
 
-/*function excel_PreView() {
-	$("#excelWriteViewModal").modal("show");
+function list_select(row){
+	if(urlParams.get('type_value') == 'input'){
+		//클래스 이름+tab_value로 데이터를 보낸다.
+		$(opener.document).find('.Client_Code'+urlParams.get('tab_value')).val(row.getData().cus_Code)
+		$(opener.document).find('.Client_Name'+urlParams.get('tab_value')).val(row.getData().cus_Name)
+		
+	}else if(urlParams.get('type_value') == 'grid'){
+		//코드 네임
+		window.opener.customer_gridInit(row.getData().cus_Code,row.getData().cus_Name);
+	}	
+	exitfrn()
+}
+
+function search(){
+	excelViewerTable.setData("customerPopupSelect",
+		{cus_Word:$('#Cus_Word').val(),search_value:urlParams.get('search_value')})
+
+}
+
+$('#searchBtn').click(function(){
+	search()
+})
+
+$("#excelViewerTable").keypress(function(e){
+	if(e.keyCode == 13){
+		list_select(excelViewerTable.getSelectedRows()[0]);
+	}
+})
+
+$("#Cus_Word").keypress(function(e){
+	if(e.keyCode == 13){
+		search();
+	}
+})
+
+$(document).ready(function(){
+	// 팝업창이 뜨면 데이터 받음
+	$('#Cus_Word').val(urlParams.get('input_value'));
 	
-	//excel_PreView_ajax()
-}*/
-
-/*function excel_PreView_ajax() {
-	$.ajax({
-		method: "get",
-		data: datas,
-		url: "customerManageRest/excel_PreView_ajax",
-		beforeSend: function (xhr) {
-           var header = $("meta[name='_csrf_header']").attr("content");
-           var token = $("meta[name='_csrf']").attr("content");
-           xhr.setRequestHeader(header, token);
-		},
-		success: function(data, testStatus) {
-			alert("삭제 완료 되었습니다.");
-		}
-	});
-}*/
-//trigger download of data.xlsx file
-/*document.getElementById("download-xlsx").addEventListener("click", function() {
-	salesDeliveryCustomerTable.download("xlsx", "data.xlsx", { sheetName: "My Data" });
-});*/
-
-
+	// 팝업이 뜨자마자 바로 검색
+	search();
+})
