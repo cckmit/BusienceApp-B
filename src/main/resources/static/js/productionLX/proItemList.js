@@ -12,11 +12,11 @@ function Search() {
 	var jsonData = {
 		startDate : $('#startDate').val(),
 		endDate : $('#endDate').val(),
-		PRODUCT_ITEM_CODE : $('#PRODUCT_ITEM_CODE').val(),
-		PRODUCT_ITEM_NAME : $('#PRODUCT_ITEM_NAME').val()
+		ItemCode : $('#PRODUCT_ITEM_CODE').val(),
+		ItemName : $('#PRODUCT_ITEM_NAME').val()
 	}
-
-	proItemListTable.setData('proListLXRest/proItemListSelect2', jsonData);
+	
+	proItemListTable.setData('proListLXRest/proItemTestSelect', jsonData);
 }
 
 $('#SearchBtn').click(function(){
@@ -59,13 +59,13 @@ var proItemListTable = new Tabulator("#proItemListTable", {
 	height:"calc(100% - 175px)",
  	columns:[ //Define Table Columns
 	{title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
-	{title:"작업지시번호", field:"production_WorkOrder_ONo", headerHozAlign:"center"},
-	{title:"번호", field:"production_WorkOrder_No", headerHozAlign:"center",hozAlign:"center"},
- 	{title:"제품 코드", field:"production_PRODUCT_CODE", headerHozAlign:"center"},
- 	{title:"제품명", field:"product_ITEM_NAME", headerHozAlign:"center"},
- 	{title:"생산 수량", field:"production_P_Qty", headerHozAlign:"center",hozAlign:"right"},
- 	{title:"설비 코드", field:"production_EQUIPMENT_CODE", headerHozAlign:"center"},
- 	{title:"설비 명", field:"production_EQUIPMENT_INFO_NAME", headerHozAlign:"center"},
+	{title:"작업지시번호", field:"production_WorkOrder_ONo", headerHozAlign:"center", hozAlign:"center"},
+	{title:"번호", field:"production_WorkOrder_No", headerHozAlign:"center", hozAlign:"center"},
+ 	{title:"제품 코드", field:"production_Product_Code", headerHozAlign:"center"},
+ 	{title:"제품명", field:"production_Product_Name", headerHozAlign:"center"},
+ 	{title:"생산 수량", field:"production_Volume", headerHozAlign:"center",hozAlign:"right"},
+ 	{title:"설비 코드", field:"production_Equipment_Code", headerHozAlign:"center"},
+ 	{title:"설비 명", field:"production_Equipment_Name", headerHozAlign:"center"},
  	{title:"시간", field:"production_Date", headerHozAlign:"center"}
  	]
 });

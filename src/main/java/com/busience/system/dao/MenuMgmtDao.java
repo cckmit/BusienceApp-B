@@ -8,7 +8,7 @@ import com.busience.system.dto.MenuMgmtDto;
 
 @Mapper
 public interface MenuMgmtDao {
-	
+		
 	//메뉴 관리 list
 	public List<MenuMgmtDto> menuMgmtListDao(String userCode);
 	

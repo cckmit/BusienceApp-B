@@ -5,7 +5,7 @@ import java.util.List;
 import com.busience.system.dto.MenuMgmtDto;
 
 public interface MenuMgmtService {
-
+	
 	//메뉴 권한 list
 	public List<MenuMgmtDto> menuMgmtList(String userCode);
 	

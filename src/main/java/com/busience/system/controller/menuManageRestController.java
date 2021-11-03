@@ -23,7 +23,7 @@ public class menuManageRestController {
 	
 	@Autowired
 	MenuMgmtService menuMgmtService;
-
+	
 	@GetMapping("/MMS_Search")
 	public List<MenuMgmtDto> view(String Menu_User_Code) {
 		return menuMgmtService.menuMgmtList(Menu_User_Code);
@@ -32,6 +32,7 @@ public class menuManageRestController {
 	// MM_Update
 	@PostMapping("/MM_Update")
 	public int MM_Update(@RequestBody List<MenuMgmtDto> jsonDataList) {
+		System.out.println(jsonDataList);
 		return menuMgmtService.menuMgmtUpdate(jsonDataList);
 	}
 }
