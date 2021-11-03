@@ -18,6 +18,7 @@
 				overflow: hidden;
 			}
 		</style>
+		<link rel="shortcut icon" href="/icon/Fasticon-Database-Data-right.ico" />
 	</head>
     <body>
         <div style="margin:10; width: 100%;height: 100%;position: absolute; border: solid;">

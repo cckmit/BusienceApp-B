@@ -224,6 +224,7 @@ document.getElementById("SearchBtn").onclick = function(){
 	location.href = "/workOrderStartBB";
 }
 
+/*
 document.getElementById("insertBtn").onclick = function(){
 
 	$.get("workOrderTABRestXO/MI_Searche2?WorkOrder_EquipCode=" +document.getElementById("eqselect").value, function(data) {            
@@ -237,3 +238,4 @@ document.getElementById("insertBtn").onclick = function(){
 	});
 
 }
+*/
