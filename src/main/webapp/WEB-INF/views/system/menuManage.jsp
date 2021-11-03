@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<!-- Modify Message Modal -->
-<jsp:include page="../modal/message/modifyYesNo.jsp"></jsp:include>
-
 <div class="soloView">
 	<!-- MAIN -->
 	<div class="main">

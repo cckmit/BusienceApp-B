@@ -24,7 +24,7 @@
 						<div class="col-sm-9">
 							<input class="insert" value="기본값 '1234'" style="width: 50%" disabled/>
 							
-							<input type="button" id="user_PASSWORD" class="modify" style="width: 50%" value="초기화" onclick="pwReset()" />
+							<input type="button" id="user_PASSWORD" class="modify" style="width: 50%" value="초기화"/>
 						</div>
 					</div>
 					<div class="form-group row">

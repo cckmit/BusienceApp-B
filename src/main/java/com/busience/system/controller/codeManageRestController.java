@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,12 +35,12 @@ public class codeManageRestController {
 		return dtlService.getAlldtl(NEW_TBL_CODE);
 	}
 
-	@RequestMapping("/codeManageInsert")
+	@PostMapping("/codeManageInsert")
 	public int codeManageInsert(DtlDto dtlDto) {
 		return dtlService.dtlInsert(dtlDto);
 	}
 
-	@RequestMapping("/codeManageUpdate")
+	@PutMapping("/codeManageUpdate")
 	public int codeManageUpdate(DtlDto dtlDto) {
 		return dtlService.dtlUpdate(dtlDto);
 	}

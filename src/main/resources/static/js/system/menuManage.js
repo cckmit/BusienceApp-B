@@ -26,6 +26,7 @@ var menuManageMasterTable = new Tabulator("#menuManageMasterTable",{
 var menuManageSubTable = new Tabulator("#menuManageSubTable", {
 	layoutColumnsOnNewData : true,
 	headerFilterPlaceholder: null,
+	selectable: true,
 	height: "calc(100% - 175px)",
 	columns: [
 		{ formatter:"rowSelection", titleFormatter:"rowSelection", headerHozAlign:"center", hozAlign:"center", headerSort:false},
@@ -48,20 +49,22 @@ function MMS_Search(userCode){
 }
 
 $('#MM_UpdateBtn').click(function(){
-	MM_Update();
-})
-
-function MM_Update() {	
 	var selectedRow	= menuManageSubTable.getData('selected');	
 	if (selectedRow.length == 0) {
 		alert("수정할 행을 선택한 후에 수정을 시도하여 주십시오.")
-		return false;
-	}
-	
+	}else{
+		if(confirm("수정 하시겠습니까?")){
+			MM_Update(selectedRow);
+		}
+	}	
+})
+
+function MM_Update(selectedData) {	
+		
 	$.ajax({
-		method: "post",
+		method: "put",
 		url: "menuManageRest/MM_Update",
-		data: JSON.stringify(selectedRow),
+		data: JSON.stringify(selectedData),
 		contentType:'application/json',
 		beforeSend: function (xhr) {
            var header = $("meta[name='_csrf_header']").attr("content");
@@ -70,8 +73,10 @@ function MM_Update() {
 		},
 		success: function(data) {
 			if(data){
-				alert("수정 완료 하였습니다.");
+				alert("수정 되었습니다.");
 				MMS_Search(menuManageMasterTable.getData('selected')[0].user_CODE)	
+			}else{
+				alert("오류가 발생했습니다.");
 			}
 		}
 	});

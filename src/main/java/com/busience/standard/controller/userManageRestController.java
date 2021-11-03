@@ -31,41 +31,34 @@ public class userManageRestController {
 
 	// insert
 	@PostMapping("/userManageInsert")
-	public String userManageInsert(UserDto UserDto, Principal principal) {
+	public int userManageInsert(UserDto UserDto, Principal principal) {
 
 		String encryptPw = pwEncoder.encode(UserDto.getUSER_PASSWORD());
 		
 		UserDto.setUSER_PASSWORD(encryptPw);
 		UserDto.setUSER_MODIFIER(principal.getName());
-		
-		//유저등록
-		userService.userRegister(UserDto);
-		
-		return "Success";
+
+		return userService.userRegister(UserDto);
 	}
 	
 	// update
 	@PutMapping("/userManageUpdate")
-	public String userManageUpdate(UserDto UserDto, Principal principal) {
+	public int userManageUpdate(UserDto UserDto, Principal principal) {
 
 		UserDto.setUSER_MODIFIER(principal.getName());
-		
-		userService.userModify(UserDto);
-		
-		return "Success";
+
+		return userService.userModify(UserDto);
 	}
 
 	@PutMapping("/userManagePW")
-	public String userManagePW(UserDto UserDto, Principal principal) {
+	public int userManagePW(UserDto UserDto, Principal principal) {
 		
 		String encryptPw = pwEncoder.encode(UserDto.getUSER_PASSWORD());
 		
 		UserDto.setUSER_PASSWORD(encryptPw);
 		UserDto.setUSER_MODIFIER(principal.getName());
-		
-		userService.passwordModify(UserDto);
-		
-		return "Success";
+
+		return userService.passwordModify(UserDto);
 	}
 
 }

@@ -70,7 +70,9 @@ function registerModalShow(){
 
 //모달창내 등록버튼
 $("#codeRegisterBtn").click(function(){
-	codeRegister();
+	if(confirm("저장 하시겠습니까?")){
+		codeRegister();
+	}	
 })
 
 function codeRegister() {
@@ -98,19 +100,14 @@ function codeRegister() {
 				CMS_Search(selectedRow[0].new_TBL_CODE)
 				
 				$("#codeManageModal").modal("hide");
+			}else{
+				alert("오류가 발생했습니다.");
 			}
 		}
 	});
 }
 
 function modifyModalShow(){
-	var selectedRow = codeManageSubTable.getData("selected");
-	
-	if(selectedRow.length == 0){
-		alert("수정할 행을 선택하세요.");
-		return false;
-	}
-	
 	$('.insert').addClass('none');
 	
 	if ($('.modify').hasClass('none')) {
@@ -124,7 +121,9 @@ function modifyModalShow(){
 
 //모달창내 수정버튼
 $("#codeModifyBtn").click(function(){
-	codeModify();
+	if(confirm("수정 하시겠습니까?")){
+		codeModify();
+	}
 })
 
 function codeModify() {
@@ -148,10 +147,12 @@ function codeModify() {
 		},
 		success : function(data) {
 			if (data) {
-				alert("저장 되었습니다.");
+				alert("수정 되었습니다.");
 				CMS_Search(selectedRow[0].new_TBL_CODE)
 				
 				$("#codeManageModal").modal("hide");
+			}else{
+				alert("오류가 발생했습니다.");
 			}
 		}
 	});
