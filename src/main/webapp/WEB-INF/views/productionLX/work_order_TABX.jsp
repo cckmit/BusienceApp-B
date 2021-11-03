@@ -19,35 +19,53 @@
     </head>
     <body>
         <div style="margin:10; width: 100%;height: 100%; position: absolute; border: solid;">
-        	<select class="form-select form-select-lg" id="eqselect" name="eqselectn" style="width: 180px; height: 35px; font-size: 20px;" aria-label=".form-select-lg example">
-        		<c:forEach var="item" items="${list}">
-        			<option value="${item.EQUIPMENT_INFO_CODE}">${item.EQUIPMENT_INFO_NAME}</option>
-        		</c:forEach>
-        	</select>
+        	<div style="padding: 5px;">
         	
-        	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        		<span><strong style="font-size: 20px;">설비</strong></span> 
+        		<select type="text" id="eqselect" style="width: 180px; height: 35px; font-size: 20px; background: #f5f5f5" aria-label=".form-select-lg example">
+	        		<c:forEach var="item" items="${list}">
+	        			<option value="${item.EQUIPMENT_INFO_CODE}">${item.EQUIPMENT_INFO_NAME}</option>
+	        		</c:forEach>
+        		</select>
+        		
+        		&nbsp;&nbsp;&nbsp;
+        		
+        		<span><strong style="font-size: 20px;">제품코드</strong></span> 
+        		<input type="text" style="width: 180px; height: 35px; font-size: 20px;" disabled="disabled" id="PRODUCT_ITEM_CODE" class="Item_Code"></input>
+        		
+        		<span><strong style="font-size: 20px;">제품이름</strong></span> 
+        		<input type="text" style="width: 180px; height: 35px; font-size: 20px;" id="PRODUCT_ITEM_NAME" class="Item_Name clearInput"></input>
         	
-        		<span><strong>작업지시일</strong></span> 
-				<input id="startDate" class="today" type="date"> 
+				<span></span>
+				<strong style="color: red; font-size: 20px;">기준일 : <fmt:formatDate value="${nowDate}" pattern="yyyy-MM-dd" /></strong>
+        	</div>
+        	
+        	
+			<div style="padding: 5px;" class="btn-group-lg" role="group" aria-label="Basic radio toggle button group" >
+
+				<span><strong style="font-size: 20px;">작업시작일</strong></span> 
+				<input id="startDate" class="today" type="date" style="width: 180px; height: 35px; font-size: 20px;"> 
 				<span style="text-align: center"><strong>~</strong></span>
-				<input id="endDate" class="tomorrow" type="date">
+				<input id="endDate" class="tomorrow" type="date" style="width: 180px; height: 35px; font-size: 20px;">
 				
 				&nbsp;&nbsp;&nbsp;&nbsp;
-				
-				<span></span>
-				<strong style="color: red;">기준일 : <fmt:formatDate value="${nowDate}" pattern="yyyy-MM-dd" /></strong>
-        	
-			<div class="btn-group-lg" role="group" aria-label="Basic radio toggle button group" >
-				<c:forEach var="item" items="${list2}">
-					<input type="radio" class="btn-check" name="options1" id="${item.CHILD_TBL_NO}" value="${item.CHILD_TBL_NO}" autocomplete="off"/>
-				<label class="btn btn-outline-primary border border-secondary" name="labelOptions" style="border: solid;" id="${item.CHILD_TBL_NO}c" for="${item.CHILD_TBL_NO}">${item.CHILD_TBL_TYPE}</label>
-				</c:forEach>
+
+				<input type="radio" class="btn-check" name="options1" id="s" value="시작" autocomplete="off"/>
+				<label class="btn btn-outline-primary border border-secondary" name="labelOptions" style="border: solid;" id="s">시작</label>
+
+				<input type="radio" class="btn-check" name="options1" id="e" value="종료" autocomplete="off"/>
+				<label class="btn btn-outline-primary border border-secondary" name="labelOptions" style="border: solid;" id="e">종료</label>
+
+				&nbsp;&nbsp;&nbsp;
+
+				<span><strong style="font-size: 20px;">시작중인 시리얼번호 :  </strong></span>
+				<span><strong style="font-size: 20px;" id="csnum">210830080145M001</strong></span>
 			</div>   
 			
 			<div id="WorkOrder_tbl"></div>     	
         </div>
 
 		
-		<script src="/js/productionLX/work_order_TAB.js"></script>
+		<script src="/js/productionLX/work_order_TABX.js"></script>
     </body>
 </html>

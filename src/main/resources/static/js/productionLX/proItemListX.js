@@ -61,7 +61,6 @@ var proItemListTable = new Tabulator("#proItemListTable", {
  	columns:[ //Define Table Columns
 	{title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
 	{title:"시리얼번호", field:"production_WorkOrder_ONo", headerHozAlign:"center"},
-	{title:"번호", field:"production_WorkOrder_No", headerHozAlign:"center",hozAlign:"center"},
  	{title:"제품 코드", field:"production_PRODUCT_CODE", headerHozAlign:"center"},
  	{title:"제품명", field:"product_ITEM_NAME", headerHozAlign:"center"},
  	{title:"생산 수량", field:"production_P_Qty", headerHozAlign:"center",hozAlign:"right"},

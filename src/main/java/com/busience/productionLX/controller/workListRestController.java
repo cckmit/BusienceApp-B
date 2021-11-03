@@ -195,22 +195,17 @@ public class workListRestController {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		String sql = "SELECT CHILD_TBL_NO FROM DTL_TBL where CHILD_TBL_RMARK='S'";
-		con = dataSource.getConnection();
-		pstmt = con.prepareStatement(sql);
-		rs = pstmt.executeQuery();
-		String CHILD_TBL_NO = "";
-		while (rs.next())
-			CHILD_TBL_NO = rs.getString("CHILD_TBL_NO");
-
-		sql = "select * from WorkOrder_tbl where WorkOrder_WorkStatus='" + CHILD_TBL_NO + "' and WorkOrder_EquipCode='"
+		String sql = "select COUNT(*) count from WorkOrder_tbl where WorkOrder_WorkStatus='244' and WorkOrder_EquipCode='"
 				+ workOrder_EquipCode + "'";
 		con = dataSource.getConnection();
 		pstmt = con.prepareStatement(sql);
 		rs = pstmt.executeQuery();
+		
+		int Count = 0;
+		
+		while(rs.next())
+			Count = rs.getInt(1);
 
-		rs.last();
-		int Count = rs.getRow();
 		if (Count == 1) {
 			rs.close();
 			pstmt.close();
@@ -221,7 +216,7 @@ public class workListRestController {
 			// 접속자 정보
 			String modifier = principal.getName();
 
-			sql = "update WorkOrder_tbl set WorkOrder_WorkStatus='293',WorkOrder_StartTime=now(),WorkOrder_Worker='"
+			sql = "update WorkOrder_tbl set WorkOrder_WorkStatus='244',WorkOrder_StartTime=now(),WorkOrder_Worker='"
 					+ modifier + "',WorkOrder_RQty=null,WorkOrder_CompleteTime=null" + " where workOrder_ONo='"
 					+ workOrder_ONo + "'";
 			System.out.println(sql);

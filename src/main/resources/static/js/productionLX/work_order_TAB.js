@@ -169,7 +169,7 @@ $('input[type=radio][name=options1]').change(function() {
 					}
 					else {
 						//MI_Search2
-						$.get("WorkOrderTABRest/MI_Search2?workOrder_ONo=" + initData.workOrder_ONo, function(data) {
+						$.get("workOrderTABRest/MI_Search2?workOrder_ONo=" + initData.workOrder_ONo, function(data) {
 							initRow.update({ "workOrder_StartTime": data.workOrder_StartTime, "workOrder_WorkStatus": data.workOrder_WorkStatus });
 							initData = data;
 						});
