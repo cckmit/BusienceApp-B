@@ -225,7 +225,6 @@ public class workOrderListRestController {
 		return list;
 	}
 
-	// ERROR : 작업지시조회 프로그램 - 미접수를 접수완료로 바꿔도 아래로 내려가지 않음
 	@RequestMapping(value = "/workorderList_top", method = RequestMethod.GET)
 	public List<WorkOrder_tbl> workorderList_top(HttpServletRequest request)
 			throws org.json.simple.parser.ParseException, SQLException {

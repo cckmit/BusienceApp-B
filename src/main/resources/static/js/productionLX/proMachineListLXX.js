@@ -61,7 +61,6 @@ var proMachineListTable = new Tabulator("#proMachineListTable", {
  	columns:[ //Define Table Columns
 	{title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
 	{title:"작업지시번호", field:"production_WorkOrder_ONo", headerHozAlign:"center"},
-	{title:"번호", field:"production_WorkOrder_No", headerHozAlign:"center",hozAlign:"center"},
  	{title:"설비 코드", field:"production_EQUIPMENT_CODE", headerHozAlign:"center"},
  	{title:"설비 명", field:"production_EQUIPMENT_INFO_NAME", headerHozAlign:"center"},
  	{title:"생산 수량", field:"production_P_Qty", headerHozAlign:"center",hozAlign:"right"},

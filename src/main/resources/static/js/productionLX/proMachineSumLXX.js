@@ -16,7 +16,7 @@ function Search() {
 		EQUIPMENT_INFO_NAME : $('#EQUIPMENT_INFO_NAME').val()
 	}
 
-	proMachineTable.setData('proSumLXRest/proMachineSumSelect2', jsonData);
+	proMachineTable.setData('proSumLXRest/proMachineSumSelect3', jsonData);
 }
 
 

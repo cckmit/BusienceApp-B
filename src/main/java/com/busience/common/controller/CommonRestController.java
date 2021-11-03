@@ -1,5 +1,7 @@
 package com.busience.common.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,12 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.domain.Menu;
@@ -32,6 +37,9 @@ public class CommonRestController {
 	
 	@Autowired
 	DataSource dataSource;
+	
+	@Autowired
+	JdbcTemplate jdbctemplate;
 	
 	private ProductionService productionService;
 	
@@ -197,5 +205,40 @@ public class CommonRestController {
 		
 		System.out.println(production);
 		productionService.insertMenuNewUser(production);
+	}
+	
+	@GetMapping("bsapp3")
+	public void bsapp3(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String sql = "INSERT INTO\r\n"
+				+ "PRODUCTION_MGMT_TBL_X\r\n"
+				+ "(\r\n"
+				+ "	PRODUCTION_SERIAL_NUM,\r\n"
+				+ "	PRODUCTION_EQUIPMENT_CODE,\r\n"
+				+ "	PRODUCTION_DEFECT_CODE,\r\n"
+				+ "	PRODUCTION_VOLUME,\r\n"
+				+ "	PRODUCTION_BAD,\r\n"
+				+ "	PRODUCTION_MODIFY_D,\r\n"
+				+ "	PRODUCTION_USER_CODE\r\n"
+				+ ")\r\n"
+				+ "VALUES(\r\n"
+				+ "	(SELECT PRODUCTION_SERIAL_NUM FROM WorkOrder_tbl_X WHERE PRODUCTION_EQUIPMENT_CODE=? AND PRODUCTION_CC='S'),\r\n"
+				+ "	?,\r\n"
+				+ "	'D001',\r\n"
+				+ "	?,\r\n"
+				+ "	?,\r\n"
+				+ "	NOW(),\r\n"
+				+ "	'test01'\r\n"
+				+ ")";
+		
+		PrintWriter writer = response.getWriter();
+		
+		try {
+			jdbctemplate.update(sql,request.getParameter("PRODUCTION_EQUIPMENT_CODE"),request.getParameter("PRODUCTION_EQUIPMENT_CODE"),request.getParameter("PRODUCTION_VOLUME"),request.getParameter("PRODUCTION_BAD"));
+			writer.print(true);
+		}
+		catch(Exception ex)
+		{
+			writer.print(false);
+		}
 	}
 }
