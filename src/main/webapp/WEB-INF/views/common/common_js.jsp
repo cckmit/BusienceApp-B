@@ -27,4 +27,6 @@
 
 <script src="/js/google_chart.js"></script>
 
+<script src="/js/loading.js"></script>
+
 <script src="/js/xlsx.full.min.js"></script>
