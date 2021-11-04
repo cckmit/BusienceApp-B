@@ -122,6 +122,13 @@ public class productionLXController {
 		return "productionLX/proSumYearX";
 	}
 	
+	// workorder
+	@GetMapping("workorder")
+	public String workorder(Model model) {
+		model.addAttribute("pageName", "작업지시 조회");
+		return "productionLX/workorder";
+	}
+	
 	// workorderList
 	@GetMapping("workorderList")
 	public String workorderList(Model model) {
