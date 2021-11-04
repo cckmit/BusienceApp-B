@@ -117,6 +117,12 @@ public class workOrderTABRestXOController {
 				+ "			a1.*,\r\n"
 				+ "			a2.PRODUCT_ITEM_NAME,\r\n"
 				+ "			a2.PRODUCT_INFO_STND_1\r\n"
+				+ "				,DATE_FORMAT(a1.WorkOrder_RegisterTime, '%Y-%m-%d %H:%i') WorkOrder_RegisterTime2\r\n"
+				+ "				,DATE_FORMAT(a1.WorkOrder_ReceiptTime, '%Y-%m-%d %H:%i') WorkOrder_ReceiptTime2\r\n"
+				+ "				,DATE_FORMAT(a1.WorkOrder_OrderTime, '%Y-%m-%d %H:%i') WorkOrder_OrderTime2\r\n"
+				+ "				,DATE_FORMAT(a1.WorkOrder_StartTime, '%Y-%m-%d %H:%i') WorkOrder_StartTime2\r\n"
+				+ "				,DATE_FORMAT(a1.WorkOrder_CompleteOrderTime, '%Y-%m-%d %H:%i') WorkOrder_CompleteOrderTime2\r\n"
+				+ "				,DATE_FORMAT(a1.WorkOrder_CompleteTime, '%Y-%m-%d %H:%i') WorkOrder_CompleteTime2\r\n"
 				+ "	FROM			WorkOrder_tbl a1\r\n"
 				+ "	LEFT JOIN	PRODUCT_INFO_TBL a2 ON a1.WorkOrder_ItemCode = a2.PRODUCT_ITEM_CODE\r\n"
 				+ "	WHERE		a1.WorkOrder_EquipCode='"+request.getParameter("WorkOrder_EquipCode")+"'\r\n"
@@ -128,11 +134,18 @@ public class workOrderTABRestXOController {
 				+ "			a1.*,\r\n"
 				+ "			a2.PRODUCT_ITEM_NAME,\r\n"
 				+ "			a2.PRODUCT_INFO_STND_1\r\n"
+				+ "				,DATE_FORMAT(a1.WorkOrder_RegisterTime, '%Y-%m-%d %H:%i') WorkOrder_RegisterTime2\r\n"
+				+ "				,DATE_FORMAT(a1.WorkOrder_ReceiptTime, '%Y-%m-%d %H:%i') WorkOrder_ReceiptTime2\r\n"
+				+ "				,DATE_FORMAT(a1.WorkOrder_OrderTime, '%Y-%m-%d %H:%i') WorkOrder_OrderTime2\r\n"
+				+ "				,DATE_FORMAT(a1.WorkOrder_StartTime, '%Y-%m-%d %H:%i') WorkOrder_StartTime2\r\n"
+				+ "				,DATE_FORMAT(a1.WorkOrder_CompleteOrderTime, '%Y-%m-%d %H:%i') WorkOrder_CompleteOrderTime2\r\n"
+				+ "				,DATE_FORMAT(a1.WorkOrder_CompleteTime, '%Y-%m-%d %H:%i') WorkOrder_CompleteTime2\r\n"
 				+ "	FROM			WorkOrder_tbl a1\r\n"
 				+ "	LEFT JOIN	PRODUCT_INFO_TBL a2 ON a1.WorkOrder_ItemCode = a2.PRODUCT_ITEM_CODE\r\n"
 				+ "	WHERE		a1.WorkOrder_EquipCode='"+request.getParameter("WorkOrder_EquipCode")+"'\r\n"
 				+ "	AND		a1.WorkOrder_WorkStatus<>'244'\r\n"
 				+ "	AND		a1.WorkOrder_WorkStatus<>'245'\r\n"
+				+ "	AND		a1.WorkOrder_ReceiptTime >= (DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -2 DAY),'%Y-%m-%d'))\r\n"
 				+ ")";
 		
 		System.out.println(sql);
@@ -142,22 +155,22 @@ public class workOrderTABRestXOController {
 			@Override
 			public WorkOrder_tbl mapRow(ResultSet rs, int rowNum) throws SQLException {
 				WorkOrder_tbl data = new WorkOrder_tbl();
-				 data.setWorkOrder_ONo(rs.getString("WorkOrder_ONo"));
+				data.setWorkOrder_ONo(rs.getString("WorkOrder_ONo"));
 				 
-				 data.setWorkOrder_ItemCode(rs.getString("WorkOrder_ItemCode"));
-				 data.setWorkOrder_ItemName(rs.getString("PRODUCT_ITEM_NAME"));
-				 data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
+				data.setWorkOrder_ItemCode(rs.getString("WorkOrder_ItemCode"));
+				data.setWorkOrder_ItemName(rs.getString("PRODUCT_ITEM_NAME"));
+				data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
 				 
-				 data.setWorkOrder_PQty(rs.getString("WorkOrder_PQty"));
-				 data.setWorkOrder_RQty(rs.getString("WorkOrder_RQty"));
+				data.setWorkOrder_PQty(rs.getString("WorkOrder_PQty"));
+				data.setWorkOrder_RQty(rs.getString("WorkOrder_RQty"));
 				 
-				 data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime"));
-				 data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime"));
+				data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime2"));
+				data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime2"));
 				 
-				 data.setWorkOrder_EquipCode(rs.getString("WorkOrder_EquipCode"));
-				data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime"));
-				data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime"));
-				data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime"));
+				data.setWorkOrder_EquipCode(rs.getString("WorkOrder_EquipCode"));
+				data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime2"));
+				data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime2"));
+				data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime2"));
 				data.setWorkOrder_WorkStatus(rs.getString("WorkOrder_WorkStatus"));	
 				
 				return data;
@@ -292,7 +305,7 @@ public class workOrderTABRestXOController {
 					+ "	DATE_ADD(NOW(), INTERVAL -1 MINUTE),\r\n"
 					+ "	DATE_ADD(NOW(), INTERVAL -1 DAY),\r\n"
 					+ "	NOW(),\r\n"
-					+ "	NOW(),\r\n"
+					+ "	DATE_ADD(NOW(), INTERVAL +1 DAY),\r\n"
 					+ "	'244',\r\n"
 					+ "	'"+principal.getName()+"',\r\n"
 					+ "	'AUTO'\r\n"

@@ -89,12 +89,11 @@
 			
         </div>
 
-		<%
-			String ip = request.getHeader("X-Forwarded-For");
-			if(ip == null) ip = request.getRemoteAddr();
-			out.println(ip);
-		%>
-		
+		<script>
+			function move(){
+				location.href = "/workOrderStartBB?code=<%out.print(request.getParameter("code"));%>";
+			}
+		</script>
 		<script src="/js/productionLX/workOrderInsertB.js"></script>
     </body>
 </html>

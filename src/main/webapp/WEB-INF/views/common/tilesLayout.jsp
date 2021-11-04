@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="ko">
   <head>
-  	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  	<link rel="icon" href="data:;base64,iVBORw0KGgo=/favicon.ico">
     <meta charset="UTF-8">
     <title>비지언스 MES</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

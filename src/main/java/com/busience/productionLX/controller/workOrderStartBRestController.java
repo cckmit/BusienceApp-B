@@ -30,6 +30,12 @@ public class workOrderStartBRestController {
 				+ "				a1.*,\r\n"
 				+ "				a2.PRODUCT_ITEM_NAME,\r\n"
 				+ "				a2.PRODUCT_INFO_STND_1\r\n"
+				+ "				,DATE_FORMAT(a1.WorkOrder_RegisterTime, '%Y-%m-%d %H:%i') WorkOrder_RegisterTime2\r\n"
+				+ "				,DATE_FORMAT(a1.WorkOrder_ReceiptTime, '%Y-%m-%d %H:%i') WorkOrder_ReceiptTime2\r\n"
+				+ "				,DATE_FORMAT(a1.WorkOrder_OrderTime, '%Y-%m-%d %H:%i') WorkOrder_OrderTime2\r\n"
+				+ "				,DATE_FORMAT(a1.WorkOrder_StartTime, '%Y-%m-%d %H:%i') WorkOrder_StartTime2\r\n"
+				+ "				,DATE_FORMAT(a1.WorkOrder_CompleteOrderTime, '%Y-%m-%d %H:%i') WorkOrder_CompleteOrderTime2\r\n"
+				+ "				,DATE_FORMAT(a1.WorkOrder_CompleteTime, '%Y-%m-%d %H:%i') WorkOrder_CompleteTime2\r\n"
 				+ "FROM			WorkOrder_tbl a1\r\n"
 				+ "LEFT JOIN	PRODUCT_INFO_TBL a2 ON a1.WorkOrder_ItemCode = a2.PRODUCT_ITEM_CODE\r\n"
 				+ "WHERE			a1.WorkOrder_EquipCode='"+request.getParameter("eqselect")+"'\r\n"
@@ -49,8 +55,8 @@ public class workOrderStartBRestController {
 				 data.setWorkOrder_PQty(rs.getString("WorkOrder_PQty"));
 				 data.setWorkOrder_RQty(rs.getString("WorkOrder_RQty"));
 				 
-				 data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime"));
-				 data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime"));
+				 data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime2"));
+				 data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime2"));
 				
 				return data;
 			}
@@ -98,14 +104,6 @@ public class workOrderStartBRestController {
 		
 		
 		return CurrentQty;
-	}
-	
-	@GetMapping("/workOrderStndFind")
-	public void workOrderStndFind(Model model, HttpServletRequest request)
-	{
-		String PRODUCT_INFO_STND_1 = request.getParameter("PRODUCT_INFO_STND_1");
-		
-		
 	}
 	
 }

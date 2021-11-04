@@ -2,6 +2,8 @@ package com.busience.productionLX.controller;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -119,16 +121,7 @@ public class productionLXController {
 		model.addAttribute("pageName", "생산 실적 관리(연별)");
 		return "productionLX/proSumYearX";
 	}
-
-	// workorder
-	@GetMapping("workorder")
-	public String orderMaster(Model model) {
-
-		model.addAttribute("pageName", "작업 지시");
-
-		return "productionLX/workorder";
-	}
-
+	
 	// workorderList
 	@GetMapping("workorderList")
 	public String workorderList(Model model) {
@@ -237,8 +230,13 @@ public class productionLXController {
 	@GetMapping("workOrderInsertB")
 	public String WorkOrderInsertB(Model model, HttpServletRequest request) throws SQLException {
 		model.addAttribute("pageName", "작업지시 입력(비앤디 철강)");
+		
+		System.out.println(request.getParameter("code"));
+		
+		String sql = "SELECT * FROM EQUIPMENT_INFO_TBL WHERE EQUIPMENT_INFO_CODE='"+( (request.getParameter("code")==null || request.getParameter("code").equals("null")) ? "' or 1=1" : request.getParameter("code")+"'" );
+		
 		model.addAttribute("list",
-				jdbctemplate.query("SELECT * FROM EQUIPMENT_INFO_TBL", new RowMapper<EQUIPMENT_INFO_TBL>() {
+				jdbctemplate.query(sql, new RowMapper<EQUIPMENT_INFO_TBL>() {
 					@Override
 					public EQUIPMENT_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
 						EQUIPMENT_INFO_TBL data = new EQUIPMENT_INFO_TBL();
@@ -287,9 +285,12 @@ public class productionLXController {
 
 	@GetMapping("workOrderStartB")
 	public String WorkOrderStartB(Model model, HttpServletRequest request) throws SQLException {
-
+		String sql = "SELECT * FROM EQUIPMENT_INFO_TBL WHERE EQUIPMENT_INFO_CODE='"+( (request.getParameter("code")==null  || request.getParameter("code").equals("null")) ? "' or 1=1" : request.getParameter("code")+"'" );
+		
+		System.out.println(sql);
+		
 		model.addAttribute("list",
-				jdbctemplate.query("SELECT * FROM EQUIPMENT_INFO_TBL", new RowMapper<EQUIPMENT_INFO_TBL>() {
+				jdbctemplate.query(sql, new RowMapper<EQUIPMENT_INFO_TBL>() {
 					@Override
 					public EQUIPMENT_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
 						EQUIPMENT_INFO_TBL data = new EQUIPMENT_INFO_TBL();
@@ -298,29 +299,19 @@ public class productionLXController {
 						return data;
 					}
 				}));
-
-		model.addAttribute("list1",
-				jdbctemplate.query("SELECT * FROM PRODUCT_INFO_TBL LIMIT 10", new RowMapper<PRODUCT_INFO_TBL>() {
-					@Override
-					public PRODUCT_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
-						PRODUCT_INFO_TBL data = new PRODUCT_INFO_TBL();
-
-						data.setPRODUCT_ITEM_CODE(rs.getString("PRODUCT_ITEM_CODE"));
-						data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
-						data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
-						data.setPRODUCT_UNIT_PRICE(rs.getInt("PRODUCT_UNIT_PRICE"));
-						return data;
-					}
-				}));
-
-		return "normal/productionLX/workOrderStartB";
+		
+		return "normal/productionLX/workOrderStartBB";
 	}
 	
 	@GetMapping("workOrderStartBB")
 	public String WorkOrderStartBB(Model model, HttpServletRequest request) throws SQLException {
 
+		String sql = "SELECT * FROM EQUIPMENT_INFO_TBL WHERE EQUIPMENT_INFO_CODE='"+( (request.getParameter("code")==null  || request.getParameter("code").equals("null")) ? "' or 1=1" : request.getParameter("code")+"'" );
+		
+		System.out.println(sql);
+		
 		model.addAttribute("list",
-				jdbctemplate.query("SELECT * FROM EQUIPMENT_INFO_TBL", new RowMapper<EQUIPMENT_INFO_TBL>() {
+				jdbctemplate.query(sql, new RowMapper<EQUIPMENT_INFO_TBL>() {
 					@Override
 					public EQUIPMENT_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
 						EQUIPMENT_INFO_TBL data = new EQUIPMENT_INFO_TBL();

@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -132,7 +134,7 @@ public class workOrderRestController {
 		String startDate = request.getParameter("startDate")+" 00:00:00";
 		String endDate = request.getParameter("endDate")+" 23:59:59";
 
-		String sql = "select t4.EQUIPMENT_INFO_NAME WorkOrder_EquipName,t1.*,t2.CHILD_TBL_Type WorkOrder_WorkStatusName,t3.PRODUCT_ITEM_NAME WorkOrder_ItemName,t3.*,(select a.Sales_SM_Last_Qty+a.Sales_SM_In_Qty-a.Sales_SM_Out_Qty from Sales_StockMat_tbl a where a.Sales_SM_Code=t1.WorkOrder_ItemCode) Qty from WorkOrder_tbl t1 inner join DTL_TBL t2 on t1.WorkOrder_WorkStatus = t2.CHILD_TBL_NO inner join PRODUCT_INFO_TBL t3 on t1.WorkOrder_ItemCode=t3.PRODUCT_ITEM_CODE inner join EQUIPMENT_INFO_TBL t4 on t1.WorkOrder_EquipCode=t4.EQUIPMENT_INFO_CODE where WorkOrder_WorkStatus = 242";
+		String sql = "select DATE_FORMAT(t1.WorkOrder_OrderTime, '%Y-%m-%d') WorkOrder_OrderTime2,t4.EQUIPMENT_INFO_NAME WorkOrder_EquipName,t1.*,t2.CHILD_TBL_Type WorkOrder_WorkStatusName,t3.PRODUCT_ITEM_NAME WorkOrder_ItemName,t3.*,(select a.Sales_SM_Last_Qty+a.Sales_SM_In_Qty-a.Sales_SM_Out_Qty from Sales_StockMat_tbl a where a.Sales_SM_Code=t1.WorkOrder_ItemCode) Qty from WorkOrder_tbl t1 inner join DTL_TBL t2 on t1.WorkOrder_WorkStatus = t2.CHILD_TBL_NO inner join PRODUCT_INFO_TBL t3 on t1.WorkOrder_ItemCode=t3.PRODUCT_ITEM_CODE inner join EQUIPMENT_INFO_TBL t4 on t1.WorkOrder_EquipCode=t4.EQUIPMENT_INFO_CODE where WorkOrder_WorkStatus = 242";
 		String where = " and t1.WorkOrder_RegisterTime between ? and "
 				+ "? order by t1.WorkOrder_RegisterTime desc, t1.WorkOrder_No desc";
 
@@ -155,10 +157,7 @@ public class workOrderRestController {
 				data.setWorkOrder_RegisterTime(rs.getString("WorkOrder_RegisterTime").substring(0, 10));
 				data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime"));
 
-				String value = rs.getString("WorkOrder_OrderTime");
-				value = value.substring(0, value.length() - 2);
-
-				data.setWorkOrder_OrderTime(value);
+				data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime2"));
 				data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime").substring(0, 10));
 				data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime"));
 				data.setWorkOrder_WorkStatus(rs.getString("WorkOrder_WorkStatus"));
@@ -178,6 +177,7 @@ public class workOrderRestController {
 	@RequestMapping(value = "/MO_Save", method = RequestMethod.GET)
 	public String MO_Save(HttpServletRequest request) throws org.json.simple.parser.ParseException, SQLException {
 		String originData = request.getParameter("data");
+		
 		JSONParser parser = new JSONParser();
 		JSONArray dataList = (JSONArray) parser.parse(originData);
 
@@ -204,7 +204,7 @@ public class workOrderRestController {
 					// "product_INFO_STND_1":"160ml","workOrder_ONo":"202104023-A01001-3",
 					// "qty":"161","workOrder_ReceiptTime":null,"workOrder_PQty":"30",
 					// "workOrder_OrderTime":"2021-04-23","workOrder_CompleteTime":null}
-
+					
 					String dbdata_flag = (String) datas.get("dbdata_flag");
 					String sql = "";
 
@@ -213,7 +213,8 @@ public class workOrderRestController {
 						workOrder_Remark = "";
 
 					if (dbdata_flag == null) {
-						sql = "SELECT count(*)+1 WorkOrder_ONo FROM WorkOrder_tbl where date_format(WorkOrder_RegisterTime,\"%Y-%m-%d\") = curdate()";
+						sql = "SELECT count(*)+1 WorkOrder_ONo FROM WorkOrder_tbl a1 where LEFT(WorkOrder_ONo,8) = CURDATE()";
+						//sql = "SELECT count(*)+1 WorkOrder_ONo FROM WorkOrder_tbl where date_format(WorkOrder_RegisterTime,\"%Y-%m-%d\") = curdate()";
 						pstmt = conn.prepareStatement(sql);
 						rs = pstmt.executeQuery();
 						int WorkOrder_No = 1;
@@ -259,12 +260,17 @@ public class workOrderRestController {
 
 						String workOrder_ItemCode = (String) datas.get("workOrder_ItemCode");
 						String workOrder_ONo = (String) datas.get("workOrder_ONo");
+						String workOrder_OrderTime_t = (String) datas.get("workOrder_OrderTime");
+						LocalTime now = LocalTime.now();
+						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+						String formatedNow = now.format(formatter);
+						String workOrder_OrderTime = workOrder_OrderTime_t + " " + formatedNow;
 
 						sql = "UPDATE `WorkOrder_tbl`\r\n" + "SET\r\n" + "`WorkOrder_ONo` = \r\n" + "'"
 								+ workOrder_ONo.replace(workOrder_ONo.split("-")[1], workOrder_ItemCode) + "',\r\n"
 								+ "`WorkOrder_ItemCode` = \r\n" + "'" + workOrder_ItemCode + "',\r\n"
 								+ "`WorkOrder_PQty` = \r\n" + "'" + datas.get("workOrder_PQty") + "',\r\n"
-								+ "`WorkOrder_OrderTime` = \r\n" + "'" + format2.format(time) + "',\r\n"
+								+ "`WorkOrder_OrderTime` = \r\n" + "'" + workOrder_OrderTime + "',\r\n"
 								+ "`WorkOrder_CompleteOrderTime` =\r\n" + "'" + datas.get("workOrder_CompleteOrderTime")
 								+ "',\r\n" + "`WorkOrder_Remark` = \r\n" + "'" + workOrder_Remark + "'\r\n"
 								+ "WHERE `WorkOrder_ONo` = \r\n" + "'" + datas.get("workOrder_ONo") + "'";

@@ -161,12 +161,16 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 		{ title: "작업지시일", field: "workOrder_OrderTime", align: "right", headerHozAlign: "center", editor:"input", width: 160
 			,cellEdited: function(cell)
 			{
+				console.log("cellEdited");
+
 				WorkOrder_tbl_workOrder_ItemName_cell = cell;
 				Date_Check(cell);
 				Right_Move(cell,"right");
 			}
 			, cellEditCancelled: function(cell)
 			{
+				console.log("cellEditCancelled");
+
 				WorkOrder_tbl_workOrder_ItemName_cell = cell;
 				Date_Check(cell);
 				Right_Move(cell,"right");
@@ -287,9 +291,13 @@ function newRow_Add()
 	LRow.getCell("workOrder_ItemName").edit();
 }
 
+var cellElement = null;
+
 function Date_Check(cell)
 {
-	var cellElement = cell.getElement();
+	console.log(cellElement);
+
+	cellElement = cell.getElement();
 	
 	cellElement.addEventListener('keydown', function(e) {
 		if (e.keyCode == 13) {
@@ -300,7 +308,7 @@ function Date_Check(cell)
 			
 			if(columnField == "workOrder_OrderTime")
 			{
-				if(cellValue.length != 19)
+				if(cellValue.length != 10)
 				{
 					alert("날짜 입력형식이 잘못 되었습니다. ex)2021-05-15");
 					cell.restoreOldValue();
@@ -316,7 +324,7 @@ function Date_Check(cell)
 					return;
 				}
 			}
-			
+
 			data = {
 				Sales_Order_lCode: WorkOrder_tbl_workOrder_ItemName_cell.getRow().getData().workOrder_ItemCode,
 				endDate: WorkOrder_tbl_workOrder_ItemName_cell.getRow().getData().workOrder_CompleteOrderTime
@@ -337,6 +345,8 @@ function Date_Check(cell)
 			cell.nav().right();
 		}
 	});
+
+	cellElement = null;
 }
 
 function Right_Move(cell,flag)

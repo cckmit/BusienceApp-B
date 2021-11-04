@@ -29,11 +29,11 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 		{ title: "제품이름", field: "workOrder_ItemName", headerHozAlign: "center", width: 180 },
 		{ title: "규격", field: "product_INFO_STND_1", headerHozAlign: "center", width: 100 },
 		{ title: "지시수량", field: "workOrder_PQty", headerHozAlign: "center", align: "right", width: 100, visible:false },
-		{ title: "작업지시일", field: "workOrder_OrderTime", align: "right", headerHozAlign: "center", width: 160, formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" } },
-		{ title: "작업지시완료일", field: "workOrder_CompleteOrderTime", align: "right", headerHozAlign: "center", width: 160, formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" } },
-		{ title: "접수일", field: "workOrder_ReceiptTime", align: "right", headerHozAlign: "center", width: 160, formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" } },
-		{ title: "작업시작일", field: "workOrder_StartTime", align: "right", headerHozAlign: "center", width: 160, formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" } },
-		{ title: "작업완료일", field: "workOrder_CompleteTime", align: "right", headerHozAlign: "center", width: 160, formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" }, visible:false }
+		{ title: "작업지시일", field: "workOrder_OrderTime", align: "right", headerHozAlign: "center", width: 160},
+		{ title: "작업지시완료일", field: "workOrder_CompleteOrderTime", align: "right", headerHozAlign: "center", width: 160},
+		{ title: "접수일", field: "workOrder_ReceiptTime", align: "right", headerHozAlign: "center", width: 160},
+		{ title: "작업시작일", field: "workOrder_StartTime", align: "right", headerHozAlign: "center", width: 160},
+		{ title: "작업완료일", field: "workOrder_CompleteTime", align: "right", headerHozAlign: "center", width: 160}
 	],
 });
 
@@ -221,7 +221,7 @@ window.onload = function() {
 }
 
 document.getElementById("SearchBtn").onclick = function(){
-	location.href = "/workOrderStartBB";
+	move();
 }
 
 /*
