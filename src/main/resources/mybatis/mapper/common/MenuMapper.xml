@@ -18,6 +18,7 @@
 		) C on A.Menu_Code = C.Menu_Program_Code
 		left outer join (
 			select * from User_Menu_tbl where User_Code = #{User_Code}
-		) D on A.Menu_Code = D.Program_Code;
+		) D on A.Menu_Code = D.Program_Code
+		order by A.Menu_Code ASC
 	</select>
 </mapper>

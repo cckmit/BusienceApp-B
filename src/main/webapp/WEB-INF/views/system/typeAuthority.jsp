@@ -1,14 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<!-- Modify Message Modal -->
-<jsp:include page="../modal/message/modifyYesNo.jsp"></jsp:include>
-
 <div class="soloView">
 	<!-- MAIN -->
 	<div class="main">
 		<div class="top-var">
 			<div class="input-button">
-				<img id="modifyinitbtn" class="unUseBtn" src="/images/button/Update.png"/>
+				<img id="TA_UpdateBtn" class="unUseBtn" src="/images/button/Update.png"/>
 			</div>
 		</div>
 		

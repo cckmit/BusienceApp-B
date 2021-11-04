@@ -1,7 +1,8 @@
 var allMenuListTable = new Tabulator("#allMenuListTable", {
-	height: "calc(100% - 175px)",
 	layoutColumnsOnNewData : true,
 	headerFilterPlaceholder: null,
+	selectable: true,
+	height: "calc(100% - 175px)",
 	columns: [
 		{formatter:"rowSelection", titleFormatter:"rowSelection", headerHozAlign:"center", hozAlign:"center", headerSort:false},
 		{ title: "메뉴코드", field: "menu_Code", visible:false},
@@ -11,10 +12,11 @@ var allMenuListTable = new Tabulator("#allMenuListTable", {
 });
 
 var userMenuListTable = new Tabulator("#userMenuListTable", {
-	height: "calc(100% - 175px)",
 	layoutColumnsOnNewData : true,
 	headerFilterPlaceholder: null,
-	placeholder:"사용자 전용 메뉴",
+	placeholder: "사용자 전용 메뉴",
+	selectable: true,
+	height: "calc(100% - 175px)",
 	columns: [
 		{formatter:"rowSelection", titleFormatter:"rowSelection", headerHozAlign:"center", hozAlign:"center", headerSort:false},
 		{ title: "메뉴코드", field: "menu_Code", visible:false},
@@ -30,7 +32,7 @@ function UML_Search(){
 		success: function(data) {
 			var allMenuList = []
 			var userMenuList = []
-			console.log(data);
+			
 			for(let i=0;i<data.length;i++){
 				if(data[i].user_Code == null){
 					allMenuList.push(data[i]);
@@ -50,13 +52,18 @@ $("#UMM_ADDBtn").click(function(){
 	
 	if(selectedRow.length == 0){
 		alert("행을 선택한 후에 추가버튼을 눌러주세요.");
-		return false;
+	}else{
+		if(confirm("추가 하시겠습니까?")){
+			UMM_ADD(selectedRow);
+		}
 	}
-	
+})
+
+function UMM_ADD(selectedData){
 	$.ajax({
 		method: "post",
 		url: "userMenuManageRest/userMenuInsert",
-		data: JSON.stringify(selectedRow),
+		data: JSON.stringify(selectedData),
 		contentType:'application/json',
 		beforeSend: function (xhr) {
            var header = $("meta[name='_csrf_header']").attr("content");
@@ -67,23 +74,30 @@ $("#UMM_ADDBtn").click(function(){
 			if(data){
 				alert("저장되었습니다.");
 				UML_Search();
+			}else{
+				alert("오류가 발생했습니다.");
 			}
 		}
 	});
-})
+}
 
 $("#UMM_DeleteBtn").click(function(){
 	var selectedRow = userMenuListTable.getData("selected");
 	
 	if(selectedRow.length == 0){
 		alert("행을 선택한 후에 삭제버튼을 눌러주세요.");
-		return false;
-	}
-	
+	}else{
+		if(confirm("삭제 하시겠습니까?")){
+			UMM_Delete(selectedRow);
+		}
+	}	
+})
+
+function UMM_Delete(selectedData){
 	$.ajax({
-		method: "post",
+		method: "delete",
 		url: "userMenuManageRest/userMenuDelete",
-		data: JSON.stringify(selectedRow),
+		data: JSON.stringify(selectedData),
 		contentType:'application/json',
 		beforeSend: function (xhr) {
            var header = $("meta[name='_csrf_header']").attr("content");
@@ -94,12 +108,12 @@ $("#UMM_DeleteBtn").click(function(){
 			if(data){
 				alert("삭제되었습니다.");
 				UML_Search();
+			}else{
+				alert("오류가 발생했습니다.");
 			}
 		}
 	});
-})
-
-
+}
 
 $(document).ready(function(){
 	UML_Search();

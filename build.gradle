@@ -49,12 +49,7 @@ dependencies {
 	implementation 'org.apache.tiles:tiles-jsp:3.0.8'
 	implementation 'org.springframework.security:spring-security-taglibs'
 	implementation 'org.webjars:angular-google-chart:0.1.0-1'
-	
-	implementation group: 'org.apache.poi', name: 'poi', version: '5.0.0' 
-	implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.0.0'
-
-	implementation 'org.webjars.npm:sheetjs:2.0.0'
-	
+		
 }
 
 test {

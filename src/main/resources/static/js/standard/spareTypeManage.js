@@ -121,7 +121,6 @@ window.onload = function() {
 
 	spareTypeSelect()
 
-	//SubmenuSelector("2", "13211");
 }
 
 function spareTypeSelect() {

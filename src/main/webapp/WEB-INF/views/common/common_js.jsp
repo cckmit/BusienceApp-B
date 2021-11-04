@@ -18,8 +18,6 @@
 
 <script src="/webjars/font-awesome/5.15.4/js/all.min.js"></script>
 
-<script src="/webjars/sheetjs/2.0.0/index.js"></script>
-
 <!-- js -->
 <script src="/js/today.js"></script>
 
@@ -28,5 +26,7 @@
 <script src="/js/popup_common.js"></script>
 
 <script src="/js/google_chart.js"></script>
+
+<script src="/js/loading.js"></script>
 
 <script src="/js/xlsx.full.min.js"></script>

@@ -90,7 +90,9 @@ function registerModalShow(){
 
 //모달창내 수정버튼
 $("#itemRegisterBtn").click(function(){
-	itemRegister();
+	if(confirm("등록 하시겠습니까?")){
+		itemRegister();
+	}
 })
 
 function itemRegister() {
@@ -137,12 +139,14 @@ function itemRegister() {
            xhr.setRequestHeader(header, token);
 		},
 		success : function(data) {
-			if (data == "Success") {
+			if (data) {
 				alert("저장 되었습니다.");
-				console.log(datas);
+				
 				itemManageTable.replaceData();
 				
 				$("#itemManageModal").modal("hide");
+			}else{
+				alert("오류가 발생했습니다.");
 			}
 		}
 	});
@@ -151,16 +155,16 @@ function itemRegister() {
 
 // update버튼을 클릭을 할때 모달창을 여는 이벤트
 $("#itemUpdateBtn").click(function() {
-	modifyModalShow();
-});
-
-function modifyModalShow(){
 	var selectedRow = itemManageTable.getData("selected");
 	
 	if(selectedRow.length == 0){
 		alert("수정할 행을 선택하세요.");
-		return false;
+	} else {
+		modifyModalShow()
 	}
+});
+
+function modifyModalShow(){
 	
 	$('.insert').addClass('none');
 	
@@ -176,7 +180,9 @@ function modifyModalShow(){
 
 //모달창내 수정버튼
 $("#itemModifyBtn").click(function(){
-	itemModify();
+	if(confirm("수정 하시겠습니까?")){
+		itemModify();		
+	}
 })
 
 function itemModify() {
@@ -208,7 +214,7 @@ function itemModify() {
 	}
 	
 	$.ajax({
-		method: "post",
+		method: "put",
 		data: datas,
 		url: "itemManageRest/itemManageUpdate",
 		beforeSend: function (xhr) {
@@ -217,12 +223,13 @@ function itemModify() {
            xhr.setRequestHeader(header, token);
 		},
 		success : function(data) {
-			if (data == "Success") {
+			if (data) {
 				alert("저장 되었습니다.");
-				console.log(datas);
 				itemManageTable.replaceData();
 				
 				$("#itemManageModal").modal("hide");
+			}else{
+				alert("오류가 발생했습니다.");
 			}
 		}
 	});
@@ -230,28 +237,30 @@ function itemModify() {
 
 // delete버튼을 클릭을 할때 모달창을 여는 이벤트
 $("#itemDeleteBtn").click(function() {
-	modifyModalShow();
+	var selectedRow = itemManageTable.getData("selected");
+	
+	if(selectedRow.length == 0){
+		alert("삭제할 행을 선택하세요.");
+	}else{
+		modifyModalShow();		
+	}
 });
 
 //모달창내 삭제버튼
 $("#itemRemoveBtn").click(function(){
-	itemRemove();
+	if(confirm("삭제 하시겠습니까?")){
+		itemRemove();	
+	}
 })
 
 function itemRemove() {
-	var selectedRow = itemManageTable.getData("selected");
-	
-	if(selectedRow.length == 0){
-		alert("수정할 행을 선택하세요.");
-		return false;
-	}
 	
 	var datas = {
 		PRODUCT_ITEM_CODE: $("#product_ITEM_CODE").val()
 	};
 
 	$.ajax({
-		method: "post",
+		method: "delete",
 		data: datas,
 		url: "itemManageRest/itemManageDelete",
 		beforeSend: function (xhr) {
@@ -260,11 +269,13 @@ function itemRemove() {
            xhr.setRequestHeader(header, token);
 		},
 		success : function(data) {
-			if (data == "Success") {
+			if (data) {
 				alert("삭제 되었습니다.");
 				itemManageTable.replaceData();
 				
 				$("#itemManageModal").modal("hide");
+			}else{
+				alert("오류가 발생했습니다.");
 			}
 		}
 	});

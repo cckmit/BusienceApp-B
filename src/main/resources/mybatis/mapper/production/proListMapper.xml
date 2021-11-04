@@ -3,9 +3,10 @@
 <!DOCTYPE mapper
 	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-	
+	 
 <mapper namespace="com.busience.productionLX.dao.ProductionMgmtDao">
 	<select id="proItemListDao" resultType="com.busience.productionLX.dto.ProductionMgmtDto">
+	<![CDATA[
 		SELECT
 		A.PRODUCTION_WorkOrder_No,
 		A.PRODUCTION_WorkOrder_ONo,
@@ -14,20 +15,22 @@
 		A.PRODUCTION_Equipment_Code,
 		C.EQUIPMENT_INFO_NAME PRODUCTION_Equipment_Name,
 		sum(A.PRODUCTION_Volume) PRODUCTION_Volume,
-		date_format(A.PRODUCTION_Date,'%Y-%m-%d %T') PRODUCTION_Date
+		A.PRODUCTION_Date
 		FROM (
 			select * from PRODUCTION_MGMT_TBL2 
-			where PRODUCTION_Date between #{startDate} and #{endDate} 
+			where PRODUCTION_Date >= #{startDate} and PRODUCTION_Date < #{endDate} 
 			and PRODUCTION_Product_Code like CONCAT('%', #{itemCode}, '%')
 		) A
 		inner join (
 			select * from PRODUCT_INFO_TBL where PRODUCT_ITEM_NAME like CONCAT('%', #{itemCode}, '%')
 		) B on A.PRODUCTION_Product_Code = B.PRODUCT_ITEM_CODE
 		inner join EQUIPMENT_INFO_TBL C on A.PRODUCTION_Equipment_Code = C.EQUIPMENT_INFO_CODE
-		group by A.PRODUCTION_Product_Code, A.PRODUCTION_WorkOrder_No with rollUp	
+		group by A.PRODUCTION_Product_Code, A.PRODUCTION_WorkOrder_No with rollUp
+	]]>
 	</select>
 	
 	<select id="proMachineListDao" resultType="com.busience.productionLX.dto.ProductionMgmtDto">
+	<![CDATA[
 		SELECT
 		A.PRODUCTION_WorkOrder_No,
 		A.PRODUCTION_WorkOrder_ONo,
@@ -36,16 +39,17 @@
 		A.PRODUCTION_Equipment_Code,
 		C.EQUIPMENT_INFO_NAME PRODUCTION_Equipment_Name,
 		sum(A.PRODUCTION_Volume) PRODUCTION_Volume,
-		date_format(A.PRODUCTION_Date,'%Y-%m-%d %T') PRODUCTION_Date
+		A.PRODUCTION_Date
 		FROM (
 			select * from PRODUCTION_MGMT_TBL2 
-			where PRODUCTION_Date between #{startDate} and #{endDate} 
+			where PRODUCTION_Date >= #{startDate} and PRODUCTION_Date < #{endDate} 
 			and PRODUCTION_Equipment_Code like CONCAT('%', #{machineCode}, '%')
 		) A
 		inner join PRODUCT_INFO_TBL B on A.PRODUCTION_Product_Code = B.PRODUCT_ITEM_CODE
 		inner join (
 			select * from EQUIPMENT_INFO_TBL where EQUIPMENT_INFO_NAME like CONCAT('%', #{machineCode}, '%')		
 		) C on A.PRODUCTION_Equipment_Code = C.EQUIPMENT_INFO_CODE
-		group by A.PRODUCTION_Equipment_Code, A.PRODUCTION_WorkOrder_No with rollUp	
+		group by A.PRODUCTION_Equipment_Code, A.PRODUCTION_WorkOrder_No with rollUp
+	]]>
 	</select>
 </mapper>

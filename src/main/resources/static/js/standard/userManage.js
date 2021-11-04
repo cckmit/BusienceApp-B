@@ -67,7 +67,9 @@ function registerModalShow(){
 
 //모달창내 등록버튼
 $("#userRegisterBtn").click(function(){
-	userRegister();
+	if(confirm("등록 하시겠습니까?")){
+		userRegister();
+	}	
 })
 
 function userRegister() {
@@ -96,11 +98,13 @@ function userRegister() {
            xhr.setRequestHeader(header, token);
 		},
 		success : function(data) {
-			if (data == "Success") {
+			if (data) {
 				alert("저장 되었습니다.");
 				userManageTable.replaceData();
 				
 				$("#userManageModal").modal("hide");
+			}else{
+				alert("오류가 발생했습니다.");
 			}
 		}
 	});
@@ -108,16 +112,17 @@ function userRegister() {
 
 // update버튼을 클릭을 할때 모달창을 여는 이벤트
 $("#userUpdateBtn").click(function() {
-	modifyModalShow();
-});
-
-function modifyModalShow(){
 	var selectedRow = userManageTable.getData("selected");
 	
 	if(selectedRow.length == 0){
 		alert("수정할 행을 선택하세요.");
-		return false;
+	}else{
+		modifyModalShow();
 	}
+	
+});
+
+function modifyModalShow(){	
 	
 	$('.insert').addClass('none');
 	
@@ -133,7 +138,9 @@ function modifyModalShow(){
 
 //모달창내 수정버튼
 $("#userModifyBtn").click(function(){
-	userModify();
+	if(confirm("수정 하시겠습니까?")){
+		userModify();
+	}
 })
 
 function userModify() {
@@ -155,36 +162,47 @@ function userModify() {
            xhr.setRequestHeader(header, token);
 		},
 		success : function(data) {
-			if (data == "Success") {
+			if (data) {
 				alert("저장 되었습니다.");
 				userManageTable.replaceData();
 				
 				$("#userManageModal").modal("hide");
+			}else{
+				alert("오류가 발생했습니다.");
 			}
 		}
 	});
 }
 
+//모달창내 비밀번호 초기화 버튼
+$("#user_PASSWORD").click(function(){
+	if(confirm("초기화 하시겠습니까?")){
+		pwReset();
+	}
+})
+
 // 비번 초기화
 function pwReset() {
 	
-	if (confirm("초기화 하시겠습니까?")){
-		var datas = {USER_CODE : $("#user_CODE").val(),
-					USER_PASSWORD : "1234"}
+	var datas = {USER_CODE : $("#user_CODE").val(),
+				USER_PASSWORD : "1234"}
 
-		$.ajax({
-			method: "put",
-			url: "userManageRest/userManagePW",
-			data : datas,
-			beforeSend: function (xhr) {
-	           var header = $("meta[name='_csrf_header']").attr("content");
-	           var token = $("meta[name='_csrf']").attr("content");
-	           xhr.setRequestHeader(header, token);
-			},
-			success: function(data) {
+	$.ajax({
+		method: "put",
+		url: "userManageRest/userManagePW",
+		data : datas,
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
+		success: function(data) {
+			if(data){
 				alert("초기화 되었습니다.");
 				$("#userManageModal").modal("hide");
+			}else{
+				alert("오류가 발생했습니다.");
 			}
-		});
-	}
+		}
+	});
 }

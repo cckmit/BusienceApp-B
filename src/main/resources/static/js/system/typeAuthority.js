@@ -11,7 +11,7 @@ var typeAuthorityMasterTable = new Tabulator("#typeAuthorityMasterTable",{
     },
 	rowSelected:function(row){
 		TAS_Search(row.getData().child_TBL_NO)
-		$('#modifyinitbtn').removeClass('unUseBtn');
+		$('#TA_UpdateBtn').removeClass('unUseBtn');
     },
 	columns: [ //Define Table Columns
 		{ title: "번호", field: "child_TBL_NO", visible:false},
@@ -37,25 +37,23 @@ function TAS_Search(value){
 	typeAuthoritySubTable.setData("typeAuthorityRest/TAS_Search",{userType: value})
 }
 
-function modifyModalShow() {
-	$("#modifyYesNo").modal("show");
-}
-
-$('#modifyinitbtn').click(function(){
-	modifyModalShow();
-})
-
-function modBtn() {
+$('#TA_UpdateBtn').click(function(){
 	var selectedRow	= typeAuthoritySubTable.getData('selected');
 	if (selectedRow.length == 0) {
-		alert("수정할 행을 선택한 후에 수정을 시도하여 주십시오.")
-		return false;
+		alert("수정할 행을 선택한 후에 수정을 시도하여 주십시오.");
+	} else{
+		if(confirm("수정 하시겠습니까?")){
+			authorityModify(selectedRow);
+		}
 	}
+})
+
+function authorityModify(selectedData) {
 	
 	$.ajax({
-		method: "post",
+		method: "put",
 		url: "typeAuthorityRest/TA_Update",
-		data: JSON.stringify(selectedRow),
+		data: JSON.stringify(selectedData),
 		contentType:'application/json',
 		beforeSend: function (xhr) {
            var header = $("meta[name='_csrf_header']").attr("content");
@@ -64,9 +62,11 @@ function modBtn() {
 		},
 		success: function(data) {
 			if(data){
-				alert("수정 완료 하였습니다.");
+				alert("수정 되었습니다.");
 				TAS_Search(typeAuthorityMasterTable.getData('selected')[0].child_TBL_NO)	
+			}else{
+				alert("오류가 발생했습니다.");
 			}
 		}
-	});
+	});	
 }
