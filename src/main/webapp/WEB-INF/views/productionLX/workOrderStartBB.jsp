@@ -70,7 +70,7 @@
 					</table>
 					</center>
 				</td>
-				<td style="width: 50%;">
+				<td style="width: 50%; visibility:${visibility};">
 					<center>
 					<table style="width: 90%; background-color: rgb(82,153,217); border-radius: 5%;" onclick="move()"> 
 						<tr>

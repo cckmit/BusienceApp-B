@@ -11,14 +11,14 @@ public class contolController {
 	@GetMapping("proMonitoring")
 	public String proMonitoring(Model model) {
 		model.addAttribute("pageName", "생산현황 모니터링");
-		return "monitoring/proMonitoring";
+		return "normal/monitoring/proMonitoring";
 	}
 	
 	//defectMonitoring
 	@GetMapping("defectMonitoring")
 	public String defectMonitoring(Model model) {
 		model.addAttribute("pageName", "불량현황 모니터링");
-		return "monitoring/defectMonitoring";
+		return "normal/monitoring/defectMonitoring";
 	}
 	
 	//workMonitoring
