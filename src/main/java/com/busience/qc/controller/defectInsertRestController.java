@@ -107,9 +107,9 @@ public class defectInsertRestController {
 			
 			
 			String sql = "INSERT INTO defectPerformance\r\n"
-					+ "VALUES(?,?,?)\r\n"
+					+ "VALUES(?,?,?,now())\r\n"
 					+ "ON DUPLICATE KEY\r\n"
-					+ "UPDATE Defect_DQty = ?";
+					+ "UPDATE Defect_DQty = ?,Defect_TestTime=now()";
 			
 			jdbctemplate.update(sql,obj.get("defect_USE_STATUS"),obj.get("defect_CODE"),obj.get("defect_ABR"),obj.get("defect_ABR"));
 		});

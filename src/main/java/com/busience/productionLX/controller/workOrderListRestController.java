@@ -267,7 +267,7 @@ public class workOrderListRestController {
 
 		where += "  order by t1.WorkOrder_RegisterTime desc, t1.WorkOrder_No desc";
 
-		sql = "select (select sum(PRODUCTION_Volume) from PRODUCTION_MGMT_TBL2 a1 where a1.PRODUCTION_WorkOrder_ONo=t1.WorkOrder_ONo) WorkOrder_RQty2,t4.EQUIPMENT_INFO_NAME WorkOrder_EquipName,t1.*,t2.CHILD_TBL_Type WorkOrder_WorkStatusName,t3.PRODUCT_ITEM_NAME WorkOrder_ItemName,t3.*,(select a.Sales_SM_Last_Qty+a.Sales_SM_In_Qty-a.Sales_SM_Out_Qty from Sales_StockMatLX_tbl a where a.Sales_SM_Code=t1.WorkOrder_ItemCode) Qty from WorkOrder_tbl t1 inner join DTL_TBL t2 on t1.WorkOrder_WorkStatus = t2.CHILD_TBL_NO inner join PRODUCT_INFO_TBL t3 on t1.WorkOrder_ItemCode=t3.PRODUCT_ITEM_CODE inner join EQUIPMENT_INFO_TBL t4 on t1.WorkOrder_EquipCode=t4.EQUIPMENT_INFO_CODE";
+		sql = "select DATE_FORMAT(t1.WorkOrder_OrderTime, '%Y-%m-%d %H:%i') WorkOrder_OrderTime2,DATE_FORMAT(t1.WorkOrder_CompleteOrderTime, '%Y-%m-%d') WorkOrder_CompleteOrderTime2,DATE_FORMAT(t1.WorkOrder_RegisterTime, '%Y-%m-%d %H:%i') WorkOrder_RegisterTime2,(select sum(PRODUCTION_Volume) from PRODUCTION_MGMT_TBL2 a1 where a1.PRODUCTION_WorkOrder_ONo=t1.WorkOrder_ONo) WorkOrder_RQty2,t4.EQUIPMENT_INFO_NAME WorkOrder_EquipName,t1.*,t2.CHILD_TBL_Type WorkOrder_WorkStatusName,t3.PRODUCT_ITEM_NAME WorkOrder_ItemName,t3.*,(select a.Sales_SM_Last_Qty+a.Sales_SM_In_Qty-a.Sales_SM_Out_Qty from Sales_StockMatLX_tbl a where a.Sales_SM_Code=t1.WorkOrder_ItemCode) Qty from WorkOrder_tbl t1 inner join DTL_TBL t2 on t1.WorkOrder_WorkStatus = t2.CHILD_TBL_NO inner join PRODUCT_INFO_TBL t3 on t1.WorkOrder_ItemCode=t3.PRODUCT_ITEM_CODE inner join EQUIPMENT_INFO_TBL t4 on t1.WorkOrder_EquipCode=t4.EQUIPMENT_INFO_CODE";
 		sql += where;
 
 		//System.out.println("workorderList_top = " + sql);
@@ -284,12 +284,12 @@ public class workOrderListRestController {
 				data.setWorkOrder_PQty(rs.getString("WorkOrder_PQty"));
 				// data.setWorkOrder_RQty(rs.getString("WorkOrder_RQty2"));
 				data.setWorkOrder_RQty(rs.getString("WorkOrder_RQty"));
-				data.setWorkOrder_RegisterTime(rs.getString("WorkOrder_RegisterTime"));
+				data.setWorkOrder_RegisterTime(rs.getString("WorkOrder_RegisterTime2"));
 				data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime"));
 
-				data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime"));
+				data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime2"));
 
-				data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime"));
+				data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime2"));
 				data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime"));
 				data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime"));
 				data.setWorkOrder_WorkStatus(rs.getString("WorkOrder_WorkStatus"));
@@ -367,7 +367,7 @@ public class workOrderListRestController {
 
 		where += " order by t1.WorkOrder_ReceiptTime desc, t1.WorkOrder_No desc";
 
-		sql = "select (select sum(PRODUCTION_Volume) from PRODUCTION_MGMT_TBL2 a1 where a1.PRODUCTION_WorkOrder_ONo=t1.WorkOrder_ONo) WorkOrder_RQty2,t4.EQUIPMENT_INFO_NAME WorkOrder_EquipName,t1.*,t2.CHILD_TBL_Type WorkOrder_WorkStatusName,t3.PRODUCT_ITEM_NAME WorkOrder_ItemName,t3.*,(select a.Sales_SM_Last_Qty+a.Sales_SM_In_Qty-a.Sales_SM_Out_Qty from Sales_StockMatLX_tbl a where a.Sales_SM_Code=t1.WorkOrder_ItemCode) Qty from WorkOrder_tbl t1 inner join DTL_TBL t2 on t1.WorkOrder_WorkStatus = t2.CHILD_TBL_NO inner join PRODUCT_INFO_TBL t3 on t1.WorkOrder_ItemCode=t3.PRODUCT_ITEM_CODE inner join EQUIPMENT_INFO_TBL t4 on t1.WorkOrder_EquipCode=t4.EQUIPMENT_INFO_CODE";
+		sql = "select DATE_FORMAT(t1.WorkOrder_OrderTime, '%Y-%m-%d %H:%i') WorkOrder_OrderTime2,DATE_FORMAT(t1.WorkOrder_CompleteOrderTime, '%Y-%m-%d') WorkOrder_CompleteOrderTime2,DATE_FORMAT(t1.WorkOrder_ReceiptTime, '%Y-%m-%d %H:%i') WorkOrder_ReceiptTime2,(select sum(PRODUCTION_Volume) from PRODUCTION_MGMT_TBL2 a1 where a1.PRODUCTION_WorkOrder_ONo=t1.WorkOrder_ONo) WorkOrder_RQty2,t4.EQUIPMENT_INFO_NAME WorkOrder_EquipName,t1.*,t2.CHILD_TBL_Type WorkOrder_WorkStatusName,t3.PRODUCT_ITEM_NAME WorkOrder_ItemName,t3.*,(select a.Sales_SM_Last_Qty+a.Sales_SM_In_Qty-a.Sales_SM_Out_Qty from Sales_StockMatLX_tbl a where a.Sales_SM_Code=t1.WorkOrder_ItemCode) Qty from WorkOrder_tbl t1 inner join DTL_TBL t2 on t1.WorkOrder_WorkStatus = t2.CHILD_TBL_NO inner join PRODUCT_INFO_TBL t3 on t1.WorkOrder_ItemCode=t3.PRODUCT_ITEM_CODE inner join EQUIPMENT_INFO_TBL t4 on t1.WorkOrder_EquipCode=t4.EQUIPMENT_INFO_CODE";
 		sql += where;
 		
 		//System.out.println("workorderList_down = " + sql);
@@ -385,11 +385,11 @@ public class workOrderListRestController {
 				// data.setWorkOrder_RQty(rs.getString("WorkOrder_RQty2"));
 				data.setWorkOrder_RQty(rs.getString("WorkOrder_RQty"));
 				data.setWorkOrder_RegisterTime(rs.getString("WorkOrder_RegisterTime"));
-				data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime"));
+				data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime2"));
 
-				data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime"));
+				data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime2"));
 
-				data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime"));
+				data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime2"));
 				data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime"));
 				data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime"));
 				data.setWorkOrder_WorkStatus(rs.getString("WorkOrder_WorkStatus"));

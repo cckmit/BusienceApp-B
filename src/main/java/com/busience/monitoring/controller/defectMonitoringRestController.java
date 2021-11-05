@@ -9,14 +9,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.productionLX.dto.PRODUCTION_INFO_TBL;
+import com.busience.standard.dto.DefectPerformance;
 
 @RestController
 @RequestMapping("defectMonitoringRest")
@@ -24,6 +28,59 @@ public class defectMonitoringRestController {
 
 	@Autowired
 	DataSource dataSource;
+	
+	@Autowired
+	JdbcTemplate jdbctemplate;
+	
+	@GetMapping("/defect_view")
+	public List<DefectPerformance> defect_view(HttpServletRequest request){
+		System.out.println(request.getParameter("startDate"));
+		System.out.println(request.getParameter("endDate"));
+		System.out.println(request.getParameter("WorkOrder_EquipCode"));
+		
+		String sql = "SELECT \r\n"
+				+ "		Defect_ONo,\r\n"
+				+ "		t2.WorkOrder_PQty,\r\n"
+				+ "		t2.WorkOrder_RQty,\r\n"
+				+ "		SUM(IF(Defect_Code='D001',Defect_DQty,0)) D001,\r\n"
+				+ "		SUM(IF(Defect_Code='D002',Defect_DQty,0)) D002,\r\n"
+				+ "		SUM(IF(Defect_Code='D003',Defect_DQty,0)) D003,\r\n"
+				+ "		SUM(IF(Defect_Code='D004',Defect_DQty,0)) D004,\r\n"
+				+ "		SUM(IF(Defect_Code='D005',Defect_DQty,0)) D005,\r\n"
+				+ "		SUM(IF(Defect_Code='D997',Defect_DQty,0)) D997,\r\n"
+				+ "		Defect_TestTime\r\n"
+				+ "		,SUM(Defect_DQty)\r\n"
+				+ "FROM defectPerformance t1\r\n"
+				+ "INNER JOIN(\r\n"
+				+ "SELECT\r\n"
+				+ "			*\r\n"
+				+ "FROM			WorkOrder_tbl\r\n"
+				+ "WHERE		WorkOrder_CompleteTime BETWEEN '"+request.getParameter("startDate")+" 00:00:00' AND '"+request.getParameter("endDate")+" 23:59:59'\r\n"
+				+ "AND		WorkOrder_EquipCode='"+request.getParameter("WorkOrder_EquipCode")+"'\r\n"
+				+ ") t2 \r\n"
+				+ "ON t1.Defect_ONo = t2.WorkOrder_ONo\r\n"
+				+ "GROUP BY Defect_ONo";
+		
+		return jdbctemplate.query(sql, new RowMapper() {
+
+			@Override
+			public DefectPerformance mapRow(ResultSet rs, int rowNum) throws SQLException {
+				DefectPerformance data = new DefectPerformance();
+				data.setDefect_ONo(rs.getString(1));
+				data.setWorkOrder_PQty(rs.getString(2));
+				data.setWorkOrder_RQty(rs.getString(3));
+				data.setD001(rs.getString(4));
+				data.setD002(rs.getString(5));
+				data.setD003(rs.getString(6));
+				data.setD004(rs.getString(7));
+				data.setD005(rs.getString(8));
+				data.setD997(rs.getString(9));
+				data.setDefect_TestTime(rs.getString(10));
+				data.setDefect_DQty(rs.getString(11));
+				return data;
+			}
+		});
+	}
 	
 	@GetMapping("/unit1")
 	public List<PRODUCTION_INFO_TBL> unit1() throws SQLException {

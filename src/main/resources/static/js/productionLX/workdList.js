@@ -27,7 +27,7 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 		{ title: "설비코드", field: "workOrder_EquipCode", headerHozAlign: "center", width: 100 },
 		{ title: "설비이름", field: "workOrder_EquipName", headerHozAlign: "center", width: 180 },
 		{ title: "규격", field: "product_INFO_STND_1", headerHozAlign: "center" },
-		{ title: "지시수량", field: "workOrder_PQty", headerHozAlign: "center", align: "right" },
+		{ title: "지시수량", field: "workOrder_PQty", headerHozAlign: "center", align: "right", formatter:"money", formatterParams: {precision: false} },
 		{ title: "작업지시일", field: "workOrder_OrderTime", align: "right", headerHozAlign: "center", width: 160, formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" } },
 		{ title: "작업예정완료일", field: "workOrder_CompleteOrderTime", align: "right", headerHozAlign: "center", width: 160, formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" } },
 		{ title: "접수일", field: "workOrder_ReceiptTime", align: "right", headerHozAlign: "center", width: 160, formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" } },

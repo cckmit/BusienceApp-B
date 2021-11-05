@@ -63,6 +63,12 @@ public class workOrderTABRestXOController {
 				+ "			a1.*,\r\n"
 				+ "			a2.PRODUCT_ITEM_NAME,\r\n"
 				+ "			a2.PRODUCT_INFO_STND_1\r\n"
+				+ "				,DATE_FORMAT(a1.WorkOrder_RegisterTime, '%Y-%m-%d %H:%i') WorkOrder_RegisterTime2\r\n"
+				+ "				,DATE_FORMAT(a1.WorkOrder_ReceiptTime, '%Y-%m-%d %H:%i') WorkOrder_ReceiptTime2\r\n"
+				+ "				,DATE_FORMAT(a1.WorkOrder_OrderTime, '%Y-%m-%d %H:%i') WorkOrder_OrderTime2\r\n"
+				+ "				,DATE_FORMAT(a1.WorkOrder_StartTime, '%Y-%m-%d %H:%i') WorkOrder_StartTime2\r\n"
+				+ "				,DATE_FORMAT(a1.WorkOrder_CompleteOrderTime, '%Y-%m-%d %H:%i') WorkOrder_CompleteOrderTime2\r\n"
+				+ "				,DATE_FORMAT(a1.WorkOrder_CompleteTime, '%Y-%m-%d %H:%i') WorkOrder_CompleteTime2\r\n"
 				+ "	FROM			WorkOrder_tbl a1\r\n"
 				+ "	LEFT JOIN	PRODUCT_INFO_TBL a2 ON a1.WorkOrder_ItemCode = a2.PRODUCT_ITEM_CODE\r\n"
 				+ "	WHERE		WorkOrder_ReceiptTime BETWEEN '"+startDate+"' AND '"+endDate+"'\r\n"
@@ -85,8 +91,8 @@ public class workOrderTABRestXOController {
 				 data.setWorkOrder_PQty(rs.getString("WorkOrder_PQty"));
 				 data.setWorkOrder_RQty(rs.getString("WorkOrder_RQty"));
 				 
-				 data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime"));
-				 data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime"));
+				 data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime2"));
+				 data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime2"));
 				 
 				 data.setWorkOrder_EquipCode(rs.getString("WorkOrder_EquipCode"));
 				data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime"));
@@ -145,7 +151,8 @@ public class workOrderTABRestXOController {
 				+ "	WHERE		a1.WorkOrder_EquipCode='"+request.getParameter("WorkOrder_EquipCode")+"'\r\n"
 				+ "	AND		a1.WorkOrder_WorkStatus<>'244'\r\n"
 				+ "	AND		a1.WorkOrder_WorkStatus<>'245'\r\n"
-				+ "	AND		a1.WorkOrder_ReceiptTime >= (DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -2 DAY),'%Y-%m-%d'))\r\n"
+				//+ "	AND		a1.WorkOrder_ReceiptTime >= (DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -2 DAY),'%Y-%m-%d'))\r\n"
+				+ " AND		a1.WorkOrder_RegisterTime >= DATE_FORMAT(NOW(),'%Y-%m-%d')"
 				+ ")";
 		
 		System.out.println(sql);
@@ -214,11 +221,12 @@ public class workOrderTABRestXOController {
 		*/
 		
 		String sql = "UPDATE WorkOrder_tbl SET WorkOrder_WorkStatus = '245',\r\n"
+				+ "WorkOrder_PQty = IFNULL((SELECT SUM(PRODUCTION_Volume) FROM PRODUCTION_MGMT_TBL2 WHERE PRODUCTION_WorkOrder_ONo=?),0),\r\n"
 				+ "WorkOrder_RQty = IFNULL((SELECT SUM(PRODUCTION_Volume) FROM PRODUCTION_MGMT_TBL2 WHERE PRODUCTION_WorkOrder_ONo=?),0),\r\n"
 				+ "WorkOrder_CompleteTime = NOW()\r\n"
 				+ "WHERE WorkOrder_ONo = ? AND WorkOrder_EquipCode=? AND WorkOrder_WorkStatus='244'";
 		
-		jdbctemplate.update(sql, PRODUCTION_SERIAL_NUM, PRODUCTION_SERIAL_NUM, WorkOrder_EquipCode);
+		jdbctemplate.update(sql, PRODUCTION_SERIAL_NUM, PRODUCTION_SERIAL_NUM, PRODUCTION_SERIAL_NUM, WorkOrder_EquipCode);
 		
 		sql = "DELETE\r\n"
 				+ "FROM		WorkOrder_tbl\r\n"
@@ -246,11 +254,12 @@ public class workOrderTABRestXOController {
 		},WorkOrder_EquipCode);
 		
 		sql = "UPDATE WorkOrder_tbl SET WorkOrder_WorkStatus = '245',\r\n"
+				+ "WorkOrder_PQty = ?,\r\n"
 				+ "WorkOrder_RQty = ?,\r\n"
 				+ "WorkOrder_CompleteTime = NOW()\r\n"
 				+ "WHERE WorkOrder_EquipCode=? AND WorkOrder_WorkStatus='244'";
 		
-		jdbctemplate.update(sql, hap, WorkOrder_EquipCode);
+		jdbctemplate.update(sql, hap, hap, WorkOrder_EquipCode);
 		
 		sql = "DELETE\r\n"
 				+ "FROM		WorkOrder_tbl\r\n"
