@@ -61,22 +61,6 @@ var salesDeliveryListTable = new Tabulator("#salesDeliveryListTable", {
 	]
 });
 
-$("#SDL_SearchBtn").click(function() {
-	SDL_Search();
-})
-
-function SDL_Search() {
-	var thisMonth = $("#selectedMonth").val() + "-01";
-	var nextMontth = new Date($("#selectedMonth").val() + "-01");
-	nextMontth = new Date(nextMontth.setMonth(nextMontth.getMonth() + 1)).toISOString().substring(0, 10);
-
-	var datas = {
-		startDate: thisMonth,
-		endDate: nextMontth
-	}
-	salesDeliveryListTable.setData("salesDeliveryReportLXRest/SDL_Search", datas);
-}
-
 var salesDeliveryCustomerTable = new Tabulator("#salesDeliveryCustomerTable", {
 	layoutColumnsOnNewData: true,
 	//Sub Total 색상
@@ -100,7 +84,27 @@ var salesDeliveryCustomerTable = new Tabulator("#salesDeliveryCustomerTable", {
 	],
 });
 
+$("#SDL_SearchBtn").click(function() {
+	salesDeliveryCustomerTable.clearData();
+	SDL_Search();
+})
+
+function SDL_Search() {
+	var thisMonth = $("#selectedMonth").val() + "-01";
+	var nextMontth = new Date($("#selectedMonth").val() + "-01");
+	nextMontth = new Date(nextMontth.setMonth(nextMontth.getMonth() + 1)).toISOString().substring(0, 10);
+
+	var datas = {
+		startDate: thisMonth,
+		endDate: nextMontth
+	}
+	salesDeliveryListTable.setData("salesDeliveryReportLXRest/SDL_Search", datas);
+}
+
+
+
 function SDC_Search(clientCode) {
+	
 	var thisMonth = $("#selectedMonth").val() + "-01";
 	var nextMontth = new Date($("#selectedMonth").val() + "-01");
 	nextMontth = new Date(nextMontth.setMonth(nextMontth.getMonth() + 1)).toISOString().substring(0, 10);
