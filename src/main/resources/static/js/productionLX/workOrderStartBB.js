@@ -23,12 +23,10 @@
 					visible:false
 				},
 				{ title: "생산량", field: "workOrder_RQty", headerHozAlign: "center", width: 100, align: "right",
-					formatter:function(cell, formatterParams, onRendered){
-						return cell.getValue() == null ? cell.getValue() :  cell.getValue().slice(0,-2); //return the contents of the cell;
-					}
+					formatter:"money", formatterParams: {precision: false}
 				},
-				{ title: "작업시작일", field: "workOrder_StartTime2", align: "right", headerHozAlign: "center", width: 160, formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" } },
-				{ title: "작업완료일", field: "workOrder_CompleteTime2", align: "right", headerHozAlign: "center", width: 160, formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" } }
+				{ title: "작업시작일", field: "workOrder_StartTime", align: "right", headerHozAlign: "center", width: 160},
+				{ title: "작업완료일", field: "workOrder_CompleteTime", align: "right", headerHozAlign: "center", width: 160}
 			],
 		});
 
@@ -144,6 +142,9 @@
 			});
 
 			$.get("workOrderTABRestXO/MI_Searchd?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
+				
+				console.log(data);
+				
 				WorkOrder_tbl.setData(data);
 			});
 
@@ -160,7 +161,7 @@
 		}
 
 		document.getElementById("workOrderInsertBBtn").onclick = function(){
-			move();
+			location.href = "/workList";
 		}
 
 		window.onload = function(){

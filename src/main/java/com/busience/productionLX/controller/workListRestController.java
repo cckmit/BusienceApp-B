@@ -10,14 +10,19 @@ import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.productionLX.dto.WorkOrder_tbl;
@@ -28,6 +33,9 @@ public class workListRestController {
 
 	@Autowired
 	DataSource dataSource;
+	
+	@Autowired
+	JdbcTemplate jdbctemplate;
 
 	@RequestMapping(value = "/MI_Search1", method = RequestMethod.GET)
 	public List<WorkOrder_tbl> MI_Search1(HttpServletRequest request)
@@ -158,7 +166,6 @@ public class workListRestController {
 			data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime"));
 			data.setWorkOrder_WorkStatus(rs.getString("WorkOrder_WorkStatus"));
 			data.setWorkOrder_WorkStatusName(rs.getString("WorkOrder_WorkStatusName"));
-			data.setWorkOrder_WorkStatusName(rs.getString("WorkOrder_WorkStatusName"));
 			data.setWorkOrder_Worker(rs.getString("WorkOrder_Worker"));
 			data.setWorkOrder_Remark(rs.getString("WorkOrder_Remark"));
 			data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
@@ -185,6 +192,73 @@ public class workListRestController {
 		rs.close();
 		conn.close();
 		return list;
+	}
+	
+	@RequestMapping(value = "/workList_Search", method = RequestMethod.GET)
+	public List<WorkOrder_tbl> workList_Search(HttpServletRequest request)
+	{
+		String sql = "SELECT\r\n"
+				+ "		*,\r\n"
+				+ "		t2.PRODUCT_ITEM_NAME,\r\n"
+				+ "		t2.PRODUCT_INFO_STND_1,\r\n"
+				+ "		t3.EQUIPMENT_INFO_NAME,\r\n"
+				+ "		t4.CHILD_TBL_TYPE\r\n"
+				+ "		,DATE_FORMAT(a1.WorkOrder_OrderTime, '%Y-%m-%d %H:%i') WorkOrder_OrderTime2\r\n"
+				+ "		,DATE_FORMAT(a1.WorkOrder_CompleteOrderTime, '%Y-%m-%d') WorkOrder_CompleteOrderTime2\r\n"
+				+ "		,DATE_FORMAT(a1.WorkOrder_StartTime,'%Y-%m-%d %H:%i') WorkOrder_StartTime2\r\n"
+				+ "		,DATE_FORMAT(a1.WorkOrder_CompleteTime,'%Y-%m-%d %H:%i') WorkOrder_CompleteTime2\r\n"
+				+ "		,DATE_FORMAT(a1.WorkOrder_ReceiptTime,'%Y-%m-%d %H:%i') WorkOrder_ReceiptTime2\r\n"
+				+ "FROM\r\n"
+				+ "(\r\n"
+				+ "	SELECT\r\n"
+				+ "			*\r\n"
+				+ "	FROM			WorkOrder_tbl t1\r\n"
+				+ "	WHERE			t1.WorkOrder_WorkStatus = '244'\r\n"
+				+ "	UNION ALL\r\n"
+				+ "	SELECT\r\n"
+				+ "			*\r\n"
+				+ "	FROM			WorkOrder_tbl t1\r\n"
+				+ "	WHERE		WorkOrder_WorkStatus <> '242' AND t1.WorkOrder_WorkStatus <> '244'\r\n"
+				+ " AND 		WorkOrder_ReceiptTime between '"+request.getParameter("startDate")+" 00:00:00' and '"+request.getParameter("endDate")+" 23:59:59'	\r\n"
+				+ ")  a1\r\n"
+				+ "INNER JOIN	PRODUCT_INFO_TBL t2 ON a1.WorkOrder_ItemCode = t2.PRODUCT_ITEM_CODE\r\n"
+				+ "INNER JOIN	EQUIPMENT_INFO_TBL t3 ON a1.WorkOrder_EquipCode = t3.EQUIPMENT_INFO_CODE \r\n"
+				+ "INNER JOIN  DTL_TBL t4 ON a1.WorkOrder_WorkStatus = t4.CHILD_TBL_NO \r\n"
+				+ "WHERE		(WorkOrder_ItemCode = "+( (request.getParameter("PRODUCT_ITEM_CODE")==null || request.getParameter("PRODUCT_ITEM_CODE")=="")? "'' OR 1=1" : request.getParameter("PRODUCT_ITEM_CODE") )+")\r\n"
+				+ "AND		(WorkOrder_EquipCode = "+( (request.getParameter("Machine_Code")==null || request.getParameter("Machine_Code")=="")? "'' OR 1=1" : request.getParameter("Machine_Code") )+")\r\n"
+				+ "ORDER BY WorkOrder_EquipCode,FIELD(a1.WorkOrder_WorkStatus,'244','243','245')";
+		
+		return jdbctemplate.query(sql, new RowMapper() {
+
+			@Override
+			public WorkOrder_tbl mapRow(ResultSet rs, int rowNum) throws SQLException {
+				WorkOrder_tbl data = new WorkOrder_tbl();
+				
+				data.setWorkOrder_ONo(rs.getString("WorkOrder_ONo"));
+				data.setWorkOrder_ItemCode(rs.getString("WorkOrder_ItemCode"));
+				data.setWorkOrder_ItemName(rs.getString("PRODUCT_ITEM_NAME"));
+				data.setWorkOrder_EquipCode(rs.getString("WorkOrder_EquipCode"));
+				data.setWorkOrder_EquipName(rs.getString("EQUIPMENT_INFO_NAME"));
+				data.setWorkOrder_PQty(rs.getString("WorkOrder_PQty"));
+				data.setWorkOrder_RQty(rs.getString("WorkOrder_RQty"));
+				data.setWorkOrder_RegisterTime(rs.getString("WorkOrder_RegisterTime"));
+				data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime2"));
+
+				data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime2"));
+
+				data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime2"));
+				data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime2"));
+				data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime2"));
+				data.setWorkOrder_WorkStatus(rs.getString("WorkOrder_WorkStatus"));
+				data.setWorkOrder_WorkStatusName(rs.getString("CHILD_TBL_TYPE"));
+				data.setWorkOrder_Worker(rs.getString("WorkOrder_Worker"));
+				data.setWorkOrder_Remark(rs.getString("WorkOrder_Remark"));
+				data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
+				//data.setPRODUCT_UNIT_PRICE(rs.getString("PRODUCT_UNIT_PRICE"));
+				
+				return data;
+			}
+		});
 	}
 
 	@RequestMapping(value = "/OrderUpdate", method = RequestMethod.GET)

@@ -25,7 +25,7 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 		{ title: "설비코드", field: "workOrder_EquipCode", headerHozAlign: "center", width: 100 },
 		{ title: "설비이름", field: "workOrder_EquipName", headerHozAlign: "center", width: 180 },
 		{ title: "규격", field: "product_INFO_STND_1", headerHozAlign: "center"},	
-		{ title: "지시수량", field: "workOrder_PQty", headerHozAlign: "center", align:"right"},
+		{ title: "지시수량", field: "workOrder_PQty", headerHozAlign: "center", align:"right", formatter:"money", formatterParams: {precision: false}},
 		{ title: "작업지시일", field: "workOrder_OrderTime", align: "right", headerHozAlign: "center", width: 160},
 		{ title: "작업지시종료일", field: "workOrder_CompleteOrderTime", align: "right", headerHozAlign: "center", width: 160},
 		{ title: "등록일", field: "workOrder_RegisterTime", align: "right", headerHozAlign: "center", width: 160},
@@ -90,6 +90,7 @@ function FI_SearchBtn1()
 			//console.log("MI");
 			console.log(data);
 			
+			/*
 			for(i=0;i<data.length;i++)
 			{
 				workOrder_OrderTime = data[i].workOrder_OrderTime;
@@ -101,6 +102,7 @@ function FI_SearchBtn1()
 				workOrder_RegisterTime = data[i].workOrder_RegisterTime;
 				data[i].workOrder_RegisterTime =  workOrder_RegisterTime.substr(0,workOrder_RegisterTime.length-2);
 			}
+			*/
 			
 			WorkOrder_tbl.setData(data);
 		}
@@ -125,6 +127,7 @@ function FI_SearchBtn2()
 			//console.log("MI");
 			console.log(data);
 			
+			/*
 			for(i=0;i<data.length;i++)
 			{
 				workOrder_OrderTime = data[i].workOrder_OrderTime;
@@ -136,6 +139,7 @@ function FI_SearchBtn2()
 				workOrder_ReceiptTime = data[i].workOrder_ReceiptTime;
 				data[i].workOrder_ReceiptTime =  workOrder_ReceiptTime.substr(0,workOrder_ReceiptTime.length-2);
 			}
+			*/
 			
 			WorkOrder_tbl2.setData(data);
 		}
@@ -155,7 +159,7 @@ var WorkOrder_tbl2 = new Tabulator("#WorkOrder_tbl2", {
 		{ title: "설비코드", field: "workOrder_EquipCode", headerHozAlign: "center", width: 100 },
 		{ title: "설비이름", field: "workOrder_EquipName", headerHozAlign: "center", width: 180 },
 		{ title: "규격", field: "product_INFO_STND_1", headerHozAlign: "center"},		
-		{ title: "지시수량", field: "workOrder_PQty", headerHozAlign: "center", align:"right"},
+		{ title: "지시수량", field: "workOrder_PQty", headerHozAlign: "center", align:"right", formatter:"money", formatterParams: {precision: false}},
 		{ title: "작업지시일", field: "workOrder_OrderTime", align: "right", headerHozAlign: "center", width: 160},
 		{ title: "작업지시종료일", field: "workOrder_CompleteOrderTime", align: "right", headerHozAlign: "center", width: 160},
 		{ title: "접수일", field: "workOrder_ReceiptTime", align: "right", headerHozAlign: "center", width: 160},
