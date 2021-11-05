@@ -90,42 +90,6 @@ public class CommonRestController {
 		
 		return managerList;
 	}
-	// 공통코드 찾기
-	@GetMapping("/parentMenuSelect")
-	public List<DTL_TBL> parentMenuSelect(Principal principal) throws SQLException {
-		
-		String modifier = principal.getName();
-		
-		String sql = "SELECT \r\n"
-				+ "distinct cast(B.Menu_Parent_No as unsigned ) CHILD_TBL_NUM,\r\n"
-				+ "C.CHILD_TBL_TYPE\r\n"
-				+ "FROM User_Menu_tbl A\r\n"
-				+ "inner join Menu_tbl B on A.Program_Code = B.Menu_Code\r\n"
-				+ "inner join (\r\n"
-				+ "	select * from DTL_TBL where NEW_TBL_CODE = 16\r\n"
-				+ ") C on cast(B.Menu_Parent_No as unsigned ) = C.CHILD_TBL_NUM\r\n"
-				+ "where  A.User_Code = '"+modifier+"';";
-		
-		//System.out.println(request.getParameter("NEW_TBL_CODE"));
-		Connection conn = dataSource.getConnection();
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		ResultSet rs = pstmt.executeQuery();
-		
-		List<DTL_TBL> deptList = new ArrayList<DTL_TBL>();
-		
-		while (rs.next()) {
-			DTL_TBL data =new DTL_TBL();
-			data.setCHILD_TBL_NUM(rs.getString("CHILD_TBL_NUM"));
-			data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
-			deptList.add(data);
-		}
-		
-		rs.close();
-		pstmt.close();
-		conn.close();
-		
-		return deptList;
-	}
 	
 	//생산 데이터 받는 코드
 	@GetMapping("/bsapp2")
