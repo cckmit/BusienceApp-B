@@ -7,8 +7,8 @@
     <meta charset="UTF-8">
     <title>비지언스 MES</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <jsp:include page="common_css2.jsp"></jsp:include>
-    <jsp:include page="common_js2.jsp"></jsp:include>
+    <jsp:include page="common_css.jsp"></jsp:include>
+    <jsp:include page="common_js.jsp"></jsp:include>
   </head>
    <body>
     <section id="wrapper" class="content">
