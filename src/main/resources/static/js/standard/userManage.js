@@ -104,7 +104,7 @@ function userRegister() {
 				
 				$("#userManageModal").modal("hide");
 			}else{
-				alert("오류가 발생했습니다.");
+				alert("중복된 아이디 입니다.");
 			}
 		}
 	});
