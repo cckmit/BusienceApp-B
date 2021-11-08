@@ -15,11 +15,13 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.busience.common.dto.SearchDto;
 import com.busience.materialLX.dto.OutMat_tbl;
 
 @RestController("matOutputReportLXRestController")
@@ -292,97 +294,19 @@ public class matOutputReportLXRestController {
 		return list;
 	}
 
-	// MO_DeliverySearch - SM_Prcs_Date
-	@RequestMapping(value = "/MO_DeliverySearch", method = RequestMethod.GET)
-	public String MO_DeliverySearch(HttpServletRequest request, Model model) throws SQLException, ParseException {
-		String originData = request.getParameter("data");
-		JSONParser parser = new JSONParser();
-		JSONObject obj = (JSONObject) parser.parse(originData);
-		//System.out.println(obj);
-		Connection conn = dataSource.getConnection();
-		// 占쏙옙占� 占쏙옙占싱븝옙 처占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙치占싹댐옙 占쏙옙 占싯삼옙
-		String sql = "select SM_Prcs_Date from StockMatLX_tbl where SM_Prcs_Date='" + obj.get("RawDate") + "'";
-
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		ResultSet rs = pstmt.executeQuery();
-		//System.out.println("MO_DeliverySearch_Prcs_Date : " + sql);
-
-		String RawDate_Flag = "";
-
-		while (rs.next()) {
-			RawDate_Flag = rs.getString("SM_Prcs_Date");
-		}
-
-		//System.out.println("RawDate_Flag :" + RawDate_Flag);
-
-		if (RawDate_Flag.equals("")) {
-			//System.out.println("占쏙옙占쏙옙占싱억옙");
-			return "DateFormat";
-		} else if (!RawDate_Flag.equals("")) {
-			return "Success";
-		}
-
-		rs.close();
-		pstmt.close();
-		conn.close();
-
-		return RawDate_Flag;
-	}
-
-	// MO_DeliverySearch - SM_Prcs_Date
-	@RequestMapping(value = "/MO_LastMonthSearch", method = RequestMethod.GET)
-	public String MO_LastMonthSearch(HttpServletRequest request, Model model) throws SQLException, ParseException {
-		String originData = request.getParameter("data");
-		JSONParser parser = new JSONParser();
-		JSONObject obj = (JSONObject) parser.parse(originData);
-		//System.out.println(obj);
-		Connection conn = dataSource.getConnection();
-		String sql = "select YM_Prcs_Date from YearMat_tbl where YM_Prcs_Date='" + obj.get("RawDate") + "'";
-
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		ResultSet rs = pstmt.executeQuery();
-		//System.out.println("MO_DeliverySearch_Prcs_Date : " + sql);
-
-		String RawDate_Flag = "";
-		String sql_result = null;
-
-		while (rs.next()) {
-			RawDate_Flag = rs.getString("YM_Prcs_Date");
-		}
-
-		//System.out.println("RawDate_Flag :" + RawDate_Flag);
-
-		if (RawDate_Flag.equals("")) {
-			System.out.println("error");
-			sql_result = "DateFormat";
-		} else if (!RawDate_Flag.equals("")) {
-			sql_result = "Success";
-		}
-
-		rs.close();
-		pstmt.close();
-		conn.close();
-
-		return sql_result;
-	}
-
 	// MO_DeliveryView list
-	@RequestMapping(value = "/MO_DeliveryView", method = RequestMethod.GET)
-	public List<OutMat_tbl> MO_DeliveryView(HttpServletRequest request, Model model)
-			throws SQLException, ParseException {
-		String originData = request.getParameter("data");
-		JSONParser parser = new JSONParser();
-		JSONObject obj = (JSONObject) parser.parse(originData);
-		//System.out.println(obj);
+	// 부서별 명세서
+	@GetMapping("/MO_DeliverySearch")
+	public List<OutMat_tbl> MO_DeliverySearch(SearchDto searchDto) throws SQLException {
 
 		Connection conn = dataSource.getConnection();
 
 		String sql = "select \r\n" + "OutMat_No,\r\n" + "OutMat_Dept_Code,\r\n"
 				+ "dt.CHILD_TBL_TYPE OutMat_Dept_Name,\r\n" + "sum(OutMat_Qty) OutMat_Qty\r\n"
-				+ "from OutMat_tbl omt\r\n" + "inner join DTL_TBL dt on omt.OutMat_Dept_Code = dt.CHILD_TBL_NO";
+				+ "from OutMatLX_tbl omt\r\n" + "inner join DTL_TBL dt on omt.OutMat_Dept_Code = dt.CHILD_TBL_NO";
 
-		String where = " where omt.OutMat_Date between '" + obj.get("PrcsDate") + "01 00:00:00' and '"
-				+ obj.get("PrcsDate") + obj.get("LastDay") + " 23:59:59' ";
+		String where = " where omt.OutMat_Date >= '" + searchDto.getStartDate() + "' and omt.OutMat_Date < '"
+				+ searchDto.getEndDate() + "'";
 
 		sql += where;
 
@@ -392,6 +316,8 @@ public class matOutputReportLXRestController {
 
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
+		
+		System.out.println("dept_Search = " + sql);
 
 		int i = 0;
 		List<OutMat_tbl> list = new ArrayList<OutMat_tbl>();
@@ -428,14 +354,9 @@ public class matOutputReportLXRestController {
 	}
 
 	// MO_DeliveryView Item
-	@RequestMapping(value = "/MO_DeliveryItem", method = RequestMethod.GET)
-	public List<OutMat_tbl> MO_DeliveryItem(
-			@RequestParam(value = "outMat_Dept_Code", required = false) String OutMat_Dept_Code,
-			HttpServletRequest request) throws ParseException, SQLException {
-		List<OutMat_tbl> list = new ArrayList<OutMat_tbl>();
-		String originData = request.getParameter("data");
-		JSONParser parser = new JSONParser();
-		JSONObject obj = (JSONObject) parser.parse(originData);
+	// 부서별 명세서
+	@GetMapping("/MO_DeliveryItem")
+	public List<OutMat_tbl> MO_DeliveryItem(SearchDto searchDto) throws SQLException {
 
 		String sql = "select\r\n" + "	omt.OutMat_No,\r\n" + "	omt.OutMat_Date,\r\n"
 				+ "	dt2.CHILD_TBL_TYPE OutMat_Send_Clsfc_Name,\r\n" + "	omt.OutMat_Code,\r\n"
@@ -446,93 +367,26 @@ public class matOutputReportLXRestController {
 				+ "inner join PRODUCT_INFO_TBL pit on\r\n" + "	omt.OutMat_Code = pit.PRODUCT_ITEM_CODE\r\n"
 				+ "left outer join DTL_TBL dt3 on\r\n" + "	pit.PRODUCT_UNIT = dt3.CHILD_TBL_NO";
 
-		String where = " where omt.OutMat_Date between '" + obj.get("PrcsDate") + "01 00:00:00' and '"
-				+ obj.get("PrcsDate") + obj.get("LastDay") + " 23:59:59' ";
+		String where = " where omt.OutMat_Date >= '" + searchDto.getStartDate() + "' and omt.OutMat_Date < '"
+				+ searchDto.getEndDate() + "'";
 
-		where += " and omt.OutMat_Dept_Code='" + obj.get("outMat_Dept_Code") + "'";
+		where += " and omt.OutMat_Dept_Code='" + searchDto.getDeptCode() + "'";
 
 		sql += where;
 
 		sql += " group by omt.OutMat_Code with rollup";
 		//System.out.println("where : " + where);
 		//System.out.println(sql);
-
+		
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
-		//System.out.println("---");
-		while (rs.next()) {
-			if (rs.getString("outMat_Code") == null) {
-
-				OutMat_tbl data = new OutMat_tbl();
-
-				data.setOutMat_Code("Sub Total");
-				data.setOutMat_Qty(rs.getInt("outMat_Qty"));
-
-				list.add(data);
-
-			} else {
-
-				OutMat_tbl data = new OutMat_tbl();
-
-				data.setOutMat_No(rs.getInt("outMat_No"));
-				data.setOutMat_Date(rs.getString("outMat_Date"));
-				data.setOutMat_Send_Clsfc_Name(rs.getString("outMat_Send_Clsfc_Name"));
-				data.setOutMat_Code(rs.getString("outMat_Code"));
-				data.setOutMat_Dept_Code(rs.getString("outMat_Dept_Code"));
-				data.setOutMat_Name(rs.getString("outMat_Name"));
-				data.setOutMat_STND_1(rs.getString("outMat_STND_1"));
-				data.setOutMat_UNIT(rs.getString("outMat_UNIT"));
-				data.setOutMat_Qty(rs.getInt("outMat_Qty"));
-
-				//System.out.println(data.toString());
-
-				list.add(data);
-			}
-
-		}
-		//System.out.println("---");
-		rs.close();
-		pstmt.close();
-		conn.close();
-
-		return list;
-	}
-	
-	// 부서별명세서(전월)
-	@RequestMapping(value = "/MO_DeliveryLastItem", method = RequestMethod.GET)
-	public List<OutMat_tbl> MO_DeliveryLastItem(
-			@RequestParam(value = "outMat_Dept_Code", required = false) String OutMat_Dept_Code,
-			HttpServletRequest request) throws ParseException, SQLException {
+		
 		List<OutMat_tbl> list = new ArrayList<OutMat_tbl>();
-		String originData = request.getParameter("data");
-		JSONParser parser = new JSONParser();
-		JSONObject obj = (JSONObject) parser.parse(originData);
-
-		String sql = "select\r\n" + "	omt.OutMat_No,\r\n" + "	omt.OutMat_Date,\r\n"
-				+ "	dt2.CHILD_TBL_TYPE OutMat_Send_Clsfc_Name,\r\n" + "	omt.OutMat_Code,\r\n"
-				+ "	omt.OutMat_Dept_Code,\r\n" + "	pit.PRODUCT_ITEM_NAME OutMat_Name,\r\n"
-				+ "	pit.PRODUCT_INFO_STND_1 Outmat_STND_1,\r\n" + "	dt3.CHILD_TBL_TYPE OutMat_UNIT,\r\n"
-				+ "	sum(omt.OutMat_Qty) OutMat_Qty\r\n" + "from\r\n" + "	OutMat_tbl omt\r\n"
-				+ "inner join DTL_TBL dt2 on\r\n" + "	omt.OutMat_Send_Clsfc = dt2.CHILD_TBL_NO\r\n"
-				+ "inner join PRODUCT_INFO_TBL pit on\r\n" + "	omt.OutMat_Code = pit.PRODUCT_ITEM_CODE\r\n"
-				+ "left outer join DTL_TBL dt3 on\r\n" + "	pit.PRODUCT_UNIT = dt3.CHILD_TBL_NO";
-
-		String where = " where omt.OutMat_Date between '" + obj.get("PrcsDate") + "01 00:00:00' and '"
-				+ obj.get("PrcsDate") + obj.get("LastDay") + " 23:59:59' ";
-
-		where += " and omt.OutMat_Dept_Code='" + obj.get("outMat_Dept_Code") + "'";
-
-		sql += where;
-
-		sql += " group by omt.OutMat_Code with rollup";
-		//System.out.println("where : " + where);
-		System.out.println(sql);
-
-		Connection conn = dataSource.getConnection();
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		ResultSet rs = pstmt.executeQuery();
-		System.out.println("---");
+		
+		System.out.println("list_Search = " + sql);
+		
+		//System.out.println("---");
 		while (rs.next()) {
 			if (rs.getString("outMat_Code") == null) {
 
@@ -563,7 +417,7 @@ public class matOutputReportLXRestController {
 			}
 
 		}
-		System.out.println("---");
+		//System.out.println("---");
 		rs.close();
 		pstmt.close();
 		conn.close();

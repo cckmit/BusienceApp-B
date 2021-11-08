@@ -66,6 +66,7 @@ function insBtn() {
 		EQUIPMENT_USE_STATUS: document.getElementById("EQUIPMENT_USE_STATUS").checked
 	}
 	console.log("data : " + data);
+	
 	var code = encodeURI(JSON.stringify(data)).length;
 	console.log(code);
 

@@ -100,6 +100,7 @@ public class MachineManageRestController {
 				return "Overlap";
 			}
 		}
+		
 
 		String modifier = principal.getName();
 		

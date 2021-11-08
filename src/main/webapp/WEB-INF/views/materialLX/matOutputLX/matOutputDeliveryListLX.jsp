@@ -6,18 +6,13 @@
 	<div class="top-var">
 		<!-- 버튼 -->
 		<div class="input-button">
-			<img src="/images/button/Search.png" onclick="MO_DeliveryListSearchBtn()" />
+			<img src="/images/button/Search.png" id="MO_DeliveryListSearchBtn" />
 		</div>
 		<!-- 버튼 -->
 		<div class="input-box">
 			<div>
-				<span><strong>해당월</strong></span> 
-				<c:forEach var="item" items="${PrcsDate}">
-				<input id="PrcsDatest" type="text" value="${item.CHILD_TBL_RMARK}" readonly> 
-				</c:forEach>
-				<c:forEach var="dayitem" items="${LastDay}">
-				<input id="LastDay" type="hidden" value="${dayitem.CHILD_TBL_RMARK}" disabled>
-				</c:forEach>
+				<span><strong>해당월</strong></span> <input type="month"
+					id="selectedMonth" class="this_month">
 			</div>
 		</div>
 	</div>

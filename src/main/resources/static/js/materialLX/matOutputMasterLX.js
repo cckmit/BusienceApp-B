@@ -154,126 +154,24 @@ var matOutputDeliveryListTable = new Tabulator("#matOutputDeliveryListTable", {
  	],
 });
 
+$("#MO_DeliveryListSearchBtn").click(function() {
+	matOutputDeliveryItemTable.clearData();
+	MO_DeliveryListSearchBtn();
+})
+
 function MO_DeliveryListSearchBtn() {
 
-	// 처리연월
-var date = new Date();
-var year = date.getFullYear();
-var rawDate = $("#PrcsDatest").val();
-//alert(rawDate);
-var years = year.toString().substring(0,2);
-var PrcsYear = rawDate.substring(0,2);
-var PrcsMonth = rawDate.substring(2,4);
-var LastDay = document.getElementById('LastDay').value;
-//alert("years : " + years + " PrcsYear : " + PrcsYear + " PrcsMonth : " + PrcsMonth + '-' + LastDay);
-var PrcsDate = years + PrcsYear + '-' + PrcsMonth + '-';
+	var thisMonth = $("#selectedMonth").val() + "-01";
+	var nextMontth = new Date($("#selectedMonth").val() + "-01");
+	nextMontth = new Date(nextMontth.setMonth(nextMontth.getMonth() + 1)).toISOString().substring(0, 10);
 
-	datas = {
-		PrcsDate : PrcsDate,
-		RawDate : rawDate,
-		LastDay : LastDay
+	var datas = {
+		startDate: thisMonth,
+		endDate: nextMontth
 	}
-	
-	$.ajax({
-		method : "GET",
-		url : "matOutputReportLXRest/MO_DeliverySearch?data="+ encodeURI(JSON.stringify(datas)),
-		success : function(data) {
-			console.log(datas);
-			
-			if(data == "DateFormat") {
-				console.log("이걸 타고잇어");
-				alert("해당하는 데이터 정보가 없습니다.");
-				
-			} else if(data == "Success") {
-				$.ajax({
-					method : "GET",
-					url : "matOutputReportLXRest/MO_DeliveryView?data="+ encodeURI(JSON.stringify(datas)),
-					success : function(data) {
-						console.log(data);
-						TableSetData(matOutputDeliveryListTable,data);
-						matOutputDeliveryItemTable.clearData();
-					}
-				});
-			}
-		}, error:function(request,status,error){
-        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-       }
-		
-	});
+	matOutputDeliveryListTable.setData("matOutputReportLXRest/MO_DeliverySearch", datas);
 }
 
-var matOutputDeliveryLastListTable = new Tabulator("#matOutputDeliveryLastListTable", { 
-	//페이징
-	pagination:"local",
-	paginationSize:20,
-	 //Sub Total 색상
-	rowFormatter: function(row){
-		if(row.getData().outMat_Dept_Code == "Sub Total"){
-            row.getElement().style.backgroundColor = "#c0c0c0";
-            }
-    },
-	height:"calc(100% - 175px)",
-	//행클릭 이벤트
-	rowClick: function(e, row) {
-		matOutputDeliveryLastListTable.deselectRow();
-		row.select();
-		MO_DeliveryLastItem(row.getData().outMat_Dept_Code);
-	},
- 	columns:[ //Define Table Columns
- 	{title:"순번", field:"id", headerHozAlign: "center", hozAlign: "center"},
-	{title:"부서코드", field:"outMat_Dept_Code", headerHozAlign:"center",hozAlign:"center"},
-	{title:"부서명", field:"outMat_Dept_Name", headerHozAlign:"center",hozAlign:"left", width:100},
- 	{title:"수량", field:"outMat_Qty", headerHozAlign:"center" ,hozAlign:"right", formatter : "money", formatterParams: {precision: false}}
- 	],
-});
-
-function MO_DeliveryLastListSearchBtn() {
-
-	// 처리연월
-var date = new Date();
-var year = date.getFullYear();
-var rawDate = $("#LastDatest").val();
-//alert(rawDate);
-var years = year.toString().substring(0,2);
-var PrcsYear = rawDate.substring(0,2);
-var LastMonth = rawDate.substring(2,4);
-var LastDay = document.getElementById('LastDay').value;
-//alert("years : " + years + " PrcsYear : " + PrcsYear + " LastMonth : " + LastMonth + '-' + LastDay);
-var PrcsDate = years + PrcsYear + '-' + LastMonth + '-';
-
-	datas = {
-		PrcsDate : PrcsDate,
-		RawDate : rawDate,
-		LastDay : LastDay
-	}
-	
-	$.ajax({
-		method : "GET",
-		url : "matOutputReportLXRest/MO_LastMonthSearch?data="+ encodeURI(JSON.stringify(datas)),
-		success : function(data) {
-			console.log(datas);
-			
-			if(data == "DateFormat") {
-				console.log("이걸 타고잇어");
-				alert("해당하는 데이터 정보가 없습니다.");
-				
-			} else if(data == "Success") {
-				$.ajax({
-					method : "GET",
-					url : "matOutputReportLXRest/MO_DeliveryView?data="+ encodeURI(JSON.stringify(datas)),
-					success : function(data) {
-						console.log(data);
-						TableSetData(matOutputDeliveryLastListTable,data);
-						matOutputDeliveryLastItemTable.clearData();
-					}
-				});
-			}
-		}, error:function(request,status,error){
-        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-       }
-		
-	});
-}
 
 var matOutputDeliveryItemTable = new Tabulator("#matOutputDeliveryItemTable", { 
 	//페이징
@@ -298,89 +196,16 @@ var matOutputDeliveryItemTable = new Tabulator("#matOutputDeliveryItemTable", {
  	],
 });
 
-function MO_DeliveryItem(outMat_Dept_Code) {
+function MO_DeliveryItem(deptCode) {
 
-		// 처리연월
-var date = new Date();
-var year = date.getFullYear();
-var rawDate = $("#PrcsDatest").val();
-//alert(rawDate);
-var years = year.toString().substring(0,2);
-var PrcsYear = rawDate.substring(0,2);
-var PrcsMonth = rawDate.substring(2,4);
-var LastDay = document.getElementById('LastDay').value;
-//alert("years : " + years + " PrcsYear : " + PrcsYear + " PrcsMonth : " + PrcsMonth + '-' + LastDay);
-var PrcsDate = years + PrcsYear + '-' + PrcsMonth + '-';
+    var thisMonth = $("#selectedMonth").val() + "-01";
+	var nextMontth = new Date($("#selectedMonth").val() + "-01");
+	nextMontth = new Date(nextMontth.setMonth(nextMontth.getMonth() + 1)).toISOString().substring(0, 10);
 
-	data = {
-		PrcsDate : PrcsDate,
-		LastDay : LastDay,
-		outMat_Dept_Code : outMat_Dept_Code
+	var datas = {
+		startDate: thisMonth,
+		endDate: nextMontth,
+		deptCode: deptCode
 	}
-	
-	
-	$.ajax({
-		method : "GET",
-		dataType : "json",
-		url : "matOutputReportLXRest/MO_DeliveryItem?data="+ encodeURI(JSON.stringify(data)),
-		success : function(data) {
-			console.log(data);
-			TableSetData(matOutputDeliveryItemTable,data);
-		}
-	});
-}
-
-var matOutputDeliveryLastItemTable = new Tabulator("#matOutputDeliveryLastItemTable", { 
-	//페이징
-	pagination:"local",
-	paginationSize:20,
-	 //Sub Total 색상
-	rowFormatter: function(row){
-		if(row.getData().outMat_Code == "Sub Total"){
-            row.getElement().style.backgroundColor = "#c0c0c0";
-         }
-    },
-	height:"calc(100% - 175px)",
- 	columns:[ //Define Table Columns
- 	{title:"순번", field:"outMat_No", headerHozAlign: "center", hozAlign: "center"},
- 	{title:"출고일자", field:"outMat_Date", headerHozAlign:"center",hozAlign:"center", formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
- 	{title:"출고구분", field:"outMat_Send_Clsfc_Name", headerHozAlign:"center" ,hozAlign:"left"},
-	{title:"품목코드", field:"outMat_Code", headerHozAlign:"center",hozAlign:"left"},
-	{title:"품명", field:"outMat_Name", headerHozAlign:"center",hozAlign:"left", width:155},
-	{title:"규격", field:"outMat_STND_1", headerHozAlign:"center",hozAlign:"left", width:120},
- 	{title:"단위", field:"outMat_UNIT", headerHozAlign:"center",hozAlign:"left"},
- 	{title:"수량", field:"outMat_Qty", headerHozAlign:"center" ,hozAlign:"right"}
- 	],
-});
-
-function MO_DeliveryLastItem(outMat_Dept_Code) {
-
-		// 처리연월
-var date = new Date();
-var year = date.getFullYear();
-var rawDate = $("#LastDatest").val();
-//alert(rawDate);
-var years = year.toString().substring(0,2);
-var PrcsYear = rawDate.substring(0,2);
-var LastMonth = rawDate.substring(2,4);
-var LastDay = document.getElementById('LastDay').value;
-//alert("years : " + years + " PrcsYear : " + PrcsYear + " LastMonth : " + LastMonth + '-' + LastDay);
-var PrcsDate = years + PrcsYear + '-' + LastMonth + '-';
-
-	data = {
-		PrcsDate : PrcsDate,
-		LastDay : LastDay,
-		outMat_Dept_Code : outMat_Dept_Code
-	}
-	
-	
-	$.ajax({
-		method : "GET",
-		dataType : "json",
-		url : "matOutputReportLXRest/MO_DeliveryLastItem?data="+ encodeURI(JSON.stringify(data)),
-		success : function(data) {
-			console.log(data);
-			TableSetData(matOutputDeliveryLastItemTable,data);
-		}
-	});
+	matOutputDeliveryItemTable.setData("matOutputReportLXRest/MO_DeliveryItem", datas);
 }
