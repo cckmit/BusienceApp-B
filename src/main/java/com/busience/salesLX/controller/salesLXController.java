@@ -50,6 +50,20 @@ public class salesLXController {
 
 		return "salesLX/salesInputLX";
 	}
+	
+	//salesInputLX_another
+	@GetMapping("salesInputLX_another")
+	public String salesInputLX_another(Model model) {
+
+		// 입고구분
+		int salesInputLX = 17;
+		model.addAttribute("salesInputLX", dtlService.getAlldtl(salesInputLX));
+		
+		// 메뉴명
+		model.addAttribute("pageName", "제품 입고 관리 (수동)");
+
+		return "salesLX/salesInputLX_another";
+	}
 
 	// salesOutputLX
 	@GetMapping("salesOutputLX")
