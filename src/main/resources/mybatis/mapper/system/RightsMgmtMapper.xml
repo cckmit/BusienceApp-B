@@ -9,7 +9,7 @@
 		SELECT A.Rights_User_Type, A.Rights_Program_Code, B.Menu_Name Rights_Program_Name, A.Rights_MGMT_Use_Status
 		FROM Rights_MGMT_tbl A
 		inner join Menu_tbl B on A.Rights_Program_Code = B.Menu_Code
-		where A.Rights_User_Type = #{userType}
+		where A.Rights_User_Type = #{userType} and B.Menu_Use_Status = '1';
 	</select>
 	
 	<update id="rightsMgmtUpdateDao">

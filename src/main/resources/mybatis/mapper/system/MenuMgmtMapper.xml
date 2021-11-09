@@ -9,7 +9,7 @@
 		SELECT A.Menu_User_Code, A.Menu_Program_Code, B.Menu_Name Menu_Program_Name, A.Menu_Read_Use_Status, A.Menu_Write_Use_Status, A.Menu_Delete_Use_Status, A.Menu_MGMT_Use_Status
         FROM Menu_MGMT_tbl A
         inner join Menu_tbl B on A.Menu_Program_Code = B.Menu_Code
-        where A.Menu_User_Code = #{userCode}
+        where A.Menu_User_Code = #{userCode} and B.Menu_Use_Status = '1';
 	</select>
 	
 	<update id="menuMgmtUpdateDao">
