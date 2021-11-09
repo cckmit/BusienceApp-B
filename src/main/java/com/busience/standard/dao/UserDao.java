@@ -20,7 +20,7 @@ public interface UserDao {
 	public int insertUser(UserDto userDto);
 	
 	//유저 등록시 메뉴관리 테이블에 메뉴리스트 추가
-	public int insertMenuNewUser(@Param("userCode") String userCode);
+	public int insertMenuNewUser(@Param("userCode") String userCode, @Param("userType") String userType);
 	
 	//유저 수정
 	public int updateUser(UserDto userDto);
