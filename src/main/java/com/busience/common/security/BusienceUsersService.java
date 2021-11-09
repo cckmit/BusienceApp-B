@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.busience.standard.dto.UserDto;
 import com.busience.standard.service.UserService;
 
 
@@ -17,12 +18,14 @@ public class BusienceUsersService implements UserDetailsService{
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-		if(username == null) {
+		
+		UserDto userDto = userService.selectUser(username);
+		
+		if(userDto == null) {
         	throw new UsernameNotFoundException("User "+username+" Not Found!");
         }
 
-		return new BusienceSecurityUser(userService.selectUser(username));
+		return new BusienceSecurityUser(userDto);
 	}
 	
 }
