@@ -129,7 +129,7 @@
 									총&nbsp;생&nbsp;산&nbsp;수&nbsp;량
 								</td>
 								<td rowspan="2">
-									<input class="form-control form-control-lg" type="text" id="sum_qty" style="font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px;">
+									<input readonly class="form-control form-control-lg" type="text" id="sum_qty" style="font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:right;">
 								</td>
 							</tr>
 							<tr>
@@ -137,18 +137,40 @@
 									Product name
 								</td>
 							</tr>
-
 							<tr>
-								<td style="font-size: 50px; color: white; text-align: center; width: 40%;">
-									생&nbsp;산&nbsp;수&nbsp;량
+								<td style="width: 50%;">
+									<table>
+										<tr>
+											<td style="font-size: 50px; color: white; text-align: center; width: 40%;">
+												생&nbsp;산&nbsp;수&nbsp;량
+											</td>
+											<td rowspan="2">
+												<input readonly class="form-control form-control-lg" type="text" id="current_qty" style="font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:right;">
+											</td>
+										</tr>
+										<tr>
+											<td style="font-size: 25px; color: white; text-align: center;">
+												Product Count
+											</td>
+										</tr>
+									</table>
 								</td>
-								<td rowspan="2">
-									<input class="form-control form-control-lg" type="text" id="current_qty" style="font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px;">
-								</td>
-							</tr>
-							<tr>
-								<td style="font-size: 25px; color: white; text-align: center;">
-									Product specifications
+								<td style="width: 50%;">
+									<table>
+										<tr>
+											<td style="font-size: 50px; color: white; text-align: center; width: 40%;">
+												지&nbsp;시&nbsp;수&nbsp;량
+											</td>
+											<td rowspan="2">
+												<input readonly class="form-control form-control-lg" type="text" id="d_len" style="font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:right;">
+											</td>
+										</tr>
+										<tr>
+											<td style="font-size: 25px; color: white; text-align: center;">
+												Order Count
+											</td>
+										</tr>
+									</table>
 								</td>
 							</tr>
 						</table>
@@ -190,5 +212,11 @@
 			}
 	</script>
 	<script src="/js/productionLX/workOrderStartBB.js"></script>
+
+	<style>
+		.tabulator { font-size: 16px; }
+	</style>
+
+	
 </body>
 </html>

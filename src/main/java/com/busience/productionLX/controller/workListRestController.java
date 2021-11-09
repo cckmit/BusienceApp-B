@@ -312,18 +312,47 @@ public class workListRestController {
 		String workOrder_EquipCode = request.getParameter("workOrder_EquipCode");
 		Connection con = dataSource.getConnection();
 		PreparedStatement pstmt = null;
+		
+		String sql = "select sum(PRODUCTION_Volume) PRODUCTION_Volume from PRODUCTION_MGMT_TBL2 where PRODUCTION_WorkOrder_ONo = '"+workOrder_ONo+"'";
+		Integer PRODUCTION_Volume = jdbctemplate.queryForObject(sql, new RowMapper<Integer>() {
 
-		// 접속자 정보
-		String modifier = principal.getName();
+			@Override
+			public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+				// TODO Auto-generated method stub
+				return rs.getInt(1);
+			}
+		});
+		
+		sql = "SELECT WorkOrder_Remark FROM WorkOrder_tbl WHERE WorkOrder_ONo = '"+workOrder_ONo+"'";
+		String WorkOrder_Remark = jdbctemplate.queryForObject(sql, new RowMapper<String>() {
 
-		String sql = "update WorkOrder_tbl set WorkOrder_WorkStatus='294',WorkOrder_CompleteTime=now(),WorkOrder_Worker='"
-				+ modifier
-				+ "',WorkOrder_RQty=(select sum(PRODUCTION_Volume) from PRODUCTION_MGMT_TBL2 where PRODUCTION_WorkOrder_ONo = '"
-				+ workOrder_ONo + "')\r\n" + " where workOrder_ONo='" + workOrder_ONo + "'";
-		pstmt = con.prepareStatement(sql);
-		pstmt.executeUpdate();
-		pstmt.close();
-		con.close();
+			@Override
+			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+				// TODO Auto-generated method stub
+				return rs.getString(1);
+			}
+		});
+		
+		if(PRODUCTION_Volume == 0 && WorkOrder_Remark.equals("AUTO"))
+		{
+			sql = "delete from WorkOrder_tbl where workOrder_ONo='"+workOrder_ONo+"'";
+			jdbctemplate.update(sql);
+		}
+		else
+		{
+			// 접속자 정보
+			String modifier = principal.getName();
+
+			sql = "update WorkOrder_tbl set WorkOrder_WorkStatus='245',WorkOrder_CompleteTime=now(),WorkOrder_Worker='"
+					+ modifier
+					+ "',WorkOrder_RQty=(select sum(PRODUCTION_Volume) from PRODUCTION_MGMT_TBL2 where PRODUCTION_WorkOrder_ONo = '"
+					+ workOrder_ONo + "')\r\n" + " where workOrder_ONo='" + workOrder_ONo + "'";
+			pstmt = con.prepareStatement(sql);
+			pstmt.executeUpdate();
+			pstmt.close();
+			con.close();			
+		}
+		
 
 		return "OK";
 	}

@@ -35,8 +35,8 @@
 	
 	<insert id="insertMenuNewUser">
 		insert into Menu_MGMT_tbl
-			select #{userCode}, Menu_Code, true, true, true, true
-			from Menu_tbl
+			select #{userCode}, Rights_Program_Code, Rights_MGMT_Use_Status, Rights_MGMT_Use_Status, Rights_MGMT_Use_Status, Rights_MGMT_Use_Status
+			from Rights_MGMT_tbl where Rights_User_Type = #{userType}
 	</insert>
 	
 	<update id="updateUser">

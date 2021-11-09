@@ -114,27 +114,35 @@ public class workOrderTABRestController {
 	@RequestMapping(value = "/MI_Search2", method = RequestMethod.GET)
 	public WorkOrder_tbl MI_Search2(HttpServletRequest request) throws SQLException
 	{
-		return jdbctemplate.queryForObject("SELECT \r\n"
-				+ "					*,\r\n"
-				+ "					t2.PRODUCT_ITEM_NAME WorkOrder_ItemName\r\n"
-				+ "		FROM WorkOrder_tbl t1\r\n"
-				+ "		LEFT JOIN PRODUCT_INFO_TBL t2\r\n"
-				+ "		ON t1.WorkOrder_ItemCode = t2.PRODUCT_ITEM_CODE where workOrder_ONo='"+request.getParameter("workOrder_ONo")+"'", new RowMapper<WorkOrder_tbl>() {
-			@Override
-			public WorkOrder_tbl mapRow(ResultSet rs, int rowNum) throws SQLException {
-				WorkOrder_tbl data = new WorkOrder_tbl();
-				data.setWorkOrder_ONo(rs.getString("WorkOrder_ONo"));
-				data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime"));
-				data.setWorkOrder_ItemCode(rs.getString("WorkOrder_ItemCode"));
-				data.setWorkOrder_ItemName(rs.getString("WorkOrder_ItemName"));
-				data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime"));
-				data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime"));
-				data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime"));
-				data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime"));
-				data.setWorkOrder_WorkStatus(rs.getString("WorkOrder_WorkStatus"));
-				return data;
-			}
-		});
+		try
+		{
+			return jdbctemplate.queryForObject("SELECT \r\n"
+					+ "					*,\r\n"
+					+ "					t2.PRODUCT_ITEM_NAME WorkOrder_ItemName\r\n"
+					+ "		FROM WorkOrder_tbl t1\r\n"
+					+ "		LEFT JOIN PRODUCT_INFO_TBL t2\r\n"
+					+ "		ON t1.WorkOrder_ItemCode = t2.PRODUCT_ITEM_CODE where workOrder_ONo='"+request.getParameter("workOrder_ONo")+"'", new RowMapper<WorkOrder_tbl>() {
+				@Override
+				public WorkOrder_tbl mapRow(ResultSet rs, int rowNum) throws SQLException {
+					WorkOrder_tbl data = new WorkOrder_tbl();
+					data.setWorkOrder_ONo(rs.getString("WorkOrder_ONo"));
+					data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime"));
+					data.setWorkOrder_EquipCode(rs.getString("WorkOrder_EquipCode"));
+					data.setWorkOrder_ItemCode(rs.getString("WorkOrder_ItemCode"));
+					data.setWorkOrder_ItemName(rs.getString("WorkOrder_ItemName"));
+					data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime"));
+					data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime"));
+					data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime"));
+					data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime"));
+					data.setWorkOrder_WorkStatus(rs.getString("WorkOrder_WorkStatus"));
+					return data;
+				}
+			});
+		}
+		catch(Exception ex)
+		{
+			return null;
+		}
 	}
 	
 	@RequestMapping(value = "/EQUIPMENT_Export", method = RequestMethod.GET)

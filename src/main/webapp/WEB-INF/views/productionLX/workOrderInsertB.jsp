@@ -32,7 +32,7 @@
 				</tr>
 
 				<tr>
-					<td style="width: 50%;">
+					<td style="width: 40%;">
 						<center>
 						<table style="width: 90%; background-color: rgb(82,153,217); border-radius: 5%; margin: 10px;"> 
 							<tr>
@@ -55,15 +55,26 @@
 						</table>
 						</center>
 					</td>
-					<td style="width: 50%;">
+					<td style="width: 35%;">
 						<center>
 							<table style="width: 90%; height: 120px; background-color: rgb(82,153,217); border-radius: 5%; margin: 10px;"> 
 								<tr>
 									<td style="font-size: 50px; color: white; text-align: center; width: 30%;">
 										Today
 									</td>
-									<td style="font-size: 50px; color: white; width: 70%;">
+									<td style="font-size: 50px; color: white; width: 70%; text-align: right; padding-right: 10px;">
 										<fmt:formatDate value="${nowDate}" pattern="yyyy-MM-dd" />
+									</td>
+								</tr>
+							</table>
+						</center>
+					</td>
+					<td style="width: 25%; padding-right: 65px;">
+						<center>
+							<table style="width: 100%; height: 120px; background-color: rgb(82,153,217); border-radius: 5%; margin: 10px;" id="move"> 
+								<tr>
+									<td style="font-size: 50px; color: white; text-align: center; width: 30%;">
+										태블릿 작업관리
 									</td>
 								</tr>
 							</table>
@@ -73,7 +84,7 @@
 			</table>
 
 			<div style="float: left;">
-				<button type="button" id="SearchBtn" class="btn btn-primary btn-lg" style="font-size:40px; color: black; background-color: rgb(246, 177, 148);margin-left: 45px;margin-right: 200px;">작 업 지 시 (Work Order)</button>
+				<button type="button" id="SearchBtn" class="btn btn-primary btn-lg" style="font-size:40px; color: black; background-color: rgb(246, 177, 148);margin-left: 45px;margin-right: 200px; visibility: hidden;">작 업 지 시 (Work Order)</button>
 			</div>
 
 			<div style="padding: 5px;" class="btn-group-md" role="group" aria-label="Basic radio toggle button group" >
@@ -95,5 +106,10 @@
 			}
 		</script>
 		<script src="/js/productionLX/workOrderInsertB.js"></script>
+
+		<style>
+			.tabulator { font-size: 16px; }
+		</style>
     </body>
+	
 </html>
