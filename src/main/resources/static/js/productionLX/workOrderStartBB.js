@@ -1,4 +1,5 @@
 		var workOrder_ONo = "";
+		var workOrder_Remark = "";
 		
 		var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 			//페이징
@@ -6,13 +7,12 @@
 			paginationSize: 5,
 			paginationAddRow: "table",
 			height:"100%",
-			layout: "fitColumns",
 			placeholder: "No Data Set",
 			resizableColumns: false,
 			rowClick: function(e, row) {
 			},
 			columns: [
-				{ title: "작업지시번호", field: "workOrder_ONo", headerHozAlign: "center", width: 160 },
+				{ title: "작업지시번호", field: "workOrder_ONo", headerHozAlign: "center", width: 180 },
 				{ title: "제품코드", field: "workOrder_ItemCode", headerHozAlign: "center", width: 100 },
 				{ title: "제품이름", field: "workOrder_ItemName", headerHozAlign: "center", width: 180 },
 				{ title: "규격", field: "product_INFO_STND_1", headerHozAlign: "center", width: 100 },
@@ -26,7 +26,8 @@
 					formatter:"money", formatterParams: {precision: false}
 				},
 				{ title: "작업시작일", field: "workOrder_StartTime", align: "right", headerHozAlign: "center", width: 160},
-				{ title: "작업완료일", field: "workOrder_CompleteTime", align: "right", headerHozAlign: "center", width: 160}
+				{ title: "작업완료일", field: "workOrder_CompleteTime", align: "right", headerHozAlign: "center", width: 160},
+				{ title: "특이사항", field: "workOrder_Remark", align: "right", headerHozAlign: "center"}
 			],
 		});
 
@@ -47,7 +48,6 @@
 					// 규격
 					document.getElementById("o_len").value = row.getData().product_INFO_STND_1;
 
-					
 					if(workOrder_ONo==="")
 					{
 						$.get("workOrderTABRestXO/MI_Searchi?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&PRODUCTION_PRODUCT_CODE=" + document.getElementById("n_len_code").value, function(data) {                 
@@ -56,22 +56,46 @@
 
 							$.get("workOrderTABRestXO/MI_Searchd?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
 								WorkOrder_tbl.setData(data);
+								select_program();
 							});
 						
 						});
 					}
 					else{
-						$.get("workOrderTABRestXO/MI_Searche?WorkOrder_EquipCode=" + document.getElementById("eqselect").value+"&PRODUCTION_SERIAL_NUM="+workOrder_ONo, function(data) {            
-							$.get("workOrderTABRestXO/MI_Searchi?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&PRODUCTION_PRODUCT_CODE=" + document.getElementById("n_len_code").value, function(data) {                 
-							
-								workOrder_ONo = data[0].workOrder_ONo;
-		
-								$.get("workOrderTABRestXO/MI_Searchd?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
-									WorkOrder_tbl.setData(data);
+						
+
+						if(workOrder_Remark != "AUTO")
+						{
+							$.get("workOrderTABRestXO/MI_Searche?WorkOrder_WorkStatus=243&WorkOrder_EquipCode=" + document.getElementById("eqselect").value+"&PRODUCTION_SERIAL_NUM="+workOrder_ONo, function(data) {            
+								$.get("workOrderTABRestXO/MI_Searchi?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&PRODUCTION_PRODUCT_CODE=" + document.getElementById("n_len_code").value, function(data) {                 
+								
+									workOrder_ONo = data[0].workOrder_ONo;
+									workOrder_Remark = data[0].workOrder_Remark;
+			
+									$.get("workOrderTABRestXO/MI_Searchd?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
+										WorkOrder_tbl.setData(data);
+										select_program();
+									});
+								
 								});
-							
 							});
-						});
+						}
+						else
+						{
+							$.get("workOrderTABRestXO/MI_Searche?WorkOrder_WorkStatus=245&WorkOrder_EquipCode=" + document.getElementById("eqselect").value+"&PRODUCTION_SERIAL_NUM="+workOrder_ONo, function(data) {            
+								$.get("workOrderTABRestXO/MI_Searchi?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&PRODUCTION_PRODUCT_CODE=" + document.getElementById("n_len_code").value, function(data) {                 
+								
+									workOrder_ONo = data[0].workOrder_ONo;
+									workOrder_Remark = data[0].workOrder_Remark;
+			
+									$.get("workOrderTABRestXO/MI_Searchd?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
+										WorkOrder_tbl.setData(data);
+										select_program();
+									});
+								
+								});
+							});
+						}
 					}
 				}
 				else
@@ -132,11 +156,21 @@
 		{
 			$.get("workOrderStartBRest/workOrderStartInit?eqselect="+document.getElementById("eqselect").value,function(data){
 				
+				console.log(data);
+
 				if(data.length > 0)
 				{
 					document.getElementById("n_len_code").value = data[0].workOrder_ItemCode;
 					document.getElementById("n_len").value = data[0].workOrder_ItemName;
 					document.getElementById("o_len").value = data[0].product_INFO_STND_1;
+					document.getElementById("d_len").value = parseInt(data[0].workOrder_PQty);
+
+					workOrder_ONo = data[0].workOrder_ONo;
+					workOrder_Remark = data[0].workOrder_Remark;
+				}
+				else
+				{
+					workOrder_ONo = "";
 				}
 
 			});
@@ -148,6 +182,7 @@
 				WorkOrder_tbl.setData(data);
 			});
 
+			/* 
 			$.get("workOrderStartBRest/workOrderStartInit?eqselect="+document.getElementById("eqselect").value,function(data){
 				if(data.length > 0)
 				{
@@ -158,10 +193,11 @@
 					workOrder_ONo = "";
 				}
 			});
+			*/
 		}
 
 		document.getElementById("workOrderInsertBBtn").onclick = function(){
-			location.href = "/workList";
+			//location.href = "/workList";
 		}
 
 		window.onload = function(){
@@ -171,8 +207,19 @@
 		setInterval(function(){
 			$.get("workOrderStartBRest/workOrderSumQty?eqselect=" + document.getElementById("eqselect").value, function(data){
 				document.getElementById("sum_qty").value = data;
+				
+				console.log(data);
+
+				var con = parseInt(document.getElementById("current_qty").value);
+
+				debugger;
+
+				if(data== 0 && con>0)
+				{
+					location.reload();
+				}
 			});
-		},5000);
+		},10000);
 
 		setInterval(function(){
 			$.get("workOrderStartBRest/workOrderCurrentQty?eqselect=" + document.getElementById("eqselect").value, function(data){

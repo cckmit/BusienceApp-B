@@ -101,20 +101,24 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
       		editorParams:{values:dtl_arr}
 			,cellEdited: function(cell)
 			{
+				debugger;
+
 				//Right_Move(cell,"right");
 				console.log(cell.getValue());
+				console.log(cell.getInitialValue());
 				
-				if(cell.getValue()=="292")
+				if(cell.getValue()=="243")
 				{
 					var cellInitialValue = cell.getInitialValue();
-					if(cellInitialValue=="293" || cellInitialValue=="294")
+					//if(cellInitialValue=="293" || cellInitialValue=="294")
+					if(cellInitialValue=="244" || cellInitialValue=="245")
 					{
 						alert("해당 데이터는 작업이 진행되고 있는 건으로써 수정이 불가능합니다.");
 						cell.restoreOldValue();
 						return;
 					}
 				}
-				if(cell.getValue()=="293")
+				if(cell.getValue()=="244")
 				{
 					/*
 					$.ajax({
@@ -129,7 +133,7 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 					*/
 					
 					var cellInitialValue = cell.getInitialValue();
-					if(cellInitialValue=="294")
+					if(cellInitialValue=="245")
 					{
 						alert("작업이 완료되었던 건으로써 수정이 불가능합니다.");
 						cell.restoreOldValue();
@@ -159,10 +163,10 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 					else
 						cell.restoreOldValue();
 				}
-				else if(cell.getValue()=="294")
+				else if(cell.getValue()=="245")
 				{
 					var cellInitialValue = cell.getInitialValue();
-					if(cellInitialValue=="292")
+					if(cellInitialValue=="242")
 					{
 						alert("해당 데이터는 작업이 진행되지 않았던 건으로써 작업 시작후 접수하여 주십시오.");
 						cell.restoreOldValue();

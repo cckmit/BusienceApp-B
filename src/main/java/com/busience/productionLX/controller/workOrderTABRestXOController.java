@@ -89,7 +89,7 @@ public class workOrderTABRestXOController {
 				 data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
 				 
 				 data.setWorkOrder_PQty(rs.getString("WorkOrder_PQty"));
-				 data.setWorkOrder_RQty(rs.getString("WorkOrder_RQty"));
+				 data.setWorkOrder_RQty((rs.getString("WorkOrder_RQty") == null)? "0" : rs.getString("WorkOrder_RQty"));
 				 
 				 data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime2"));
 				 data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime2"));
@@ -99,6 +99,8 @@ public class workOrderTABRestXOController {
 				data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime"));
 				//data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTimef"));
 				data.setWorkOrder_WorkStatus(rs.getString("WorkOrder_WorkStatus"));	
+				
+				data.setWorkOrder_Remark(rs.getString("WorkOrder_Remark"));
 				
 				return data;
 			}
@@ -169,7 +171,7 @@ public class workOrderTABRestXOController {
 				data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
 				 
 				data.setWorkOrder_PQty(rs.getString("WorkOrder_PQty"));
-				data.setWorkOrder_RQty(rs.getString("WorkOrder_RQty"));
+				data.setWorkOrder_RQty((rs.getString("WorkOrder_RQty") == null)? "0" : rs.getString("WorkOrder_RQty"));
 				 
 				data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime2"));
 				data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime2"));
@@ -210,6 +212,7 @@ public class workOrderTABRestXOController {
 	public void MI_Searche(HttpServletRequest request) throws SQLException {
 		String WorkOrder_EquipCode = request.getParameter("WorkOrder_EquipCode");
 		String PRODUCTION_SERIAL_NUM = request.getParameter("PRODUCTION_SERIAL_NUM");
+		String WorkOrder_WorkStatus = request.getParameter("WorkOrder_WorkStatus");
 
 		/*
 		String sql = "UPDATE WorkOrder_tbl_X SET PRODUCTION_END_TIME = NOW(),\r\n" + "PRODUCTION_CC='E',\r\n"
@@ -220,22 +223,36 @@ public class workOrderTABRestXOController {
 		jdbctemplate.update(sql, PRODUCTION_SERIAL_NUM, PRODUCTION_SERIAL_NUM, PRODUCTION_SERIAL_NUM);
 		*/
 		
-		String sql = "UPDATE WorkOrder_tbl SET WorkOrder_WorkStatus = '245',\r\n"
-				+ "WorkOrder_PQty = IFNULL((SELECT SUM(PRODUCTION_Volume) FROM PRODUCTION_MGMT_TBL2 WHERE PRODUCTION_WorkOrder_ONo=?),0),\r\n"
-				+ "WorkOrder_RQty = IFNULL((SELECT SUM(PRODUCTION_Volume) FROM PRODUCTION_MGMT_TBL2 WHERE PRODUCTION_WorkOrder_ONo=?),0),\r\n"
-				+ "WorkOrder_CompleteTime = NOW()\r\n"
-				+ "WHERE WorkOrder_ONo = ? AND WorkOrder_EquipCode=? AND WorkOrder_WorkStatus='244'";
+		String sql = "";
 		
-		jdbctemplate.update(sql, PRODUCTION_SERIAL_NUM, PRODUCTION_SERIAL_NUM, PRODUCTION_SERIAL_NUM, WorkOrder_EquipCode);
-		
-		sql = "DELETE\r\n"
-				+ "FROM		WorkOrder_tbl\r\n"
-				+ "WHERE 0 = (SELECT t1.WorkOrder_RQty FROM (SELECT WorkOrder_RQty FROM WorkOrder_tbl  WHERE WorkOrder_EquipCode='"+WorkOrder_EquipCode+"' AND WorkOrder_WorkStatus='245' ORDER BY WorkOrder_RegisterTime DESC LIMIT 1) t1)\r\n"
-				+ "AND	WorkOrder_ONo = (SELECT t2.WorkOrder_ONo FROM (SELECT WorkOrder_ONo FROM WorkOrder_tbl  WHERE WorkOrder_EquipCode='"+WorkOrder_EquipCode+"' AND WorkOrder_WorkStatus='245' ORDER BY WorkOrder_RegisterTime DESC LIMIT 1) t2)";
-		
-		System.out.println(sql);
-		
-		jdbctemplate.update(sql);
+		if(WorkOrder_WorkStatus.equals("243"))
+		{
+			sql = "UPDATE WorkOrder_tbl SET WorkOrder_WorkStatus = '243',\r\n"
+					+ "WorkOrder_StartTime = NULL,\r\n"
+					+ "WorkOrder_CompleteTime = NULL\r\n"
+					+ "WHERE WorkOrder_ONo = ? AND WorkOrder_EquipCode=? AND WorkOrder_WorkStatus='244'";
+			
+			jdbctemplate.update(sql, PRODUCTION_SERIAL_NUM, WorkOrder_EquipCode);
+		}
+		else
+		{
+			sql = "UPDATE WorkOrder_tbl SET WorkOrder_WorkStatus = '245',\r\n"
+					+ "WorkOrder_PQty = IFNULL((SELECT SUM(PRODUCTION_Volume) FROM PRODUCTION_MGMT_TBL2 WHERE PRODUCTION_WorkOrder_ONo=?),0),\r\n"
+					+ "WorkOrder_RQty = IFNULL((SELECT SUM(PRODUCTION_Volume) FROM PRODUCTION_MGMT_TBL2 WHERE PRODUCTION_WorkOrder_ONo=?),0),\r\n"
+					+ "WorkOrder_CompleteTime = NOW()\r\n"
+					+ "WHERE WorkOrder_ONo = ? AND WorkOrder_EquipCode=? AND WorkOrder_WorkStatus='244'";
+			
+			jdbctemplate.update(sql, PRODUCTION_SERIAL_NUM, PRODUCTION_SERIAL_NUM, PRODUCTION_SERIAL_NUM, WorkOrder_EquipCode);
+			
+			sql = "DELETE\r\n"
+					+ "FROM		WorkOrder_tbl\r\n"
+					+ "WHERE 0 = (SELECT t1.WorkOrder_RQty FROM (SELECT WorkOrder_RQty FROM WorkOrder_tbl  WHERE WorkOrder_EquipCode='"+WorkOrder_EquipCode+"' AND WorkOrder_WorkStatus='245' ORDER BY WorkOrder_RegisterTime DESC LIMIT 1) t1)\r\n"
+					+ "AND	WorkOrder_ONo = (SELECT t2.WorkOrder_ONo FROM (SELECT WorkOrder_ONo FROM WorkOrder_tbl  WHERE WorkOrder_EquipCode='"+WorkOrder_EquipCode+"' AND WorkOrder_WorkStatus='245' ORDER BY WorkOrder_RegisterTime DESC LIMIT 1) t2)";
+			
+			System.out.println(sql);
+			
+			jdbctemplate.update(sql);
+		}
 	}
 	
 	@RequestMapping(value = "/MI_Searche2", method = RequestMethod.GET)
@@ -338,7 +355,7 @@ public class workOrderTABRestXOController {
 				data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
 				 
 				data.setWorkOrder_PQty(rs.getString("WorkOrder_PQty"));
-				data.setWorkOrder_RQty(rs.getString("WorkOrder_RQty"));
+				data.setWorkOrder_RQty((rs.getString("WorkOrder_RQty") == null)? "0" : rs.getString("WorkOrder_RQty"));
 				
 				data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime"));
 				data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime"));

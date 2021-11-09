@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,6 +34,9 @@ public class CommonRestController {
 	
 	@Autowired
 	ProductionService productionService;
+	
+	@Autowired
+	JdbcTemplate jdbctemplate;
 	
 	// 공통코드 찾기
 	@GetMapping("/dtl_tbl_select")
@@ -145,6 +149,73 @@ public class CommonRestController {
 		
 		System.out.println(production);
 		productionService.insertMenuNewUser(production);
+	}
+	
+	@GetMapping("/productAdd")
+	public void productAdd(HttpServletRequest request) {
+		String equip_code = request.getParameter("equip_code");
+		String count = request.getParameter("count");
+		
+		try
+		{
+			String sql = "INSERT INTO PRODUCTION_MGMT_TBL2\r\n"
+					+ "(\r\n"
+					+ "	PRODUCTION_WorkOrder_ONo,\r\n"
+					+ "	PRODUCTION_Product_Code,\r\n"
+					+ "	PRODUCTION_Equipment_Code,\r\n"
+					+ "	PRODUCTION_Volume\r\n"
+					+ ")\r\n"
+					+ "VALUES(\r\n"
+					+ "	(SELECT WorkOrder_ONo FROM WorkOrder_tbl WHERE WorkOrder_EquipCode = ? AND WorkOrder_WorkStatus = '244'),\r\n"
+					+ "	(SELECT WorkOrder_ItemCode FROM WorkOrder_tbl WHERE WorkOrder_EquipCode = ? AND WorkOrder_WorkStatus = '244'),\r\n"
+					+ "	(SELECT WorkOrder_EquipCode FROM WorkOrder_tbl WHERE WorkOrder_EquipCode = ? AND WorkOrder_WorkStatus = '244'),\r\n"
+					+ "	?\r\n"
+					+ ")";
+			
+			System.out.println(sql);
+			
+			jdbctemplate.update(sql,equip_code,equip_code,equip_code,count);
+			
+			sql = "UPDATE WorkOrder_tbl w1,\r\n"
+					+ "(\r\n"
+					+ "	select\r\n"
+					+ "			SUM(PRODUCTION_Volume) vvsum\r\n"
+					+ "	FROM	PRODUCTION_MGMT_TBL2\r\n"
+					+ "	WHERE	PRODUCTION_WorkOrder_ONo = \r\n"
+					+ "	(\r\n"
+					+ "		SELECT \r\n"
+					+ "					WorkOrder_ONo\r\n"
+					+ "		FROM		WorkOrder_tbl\r\n"
+					+ "		WHERE		WorkOrder_EquipCode = ?\r\n"
+					+ "		AND 		WorkOrder_WorkStatus = '244'\r\n"
+					+ "	)	\r\n"
+					+ ") vsum,\r\n"
+					+ "(\r\n"
+					+ "	SELECT\r\n"
+					+ "			WorkOrder_PQty vvWorkOrder_PQty,\r\n"
+					+ "			WorkOrder_ONo	vvWorkOrder_ONo\r\n"
+					+ "	FROM 	WorkOrder_tbl\r\n"
+					+ "	WHERE	WorkOrder_EquipCode = ?\r\n"
+					+ "	AND	WorkOrder_WorkStatus = '244'\r\n"
+					+ ") vWorkOrder_PQty\r\n"
+					+ "SET	WorkOrder_WorkStatus = '245',\r\n"
+					+ "WorkOrder_RQty = vsum.vvsum,\r\n"
+					+ "WorkOrder_CompleteTime = NOW()\r\n"
+					+ "WHERE	WorkOrder_Remark <> 'AUTO'\r\n"
+					+ "AND	vWorkOrder_PQty.vvWorkOrder_PQty <= vsum.vvsum\r\n"
+					+ "AND	vWorkOrder_PQty.vvWorkOrder_ONo = WorkOrder_ONo";
+			
+			System.out.println(sql);
+			
+			jdbctemplate.update(sql,equip_code,equip_code);
+		}
+		catch(Exception ex)
+		{
+			System.out.println(ex.getMessage());
+			
+			// SQLIntegrityConstraintViolationException
+			// 현재 작업시작중인 데이터가 없기 때문에 뜨는 에러
+		}
 	}
 
 	//하위 메뉴 List
