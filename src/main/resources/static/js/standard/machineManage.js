@@ -14,10 +14,10 @@ function delBtn() {
 	$.ajax({
 		method: "POST",
 		url: "machineManageRest/machineManageDelete?EQUIPMENT_INFO_CODE=" + document.getElementById("EQUIPMENT_INFO_CODE").value,
-		beforeSend: function (xhr) {
-           var header = $("meta[name='_csrf_header']").attr("content");
-           var token = $("meta[name='_csrf']").attr("content");
-           xhr.setRequestHeader(header, token);
+		beforeSend: function(xhr) {
+			var header = $("meta[name='_csrf_header']").attr("content");
+			var token = $("meta[name='_csrf']").attr("content");
+			xhr.setRequestHeader(header, token);
 		},
 		success: function(data) {
 			console.log(data);
@@ -47,6 +47,7 @@ function insBtn() {
 		return;
 	}
 
+
 	data = {
 		EQUIPMENT_BUSINESS_PLACE: $("#EQUIPMENT_BUSINESS_PLACE option:selected").val(),
 		EQUIPMENT_INFO_CODE: document.getElementById("EQUIPMENT_INFO_CODE").value,
@@ -65,25 +66,27 @@ function insBtn() {
 		EQUIPMENT_USE_STATUS: document.getElementById("EQUIPMENT_USE_STATUS").checked
 	}
 	console.log("data : " + data);
-	
+
 	var code = encodeURI(JSON.stringify(data)).length;
 	console.log(code);
+
+	//alert(data.EQUIPMENT_RECEIVED_D);
+	if (data.EQUIPMENT_RECEIVED_D == '') {
+		alert("구입 일자를 입력하세요.");
+	}
 
 	$.ajax({
 		method: "post",
 		url: "machineManageRest/machineManageInsert?data=" + encodeURI(JSON.stringify(data)),
-		beforeSend: function (xhr) {
-           var header = $("meta[name='_csrf_header']").attr("content");
-           var token = $("meta[name='_csrf']").attr("content");
-           xhr.setRequestHeader(header, token);
+		beforeSend: function(xhr) {
+			var header = $("meta[name='_csrf_header']").attr("content");
+			var token = $("meta[name='_csrf']").attr("content");
+			xhr.setRequestHeader(header, token);
 		},
 		success: function(data, testStatus) {
-			//console.log("data : " + data);
+			console.log("data : " + data);
 			if (data == "Overlap")
 				alert("중복된 코드 입니다.");
-			else if (data.EQUIPMENT_RECEIVED_D == null){
-				alert("구입 일자를 입력하세요.");
-			}
 			else {
 				alert("입력 성공 하였습니다.");
 				resetBtn();
@@ -119,13 +122,18 @@ function modBtn() {
 		EQUIPMENT_INFO_RMARK: document.getElementById("EQUIPMENT_INFO_RMARK").value,
 		EQUIPMENT_USE_STATUS: document.getElementById("EQUIPMENT_USE_STATUS").checked
 	}
+
+	if (data.EQUIPMENT_RECEIVED_D == '') {
+		alert("구입 일자를 입력하세요.");
+	}
+
 	$.ajax({
 		method: "post",
 		url: "machineManageRest/machineManageUpdate?data=" + encodeURI(JSON.stringify(data)) + "",
-		beforeSend: function (xhr) {
-           var header = $("meta[name='_csrf_header']").attr("content");
-           var token = $("meta[name='_csrf']").attr("content");
-           xhr.setRequestHeader(header, token);
+		beforeSend: function(xhr) {
+			var header = $("meta[name='_csrf_header']").attr("content");
+			var token = $("meta[name='_csrf']").attr("content");
+			xhr.setRequestHeader(header, token);
 		},
 		success: function(data) {
 			console.log(data);
