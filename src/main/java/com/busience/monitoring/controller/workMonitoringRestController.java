@@ -4,11 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +24,52 @@ public class workMonitoringRestController {
 
 	@Autowired
 	DataSource dataSource;
+	
+	@Autowired
+	JdbcTemplate jdbctemplate;
+	
+	@GetMapping("/WorkOrder_select")
+	public List<WorkOrder_tbl> WorkOrder_select(HttpServletRequest request) throws SQLException{
+		
+		String sql = "SELECT\r\n"
+				+ "			*\r\n"
+				+ "			,(SELECT PRODUCT_ITEM_NAME FROM PRODUCT_INFO_TBL WHERE PRODUCT_ITEM_CODE = WorkOrder_ItemCode) PRODUCT_ITEM_NAME\r\n"
+				+ "			,(SELECT EQUIPMENT_INFO_NAME FROM EQUIPMENT_INFO_TBL WHERE EQUIPMENT_INFO_CODE = WorkOrder_EquipCode) EQUIPMENT_INFO_NAME\r\n"
+				+ "FROM\r\n"
+				+ "(\r\n"
+				+ "	SELECT\r\n"
+				+ "			*\r\n"
+				+ "	FROM		EQUIPMENT_INFO_TBL\r\n"
+				+ "	WHERE		EQUIPMENT_INFO_CODE = '"+request.getParameter("WorkOrder_EquipCode")+"'\r\n"
+				+ ")  t1\r\n"
+				+ "LEFT JOIN\r\n"
+				+ "(\r\n"
+				+ "	SELECT\r\n"
+				+ "				*\r\n"
+				+ "	FROM		WorkOrder_tbl\r\n"
+				+ "	WHERE		WorkOrder_EquipCode = '"+request.getParameter("WorkOrder_EquipCode")+"'\r\n"
+				+ "	AND		WorkOrder_WorkStatus = 244\r\n"
+				+ ")  t2\r\n"
+				+ "ON t1.EQUIPMENT_INFO_CODE = t2.WorkOrder_EquipCode";
+		
+		return jdbctemplate.query(sql, new RowMapper() {
+
+			@Override
+			public WorkOrder_tbl mapRow(ResultSet rs, int rowNum) throws SQLException {
+				WorkOrder_tbl data = new WorkOrder_tbl();
+				
+				data.setWorkOrder_ONo(rs.getString("WorkOrder_ONo"));
+				data.setWorkOrder_ItemCode(rs.getString("WorkOrder_ItemCode"));
+				data.setWorkOrder_ItemName(rs.getString("PRODUCT_ITEM_NAME"));
+				data.setWorkOrder_RQty( (rs.getString("WorkOrder_RQty")==null)?"0":rs.getString("WorkOrder_RQty") );
+				
+				data.setWorkOrder_EquipCode(rs.getString("WorkOrder_EquipCode"));
+				data.setWorkOrder_EquipName(rs.getString("EQUIPMENT_INFO_NAME"));
+				
+				return data;
+			}
+		});
+	}
 	
 	@GetMapping("/moni")
 	public WorkOrder_tbl moni(HttpServletRequest request) throws SQLException {

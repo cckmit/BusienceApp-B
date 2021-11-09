@@ -52,11 +52,12 @@ public class workOrderStartBRestController {
 				 data.setWorkOrder_ItemName(rs.getString("PRODUCT_ITEM_NAME"));
 				 data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
 				 
-				 data.setWorkOrder_PQty(rs.getString("WorkOrder_PQty"));
-				 data.setWorkOrder_RQty(rs.getString("WorkOrder_RQty"));
+				 data.setWorkOrder_PQty((rs.getString("WorkOrder_PQty") == null)? "0" : rs.getString("WorkOrder_PQty"));
+				 data.setWorkOrder_RQty((rs.getString("WorkOrder_RQty") == null)? "0" : rs.getString("WorkOrder_RQty"));
 				 
 				 data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime2"));
 				 data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime2"));
+				 data.setWorkOrder_Remark(rs.getString("WorkOrder_Remark"));
 				
 				return data;
 			}
