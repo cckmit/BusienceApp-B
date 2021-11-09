@@ -426,7 +426,7 @@ function insBtn() {
 		},
 		success: function(data, testStatus) {
 			if (data == "Overlap")
-				alert("중복코드를 입력하셨습니다. 다른 코드를 입력해주세요.");
+				alert("중복된 코드 입니다.");
 			else if (data == "Success") {
 				alert("저장 완료 하였습니다.");
 

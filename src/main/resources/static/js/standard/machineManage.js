@@ -80,7 +80,10 @@ function insBtn() {
 		success: function(data, testStatus) {
 			//console.log("data : " + data);
 			if (data == "Overlap")
-				alert("중복 코드를 입력하셨습니다. 다시 입력해주세요.");
+				alert("중복된 코드 입니다.");
+			else if (data.EQUIPMENT_RECEIVED_D == null){
+				alert("구입 일자를 입력하세요.");
+			}
 			else {
 				alert("입력 성공 하였습니다.");
 				resetBtn();
