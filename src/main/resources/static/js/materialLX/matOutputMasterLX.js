@@ -60,8 +60,7 @@ var matOutputItemViewTable = new Tabulator("#matOutputItemViewTable", {
  	{title:"품명", field:"outMat_Name", headerHozAlign:"center",hozAlign:"left", width:170},
  	{title:"규격", field:"outMat_STND_1", headerHozAlign:"center",hozAlign:"left", width:120},
  	{title:"단위", field:"outMat_UNIT", headerHozAlign:"center",hozAlign:"left", width:60},
- 	{title:"수량", field:"outMat_Qty", headerHozAlign:"center",hozAlign:"right"},
-    {title:"요청No", field:"outMat_ReqNo", headerHozAlign:"center", hozAlign:"left", width:130}
+ 	{title:"수량", field:"outMat_Qty", headerHozAlign:"center",hozAlign:"right"}
  	],
 });
 
@@ -104,8 +103,7 @@ var matOutputDeptViewTable = new Tabulator("#matOutputDeptViewTable", {
  	{title:"품명", field:"outMat_Name", headerHozAlign:"center",hozAlign:"left", width:170},
  	{title:"규격", field:"outMat_STND_1", headerHozAlign:"center",hozAlign:"left", width:120},
  	{title:"단위", field:"outMat_UNIT", headerHozAlign:"center",hozAlign:"left", width:60},
- 	{title:"수량", field:"outMat_Qty", headerHozAlign:"center",hozAlign:"right"},
-    {title:"요청No", field:"outMat_ReqNo", headerHozAlign:"center", hozAlign:"left", width:130}
+ 	{title:"수량", field:"outMat_Qty", headerHozAlign:"center",hozAlign:"right"}
  	],
 });
 

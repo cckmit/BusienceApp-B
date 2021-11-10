@@ -170,8 +170,8 @@ public class matOutputReportLXRestController {
 
 				data.setOutMat_Date(rs.getString("outMat_Date"));
 				data.setOutMat_Send_Clsfc_Name("Grand Total");
-				data.setOutMat_Code(rs.getString("outMat_Code"));
-				data.setOutMat_Name(rs.getString("outMat_Name"));
+				data.setOutMat_Code("");
+				data.setOutMat_Name("");
 				data.setOutMat_Qty(rs.getInt("outMat_Qty"));
 
 				list.add(data);

@@ -33,7 +33,7 @@ var matInputTable = new Tabulator("#matInputTable", {
  		{title:"발주일", field:"order_mDate", headerHozAlign:"center", hozAlign:"right", headerFilter:true},
  		{title:"납기일자", field:"order_mDlvry_Date", headerHozAlign:"center", hozAlign:"right", headerFilter:true},
  		{title:"특이사항", field:"order_mRemarks", headerHozAlign:"center", headerFilter:true},
- 		{title:"합계금액", field:"order_mTotal", headerHozAlign:"center", hozAlign:"right", headerFilter:true},
+ 		{title:"합계금액", field:"order_mTotal", headerHozAlign:"center", hozAlign:"right", headerFilter:true, formatter : "money", formatterParams:{ precision:false}},
  		{title:"수정자", field:"order_mModifier", headerHozAlign:"center", headerFilter:true},
  		{title:"수정일자", field:"order_mModify_Date", headerHozAlign:"center",  headerFilter:true},
  		{title:"목록확인", field:"order_mCheck", visible:false}
@@ -126,8 +126,8 @@ var matInputSubTable = new Tabulator("#matInputSubTable", {
  	{title:"품목명", field:"order_lName", headerHozAlign:"center"},
  	{title:"수량", field:"order_lQty", headerHozAlign:"center", hozAlign:"right"},
 	{title:"입고수량", field:"order_lSum", headerHozAlign:"center", hozAlign:"right"},
- 	{title:"단가", field:"order_lUnit_Price", headerHozAlign:"center", hozAlign:"right", topCalc:function(){return "합계금액"}, width:75},
- 	{title:"금액", field:"order_lPrice", headerHozAlign:"center", hozAlign:"right", width:75,
+ 	{title:"단가", field:"order_lUnit_Price", headerHozAlign:"center", hozAlign:"right", formatter : "money", formatterParams:{ precision:false}, topCalc:function(){return "합계금액"}, width:75},
+ 	{title:"금액", field:"order_lPrice", headerHozAlign:"center", hozAlign:"right", formatter : "money", formatterParams:{ precision:false}, width:75,
 		//맨윗줄 합계금액 나타내기
 		topCalc:function(values, data, calcParams){
 		    //values - array of column values
@@ -140,7 +140,7 @@ var matInputSubTable = new Tabulator("#matInputSubTable", {
 			calc += value
 		 });
     	return calc;
-	}},
+	}, topCalcFormatter : "money", topCalcFormatterParams: {precision: false}},
 	{title:"미입고", field:"order_lNot_Stocked", headerHozAlign:"center", hozAlign:"right"},
  	{title:"비고", field:"order_lInfo_Remark", headerHozAlign:"center"},
 	{title:"구분", field:"order_Rcv_Clsfc", headerHozAlign:"center",
@@ -298,7 +298,7 @@ var inMatTable = new Tabulator("#inMatTable", {
 			cell.getRow().update({"inMat_Price": iPrice});
 		}
 	},
-	{title:"단가", field:"inMat_Unit_Price", headerHozAlign:"center", hozAlign:"right", editor:MIM_InputEditor, editable:editCheck,
+	{title:"단가", field:"inMat_Unit_Price", headerHozAlign:"center", hozAlign:"right", formatter : "money", editor:MIM_InputEditor, editable:editCheck,
 		cellEdited:function(cell){
 			//단가가 변경될때 금액값이 계산되어 입력
 			temQty = cell.getRow().getData().inMat_Qty;
@@ -313,7 +313,7 @@ var inMatTable = new Tabulator("#inMatTable", {
 			cell.getRow().update({"inMat_Price": iPrice});
 		}
 	},
-	{title:"금액", field:"inMat_Price", headerHozAlign:"center", hozAlign:"right"},
+	{title:"금액", field:"inMat_Price", headerHozAlign:"center", hozAlign:"right", formatter : "money"},
 	{title:"구분", field:"inMat_Rcv_Clsfc", headerHozAlign:"center", editor:"select", editable:editCheck, width : 65,
 		formatter:function(cell, formatterParams){
 		    var value = cell.getValue();

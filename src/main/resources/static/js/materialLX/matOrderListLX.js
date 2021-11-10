@@ -158,7 +158,7 @@ var matOrderListSubTable = new Tabulator("#matOrderListSubTable", {
 		{ title: "코드", field: "order_lCode", headerHozAlign: "center"},
 		{ title: "제품명", field: "order_lName", headerHozAlign: "center"},
 		{ title: "규격1", field: "order_lSTND_1", headerHozAlign: "center"},
-		{ title: "수량", field: "order_lQty", headerHozAlign: "center", hozAlign: "right"},
+		{ title: "수량", field: "order_lQty", headerHozAlign: "center", hozAlign: "right", formatter : "money"},
 		{ title: "미입고", field: "order_lNot_Stocked", headerHozAlign: "center", hozAlign: "right"},
 		{ title: "단가", field: "order_lUnit_Price", headerHozAlign: "center", formatter: "money",formatterParams:{ precision:false}, hozAlign: "right",
 			topCalc: function() { return "합계금액" }, width: 75},
