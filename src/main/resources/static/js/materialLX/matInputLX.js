@@ -298,7 +298,7 @@ var inMatTable = new Tabulator("#inMatTable", {
 			cell.getRow().update({"inMat_Price": iPrice});
 		}
 	},
-	{title:"단가", field:"inMat_Unit_Price", headerHozAlign:"center", hozAlign:"right", formatter : "money", editor:MIM_InputEditor, editable:editCheck,
+	{title:"단가", field:"inMat_Unit_Price", headerHozAlign:"center", hozAlign:"right", formatter : "money", formatterParams:{ precision:false}, width:75, editor:MIM_InputEditor, editable:editCheck,
 		cellEdited:function(cell){
 			//단가가 변경될때 금액값이 계산되어 입력
 			temQty = cell.getRow().getData().inMat_Qty;
@@ -313,7 +313,7 @@ var inMatTable = new Tabulator("#inMatTable", {
 			cell.getRow().update({"inMat_Price": iPrice});
 		}
 	},
-	{title:"금액", field:"inMat_Price", headerHozAlign:"center", hozAlign:"right", formatter : "money"},
+	{title:"금액", field:"inMat_Price", headerHozAlign:"center", hozAlign:"right", formatter : "money", formatterParams:{ precision:false}, width:75},
 	{title:"구분", field:"inMat_Rcv_Clsfc", headerHozAlign:"center", editor:"select", editable:editCheck, width : 65,
 		formatter:function(cell, formatterParams){
 		    var value = cell.getValue();
