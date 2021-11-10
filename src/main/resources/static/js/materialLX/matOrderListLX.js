@@ -138,7 +138,7 @@ var matOrderListSubTable = new Tabulator("#matOrderListSubTable", {
 		}
 	},
 	height: "calc(90% - 175px)",
-	selectable: true,
+	selectable: 1,
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
 	//행을 클릭하면 matOrderStockTable에 리스트가 나타남
