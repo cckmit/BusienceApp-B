@@ -34,9 +34,9 @@ public class defectMonitoringRestController {
 	
 	@GetMapping("/defect_view")
 	public List<DefectPerformance> defect_view(HttpServletRequest request){
-		System.out.println(request.getParameter("startDate"));
-		System.out.println(request.getParameter("endDate"));
-		System.out.println(request.getParameter("WorkOrder_EquipCode"));
+		//System.out.println(request.getParameter("startDate"));
+		//System.out.println(request.getParameter("endDate"));
+		//System.out.println(request.getParameter("WorkOrder_EquipCode"));
 		
 		String sql = "SELECT \r\n"
 				+ "		Defect_ONo,\r\n"
@@ -50,11 +50,13 @@ public class defectMonitoringRestController {
 				+ "		SUM(IF(Defect_Code='D997',Defect_DQty,0)) D997,\r\n"
 				+ "		Defect_TestTime\r\n"
 				+ "		,SUM(Defect_DQty)\r\n"
+				+ "		,t2.PRODUCT_ITEM_NAME\r\n"
 				+ "FROM defectPerformance t1\r\n"
 				+ "INNER JOIN(\r\n"
 				+ "SELECT\r\n"
 				+ "			*\r\n"
-				+ "FROM			WorkOrder_tbl\r\n"
+				+ "FROM			WorkOrder_tbl a1\r\n"
+				+ "INNER 	JOIN	PRODUCT_INFO_TBL a2 ON a1.WorkOrder_ItemCode = a2.PRODUCT_ITEM_CODE\r\n"
 				+ "WHERE		WorkOrder_CompleteTime BETWEEN '"+request.getParameter("startDate")+" 00:00:00' AND '"+request.getParameter("endDate")+" 23:59:59'\r\n"
 				+ "AND		WorkOrder_EquipCode='"+request.getParameter("WorkOrder_EquipCode")+"'\r\n"
 				+ ") t2 \r\n"
@@ -69,14 +71,15 @@ public class defectMonitoringRestController {
 				data.setDefect_ONo(rs.getString(1));
 				data.setWorkOrder_PQty(rs.getString(2));
 				data.setWorkOrder_RQty(rs.getString(3));
-				data.setD001(rs.getString(4));
-				data.setD002(rs.getString(5));
-				data.setD003(rs.getString(6));
-				data.setD004(rs.getString(7));
-				data.setD005(rs.getString(8));
-				data.setD997(rs.getString(9));
+				data.setD001(String.valueOf(rs.getInt(4)));
+				data.setD002(String.valueOf(rs.getInt(5)));
+				data.setD003(String.valueOf(rs.getInt(6)));
+				data.setD004(String.valueOf(rs.getInt(7)));
+				data.setD005(String.valueOf(rs.getInt(8)));
+				data.setD997(String.valueOf(rs.getInt(9)));
 				data.setDefect_TestTime(rs.getString(10));
 				data.setDefect_DQty(rs.getString(11));
+				data.setDefect_CODE(rs.getString(12));
 				return data;
 			}
 		});

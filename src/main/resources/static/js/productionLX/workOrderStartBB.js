@@ -4,9 +4,9 @@
 		var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 			//페이징
 			pagination: "local",
-			paginationSize: 5,
+			paginationSize: 10,
 			paginationAddRow: "table",
-			height:"100%",
+			height:"90%",
 			placeholder: "No Data Set",
 			resizableColumns: false,
 			rowClick: function(e, row) {
@@ -171,6 +171,12 @@
 				else
 				{
 					workOrder_ONo = "";
+					workOrder_Remark = "";
+
+					document.getElementById("n_len_code").value = "";
+					document.getElementById("n_len").value = "";
+					document.getElementById("o_len").value = "";
+					document.getElementById("d_len").value = "0";
 				}
 
 			});
@@ -208,16 +214,7 @@
 			$.get("workOrderStartBRest/workOrderSumQty?eqselect=" + document.getElementById("eqselect").value, function(data){
 				document.getElementById("sum_qty").value = data;
 				
-				console.log(data);
-
-				var con = parseInt(document.getElementById("current_qty").value);
-
-				debugger;
-
-				if(data== 0 && con>0)
-				{
-					location.reload();
-				}
+				select_program();
 			});
 		},10000);
 

@@ -71,6 +71,72 @@ public class workMonitoringRestController {
 		});
 	}
 	
+	@GetMapping("/WorkOrder_select2")
+	public List<WorkOrder_tbl> WorkOrder_select2(HttpServletRequest request){
+		String sql = "SELECT\r\n"
+				+ "	(\r\n"
+				+ "		SELECT\r\n"
+				+ "					if(TIMESTAMPDIFF(SECOND, PRODUCTION_Date, NOW())>10,'non-moving','moving')\r\n"
+				+ "		FROM		PRODUCTION_MGMT_TBL2\r\n"
+				+ "		WHERE		PRODUCTION_WorkOrder_ONo = (SELECT WorkOrder_ONo FROM WorkOrder_tbl WHERE WorkOrder_WorkStatus='244' AND WorkOrder_EquipCode=?)\r\n"
+				+ "		ORDER BY PRODUCTION_Date DESC\r\n"
+				+ "		LIMIT 1	\r\n"
+				+ "	)  moving_flag,\r\n"
+				+ "	(\r\n"
+				+ "		SELECT\r\n"
+				+ "					t2.PRODUCT_ITEM_NAME\r\n"
+				+ "		FROM		WorkOrder_tbl t1\r\n"
+				+ "		INNER JOIN PRODUCT_INFO_TBL t2 ON t1.WorkOrder_ItemCode = t2.PRODUCT_ITEM_CODE\r\n"
+				+ "		WHERE		WorkOrder_WorkStatus='244' AND WorkOrder_EquipCode=?\r\n"
+				+ "	)  PRODUCT_ITEM_NAME,\r\n"
+				+ "	(\r\n"
+				+ "		SELECT\r\n"
+				+ "					SUM(PRODUCTION_Volume)\r\n"
+				+ "		FROM		PRODUCTION_MGMT_TBL2\r\n"
+				+ "		WHERE		PRODUCTION_WorkOrder_ONo = (SELECT WorkOrder_ONo FROM WorkOrder_tbl WHERE WorkOrder_WorkStatus='244' AND WorkOrder_EquipCode=?)\r\n"
+				+ "	)  SUM_PRODUCTION_Volume,\r\n"
+				+ "	(\r\n"
+				+ "		SELECT	\r\n"
+				+ "					WorkOrder_PQty\r\n"
+				+ "		FROM		WorkOrder_tbl\r\n"
+				+ "		WHERE		WorkOrder_EquipCode = ? AND WorkOrder_WorkStatus = '244'\r\n"
+				+ "	) Order_Volume"
+				+ ",(\r\n"
+				+ "		SELECT	\r\n"
+				+ "					WorkOrder_ONo\r\n"
+				+ "		FROM		WorkOrder_tbl\r\n"
+				+ "		WHERE		WorkOrder_EquipCode = ? AND WorkOrder_WorkStatus = '244'\r\n"
+				+ "	) WorkOrder_ONo";
+		
+		return jdbctemplate.query(sql, new RowMapper() {
+
+			@Override
+			public WorkOrder_tbl mapRow(ResultSet rs, int rowNum) throws SQLException {
+				WorkOrder_tbl data = new WorkOrder_tbl();
+				
+				data.setWorkOrder_No(rs.getString("WorkOrder_ONo"));
+				data.setWorkOrder_ONo(rs.getString("moving_flag"));
+				data.setWorkOrder_ItemName(rs.getString("PRODUCT_ITEM_NAME"));
+				data.setQty((rs.getString("SUM_PRODUCTION_Volume")==null)?"0":rs.getString("SUM_PRODUCTION_Volume"));
+				data.setWorkOrder_PQty( (rs.getString("Order_Volume")==null)?data.getQty():String.valueOf(rs.getInt("Order_Volume")) );
+				
+				if(rs.getString("Order_Volume")==null)
+				{
+					data.setPercent("100");
+				}
+				else
+				{
+					float percent = Float.parseFloat(data.getQty()) / Float.parseFloat(data.getWorkOrder_PQty());
+					percent *= 100;
+					
+					data.setPercent(String.valueOf(Math.round(percent)));
+				}
+				
+				return data;
+			}
+		},request.getParameter("code"),request.getParameter("code"),request.getParameter("code"),request.getParameter("code"),request.getParameter("code"));
+	}
+	
 	@GetMapping("/moni")
 	public WorkOrder_tbl moni(HttpServletRequest request) throws SQLException {
 		String WorkOrder_EquipCode = request.getParameter("WorkOrder_EquipCode");

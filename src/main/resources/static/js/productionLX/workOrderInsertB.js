@@ -7,7 +7,7 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 	pagination: "local",
 	paginationSize: 10,
 	paginationAddRow: "table",
-	height: "100%",
+	height: "95%",
 	layout: "fitColumns",
 	placeholder: "No Data Set",
 	resizableColumns: false,

@@ -41,7 +41,7 @@
 			<tr>
 				<td style="text-align: center;" colspan="3">
 					<center>
-					<div style="width: 60%; background-color:rgb(112,173,70); margin: 10px; text-align: center; border-radius: 5%;"><strong style="font-size: 40px; color: white;">태블릿 작업 관리 (Tablet work management)</strong></div> 
+					<div style="width: 60%; background-color:rgb(112,173,70); margin: 10px; text-align: center; border-radius: 5%;"><strong style="font-size: 40px; color: white;">태블릿 작업 관리 <br/>Tablet work management</strong></div> 
 					</center>
 				</td>
 			</tr>
@@ -63,8 +63,8 @@
 							</td>
 						</tr>
 						<tr>
-							<td style="font-size: 25px; color: white; text-align: center;">
-								Mathine
+							<td style="font-size: 40px; color: white; text-align: center;">
+								Machine
 							</td>
 						</tr>
 					</table>
@@ -79,7 +79,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td style="font-size: 25px; color: white; text-align: center;">
+							<td style="font-size: 40px; color: white; text-align: center;">
 								Choose a work instruction
 							</td>
 						</tr>
@@ -100,8 +100,8 @@
 								</td>
 							</tr>
 							<tr>
-								<td style="font-size: 25px; color: white; text-align: center;">
-									Product name
+								<td style="font-size: 40px; color: white; text-align: center;">
+									Pdt Name
 								</td>
 							</tr>
 
@@ -114,8 +114,8 @@
 								</td>
 							</tr>
 							<tr>
-								<td style="font-size: 25px; color: white; text-align: center;">
-									Product specifications
+								<td style="font-size: 40px; color: white; text-align: center;">
+									Pdt Spec
 								</td>
 							</tr>
 						</table>
@@ -133,8 +133,8 @@
 								</td>
 							</tr>
 							<tr>
-								<td style="font-size: 25px; color: white; text-align: center;">
-									Product name
+								<td style="font-size: 40px; color: white; text-align: center;">
+									Total Pdt Qty
 								</td>
 							</tr>
 							<tr>
@@ -149,8 +149,8 @@
 											</td>
 										</tr>
 										<tr>
-											<td style="font-size: 25px; color: white; text-align: center;">
-												Product Count
+											<td style="font-size: 40px; color: white; text-align: center;">
+												Pdt Qty
 											</td>
 										</tr>
 									</table>
@@ -166,8 +166,8 @@
 											</td>
 										</tr>
 										<tr>
-											<td style="font-size: 25px; color: white; text-align: center;">
-												Order Count
+											<td style="font-size: 40px; color: white; text-align: center;">
+												Order Qty
 											</td>
 										</tr>
 									</table>

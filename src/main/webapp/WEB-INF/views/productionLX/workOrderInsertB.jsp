@@ -26,7 +26,7 @@
 				<tr>
 					<td style="text-align: center;" colspan="3">
 						<center>
-						<div style="width: 60%; background-color:rgb(112,173,70); margin: 10px; text-align: center; border-radius: 5%;"><strong style="font-size: 40px; color: white;">태블릿 작업 지시 (Tablet work Order)</strong></div> 
+						<div style="width: 60%; background-color:rgb(112,173,70); margin: 10px; text-align: center; border-radius: 5%;"><strong style="font-size: 40px; color: white;">태블릿 작업 지시 <br/>Tablet work Order</strong></div> 
 						</center>
 					</td>
 				</tr>
@@ -48,8 +48,8 @@
 								</td>
 							</tr>
 							<tr>
-								<td style="font-size: 25px; color: white; text-align: center;">
-									Mathine
+								<td style="font-size: 40px; color: white; text-align: center;">
+									Machine
 								</td>
 							</tr>
 						</table>

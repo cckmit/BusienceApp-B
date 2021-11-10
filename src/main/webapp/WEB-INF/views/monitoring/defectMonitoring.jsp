@@ -16,18 +16,51 @@
 <body>
 	<%
 		String CHILD_TBL_TYPE = (String)request.getAttribute("CHILD_TBL_TYPE");
+	%>
 	
+	<%
 		if(CHILD_TBL_TYPE.equals("1"))
 		{
 	%>
-		<jsp:include page="defectMonitoring one.jsp"></jsp:include>
+		<jsp:include page="defectMonitoring1.jsp"></jsp:include>
 	<%
 		}
-		else
+	%>
+	
+	<%
+		if(CHILD_TBL_TYPE.equals("2"))
 		{
 	%>
-		<jsp:include page="defectMonitoring two.jsp"></jsp:include>
+		<jsp:include page="defectMonitoring2.jsp"></jsp:include>
 	<%
-		}	
+		}
 	%>
+	
+	<%
+		if(CHILD_TBL_TYPE.equals("4"))
+		{
+	%>
+		<jsp:include page="defectMonitoring4.jsp"></jsp:include>
+	<%
+		}
+	%>
+	
+	<%
+		if(CHILD_TBL_TYPE.equals("6"))
+		{
+	%>
+		<jsp:include page="defectMonitoring6.jsp"></jsp:include>
+	<%
+		}
+	%>
+	
+	<%
+		if(CHILD_TBL_TYPE.equals("8"))
+		{
+	%>
+		<jsp:include page="defectMonitoring8.jsp"></jsp:include>
+	<%
+		}
+	%>
+	
 </body>

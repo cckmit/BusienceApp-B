@@ -134,6 +134,7 @@ public class workOrderRestController {
 		String startDate = request.getParameter("startDate")+" 00:00:00";
 		String endDate = request.getParameter("endDate")+" 23:59:59";
 
+		/*
 		String sql = "select DATE_FORMAT(t1.WorkOrder_OrderTime, '%Y-%m-%d') WorkOrder_OrderTime2,t4.EQUIPMENT_INFO_NAME WorkOrder_EquipName,t1.*,t2.CHILD_TBL_Type WorkOrder_WorkStatusName,t3.PRODUCT_ITEM_NAME WorkOrder_ItemName,t3.*,(select a.Sales_SM_Last_Qty+a.Sales_SM_In_Qty-a.Sales_SM_Out_Qty from Sales_StockMat_tbl a where a.Sales_SM_Code=t1.WorkOrder_ItemCode) Qty from WorkOrder_tbl t1 inner join DTL_TBL t2 on t1.WorkOrder_WorkStatus = t2.CHILD_TBL_NO inner join PRODUCT_INFO_TBL t3 on t1.WorkOrder_ItemCode=t3.PRODUCT_ITEM_CODE inner join EQUIPMENT_INFO_TBL t4 on t1.WorkOrder_EquipCode=t4.EQUIPMENT_INFO_CODE where WorkOrder_WorkStatus = 242";
 		String where = " and t1.WorkOrder_RegisterTime between ? and "
 				+ "? order by t1.WorkOrder_RegisterTime desc, t1.WorkOrder_No desc";
@@ -141,6 +142,34 @@ public class workOrderRestController {
 		sql += where;
 
 		System.out.println(sql);
+		*/
+		String sql = "SELECT	\r\n"
+				+ "			t1.WorkOrder_No,								\r\n"
+				+ "			t1.WorkOrder_ONo,								\r\n"
+				+ "			t1.WorkOrder_ItemCode,\r\n"
+				+ "			t3.EQUIPMENT_INFO_NAME WorkOrder_EquipName,							\r\n"
+				+ "			t1.WorkOrder_EquipCode,	\r\n"
+				+ "			t2.PRODUCT_ITEM_NAME WorkOrder_ItemName,					\r\n"
+				+ "			t1.WorkOrder_PQty,								\r\n"
+				+ "			t1.WorkOrder_RQty,								\r\n"
+				+ "			DATE_FORMAT(t1.WorkOrder_RegisterTime, '%Y-%m-%d') WorkOrder_RegisterTime,						\r\n"
+				+ "			DATE_FORMAT(t1.WorkOrder_ReceiptTime, '%Y-%m-%d') WorkOrder_ReceiptTime,						\r\n"
+				+ "			DATE_FORMAT(t1.WorkOrder_OrderTime, '%Y-%m-%d') WorkOrder_OrderTime,							\r\n"
+				+ "			DATE_FORMAT(t1.WorkOrder_StartTime, '%Y-%m-%d') WorkOrder_StartTime,							\r\n"
+				+ "			DATE_FORMAT(t1.WorkOrder_CompleteOrderTime, '%Y-%m-%d') WorkOrder_CompleteOrderTime,					\r\n"
+				+ "			DATE_FORMAT(t1.WorkOrder_CompleteTime, '%Y-%m-%d') WorkOrder_CompleteTime,						\r\n"
+				+ "			t1.WorkOrder_WorkStatus,		\r\n"
+				+ "			t4.CHILD_TBL_TYPE WorkOrder_WorkStatusName,				\r\n"
+				+ "			t1.WorkOrder_Worker,							\r\n"
+				+ "			t1.WorkOrder_Remark,\r\n"
+				+ "			t2.PRODUCT_INFO_STND_1	\r\n"
+				+ "FROM		WorkOrder_tbl t1\r\n"
+				+ "LEFT JOIN	PRODUCT_INFO_TBL t2 ON t1.WorkOrder_ItemCode = t2.PRODUCT_ITEM_CODE\r\n"
+				+ "LEFT JOIN	EQUIPMENT_INFO_TBL t3 ON t1.WorkOrder_EquipCode = t3.EQUIPMENT_INFO_CODE\r\n"
+				+ "LEFT JOIN	DTL_TBL t4 ON t1.WorkOrder_WorkStatus = t4.CHILD_TBL_NO	\r\n"
+				+ "WHERE			t1.WorkOrder_RegisterTime between ? AND ?\r\n"
+				+ "AND t1.WorkOrder_WorkStatus = '242'\r\n"
+				+ "ORDER BY 	t1.WorkOrder_RegisterTime DESC, t1.WorkOrder_No DESC";
 		
 		return jdbctemplate.query(sql, new RowMapper<WorkOrder_tbl>() {
 
@@ -154,20 +183,17 @@ public class workOrderRestController {
 				data.setWorkOrder_EquipName(rs.getString("WorkOrder_EquipName"));
 				data.setWorkOrder_PQty(rs.getString("WorkOrder_PQty"));
 				data.setWorkOrder_RQty(rs.getString("WorkOrder_RQty"));
-				data.setWorkOrder_RegisterTime(rs.getString("WorkOrder_RegisterTime").substring(0, 10));
+				data.setWorkOrder_RegisterTime(rs.getString("WorkOrder_RegisterTime"));
 				data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime"));
 
-				data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime2"));
-				data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime").substring(0, 10));
+				data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime"));
+				data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime"));
 				data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime"));
 				data.setWorkOrder_WorkStatus(rs.getString("WorkOrder_WorkStatus"));
-				data.setWorkOrder_WorkStatusName(rs.getString("WorkOrder_WorkStatusName"));
 				data.setWorkOrder_WorkStatusName(rs.getString("WorkOrder_WorkStatusName"));
 				data.setWorkOrder_Worker(rs.getString("WorkOrder_Worker"));
 				data.setWorkOrder_Remark(rs.getString("WorkOrder_Remark"));
 				data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
-				data.setPRODUCT_UNIT_PRICE(rs.getString("PRODUCT_UNIT_PRICE"));
-				data.setQty(rs.getString("Qty"));
 				data.setDbdata_flag("y");
 				return data;
 			}
@@ -211,6 +237,9 @@ public class workOrderRestController {
 					String workOrder_Remark = (String) datas.get("workOrder_Remark");
 					if (workOrder_Remark == null)
 						workOrder_Remark = "";
+					
+					if (workOrder_Remark.trim().equals("AUTO"))
+						workOrder_Remark = "오토";
 
 					if (dbdata_flag == null) {
 						sql = "SELECT count(*)+1 WorkOrder_ONo FROM WorkOrder_tbl a1 where LEFT(WorkOrder_ONo,8) = CURDATE()";
@@ -236,7 +265,7 @@ public class workOrderRestController {
 
 						SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 						Date time = new Date();
-
+						
 						sql = "INSERT INTO `WorkOrder_tbl`\r\n" + "(" + "`WorkOrder_No`,\r\n" + "`WorkOrder_ONo`,\r\n"
 								+ "`WorkOrder_ItemCode`,\r\n" + "`WorkOrder_EquipCode`,\r\n" + "`WorkOrder_PQty`,\r\n"
 								+ "`WorkOrder_WorkStatus`,\r\n" + "`WorkOrder_OrderTime`,\r\n"
@@ -275,6 +304,10 @@ public class workOrderRestController {
 								+ "',\r\n" + "`WorkOrder_Remark` = \r\n" + "'" + workOrder_Remark + "'\r\n"
 								+ "WHERE `WorkOrder_ONo` = \r\n" + "'" + datas.get("workOrder_ONo") + "'";
 
+						String where = " AND WorkOrder_WorkStatus = '242'";
+						
+						sql += where;
+						
 						System.out.println(sql);
 
 						pstmt = conn.prepareStatement(sql);

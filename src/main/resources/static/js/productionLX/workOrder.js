@@ -145,7 +145,6 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 			} 
 		},
 		{ title: "규격", field: "product_INFO_STND_1", headerHozAlign: "center"},
-		{ title: "재고수량", field: "qty", headerHozAlign: "center",align:"right", formatter:"money", formatterParams: {precision: false}},
 		{ title: "지시수량", field: "workOrder_PQty", headerHozAlign: "center", editor:"input",align:"right"
 		, formatter:"money", formatterParams: {precision: false}
 			,cellEdited: function(cell)
