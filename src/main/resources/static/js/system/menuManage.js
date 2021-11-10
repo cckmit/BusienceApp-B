@@ -33,12 +33,6 @@ var menuManageSubTable = new Tabulator("#menuManageSubTable", {
 		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign:"right"},
 		{ title: "메뉴코드", field: "menu_Program_Code", visible:false},
 		{ title: "메뉴명", field: "menu_Program_Name", hozAlign: "left", headerHozAlign: "center", headerFilter:"input" },
-		{ title: "읽기", field: "menu_Read_Use_Status", headerHozAlign: "center", hozAlign: "center",
-			formatter: "tickCross", editor:'select', editorParams:{true : "사용", false : "미사용"}},
-		{ title: "쓰기", field: "menu_Write_Use_Status",	headerHozAlign: "center", hozAlign: "center",
-			formatter: "tickCross", editor:'select', editorParams:{true : "사용", false : "미사용"}},
-		{ title: "삭제",	field: "menu_Delete_Use_Status", headerHozAlign: "center", hozAlign: "center",
-			formatter: "tickCross", editor:'select', editorParams:{true : "사용", false : "미사용"}},
 		{ title: "사용유무", field: "menu_MGMT_Use_Status", headerHozAlign: "center", hozAlign: "center",
 			formatter: "tickCross", editor:'select', editorParams:{true : "사용", false : "미사용"}}
 	]

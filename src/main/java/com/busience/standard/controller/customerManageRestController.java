@@ -42,7 +42,7 @@ public class customerManageRestController {
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
 		
-		System.out.println(sql);
+		//System.out.println(sql);
 		
 		while (rs.next()) {
 			Customer_tbl data = new Customer_tbl();
@@ -141,7 +141,7 @@ public class customerManageRestController {
 				+ "?)";
 		
 		pstmt = conn.prepareStatement(sql);
-		System.out.println(sql);
+		//System.out.println(sql);
 		pstmt.setString(1, insert_Data.getCus_Code());
 		pstmt.setString(2, insert_Data.getCus_Name());
 		pstmt.setString(3, insert_Data.getCus_Status());
@@ -204,7 +204,7 @@ public class customerManageRestController {
 		
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
-		System.out.println(sql);
+		//System.out.println(sql);
 		pstmt.setString(1, update_Data.getCus_Name());
 		pstmt.setString(2, update_Data.getCus_Status());
 		pstmt.setString(3, update_Data.getCus_Clsfc());
@@ -233,7 +233,7 @@ public class customerManageRestController {
 		
 		String sql = "delete from Customer_tbl where Cus_Code = '"+no+"'";
 		
-		System.out.println("delete = "+sql);
+		//System.out.println("delete = "+sql);
 		
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);

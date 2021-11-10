@@ -40,8 +40,8 @@ public class UserService {
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
 					userDao.insertUser(userDto);
-					
-					userDao.insertMenuNewUser(userDto.getUSER_CODE());
+				
+					userDao.insertMenuNewUser(userDto.getUSER_CODE(), userDto.getUSER_TYPE());
 				}
 			});
 			

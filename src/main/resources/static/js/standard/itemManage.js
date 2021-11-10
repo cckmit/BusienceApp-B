@@ -146,7 +146,7 @@ function itemRegister() {
 				
 				$("#itemManageModal").modal("hide");
 			}else{
-				alert("오류가 발생했습니다.");
+				alert("중복된 코드 입니다.");
 			}
 		}
 	});

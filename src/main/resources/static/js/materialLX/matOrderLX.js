@@ -76,7 +76,7 @@ var MO_inputEditor = function(cell, onRendered, success, cancel, editorParams){
 			if (cell.getField() == "order_mRemarks") {
 				//납기일자를 체크해서 잘못되었으면 반응 안함
 				if(cell.getRow().getData().order_mDlvry_Date.length != "10"){
-					alert("납기일자를 잘못 입력하였습니다.")
+					alert("납기일자를 잘못 입력하였습니다. \n형식 : '2020-01-01'");
 				}else{
 					if(cell.getRow().getData().order_mCheck != "I"){
 			        	//특이사항에서 엔터를 하면 행추가
@@ -430,7 +430,7 @@ var matOrderSubTable = new Tabulator("#matOrderSubTable", {
 	paginationAddRow : "table",
 	layoutColumnsOnNewData : true,
 	height:"calc(90% - 175px)",
-	selectable: true,
+	selectable: 1,
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
 	tabEndNewRow: true,
