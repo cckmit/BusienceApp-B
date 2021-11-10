@@ -8,15 +8,22 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
+	AuthSuccessHandler authSuccessHandler;
+	
+	@Autowired
 	AuthFailureHandler authFailureHandler;
+	
+	@Autowired
+	CustomLogoutSucessHandler customLogoutSucessHandler;
 
 	@Autowired
 	BusienceUsersService busienceUsersService;
@@ -29,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception{
-		
+				
 		http.authorizeRequests()
 			.antMatchers("/", "/bsapp2", "/productAdd").permitAll();
 		
@@ -38,12 +45,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		http.formLogin()
 			.loginPage("/")
-			.defaultSuccessUrl("/main")
+			.successHandler(authSuccessHandler)
 			.failureHandler(authFailureHandler)
 			.permitAll();
-			
+		
+		http.sessionManagement()
+	        .maximumSessions(1)
+	        .maxSessionsPreventsLogin(false)
+	        .expiredUrl("/")
+	        .sessionRegistry(sessionRegistry());
+		
 		http.logout()
-			.logoutUrl("/logout").invalidateHttpSession(true)
+			.logoutUrl("/logout")
+			.invalidateHttpSession(true)
+			.logoutSuccessHandler(customLogoutSucessHandler)
 			.permitAll();
 		
 		http.userDetailsService(busienceUsersService);
@@ -53,6 +68,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	
+	@Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+    }
 	
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
 		
