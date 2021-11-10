@@ -145,6 +145,7 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 			} 
 		},
 		{ title: "규격", field: "product_INFO_STND_1", headerHozAlign: "center"},
+		{ title: "영업재고", field: "qty", headerHozAlign: "center",align:"right"},
 		{ title: "지시수량", field: "workOrder_PQty", headerHozAlign: "center", editor:"input",align:"right"
 		, formatter:"money", formatterParams: {precision: false}
 			,cellEdited: function(cell)
@@ -493,6 +494,8 @@ function item_gridInit(PCode, PName, PSTND_1, PPrice, SaveV)
 	}
 	else
 	{
+		//
+	
 		WorkOrder_tbl_workOrder_ItemName_cell.getRow().update({
 			"workOrder_ONo": today.getFullYear() + "" + month + "" + date+"-"+PCode+"-",
 			"workOrder_ItemCode": PCode,
