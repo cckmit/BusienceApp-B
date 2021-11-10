@@ -25,8 +25,8 @@ public class MainController {
 		return "main";
 	}
 	
-	@GetMapping("/pwchange")
+	@GetMapping("/pwChange")
 	public String pwchange() {
-		return "thymeleaf/pwchange";
+		return "thymeleaf/pwChange";
 	}
 }
