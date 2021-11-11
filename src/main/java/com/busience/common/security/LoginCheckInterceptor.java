@@ -1,4 +1,4 @@
-package com.busience.common.interceptor;
+package com.busience.common.security;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +17,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor{
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 				
 		if(ObjectUtils.isEmpty(authentication)) {
-			response.sendRedirect("/login");
+			response.sendRedirect("/");
 			return false;
 		}else{
 			return true;
