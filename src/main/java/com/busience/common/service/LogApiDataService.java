@@ -36,7 +36,7 @@ public class LogApiDataService {
 
 			        LogApiDataDto logApiDataDto = new LogApiDataDto();        
 			        
-			        //고유키
+			        //API고유 인증키
 			        String crfcKey = null;
 			        
 			        //시간

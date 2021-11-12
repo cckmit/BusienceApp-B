@@ -88,7 +88,7 @@ function registerModalShow(){
 	});
 }
 
-//모달창내 수정버튼
+//모달창내 등록버튼
 $("#itemRegisterBtn").click(function(){
 	if(confirm("등록 하시겠습니까?")){
 		itemRegister();
@@ -152,7 +152,6 @@ function itemRegister() {
 	});
 }
 
-
 // update버튼을 클릭을 할때 모달창을 여는 이벤트
 $("#itemUpdateBtn").click(function() {
 	var selectedRow = itemManageTable.getData("selected");
@@ -181,7 +180,7 @@ function modifyModalShow(){
 //모달창내 수정버튼
 $("#itemModifyBtn").click(function(){
 	if(confirm("수정 하시겠습니까?")){
-		itemModify();		
+		itemModify();
 	}
 })
 
