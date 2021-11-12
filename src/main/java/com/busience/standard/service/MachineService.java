@@ -15,7 +15,7 @@ public class MachineService {
 
 	@Autowired
 	MachineDao machineDao;
-	
+		
 	//조회
 	public List<MachineDto> selectMachineList() {
 		return machineDao.selectMachineListDao();
@@ -25,17 +25,17 @@ public class MachineService {
 	public int insertMachine(MachineDto machineDto) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		machineDto.setEQUIPMENT_MODIFIER(authentication.getName());
-		
-		int result = 0;
-		
+				
 		try {
-			result = machineDao.insertMachineDao(machineDto);
+			machineDao.insertMachineDao(machineDto);
+			return 1;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return 0;
 		}
-		return result;
+		
 	};
-	
+
 	//수정
 	public int updateMachine(MachineDto machineDto) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

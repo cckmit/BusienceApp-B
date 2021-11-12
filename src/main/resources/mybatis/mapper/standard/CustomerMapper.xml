@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.busience.standard.dao.CustomerDao">
+	<select id="selectCustomerListDao" resultType="com.busience.standard.dto.CustomerDto">
+		select 
+			A.Cus_Code, A.Cus_Name, A.Cus_Status, B.CHILD_TBL_TYPE Cus_Status_Name,
+			A.Cus_Clsfc, C.CHILD_TBL_TYPE Cus_Clsfc_Name, A.Cus_Rprsn, A.Cus_Mng,
+			A.Cus_Co, A.Cus_Co_EstYr, A.Cus_Rprsn_PhNr, A.Cus_Mng_PhNr,
+			A.Cus_Mng_Email, A.Cus_Adr, A.Cus_Pymn_Date, D.CHILD_TBL_TYPE Cus_Pymn_Date_Name,
+			A.Cus_Rgstr_Nr
+			from Customer_tbl A
+			inner join (
+				select * from DTL_TBL where NEW_TBL_CODE=15
+			) B on A.Cus_Status = B.CHILD_TBL_NO
+			inner join (
+				select * from DTL_TBL where NEW_TBL_CODE=28
+			) C on A.Cus_Clsfc = C.CHILD_TBL_NO
+			inner join (
+				select * from DTL_TBL where NEW_TBL_CODE=39
+			) D on A.Cus_Pymn_Date = D.CHILD_TBL_NO
+	</select>
+
+	<insert id="insertCustomerDao">
+		insert into Customer_tbl values(
+			#{Cus_Code}, #{Cus_Name}, #{Cus_Status}, #{Cus_Clsfc}, 
+			#{Cus_Rprsn}, #{Cus_Mng}, #{Cus_Co}, #{Cus_Co_EstYr},
+			#{Cus_Rprsn_PhNr}, #{Cus_Mng_PhNr}, #{Cus_Mng_Email},
+			#{Cus_Adr}, #{Cus_Pymn_Date}, #{Cus_Rgstr_Nr}
+		)
+	</insert>
+		
+	<update id="updateCustomerDao">
+		update Customer_tbl
+			set
+			Cus_Name = #{Cus_Name},
+			Cus_Status = #{Cus_Status},
+			Cus_Clsfc = #{Cus_Clsfc},
+			Cus_Rprsn = #{Cus_Rprsn},
+			Cus_Mng = #{Cus_Mng},
+			Cus_Co = #{Cus_Co},
+			Cus_Co_EstYr = #{Cus_Co_EstYr},
+			Cus_Rprsn_PhNr = #{Cus_Rprsn_PhNr},
+			Cus_Mng_PhNr = #{Cus_Mng_PhNr},
+			Cus_Mng_Email = #{Cus_Mng_Email},
+			Cus_Adr = #{Cus_Adr},
+			Cus_Pymn_Date = #{Cus_Pymn_Date},
+			Cus_Rgstr_Nr = #{Cus_Rgstr_Nr}
+		where Cus_Code = #{Cus_Code}
+	</update>
+	
+	<delete id="deleteCustomerDao">
+		delete from Customer_tbl
+			where Cus_Code= #{Cus_Code}
+	</delete>
+</mapper>

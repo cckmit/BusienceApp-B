@@ -88,6 +88,10 @@ public class standardController {
 		int clsfc = 28;
 		model.addAttribute("clsfcMethodList", dtlService.getAlldtl(clsfc));
 		
+		// 결제일
+		int paymentDate = 39;
+		model.addAttribute("paymentDateList", dtlService.getAlldtl(paymentDate));
+		
 		// 페이지명
 		model.addAttribute("pageName", "거래처 관리");
 		

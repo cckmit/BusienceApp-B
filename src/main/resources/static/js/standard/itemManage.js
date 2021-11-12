@@ -26,7 +26,6 @@ var itemManageTable = new Tabulator("#itemManageTable",	{
 		rowClick: function(e, row) {
 			row.getTable().deselectRow();
 			row.select();
-
 		},
 		rowDblClick: function(e, row) {
 			//모달창 띄움
