@@ -204,7 +204,10 @@ function delBtn() {
 			alert("삭제 되었습니다.");
 			// DB까지 지우고 나면 화면을 새로고침
 			location.reload();
-		}
+		},
+		error:function(request,status,error){
+        alert("사용 중인 코드는 삭제할 수 없습니다.");
+       }
 	});
 
 	
