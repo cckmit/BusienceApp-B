@@ -3,10 +3,6 @@ var initRow = null;
 var workOrder_EquipCode = null;
 
 var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
-	//페이징
-	pagination: "local",
-	paginationSize: 10,
-	paginationAddRow: "table",
 	height: "95%",
 	layout: "fitColumns",
 	placeholder: "No Data Set",

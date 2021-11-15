@@ -1,7 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	
-	<div style="width:100%;height:100%; padding: 10px;">
+	<div style="width:100%;height:18%; padding: 10px;">
+		<div style="width:100%;height:100%; float: left; border: solid;">
+			<table style="width:100%;">
+				<tr>
+					<td style="font-size: 120px; text-align: right; width: 75%;">
+						불량 현황 모니터링
+					</td>
+					<td style="font-size: 40px; text-align: right; width: 25%; padding-right: 10px;">
+						<p id="day">00:00:00</p>
+						<p id="time">00:00:00</p>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div style="width:100%;height:80%; padding: 10px;">
 		<%
 			for(int i=1;i<3;i++)
 			{
@@ -37,8 +52,10 @@
 		
 		</div>
 		
-		<input id="startDate" class="today" type="date" style="width: 180px; height: 35px; font-size: 20px;"> 
-		<input id="endDate" class="tomorrow" type="date" style="width: 180px; height: 35px; font-size: 20px;">
+		<div style="visibility: hidden;">
+			<input id="startDate" class="today" type="date" style="width: 180px; height: 35px; font-size: 20px;"> 
+			<input id="endDate" class="tomorrow" type="date" style="width: 180px; height: 35px; font-size: 20px;">
+		</div>
 		
 		<script>
 			
@@ -53,15 +70,15 @@
 					    resizableColumns:false,
 					    columns:[
 					        {title:"작업지시번호", field:"defect_ONo",visible:false},
-					        { title: "제품이름", field: "defect_CODE", headerHozAlign: "center", width: 180 },
+					        { title: "제품이름", field: "defect_CODE", headerHozAlign: "center", width: 180 , headerSort:false},
 					        { title: "생산량", field: "workOrder_RQty", headerHozAlign: "center", width: 100, align: "right",
-								formatter:"money", formatterParams: {precision: false}
+								formatter:"money", formatterParams: {precision: false}, headerSort:false
 							},
 							{ title: "불량수", field: "defect_DQty", headerHozAlign: "center", width: 100, align: "right",
-								formatter:"money", formatterParams: {precision: false}
+								formatter:"money", formatterParams: {precision: false}, headerSort:false
 							},
 							{ title: "작업시작일", field: "workOrder_StartTime", align: "right", headerHozAlign: "center", width: 160,visible:false},
-							{ title: "검사일", field: "defect_TestTime", align: "right", headerHozAlign: "center", width: 160},
+							{ title: "검사일", field: "defect_TestTime", align: "right", headerHozAlign: "center", width: 160, headerSort:false},
 							{ title: "특이사항", field: "workOrder_Remark", align: "right", headerHozAlign: "center",visible:false}
 					    ],
 					});
@@ -82,3 +99,41 @@
 		<style>
 			.tabulator { font-size: 16px; }
 		</style>
+
+<script>
+	let vtoday = new Date();   
+
+	let year = vtoday.getFullYear(); // 년도
+	let month = vtoday.getMonth() + 1;  // 월
+	let date = vtoday.getDate();  // 날짜
+	let day = vtoday.getDay();  // 요일
+	
+	if(day==0)
+		day = "일요일"
+	else if(day==1)
+		day = "월요일"
+	else if(day==2)
+		day = "화요일"
+	else if(day==3)
+		day = "수요일"
+	else if(day==4)
+		day = "목요일"
+	else if(day==5)
+		day = "금요일"
+	else if(day==6)
+		day = "토요일"
+		
+	let value = year + '-' + month + '-' + date + ' ' + day;
+	
+	document.getElementById("day").innerHTML = value;
+	
+	setInterval(function(){
+		vtoday = new Date();
+		
+		let hours = vtoday.getHours(); // 시
+		let minutes = vtoday.getMinutes();  // 분
+		let seconds = vtoday.getSeconds();  // 초
+		
+		document.getElementById("time").innerHTML = hours + ':' + minutes + ':' + seconds;
+	},1000);
+</script>

@@ -2,11 +2,7 @@
 		var workOrder_Remark = "";
 		
 		var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
-			//페이징
-			pagination: "local",
-			paginationSize: 10,
-			paginationAddRow: "table",
-			height:"90%",
+			height:"100%",
 			placeholder: "No Data Set",
 			resizableColumns: false,
 			rowClick: function(e, row) {
@@ -200,10 +196,6 @@
 				}
 			});
 			*/
-		}
-
-		document.getElementById("workOrderInsertBBtn").onclick = function(){
-			//location.href = "/workList";
 		}
 
 		window.onload = function(){

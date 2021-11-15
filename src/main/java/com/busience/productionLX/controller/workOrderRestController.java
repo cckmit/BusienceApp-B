@@ -65,6 +65,15 @@ public class workOrderRestController {
 			data.setSales_SM_Prcs_Date(rs.getString("Sales_SM_Prcs_Date"));
 			list.add(data);
 		}
+		
+		if (rs != null)
+			rs.close();
+		if (pstmt != null)
+			pstmt.close();
+		if (conn != null) {
+			conn.setAutoCommit(true);
+			conn.close();
+		}
 
 		return list;
 	}
@@ -123,6 +132,15 @@ public class workOrderRestController {
 			data.setSales_Order_Send_Clsfc(rs.getString("Sales_Order_Send_Clsfc"));
 			data.setSales_Order_lInfo_Remark(rs.getString("Sales_Order_lInfo_Remark"));
 			list.add(data);
+		}
+		
+		if (rs != null)
+			rs.close();
+		if (pstmt != null)
+			pstmt.close();
+		if (conn != null) {
+			conn.setAutoCommit(true);
+			conn.close();
 		}
 
 		return list;

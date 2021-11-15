@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.busience.standard.dto.DEFECT_INFO_TBL;
+
 @Controller
 public class contolController {
 	
@@ -25,7 +27,15 @@ public class contolController {
 
 			@Override
 			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return rs.getString("CHILD_TBL_TYPE");
+				int num = rs.getInt("CHILD_TBL_TYPE");
+				
+				if(num > 1 && num % 2 != 0)
+					--num;
+				
+				if(num > 8)
+					num = 8;
+				
+				return String.valueOf(num);
 			}
 		}));
 		
@@ -41,7 +51,32 @@ public class contolController {
 
 			@Override
 			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return rs.getString("CHILD_TBL_TYPE");
+				int num = rs.getInt("CHILD_TBL_TYPE");
+				
+				if(num > 1 && num % 2 != 0)
+					--num;
+				
+				if(num > 8)
+					num = 8;
+				
+				return String.valueOf(num);
+			}
+		}));
+		
+		model.addAttribute("defect_list",jdbctemplate.query("select *,LOWER(DEFECT_CODE) DEFECT_CODE2 from DEFECT_INFO_TBL", new RowMapper() {
+
+			@Override
+			public DEFECT_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
+				DEFECT_INFO_TBL data = new DEFECT_INFO_TBL();
+				data.setDEFECT_CODE(rs.getString("DEFECT_CODE2"));
+				data.setDEFECT_NAME(rs.getString("DEFECT_NAME"));
+				data.setDEFECT_ABR(rs.getString("DEFECT_ABR"));
+				data.setDEFECT_MODIFIER(rs.getString("DEFECT_MODIFIER"));
+				data.setDEFECT_MODIFY_D(rs.getString("DEFECT_MODIFY_D"));
+				data.setDEFECT_RMRKS(rs.getString("DEFECT_RMRKS"));
+				data.setDEFECT_USE_STATUS(rs.getString("DEFECT_USE_STATUS"));
+				//System.out.println(data.toString());
+				return data;
 			}
 		}));
 		
@@ -56,7 +91,15 @@ public class contolController {
 
 			@Override
 			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return rs.getString("CHILD_TBL_TYPE");
+				int num = rs.getInt("CHILD_TBL_TYPE");
+				
+				if(num > 1 && num % 2 != 0)
+					--num;
+				
+				if(num > 8)
+					num = 8;
+				
+				return String.valueOf(num);
 			}
 		}));
 		

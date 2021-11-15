@@ -48,7 +48,7 @@ public class defectMonitoringRestController {
 				+ "		SUM(IF(Defect_Code='D004',Defect_DQty,0)) D004,\r\n"
 				+ "		SUM(IF(Defect_Code='D005',Defect_DQty,0)) D005,\r\n"
 				+ "		SUM(IF(Defect_Code='D997',Defect_DQty,0)) D997,\r\n"
-				+ "		Defect_TestTime\r\n"
+				+ "		date_format(Defect_TestTime,'%Y-%m-%d %H:%m') Defect_TestTime\r\n"
 				+ "		,SUM(Defect_DQty)\r\n"
 				+ "		,t2.PRODUCT_ITEM_NAME\r\n"
 				+ "FROM defectPerformance t1\r\n"

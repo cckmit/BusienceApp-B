@@ -1,7 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	
-	<div style="width:100%;height:100%; padding: 10px;">
+	<div style="width:100%;height:20%; padding: 10px;">
+		<div style="width:100%;height:100%; float: left; border: solid;">
+			<table style="width:100%;">
+				<tr>
+					<td style="font-size: 120px; text-align: right; width: 70%;">
+						작업 모니터링
+					</td>
+					<td style="font-size: 40px; text-align: right; width: 30%; padding-right: 10px;">
+						<p id="day">00:00:00</p>
+						<p id="time">00:00:00</p>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div style="width:100%;height:80%; padding: 10px;">
 		<%
 			for(int i=1;i<2;i++)
 			{
@@ -29,34 +44,35 @@
 								<td>
 									작업지시번호
 								</td>
-								<td style="text-align:right;" id="m<%=jj%>num">
+								<td style="text-align:left;" id="m<%=jj%>num">
 									
 								</td>
 							</tr>
 							<tr>
 								<td>
-									제품명
+									제&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;품&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;명
 								</td>
-								<td style="text-align:right;" id="m<%=jj%>n">
+								<td style="text-align:left;" id="m<%=jj%>n">
 									
 								</td>
 							</tr>
 							<tr>
 								<td>
-									생산량
+									지&nbsp;&nbsp;시&nbsp;&nbsp;&nbsp;수&nbsp;&nbsp;량
 								</td>
-								<td style="text-align:right;" id="m<%=jj%>q">
+								<td style="text-align:center;" id="m<%=jj%>o">
 									
 								</td>
 							</tr>
 							<tr>
 								<td>
-									지시수량
+									생&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;산&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;량
 								</td>
-								<td style="text-align:right;" id="m<%=jj%>o">
+								<td style="text-align:center;" id="m<%=jj%>q">
 									
 								</td>
 							</tr>
+							
 							
 							<tr>
 								<td colspan="2">
@@ -116,3 +132,47 @@
 				}
 			%>
 		</script>
+		
+		<script>
+			let vtoday = new Date();   
+	
+			let year = vtoday.getFullYear(); // 년도
+			let month = vtoday.getMonth() + 1;  // 월
+			let date = vtoday.getDate();  // 날짜
+			let day = vtoday.getDay();  // 요일
+			
+			if(day==0)
+				day = "일요일"
+			else if(day==1)
+				day = "월요일"
+			else if(day==2)
+				day = "화요일"
+			else if(day==3)
+				day = "수요일"
+			else if(day==4)
+				day = "목요일"
+			else if(day==5)
+				day = "금요일"
+			else if(day==6)
+				day = "토요일"
+				
+			let value = year + '-' + month + '-' + date + ' ' + day;
+			
+			document.getElementById("day").innerHTML = value;
+			
+			setInterval(function(){
+				vtoday = new Date();
+				
+				let hours = vtoday.getHours(); // 시
+				let minutes = vtoday.getMinutes();  // 분
+				let seconds = vtoday.getSeconds();  // 초
+				
+				document.getElementById("time").innerHTML = hours + ':' + minutes + ':' + seconds;
+			},1000);
+		</script>
+		
+		<style>
+			.progress-bar{
+				background-color: #B0DEFC;
+			}
+		</style>
