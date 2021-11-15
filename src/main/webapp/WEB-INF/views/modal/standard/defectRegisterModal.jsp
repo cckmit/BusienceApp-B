@@ -38,7 +38,7 @@
 						<div class="col-sm-10">
 							<input type="text" class="form-control-plaintext"
 								id="insert_defect_ABR" style="width: 25%;" placeholder="약자 입력"
-								onkeypress="javascript:if(event.keyCode==13) {document.getElementById('insert_defect_RMRKS').focus()}">
+								onkeypress="javascript:if(event.keyCode==13) {document.getElementById('insert_defect_USE_STATUS').focus()}">
 						</div>
 					</div>
 

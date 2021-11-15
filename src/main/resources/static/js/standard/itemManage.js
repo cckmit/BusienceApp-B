@@ -26,7 +26,6 @@ var itemManageTable = new Tabulator("#itemManageTable",	{
 		rowClick: function(e, row) {
 			row.getTable().deselectRow();
 			row.select();
-
 		},
 		rowDblClick: function(e, row) {
 			//모달창 띄움
@@ -88,7 +87,7 @@ function registerModalShow(){
 	});
 }
 
-//모달창내 수정버튼
+//모달창내 등록버튼
 $("#itemRegisterBtn").click(function(){
 	if(confirm("등록 하시겠습니까?")){
 		itemRegister();
@@ -152,7 +151,6 @@ function itemRegister() {
 	});
 }
 
-
 // update버튼을 클릭을 할때 모달창을 여는 이벤트
 $("#itemUpdateBtn").click(function() {
 	var selectedRow = itemManageTable.getData("selected");
@@ -181,7 +179,7 @@ function modifyModalShow(){
 //모달창내 수정버튼
 $("#itemModifyBtn").click(function(){
 	if(confirm("수정 하시겠습니까?")){
-		itemModify();		
+		itemModify();
 	}
 })
 
@@ -277,6 +275,9 @@ function itemRemove() {
 			}else{
 				alert("오류가 발생했습니다.");
 			}
-		}
+		},
+		error:function(request,status,error){
+        alert("사용 중인 코드는 삭제할 수 없습니다.");
+       }
 	});
 }

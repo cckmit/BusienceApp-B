@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.busience.common.dao.LogApiDataDao">
+
+	<insert id="LogDataInsertDao">
+		insert into log_api_data_tbl (
+			crfcKey, logDt, useSe,
+			sysUser, conectIp, dataUsgqty
+		)value(
+			#{crfcKey}, #{logDt}, #{useSe},
+			#{sysUser}, #{conectIp}, #{dataUsgqty}
+		)
+	</insert>
+	
+	<select id="LogDataSelectDao" resultType="com.busience.common.dto.LogApiDataDto">
+		SELECT logDt, useSe, sysUser
+		FROM log_api_data_tbl
+		where sysUser = #{sysUser}
+		order by logNo DESC limit 1
+	</select>
+
+</mapper>
