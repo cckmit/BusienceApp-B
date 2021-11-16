@@ -235,7 +235,7 @@ public class productionLXController {
 	}
 	
 	//workOrderTablet
-	@GetMapping("workOrderTablet")
+	@GetMapping("/tablet/workOrderTablet")
 	public String workOrderTablet(Model model, HttpServletRequest request) throws SQLException
 	{
 		return jdbctemplate.queryForObject("select CHILD_TBL_RMARK from DTL_TBL where CHILD_TBL_NO = '281'", new RowMapper<String>() {
@@ -291,7 +291,7 @@ public class productionLXController {
 	}
 
 	// WorkOrderInsertB
-	@GetMapping("workOrderInsertB")
+	@GetMapping("/tablet/workOrderInsertB")
 	public String WorkOrderInsertB(Model model, HttpServletRequest request) throws SQLException {
 
 		System.out.println(request.getParameter("code"));
@@ -346,7 +346,7 @@ public class productionLXController {
 		return "normal/productionLX/workOrderInsertB";
 	}
 
-	@GetMapping("workOrderStartB")
+	@GetMapping("/tablet/workOrderStartB")
 	public String WorkOrderStartB(Model model, HttpServletRequest request) throws SQLException {
 		String sql = "SELECT * FROM EQUIPMENT_INFO_TBL WHERE EQUIPMENT_INFO_CODE='"+( (request.getParameter("code")==null  || request.getParameter("code").equals("null")) ? "' or 1=1" : request.getParameter("code")+"'" );
 		

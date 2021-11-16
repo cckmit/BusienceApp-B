@@ -95,27 +95,7 @@ public class CommonRestController {
 		return managerList;
 	}
 	
-	//생산 데이터 받는 코드
-	@GetMapping("/bsapp2")
-	public void production(String equip_id, int count) {
-		
-		ProductionDto production = new ProductionDto();
-		
-		List<WorkOrder_tbl> WorkOrder = new ArrayList<WorkOrder_tbl>(productionService.getWorkOrder(equip_id));
-		//작업지시 리스트를 확인함
-
-		//설비코드와 매칭을 시킴
-		
-		//결과에 따라 지시번호를 맞춰 db에 저장
-		production.setPRODUCTION_WorkOrder_ONo(WorkOrder.get(0).getWorkOrder_ONo());
-		production.setPRODUCTION_Equipment_Code(equip_id);
-		production.setPRODUCTION_Volume(count);
-		
-		System.out.println(production);
-		productionService.insertMenuNewUser(production);
-	}
-	
-	@GetMapping("/productAdd")
+	@GetMapping("/tablet/productAdd")
 	public void productAdd(HttpServletRequest request) {
 		String equip_code = request.getParameter("equip_code");
 		String count = request.getParameter("count");
