@@ -1,6 +1,7 @@
 package com.busience.common.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -36,9 +37,16 @@ public class popupController {
 	   return "normal/popup/customerPopup";
 	}
 	
-	//excelUploadPopup
-	@GetMapping("/excelUploadPopup")
-	public String excelUploadPopup() {
-	   return "normal/popup/excelUploadPopup";
+	//hometaxApiPopup
+	@GetMapping("/hometaxApiPopup")
+	public String hometaxApiPopup(String ym, Model model) {
+		String[] YM = ym.split("-");
+		String year = YM[0];
+		String month = YM[1];
+		
+		model.addAttribute("year", year);
+		model.addAttribute("month", month);
+		
+		return "normal/popup/hometaxApiPopup";
 	}
 }

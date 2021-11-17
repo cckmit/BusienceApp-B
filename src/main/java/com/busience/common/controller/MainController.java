@@ -20,8 +20,7 @@ public class MainController {
 		
 	@GetMapping("/main")
 	public String main(Model model) {
-		model.addAttribute("pageName", "메인");
-		
+		model.addAttribute("pageName", "메인");		
 		return "main";
 	}
 	

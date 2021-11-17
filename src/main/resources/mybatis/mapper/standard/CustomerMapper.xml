@@ -56,4 +56,25 @@
 		delete from Customer_tbl
 			where Cus_Code= #{Cus_Code}
 	</delete>
+	
+	<select id="selectCustomerDao" resultType="com.busience.standard.dto.CustomerDto">
+		select 
+			A.Cus_Code, A.Cus_Name, A.Cus_Status, B.CHILD_TBL_TYPE Cus_Status_Name,
+			A.Cus_Clsfc, C.CHILD_TBL_TYPE Cus_Clsfc_Name, A.Cus_Rprsn, A.Cus_Mng,
+			A.Cus_Co, A.Cus_Co_EstYr, A.Cus_Rprsn_PhNr, A.Cus_Mng_PhNr,
+			A.Cus_Mng_Email, A.Cus_Adr, A.Cus_Pymn_Date, D.CHILD_TBL_TYPE Cus_Pymn_Date_Name,
+			A.Cus_Rgstr_Nr
+			from (
+				select * from Customer_tbl where Cus_Code = #{Cus_Code}
+			) A
+			inner join (
+				select * from DTL_TBL where NEW_TBL_CODE=15
+			) B on A.Cus_Status = B.CHILD_TBL_NO
+			inner join (
+				select * from DTL_TBL where NEW_TBL_CODE=28
+			) C on A.Cus_Clsfc = C.CHILD_TBL_NO
+			inner join (
+				select * from DTL_TBL where NEW_TBL_CODE=39
+			) D on A.Cus_Pymn_Date = D.CHILD_TBL_NO
+	</select>
 </mapper>

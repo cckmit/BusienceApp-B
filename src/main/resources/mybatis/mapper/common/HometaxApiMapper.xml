@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.busience.common.dao.HometaxApiDao">
+	<select id="transactionCustomerListDao" resultType="com.busience.salesLX.dto.Sales_OutMat_tbl">
+	<![CDATA[
+		select
+			A.Sales_OutMat_No,
+			A.Sales_OutMat_Client_Code,
+			B.Cus_Name Sales_OutMat_Client_Name,
+			sum(A.Sales_OutMat_Qty) Sales_OutMat_Qty
+			from (
+				select * from Sales_OutMatLX_tbl
+			    where Sales_OutMat_Date >= #{startDate} and Sales_OutMat_Date < #{endDate}
+			) A 
+			inner join Customer_tbl B on A.Sales_OutMat_Client_Code = B.Cus_Code
+			group by A.Sales_OutMat_Client_Code
+	]]>		
+	</select>
+	
+	<select id="transactionDetailListDao" resultType="com.busience.salesLX.dto.Sales_OutMat_tbl">
+	<![CDATA[
+		select 
+			A.Sales_OutMat_No,
+			A.Sales_OutMat_Cus_No,
+			A.Sales_OutMat_Date,
+			B.CHILD_TBL_TYPE Sales_OutMat_Send_Clsfc_Name,
+			A.Sales_OutMat_Code,
+			A.Sales_OutMat_Client_Code,
+			C.PRODUCT_ITEM_NAME Sales_OutMat_Name,
+			C.PRODUCT_INFO_STND_1 Sales_OutMat_STND_1,
+			D.CHILD_TBL_TYPE Sales_OutMat_UNIT,
+			sum(A.Sales_OutMat_Qty) Sales_OutMat_Qty,
+			sum(A.Sales_OutMat_Price) Sales_OutMat_Price,
+			A.Sales_OutMat_Unit_Price
+			from (
+				select * from Sales_OutMatLX_tbl
+			    where Sales_OutMat_Date >= #{startDate} and Sales_OutMat_Date < #{endDate}
+			    and Sales_OutMat_Client_Code = #{clientCode}
+			) A 
+			inner join DTL_TBL B on A.Sales_OutMat_Send_Clsfc = B.CHILD_TBL_NO
+			inner join PRODUCT_INFO_TBL C on A.Sales_OutMat_Code = C.PRODUCT_ITEM_CODE
+			inner join DTL_TBL D on C.PRODUCT_UNIT = D.CHILD_TBL_NO
+			group by A.Sales_OutMat_Code with rollup
+	]]>		
+	</select>
+	
+	<insert id="insertTaxInvoiceDao">
+		insert into hometax_api_tbl(
+			tax_Invoice_Type, tax_Invoice_Date,
+			supplier_Registration_No, supplier_Registration_No_2,
+			supplier_Company_Name, supplier_Name, supplier_Business_Address,
+			supplier_Business_Type, supplier_Business_Item, supplier_Email,
+			receiver_Registration_No, receiver_Registration_No_2,
+			receiver_Company_Name, receiver_Name, receiver_Business_Address,
+			receiver_Business_Type, receiver_Business_Item, receiver_Email_1, receiver_Email_2,
+			supply_Value, tax_Amount, remarks,
+			date_1, item_1, standard_1, quantity_1, unit_Price_1, supply_Value_1, tax_Amount_1, item_Remarks_1,
+			date_2, item_2, standard_2, quantity_2, unit_Price_2, supply_Value_2, tax_Amount_2, item_Remarks_2,
+			date_3, item_3, standard_3, quantity_3, unit_Price_3, supply_Value_3, tax_Amount_3, item_Remarks_3,
+			date_4, item_4, standard_4, quantity_4, unit_Price_4, supply_Value_4, tax_Amount_4, item_Remarks_4,
+			cash, accounts_Check, note, accounts_Receivable, classification)
+			values(
+			#{tax_Invoice_Type}, date_format(now(),'%Y%m%d'),
+			#{supplier_Registration_No}, #{supplier_Registration_No_2},
+			#{supplier_Company_Name}, #{supplier_Name}, #{supplier_Business_Address},
+			#{supplier_Business_Type}, #{supplier_Business_Item}, #{supplier_Email},
+			#{receiver_Registration_No}, #{receiver_Registration_No_2},
+			#{receiver_Company_Name}, #{receiver_Name}, #{receiver_Business_Address},
+			#{receiver_Business_Type}, #{receiver_Business_Item}, #{receiver_Email_1}, #{receiver_Email_2},
+			#{supply_Value}, #{tax_Amount}, #{remarks},
+			#{date_1}, #{item_1}, #{standard_1}, #{quantity_1}, #{unit_Price_1}, #{supply_Value_1}, #{tax_Amount_1}, #{item_Remarks_1},
+			#{date_2}, #{item_2}, #{standard_2}, #{quantity_2}, #{unit_Price_2}, #{supply_Value_2}, #{tax_Amount_2}, #{item_Remarks_2},
+			#{date_3}, #{item_3}, #{standard_3}, #{quantity_3}, #{unit_Price_3}, #{supply_Value_3}, #{tax_Amount_3}, #{item_Remarks_3},
+			#{date_4}, #{item_4}, #{standard_4}, #{quantity_4}, #{unit_Price_4}, #{supply_Value_4}, #{tax_Amount_4}, #{item_Remarks_4},
+			#{cash}, #{accounts_Check}, #{note}, #{accounts_Receivable}, #{classification}
+			)
+	</insert>
+	
+	<select id="selectTaxInvoiceDao" resultType="com.busience.common.dto.HometaxApiDto">
+		SELECT
+			tax_Invoice_Type, tax_Invoice_Date,
+			supplier_Registration_No, supplier_Registration_No_2,
+			supplier_Company_Name, supplier_Name, supplier_Business_Address,
+			supplier_Business_Type, supplier_Business_Item, supplier_Email,
+			receiver_Registration_No, receiver_Registration_No_2,
+			receiver_Company_Name, receiver_Name, receiver_Business_Address,
+			receiver_Business_Type, receiver_Business_Item, receiver_Email_1, receiver_Email_2,
+			supply_Value, tax_Amount, remarks,
+			date_1, item_1, standard_1, quantity_1, unit_Price_1, supply_Value_1, tax_Amount_1, item_Remarks_1,
+			date_2, item_2, standard_2, quantity_2, unit_Price_2, supply_Value_2, tax_Amount_2, item_Remarks_2,
+			date_3, item_3, standard_3, quantity_3, unit_Price_3, supply_Value_3, tax_Amount_3, item_Remarks_3,
+			date_4, item_4, standard_4, quantity_4, unit_Price_4, supply_Value_4, tax_Amount_4, item_Remarks_4,
+			cash, accounts_Check, note, accounts_Receivable, classification
+			FROM hometax_api_tbl
+	</select>
+	
+	<delete id="deleteHometaxApiDao">
+		delete from hometax_api_tbl
+	</delete>
+</mapper>

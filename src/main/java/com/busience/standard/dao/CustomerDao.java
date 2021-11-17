@@ -19,5 +19,8 @@ public interface CustomerDao {
 	public int updateCustomerDao(CustomerDto CustomerDto);
 	
 	//삭제
-	public int deleteCustomerDao(String CustomerCode);
+	public int deleteCustomerDao(String Cus_Code);
+	
+	//특정 거래처 조회
+	public CustomerDto selectCustomerDao(String Cus_Code);
 }

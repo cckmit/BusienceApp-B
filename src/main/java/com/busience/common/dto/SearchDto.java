@@ -24,6 +24,6 @@ public class SearchDto {
 	private String ClientCode;
 	
 	private String DeptCode;
-	
+		
 	private String ItemSendClsfc;
 }

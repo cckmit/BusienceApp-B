@@ -10,7 +10,7 @@ import com.busience.standard.dto.ItemDto;
 public interface ItemDao {
 	
 	//조회
-	public List<ItemDto>selectItemList();
+	public List<ItemDto> selectItemList();
 	
 	//등록
 	public int insertItemCode(ItemDto itemDto);
@@ -26,4 +26,7 @@ public interface ItemDao {
 	
 	//삭제
 	public int deleteItemCode(String itemCode);
+	
+	//품목코드로 검색
+	public ItemDto selectItemCode(String itemCode);
 }
