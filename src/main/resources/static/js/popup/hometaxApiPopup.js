@@ -32,7 +32,7 @@ var excelViewerTable = new Tabulator("#excelViewerTable", {
     ajaxConfig:"get",
     ajaxContentType:"json",
 	columns: [
-		{ title: "전자(세금)계산서 종류(01:일반, 02:영세율)", field: "tax_Invoice_Type", headerHozAlign: "center", hozAlign: "center", accessorDownload:nullToEmptyString},
+		{ title: "전자(세금)계산서 종류(01:일반, 02:영세율)", field: "tax_Invoice_Type", headerHozAlign: "center", accessorDownload:nullToEmptyString},
 		{ title: "작성일자", field: "tax_Invoice_Date", headerHozAlign: "center", accessorDownload:nullToEmptyString},
 		{ title: "공급자 등록번호('-' 없이 입력)", field: "supplier_Registration_No", headerHozAlign: "center", accessorDownload:nullToEmptyString},
 		{ title: "공급자 종사업장번호", field: "supplier_Registration_No_2", headerHozAlign: "center", accessorDownload:nullToEmptyString},

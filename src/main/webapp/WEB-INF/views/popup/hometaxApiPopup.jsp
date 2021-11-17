@@ -4,7 +4,7 @@
 	<div class="main">
 		<div class="top-var">
 			<div class="popup-box">
-				<span>${year}년 ${month}월</span>
+				<span>${year}년 ${month}월자</span>
 			</div>
 			<div class="popup-button">
 				<button id="download-xlsx" class="btn btn-primary">엑셀변환</button>

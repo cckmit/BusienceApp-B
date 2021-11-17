@@ -146,7 +146,7 @@ public class salesDeliveryReportLXRestController {
 				+ " where somt.Sales_OutMat_Date >= '" + searchDto.getStartDate() + "'\r\n"
 				+ " and somt.Sales_OutMat_Date < '" + searchDto.getEndDate() + "'\r\n";
 
-		sql += " group by Sales_OutMat_Client_Code with rollup";
+		sql += " group by Sales_OutMat_Client_Code";
 
 		System.out.println("SOC_DeliveryView = " + sql);
 

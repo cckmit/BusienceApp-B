@@ -49,7 +49,6 @@ public class HometaxApiService {
 					//테이블 내용 삭제
 					hometaxApiDao.deleteHometaxApiDao();
 					
-					List<Sales_OutMat_tbl> customerList = new ArrayList<Sales_OutMat_tbl>();
 					List<Sales_OutMat_tbl> DetailList = new ArrayList<Sales_OutMat_tbl>();
 					List<DtlDto> myCompany = new ArrayList<DtlDto>();
 					List<DtlDto> hometaxOption = new ArrayList<DtlDto>();
@@ -81,16 +80,16 @@ public class HometaxApiService {
 					}
 					
 					//거래한 거래처리스트
-					customerList = hometaxApiDao.transactionCustomerListDao(searchDto);
+					String[] customerList = searchDto.getClientCodeArr();
 					
-					for(int i=0;i<customerList.size();i++) {
+					for(int i=0;i<customerList.length;i++) {
 						HometaxApiDto hometaxApiDto = new HometaxApiDto();
 						
 						//세금계산서 종류
 						hometaxApiDto.setTax_Invoice_Type(tax_Invoice_Type);
 						
 						//거래처
-						customer = customerList.get(i).getSales_OutMat_Client_Code();
+						customer = customerList[i];
 						searchDto.setClientCode(customer);
 						customerDto = customerDao.selectCustomerDao(customer);
 						

@@ -10,7 +10,7 @@ var salesDeliveryCustomerViewTable = new Tabulator("#salesDeliveryCustomerViewTa
 		}
 	},
 	height: "calc(100% - 175px)",
-	columns: [ //Define Table Columns
+	columns: [
 		{ title: "순번", field: "id", headerHozAlign: "center", hozAlign: "center" },
 		{ title: "출고일자", field: "sales_OutMat_Date", headerHozAlign: "center", hozAlign: "left", formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" } },
 		{ title: "출고구분", field: "sales_OutMat_Send_Clsfc", headerHozAlign: "center", hozAlign: "left" },
@@ -38,28 +38,25 @@ function SOCL_Search() {
 	}
 
 	salesDeliveryCustomerViewTable.setData("salesDeliveryReportLXRest/SOCL_Search", datas)
-	.then(function(){
-		console.log(salesDeliveryCustomerViewTable.getData());
-	});
 }
 
 var salesDeliveryListTable = new Tabulator("#salesDeliveryListTable", {
 	layoutColumnsOnNewData: true,
+	selectable: true,
+	height: "calc(100% - 175px)",
 	//Sub Total 색상
 	rowFormatter: function(row) {
 		if (row.getData().sales_OutMat_Client_Code == "Sub Total") {
 			row.getElement().style.backgroundColor = "#c0c0c0";
 		}
 	},
-	height: "calc(100% - 175px)",
 	//행클릭 이벤트
 	rowClick: function(e, row) {
-		salesDeliveryListTable.deselectRow();
-		row.select();
 		SDC_Search(row.getData().sales_OutMat_Client_Code)
 	},
-	columns: [ //Define Table Columns
-		{ title: "순번", field: "id", headerHozAlign: "center", hozAlign: "right" },
+	columns: [
+		{ formatter:"rowSelection", headerHozAlign: "center", titleFormatter:"rowSelection", align:"center", headerSort:false},
+		{ title: "순번", field: "id", headerHozAlign: "center", hozAlign: "center" },
 		{ title: "거래처코드", field: "sales_OutMat_Client_Code", headerHozAlign: "center", hozAlign: "center" },
 		{ title: "거래처명", field: "sales_OutMat_Client_Name", headerHozAlign: "center" },
 		{ title: "수량", field: "sales_OutMat_Qty", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false } }
@@ -105,25 +102,8 @@ function SDL_Search() {
 	}
 	salesDeliveryListTable.setData("salesDeliveryReportLXRest/SDL_Search", datas)
 	.then(function(){
-		homtaxApiListSave(datas);
-	});
-}
-
-function homtaxApiListSave(data){
-	var datas = data;
-	$.ajax({
-		method : "post",
-		url : "salesDeliveryReportLXRest/hometaxApiDataSave",
-        data: datas,
-		beforeSend: function (xhr) {
-           var header = $("meta[name='_csrf_header']").attr("content");
-           var token = $("meta[name='_csrf']").attr("content");
-           xhr.setRequestHeader(header, token)
-		},
-		success : function() {
-			UseBtn();
-		}
-	});
+		UseBtn();
+	})
 }
 
 function SDC_Search(clientCode) {
@@ -141,6 +121,47 @@ function SDC_Search(clientCode) {
 }
 
 $("#preView-xlsx").click(function(){
-	var ym = $("#selectedMonth").val();
-	hometaxApiPopup(ym);
+	selectedRow = salesDeliveryListTable.getData("selected");
+	var clientCodeArr = new Array();
+	
+	if (selectedRow.length == 0){
+		alert("행을 선택해 주세요.");
+		return false;
+	} else if(selectedRow.length > 100){
+		alert("100건까지 변환 가능 합니다.");
+		return false;
+	}
+	
+	for(let i=0;i<selectedRow.length;i++){
+		clientCodeArr.push(selectedRow[i].sales_OutMat_Client_Code)
+	}
+	
+	var thisMonth = $("#selectedMonth").val() + "-01";
+	var nextMontth = new Date($("#selectedMonth").val() + "-01");
+	nextMontth = new Date(nextMontth.setMonth(nextMontth.getMonth() + 1)).toISOString().substring(0, 10);
+
+	var datas = {
+		startDate: thisMonth,
+		endDate: nextMontth,
+		clientCodeArr: clientCodeArr
+	}
+	homtaxApiListSave(datas);
 })
+
+function homtaxApiListSave(data){
+	var datas = data;
+	$.ajax({
+		method : "post",
+		url : "salesDeliveryReportLXRest/hometaxApiDataSave",
+        data: datas,
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token)
+		},
+		success : function() {
+			var ym = $("#selectedMonth").val();
+			hometaxApiPopup(ym)
+		}
+	});
+}
