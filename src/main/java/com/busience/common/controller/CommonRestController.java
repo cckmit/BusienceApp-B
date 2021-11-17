@@ -17,10 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.MenuDto;
-import com.busience.common.dto.ProductionDto;
 import com.busience.common.service.MenuService;
 import com.busience.common.service.ProductionService;
-import com.busience.productionLX.dto.WorkOrder_tbl;
 import com.busience.standard.dto.DTL_TBL;
 
 @RestController
