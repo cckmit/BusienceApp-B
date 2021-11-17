@@ -11,13 +11,14 @@ public class CustomerDto {
 	private String Cus_Code; // 거래처코드
 	private String Cus_Name; // 거래처이름
 	private String Cus_Status; // 납품조건
-	private String Cus_Status_Name;
+	private String Cus_Status_Name; //납품조건명
 	private String Cus_Clsfc; // 분류
 	private String Cus_Rprsn; // 대표자명
-	private String Cus_Mng; // 담당자명
+	private String Cus_Rprsn_PhNr; // 대표전화번호
+	private String Cus_Rprsn_Email; // 대표자이메일
 	private String Cus_Co; // 회사명
 	private String Cus_Co_EstYr; // 회사설립연도
-	private String Cus_Rprsn_PhNr; // 대표전화번호
+	private String Cus_Mng; // 담당자명
 	private String Cus_Mng_PhNr; // 담당자전화번호
 	private String Cus_Mng_Email; // 담당자이메일
 	private String Cus_Adr; // 주소

@@ -7,28 +7,25 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
-import com.busience.salesLX.dto.Sales_InMat_tbl;
+import com.busience.common.service.HometaxApiService;
 import com.busience.salesLX.dto.Sales_OutMat_tbl;
 
 @RestController("salesDeliveryReportLXRestController")
 @RequestMapping("salesDeliveryReportLXRest")
 public class salesDeliveryReportLXRestController {
 
+	@Autowired
+	HometaxApiService hometaxApiService;
+	
 	@Autowired
 	DataSource dataSource;
 
@@ -83,6 +80,8 @@ public class salesDeliveryReportLXRestController {
 				data.setSales_OutMat_Send_Clsfc("Sub Total");
 				data.setSales_OutMat_Date(rs.getString("sales_OutMat_Date"));
 				data.setSales_OutMat_Client_Code(rs.getString("sales_OutMat_Client_Code"));
+				data.setSales_OutMat_Client_Name(rs.getString("Sales_OutMat_Client_Name"));
+				data.setSales_OutMat_Code(rs.getString("sales_OutMat_Code"));
 				data.setSales_OutMat_Name(rs.getString("sales_OutMat_Name"));
 				data.setSales_OutMat_Qty(rs.getInt("sales_OutMat_Qty"));
 				data.setSales_OutMat_Price(rs.getInt("sales_OutMat_Price"));
@@ -93,6 +92,7 @@ public class salesDeliveryReportLXRestController {
 				
 				data.setSales_OutMat_Send_Clsfc("Grand Total");
 				data.setSales_OutMat_Date(rs.getString("sales_OutMat_Date"));
+				data.setSales_OutMat_Code(rs.getString("sales_OutMat_Code"));
 				data.setSales_OutMat_Name(rs.getString("sales_OutMat_Name"));
 				data.setSales_OutMat_Qty(rs.getInt("sales_OutMat_Qty"));
 				data.setSales_OutMat_Price(rs.getInt("sales_OutMat_Price"));
@@ -110,6 +110,8 @@ public class salesDeliveryReportLXRestController {
 					data.setSales_OutMat_Send_Clsfc(rs.getString("sales_OutMat_Send_Clsfc"));
 				}
 				data.setSales_OutMat_Client_Code(rs.getString("sales_OutMat_Client_Code"));
+				data.setSales_OutMat_Client_Name(rs.getString("sales_OutMat_Client_Name"));
+				data.setSales_OutMat_Code(rs.getString("sales_OutMat_Code"));
 				data.setSales_OutMat_Name(rs.getString("sales_OutMat_Name"));
 				data.setSales_OutMat_STND_1(rs.getString("sales_OutMat_STND_1"));
 				data.setSales_OutMat_UNIT(rs.getString("sales_OutMat_UNIT"));
@@ -144,7 +146,7 @@ public class salesDeliveryReportLXRestController {
 				+ " where somt.Sales_OutMat_Date >= '" + searchDto.getStartDate() + "'\r\n"
 				+ " and somt.Sales_OutMat_Date < '" + searchDto.getEndDate() + "'\r\n";
 
-		sql += " group by Sales_OutMat_Client_Code with rollup";
+		sql += " group by Sales_OutMat_Client_Code";
 
 		System.out.println("SOC_DeliveryView = " + sql);
 
@@ -241,7 +243,6 @@ public class salesDeliveryReportLXRestController {
 
 				list.add(data);
 			}
-
 		}
 
 		if (list.size() > 0) {
@@ -258,16 +259,9 @@ public class salesDeliveryReportLXRestController {
 		return list;
 	}
 	
-	// excel_PreView_ajax
-	@GetMapping("/excel_PreView_ajax")
-	public List<Sales_InMat_tbl> excel_PreView_ajax(HttpServletRequest request) throws SQLException, ParseException {
-		String originData = request.getParameter("data");
-		JSONParser parser = new JSONParser();
-		JSONObject obj = (JSONObject) parser.parse(originData);
-		System.out.println(obj);
-		
-		List<Sales_InMat_tbl> list = new ArrayList<Sales_InMat_tbl>();
-		
-		return list;
+	// hometaxApiDataSave
+	@PostMapping("/hometaxApiDataSave")
+	public int hometaxApiDataSave(SearchDto searchDto) {
+		return hometaxApiService.hometaxApiDataSave(searchDto);
 	}
 }

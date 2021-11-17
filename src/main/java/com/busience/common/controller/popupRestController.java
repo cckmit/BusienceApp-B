@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.busience.common.dto.HometaxApiDto;
+import com.busience.common.service.HometaxApiService;
 import com.busience.standard.dto.Customer_tbl;
 import com.busience.standard.dto.DEFECT_INFO_TBL;
 import com.busience.standard.dto.EQUIPMENT_INFO_TBL;
@@ -28,6 +30,9 @@ public class popupRestController {
 
 	@Autowired
 	DataSource dataSource;
+	
+	@Autowired
+	HometaxApiService hometaxApiService;
 	
 	@Autowired
 	JdbcTemplate jdbctemplate;
@@ -491,5 +496,10 @@ public class popupRestController {
 			}
 		}, EQUIPMENT_INFO_CODE, EQUIPMENT_INFO_CODE, "%"+EQUIPMENT_INFO_CODE+"%", 
 				"%"+EQUIPMENT_INFO_CODE+"%", EQUIPMENT_INFO_CODE, EQUIPMENT_INFO_CODE);
+	}
+	
+	@GetMapping("/hometaxApiPopupSelect")
+	public List<HometaxApiDto> hometaxApiPopupSelect(){
+		return hometaxApiService.hometaxApiDataSearch();
 	}
 }
