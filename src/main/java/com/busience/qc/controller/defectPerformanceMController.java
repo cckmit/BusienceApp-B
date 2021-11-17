@@ -28,7 +28,7 @@ public class defectPerformanceMController {
 	String init_numflag = "";
 	String WorkOrder_ONo = "";
 	
-	@GetMapping("defectPerformanceM")
+	@GetMapping("/tablet/defectPerformanceM")
 	public String defectPerformanceM(Model model, HttpServletRequest request) throws SQLException, ClassNotFoundException {
 		
 		/*

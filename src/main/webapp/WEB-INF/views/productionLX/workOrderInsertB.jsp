@@ -92,7 +92,7 @@
 
 		<script>
 			function move(){
-				location.href = "/workOrderStartBB?code=<%out.print(request.getParameter("code"));%>";
+				location.href = "/tablet/workOrderStartBB?code=<%out.print(request.getParameter("code"));%>";
 			}
 		</script>
 		<script src="/js/productionLX/workOrderInsertB.js"></script>

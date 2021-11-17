@@ -47,7 +47,7 @@
 			clipboard: true,
 			rowClick:function(e, row){
 				if (e.detail == 1){
-					$.get("defectPerformanceMRest/DEFECT_INFO_TBL_Load?oqcinspect_OqcInNo=" + row.getData().oqcinspect_OqcInNo, function(data) {
+					$.get("../defectPerformanceMRest/DEFECT_INFO_TBL_Load?oqcinspect_OqcInNo=" + row.getData().oqcinspect_OqcInNo, function(data) {
 						WorkOrder_tbl.deselectRow();
 						row.select();
 						
@@ -161,7 +161,7 @@
 			
 			console.log("defectInsertRest/Search?data=" + encodeURI(JSON.stringify(datas)));
 			
-			$.get("defectInsertRest/Search?data=" + encodeURI(JSON.stringify(datas)), function(data) {
+			$.get("../defectInsertRest/Search?data=" + encodeURI(JSON.stringify(datas)), function(data) {
 				WorkOrder_tbl.setData(data);
 			});
 		}
@@ -182,7 +182,7 @@
 					return;
 				}
 				
-				$.get("defectInsertRest/Upsert?data=" + encodeURI(JSON.stringify(defectPerformance.getData())), function(data) {
+				$.get("../defectInsertRest/Upsert?data=" + encodeURI(JSON.stringify(defectPerformance.getData())), function(data) {
 					alert("저장되었습니다.");
 					
 					WorkOrder_tbl.getSelectedRows()[0].update({"oqcinspect_DQty":sum_defect_ABR});
@@ -197,7 +197,7 @@
 		
 		function drawBasic() {
 		
-			  $.get("defectPerformanceMRest/Defect_Export_Init", function(data) {
+			  $.get("../defectPerformanceMRest/Defect_Export_Init", function(data) {
 			  		drawArray = [];
 			  		drawArray.push([ '불량 개수', '불량 개수', ]);
 			  

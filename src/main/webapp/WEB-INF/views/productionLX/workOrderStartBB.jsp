@@ -204,7 +204,7 @@
 	
 	<script>
 			function move(){
-				location.href = "/workOrderInsertB?code=<%out.print(request.getParameter("code"));%>";
+				location.href = "/tablet/workOrderInsertB?code=<%out.print(request.getParameter("code"));%>";
 			}
 	</script>
 	<script src="/js/productionLX/workOrderStartBB.js"></script>

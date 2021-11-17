@@ -46,11 +46,11 @@
 
 					if(workOrder_ONo==="")
 					{
-						$.get("workOrderTABRestXO/MI_Searchi?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&PRODUCTION_PRODUCT_CODE=" + document.getElementById("n_len_code").value, function(data) {                 
+						$.get("../workOrderTABRestXO/MI_Searchi?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&PRODUCTION_PRODUCT_CODE=" + document.getElementById("n_len_code").value, function(data) {                 
 							
 							workOrder_ONo = data[0].workOrder_ONo;
 
-							$.get("workOrderTABRestXO/MI_Searchd?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
+							$.get("../workOrderTABRestXO/MI_Searchd?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
 								WorkOrder_tbl.setData(data);
 								select_program();
 							});
@@ -62,13 +62,13 @@
 
 						if(workOrder_Remark != "AUTO")
 						{
-							$.get("workOrderTABRestXO/MI_Searche?WorkOrder_WorkStatus=243&WorkOrder_EquipCode=" + document.getElementById("eqselect").value+"&PRODUCTION_SERIAL_NUM="+workOrder_ONo, function(data) {            
-								$.get("workOrderTABRestXO/MI_Searchi?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&PRODUCTION_PRODUCT_CODE=" + document.getElementById("n_len_code").value, function(data) {                 
+							$.get("../workOrderTABRestXO/MI_Searche?WorkOrder_WorkStatus=243&WorkOrder_EquipCode=" + document.getElementById("eqselect").value+"&PRODUCTION_SERIAL_NUM="+workOrder_ONo, function(data) {            
+								$.get("../workOrderTABRestXO/MI_Searchi?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&PRODUCTION_PRODUCT_CODE=" + document.getElementById("n_len_code").value, function(data) {                 
 								
 									workOrder_ONo = data[0].workOrder_ONo;
 									workOrder_Remark = data[0].workOrder_Remark;
 			
-									$.get("workOrderTABRestXO/MI_Searchd?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
+									$.get("../workOrderTABRestXO/MI_Searchd?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
 										WorkOrder_tbl.setData(data);
 										select_program();
 									});
@@ -78,13 +78,13 @@
 						}
 						else
 						{
-							$.get("workOrderTABRestXO/MI_Searche?WorkOrder_WorkStatus=245&WorkOrder_EquipCode=" + document.getElementById("eqselect").value+"&PRODUCTION_SERIAL_NUM="+workOrder_ONo, function(data) {            
-								$.get("workOrderTABRestXO/MI_Searchi?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&PRODUCTION_PRODUCT_CODE=" + document.getElementById("n_len_code").value, function(data) {                 
+							$.get("../workOrderTABRestXO/MI_Searche?WorkOrder_WorkStatus=245&WorkOrder_EquipCode=" + document.getElementById("eqselect").value+"&PRODUCTION_SERIAL_NUM="+workOrder_ONo, function(data) {            
+								$.get("../workOrderTABRestXO/MI_Searchi?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&PRODUCTION_PRODUCT_CODE=" + document.getElementById("n_len_code").value, function(data) {                 
 								
 									workOrder_ONo = data[0].workOrder_ONo;
 									workOrder_Remark = data[0].workOrder_Remark;
 			
-									$.get("workOrderTABRestXO/MI_Searchd?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
+									$.get("../workOrderTABRestXO/MI_Searchd?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
 										WorkOrder_tbl.setData(data);
 										select_program();
 									});
@@ -150,7 +150,7 @@
 
 		function select_program()
 		{
-			$.get("workOrderStartBRest/workOrderStartInit?eqselect="+document.getElementById("eqselect").value,function(data){
+			$.get("../workOrderStartBRest/workOrderStartInit?eqselect="+document.getElementById("eqselect").value,function(data){
 				
 				console.log(data);
 
@@ -177,7 +177,7 @@
 
 			});
 
-			$.get("workOrderTABRestXO/MI_Searchd?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
+			$.get("../workOrderTABRestXO/MI_Searchd?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
 				
 				console.log(data);
 				
@@ -203,7 +203,7 @@
 		}
 
 		setInterval(function(){
-			$.get("workOrderStartBRest/workOrderSumQty?eqselect=" + document.getElementById("eqselect").value, function(data){
+			$.get("../workOrderStartBRest/workOrderSumQty?eqselect=" + document.getElementById("eqselect").value, function(data){
 				document.getElementById("sum_qty").value = data;
 				
 				select_program();
@@ -211,7 +211,7 @@
 		},10000);
 
 		setInterval(function(){
-			$.get("workOrderStartBRest/workOrderCurrentQty?eqselect=" + document.getElementById("eqselect").value, function(data){
+			$.get("../workOrderStartBRest/workOrderCurrentQty?eqselect=" + document.getElementById("eqselect").value, function(data){
 				document.getElementById("current_qty").value = data;
 			});
 		},1000);
