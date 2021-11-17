@@ -92,9 +92,69 @@ public class popupRestController {
 		return list;
 	}
 	
+	//itemPopup
+	@GetMapping("/tablet/itemPopupSelect")
+	public List<PRODUCT_INFO_TBL> tabletitemPopupSelect(
+				@RequestParam(value = "item_Word", required = false) String item_Word,
+				@RequestParam(value = "search_value", required = false) String search_value) throws SQLException {
+			
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			
+			conn = dataSource.getConnection();
+			
+			String terms = null;
+			String terms_sql = "select CHILD_TBL_RMARK from DTL_TBL\r\n"
+					+ "where NEW_TBL_CODE = 37 and CHILD_TBL_TYPE = '"+search_value+"'";
+			
+			pstmt = conn.prepareStatement(terms_sql);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				terms = rs.getString("CHILD_TBL_RMARK");
+			}
+			System.out.println("============");
+			System.out.println(terms);
+			
+			String sql = "";
+			
+			sql = " select PRODUCT_ITEM_CODE,\r\n"
+					+ " PRODUCT_ITEM_NAME,\r\n"
+					+ " PRODUCT_INFO_STND_1,\r\n"
+					+ " PRODUCT_UNIT_PRICE\r\n"
+					+ " from PRODUCT_INFO_TBL\r\n"
+					+ " where (PRODUCT_ITEM_CODE like '%" + item_Word + "%' or PRODUCT_ITEM_NAME like '%" + item_Word + "%')\r\n"
+					+ " and PRODUCT_USE_STATUS='true'"
+					+ " and PRODUCT_MTRL_CLSFC in ("+terms+")";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			System.out.println("itemPopupSelect =" + sql);
+			
+			List<PRODUCT_INFO_TBL> list = new ArrayList<PRODUCT_INFO_TBL>();
+
+			while (rs.next()) {
+				PRODUCT_INFO_TBL data = new PRODUCT_INFO_TBL();
+
+				data.setPRODUCT_ITEM_CODE(rs.getString("PRODUCT_ITEM_CODE"));
+				data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
+				data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
+				data.setPRODUCT_UNIT_PRICE(rs.getInt("PRODUCT_UNIT_PRICE"));
+				list.add(data);
+			}	
+		
+			rs.close();
+			pstmt.close();
+			conn.close();
+
+			return list;
+	}
+	
 	//itemPopup - 규격으로 검사함
-	@GetMapping("/itemPopupSelect2")
-	public List<PRODUCT_INFO_TBL> itemPopupSelect2(
+	@GetMapping("/tablet/itemPopupSelect2")
+	public List<PRODUCT_INFO_TBL> tabletitemPopupSelect2(
 				@RequestParam(value = "item_Word", required = false) String item_Word,
 				@RequestParam(value = "search_value", required = false) String search_value) throws SQLException {
 			
@@ -151,6 +211,66 @@ public class popupRestController {
 
 			return list;
 	}
+	
+	//itemPopup - 규격으로 검사함
+		@GetMapping("/itemPopupSelect2")
+		public List<PRODUCT_INFO_TBL> itemPopupSelect2(
+					@RequestParam(value = "item_Word", required = false) String item_Word,
+					@RequestParam(value = "search_value", required = false) String search_value) throws SQLException {
+				
+				Connection conn = null;
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				
+				conn = dataSource.getConnection();
+				
+				String terms = null;
+				String terms_sql = "select CHILD_TBL_RMARK from DTL_TBL\r\n"
+						+ "where NEW_TBL_CODE = 37 and CHILD_TBL_TYPE = '"+search_value+"'";
+				
+				pstmt = conn.prepareStatement(terms_sql);
+				rs = pstmt.executeQuery();
+				
+				while (rs.next()) {
+					terms = rs.getString("CHILD_TBL_RMARK");
+				}
+				System.out.println("============");
+				System.out.println(terms);
+				
+				String sql = "";
+				
+				sql = " select PRODUCT_ITEM_CODE,\r\n"
+						+ " PRODUCT_ITEM_NAME,\r\n"
+						+ " PRODUCT_INFO_STND_1,\r\n"
+						+ " PRODUCT_UNIT_PRICE\r\n"
+						+ " from PRODUCT_INFO_TBL\r\n"
+						+ " where PRODUCT_INFO_STND_1 like '%" + item_Word + "%'\r\n"
+						+ " and PRODUCT_USE_STATUS='true'"
+						+ " and PRODUCT_MTRL_CLSFC in ("+terms+")";
+				
+				pstmt = conn.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+
+				System.out.println("itemPopupSelect =" + sql);
+				
+				List<PRODUCT_INFO_TBL> list = new ArrayList<PRODUCT_INFO_TBL>();
+
+				while (rs.next()) {
+					PRODUCT_INFO_TBL data = new PRODUCT_INFO_TBL();
+
+					data.setPRODUCT_ITEM_CODE(rs.getString("PRODUCT_ITEM_CODE"));
+					data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
+					data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
+					data.setPRODUCT_UNIT_PRICE(rs.getInt("PRODUCT_UNIT_PRICE"));
+					list.add(data);
+				}	
+			
+				rs.close();
+				pstmt.close();
+				conn.close();
+
+				return list;
+		}
 
 	// machinePopup
 	@GetMapping("/machinePopupSelect")

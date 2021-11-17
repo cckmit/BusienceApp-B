@@ -174,7 +174,7 @@ html, body {
 			});
 			
 	
-	    }, 10000);
+	    }, 60000);
 		
 		var dds = [];
 
@@ -208,7 +208,10 @@ html, body {
 					var date = dat.getDate();
 					var time = dat.getTime();
 
-					ddsv.push(year+" - "+month+" - "+date+" - "+time);
+					var hours = ('0' + dat.getHours()).slice(-2); 
+					var minutes = ('0' + dat.getMinutes()).slice(-2);
+
+					ddsv.push(year+"-"+month+"-"+date+" "+hours+":"+minutes);
 					ddsv.push(parseInt(element.temp_Value));
 					dds.push(ddsv);
 				});
@@ -261,16 +264,16 @@ html, body {
 		function drawBackgroundColor() {
 			var data = new google.visualization.DataTable();
 			data.addColumn('string', 'X');
-			data.addColumn('number', 'Dogs');
+			data.addColumn('number', '1호기 온도');
 
 			data.addRows(dds);
 
 			var options = {
 				hAxis: {
-				title: 'Time'
+				title: '시간'
 				},
 				vAxis: {
-				title: 'Popularity'
+				title: '온도'
 				},
 				backgroundColor: '#f1f8e9'
 			};
@@ -302,7 +305,7 @@ html, body {
 
 		<div style="height: 80%; text-align: center; padding:0px 100px 0px 100px;">
 			<h1>온도 그래프</h1>
-			<div id="chart_div" style="height: 75%;">sdf</div>
+			<div id="chart_div" style="height: 75%;">잠시만 기다려주세요.</div>
 		</div>
 			
 		
