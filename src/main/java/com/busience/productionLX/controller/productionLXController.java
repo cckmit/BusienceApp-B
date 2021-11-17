@@ -366,7 +366,7 @@ public class productionLXController {
 		return "normal/productionLX/workOrderStartBB";
 	}
 	
-	@GetMapping("workOrderStartBB")
+	@GetMapping("/tablet/workOrderStartBB")
 	public String WorkOrderStartBB(Model model, HttpServletRequest request) throws SQLException {
 
 		String sql = "SELECT * FROM EQUIPMENT_INFO_TBL WHERE EQUIPMENT_INFO_CODE='"+( (request.getParameter("code")==null  || request.getParameter("code").equals("null")) ? "' or 1=1" : request.getParameter("code")+"'" );

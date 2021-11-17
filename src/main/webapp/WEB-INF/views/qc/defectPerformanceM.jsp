@@ -26,8 +26,8 @@ html, body {
 		<div class="top-var">
 			<!-- 버튼 -->
 			<div class="input-button">
-				<img src="images/button/Search.png" onclick="MI_searchBtn1()" />
-				<img src="images/button/Save.png" onclick="MI_saveBtn1()"/>
+				<img src="../images/button/Search.png" onclick="MI_searchBtn1()" />
+				<img src="../images/button/Save.png" onclick="MI_saveBtn1()"/>
 			</div>
 			<!-- 버튼 -->
 			<div class="input-box">

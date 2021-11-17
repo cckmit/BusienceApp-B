@@ -50,7 +50,7 @@ document.getElementById("eqselect").onchange = function(e) {
 	var target = document.getElementById("eqselect");
 	workOrder_EquipCode = target.options[target.selectedIndex].value;
 
-	$.get("workOrderTABRestXO/MI_Searchd2?WorkOrder_EquipCode=M001" + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
+	$.get("../workOrderTABRestXO/MI_Searchd2?WorkOrder_EquipCode=M001" + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
 		WorkOrder_tbl.setData(data);
 	});
 }
@@ -73,7 +73,7 @@ document.getElementById("startDate").onchange = function() {
 		return;
 	}
 
-	$.get("workOrderTABRest/MI_Searchd?WorkOrder_EquipCode=" + workOrder_EquipCode + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
+	$.get("../workOrderTABRest/MI_Searchd?WorkOrder_EquipCode=" + workOrder_EquipCode + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
 		WorkOrder_tbl.setData(data);
 	});
 }
@@ -93,7 +93,7 @@ document.getElementById("endDate").onchange = function() {
 		return;
 	}
 
-	$.get("workOrderTABRestXO/MI_Searchd2?WorkOrder_EquipCode=M001" + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
+	$.get("../workOrderTABRestXO/MI_Searchd2?WorkOrder_EquipCode=M001" + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
 		WorkOrder_tbl.setData(data);
 	});
 }
@@ -133,7 +133,7 @@ $('input[type=radio][name=options1]').change(function() {
 				return;
 			}
 
-			$.get("workOrderListRest/OrderUpdate?workOrder_ONo=" + initData.workOrder_ONo, function(data) {
+			$.get("../workOrderListRest/OrderUpdate?workOrder_ONo=" + initData.workOrder_ONo, function(data) {
 				//Equip_Select("M001");
 				//console.log(initRow.getData());
 				initRow.update({ "workOrder_ReceiptTime": data.workOrder_ReceiptTime, "workOrder_WorkStatus": data.workOrder_WorkStatus });
@@ -149,7 +149,7 @@ $('input[type=radio][name=options1]').change(function() {
 			}
 
 			if (this.getAttribute("value") === "242") {
-				$.get("workOrderListRest/OrderUpdate2?workOrder_ONo=" + initData.workOrder_ONo, function(data) {
+				$.get("../workOrderListRest/OrderUpdate2?workOrder_ONo=" + initData.workOrder_ONo, function(data) {
 					initRow.update({ "workOrder_ReceiptTime": null, "workOrder_WorkStatus": data.workOrder_WorkStatus });
 					initData = data;
 				});
@@ -160,7 +160,7 @@ $('input[type=radio][name=options1]').change(function() {
 				//alert(initData.workOrder_EquipCode);
 				//alert(workOrder_EquipCode);
 
-				$.get("workListRest/OrderUpdate?workOrder_ONo=" + initData.workOrder_ONo + "&workOrder_EquipCode=" + workOrder_EquipCode, function(data) {
+				$.get("../workListRest/OrderUpdate?workOrder_ONo=" + initData.workOrder_ONo + "&workOrder_EquipCode=" + workOrder_EquipCode, function(data) {
 					if (data === "OK") {
 						alert("해당 호기에 이미 작업시작이 된 데이터가 존재합니다.");
 						radio_select("243");
@@ -191,14 +191,14 @@ $('input[type=radio][name=options1]').change(function() {
 				return;
 			}
 
-			$.get("workListRest/OrderUpdate2?workOrder_ONo=" + initData.workOrder_ONo + "&workOrder_EquipCode=" + initData.workOrder_EquipCode, function(data) {
+			$.get("../workListRest/OrderUpdate2?workOrder_ONo=" + initData.workOrder_ONo + "&workOrder_EquipCode=" + initData.workOrder_EquipCode, function(data) {
 				//MI_Search2
-				$.get("workOrderTABRest/MI_Search2?workOrder_ONo=" + initData.workOrder_ONo, function(data) {
+				$.get("../workOrderTABRest/MI_Search2?workOrder_ONo=" + initData.workOrder_ONo, function(data) {
 					initRow.update({ "workOrder_CompleteTime": data.workOrder_CompleteTime, "workOrder_WorkStatus": data.workOrder_WorkStatus });
 					initData = data;
 					document.getElementsByName("options1").forEach(e => e.setAttribute("disabled", ''));
 					
-					$.get("workOrderTABRestXO/MI_Searchd2?WorkOrder_EquipCode="+document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
+					$.get("../workOrderTABRestXO/MI_Searchd2?WorkOrder_EquipCode="+document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
 						WorkOrder_tbl.setData(data);
 					});
 				});
@@ -222,7 +222,7 @@ window.onload = function() {
 	});
 	*/
 
-	$.get("workOrderTABRestXO/MI_Searchd2?WorkOrder_EquipCode="+document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
+	$.get("../workOrderTABRestXO/MI_Searchd2?WorkOrder_EquipCode="+document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
 		WorkOrder_tbl.setData(data);
 	});
 }

@@ -185,6 +185,7 @@ html, body {
 
 				var categorys = [];
 				var datas = [];
+				dds = [];
 
 				data.forEach(function(element){
 					//console.log(element); // 0 1 2 3 4 5 6 7 8 9 10
@@ -198,11 +199,21 @@ html, body {
 					datas.push(das);
 
 					var ddsv = [];
-					ddsv.push(0);
-					ddsv.push(element.temp_Value);
+
+					//debugger;
+
+					var dat = new Date(element.temp_Time);
+					var year = dat.getFullYear();
+					var month = dat.getMonth();
+					var date = dat.getDate();
+					var time = dat.getTime();
+
+					ddsv.push(year+" - "+month+" - "+date+" - "+time);
+					ddsv.push(parseInt(element.temp_Value));
 					dds.push(ddsv);
 				});
 
+				console.log("음");
 				console.log(dds);
 
 				google.charts.load('current', {packages: ['corechart', 'line']});
@@ -249,7 +260,7 @@ html, body {
 
 		function drawBackgroundColor() {
 			var data = new google.visualization.DataTable();
-			data.addColumn('number', 'X');
+			data.addColumn('string', 'X');
 			data.addColumn('number', 'Dogs');
 
 			data.addRows(dds);

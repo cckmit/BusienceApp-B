@@ -71,7 +71,7 @@ public class temperatureMonitoringRestController {
 					public Equip_Temperature_History mapRow(ResultSet rs, int rowNum) throws SQLException {
 						Equip_Temperature_History data = new Equip_Temperature_History();
 						data.setTemp_ONo(rs.getString("Temp_ONo"));
-						data.setTemp_Value(rs.getString("Temp_Value"));
+						data.setTemp_Value(String.valueOf(Math.round(rs.getFloat("Temp_Value"))));
 						data.setTemp_Time(rs.getString("Temp_Time"));
 						return data;
 					}
