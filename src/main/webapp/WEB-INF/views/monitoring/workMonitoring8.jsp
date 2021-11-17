@@ -50,7 +50,7 @@
 							</tr>
 							<tr>
 								<td>
-									제품명
+									제&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;품&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;명
 								</td>
 								<td style="text-align:left;" id="m<%=jj%>n">
 									
@@ -58,7 +58,7 @@
 							</tr>
 							<tr>
 								<td>
-									지시수량
+									지&nbsp;&nbsp;시&nbsp;&nbsp;&nbsp;수&nbsp;&nbsp;량
 								</td>
 								<td style="text-align:center;" id="m<%=jj%>o">
 									
@@ -66,7 +66,7 @@
 							</tr>
 							<tr>
 								<td>
-									생산량
+									생&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;산&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;량
 								</td>
 								<td style="text-align:center;" id="m<%=jj%>q">
 									

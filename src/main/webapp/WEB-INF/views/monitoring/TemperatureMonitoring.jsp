@@ -14,6 +14,12 @@ html, body {
 }
 </style>
 
+<style>
+.progress-bar{
+	background-color: #B0DEFC;
+}
+</style>
+
 <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
 	<script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
 	<script type="text/javascript">
@@ -164,7 +170,7 @@ html, body {
 	
 	    }, 3000);
 
-		
+		/*
 		setInterval(function() {
 	    	var rand = Math.floor(Math.random() * ${Max_Value}) + ${Min_Value};
 			rand += 0.5;
@@ -175,7 +181,7 @@ html, body {
 			
 	
 	    }, 60000);
-		
+		*/
 		var dds = [];
 
 		setInterval(function() {
@@ -213,6 +219,7 @@ html, body {
 
 					ddsv.push(year+"-"+month+"-"+date+" "+hours+":"+minutes);
 					ddsv.push(parseInt(element.temp_Value));
+					ddsv.push(element.temp_Value);
 					dds.push(ddsv);
 				});
 
@@ -265,6 +272,7 @@ html, body {
 			var data = new google.visualization.DataTable();
 			data.addColumn('string', 'X');
 			data.addColumn('number', '1호기 온도');
+			data.addColumn({type:'string', role:'annotation'});
 
 			data.addRows(dds);
 
@@ -294,8 +302,8 @@ html, body {
 		
 		<div style="height: 10%; text-align: center; padding:0px 100px 0px 100px;">
 			<h1>현재 온도</h1>
-			<div class="progress" style="height:100%;">
-			  <div id="progressb" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="${Min_Value}" aria-valuemax="${Max_Value}" style="width: 60%; padding-top: 40px; font-size: 110px;">
+			<div class="progress" style="height:100%; border: solid;">
+			  <div id="progressb" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="${Min_Value}" aria-valuemax="${Max_Value}" style="color:black; width: 60%; padding-top: 40px; font-size: 110px;">
 			    60°
 			  </div>
 			</div>
@@ -305,7 +313,7 @@ html, body {
 
 		<div style="height: 80%; text-align: center; padding:0px 100px 0px 100px;">
 			<h1>온도 그래프</h1>
-			<div id="chart_div" style="height: 75%;">잠시만 기다려주세요.</div>
+			<div id="chart_div" style="height: 75%; border: solid;">잠시만 기다려주세요.</div>
 		</div>
 			
 		
