@@ -61,9 +61,9 @@ public class temperatureMonitoringRestController {
 				+ "FROM		Equip_Temperature_History a\r\n"
 				// 시간 범위
 				+ "WHERE		a.Temp_Time BETWEEN DATE_SUB(NOW(), INTERVAL 10 MINUTE) AND NOW()\r\n"
-				+ "AND		a.Temp_ONo = (SELECT WorkOrder_ONo FROM WorkOrder_tbl WHERE WorkOrder_EquipCode='m001' AND WorkOrder_WorkStatus='244')\r\n"
+				+ "AND		a.Temp_ONo = (SELECT WorkOrder_ONo FROM WorkOrder_tbl WHERE WorkOrder_EquipCode='m001' AND WorkOrder_WorkStatus='244')\r\n";
 				// 시간 간격
-				+ "GROUP BY floor(minute(a.Temp_Time)/1),minute(a.Temp_Time)";
+				//+ "GROUP BY floor(minute(a.Temp_Time)/1),minute(a.Temp_Time)";
 		
 		List<Equip_Temperature_History> list = jdbctemplate.query(sql,new RowMapper() {
 

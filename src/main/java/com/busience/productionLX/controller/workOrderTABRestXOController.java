@@ -410,7 +410,7 @@ public class workOrderTABRestXOController {
 					+ "	NOW(),\r\n"
 					+ "	DATE_ADD(NOW(), INTERVAL +1 DAY),\r\n"
 					+ "	'244',\r\n"
-					+ "	'"+principal.getName()+"',\r\n"
+					+ "	'"+( (principal==null)?"admin":principal.getName() )+"',\r\n"
 					+ "	'AUTO'\r\n"
 					+ ")";
 			
