@@ -395,4 +395,10 @@ public class productionLXController {
 		
 		return "normal/productionLX/workOrderStartBB";
 	}
+	
+	@GetMapping("/tempDaily")
+	public String tempDaily(Model model, HttpServletRequest request) throws SQLException{
+		model.addAttribute("pageName", "온도 일일별 조회");
+		return "/productionLX/tempDaily";
+	}
 }

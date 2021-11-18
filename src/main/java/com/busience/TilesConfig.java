@@ -1,4 +1,4 @@
-package com.busience.common.config;
+package com.busience;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

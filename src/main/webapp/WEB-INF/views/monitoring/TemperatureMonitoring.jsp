@@ -152,26 +152,6 @@ html, body {
 	
 	<script type="text/javascript">
 		setInterval(function() {
-	    	
-			$.get("workOrderStartBRest/workOrderStartInit?eqselect=m001",function(data){
-				
-				//console.log(data);
-
-				if(data.length>0)
-				{
-					document.getElementById("workOrder_ONo").innerHTML = "작업지시번호 : "+data[0].workOrder_ONo;
-				}
-				else
-				{
-					document.getElementById("workOrder_ONo").innerHTML = "작업지시번호 : ";
-				}
-				
-			});
-	
-	    }, 3000);
-
-		/*
-		setInterval(function() {
 	    	var rand = Math.floor(Math.random() * ${Max_Value}) + ${Min_Value};
 			rand += 0.5;
 			
@@ -180,8 +160,8 @@ html, body {
 			});
 			
 	
-	    }, 60000);
-		*/
+	    }, 1000);
+		
 		var dds = [];
 
 		setInterval(function() {
@@ -218,7 +198,11 @@ html, body {
 					var minutes = ('0' + dat.getMinutes()).slice(-2);
 
 					ddsv.push(year+"-"+month+"-"+date+" "+hours+":"+minutes);
-					ddsv.push(parseInt(element.temp_Value));
+					//ddsv.push(parseInt(element.temp_Value));
+
+					value = parseInt(element.temp_Value);
+
+					ddsv.push(value);
 					ddsv.push(element.temp_Value);
 					dds.push(ddsv);
 				});
@@ -296,7 +280,7 @@ html, body {
 	<body>
 		<div style="height: 10%; text-align: center;">
 			<div class="page-header">
-			  <h1>온도 모니터링<small id="workOrder_ONo">작업지시번호 : 20211115-A01-01</small></h1>
+			  <h1>온도 모니터링</h1>
 			</div>
 		</div>
 		
