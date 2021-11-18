@@ -1,8 +1,13 @@
 package com.busience.common.security;
 
+import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
+import lombok.extern.slf4j.Slf4j;
+
+@WebListener
+@Slf4j
 public class SessionListener implements HttpSessionListener{
 	
 	@Override
@@ -12,6 +17,7 @@ public class SessionListener implements HttpSessionListener{
 	}
 
 	@Override
-    public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {		
+    public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
+		log.info("로그아웃");
     }
 }
