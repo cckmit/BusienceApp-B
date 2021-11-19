@@ -128,4 +128,10 @@ public class materialLXController {
 		model.addAttribute("pageName", "현재고 현황");
 		return "materialLX/matStockLX/matStockMasterLX";
 	}
+	
+	// MatOutputLX
+	@GetMapping("tablet/matOutputLXTablet")
+	public String matOutputLXTablet(Model model) {
+		return "normal/materialLX/matOutputLXTablet";
+	}
 }

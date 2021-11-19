@@ -28,3 +28,5 @@
 <script src="/js/google_chart.js"></script>
 
 <script src="/js/xlsx.full.min.js"></script>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>

@@ -25,7 +25,7 @@
 	<!-- END MAIN -->
 </div>
 <!-- Javascript -->
-<script src="/js/productionLX/tempDaily.js"></script>
+<script src="/js/productionLX/tempMonthly.js"></script>
 
 </body>
 </html>

@@ -1,15 +1,7 @@
 package com.busience.monitoring.dto;
 
 public class Equip_Temperature_History {
-	String Temp_ONo,Temp_Value,Temp_Time;
-
-	public String getTemp_ONo() {
-		return Temp_ONo;
-	}
-
-	public void setTemp_ONo(String temp_ONo) {
-		Temp_ONo = temp_ONo;
-	}
+	String Temp_Value,Temp_Time,Temp_EquipCode;
 
 	public String getTemp_Value() {
 		return Temp_Value;
@@ -27,9 +19,17 @@ public class Equip_Temperature_History {
 		Temp_Time = temp_Time;
 	}
 
+	public String getTemp_EquipCode() {
+		return Temp_EquipCode;
+	}
+
+	public void setTemp_EquipCode(String temp_EquipCode) {
+		Temp_EquipCode = temp_EquipCode;
+	}
+
 	@Override
 	public String toString() {
-		return "Equip_Temperature_History [Temp_ONo=" + Temp_ONo + ", Temp_Value=" + Temp_Value + ", Temp_Time="
-				+ Temp_Time + "]";
+		return "Equip_Temperature_History [Temp_Value=" + Temp_Value + ", Temp_Time=" + Temp_Time + ", Temp_EquipCode="
+				+ Temp_EquipCode + "]";
 	}
 }

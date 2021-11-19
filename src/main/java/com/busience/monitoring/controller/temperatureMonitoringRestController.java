@@ -54,14 +54,21 @@ public class temperatureMonitoringRestController {
 				}
 			})) * 60000);
 			
-			String sql = "INSERT INTO Equip_Temperature_History\r\n"
-					+ "VALUES(\r\n"
-					+ "	(SELECT Temp FROM Equip_Monitoring_TBL WHERE Equip_Code=?),\r\n"
-					+ "	NOW(),\r\n"
-					+ "	?\r\n"
-					+ ")";
-			
-			jdbctemplate.update(sql,equip,equip);
+			try
+			{
+				String sql = "INSERT INTO Equip_Temperature_History\r\n"
+						+ "VALUES(\r\n"
+						+ "	(SELECT Temp FROM Equip_Monitoring_TBL WHERE Equip_Code=?),\r\n"
+						+ "	NOW(),\r\n"
+						+ "	?\r\n"
+						+ ")";
+				
+				jdbctemplate.update(sql,equip,equip);
+			}
+			catch(Exception ex)
+			{
+				System.out.println("중복키 발생");
+			}
 			
 			templeLog = true;
 		}

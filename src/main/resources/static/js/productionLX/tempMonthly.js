@@ -18,7 +18,7 @@ function Search() {
 		EQUIPMENT_INFO_NAME : $('#EQUIPMENT_INFO_NAME').val()
 	}
 
-	$.get( "/tempDailyRest/History_Daily_List", jsonData )
+	$.get( "/tempMonthlyRest/History_Monthly_List", jsonData )
 	.done(function( data ) {
 		console.log(data);
 
@@ -32,13 +32,14 @@ function Search() {
 
 				var year = dat.getFullYear();
 				var month = dat.getMonth();
+				month += 1;
 				var date = dat.getDate();
 				var time = dat.getTime();
 
 				var hours = ('0' + dat.getHours()).slice(-2); 
 				var minutes = ('0' + dat.getMinutes()).slice(-2);
 
-				ddsv.push(year+"-"+month+"-"+date);
+				ddsv.push(year+"-"+month);
 
 				value = parseInt(element.temp_Value);
 

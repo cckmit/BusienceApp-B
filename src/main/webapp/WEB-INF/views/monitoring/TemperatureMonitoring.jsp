@@ -284,10 +284,10 @@ html, body {
 			</div>
 		</div>
 		
-		<div style="height: 10%; text-align: center; padding:0px 100px 0px 100px;">
+		<div style="height: 7%; text-align: center; padding:0px 100px 0px 100px;">
 			<h1>현재 온도</h1>
 			<div class="progress" style="height:100%; border: solid;">
-			  <div id="progressb" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="${Min_Value}" aria-valuemax="${Max_Value}" style="color:black; width: 60%; padding-top: 40px; font-size: 110px;">
+			  <div id="progressb" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="${Min_Value}" aria-valuemax="${Max_Value}" style="color:black; width: 60%; padding-top: 20px; font-size: 70px;">
 			    60°
 			  </div>
 			</div>
@@ -295,20 +295,9 @@ html, body {
 
 		<br/><br/>
 
-		<div style="height: 80%; text-align: center; padding:0px 100px 0px 100px;">
+		<div style="height: 70%; text-align: center; padding:0px 100px 0px 100px;">
 			<h1>온도 그래프</h1>
 			<div id="chart_div" style="height: 75%; border: solid;">잠시만 기다려주세요.</div>
-		</div>
-			
-		
-		<div style="height: 80%; display:none;">
-			<div style="float: left; width: 30%; padding-left: 200px;">
-				<div id="chart-container">FusionCharts XT will load here!</div>
-			</div>
-			
-			<div style="float: left; width: 70%;">
-				<div id="chart-container2">FusionCharts XT will load here!</div>
-			</div>
 		</div>
 	</body>
 </html>
