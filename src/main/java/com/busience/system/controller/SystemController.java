@@ -34,4 +34,11 @@ public class SystemController {
 		model.addAttribute("pageName", "사용자 메뉴 관리");
 		return "system/userMenuManage";
 	}
+	
+	@GetMapping("/menuAdd")
+	public String menuAdd(Model model) {
+		
+		model.addAttribute("pageName", "메뉴 추가");
+		return "system/menuAdd";
+	}
 }

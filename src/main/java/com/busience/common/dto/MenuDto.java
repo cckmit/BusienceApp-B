@@ -24,4 +24,6 @@ public class MenuDto {
 	private String Menu_PageName;
 	
 	private String User_Code;
+	
+	private boolean Menu_Use_Status;
 }

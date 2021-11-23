@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.busience.system.dao.MenuAddDao">
+	<select id="menuAddListDao" resultType="com.busience.common.dto.MenuDto">
+		SELECT
+			A.Menu_Code, A.Menu_Parent_No, B.CHILD_TBL_TYPE Menu_Parent_Name,
+			A.Menu_Child_No, A.Menu_Name,
+			A.Menu_PageName, A.Menu_Use_Status
+			FROM Menu_tbl A
+			inner join (
+				select * from DTL_TBL where NEW_TBL_CODE = '16'
+			) B on A.Menu_Parent_No = cast(B.CHILD_TBL_NUM as signed)
+	</select>
+	
+	<insert id="menuAddInsertDao">
+		insert into Menu_tbl values(
+			CONCAT(#{Menu_Parent_No},#{Menu_Child_No}), #{Menu_Parent_No}, #{Menu_Child_No}, #{Menu_Name}, #{Menu_PageName}, #{Menu_Use_Status})
+	</insert>
+	
+	<insert id="menuMgmtInsertDao">
+		insert into Menu_MGMT_tbl
+			value(#{User_Code}, CONCAT(#{Menu_Parent_No},#{Menu_Child_No}), 1, 1, 1, #{Menu_Use_Status})
+	</insert>
+	
+	<insert id="rightsMgmtInsertDao">
+		insert into Rights_MGMT_tbl
+			values(#{User_Code}, CONCAT(#{Menu_Parent_No},#{Menu_Child_No}), #{Menu_Use_Status})
+	</insert>
+</mapper>
