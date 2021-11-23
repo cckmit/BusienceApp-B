@@ -16,25 +16,20 @@ var menuAddTable = new Tabulator("#menuAddTable", {
 	ajaxConfig : "get",
 	ajaxContentType:"json",
 	ajaxURL : "menuAddRest/MA_Search",
-	rowClick: function(e, row) {
-	},
-	rowSelected:function(row){
-    },
-//행추가시 기능
+	//행추가시 기능
 	rowAdded : function ( row ) {
 	row.getTable().deselectRow();
 	row.select();
 	menuAddTable.scrollToRow(row, "nearest", false)
 	.then(function(){
-		//행이 추가되면 첫셀에 포커스
-		do{
-		setTimeout(function(){
-			row.getCell("menu_Parent_No").edit();
-			},100);
-		}
-		while(row.getData().menu_Code === "menu_Parent_No");
-	})
-	
+			//행이 추가되면 첫셀에 포커스
+			do{
+			setTimeout(function(){
+				row.getCell("menu_Parent_No").edit();
+				},100);
+			}
+			while(row.getData().menu_Code === "menu_Parent_No");
+		})
 	},
 	columns: [
 		{ title: "메뉴코드", field: "menu_Code"},
@@ -55,7 +50,7 @@ function MA_Save() {
 	
 	var selectedRow = menuAddTable.getData("selected")
 	if(selectedRow[0].menu_Parent_No.length != 2 || selectedRow[0].menu_Child_No.length != 2){
-		alert("상위, 하위 메뉴코드는 두자로 입력하세요.")
+		alert("상위, 하위 메뉴코드는 2자로 입력하세요.")
 		return;
 	}
 	$.ajax({
