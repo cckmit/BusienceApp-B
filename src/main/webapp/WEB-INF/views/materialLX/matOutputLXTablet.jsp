@@ -54,6 +54,9 @@
 								<select class="form-select" multiple aria-label="multiple select example" id="eqselect" name="eqselectn" style=" font-size: 50px; background-color: rgb(164,194,230); width: 90%; height:135px; border:groove; border-color: black;border-width: 1px;">
 									<option value="num1">1. 유기농 쌀</option>
 									<option value="num2">2. 무기농 쌀</option>
+									<c:forEach var="item" items="${product_list}">
+										<option value="num3">3. 3유기농 쌀</option>
+									</c:forEach>
 								</select>
 							</td>
 						</tr>
@@ -68,7 +71,7 @@
 									규&nbsp;격
 								</td>
 								<td rowspan="2" style="padding: 10px;">
-									<input readonly class="form-control form-control-lg" type="text" id="sum_qty" style="font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:right;">
+									<input readonly value="20KG" class="form-control form-control-lg" type="text" id="sum_qty" style="padding-right: 170px; font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:right;">
 								</td>
 							</tr>
 							<tr>
@@ -105,7 +108,7 @@
 									수&nbsp;량
 								</td>
 								<td rowspan="2" style="padding: 10px;">
-									<input readonly class="form-control form-control-lg" type="text" id="d_len" style="font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:right;">
+									<input class="form-control form-control-lg" type="number" id="d_len" style="font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:right;">
 								</td>
 							</tr>
 							<tr>
@@ -233,6 +236,13 @@
 		</div>
 	</div>
 	
+	<div>
+		<span><strong>출고일</strong></span> 
+		<input id="matOutputList_startDate" class="today" type="date"> 
+		<span style="text-align: center"><strong>~</strong></span> 
+		<input id="matOutputList_endDate" class="tomorrow" type="date">
+	</div>
+
 	<script src="/js/materialLX/matOutputLXTablet.js"></script>
 
 	<style>

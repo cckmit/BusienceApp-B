@@ -1,7 +1,31 @@
 package com.busience.standard.dto;
 
 public class Equip_Monitoring_TBL {
-	String Equip_Code,Equip_Time,Humi,Speed,Temp;
+	String Equip_Code,Equip_Time,Humi,Speed,Temp,Equip_Status,Equip_No,Equip_Name;
+
+	public String getEquip_Status() {
+		return Equip_Status;
+	}
+
+	public void setEquip_Status(String equip_Status) {
+		Equip_Status = equip_Status;
+	}
+
+	public String getEquip_No() {
+		return Equip_No;
+	}
+
+	public void setEquip_No(String equip_No) {
+		Equip_No = equip_No;
+	}
+
+	public String getEquip_Name() {
+		return Equip_Name;
+	}
+
+	public void setEquip_Name(String equip_Name) {
+		Equip_Name = equip_Name;
+	}
 
 	public String getEquip_Code() {
 		return Equip_Code;

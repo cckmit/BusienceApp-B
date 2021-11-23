@@ -142,9 +142,21 @@ html, body {
         	//debugger;
         	
 			$.get("/temperatureMonitoringRestController/temperature_Current",function(data){
-				document.getElementById("progressb").innerHTML = data+"°";
-				document.getElementById("progressb").setAttribute("aria-valuenow",data);
-				document.getElementById("progressb").style.width = data+"%";
+				
+				
+				if(data == "NONE")
+				{
+					document.getElementById("progressb").innerHTML = data;
+					document.getElementById("progressb").setAttribute("aria-valuenow",0);
+					document.getElementById("progressb").style.width = 0+"%";
+				}
+				else
+				{
+					document.getElementById("progressb").innerHTML = data+"°";
+					document.getElementById("progressb").setAttribute("aria-valuenow",data);
+					document.getElementById("progressb").style.width = data+"%";
+				}
+				
 			});
 
         }, 3000);
@@ -161,6 +173,8 @@ html, body {
 			
 	
 	    }, 1000);
+		
+	
 		
 		var dds = [];
 
@@ -299,5 +313,7 @@ html, body {
 			<h1>온도 그래프</h1>
 			<div id="chart_div" style="height: 75%; border: solid;">잠시만 기다려주세요.</div>
 		</div>
+
+		
 	</body>
 </html>

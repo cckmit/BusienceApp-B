@@ -2,6 +2,8 @@ package com.busience.monitoring.controller;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.monitoring.dto.Equip_Temperature_History;
 import com.busience.productionLX.dto.WorkOrder_tbl;
+import com.busience.standard.dto.Equip_Monitoring_TBL;
 
 @RestController
 @RequestMapping("temperatureMonitoringRestController")
@@ -24,6 +27,7 @@ public class temperatureMonitoringRestController {
 	JdbcTemplate jdbctemplate;
 	
 	Boolean templeLog = true;
+	Boolean currentLog = true;
 	
 	@GetMapping("/temperature_Insert")
 	public void temperature_Insert(HttpServletRequest request) throws SQLException, InterruptedException{
@@ -38,7 +42,34 @@ public class temperatureMonitoringRestController {
 				+ "WHERE Equip_Code = ?";
 		jdbctemplate.update(sql,value,equip);
 		
-		temperature_Insert_Log(equip);
+		if(currentLog)
+		{
+			currentLog = false;
+			
+			SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+			Date time = new Date();
+			String time1 = format1.format(time);
+			
+			try
+			{
+				sql = "INSERT INTO Equip_Temperature_History\r\n"
+						+ "VALUES(\r\n"
+						+ "	(SELECT Temp FROM Equip_Monitoring_TBL WHERE Equip_Code=?),\r\n"
+						+ "	?,\r\n"
+						+ "	?\r\n"
+						+ ")";
+				
+				jdbctemplate.update(sql,equip,time1,equip);
+			}
+			catch(Exception ex)
+			{
+				System.out.println("중복키 발생");
+			}
+		}
+		else
+		{
+			temperature_Insert_Log(equip);
+		}
 	}
 	
 	public void temperature_Insert_Log(String equip) throws InterruptedException {
@@ -46,24 +77,58 @@ public class temperatureMonitoringRestController {
 		{
 			templeLog = false;
 			
-			Thread.sleep(Integer.parseInt(jdbctemplate.queryForObject("SELECT CHILD_TBL_RMARK FROM DTL_TBL WHERE CHILD_TBL_NO = '301'",new RowMapper<String>() {
+			int time_interval = 0; 
+			
+			try
+			{
+				time_interval = Integer.parseInt(jdbctemplate.queryForObject("SELECT CHILD_TBL_RMARK FROM DTL_TBL WHERE CHILD_TBL_NO = '301'",new RowMapper<String>() {
 
-				@Override
-				public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-					return rs.getString("CHILD_TBL_RMARK");
-				}
-			})) * 60000);
+					@Override
+					public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+						return rs.getString("CHILD_TBL_RMARK");
+					}
+				})); 
+				
+				Thread.sleep(time_interval * 60000);
+			}
+			catch(Exception ex)
+			{
+				System.out.println("에러: 기준정보 데이터 잘못 입력");
+			}
+			
+			String CHILD_TBL_RMARK = jdbctemplate.queryForObject("SELECT\r\n"
+					+ "			CHILD_TBL_RMARK\r\n"
+					+ "FROM		DTL_TBL\r\n"
+					+ "WHERE		CHILD_TBL_NO='304'", new RowMapper<String>() {
+
+						@Override
+						public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+							return rs.getString("CHILD_TBL_RMARK");
+						}
+					});
+			
+			if(CHILD_TBL_RMARK.equals("시"))
+				CHILD_TBL_RMARK = "HOUR";
+			else if(CHILD_TBL_RMARK.equals("분"))
+				CHILD_TBL_RMARK = "MINUTE";
 			
 			try
 			{
 				String sql = "INSERT INTO Equip_Temperature_History\r\n"
 						+ "VALUES(\r\n"
 						+ "	(SELECT Temp FROM Equip_Monitoring_TBL WHERE Equip_Code=?),\r\n"
-						+ "	NOW(),\r\n"
+						+ "	DATE_ADD((SELECT\r\n"
+						+ "			IFNULL(t1.Temp_Time,NOW())\r\n"
+						+ "FROM		Equip_Temperature_History t1\r\n"
+						+ "WHERE		t1.Temp_EquipCode = ?\r\n"
+						+ "ORDER BY t1.Temp_Time DESC\r\n"
+						+ "LIMIT		1\r\n"
+						+ ")\r\n"
+						+ ",INTERVAL "+time_interval+" "+CHILD_TBL_RMARK+"),\r\n"
 						+ "	?\r\n"
 						+ ")";
 				
-				jdbctemplate.update(sql,equip,equip);
+				jdbctemplate.update(sql,equip,equip,equip);
 			}
 			catch(Exception ex)
 			{
@@ -95,20 +160,39 @@ public class temperatureMonitoringRestController {
 			String equip = request.getParameter("equip");
 			equip = "m001";
 			
-			return jdbctemplate.queryForObject("SELECT Temp FROM Equip_Monitoring_TBL WHERE Equip_Code=?", new RowMapper<String>() {
+			String sql = "SELECT\r\n"
+					+ "			*\r\n"
+					+ "FROM		Equip_Monitoring_TBL			\r\n"
+					+ "WHERE		Equip_Code = '"+equip+"'";
+			
+			Equip_Monitoring_TBL data = jdbctemplate.queryForObject(sql, new RowMapper<Equip_Monitoring_TBL>() {
 
 				@Override
-				public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-					// TODO Auto-generated method stub
-					return rs.getString("Temp");
+				public Equip_Monitoring_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
+					Equip_Monitoring_TBL data = new Equip_Monitoring_TBL();
+					data.setEquip_Code(rs.getString("Equip_Code"));
+					data.setEquip_Time(rs.getString("Equip_Time"));
+					data.setHumi(rs.getString("Humi"));
+					data.setSpeed(rs.getString("Speed"));
+					data.setTemp(rs.getString("Temp"));
+					data.setEquip_Status(rs.getString("Equip_Status"));
+					data.setEquip_No(rs.getString("Equip_No"));
+					return data;
 				}
-			},equip);
+			});
 			
+			if(data.getEquip_Status().equals("false"))
+			{
+				return "NONE";
+			}
+			else
+			{
+				return data.getTemp();
+			}
 		}
 		catch(Exception ex)
 		{
-			System.out.println("아직 데이터가 없음");
-			return "아직 데이터가 없음";
+			return "NONE";
 		}
 	}
 	
@@ -130,7 +214,8 @@ public class temperatureMonitoringRestController {
 				+ "FROM		Equip_Temperature_History a\r\n"
 				// 시간 범위
 				+ "WHERE		a.Temp_Time BETWEEN DATE_SUB(NOW(), INTERVAL "+time+" MINUTE) AND NOW()\r\n"
-				+ "AND Temp_EquipCode=?";
+				+ "AND Temp_EquipCode=?\r\n"
+				+ "ORDER BY Temp_Time asc";
 				//+ "AND		a.Temp_ONo = (SELECT WorkOrder_ONo FROM WorkOrder_tbl WHERE WorkOrder_EquipCode='m001' AND WorkOrder_WorkStatus='244')\r\n";
 				// 시간 간격
 				//+ "GROUP BY floor(minute(a.Temp_Time)/1),minute(a.Temp_Time)";

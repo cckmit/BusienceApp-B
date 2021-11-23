@@ -1,17 +1,26 @@
 package com.busience.materialLX.controller;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.busience.common.service.DtlService;
+import com.busience.productionLX.dto.PRODUCTION_INFO_TBL;
 
 @Controller
 public class materialLXController {
 	
 	@Autowired
 	DtlService dtlService;
+	
+	@Autowired
+	JdbcTemplate jdbctemplate;
 	
 	//OrderMaster
 	@GetMapping("matOrderLX")
@@ -132,6 +141,23 @@ public class materialLXController {
 	// MatOutputLX
 	@GetMapping("tablet/matOutputLXTablet")
 	public String matOutputLXTablet(Model model) {
+		String sql = "SELECT\r\n"
+				+ "			PRODUCT_ITEM_CODE,\r\n"
+				+ "			PRODUCT_ITEM_NAME\r\n"
+				+ "FROM		PRODUCT_INFO_TBL\r\n"
+				+ "WHERE		PRODUCT_INFO_STND_1 = '쌀'";
+		
+		model.addAttribute("product_list", jdbctemplate.query(sql, new RowMapper() {
+
+			@Override
+			public PRODUCTION_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
+				PRODUCTION_INFO_TBL data = new PRODUCTION_INFO_TBL();
+				data.setPRODUCTION_PRODUCT_CODE(rs.getString("PRODUCT_ITEM_CODE"));
+				data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
+				return data;
+			}
+		}));
+		
 		return "normal/materialLX/matOutputLXTablet";
 	}
 }
