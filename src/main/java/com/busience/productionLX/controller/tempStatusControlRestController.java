@@ -25,7 +25,7 @@ public class tempStatusControlRestController {
 	@RequestMapping(value = "/tempStatusOnChange", method = RequestMethod.GET)
 	public void tempStatusOnChange(HttpServletRequest request)
 	{
-		String sql = "SELECT CONCAT( DATE_FORMAT(NOW(), '%Y%m%d') ,'-','"+request.getParameter("id")+"','-',(SELECT LPAD(COUNT(*)+1,2,0) FROM Equip_Temperature_History WHERE DATE_FORMAT(Temp_Time, '%y%m%d') = DATE_FORMAT(NOW(), '%y%m%d') AND Temp_EquipCode = '"+request.getParameter("id")+"')) NO";
+		String sql = "SELECT CONCAT( DATE_FORMAT(NOW(), '%Y%m%d') ,'-','"+request.getParameter("id")+"','-',(SELECT LPAD(COUNT(DISTINCT Temp_No)+1,2,0) FROM Equip_Temperature_History WHERE DATE_FORMAT(Temp_Time, '%y%m%d') = DATE_FORMAT(NOW(), '%y%m%d') AND Temp_EquipCode = '"+request.getParameter("id")+"')) NO";
 		
 		String no = jdbctemplate.queryForObject(sql,new RowMapper<String>() {
 			@Override
