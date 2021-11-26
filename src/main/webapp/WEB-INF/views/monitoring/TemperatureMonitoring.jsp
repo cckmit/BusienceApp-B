@@ -168,7 +168,7 @@ html, body {
 			rand += 0.5;
 			
 			
-			$.get("/temperatureMonitoringRestController/temperature_Insert?equip=m001&value="+rand,function(data){
+			$.get("/temperatureMonitoringRestController/tablet/temperature_Insert?equip=m001&value="+rand,function(data){
 			});
 			
 	

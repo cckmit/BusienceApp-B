@@ -29,8 +29,9 @@ public class temperatureMonitoringRestController {
 	
 	Boolean templeLog = true;
 	Boolean currentLog = true;
+	String init_temp_no = "",current_temp_no = "20211124-M001-05";
 	
-	@GetMapping("/temperature_Insert")
+	@GetMapping("tablet/temperature_Insert")
 	public void temperature_Insert(HttpServletRequest request) throws SQLException, InterruptedException{
 		String equip = request.getParameter("equip");
 		String value = request.getParameter("value");
@@ -44,6 +45,24 @@ public class temperatureMonitoringRestController {
 					+ "Equip_Time = NOW()\r\n"
 					+ "WHERE Equip_Code = ?";
 			jdbctemplate.update(sql,value,equip);
+			
+			sql = "SELECT\r\n"
+					+ "			Equip_No\r\n"
+					+ "FROM		Equip_Monitoring_TBL			\r\n"
+					+ "WHERE		Equip_Code = '"+equip+"'";
+			
+			init_temp_no = jdbctemplate.queryForObject(sql, new RowMapper<String>() {
+				@Override
+				public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+					return rs.getString("Equip_No");
+				}
+			});
+			
+			if(!init_temp_no.equals(current_temp_no))
+			{
+				current_temp_no = init_temp_no;
+				currentLog = true;
+			}
 			
 			if(currentLog)
 			{
@@ -60,10 +79,22 @@ public class temperatureMonitoringRestController {
 							+ "	(SELECT Temp FROM Equip_Monitoring_TBL WHERE Equip_Code=?),\r\n"
 							+ "	?,\r\n"
 							+ "	?,\r\n"
-							+ " (SELECT Equip_No FROM Equip_Monitoring_TBL WHERE Equip_Code=?)"
+							+ " ?"
 							+ ")";
 					
-					jdbctemplate.update(sql,equip,time1,equip,equip);
+					jdbctemplate.update(sql,equip,time1,equip,current_temp_no);
+					
+					sql = "SELECT\r\n"
+							+ "			Equip_No\r\n"
+							+ "FROM		Equip_Monitoring_TBL			\r\n"
+							+ "WHERE		Equip_Code = '"+equip+"'";
+					
+					current_temp_no = jdbctemplate.queryForObject(sql, new RowMapper<String>() {
+						@Override
+						public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+							return rs.getString("Equip_No");
+						}
+					});
 				}
 				catch(Exception ex)
 				{
@@ -74,6 +105,8 @@ public class temperatureMonitoringRestController {
 			{
 				temperature_Insert_Log(equip);
 			}
+			
+			
 		}
 		else
 		{
@@ -104,6 +137,7 @@ public class temperatureMonitoringRestController {
 			catch(Exception ex)
 			{
 				System.out.println("에러: 기준정보 데이터 잘못 입력");
+				return;
 			}
 			
 			String CHILD_TBL_RMARK = jdbctemplate.queryForObject("SELECT\r\n"
@@ -131,15 +165,28 @@ public class temperatureMonitoringRestController {
 						+ "			IFNULL(t1.Temp_Time,NOW())\r\n"
 						+ "FROM		Equip_Temperature_History t1\r\n"
 						+ "WHERE		t1.Temp_EquipCode = ?\r\n"
+						+ "AND 			t1.Temp_No = '"+current_temp_no+"'\r\n"
 						+ "ORDER BY t1.Temp_Time DESC\r\n"
 						+ "LIMIT		1\r\n"
 						+ ")\r\n"
 						+ ",INTERVAL "+time_interval+" "+CHILD_TBL_RMARK+"),\r\n"
-						+ "	?\r\n"
-						
+						+ "	?,\r\n"
+						+ " ?"
 						+ ")";
 				
-				jdbctemplate.update(sql,equip,equip,equip);
+				jdbctemplate.update(sql,equip,equip,equip,current_temp_no);
+				
+				sql = "SELECT\r\n"
+						+ "			Equip_No\r\n"
+						+ "FROM		Equip_Monitoring_TBL			\r\n"
+						+ "WHERE		Equip_Code = '"+equip+"'";
+				
+				current_temp_no = jdbctemplate.queryForObject(sql, new RowMapper<String>() {
+					@Override
+					public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+						return rs.getString("Equip_No");
+					}
+				});
 			}
 			catch(Exception ex)
 			{
@@ -233,6 +280,7 @@ public class temperatureMonitoringRestController {
 					// 시간 범위
 					+ "WHERE		a.Temp_Time BETWEEN DATE_SUB(NOW(), INTERVAL "+time+" MINUTE) AND NOW()\r\n"
 					+ "AND Temp_EquipCode=?\r\n"
+					+ "AND Temp_No=?"
 					+ "ORDER BY Temp_Time asc";
 					//+ "AND		a.Temp_ONo = (SELECT WorkOrder_ONo FROM WorkOrder_tbl WHERE WorkOrder_EquipCode='m001' AND WorkOrder_WorkStatus='244')\r\n";
 					// 시간 간격
@@ -251,7 +299,7 @@ public class temperatureMonitoringRestController {
 							data.setTemp_Time(rs.getString("Temp_Time"));
 							return data;
 						}
-					},equip);
+					},equip,current_temp_no);
 		}
 		
 		return list;

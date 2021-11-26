@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.busience.common.service.DtlService;
 import com.busience.productionLX.dto.PRODUCTION_INFO_TBL;
+import com.busience.standard.dto.DTL_TBL;
 
 @Controller
 public class materialLXController {
@@ -153,7 +154,19 @@ public class materialLXController {
 			public PRODUCTION_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
 				PRODUCTION_INFO_TBL data = new PRODUCTION_INFO_TBL();
 				data.setPRODUCTION_PRODUCT_CODE(rs.getString("PRODUCT_ITEM_CODE"));
-				data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
+				data.setPRODUCTION_EQUIPMENT_INFO_NAME(rs.getString("PRODUCT_ITEM_NAME"));
+				return data;
+			}
+		}));
+		
+		sql = "SELECT * FROM DTL_TBL WHERE CHILD_TBL_RMARK = '실'";
+		model.addAttribute("dtl_list", jdbctemplate.query(sql, new RowMapper() {
+
+			@Override
+			public DTL_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
+				DTL_TBL data = new DTL_TBL();
+				data.setCHILD_TBL_NO(rs.getString("CHILD_TBL_NO"));
+				data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
 				return data;
 			}
 		}));

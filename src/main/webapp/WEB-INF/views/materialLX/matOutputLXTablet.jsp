@@ -1,3 +1,6 @@
+<%@page import="com.busience.standard.dto.DTL_TBL"%>
+<%@page import="com.busience.productionLX.dto.PRODUCTION_INFO_TBL"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -51,12 +54,17 @@
 								품&nbsp;명
 							</td>
 							<td rowspan="2" style="padding: 10px;">
-								<select class="form-select" multiple aria-label="multiple select example" id="eqselect" name="eqselectn" style=" font-size: 50px; background-color: rgb(164,194,230); width: 90%; height:135px; border:groove; border-color: black;border-width: 1px;">
-									<option value="num1">1. 유기농 쌀</option>
-									<option value="num2">2. 무기농 쌀</option>
-									<c:forEach var="item" items="${product_list}">
-										<option value="num3">3. 3유기농 쌀</option>
-									</c:forEach>
+								<select class="form-select" multiple aria-label="multiple select example" id="pdselect" name="eqselectn" style=" font-size: 50px; background-color: white; width: 90%; height:135px; border:groove; border-color: black;border-width: 1px;">
+
+									<%
+									List<PRODUCTION_INFO_TBL> list = (List<PRODUCTION_INFO_TBL>)request.getAttribute("product_list");
+									
+									for(int i=0;i<list.size();i++)
+									{
+										out.println("<option value='"+list.get(i).getPRODUCTION_PRODUCT_CODE()+"'>"+list.get(i).getPRODUCTION_EQUIPMENT_INFO_NAME()+"</option>");
+									}
+									%>
+
 								</select>
 							</td>
 						</tr>
@@ -91,9 +99,15 @@
 									출&nbsp;고&nbsp;처
 								</td>
 								<td rowspan="2" style="padding: 10px;">
-									<select class="form-select" multiple aria-label="multiple select example" id="eqselect" name="eqselectn" style=" font-size: 50px; background-color: rgb(164,194,230); width: 90%; height:135px; border:groove; border-color: black;border-width: 1px;">
-										<option value="num1">1. 전처리 실</option>
-										<option value="num2">2. 퍼핑 실</option>
+									<select class="form-select" multiple aria-label="multiple select example" id="dtselect" name="eqselectn" style=" font-size: 50px; background-color: white; width: 90%; height:135px; border:groove; border-color: black;border-width: 1px;">
+										<%
+											List<DTL_TBL> list2 = (List<DTL_TBL>)request.getAttribute("dtl_list");
+											
+											for(int i=0;i<list2.size();i++)
+											{
+												out.println("<option value='"+list2.get(i).getCHILD_TBL_NO()+"'>"+list2.get(i).getCHILD_TBL_TYPE()+"</option>");
+											}
+										%>
 									</select>
 								</td>
 							</tr>
@@ -108,7 +122,7 @@
 									수&nbsp;량
 								</td>
 								<td rowspan="2" style="padding: 10px;">
-									<input class="form-control form-control-lg" type="number" id="d_len" style="font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:right;">
+									<input class="form-control form-control-lg" type="number" id="d_len" value="1" style="font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:right;" min="1">
 								</td>
 							</tr>
 							<tr>
@@ -134,7 +148,7 @@
 				</td>
 			
 				<td style="width: 50%; text-align: right;">
-					<div style="font-size: 45px; width: 30%; background-color: rgb(82,153,217); color: white; border-radius: 5%; text-align: center; float: left; margin-right: 30px; margin-left: 300px;">
+					<div style="font-size: 45px; width: 30%; background-color: rgb(82,153,217); color: white; border-radius: 5%; text-align: center; float: left; margin-right: 30px; margin-left: 300px;" id="okbtn">
 						확&nbsp;인
 					</div>
 					
@@ -169,24 +183,24 @@
 							</tr>
 							
 							<tr>
-								<td style="text-align: center; background: rgb(207,213,234);">
-									유기농 쌀
+								<td style="text-align: center; background: rgb(207,213,234);" id="pdselect2">
+									
 								</td>
 								
 								<td style="text-align: center; background: rgb(207,213,234);">
 									20Kg
 								</td>
 								
-								<td style="text-align: center; background: rgb(207,213,234);">
-									전처리 실
+								<td style="text-align: center; background: rgb(207,213,234);" id="dtselect2">
+									
 								</td>
 								
-								<td style="text-align: center; background: rgb(207,213,234);">
-									2
+								<td style="text-align: center; background: rgb(207,213,234);" id="d_len2">
+									1
 								</td>
 								
-								<td style="text-align: center; background: rgb(207,213,234);">
-									2021-12-10
+								<td style="text-align: center; background: rgb(207,213,234);" id="today">
+									
 								</td>
 							</tr>
 						</thead>
@@ -236,7 +250,7 @@
 		</div>
 	</div>
 	
-	<div>
+	<div style="display: none;">
 		<span><strong>출고일</strong></span> 
 		<input id="matOutputList_startDate" class="today" type="date"> 
 		<span style="text-align: center"><strong>~</strong></span> 
@@ -248,7 +262,5 @@
 	<style>
 		.tabulator { font-size: 16px; }
 	</style>
-
-	
 </body>
 </html>
