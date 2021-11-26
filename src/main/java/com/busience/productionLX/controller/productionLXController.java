@@ -2,8 +2,6 @@ package com.busience.productionLX.controller;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,7 +22,7 @@ public class productionLXController {
 
 	@Autowired
 	JdbcTemplate jdbctemplate;
-
+	
 	// proResultLX
 	@GetMapping("proResultLX")
 	public String proResultLX(Model model) {
