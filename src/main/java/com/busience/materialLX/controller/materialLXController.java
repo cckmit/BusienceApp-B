@@ -146,7 +146,7 @@ public class materialLXController {
 				+ "			PRODUCT_ITEM_CODE,\r\n"
 				+ "			PRODUCT_ITEM_NAME\r\n"
 				+ "FROM		PRODUCT_INFO_TBL\r\n"
-				+ "WHERE		PRODUCT_INFO_STND_1 = '쌀'";
+				+ "WHERE		PRODUCT_INFO_STND_2 = '쌀'";
 		
 		model.addAttribute("product_list", jdbctemplate.query(sql, new RowMapper() {
 
