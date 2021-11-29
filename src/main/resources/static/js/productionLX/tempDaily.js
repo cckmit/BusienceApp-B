@@ -24,6 +24,7 @@ function Search() {
 
 		proMachineTable.setData(data);
 
+		/*
 		dds = [];
 
 		data.forEach(function(element){
@@ -52,6 +53,7 @@ function Search() {
 
 		// Set a callback to run when the Google Visualization API is loaded.
 		google.charts.setOnLoadCallback(drawBackgroundColor);
+		*/
 	});
 
 }
@@ -96,7 +98,9 @@ var proMachineTable = new Tabulator("#proMachineTable", {
     },
 	height:"calc(100% - 175px)",
  	columns:[ //Define Table Columns
-	{title:"일자", field:"temp_Time", headerHozAlign:"center"},
+ 	{title:"순번", field:"temp_No", headerHozAlign:"center"},
+ 	{title:"시작일자", field:"startTime", headerHozAlign:"center"},
+	{title:"종료일자", field:"endTime", headerHozAlign:"center"},
 	{title:"온도", field:"temp_Value", headerHozAlign:"center", align: "right"}
  	],
 });

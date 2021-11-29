@@ -1,3 +1,4 @@
+<%@page import="com.busience.standard.dto.Equip_Monitoring_TBL"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -18,6 +19,41 @@ html, body {
 .progress-bar{
 	background-color: #B0DEFC;
 }
+</style>
+
+<style>
+body{
+}
+input[type="checkbox"]{
+	width: 130px;
+	height: 48px;
+	display:block;
+	background-image:url(../images/button/Back1.png);
+	-webkit-appearance:none;
+	-webkit-transition:1s;
+	padding:3px 4px 3px 4px;
+}
+input[type="checkbox"]:after{
+	content:'';
+	display:block;
+	position:relative;
+	top:0;
+	left:0;
+	width: 60px;
+	height: 44px;
+	border-radius: 8px; /* from vector shape */
+	background-image:url(../images/button/Knob.png);
+	color: #f9f3b6;
+}
+input[type="checkbox"]:checked {
+    	padding-left: 67px;
+    	padding-right: 0;
+	background-image:url(../images/button/Back2.png);
+}
+input[type="checkbox"]:hover {
+	opacity:1;
+}
+
 </style>
 
 <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
@@ -163,6 +199,8 @@ html, body {
 	</script>
 	
 	<script type="text/javascript">
+	
+		/*
 		setInterval(function() {
 	    	var rand = Math.floor(Math.random() * ${Max_Value}) + ${Min_Value};
 			rand += 0.5;
@@ -173,6 +211,7 @@ html, body {
 			
 	
 	    }, 1000);
+		*/
 		
 	
 		
@@ -295,14 +334,43 @@ html, body {
 		<div style="height: 10%; text-align: center;">
 			<div class="page-header">
 			  <h1>온도 모니터링</h1>
+			  
+			  <%
+			  		Equip_Monitoring_TBL data = (Equip_Monitoring_TBL)request.getAttribute("data");	
+			  
+			  		if(data.getEquip_Status().equals("true"))
+			  		{
+			 %>
+			 			<div class="sample">
+			 				<center>
+						  	<div class="checker">
+						        	<input type="checkbox" id="<%=data.getEquip_Code()%>" checked="checked" onclick="equip_stat_change(this)"/>
+						  	</div>
+						  	</center>
+						</div>
+			<%			
+			  		}
+			  		else
+			  		{
+			  %>
+			  			<div class="sample">
+			  				<center>
+						  	<div class="checker">
+						        	<input type="checkbox" id="<%=data.getEquip_Code()%>" onclick="equip_stat_change(this)"/>
+						  	</div>
+						  	</center>
+						</div>
+			  <%
+			  		}
+			  %>
 			</div>
 		</div>
 		
 		<div style="height: 7%; text-align: center; padding:0px 100px 0px 100px;">
 			<h1>현재 온도</h1>
 			<div class="progress" style="height:100%; border: solid;">
-			  <div id="progressb" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="${Min_Value}" aria-valuemax="${Max_Value}" style="color:black; width: 60%; padding-top: 20px; font-size: 70px;">
-			    60°
+			  <div id="progressb" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="${Min_Value}" aria-valuemax="${Max_Value}" style="color:black; width: 0%; padding-top: 20px; font-size: 70px;">
+			    0°
 			  </div>
 			</div>
 		</div>
@@ -314,6 +382,22 @@ html, body {
 			<div id="chart_div" style="height: 75%; border: solid;">잠시만 기다려주세요.</div>
 		</div>
 
-		
+		<script type="text/javascript">
+		function equip_stat_change(check){
+			data = {
+				id : check.id,
+				checked : check.checked
+			};
+
+			if(check.checked)
+			{
+				$.get("../tempStatusControlRest/tempStatusOnChange",data,function(){});
+			}
+			else
+			{
+				$.get("../tempStatusControlRest/tempStatusOffChange",data,function(){});
+			}
+		}
+		</script>
 	</body>
 </html>

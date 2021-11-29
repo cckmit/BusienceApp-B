@@ -108,6 +108,84 @@ public class matOutputReportLXRestController {
 
 		return list;
 	}
+	
+	// 출고 조회
+	@RequestMapping(value = "tablet/MO_ListView", method = RequestMethod.GET)
+	public List<OutMat_tbl> tablet_MO_ListView(HttpServletRequest request) throws ParseException, SQLException {
+			String originData = request.getParameter("data");
+			JSONParser parser = new JSONParser();
+			JSONObject obj = (JSONObject) parser.parse(originData);
+			//System.out.println(obj);
+
+			String sql = "select\r\n" + " omt.OutMat_Date,\r\n" + "	dt2.CHILD_TBL_TYPE OutMat_Send_Clsfc_Name,\r\n"
+					+ " omt.OutMat_Consignee,\r\n" + " dt3.CHILD_TBL_TYPE OutMat_Consignee_Name,\r\n" + " omt.OutMat_Dept_Code,\r\n"
+					+ "	dt.CHILD_TBL_TYPE OutMat_Dept_Name,\r\n" + "	omt.OutMat_Code,\r\n"
+					+ "	pit.PRODUCT_ITEM_NAME OutMat_Name,\r\n" + "	pit.PRODUCT_INFO_STND_1 Outmat_STND_1,\r\n"
+					+ "	dt4.CHILD_TBL_TYPE OutMat_UNIT,\r\n" + "	omt.OutMat_Qty,\r\n" + "	omt.OutMat_Modifier,\r\n"
+					+ "	omt.OutMat_dInsert_Time\r\n" + "from\r\n" + "	OutMatLX_tbl omt\r\n"
+					+ "inner join DTL_TBL dt on\r\n" + "	omt.OutMat_Dept_Code = dt.CHILD_TBL_NO\r\n"
+					+ "inner join DTL_TBL dt2 on\r\n" + "	omt.OutMat_Send_Clsfc = dt2.CHILD_TBL_NO\r\n"
+					+ "inner join DTL_TBL dt3 on\r\n" + "	omt.OutMat_Consignee = dt3.CHILD_TBL_NO\r\n"
+					+ "inner join PRODUCT_INFO_TBL pit on\r\n" + "	omt.OutMat_Code = pit.PRODUCT_ITEM_CODE\r\n"
+					+ "left outer join DTL_TBL dt4 on\r\n" + "	pit.PRODUCT_UNIT = dt4.CHILD_TBL_NO";
+
+			String where = " where omt.OutMat_Date between '" + obj.get("startDate") + " 00:00:00' and '"
+					+ obj.get("endDate") + " 23:59:59' ";
+
+			if (obj.get("outMat_Code") != null && !obj.get("outMat_Code").equals("")) {
+				where += " and OutMat_Code like '%" + obj.get("outMat_Code") + "%'";
+			}
+
+			if (!obj.get("outMat_Send_Clsfc_Name").equals("all")) {
+				where += " and OutMat_Send_Clsfc = '" + obj.get("outMat_Send_Clsfc_Name") + "'";
+			}
+
+			if (!obj.get("outMat_Dept_Name").equals("all")) {
+				where += " and OutMat_Dept_Code = '" + obj.get("outMat_Dept_Name") + "'";
+			}
+
+			sql += where;
+
+			sql += " order by omt.OutMat_Date";
+
+			//System.out.println("where : " + where);
+			//System.out.println(sql);
+
+			Connection conn = dataSource.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+
+			int iD = 0;
+			List<OutMat_tbl> list = new ArrayList<OutMat_tbl>();
+
+			while (rs.next()) {
+				OutMat_tbl data = new OutMat_tbl();
+
+				iD++;
+				data.setID(iD);
+				data.setOutMat_Date(rs.getString("OutMat_Date"));
+				data.setOutMat_Send_Clsfc_Name(rs.getString("OutMat_Send_Clsfc_Name"));
+				data.setOutMat_Consignee(rs.getString("OutMat_Consignee"));
+				data.setOutMat_Consignee_Name(rs.getString("OutMat_Consignee_Name"));
+				data.setOutMat_Dept_Code(rs.getString("OutMat_Dept_Code"));
+				data.setOutMat_Dept_Name(rs.getString("OutMat_Dept_Name"));
+				data.setOutMat_Code(rs.getString("OutMat_Code"));
+				data.setOutMat_Name(rs.getString("OutMat_Name"));
+				data.setOutMat_STND_1(rs.getString("OutMat_STND_1"));
+				data.setOutMat_UNIT(rs.getString("OutMat_UNIT"));
+				data.setOutMat_Qty(rs.getInt("OutMat_Qty"));
+				data.setOutMat_Modifier(rs.getString("OutMat_Modifier"));
+				data.setOutMat_dInsert_Time(rs.getString("OutMat_dInsert_Time"));
+
+				list.add(data);
+			}
+
+			rs.close();
+			pstmt.close();
+			conn.close();
+
+			return list;
+	}
 
 	// 출고현황(품목)
 	@RequestMapping(value = "/MO_ItemView", method = RequestMethod.GET)

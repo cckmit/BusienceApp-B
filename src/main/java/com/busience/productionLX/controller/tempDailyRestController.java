@@ -30,19 +30,23 @@ public class tempDailyRestController {
 		String startDate = request.getParameter("startDate");
 		String endDate = request.getParameter("endDate");
 		
-		String sql = "SELECT\r\n"
-				+ "			round(AVG(Temp_Value),1) Value,\r\n"
-				+ "			DATE_FORMAT(Temp_Time, '%Y-%m-%d') Time\r\n"
-				+ "FROM		Equip_Temperature_History\r\n"
-				+ "WHERE		Temp_Time BETWEEN ? AND ?\r\n"
-				+ "GROUP BY DATE_FORMAT(Temp_Time, '%Y-%m-%d')";
+		String sql = "SELECT \r\n"
+				+ "			t1.Temp_No,\r\n"
+				+ "			round(AVG(t1.Temp_Value),1) Value,\r\n"
+				+ "			(SELECT Temp_Time FROM Equip_Temperature_History t2 WHERE t2.Temp_No = t1.Temp_No ORDER BY Temp_Time ASC LIMIT 1) StartTime,\r\n"
+				+ "			(SELECT Temp_Time FROM Equip_Temperature_History t2 WHERE t2.Temp_No = t1.Temp_No ORDER BY Temp_Time DESC LIMIT 1) EndTime\r\n"
+				+ "FROM		Equip_Temperature_History t1\r\n"
+				+ "WHERE		t1.Temp_Time BETWEEN ? AND ?\r\n"
+				+ "GROUP BY t1.Temp_No";
 		
 		return jdbctemplate.query(sql, new RowMapper() {
 
 			@Override
 			public Equip_Temperature_History mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Equip_Temperature_History data = new Equip_Temperature_History();
-				data.setTemp_Time(rs.getString("Time"));
+				data.setTemp_No(rs.getString("Temp_No"));
+				data.setStartTime(rs.getString("StartTime"));
+				data.setEndTime(rs.getString("EndTime"));
 				data.setTemp_Value(rs.getString("Value"));
 				return data;
 			}

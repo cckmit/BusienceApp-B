@@ -1,7 +1,31 @@
 package com.busience.monitoring.dto;
 
 public class Equip_Temperature_History {
-	String Temp_Value,Temp_Time,Temp_EquipCode;
+	String Temp_Value,Temp_Time,Temp_EquipCode,StartTime,EndTime,Temp_No;
+
+	public String getTemp_No() {
+		return Temp_No;
+	}
+
+	public void setTemp_No(String temp_No) {
+		Temp_No = temp_No;
+	}
+
+	public String getStartTime() {
+		return StartTime;
+	}
+
+	public void setStartTime(String startTime) {
+		StartTime = startTime;
+	}
+
+	public String getEndTime() {
+		return EndTime;
+	}
+
+	public void setEndTime(String endTime) {
+		EndTime = endTime;
+	}
 
 	public String getTemp_Value() {
 		return Temp_Value;

@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.busience.standard.dto.DEFECT_INFO_TBL;
+import com.busience.standard.dto.Equip_Monitoring_TBL;
 
 @Controller
 public class contolController {
@@ -132,6 +133,38 @@ public class contolController {
 					}
 				}));
 
+		String sql = "SELECT \r\n"
+				+ "			t1.Equip_Code,	\r\n"
+				+ "			t1.Equip_Time,	\r\n"
+				+ "			t1.Humi,\r\n"
+				+ "			t1.Speed,	\r\n"
+				+ "			t1.Temp,\r\n"
+				+ "			t1.Equip_Status,	\r\n"
+				+ "			t1.Equip_No,\r\n"
+				+ "			t2.EQUIPMENT_INFO_NAME\r\n"
+				+ "FROM Equip_Monitoring_TBL t1\r\n"
+				+ "INNER JOIN EQUIPMENT_INFO_TBL t2\r\n"
+				+ "ON t1.Equip_Code = t2.EQUIPMENT_INFO_CODE\r\n"
+				+ "Where t1.Equip_Code = 'm001'";
+		
+		model.addAttribute("data", jdbctemplate.queryForObject(
+				sql, new RowMapper<Equip_Monitoring_TBL>() {
+
+					@Override
+					public Equip_Monitoring_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
+						Equip_Monitoring_TBL data = new Equip_Monitoring_TBL();
+						data.setEquip_Code(rs.getString("Equip_Code"));
+						data.setEquip_Time(rs.getString("Equip_Time"));
+						data.setHumi(rs.getString("Humi"));
+						data.setSpeed(rs.getString("Speed"));
+						data.setTemp(rs.getString("Temp"));
+						data.setEquip_Status(rs.getString("Equip_Status"));
+						data.setEquip_No(rs.getString("Equip_No"));
+						data.setEquip_Name(rs.getString("EQUIPMENT_INFO_NAME"));
+						return data;
+					}
+		}));
+		
 		return "normal/monitoring/TemperatureMonitoring";
 	}
 
