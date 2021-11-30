@@ -49,7 +49,7 @@ function Search() {
 		})
 
 		// Load the Visualization API and the corechart package.
-		google.charts.load('current', {'packages':['corechart']});
+		google.charts.load('current', {'packages':['line']});
 
 		// Set a callback to run when the Google Visualization API is loaded.
 		google.charts.setOnLoadCallback(drawBackgroundColor);
@@ -97,6 +97,8 @@ var proMachineTable = new Tabulator("#proMachineTable", {
             }
     },
     rowClick: function(e, row){
+    	console.log(row.getData());
+    
     	proMachineTable.deselectRow();
 		row.select();
     	
@@ -113,8 +115,16 @@ var proMachineTable = new Tabulator("#proMachineTable", {
 
 				value = parseInt(data[i].temp_Value);
 
+				vvalue = parseInt(row.getData().temp_Value);
+				
+				ddsv.push(vvalue);
+				
 				ddsv.push(value);
 				ddsv.push(value);
+				
+				htitle = "시간 , 평균온도 : "+vvalue;
+				console.log(htitle);
+				
 				dds.push(ddsv);
     		}
     		
@@ -134,24 +144,38 @@ var proMachineTable = new Tabulator("#proMachineTable", {
  	],
 });
 
+var vminValue=0,vmaxValue=0;
+var htitle = "온도";
+
 function drawBackgroundColor() {
 	var data = new google.visualization.DataTable();
 	data.addColumn('string', 'X');
+	
+	data.addColumn('number', '1호기 평균 온도');
+	
 	data.addColumn('number', '1호기 온도');
 	data.addColumn({type:'number', role:'annotation'});
+	
 
 	data.addRows(dds);
 
 	var options = {
 		hAxis: {
-		title: '시간'
+		title: htitle
 		},
 		vAxis: {
-		title: '온도'
+		title: "온도"
+		,maxValue:vmaxValue,minValue:vminValue
 		},
 		backgroundColor: '#f1f8e9'
 	};
 
 	var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
 	chart.draw(data, options);
+}
+
+window.onload = function(){
+	$.get( "/tempDailyRest/History_Temp_BottomTop",function(data){
+		vminValue=data.split(",")[0],vmaxValue=data.split(",")[1];
+	});
 }

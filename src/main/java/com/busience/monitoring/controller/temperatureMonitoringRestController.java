@@ -346,4 +346,16 @@ public class temperatureMonitoringRestController {
 		
 	}
 	
+	@GetMapping("/temperature_Equip_No_Select")
+	public String temperature_Equip_No_Select()
+	{
+		return jdbctemplate.queryForObject("SELECT IF(Equip_No='','NONE',CONCAT((SELECT round(AVG(t2.Temp_Value),0) Value FROM Equip_Temperature_History t2 WHERE t2.Temp_No = t1.Equip_No GROUP BY t2.Temp_No),'/',Equip_No)) Equip_No FROM Equip_Monitoring_TBL t1 WHERE Equip_Code='M001'", new RowMapper<String>() {
+
+			@Override
+			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+				return rs.getString("Equip_No");
+			}
+		});
+	}
+	
 }

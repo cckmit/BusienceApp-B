@@ -115,6 +115,7 @@ public class contolController {
 	@GetMapping("TemperatureMonitoring")
 	public String TemperatureMonitoring(Model model) {
 
+		/*
 		model.addAttribute("Min_Value", jdbctemplate.queryForObject(
 				"SELECT CHILD_TBL_RMARK FROM DTL_TBL WHERE CHILD_TBL_NO='294'", new RowMapper<String>() {
 
@@ -132,7 +133,8 @@ public class contolController {
 						return rs.getString("CHILD_TBL_RMARK");
 					}
 				}));
-
+		*/
+		
 		String sql = "SELECT \r\n"
 				+ "			t1.Equip_Code,	\r\n"
 				+ "			t1.Equip_Time,	\r\n"

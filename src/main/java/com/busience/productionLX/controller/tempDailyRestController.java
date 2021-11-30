@@ -34,7 +34,7 @@ public class tempDailyRestController {
 		
 		String sql = "SELECT \r\n"
 				+ "			t1.Temp_No,\r\n"
-				+ "			round(AVG(t1.Temp_Value),1) Value,\r\n"
+				+ "			round(AVG(t1.Temp_Value),0) Value,\r\n"
 				+ "			(SELECT Temp_Time FROM Equip_Temperature_History t2 WHERE t2.Temp_No = t1.Temp_No ORDER BY Temp_Time ASC LIMIT 1) StartTime,\r\n"
 				+ "			(SELECT Temp_Time FROM Equip_Temperature_History t2 WHERE t2.Temp_No = t1.Temp_No ORDER BY Temp_Time DESC LIMIT 1) EndTime\r\n"
 				+ "FROM		Equip_Temperature_History t1\r\n"
@@ -49,7 +49,10 @@ public class tempDailyRestController {
 				data.setTemp_No(rs.getString("Temp_No"));
 				data.setStartTime(rs.getString("StartTime"));
 				data.setEndTime(rs.getString("EndTime"));
-				data.setTemp_Value(rs.getString("Value"));
+				float fvalue = rs.getFloat("Value");
+				int ivalue = fvalue;
+				data.setTemp_Value(String.valueOf(ivalue));
+				
 				return data;
 			}
 		},startDate,endDate);
@@ -156,11 +159,21 @@ public class tempDailyRestController {
 				data.setTemp_No(rs.getString("Temp_No"));
 				data.setStartTime(rs.getString("StartTime"));
 				data.setEndTime(rs.getString("EndTime"));
-				data.setTemp_Value(rs.getString("Temp_Value"));
-				
-				System.out.println(data.toString());
+				float fvalue = rs.getFloat("Value");
+				int ivalue = (int) fvalue;
+				data.setTemp_Value(String.valueOf(ivalue));
 				
 				return data;
+			}
+		});
+	}
+	
+	@RequestMapping(value = "/History_Temp_BottomTop", method = RequestMethod.GET)
+	public String History_Temp_BottomTop(){
+		return jdbctemplate.queryForObject("SELECT CHILD_TBL_RMARK FROM DTL_TBL WHERE CHILD_TBL_NO ='306'", new RowMapper<String>() {
+			@Override
+			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+				return rs.getString("CHILD_TBL_RMARK");
 			}
 		});
 	}
