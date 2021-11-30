@@ -54,6 +54,8 @@ public class Equip_Temperature_History {
 	@Override
 	public String toString() {
 		return "Equip_Temperature_History [Temp_Value=" + Temp_Value + ", Temp_Time=" + Temp_Time + ", Temp_EquipCode="
-				+ Temp_EquipCode + "]";
+				+ Temp_EquipCode + ", StartTime=" + StartTime + ", EndTime=" + EndTime + ", Temp_No=" + Temp_No + "]";
 	}
+
+	
 }

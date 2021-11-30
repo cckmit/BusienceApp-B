@@ -96,6 +96,35 @@ var proMachineTable = new Tabulator("#proMachineTable", {
             row.getElement().style.backgroundColor = "#D8D8D8";
             }
     },
+    rowClick: function(e, row){
+    	proMachineTable.deselectRow();
+		row.select();
+    	
+    	$.get( "/tempDailyRest/History_DetailView?Temp_No="+row.getData().temp_No,function(data){
+    		console.log(data);
+    		
+    		dds = [];
+    		
+    		for(i=0;i<data.length;i++)
+    		{
+    			var ddsv = [];
+    			
+				ddsv.push(data[i].startTime);
+
+				value = parseInt(data[i].temp_Value);
+
+				ddsv.push(value);
+				ddsv.push(value);
+				dds.push(ddsv);
+    		}
+    		
+    		// Load the Visualization API and the corechart package.
+			google.charts.load('current', {'packages':['corechart']});
+	
+			// Set a callback to run when the Google Visualization API is loaded.
+			google.charts.setOnLoadCallback(drawBackgroundColor);
+    	});
+    },
 	height:"calc(100% - 175px)",
  	columns:[ //Define Table Columns
  	{title:"메주번호", field:"temp_No", headerHozAlign:"center"},
@@ -109,7 +138,7 @@ function drawBackgroundColor() {
 	var data = new google.visualization.DataTable();
 	data.addColumn('string', 'X');
 	data.addColumn('number', '1호기 온도');
-	data.addColumn({type:'string', role:'annotation'});
+	data.addColumn({type:'number', role:'annotation'});
 
 	data.addRows(dds);
 

@@ -304,4 +304,46 @@ public class temperatureMonitoringRestController {
 		return list;
 	}
 	
+	@GetMapping("/temperature_Insert")
+	public void temperature_Insert(){
+		
+		/*
+		for(int j=13;j<24;j++)
+		{
+			for(int i=0;i<60;i++)
+			{
+				String sql = "INSERT INTO Equip_Temperature_History\r\n"
+						+ "VALUES(\r\n"
+						+ "	FLOOR(RAND() * 100),\r\n"
+						+ "	'2021-11-28 "+((j<10)?"0"+j:j)+":"+((i<10)?"0"+i:i)+":00',\r\n"
+						+ "	'm001',\r\n"
+						+ "	'20211128-M001-02'\r\n"
+						+ ")";
+				
+				jdbctemplate.update(sql);
+			}
+		}
+		*/
+		
+		for(int a=21;a<28;a++)
+		{
+			for(int j=13;j<24;j++)
+			{
+				for(int i=0;i<60;i++)
+				{
+					String sql = "INSERT INTO Equip_Temperature_History\r\n"
+							+ "VALUES(\r\n"
+							+ "	FLOOR(RAND() * 100),\r\n"
+							+ "	'2021-11-"+a+" "+((j<10)?"0"+j:j)+":"+((i<10)?"0"+i:i)+":00',\r\n"
+							+ "	'm001',\r\n"
+							+ "	'202111"+a+"-M001-02'\r\n"
+							+ ")";
+					
+					jdbctemplate.update(sql);
+				}
+			}
+		}
+		
+	}
+	
 }
