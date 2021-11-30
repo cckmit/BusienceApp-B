@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="/css/common/header.css">
 
 <nav class="navbar-busience">
-	<a class="navbar-logo" href="/main"><img src="/images/logo/bsLogo5.jpg"></a>
+	<a class="navbar-logo" href="/main"><img src="/images/logo/headerLogo.jpg"></a>
 
 	<ul class="navbar-menu">
 	</ul>

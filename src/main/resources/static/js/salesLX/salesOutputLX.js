@@ -289,3 +289,12 @@ function Order_mCode_select(value){
 		}					
 	}
 }
+
+$("#allOutput").click(function(){
+	var rows = salesOutputSubTable.getRows();
+	for(var i=0;i<salesOutputSubTable.getDataCount();i++){
+		if(rows[i].getData().sales_Order_lSum == 0){
+			salesOutputSubTable.selectRow(rows[i]);			
+		}
+	}
+})
