@@ -130,9 +130,10 @@ public class matOutputLXRestController {
 	public String MOM_Save(HttpServletRequest request, Principal principal) throws ParseException, SQLException,
 			UnknownHostException, ClassNotFoundException {
 		String originData = request.getParameter("data");
+		System.out.println(originData);
 		JSONParser parser = new JSONParser();
 		JSONArray arr = (JSONArray) parser.parse(originData);
-
+		System.out.println(arr);
 		String modifier = principal.getName();
 
 		String OutMatLX_tbl_sql = null;
