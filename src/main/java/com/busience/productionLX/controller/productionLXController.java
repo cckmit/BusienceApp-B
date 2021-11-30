@@ -279,7 +279,6 @@ public class productionLXController {
 
 					@Override
 					public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-						// TODO Auto-generated method stub
 						return rs.getString(1);
 					}
 				}));
@@ -387,7 +386,6 @@ public class productionLXController {
 
 			@Override
 			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-				// TODO Auto-generated method stub
 				return rs.getString(1);
 			}
 		}));
@@ -397,13 +395,13 @@ public class productionLXController {
 	
 	@GetMapping("/tempDaily")
 	public String tempDaily(Model model, HttpServletRequest request) throws SQLException{
-		model.addAttribute("pageName", "온도 일일별 조회");
+		model.addAttribute("pageName", "누룩 온도 조회");
 		return "/productionLX/tempDaily";
 	}
 	
 	@GetMapping("/tempMonthly")
 	public String tempMonthly(Model model, HttpServletRequest request) throws SQLException{
-		model.addAttribute("pageName", "온도 월별 조회");
+		model.addAttribute("pageName", "누룩 온도 조회");
 		return "/productionLX/tempMonthly";
 	}
 	

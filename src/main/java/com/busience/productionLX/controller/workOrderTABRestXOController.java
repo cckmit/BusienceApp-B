@@ -342,7 +342,6 @@ public class workOrderTABRestXOController {
 
 			@Override
 			public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
-				// TODO Auto-generated method stub
 				return rs.getInt("hap");
 			}
 		},WorkOrder_EquipCode);

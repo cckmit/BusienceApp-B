@@ -1,9 +1,13 @@
 package com.busience.materialLX.controller;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,6 +45,20 @@ public class matOutputLXTabletRestController {
 		+ "'" + " where SM_Code = '" + request.getParameter("pdcode") + "'";
 		
 		jdbctemplate.update(sql);
+	}
+	
+	@RequestMapping(value = "/Current_Save", method = RequestMethod.GET)
+	public String Current_Save(HttpServletRequest request, Model model)
+	{
+		String sql = "select SM_Last_Qty+SM_In_Qty-SM_Out_Qty cqty from StockMatLX_tbl WHERE SM_Code = ?";
+		
+		return jdbctemplate.queryForObject(sql, new RowMapper<String>() {
+
+			@Override
+			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+				return rs.getString("cqty");
+			}
+		},request.getParameter("code"));
 	}
 	
 }

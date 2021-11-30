@@ -1,3 +1,4 @@
+<%@page import="com.busience.standard.dto.Equip_Monitoring_TBL"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -20,122 +21,44 @@ html, body {
 }
 </style>
 
+<style>
+body{
+}
+input[type="checkbox"]{
+	width: 130px;
+	height: 48px;
+	display:block;
+	background-image:url(../images/button/Back1.png);
+	-webkit-appearance:none;
+	-webkit-transition:1s;
+	padding:3px 4px 3px 4px;
+}
+input[type="checkbox"]:after{
+	content:'';
+	display:block;
+	position:relative;
+	top:0;
+	left:0;
+	width: 60px;
+	height: 44px;
+	border-radius: 8px; /* from vector shape */
+	background-image:url(../images/button/Knob.png);
+	color: #f9f3b6;
+}
+input[type="checkbox"]:checked {
+    	padding-left: 67px;
+    	padding-right: 0;
+	background-image:url(../images/button/Back2.png);
+}
+input[type="checkbox"]:hover {
+	opacity:1;
+}
+
+</style>
+
 <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
 	<script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
 	<script type="text/javascript">
-		FusionCharts.ready(function(){
-			var chartObj = new FusionCharts({
-			    type: 'thermometer',
-			    renderAt: 'chart-container',
-			    width: '100%',
-			    height: '82.5%',
-			    dataFormat: 'json',
-			    dataSource: {
-			        "chart": {
-			            "caption": "설비명1 온도",
-			            "subcaption": "설비명1의 현재 온도",
-			            "lowerLimit": ${Min_Value},
-						"upperLimit": ${Max_Value},
-			
-			            "decimals": "1",
-			            "numberSuffix": "°C",
-			            "showhovereffect": "1",
-			            "thmFillColor": "#008ee4",
-			            "showGaugeBorder": "1",
-			            "gaugeBorderColor": "#008ee4",
-			            "gaugeBorderThickness": "2",
-			            "gaugeBorderAlpha": "30",
-			            "thmOriginX": "100",
-			            "chartBottomMargin": "20",
-			            "valueFontColor": "#000000",
-			            "theme": "fusion"
-			        },
-			        "value": "-6",
-			        //All annotations are grouped under this element
-			        "annotations": {
-			            "showbelow": "0",
-			            "groups": [{
-			                //Each group needs a unique ID
-			                "id": "indicator",
-			                "items": [
-			                    //Showing Annotation
-			                    {
-			                        "id": "background",
-			                        //Rectangle item
-			                        "type": "rectangle",
-			                        "alpha": "50",
-			                        "fillColor": "#AABBCC",
-			                        "x": "$gaugeEndX-40",
-			                        "tox": "$gaugeEndX",
-			                        "y": "$gaugeEndY+54",
-			                        "toy": "$gaugeEndY+72"
-			                    }
-			                ]
-			            }]
-			
-			        },
-			    },
-			    "events": {
-				        "rendered": function(evt, arg) {
-				            evt.sender.dataUpdate = setInterval(function() {
-				            	//debugger;
-				            	
-				            	// 현재 온도 값을 저장하는 코드
-				            	
-				                var value,
-				                    prevTemp = evt.sender.getData(),
-				                    mainTemp = (Math.random() * 10) * (-1),
-				                    diff = Math.abs(prevTemp - mainTemp);
-				
-				                diff = diff > 1 ? (Math.random() * 1) : diff;
-				                if (mainTemp > prevTemp) {
-				                    value = prevTemp + diff;
-				                } else {
-				                    value = prevTemp - diff;
-				                }
-				
-				                //console.log(value);
-				                
-								$.get("/temperatureMonitoringRestController/temperature_Current",function(data){
-									evt.sender.feedData("&value="+data);
-								});
-				
-				            }, 3000);
-				            evt.sender.updateAnnotation = function(evtObj, argObj) {
-				            	
-				            	// 색상을 바꿔주는 코드
-				            	
-				                var code,
-				                    chartObj = evtObj.sender,
-				                    val = chartObj.getData(),
-				                    annotations = chartObj.annotations;
-				
-				                if (val >= -4.5) {
-				                    code = "#00FF00";
-				                } else if (val < -4.5 && val > -6) {
-				                    code = "#ff9900";
-				                } else {
-				                    code = "#ff0000";
-				                }
-				                annotations.update("background", {
-				                    "fillColor": code
-				                });
-				            };
-				        },
-				        'renderComplete': function(evt, arg) {
-				            evt.sender.updateAnnotation(evt, arg);
-				        },
-				        'realtimeUpdateComplete': function(evt, arg) {
-				            evt.sender.updateAnnotation(evt, arg);
-				        },
-				        'disposed': function(evt, arg) {
-				            clearInterval(evt.sender.dataUpdate);
-				        }
-				    }
-				}
-			);
-			chartObj.render();
-		});
 		
 		
 		setInterval(function() {
@@ -163,8 +86,10 @@ html, body {
 	</script>
 	
 	<script type="text/javascript">
+	
+		/*
 		setInterval(function() {
-	    	var rand = Math.floor(Math.random() * ${Max_Value}) + ${Min_Value};
+	    	var rand = Math.floor(Math.random() * 0) + 94;
 			rand += 0.5;
 			
 			
@@ -173,6 +98,7 @@ html, body {
 			
 	
 	    }, 1000);
+		*/
 		
 	
 		
@@ -180,6 +106,7 @@ html, body {
 
 		setInterval(function() {
 
+			/*
 			$.get("/temperatureMonitoringRestController/temperature_Array",function(data){
 				console.log(data);
 
@@ -225,61 +152,83 @@ html, body {
 				console.log(dds);
 
 				google.charts.load('current', {packages: ['corechart', 'line']});
-				google.charts.setOnLoadCallback(drawBackgroundColor);
-
-				FusionCharts.ready(function(){
-					var chartObj = new FusionCharts({
-						type: 'scrollline2d',
-						dataFormat: 'json',
-						renderAt: 'chart-container2',
-						width: '90%',
-						height: '85%',
-						dataSource: {
-							"chart": {
-								"theme": "fusion",
-								"caption": "온도 그래프",
-								"subCaption": "",
-								"xAxisName": "Time",
-			            		"yAxisName": "Value",
-								"numberPrefix": "",
-								"lineThickness": "3",
-								"flatScrollBars": "1",
-								"scrollheight": "10",
-								"numVisiblePlot": "12",
-								"showHoverEffect": "1"
-							},
-							"categories": [{
-								"category": categorys
-							}],
-							"dataset": [{
-								"data": datas
-							}]
-						}
-					});
-					chartObj.render();
-				});
-
-				
+				google.charts.setOnLoadCallback(drawBackgroundColor);				
 			});
-	    	
+			*/
+			
+			$.get("/temperatureMonitoringRestController/temperature_Equip_No_Select",function(vno){
+				if(vno=="NONE")
+				{
+					dds = [];
+					
+					// Load the Visualization API and the corechart package.
+					google.charts.load('current', {'packages':['corechart']});
+			
+					// Set a callback to run when the Google Visualization API is loaded.
+					google.charts.setOnLoadCallback(drawBackgroundColor);
+				}
+				else
+				{
+					$.get( "/tempDailyRest/History_DetailView?Temp_No="+vno.split("/")[1],function(data){
+			    		console.log(data);
+			    		
+			    		dds = [];
+			    		
+			    		for(i=0;i<data.length;i++)
+			    		{
+			    			var ddsv = [];
+			    			
+							ddsv.push(data[i].startTime);
+
+							value = parseInt(data[i].temp_Value);
+
+							vvalue = parseInt(vno.split("/")[0]);
+							
+							ddsv.push(vvalue);
+							
+							ddsv.push(value);
+							ddsv.push(value);
+							
+							htitle = "시간 , 평균온도 : "+vvalue;
+							console.log(htitle);
+							
+							dds.push(ddsv);
+			    		}
+			    		
+			    		// Load the Visualization API and the corechart package.
+						google.charts.load('current', {'packages':['corechart']});
+				
+						// Set a callback to run when the Google Visualization API is loaded.
+						google.charts.setOnLoadCallback(drawBackgroundColor);
+			    	});
+				}
+			});
 			
 
 	    }, 10000);
 
+		var vminValue=0,vmaxValue=0;
+		var htitle = "온도";
+		
 		function drawBackgroundColor() {
 			var data = new google.visualization.DataTable();
 			data.addColumn('string', 'X');
+			
+			data.addColumn('number', '1호기 평균 온도');
+			
 			data.addColumn('number', '1호기 온도');
-			data.addColumn({type:'string', role:'annotation'});
+			data.addColumn({type:'number', role:'annotation'});
+			
 
 			data.addRows(dds);
 
 			var options = {
 				hAxis: {
-				title: '시간'
+				title: htitle
 				},
 				vAxis: {
-				title: '온도'
+				title: "온도"
+				,maxValue:vmaxValue,minValue:vminValue
 				},
 				backgroundColor: '#f1f8e9'
 			};
@@ -295,14 +244,43 @@ html, body {
 		<div style="height: 10%; text-align: center;">
 			<div class="page-header">
 			  <h1>온도 모니터링</h1>
+			  
+			  <%
+			  		Equip_Monitoring_TBL data = (Equip_Monitoring_TBL)request.getAttribute("data");	
+			  
+			  		if(data.getEquip_Status().equals("true"))
+			  		{
+			 %>
+			 			<div class="sample">
+			 				<center>
+						  	<div class="checker">
+						        	<input type="checkbox" id="<%=data.getEquip_Code()%>" checked="checked" onclick="equip_stat_change(this)"/>
+						  	</div>
+						  	</center>
+						</div>
+			<%			
+			  		}
+			  		else
+			  		{
+			  %>
+			  			<div class="sample">
+			  				<center>
+						  	<div class="checker">
+						        	<input type="checkbox" id="<%=data.getEquip_Code()%>" onclick="equip_stat_change(this)"/>
+						  	</div>
+						  	</center>
+						</div>
+			  <%
+			  		}
+			  %>
 			</div>
 		</div>
 		
 		<div style="height: 7%; text-align: center; padding:0px 100px 0px 100px;">
 			<h1>현재 온도</h1>
 			<div class="progress" style="height:100%; border: solid;">
-			  <div id="progressb" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="${Min_Value}" aria-valuemax="${Max_Value}" style="color:black; width: 60%; padding-top: 20px; font-size: 70px;">
-			    60°
+			  <div id="progressb" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="${Min_Value}" aria-valuemax="${Max_Value}" style="color:black; width: 0%; padding-top: 20px; font-size: 70px;">
+			    0°
 			  </div>
 			</div>
 		</div>
@@ -314,6 +292,22 @@ html, body {
 			<div id="chart_div" style="height: 75%; border: solid;">잠시만 기다려주세요.</div>
 		</div>
 
-		
+		<script type="text/javascript">
+		function equip_stat_change(check){
+			data = {
+				id : check.id,
+				checked : check.checked
+			};
+
+			if(check.checked)
+			{
+				$.get("../tempStatusControlRest/tempStatusOnChange",data,function(){});
+			}
+			else
+			{
+				$.get("../tempStatusControlRest/tempStatusOffChange",data,function(){});
+			}
+		}
+		</script>
 	</body>
 </html>

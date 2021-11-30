@@ -1,5 +1,5 @@
 		var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
-			height:"85%",
+			height:"75%",
 			placeholder: "No Data Set",
 			resizableColumns: false,
 			rowClick: function(e, row) {
@@ -8,8 +8,8 @@
 				{title:"순번", field:"id", headerHozAlign: "center",  hozAlign: "center", width:70},
 				{title:"출고일자", field:"outMat_Date", headerHozAlign:"center", hozAlign:"left", width:150, formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"},hozAlign:"right",width:180},
 			 	{title:"출고구분", field:"outMat_Send_Clsfc_Name", headerHozAlign:"center", hozAlign:"left", width:100},
-			 	{title:"부서명", field:"outMat_Dept_Name", headerHozAlign:"center", hozAlign:"left", width:100},
-				{title:"수취인", field:"outMat_Consignee_Name", headerHozAlign:"center", hozAlign:"left", width:100},
+			 	{title:"부서명", field:"outMat_Dept_Name", headerHozAlign:"center", hozAlign:"left", width:100,visible:false},
+				{title:"수취인", field:"outMat_Consignee_Name", headerHozAlign:"center", hozAlign:"left", width:100,visible:false},
 			 	{title:"품목코드", field:"outMat_Code", headerHozAlign:"center", hozAlign:"left", width:100},
 			 	{title:"품명", field:"outMat_Name", headerHozAlign:"center",hozAlign:"left", width:170},
 			 	{title:"규격", field:"outMat_STND_1", headerHozAlign:"center",hozAlign:"left", width:120},
@@ -29,11 +29,11 @@
 				outMat_Send_Clsfc_Name : "all",
 				outMat_Dept_Name : "all"
 			}
-		
+
 			$.ajax({
 				method : "GET",
 				dataType : "json",
-				url : "../matOutputReportLXRest/MO_ListView?data="+ encodeURI(JSON.stringify(data)),
+				url : "../matOutputReportLXRest/tablet/MO_ListView?data="+ encodeURI(JSON.stringify(data)),
 				success : function(data) {
 					console.log(data);
 					WorkOrder_tbl.setData(data);
@@ -50,6 +50,7 @@
 			var selectList = document.getElementById("pdselect");
 			document.getElementById("pdselect2").innerHTML = selectList.options[selectList.selectedIndex].innerHTML;
 			document.getElementById("pdselect2").setAttribute("code",selectList.options[selectList.selectedIndex].value);
+			qtyselectFun();
 		}
 
 		document.getElementById("dtselect").onclick = function(){
@@ -61,6 +62,18 @@
 			var selectList = document.getElementById("dtselect");
 			document.getElementById("dtselect2").innerHTML = selectList.options[selectList.selectedIndex].innerHTML;
 			document.getElementById("dtselect2").setAttribute("code",selectList.options[selectList.selectedIndex].value);
+			
+		}
+
+		function qtyselectFun()
+		{
+			data = {
+				code : document.getElementById("pdselect2").getAttribute("code")
+			};
+
+			$.get("../matOutputLXTabletRest/Current_Save",data,function(idata){
+				document.getElementById("current_qty").innerHTML = parseInt(idata);
+			});
 		}
 
 		function reload(){
@@ -75,8 +88,6 @@
 		}
 
 		window.onload = function(){
-			reload();
-
 			var today = new Date();
 			var year = today.getFullYear();
 			var month = ('0' + (today.getMonth() + 1)).slice(-2);
@@ -84,8 +95,19 @@
 			document.getElementById("today").innerHTML = year + '-' + month  + '-' + day;
 		}
 
+		setTimeout(function() {
+			reload();
+		}, 1000);
+
 		document.getElementById("d_len").onchange = function(){
 			document.getElementById("d_len2").innerHTML = document.getElementById("d_len").value;
+		}
+
+		document.getElementById("d_len").onclick = function(){
+			CommandRun.run("/Users/Oliver/Desktop/keyboardViewer", []);
+			CommandRun.run("C:\\WINDOWS\\system32\\osk.exe", []);
+
+			//alert("OK");
 		}
 
 		document.getElementById("okbtn").onclick = function(){
@@ -101,7 +123,18 @@
 				return;
 			}
 
+			var cqty = parseInt(document.getElementById("current_qty").innerHTML);
+			if(data.qty > cqty)
+			{
+				alert("재고가 부족합니다.");
+				return;
+			}
+
 			$.get("../matOutputLXTabletRest/MOM_Save",data,function(){
 				reload();
 			});
+		}
+
+		document.getElementById("cancelbtn").onclick = function(){
+			reload();
 		}

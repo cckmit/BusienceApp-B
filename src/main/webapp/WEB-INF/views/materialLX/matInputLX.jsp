@@ -36,16 +36,16 @@
 		<!-- matInput -->
 		<!-- matInputSub -->
 		<div class="sub-in">
-			<div class="top-var">
-				<!-- 버튼 -->
-				<div class="input-button">
-					<img src="#" style="height: 73.13px; visibility: hidden;"/>
-				</div>
-				<!-- 버튼 -->
+			<div class="top-var" style="display: flex; align-items: center;">
 				<div class="input-box">
 					<span><strong>발주번호</strong></span>
 					<input id="Order_lCus_No" type="text" disabled>
 				</div>
+				<!-- 버튼 -->
+				<div class="input-button" style="margin-left:5%">
+					<button id="allInput" class="btn btn-primary">전체입고</button>
+				</div>
+				<!-- 버튼 -->
 			</div>
 			<!-- 그리드 생성 장소 -->
 			<div id="matInputSubTable"></div>

@@ -35,7 +35,7 @@
 	</div>
 
 
-	<div style="margin:10; width: 100%;height: 100%;position: absolute; border: solid; overflow:hidden;">
+	<div style="width: 100%;height: 100%;position: absolute; border: solid; overflow:hidden;">
 		<table style="width: 100%;">
 			<tr>
 				<td style="text-align: center;" colspan="3">
@@ -122,7 +122,7 @@
 									수&nbsp;량
 								</td>
 								<td rowspan="2" style="padding: 10px;">
-									<input class="form-control form-control-lg" type="number" id="d_len" value="1" style="font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:right;" min="1">
+									<input class="form-control form-control-lg" type="number" id="d_len" value="1" style="font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:center;" min="1">
 								</td>
 							</tr>
 							<tr>
@@ -135,33 +135,47 @@
 					</center>
 				</td>
 			</tr>
-			
+
 			<tr>
-				<td style="width: 50%;padding-left: 40.5px;">
-					<table style="width: 70%; background-color: rgb(246, 177, 148); border-radius: 5%; margin: 10px;" onclick="move()"> 
-						<tr>
-							<td style="font-size: 45px; text-align: center; width: 40%;">
-								선&nbsp;택&nbsp;사&nbsp;항
-							</td>
-						</tr>
-					</table>
+				<td style="width: 50%;">
+					<center>
+						<table style="width: 90%; background-color: rgb(246, 177, 148); border-radius: 5%; margin: 10px;"> 
+							<tr>
+								<td style="font-size: 45px; text-align: center; width: 40%;">
+									선&nbsp;택&nbsp;사&nbsp;항
+								</td>
+							</tr>
+						</table>
+					</center>
 				</td>
-			
-				<td style="width: 50%; text-align: right;">
-					<div style="font-size: 45px; width: 30%; background-color: rgb(82,153,217); color: white; border-radius: 5%; text-align: center; float: left; margin-right: 30px; margin-left: 300px;" id="okbtn">
-						확&nbsp;인
-					</div>
-					
-					<div style="font-size: 45px; width: 30%; background-color: rgb(82,153,217); color: white; border-radius: 5%; text-align: center; float: left;">
-						취&nbsp;소
-					</div>
+
+				<td style="width: 50%;">
+					<center>
+						<table style="width: 90%; background-color: rgb(82,153,217); border-radius: 5%; margin: 10px;"> 
+							<tr>
+								<td style="font-size: 45px; text-align: center; width: 10%; background-color: #F3F5F8;">
+									
+								</td>
+
+								<td style="font-size: 45px; text-align: center; width: 40%; color: white; border-radius: 5%;" id="okbtn">
+									확&nbsp;인
+								</td>
+
+								<td style="font-size: 45px; text-align: center; width: 10%; background-color: #F3F5F8;">
+									
+								</td>
+
+								<td style="font-size: 45px; text-align: center; width: 40%; color: white; border-radius: 5%;" id="cancelbtn">
+									취&nbsp;소
+								</td>
+							</tr>
+						</table>
+					</center>
 				</td>
-				
-				
 			</tr>
 			
 			<tr>
-				<td colspan="2" style="width: 100%; font-size: 45px; padding-left: 50px; padding-right: 50px;">
+				<td colspan="2" style="width: 100%; font-size: 45px; padding-left: 45px; padding-right: 45px;">
 					<table style="width: 100%; border-spacing: 2px; border-collapse: separate;">
 						<thead>
 							<tr>
@@ -179,6 +193,9 @@
 								</th>
 								<th style="text-align: center; background: rgb(68,114,196); color: white;">
 									날&nbsp;짜
+								</th>
+								<th style="text-align: center; background: rgb(68,114,196); color: white;">
+									현&nbsp;재&nbsp;재&nbsp;고
 								</th>
 							</tr>
 							
@@ -201,6 +218,10 @@
 								
 								<td style="text-align: center; background: rgb(207,213,234);" id="today">
 									
+								</td>
+								
+								<td style="text-align: center; background: rgb(207,213,234);" id="current_qty">
+									0
 								</td>
 							</tr>
 						</thead>

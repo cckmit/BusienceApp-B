@@ -37,18 +37,18 @@
 			<!-- matOrder -->
 			<!-- matOrderSub -->
 			<div class="sub-in">
-				<div class="top-var">
-					<!-- 버튼 -->
-					<div class="input-button">
-						<img src="#" style="height: 73.13px; visibility: hidden;"/>
-					</div>
-					<!-- 버튼 -->
+				<div class="top-var" style="display: flex; align-items: center;">
 					<div class="input-box">
 						<span><strong>품목코드</strong></span>
 						<input id="Sales_Order_lCode" type="text" disabled>
 						<span><strong>품목명</strong></span>
 						<input id="Sales_Order_lName" type="text" disabled>
 					</div>
+					<!-- 버튼 -->
+					<div class="input-button" style="margin-left:5%">
+						<button id="allOutput" class="btn btn-primary">전체출고</button>
+					</div>
+					<!-- 버튼 -->
 				</div>
 				<!-- 그리드 생성 장소 -->
 				<div id="salesOutputSubTable"></div>

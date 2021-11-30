@@ -406,3 +406,12 @@ function Cus_No_select(){
 		}					
 	}
 }
+
+$("#allInput").click(function(){
+	var rows = matInputSubTable.getRows();
+	for(var i=0;i<matInputSubTable.getDataCount();i++){
+		if(rows[i].getData().order_lSum == 0){
+			matInputSubTable.selectRow(rows[i]);			
+		}
+	}
+})

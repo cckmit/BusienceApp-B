@@ -83,6 +83,7 @@ body {
 }
 
 .top-var{
+	height: 86px;
 	border-bottom: solid 0.5px;
 	padding: 6px 5px;
 	background-color: #f2f2f2;

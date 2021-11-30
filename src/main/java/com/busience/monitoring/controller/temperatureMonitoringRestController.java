@@ -36,8 +36,6 @@ public class temperatureMonitoringRestController {
 		String equip = request.getParameter("equip");
 		String value = request.getParameter("value");
 		
-		equip = "m001";
-		
 		if(Equip_Status_Check(equip))
 		{
 			String sql = "UPDATE Equip_Monitoring_TBL\r\n"
@@ -197,6 +195,7 @@ public class temperatureMonitoringRestController {
 		}
 	}
 	
+	//INFO : 송도향은 온도계가 1개이기 때문에 equip을 m001로 고정시킴
 	@GetMapping("/temperature_Current")
 	public String temperature_Current(HttpServletRequest request) {
 		try
@@ -251,12 +250,12 @@ public class temperatureMonitoringRestController {
 
 			@Override
 			public Boolean mapRow(ResultSet rs, int rowNum) throws SQLException {
-				// TODO Auto-generated method stub
 				return rs.getBoolean("Equip_Status");
 			}
 		});
 	}
 	
+	//INFO : 송도향은 온도계가 1개이기 때문에 equip을 m001로 고정시킴
 	@GetMapping("/temperature_Array")
 	public List<Equip_Temperature_History> temperature_Array(HttpServletRequest request) {
 		String equip = request.getParameter("equip");
@@ -303,6 +302,60 @@ public class temperatureMonitoringRestController {
 		}
 		
 		return list;
+	}
+	
+	@GetMapping("/temperature_Insert")
+	public void temperature_Insert(){
+		
+		/*
+		for(int j=13;j<24;j++)
+		{
+			for(int i=0;i<60;i++)
+			{
+				String sql = "INSERT INTO Equip_Temperature_History\r\n"
+						+ "VALUES(\r\n"
+						+ "	FLOOR(RAND() * 100),\r\n"
+						+ "	'2021-11-28 "+((j<10)?"0"+j:j)+":"+((i<10)?"0"+i:i)+":00',\r\n"
+						+ "	'm001',\r\n"
+						+ "	'20211128-M001-02'\r\n"
+						+ ")";
+				
+				jdbctemplate.update(sql);
+			}
+		}
+		*/
+		
+		for(int a=21;a<28;a++)
+		{
+			for(int j=13;j<24;j++)
+			{
+				for(int i=0;i<60;i++)
+				{
+					String sql = "INSERT INTO Equip_Temperature_History\r\n"
+							+ "VALUES(\r\n"
+							+ "	FLOOR(RAND() * 100),\r\n"
+							+ "	'2021-11-"+a+" "+((j<10)?"0"+j:j)+":"+((i<10)?"0"+i:i)+":00',\r\n"
+							+ "	'm001',\r\n"
+							+ "	'202111"+a+"-M001-02'\r\n"
+							+ ")";
+					
+					jdbctemplate.update(sql);
+				}
+			}
+		}
+		
+	}
+	
+	@GetMapping("/temperature_Equip_No_Select")
+	public String temperature_Equip_No_Select()
+	{
+		return jdbctemplate.queryForObject("SELECT IF(Equip_No='','NONE',CONCAT((SELECT round(AVG(t2.Temp_Value),0) Value FROM Equip_Temperature_History t2 WHERE t2.Temp_No = t1.Equip_No GROUP BY t2.Temp_No),'/',Equip_No)) Equip_No FROM Equip_Monitoring_TBL t1 WHERE Equip_Code='M001'", new RowMapper<String>() {
+
+			@Override
+			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+				return rs.getString("Equip_No");
+			}
+		});
 	}
 	
 }
