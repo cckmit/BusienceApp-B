@@ -36,8 +36,6 @@ public class temperatureMonitoringRestController {
 		String equip = request.getParameter("equip");
 		String value = request.getParameter("value");
 		
-		equip = "m001";
-		
 		if(Equip_Status_Check(equip))
 		{
 			String sql = "UPDATE Equip_Monitoring_TBL\r\n"
@@ -197,6 +195,7 @@ public class temperatureMonitoringRestController {
 		}
 	}
 	
+	//INFO : 송도향은 온도계가 1개이기 때문에 equip을 m001로 고정시킴
 	@GetMapping("/temperature_Current")
 	public String temperature_Current(HttpServletRequest request) {
 		try
@@ -251,12 +250,12 @@ public class temperatureMonitoringRestController {
 
 			@Override
 			public Boolean mapRow(ResultSet rs, int rowNum) throws SQLException {
-				// TODO Auto-generated method stub
 				return rs.getBoolean("Equip_Status");
 			}
 		});
 	}
 	
+	//INFO : 송도향은 온도계가 1개이기 때문에 equip을 m001로 고정시킴
 	@GetMapping("/temperature_Array")
 	public List<Equip_Temperature_History> temperature_Array(HttpServletRequest request) {
 		String equip = request.getParameter("equip");

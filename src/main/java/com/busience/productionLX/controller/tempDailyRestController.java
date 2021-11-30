@@ -53,4 +53,9 @@ public class tempDailyRestController {
 		},startDate,endDate);
 	}
 	
+	@RequestMapping(value = "/History_Insert_List", method = RequestMethod.GET)
+	public void lwase() {
+		
+	}
+	
 }

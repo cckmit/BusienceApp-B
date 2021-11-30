@@ -98,7 +98,7 @@ var proMachineTable = new Tabulator("#proMachineTable", {
     },
 	height:"calc(100% - 175px)",
  	columns:[ //Define Table Columns
- 	{title:"순번", field:"temp_No", headerHozAlign:"center"},
+ 	{title:"메주번호", field:"temp_No", headerHozAlign:"center"},
  	{title:"시작일자", field:"startTime", headerHozAlign:"center"},
 	{title:"종료일자", field:"endTime", headerHozAlign:"center"},
 	{title:"온도", field:"temp_Value", headerHozAlign:"center", align: "right"}

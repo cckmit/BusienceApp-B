@@ -318,7 +318,6 @@ public class workListRestController {
 
 			@Override
 			public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
-				// TODO Auto-generated method stub
 				return rs.getInt(1);
 			}
 		});
@@ -328,7 +327,6 @@ public class workListRestController {
 
 			@Override
 			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-				// TODO Auto-generated method stub
 				return rs.getString(1);
 			}
 		});

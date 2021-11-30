@@ -279,7 +279,6 @@ public class productionLXController {
 
 					@Override
 					public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-						// TODO Auto-generated method stub
 						return rs.getString(1);
 					}
 				}));
@@ -387,7 +386,6 @@ public class productionLXController {
 
 			@Override
 			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-				// TODO Auto-generated method stub
 				return rs.getString(1);
 			}
 		}));

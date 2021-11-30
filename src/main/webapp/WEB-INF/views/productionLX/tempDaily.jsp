@@ -19,7 +19,8 @@
 				<input id="endDate" class="tomorrow" type="date"> 
 			</div>
 		</div>
-		<div id="proMachineTable"></div>
+		<div id="proMachineTable" style="float: left; width: 40%;"></div>
+		<div id="chart_div" style="float: left; width: 60%; height: calc(100% - 175px);">잠시만 기다려주세요.</div>
 	</div>
 	<!-- END MAIN -->
 </div>

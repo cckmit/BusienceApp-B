@@ -200,7 +200,7 @@ input[type="checkbox"]:hover {
 	
 	<script type="text/javascript">
 	
-		/*
+		
 		setInterval(function() {
 	    	var rand = Math.floor(Math.random() * ${Max_Value}) + ${Min_Value};
 			rand += 0.5;
@@ -211,7 +211,7 @@ input[type="checkbox"]:hover {
 			
 	
 	    }, 1000);
-		*/
+		
 		
 	
 		
