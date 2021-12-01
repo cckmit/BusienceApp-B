@@ -14,10 +14,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.monitoring.dto.Equip_Temperature_History;
 import com.busience.productionLX.dto.WorkOrder_tbl;
+import com.busience.standard.dto.DTL_TBL;
 import com.busience.standard.dto.Equip_Monitoring_TBL;
 
 @RestController
@@ -356,6 +358,66 @@ public class temperatureMonitoringRestController {
 				return rs.getString("Equip_No");
 			}
 		});
+	}
+	
+	@RequestMapping(value = "/History_Update_Insert_Check", method = RequestMethod.GET)
+	public String History_Update_Insert_Check() {
+		
+		List<DTL_TBL> list = jdbctemplate.query("SELECT * FROM DTL_TBL WHERE CHILD_TBL_NO = '301' OR CHILD_TBL_NO = '304' ORDER BY CHILD_TBL_NO+0 ASC", new RowMapper() {
+
+			@Override
+			public DTL_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
+				DTL_TBL data = new DTL_TBL();
+				data.setCHILD_TBL_RMARK(rs.getString("CHILD_TBL_RMARK"));
+				return data;
+			}
+		});
+		
+		String sql = "SELECT \r\n"
+				+ "			IF((DATE_FORMAT(TIMEDIFF(NOW(),Equip_Time), '%H') * 60+DATE_FORMAT(TIMEDIFF(NOW(),Equip_Time), '%i')\r\n"
+				+ "			- "+list.get(0).getCHILD_TBL_RMARK()+")>="+list.get(0).getCHILD_TBL_RMARK()+",'true','false') result\r\n"
+				+ "FROM Equip_Monitoring_TBL\r\n"
+				+ "WHERE	Equip_Code = 'M001'";
+		
+		return jdbctemplate.queryForObject(sql, new RowMapper<String>() {
+
+			@Override
+			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+				return rs.getString("result");
+			}
+		});
+	}
+	
+	@GetMapping("/temperature_Status_Check")
+	public String temperature_Status_Check()
+	{
+		String sql = "SELECT \r\n"
+				+ "			t1.Equip_Code,	\r\n"
+				+ "			t1.Equip_Time,	\r\n"
+				+ "			t1.Humi,\r\n"
+				+ "			t1.Speed,	\r\n"
+				+ "			t1.Temp,\r\n"
+				+ "			t1.Equip_Status,	\r\n"
+				+ "			t1.Equip_No,\r\n"
+				+ "			t2.EQUIPMENT_INFO_NAME\r\n"
+				+ "FROM Equip_Monitoring_TBL t1\r\n"
+				+ "INNER JOIN EQUIPMENT_INFO_TBL t2\r\n"
+				+ "ON t1.Equip_Code = t2.EQUIPMENT_INFO_CODE\r\n"
+				+ "Where t1.Equip_Code = 'm001'";
+		
+		return jdbctemplate.queryForObject(
+				sql, new RowMapper<String>() {
+
+					@Override
+					public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+						return rs.getString("Equip_Status");
+					}
+		});
+	}
+	
+	@GetMapping("/temperature_Compulsion_On")
+	public void temperature_Compulsion_On() {
+		currentLog = true;
 	}
 	
 }
