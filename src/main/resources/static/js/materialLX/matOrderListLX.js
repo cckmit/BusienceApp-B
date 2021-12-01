@@ -130,7 +130,21 @@ var matOrderListSubTable = new Tabulator("#matOrderListSubTable", {
 		{ title: "코드", field: "order_lCode", headerHozAlign: "center" },
 		{ title: "제품명", field: "order_lName", headerHozAlign: "center" },
 		{ title: "규격1", field: "order_lSTND_1", headerHozAlign: "center" },
-		{ title: "수량", field: "order_lQty", headerHozAlign: "center", hozAlign: "right", formatter: "money" },
+		{
+			title: "수량", field: "order_lQty", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false },
+			cellEdited: function(cell) {
+				//수량이 변경될때 금액값이 계산되어 입력
+				temQty = cell.getValue();
+				temUP = cell.getRow().getData().order_lUnit_Price;
+				if (temQty * temUP > 0) {
+					iPrice = temQty * temUP
+				} else {s
+					iPrice = 0;
+
+				}
+				cell.getRow().update({ "order_lPrice": iPrice });
+			}
+		},
 		{ title: "미입고", field: "order_lNot_Stocked", headerHozAlign: "center", hozAlign: "right" },
 		{
 			le: "단가", field: "order_lUnit_Price", headerHozAlign: "center", formatter: "money", formatterParams: { precision: false }, hozAlign: "right",
@@ -142,8 +156,8 @@ var matOrderListSubTable = new Tabulator("#matOrderListSubTable", {
 			opCalc: function(values, data, calcParams) {
 				var calc = 0;
 
-				values.forEach(function(value)  {
-						calc += value
+				values.forEach(function(value) {
+					calc += value
 				});
 				return calc;
 			}, topCalcFormatter: "money", topCalcFormatterParams: { precision: false }
@@ -230,19 +244,20 @@ function print_fun() {
 
 	while (form.hasChildNodes()) {
 		moveChild(form.frstChild);
-	}					var dataList = {
+	}
+	var dataList = {
 		"data": []
-		}
+	}
 
-		dataList.data = selectedData;
+	dataList.data = selectedData;
 
-		console.log(JSON.stringify(dataList));
-		
-		var hiddenField = document.createElement("input");
-		hiddenField.setAttribute("type", "hidden");
-		hiddenField.setAttribute("name", "dataList");
+	console.log(JSON.stringify(dataList));
+
+	var hiddenField = document.createElement("input");
+	hiddenField.setAttribute("type", "hidden");
+	hiddenField.setAttribute("name", "dataList");
 	hiddenField.setAttribute("value", JSON.stringify(dataList));
-		form.appendChild(hiddenField);
-	
+	form.appendChild(hiddenField);
+
 	form.submit();
 }
