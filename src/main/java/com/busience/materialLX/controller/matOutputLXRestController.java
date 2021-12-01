@@ -43,7 +43,7 @@ public class matOutputLXRestController {
 		
 		List<StockMat_tbl> list = new ArrayList<StockMat_tbl>();
 
-		String sql = "SELECT SM_Code, pit.PRODUCT_ITEM_NAME as SM_Name, SM_Out_Qty, (SM_Last_Qty+SM_In_Qty-SM_Out_Qty) SM_Last_Qty\r\n"
+		String sql = "SELECT SM_Code, pit.PRODUCT_ITEM_NAME as SM_Name, (SM_Last_Qty+SM_In_Qty-SM_Out_Qty) SM_Last_Qty\r\n"
 				+ "FROM StockMatLX_tbl smlt\r\n"
 				+ "INNER JOIN PRODUCT_INFO_TBL pit ON smlt.SM_Code = pit.PRODUCT_ITEM_CODE\r\n";
 
@@ -70,7 +70,6 @@ public class matOutputLXRestController {
 			data.setId(i);
 			data.setSM_Code(rs.getString("SM_Code"));
 			data.setSM_Name(rs.getString("SM_Name"));
-			data.setSM_Out_Qty(rs.getInt("SM_Out_Qty"));
 			data.setSM_Last_Qty(rs.getInt("SM_Last_Qty"));
 
 			list.add(data);
@@ -89,9 +88,9 @@ public class matOutputLXRestController {
 			throws ParseException, SQLException {
 		List<OutMat_tbl> list = new ArrayList<OutMat_tbl>();
 
-		String sql = " SELECT OutMat_No, OutMat_Code, OutMat_Qty, OutMat_Consignee, OutMat_Dept_Code, OutMat_Send_Clsfc, OutMat_Date FROM OutMatLX_tbl";
+		String sql = " SELECT OutMat_No, OutMat_Code, pit.PRODUCT_ITEM_NAME OutMat_Name, OutMat_Qty, OutMat_Consignee, OutMat_Dept_Code, OutMat_Send_Clsfc, OutMat_Date FROM OutMatLX_tbl omt";
 
-		String where = " WHERE OutMat_Code = '" + sm_Code + "'" + " order by OutMat_No";
+		String where = " LEFT OUTER JOIN PRODUCT_INFO_TBL pit ON omt.OutMat_Code = pit.PRODUCT_ITEM_CODE WHERE OutMat_Code = '" + sm_Code + "'" + " order by OutMat_No";
 
 		sql += where;
 
@@ -110,6 +109,7 @@ public class matOutputLXRestController {
 			data.setID(i);
 			data.setOutMat_No(rs.getInt("outMat_No"));
 			data.setOutMat_Code(rs.getString("outMat_Code"));
+			data.setOutMat_Name(rs.getString("outMat_Name"));
 			data.setOutMat_Qty(rs.getInt("outMat_Qty"));
 			data.setOutMat_Consignee(rs.getString("outMat_Consignee"));
 			data.setOutMat_Dept_Code(rs.getString("outMat_Dept_Code"));
@@ -130,9 +130,10 @@ public class matOutputLXRestController {
 	public String MOM_Save(HttpServletRequest request, Principal principal) throws ParseException, SQLException,
 			UnknownHostException, ClassNotFoundException {
 		String originData = request.getParameter("data");
+		System.out.println(originData);
 		JSONParser parser = new JSONParser();
 		JSONArray arr = (JSONArray) parser.parse(originData);
-
+		System.out.println(arr);
 		String modifier = principal.getName();
 
 		String OutMatLX_tbl_sql = null;
