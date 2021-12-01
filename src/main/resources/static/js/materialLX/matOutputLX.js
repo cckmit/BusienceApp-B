@@ -33,8 +33,7 @@ var outputTable = new Tabulator("#outputTable", {
 	columns: [
 		{ title: "순번", field: "id", headerHozAlign: "center", hozAlign: "center" },
 		{ title: "코드", field: "sm_Code", headerHozAlign: "center", headerFilter: true },
-		{ title: "품목명", field: "sm_Name", headerHozAlign: "center", hozAlign: "right", headerFilter: true },
-		{ title: "출고수량", field: "sm_Out_Qty", headerHozAlign: "center", hozAlign: "right", headerFilter: true },
+		{ title: "품목명", field: "sm_Name", headerHozAlign: "center", hozAlign: "left", headerFilter: true, width: 120 },
 		{ title: "재고", field: "sm_Last_Qty", headerHozAlign: "center", headerFilter: true }]
 });
 
@@ -44,6 +43,7 @@ function MOS_Search() {
 
 	data = {
 		SM_Code: outputTable.getData("selected").sm_Code,
+		SM_Name: outputTable.getData("selected").sm_Name,
 		itemCode: $("#outmatLX_itemCode").val()
 	}
 
@@ -56,8 +56,9 @@ function MOS_Search() {
 			console.log(data);
 			outputTable.setData(data);
 			SM_Code = outputTable.getData("selected").sm_Code;
+			SM_Name = outputTable.getData("selected").sm_Name;
 			//console.log("sm_code val = " + SM_Code);
-			MOM_Search(SM_Code);
+			MOM_Search(SM_Code, SM_Name);
 			//matOutputTable.clearData();
 		}
 	});
@@ -183,10 +184,12 @@ var matOutputTable = new Tabulator("#matOutputTable", {
 		row.select();
 
 		var outmatC = outputTable.getData("selected")[0].sm_Code;
+		var outmatN = outputTable.getData("selected")[0].sm_Name;
 		//console.log("outputTable 추가 = " + outputTable.getData("selected"));
 		row.update({
 			"id": matOutputTable.getDataCount(),
 			"outMat_Code": outmatC,
+			"outMat_Name": outmatN, 
 			"outMat_Qty": 0,
 			"outMat_Consignee": '1',
 			"outMat_Send_Clsfc": '208'
@@ -213,7 +216,8 @@ var matOutputTable = new Tabulator("#matOutputTable", {
 	columns: [
 		{ title: "순번", field: "id", headerHozAlign: "center", hozAlign: "center" },
 		{ title: "코드", field: "outMat_Code", headerHozAlign: "center" },
-		{ title: "수량", field: "outMat_Qty", headerHozAlign: "center", hozAlign: "right", editor: MOM_InputEditor, editable: editCheck },
+		{ title: "품목명", field: "outMat_Name", headerHozAlign: "center", width: 120 },
+		{ title: "출고수량", field: "outMat_Qty", headerHozAlign: "center", hozAlign: "right", editor: MOM_InputEditor, editable: editCheck },
 		{
 			title: "수취인", field: "outMat_Consignee", headerHozAlign: "center", hozAlign: "left", editor: "select", editable: editCheck,
 			formatter: function(cell, formatterParams) {
@@ -246,13 +250,14 @@ var matOutputTable = new Tabulator("#matOutputTable", {
 var MIM_preData = 0;
 
 //outMat 목록검색
-function MOM_Search(sm_Code) {
+function MOM_Search(sm_Code, sm_Name) {
 	console.log("sm_Code = " + sm_Code);
+	console.log("sm_Name = " + sm_Name);
 	$("#outmatLX_itemCode").val(sm_Code);
 
 	$.ajax({
 		method: "GET",
-		url: "matOutputLXRest/MOM_Search?sm_Code=" + sm_Code,
+		url: "matOutputLXRest/MOM_Search?sm_Code=&sm_Name=" + sm_Code + sm_Name,
 		success: function(MIM_datas, row) {
 			matOutputTable.setData(MIM_datas);
 			console.log(MIM_datas);
