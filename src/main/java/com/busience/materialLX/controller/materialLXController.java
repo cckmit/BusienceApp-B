@@ -142,31 +142,51 @@ public class materialLXController {
 	// MatOutputLX
 	@GetMapping("tablet/matOutputLXTablet")
 	public String matOutputLXTablet(Model model) {
-		String sql = "SELECT\r\n"
-				+ "			PRODUCT_ITEM_CODE,\r\n"
-				+ "			PRODUCT_ITEM_NAME\r\n"
-				+ "FROM		PRODUCT_INFO_TBL\r\n"
-				+ "WHERE		PRODUCT_INFO_STND_2 = '쌀'";
-		
-		model.addAttribute("product_list", jdbctemplate.query(sql, new RowMapper() {
 
+		model.addAttribute("b1", jdbctemplate.queryForObject("SELECT NEW_TBL_CODE FROM CMN_TBL WHERE NEW_TBL_NAME = '품목분류1'", new RowMapper<String>() {
 			@Override
-			public PRODUCTION_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
-				PRODUCTION_INFO_TBL data = new PRODUCTION_INFO_TBL();
-				data.setPRODUCTION_PRODUCT_CODE(rs.getString("PRODUCT_ITEM_CODE"));
-				data.setPRODUCTION_EQUIPMENT_INFO_NAME(rs.getString("PRODUCT_ITEM_NAME"));
-				return data;
+			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+				return rs.getString("NEW_TBL_CODE");
 			}
 		}));
 		
-		sql = "SELECT * FROM DTL_TBL WHERE CHILD_TBL_RMARK = '실'";
-		model.addAttribute("dtl_list", jdbctemplate.query(sql, new RowMapper() {
+		model.addAttribute("b2", jdbctemplate.queryForObject("SELECT NEW_TBL_CODE FROM CMN_TBL WHERE NEW_TBL_NAME = '품목분류2'", new RowMapper<String>() {
+			@Override
+			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+				return rs.getString("NEW_TBL_CODE");
+			}
+		}));
+		
+		String sql = "SELECT * FROM DTL_TBL WHERE NEW_TBL_CODE = (SELECT NEW_TBL_CODE FROM CMN_TBL WHERE NEW_TBL_NAME = '품목분류1') Order BY CHILD_TBL_NUM + 0";
+
+		model.addAttribute("list1",jdbctemplate.query(sql, new RowMapper() {
 
 			@Override
 			public DTL_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
 				DTL_TBL data = new DTL_TBL();
+				data.setNEW_TBL_CODE(rs.getString("NEW_TBL_CODE"));
 				data.setCHILD_TBL_NO(rs.getString("CHILD_TBL_NO"));
+				data.setCHILD_TBL_NUM(rs.getString("CHILD_TBL_NUM"));
 				data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
+				data.setCHILD_TBL_RMARK(rs.getString("CHILD_TBL_RMARK"));
+				data.setCHILD_TBL_USE_STATUS(rs.getString("CHILD_TBL_USE_STATUS"));
+				return data;
+			}
+		}));
+		
+		sql = "SELECT * FROM DTL_TBL WHERE NEW_TBL_CODE = (SELECT NEW_TBL_CODE FROM CMN_TBL WHERE NEW_TBL_NAME = '품목분류2') Order BY CHILD_TBL_NUM + 0";
+
+		model.addAttribute("list2",jdbctemplate.query(sql, new RowMapper() {
+
+			@Override
+			public DTL_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
+				DTL_TBL data = new DTL_TBL();
+				data.setNEW_TBL_CODE(rs.getString("NEW_TBL_CODE"));
+				data.setCHILD_TBL_NO(rs.getString("CHILD_TBL_NO"));
+				data.setCHILD_TBL_NUM(rs.getString("CHILD_TBL_NUM"));
+				data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
+				data.setCHILD_TBL_RMARK(rs.getString("CHILD_TBL_RMARK"));
+				data.setCHILD_TBL_USE_STATUS(rs.getString("CHILD_TBL_USE_STATUS"));
 				return data;
 			}
 		}));

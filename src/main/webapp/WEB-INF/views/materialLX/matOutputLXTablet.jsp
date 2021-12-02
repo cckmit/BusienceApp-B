@@ -11,37 +11,80 @@
 <title>Insert title here</title>
 	<meta name="mobile-web-app-capable" content="yes">
 	<link rel="manifest" href="/json/manifest.json">
+	
+	<style type="text/css">
+	.modal-dialog.modal-fullsize {
+	  width: 90%;
+	  height: 95%;
+	}
+	.modal-content.modal-fullsize {
+	  height: auto;
+	  min-height: 100%;
+	  border-radius: 0; 
+	}
+	</style>
 </head>
 <body>
-	<div id="testModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-	  <div class="modal-dialog modal-lg">
-	    <div class="modal-content">
-	    
-	      <div class="modal-header">
-			<div class="form-group row">
-				<label for="staticEmail" class="col-sm-2 col-form-label"><strong style="font-size: 40px;">검색</strong></label>
-				<div class="col-sm-5" style="padding-top: 5px;">
-					<input class="form-control form-control-lg" type="text" style="height: 50px; font-size: 35px;" id="Item_Word">
-				</div>
-			</div>
-			
-	      </div>
-	      
-	      <div class="modal-body" style="height: 400px;">
-			<div  id="itemPopupTableModal"></div>
-	      </div>
+	<div class="modal fade" id="myFullsizeModal" tabindex="-1" role="dialog" aria-labelledby="myFullsizeModalLabel">
+	  <div class="modal-dialog modal-fullsize" role="document">
+	    <div class="modal-content modal-fullsize" style="height:100%;" >
+	       <div style="float: left; width: 30%; height:100%; border-color: 'black';overflow-y:scroll;">
+	       	<%
+	       		List<DTL_TBL> list1 = (List<DTL_TBL>)request.getAttribute("list1");
+	       		
+	       		for(int i=0;i<list1.size();i++)
+	       		{
+	       	%>
+	       			<ul class="list-group">
+	       				<li class="list-group-item" style="font-size: 30px;"><%=list1.get(i).getCHILD_TBL_TYPE()%></li>
+	       			</ul>
+	       	<%
+	       		}
+	       	%>
+	       </div>
+	       
+	       <div style="float: left; width: 70%; height:100%; border-color: 'black'">
+	       		
+	       </div>
 	    </div>
 	  </div>
-	</div>
+	</div> 
 
 
 	<div style="width: 100%;height: 100%;position: absolute; border: solid; overflow:hidden;">
 		<table style="width: 100%;">
 			<tr>
 				<td style="text-align: center;" colspan="3">
-					<center>
-					<div style="width: 60%; background-color:rgb(112,173,70); margin: 10px; text-align: center; border-radius: 5%;"><strong style="font-size: 40px; color: white;">자재출고관리</strong></div> 
-					</center>
+					<table style="width: 100%; margin: 10px;">
+						<tr>
+							<td style="width: 50%;">
+								<center>
+								<div style="width: 90%; background-color:rgb(112,173,70); text-align: center; border-radius: 5%;"><strong style="font-size: 40px; color: white;">자재출고관리</strong></div> 
+								</center>
+							</td>
+							<td style="width: 15%; ">
+								<center>
+								<div style="width: 100%; border-style: solid; border-color:black; background-color:red; text-align: center; border-radius: 5%;" id="${b1}"><strong style="font-size: 40px; color: black;">원자재</strong></div> 
+								</center>
+							</td>
+							<td style="width: 5%;">
+								<center>
+								<div style="width: 100%; background-color:rgb(112,173,70); text-align: center; border-radius: 5%;"><strong style="font-size: 40px; color: white;"></strong></div> 
+								</center>
+							</td>
+							<td style="width: 15%;">
+								<center>
+								<div style="width: 100%; border-style: solid; border-color:black; background-color:white; text-align: center; border-radius: 5%;" id="${b2}"><strong style="font-size: 40px; color: black;">부자재</strong></div> 
+								</center>
+							</td>
+							<td style="width: 3%;">
+								<center>
+								<div style="width: 100%; background-color:rgb(112,173,70); text-align: center; border-radius: 5%;"><strong style="font-size: 40px; color: white;"></strong></div> 
+								</center>
+							</td>
+						</tr>
+					</table>
+
 				</td>
 			</tr>
 
@@ -54,18 +97,7 @@
 								품&nbsp;명
 							</td>
 							<td rowspan="2" style="padding: 10px;">
-								<select class="form-select" multiple aria-label="multiple select example" id="pdselect" name="eqselectn" style=" font-size: 50px; background-color: white; width: 90%; height:135px; border:groove; border-color: black;border-width: 1px;">
-
-									<%
-									List<PRODUCTION_INFO_TBL> list = (List<PRODUCTION_INFO_TBL>)request.getAttribute("product_list");
-									
-									for(int i=0;i<list.size();i++)
-									{
-										out.println("<option value='"+list.get(i).getPRODUCTION_PRODUCT_CODE()+"'>"+list.get(i).getPRODUCTION_EQUIPMENT_INFO_NAME()+"</option>");
-									}
-									%>
-
-								</select>
+								<input readonly value="" class="form-control form-control-lg" type="text" id="pname" style="padding-right: 170px; font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:right;">
 							</td>
 						</tr>
 						<tr>
@@ -99,16 +131,7 @@
 									출&nbsp;고&nbsp;처
 								</td>
 								<td rowspan="2" style="padding: 10px;">
-									<select class="form-select" multiple aria-label="multiple select example" id="dtselect" name="eqselectn" style=" font-size: 50px; background-color: white; width: 90%; height:135px; border:groove; border-color: black;border-width: 1px;">
-										<%
-											List<DTL_TBL> list2 = (List<DTL_TBL>)request.getAttribute("dtl_list");
-											
-											for(int i=0;i<list2.size();i++)
-											{
-												out.println("<option value='"+list2.get(i).getCHILD_TBL_NO()+"'>"+list2.get(i).getCHILD_TBL_TYPE()+"</option>");
-											}
-										%>
-									</select>
+									<input readonly value="" class="form-control form-control-lg" type="text" id="" style="padding-right: 170px; font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:right;">
 								</td>
 							</tr>
 							<tr>
@@ -257,7 +280,7 @@
 			
 		</table>
 		
-		<div style="padding: 0px 50px 520px 50px; height: 90%;">
+		<div style="padding: 0px 50px 520px 50px; height: 100%;">
 			<div id="WorkOrder_tbl"></div>
 		</div>
 		
@@ -278,7 +301,20 @@
 		<input id="matOutputList_endDate" class="tomorrow" type="date">
 	</div>
 
+	
 	<script src="/js/materialLX/matOutputLXTablet.js"></script>
+	
+	<script type="text/javascript">
+	document.getElementById("<%=request.getAttribute("b1")%>").onclick = function(){
+		document.getElementById("<%=request.getAttribute("b1")%>").style.background = "red";
+		document.getElementById("<%=request.getAttribute("b2")%>").style.background = "white";
+	}
+
+	document.getElementById("<%=request.getAttribute("b2")%>").onclick = function(){
+		document.getElementById("<%=request.getAttribute("b1")%>").style.background = "white";
+		document.getElementById("<%=request.getAttribute("b2")%>").style.background = "red";
+	}
+	</script>
 
 	<style>
 		.tabulator { font-size: 16px; }
