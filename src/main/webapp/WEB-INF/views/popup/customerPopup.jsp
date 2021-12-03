@@ -2,7 +2,7 @@
 
 <link href="/css/popup/popup.css" rel="stylesheet" />
 	<div class="main">
-		<div class="top-var">
+		<div class="top-var" style="height: 59px">
 			<div class="popup-box">
 				<span>검색</span>
 				<input type="text" id="Cus_Word"/>

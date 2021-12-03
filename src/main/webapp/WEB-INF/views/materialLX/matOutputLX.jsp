@@ -15,7 +15,7 @@
 				<div class="input-box">
 					<div>
 						<span><strong>품목코드</strong></span> 
-						<input id="outmatLX_itemCode" type="text" class="Item_Code1"> 
+						<input id="outmatLX_itemCode" type="text" class="Item_Code1" disabled> 
 						<span><strong>품목명</strong></span>
 						<input id="outmatLX_itemName" type="text" class="Item_Name1 clearInput" type="text" autofocus onkeypress="javascript:if(event.keyCode==13) {itemPopup($(this).val(),'input','1','material')}">
 					</div>

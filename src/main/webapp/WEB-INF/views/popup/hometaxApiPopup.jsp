@@ -2,7 +2,7 @@
 
 <link href="/css/popup/popup.css" rel="stylesheet" />
 	<div class="main">
-		<div class="top-var">
+		<div class="top-var" style="height: 59px">
 			<div class="popup-box">
 				<span>${year}년 ${month}월자</span>
 			</div>
