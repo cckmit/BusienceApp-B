@@ -102,7 +102,7 @@ var proMachineTable = new Tabulator("#proMachineTable", {
     	proMachineTable.deselectRow();
 		row.select();
     	
-    	$.get( "/tempDailyRest/History_DetailView?Temp_No="+row.getData().temp_No,function(data){
+    	$.get( "/tempDailyRest/History_DetailView?tempDaily=on&Temp_No="+row.getData().temp_No,function(data){
     		console.log(data);
     		
     		dds = [];
@@ -175,6 +175,8 @@ function drawBackgroundColor() {
 }
 
 window.onload = function(){
+	Search();
+
 	$.get( "/tempDailyRest/History_Temp_BottomTop",function(data){
 		vminValue=data.split(",")[0],vmaxValue=data.split(",")[1];
 	});

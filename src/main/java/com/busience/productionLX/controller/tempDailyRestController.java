@@ -33,11 +33,22 @@ public class tempDailyRestController {
 		String startDate = request.getParameter("startDate");
 		String endDate = request.getParameter("endDate");
 		
+		/*
 		String sql = "SELECT \r\n"
 				+ "			t1.Temp_No,\r\n"
 				+ "			round(AVG(t1.Temp_Value),0) Value,\r\n"
 				+ "			(SELECT Temp_Time FROM Equip_Temperature_History t2 WHERE t2.Temp_No = t1.Temp_No ORDER BY Temp_Time ASC LIMIT 1) StartTime,\r\n"
 				+ "			(SELECT Temp_Time FROM Equip_Temperature_History t2 WHERE t2.Temp_No = t1.Temp_No ORDER BY Temp_Time DESC LIMIT 1) EndTime\r\n"
+				+ "FROM		Equip_Temperature_History t1\r\n"
+				+ "WHERE		t1.Temp_Time BETWEEN ? AND ?\r\n"
+				+ "GROUP BY t1.Temp_No";
+		*/
+		
+		String sql = "SELECT \r\n"
+				+ "			t1.Temp_No,\r\n"
+				+ "			round(AVG(t1.Temp_Value),0) Value,\r\n"
+				+ "			DATE_FORMAT((SELECT Temp_Time FROM Equip_Temperature_History t2 WHERE t2.Temp_No = t1.Temp_No ORDER BY Temp_Time ASC LIMIT 1),'%Y-%m-%d %H:%i') StartTime,\r\n"
+				+ "			IF(Temp_No = (SELECT Equip_No FROM Equip_Monitoring_TBL WHERE Equip_Code='M001'),'',DATE_FORMAT((SELECT Temp_Time FROM Equip_Temperature_History t3 WHERE t3.Temp_No = t1.Temp_No ORDER BY Temp_Time DESC LIMIT 1),'%Y-%m-%d %H:%i')) EndTime\r\n"
 				+ "FROM		Equip_Temperature_History t1\r\n"
 				+ "WHERE		t1.Temp_Time BETWEEN ? AND ?\r\n"
 				+ "GROUP BY t1.Temp_No";
@@ -106,13 +117,22 @@ public class tempDailyRestController {
 				+ "WHERE		t1.Temp_No = '"+request.getParameter("Temp_No")+"'\r\n"
 				+ "GROUP BY t1.Temp_No";
 		
-		String sdevideTime = jdbctemplate.queryForObject(sql, new RowMapper<String>() {
+		String sdevideTime = "00:00:00";
+		
+		try
+		{
+			sdevideTime = jdbctemplate.queryForObject(sql, new RowMapper<String>() {
 
-			@Override
-			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return rs.getString("Time");
-			}
-		});
+				@Override
+				public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+					return rs.getString("Time");
+				}
+			});
+		}
+		catch(Exception ex)
+		{
+			System.out.println("아직 데이터가 안들어와서 에러처리됨");
+		}
 		
 		String[] timeSet = sdevideTime.split(":");
 		
@@ -134,7 +154,9 @@ public class tempDailyRestController {
 			}
 		},request.getParameter("Temp_No"));
 		
-		if(devideTime >= num)
+		//System.out.println(request.getParameter("tempDaily"));
+		
+		if(devideTime >= num || request.getParameter("tempDaily") != null)
 		{
 			devideTime /= num;
 			

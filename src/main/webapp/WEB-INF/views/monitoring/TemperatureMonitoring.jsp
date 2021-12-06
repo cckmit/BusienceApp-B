@@ -64,8 +64,7 @@ input[type="checkbox"]:hover {
 			Equip_Monitoring_TBL data = (Equip_Monitoring_TBL)request.getAttribute("data");	
 		%>
 		
-		setInterval(function(){
-
+		function tempSelect(){
 			$.get("/temperatureMonitoringRestController/temperature_Status_Check",function(data){
 				if(data=='true'){
 					document.getElementById("<%=data.getEquip_Code()%>").checked = true;
@@ -170,6 +169,11 @@ input[type="checkbox"]:hover {
 
 				}
 			});
+		}
+		
+		setInterval(function(){
+
+			tempSelect();
 
 		},3000);
 
@@ -399,13 +403,7 @@ input[type="checkbox"]:hover {
 			}
 			else
 			{
-				$.get("../tempStatusControlRest/tempStatusOffChange",data,function(){htitle = "시간 , 평균온도 : 0";
-				
-				dds = [];
-				// Load the Visualization API and the corechart package.
-				google.charts.load('current', {'packages':['corechart']});
-				// Set a callback to run when the Google Visualization API is loaded.
-				google.charts.setOnLoadCallback(drawBackgroundColor);});
+				$.get("../tempStatusControlRest/tempStatusOffChange",data,function(){htitle = "시간 , 평균온도 : 0"; tempSelect();});
 			}
 		}
 		</script>

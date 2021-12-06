@@ -35,8 +35,8 @@ public class tempStatusControlRestController {
 		});
 		
 		sql = "UPDATE Equip_Monitoring_TBL\r\n"
-				+ "SET	 Equip_Time = NOW()\r\n"
-				+ ",	 Equip_Status = '"+request.getParameter("checked")+"'\r\n"
+				+ "SET	 "
+				+ "	 Equip_Status = '"+request.getParameter("checked")+"'\r\n"
 				+ ",	 Equip_No = '"+no+"'\r\n"
 				+ "WHERE	 Equip_Code = UPPER('"+request.getParameter("id")+"')";
 		
@@ -47,8 +47,8 @@ public class tempStatusControlRestController {
 	public void tempStatusOffChange(HttpServletRequest request)
 	{
 		String sql = "UPDATE Equip_Monitoring_TBL\r\n"
-				+ "SET	 Equip_Time = NOW()\r\n"
-				+ ",	 Equip_Status = '"+request.getParameter("checked")+"'\r\n"
+				+ "SET	 "
+				+ "	 Equip_Status = '"+request.getParameter("checked")+"'\r\n"
 				+ ",	 Equip_No = ''\r\n"
 				+ "WHERE	 Equip_Code = UPPER('"+request.getParameter("id")+"')";
 		

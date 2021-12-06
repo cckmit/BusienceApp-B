@@ -180,5 +180,10 @@ public class contolController {
 	public String orderMaster() {
 		return "normal/monitoring/workorderoi";
 	}
+	
+	@GetMapping("tempMonitoringTest")
+	public String tempMonitoringTest() {
+		return "monitoring/tempMonitoringTest";
+	}
 
 }
