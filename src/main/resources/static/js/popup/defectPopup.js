@@ -3,11 +3,6 @@
 const url = new URL(window.location.href);
 const urlParams = url.searchParams;
 
-// 다른 곳 눌렀을 때 팝업창이 꺼짐
-$(window).on("blur", function () {
-	exitfrn();
-});
-
 $(document).keyup(function(e) {
 	if (e.keyCode == 27) {
     	exitfrn()

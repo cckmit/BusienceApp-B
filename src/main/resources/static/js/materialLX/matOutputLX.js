@@ -1,5 +1,3 @@
-var matOutputTable = null;
-var itemCode = null;
 var outputTable = new Tabulator("#outputTable", {
 	//페이징
 	pagination: "local",
@@ -8,26 +6,26 @@ var outputTable = new Tabulator("#outputTable", {
 	height: "calc(100% - 175px)",
 	layoutColumnsOnNewData: true,
 	headerFilterPlaceholder: null,
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
 	rowFormatter: function(row) {
 		//입고수량이 수량이상이면 글자색을 빨간색으로 바꿔준다
 		if (row.getData().sm_Last_Qty == 0) {
 			row.getElement().style.color = "red";
 		}
 	},
-	rowSelected: function(row) {
-
-		UseBtn();
-
-	},
 	rowDblClick: function(e, row) {
 
-		console.log(row.getData().sm_Code);
 		outputTable.deselectRow();
 		row.select();
-		//MOM_Search(row.getData().sm_Code);
-		matOutputTable.addRow();
+		
+		if(!inputDuplCheck(row)){
+			matOutputTable.addRow({"outMat_Code": row.getData().sm_Code,
+									"outMat_Name": row.getData().sm_Name, 
+									"outMat_Qty": 0,
+									"outMat_Consignee": '1',
+									"outMat_Send_Clsfc": '208'
+									});
+			UseBtn();
+		}
 
 	},
 	columns: [
@@ -37,6 +35,23 @@ var outputTable = new Tabulator("#outputTable", {
 		{ title: "재고", field: "sm_Last_Qty", headerHozAlign: "center", headerFilter: true }]
 });
 
+
+function inputDuplCheck(row){
+	var selectDataCode = row.getData("selected").sm_Code;
+	
+	var inputDatas = matOutputTable.getData();
+	
+	var idResult = inputDatas.some(function(currentValue, index, array){
+		return (currentValue.outMat_Code == selectDataCode);
+	})
+	
+	if(idResult){
+		alert("이미 선택한 코드 입니다.");
+		return true
+	}else{
+		return false
+	}
+}
 
 //orderMaster 목록검색 matOrder와 동일하지만 테이브이름이 다르고, 미입고 컬럼이 추가됨
 function MOS_Search() {
@@ -144,16 +159,10 @@ var MOM_InputEditor = function(cell, onRendered, success, cancel, editorParams) 
 
 	//키버튼 이벤트
 	MOM_input.addEventListener("keydown", function(e) {
-		//품목코드 팝업창
 		if (e.keyCode == 13) {
-			//단가셀 체크
-			if (cell.getField() == "inMat_Unit_Price") {
-				//선택되있는 행중 마지막행의 순번 == 선택할 다음행의 인덱스값
-				nextRow_No = matInputSubTable.getData("selected")[matInputSubTable.getDataCount("selected") - 1].order_lNo;
-				nextRow = matInputSubTable.getRows()[nextRow_No];
-				if (nextRow) {
-					matInputSubTable.selectRow(nextRow);
-				}
+			//수량셀
+			if (cell.getField() == "outMat_Qty") {
+				cell.nav().down();
 			}
 		}
 	});
@@ -173,28 +182,8 @@ var editCheck = function(cell) {
 var matOutputTable = new Tabulator("#matOutputTable", {
 	height: "calc(100% - 175px)",
 	layoutColumnsOnNewData: true,
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
-	//커스텀 키 설정
-	keybindings: {
-		"navNext": "13"
-	},
 	rowAdded: function(row, cell) {
-		//console.log("추가됨");
 		row.select();
-
-		var outmatC = outputTable.getData("selected")[0].sm_Code;
-		var outmatN = outputTable.getData("selected")[0].sm_Name;
-		//console.log("outputTable 추가 = " + outputTable.getData("selected"));
-		row.update({
-			"id": matOutputTable.getDataCount(),
-			"outMat_Code": outmatC,
-			"outMat_Name": outmatN, 
-			"outMat_Qty": 0,
-			"outMat_Consignee": '1',
-			"outMat_Send_Clsfc": '208'
-		});
-
 
 		//행이 추가되면 첫셀에 포커스
 		do {
@@ -211,10 +200,8 @@ var matOutputTable = new Tabulator("#matOutputTable", {
 		matOutputTable.deselectRow();
 		row.select();
 	},
-	//order_lNo를 인덱스로 설정
-	index: "inMat_No",
 	columns: [
-		{ title: "순번", field: "id", headerHozAlign: "center", hozAlign: "center" },
+		{ title: "순번", field: "rownum", formatter: "rownum", headerHozAlign: "center", hozAlign: "center" },
 		{ title: "코드", field: "outMat_Code", headerHozAlign: "center" },
 		{ title: "품목명", field: "outMat_Name", headerHozAlign: "center", width: 120 },
 		{ title: "출고수량", field: "outMat_Qty", headerHozAlign: "center", hozAlign: "right", editor: MOM_InputEditor, editable: editCheck },
@@ -242,8 +229,8 @@ var matOutputTable = new Tabulator("#matOutputTable", {
 				return value;
 			},
 			editorParams: { values: dtl_arr }
-		},
-		{ title: "출고일자", field: "outMat_Date", headerHozAlign: "center", hozAlign: "right", width: 125, formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" } }]
+		}
+	]
 });
 
 //inMatTable에 있던 데이터의 갯수
@@ -251,8 +238,7 @@ var MIM_preData = 0;
 
 //outMat 목록검색
 function MOM_Search(sm_Code, sm_Name) {
-	console.log("sm_Code = " + sm_Code);
-	console.log("sm_Name = " + sm_Name);
+	
 	$("#outmatLX_itemCode").val(sm_Code);
 
 	$.ajax({
@@ -260,7 +246,7 @@ function MOM_Search(sm_Code, sm_Name) {
 		url: "matOutputLXRest/MOM_Search?sm_Code=&sm_Name=" + sm_Code + sm_Name,
 		success: function(MIM_datas, row) {
 			matOutputTable.setData(MIM_datas);
-			console.log(MIM_datas);
+			//console.log(MIM_datas);
 		}
 	});
 }
@@ -294,19 +280,11 @@ function MOM_Save() {
 		if (rowData[i].outMat_Qty != 0 && rowData[i].outMat_Consignee != "" && rowData[i].outMat_Send_Clsfc != "") {
 			realData.push(rowData[i]);
 		}
-		
-		
 	}
-
-
-
-	// 재고수량보다 출고수량이 더 많을 경우 저장안됨
-
 
 	//InputSub 저장부분
 	$.ajax({
 		method: "get",
-		async: false,
 		url: "matOutputLXRest/MOM_Save?data=" + encodeURI(JSON.stringify(realData)),
 		success: function(result) {
 			//console.log(result);
@@ -314,7 +292,6 @@ function MOM_Save() {
 				alert("중복된 값이 있습니다..");
 			} else if (result == "success") {
 				MOS_Search();
-				//Cus_No_select();
 				alert("저장되었습니다.");
 			}
 		}
@@ -325,18 +302,3 @@ function MOM_Save() {
 $('#MOM_SaveBtn').click(function() {
 	MOM_Save();
 })
-
-//발주번호로 OrderMaster 선택하는 코드
-function Cus_No_select() {
-	rowCount = outputTable.getDataCount("active");
-	//컬럼값을 검색해서 입력값을 포함하는 값이 있으면 선택한다. 
-	for (var i = 0; i < rowCount; i++) {
-		Cus_No = outputTable.getColumn("sm_Code").getCells();
-		//발주번호가 입력내용을 포함하면 코드 실행
-		if (Cus_No[i].getValue() == $('#Order_lCus_No').val()) {
-			//발주번호가 같은 행 선택
-			Cus_No[i].getRow().select();
-			break;
-		}
-	}
-}

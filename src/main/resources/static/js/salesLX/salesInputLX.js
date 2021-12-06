@@ -1,234 +1,209 @@
-/* 입고를 직접 입력하는 경우의 입고 페이지 */
-
-// 판매구분 select를 구성하기위한 ajax
-var dtl_arr = new Object();
-
-$.ajax({
-	method : "GET",
-	async: false,
-	url : "dtl_tbl_select?NEW_TBL_CODE=17",
-	success : function(datas) {
-		for(i=0;i<datas.length;i++){
-			dtl_arr[datas[i].child_TBL_NO] = datas[i].child_TBL_TYPE;
-		}
-	}
-});
-
-var salesInputTable = new Tabulator("#salesInputTable", {
+var salesInputMasterTable = new Tabulator("#salesInputMasterTable", {
 	//페이징
 	pagination:"local",
 	paginationSize:20,
     height:"calc(100% - 175px)",
 	layoutColumnsOnNewData : true,
+	headerFilterPlaceholder: null,
 	ajaxConfig : "get",
 	ajaxContentType:"json",
 	ajaxURL : "salesInputLXRest/SI_Search",
+	rowDblClick: function(e, row) {
+		row.getTable().deselectRow();
+		row.select();
+		
+		if(!inputDuplCheck(row)){
+			salesInputSubTable.addRow({"sales_InMat_Code" : row.getData().product_ITEM_CODE,
+								   "sales_InMat_Name" : row.getData().product_ITEM_NAME,
+								   "sales_InMat_Qty" : 0,
+								   "sales_InMat_Rcv_Clsfc" : "203"
+									});
+			UseBtn();
+		}
+	},
  	columns:[
-		{formatter:"rowSelection", titleFormatter:"rowSelection", headerHozAlign:"center", hozAlign:"center", headerSort:false, width:40},
- 		{title:"순번", field:"sales_InMat_No", headerHozAlign:"center", hozAlign:"right"},
-		{title:"제품코드", field:"sales_InMat_Code", headerHozAlign:"center"},
- 		{title:"제품명", field:"sales_InMat_Name", headerHozAlign:"center", width : 130},
- 		{title:"수량", field:"sales_InMat_Qty", headerHozAlign:"center", hozAlign:"right"},
-		{title:"입고일자", field:"sales_InMat_Date", headerHozAlign:"center", hozAlign:"right", width : 130,
-			formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
- 		{title:"구분", field:"sales_InMat_Rcv_Clsfc", width : 65,
-			formatter: function(cell, formatterParams) {
-				var value = cell.getValue();
-				if(dtl_arr[value] != null){
-						value = dtl_arr[value];	
-					}else{
-						value = "";
-					}
-			    return value;
-			}}
+ 		{title:"순번", field:"rownum", formatter:"rownum", headerHozAlign:"center", hozAlign:"center"},
+		{title:"제품코드", field:"product_ITEM_CODE", headerHozAlign:"center", headerFilter: true},
+ 		{title:"제품명", field:"product_ITEM_NAME", headerHozAlign:"center", headerFilter: true},
+ 		{title:"규격", field:"product_INFO_STND_1", headerHozAlign:"center", hozAlign:"right", headerFilter: true}
 		]
 });
 
-//salesName
-$('#salesName').keydown(function(e){
-	//엔터키를 눌렀을떄
-	if(e.keyCode == 13){
-		//제품팝업창을 띄우고
-		product_check($('#salesName').val());
-		//다음 input으로 포커스
-		$('#salesQty').focus();				
-	}
-})
-
-//salesQty
-$('#salesQty').keydown(function(e){
-	//엔터키를 눌렀을때
-	if(e.keyCode == 13){
-		//제품코드가 선택이 되었고 수량이 입력되어있으면 
-		if($('#salesCode').val().length >0 && $('#salesQty').val() >0){
-			//입력한 데이터를 기반으로 행 추가
-			
-			//salesbundle 값이 존재하는경우
-			//for(j=0;j<$('#salesbundle').val();j++){} 으로 행추가 여러번 실행
-			salesInputTable.addRow(
-				{"sales_InMat_No": salesInputTable.getDataCount('active')+1,	
-				"sales_InMat_Code": $('#salesCode').val(),
-				"sales_InMat_Name": $('#salesName').val(),
-				"sales_InMat_Qty": $('#salesQty').val(),
-				"sales_InMat_Date": moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-				"sales_InMat_Rcv_Clsfc": $('#salesRcv_Clsfc').val()}
-			);
-			//그 후 수량이 빈칸이 되고 제품명input으로 포커스
-			$('#salesQty').val("");
-			$('#salesRcv_Clsfc').val("171").prop("selected", true)
-			$('#salesName').focus();
-		}					
-	}
-})
-
-function product_check(value){
-	//쿼리실행
-	$.ajax({
-		method : "GET",
-		async: false,
-		url : "product_check?PRODUCT_ITEM_CODE=" + value,
-		dataType : "json",
-		success : function(pc_data) {
-			console.log(pc_data);			
-			if(pc_data.length == 1){
-				//검색어와 일치하는값이 있는경우
-				$('#salesCode').val(pc_data[0].product_ITEM_CODE);
-				$('#salesName').val(pc_data[0].product_ITEM_NAME);
-			}else{
-				//검색어와 일치하는값이 없는경우, 팝업창
-				itemPopup(value,'input','','sales');
-			}
-		}
+function inputDuplCheck(row){
+	var selectDataCode = row.getData("selected").product_ITEM_CODE;
+	
+	var inputDatas = salesInputSubTable.getData();
+	
+	var idResult = inputDatas.some(function(currentValue, index, array){
+		return (currentValue.sales_InMat_Code == selectDataCode);
 	})
+	
+	if(idResult){
+		alert("이미 선택한 코드 입니다.");
+		return true
+	}else{
+		return false
+	}
 }
 
-//add버튼
-$('#SI_NewBtn').click(function(){
-	salesInputTable.clearData();
-	SI_buttonUse();
-	trans_input_use()
-	$('#salesName').focus();
+$("#SI_SearchBtn").click(function(){
+	SI_Search();
 })
 
-var ajaxResult = null;
-//save버튼
-$('#SI_SaveBtn').click(function(){
-	//저장하는기능
+function SI_Search(){
+	salesInputMasterTable.setData("salesInputLXRest/SI_Search");
+}
+
+// 입고구분 select를 구성하기위한 ajax
+var dtl_arr = new Object();
+
+// 매니저명 select를 구성하기 위한 ajax
+var manager_arr = new Object();
+
+$.ajax({
+	method: "GET",
+	async: false,
+	url: "dtl_tbl_select?NEW_TBL_CODE=17",
+	success: function(datas) {
+		for (i = 0; i < datas.length; i++) {
+			dtl_arr[datas[i].child_TBL_NO] = datas[i].child_TBL_TYPE;
+		}
+	}
+});
+
+//salesInputSub 커스텀 기능설정
+var SIS_InputEditor = function(cell, onRendered, success, cancel, editorParams) {
+	//cell - 편집 가능한 셀의 셀 구성 요소
+	//onRendered - 에디터가 렌더링 되었을 때 호출 할 함수
+	//success - 성공적을 업데이트 된 값을 tabulator에 전달하기 위해 호출되는 함수
+	//cancel - 편집을 중단하고 일반 셀로 돌아 가기 위해 호출하는 함수
+	//editorParams - editorParams 열 정의 속성에 전달 된 params 객체
+
+	//create 및 style editor
+	var SIS_input = document.createElement("input");
+
+	SIS_input.setAttribute("type", "text");
+
+	//입력 생성 및 스타일 지정
+	SIS_input.style.padding = "3px";
+	SIS_input.style.width = "100%";
+	SIS_input.style.boxSizing = "border-box";
+
+	//편집기의 값을 셀의 현재 값으로 설정
+	if (cell.getValue() == undefined) {
+		SIS_input.value = "";
+	} else {
+		SIS_input.value = cell.getValue();
+	}
+
+	//에디터가 선택되면 선택 상자에 포커스 설정 (타임 아웃은 편집기를 DOM에 추가 할 수 있음)
+	onRendered(function() {
+		SIS_input.focus();
+		SIS_input.select();
+		SIS_input.style.css = "100%";
+	});
+
+	//값이 설정되면 업데이트 할 셀 트리거
+	function onChange() {
+		success(SIS_input.value);
+	}
+
+	//바꼈을때 블러됫을때 함수 발동
+	SIS_input.addEventListener("change", onChange);
+	SIS_input.addEventListener("blur", onChange);
+
+	//키버튼 이벤트
+	SIS_input.addEventListener("keydown", function(e) {
+		if (e.keyCode == 13) {
+			//수량셀
+			if (cell.getField() == "sales_InMat_Qty") {
+				cell.nav().down();
+			}
+		}
+	});
+	//반환
+	return SIS_input;
+};
+
+var salesInputSubTable = new Tabulator("#salesInputSubTable", {
+	height: "calc(100% - 175px)",
+	layoutColumnsOnNewData: true,
+	rowAdded: function(row, cell) {
+		row.getTable().deselectRow();
+		row.select();
+		
+		//행이 추가되면 첫셀에 포커스
+		do {
+			setTimeout(function() {
+				row.getCell("sales_InMat_Qty").edit();
+				salesInputSubTable.deselectRow();
+				row.select();
+			}, 100);
+		}
+		while (row.getData().sales_InMat_Code === "0");
+	},
+	rowClick: function(e, row) {
+		row.getTable().deselectRow();
+		row.select();
+	},
+	columns: [
+		{ title: "순번", field: "rownum", formatter:"rownum", headerHozAlign: "center", hozAlign: "center" },
+		{ title: "코드", field: "sales_InMat_Code", headerHozAlign: "center" },
+		{ title: "품목명", field: "sales_InMat_Name", headerHozAlign: "center", width: 120},
+		{ title: "입고수량", field: "sales_InMat_Qty", headerHozAlign: "center", hozAlign: "right", editor: SIS_InputEditor,},
+		{ title: "구분", field: "sales_InMat_Rcv_Clsfc", headerHozAlign: "center", editor: "select",
+			formatter: function(cell, formatterParams) {
+				var value = cell.getValue();
+				if (dtl_arr[value] != null) {
+					value = dtl_arr[value];
+				} else {
+					value = dtl_arr[0];
+				}
+				return value;
+			},
+			editorParams: { values: dtl_arr }
+		}
+	]
+});
+
+$("#SI_SaveBtn").click(function(){
 	SI_Save();
 })
 
-//저장하는기능
 function SI_Save(){
-	rowCount = salesInputTable.getDataCount("active");
-	for(i=0;i<rowCount;i++){
-		//쿼리실행
-		$.ajax({
-			method : "post",
-			async: false,
-			url : "salesInputLXRest/SI_Save?data="+encodeURI(JSON.stringify(salesInputTable.getData()[i])),
-			success : function(save_data) {
-				console.log(save_data);
-				ajaxResult = save_data;
-			}
-		})
-	}
-	if(ajaxResult == "error"){
-		alert("중복된 값이 있습니다..");
-	}else if(ajaxResult == "success"){
-		alert("저장되었습니다.");
-		SI_buttonReset();
-		trans_input_unuse();
-		salesInputTable.replaceData()
-	}
-}
+	var realData = [];
 
+	var rowData = salesInputSubTable.getData();
 
-//랏번호 입력시 (바코드 리드) 작동하는 쿼리예시
-//LotNo Input에 Lot번호가 입력되면 자동으로 LotMaster에있는 값을 찾아서 그 데이터를 기반으로 행을 추가한다. 
-//salesLotNo
+	for (var i = 0; i < rowData.length; i++) {
 
-$('#salesLotNo').keydown(function(e){
-	//엔터키를 눌렀을떄
-	if(e.keyCode == 13){
-		salesInputTable.addRow(
-					{"sales_InMat_No": salesInputTable.getDataCount('active')+1,
-					"sales_InMat_Code": '',
-					"sales_InMat_Name": '테스트',
-					"sales_InMat_Qty": 10,
-					"sales_InMat_Date": moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-					"sales_InMat_Rcv_Clsfc": '171'}
-				);
-		$(this).val('')
-		/*
-		//제품팝업창을 띄우고
-		product_check($('#salesName').val());
-		//쿼리실행
-		$.ajax({
-			method : "GET",
-			url : "salesInputLXRest/salesLotNo_imsi?Lot_No=" + $('#salesLotNo').val(),
-			dataType : "json",
-			success : function(data) {
-				console.log(data);
-				//검색된 데이터를 기반으로 행 추가	
-				salesInputTable.addRow(
-					{"sales_InMat_No": salesInputTable.getDataCount('active')+1,
-					"sales_InMat_Code": data[0].sales_InMat_Code,
-					"sales_InMat_Name": data[0].sales_InMat_Name,
-					"sales_InMat_Qty": data[0].sales_InMat_Qty,
-					"sales_InMat_Date": moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-					"sales_InMat_Rcv_Clsfc": '171'}
-				);
+		if (rowData[i].sales_InMat_Rcv_Clsfc == "") {
+			alert("입고 유형을 선택하세요.");
+			return false;
+		}
 
-			}
-		})	*/			
-	}
-})
-
-
-//delete버튼
-$('#SI_DeleteBtn').click(function(){
-	rowCount = salesInputTable.getDataCount("active");
-	selectedData = salesInputTable.getSelectedData();
-	//여러행 삭제할경우 위에서부터 하나씩 반복하여 삭제함
-	if(selectedData.length < 1){
-		alert("행을 선택하세요.")
-	}else{
-		//삭제
-		salesInputTable.deleteRow(salesInputTable.getSelectedRows());
-		//행번호를 업데이트 한다
-		for(i=0;i<rowCount;i++){
-			console.log(i);
-			salesInputTable.updateRow(salesInputTable.getData()[i].sales_InMat_No,{"sales_InMat_No": i+1});			
+		if (rowData[i].sales_InMat_Qty != 0 && rowData[i].sales_InMat_Rcv_Clsfc != "") {
+			realData.push(rowData[i]);
 		}
 	}
-})
-
-function SI_buttonUse(){
-	//SI_DeleteBtn 활성화
-	if($('#SI_DeleteBtn').hasClass('unusebtn')){
-		$('#SI_DeleteBtn').removeClass('unusebtn');	
-	}
-	//SI_SaveBtn 활성화
-	if($('#SI_SaveBtn').hasClass('unusebtn')){
-		$('#SI_SaveBtn').removeClass('unusebtn');	
-	}
-}
-
-function SI_buttonReset(){
-	//SI_DeleteBtn 비활성화
-	if(!$('#SI_DeleteBtn').hasClass('unusebtn')){
-		$('#SI_DeleteBtn').addClass('unusebtn');	
-	}
-	//SI_SaveBtn 비활성화
-	if(!$('#SI_SaveBtn').hasClass('unusebtn')){
-		$('#SI_SaveBtn').addClass('unusebtn');	
-	}
-}
-
-function trans_input_use(){
-	$('.trans_input').attr('disabled',false)
-}
-
-function trans_input_unuse(){
-	$('.trans_input').attr('disabled',true)
+	
+    $.ajax({
+        method : "post",
+        url : "salesInputLXRest/SI_Save",
+		data : JSON.stringify(realData),
+		contentType:'application/json',
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
+        success : function(result) {
+            if (result == 0) {
+				alert("중복된 값이 있습니다..");
+			} else if (result == 1) {
+				SI_Search();
+				alert("저장되었습니다.");
+			}
+        }
+    })
 }

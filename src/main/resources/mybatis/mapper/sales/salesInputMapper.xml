@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	 
+<mapper namespace="com.busience.salesLX.dao.SalesInputLXDao">
+	<select id="salesInputListDao" resultType="com.busience.standard.dto.ItemDto">
+		select PRODUCT_ITEM_CODE, PRODUCT_ITEM_NAME, PRODUCT_INFO_STND_1
+		from PRODUCT_INFO_TBL
+		where PRODUCT_MTRL_CLSFC = 28
+	</select>
+	
+	<update id="salesInputInsertDao">
+		insert into Sales_InMatLX_tbl(
+			Sales_InMat_Code, Sales_InMat_Qty, Sales_InMat_Date,
+			Sales_InMat_Rcv_Clsfc, Sales_InMat_dInsert_Time, Sales_InMat_Modifier
+			)values(
+			#{Sales_InMat_Code}, #{Sales_InMat_Qty}, now(),
+			#{Sales_InMat_Rcv_Clsfc}, now(), #{Sales_InMat_Modifier}
+			)
+	</update>
+	
+	<update id="salesInputUpdateDao">
+		update Sales_StockMatLX_tbl
+			set
+			Sales_SM_In_Qty = Sales_SM_In_Qty + #{Sales_InMat_Qty}
+			where Sales_SM_Code = #{Sales_InMat_Code}
+	</update>
+</mapper>
