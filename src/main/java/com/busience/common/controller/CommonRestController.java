@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.MenuDto;
+import com.busience.common.dto.TestCheckDto;
 import com.busience.common.service.MenuService;
 import com.busience.common.service.ProductionService;
+import com.busience.common.service.TestCheckService;
 import com.busience.standard.dto.DTL_TBL;
 
 @RestController
@@ -32,6 +34,9 @@ public class CommonRestController {
 	
 	@Autowired
 	ProductionService productionService;
+	
+	@Autowired
+	TestCheckService testCheckService;
 	
 	@Autowired
 	JdbcTemplate jdbctemplate;
@@ -164,5 +169,20 @@ public class CommonRestController {
 	@GetMapping("/menuList")
 	public List<MenuDto> menuList(Principal principal) {
 		return menuService.menuList(principal.getName());
+	}
+	
+	@GetMapping("/bsapp2")
+	public int test_insert(String equip,int value) {
+		TestCheckDto testCheckDto = new TestCheckDto();
+		testCheckDto.setIequip(equip);
+		testCheckDto.setIvalue(value);
+		
+		
+		return testCheckService.TestInsert(testCheckDto);
+	}
+
+	@GetMapping("/testCheck")
+	public List<TestCheckDto> testCheck() {
+		return testCheckService.TestCheckList();
 	}
 }
