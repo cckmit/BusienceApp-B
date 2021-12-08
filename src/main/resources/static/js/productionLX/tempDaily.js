@@ -174,10 +174,10 @@ function drawBackgroundColor() {
 	chart.draw(data, options);
 }
 
-window.onload = function(){
+$(document).ready(function() { 
 	Search();
 
 	$.get( "/tempDailyRest/History_Temp_BottomTop",function(data){
 		vminValue=data.split(",")[0],vmaxValue=data.split(",")[1];
 	});
-}
+});

@@ -2,6 +2,7 @@ package com.busience.materialLX.controller;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,9 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.busience.common.dto.DtlDto;
 import com.busience.common.service.DtlService;
-import com.busience.productionLX.dto.PRODUCTION_INFO_TBL;
 import com.busience.standard.dto.DTL_TBL;
+
 
 @Controller
 public class materialLXController {
@@ -190,6 +192,10 @@ public class materialLXController {
 				return data;
 			}
 		}));
+		
+		List<DtlDto> list3 = dtlService.getAlldtl(3);
+		model.addAttribute("list3",list3);
+		model.addAttribute("list3_flag",(list3.size() == 1)?"off":"on");
 		
 		return "normal/materialLX/matOutputLXTablet";
 	}

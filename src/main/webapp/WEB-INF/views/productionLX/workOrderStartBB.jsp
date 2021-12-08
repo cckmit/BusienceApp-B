@@ -187,7 +187,7 @@
 		</table>
 		
 		<div style="padding: 0px 50px 520px 50px; height: 90%;">
-			<div id="WorkOrder_tbl"></div>
+			<div id="WorkOrder_tbl" ></div>
 		</div>
 		
 

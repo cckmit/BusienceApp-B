@@ -168,7 +168,7 @@ public class tempDailyRestController {
 				sql += "SELECT\r\n"
 						+ "			TRUNCATE(AVG(Temp_Value),0) Temp_Value,\r\n"
 						+ "			Temp_No,\r\n"
-						+ (i==1?"DATE_FORMAT('"+StartTime+"','%y%m%d %H:%i') StartTime,\r\n":"			DATE_FORMAT(DATE_ADD('"+StartTime+"', INTERVAL "+(devideTime-initde)+" MINUTE),'%y%m%d %H:%i') StartTime,\r\n")
+						+ (i==1?"DATE_FORMAT('"+StartTime+"','%y-%m-%d %H:%i') StartTime,\r\n":"			DATE_FORMAT(DATE_ADD('"+StartTime+"', INTERVAL "+(devideTime-initde)+" MINUTE),'%y-%m-%d %H:%i') StartTime,\r\n")
 						+ "			DATE_ADD('"+StartTime+"', INTERVAL "+devideTime+" MINUTE) EndTime\r\n"
 						+ "FROM		Equip_Temperature_History t1\r\n"
 						+ "WHERE		t1.Temp_No = '"+request.getParameter("Temp_No")+"' AND\r\n"

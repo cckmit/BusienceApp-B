@@ -1,3 +1,4 @@
+<%@page import="com.busience.common.dto.DtlDto"%>
 <%@page import="com.busience.standard.dto.DTL_TBL"%>
 <%@page import="com.busience.productionLX.dto.PRODUCTION_INFO_TBL"%>
 <%@page import="java.util.List"%>
@@ -15,41 +16,129 @@
 	<style type="text/css">
 	.modal-dialog.modal-fullsize {
 	  width: 90%;
-	  height: 95%;
+	  height: 80%;
+	  margin-top: 85px;
 	}
 	.modal-content.modal-fullsize {
 	  height: auto;
 	  min-height: 100%;
 	  border-radius: 0; 
 	}
+	
+	.ModalTable .tabulator-col-content {
+	    background-color:rgb(112,173,70);
+	}
+	
+	.ModalTable .tabulator-col-title{
+		color:white;
+	}
 	</style>
 </head>
 <body>
 	<div class="modal fade" id="myFullsizeModal" tabindex="-1" role="dialog" aria-labelledby="myFullsizeModalLabel">
 	  <div class="modal-dialog modal-fullsize" role="document">
-	    <div class="modal-content modal-fullsize" style="height:100%;" >
-	       <div style="float: left; width: 30%; height:100%; border-color: 'black';overflow-y:scroll;">
+	    <div class="modal-content modal-fullsize"  style="height:100%;" >
+	       
+	       <div style="float: left; width: 28%; height:100%; border-color: 'black';overflow-y:scroll; padding: 10px;">
+	       	<ul class="list-group">
+	       		<li class="list-group-item" style="font-size: 35px; background-color:rgb(112,173,70);color: white;" id="bun1">품목분류</li>
+	       	</ul>
+	       	
 	       	<%
 	       		List<DTL_TBL> list1 = (List<DTL_TBL>)request.getAttribute("list1");
 	       		
 	       		for(int i=0;i<list1.size();i++)
 	       		{
+	       			if(i==0)
+	       			{
 	       	%>
 	       			<ul class="list-group">
-	       				<li class="list-group-item" style="font-size: 30px;"><%=list1.get(i).getCHILD_TBL_TYPE()%></li>
+	       				<li class="list-group-item" style="font-size: 35px;" onclick="list_click(this)" id="listone"><%=list1.get(i).getCHILD_TBL_TYPE()%></li>
+	       			</ul>
+	       	<%			
+	       			}
+	       			else
+	       			{
+	       	%>
+	       			<ul class="list-group">
+	       				<li class="list-group-item" style="font-size: 35px;" onclick="list_click(this)"><%=list1.get(i).getCHILD_TBL_TYPE()%></li>
 	       			</ul>
 	       	<%
+	       			}
 	       		}
 	       	%>
 	       </div>
 	       
+	       <div style="float: left; width: 0.8%; height:100%; border-color: 'black'; border-right-style:solid;">
+	       </div>
+	       
+	       <div style="float: left; width: 1.2%; height:100%; border-color: 'black'; border-right-style:solid; border-right-width:0.5px;">
+	       </div>
+	       
 	       <div style="float: left; width: 70%; height:100%; border-color: 'black'">
-	       		
+	       		<div id="itemManageTable" class="ModalTable"></div>
 	       </div>
 	    </div>
 	  </div>
 	</div> 
-
+	
+	<div class="modal fade" id="myFullsizeModal2" tabindex="-1" role="dialog" aria-labelledby="myFullsizeModalLabel">
+	  <div class="modal-dialog modal-fullsize" role="document">
+	    <div class="modal-content modal-fullsize" style="height:100%;" >
+	       
+	       <div style="float: left; width: 28%; height:100%; border-color: 'black';overflow-y:scroll; padding: 10px;">
+	       	<ul class="list-group">
+	       		<li class="list-group-item" style="font-size: 35px; background-color:rgb(112,173,70);color: white;" id="bun2">품목분류</li>
+	       	</ul>
+	       	
+	       	<%
+	       		List<DTL_TBL> list2 = (List<DTL_TBL>)request.getAttribute("list2");
+	       		
+	       		for(int i=0;i<list2.size();i++)
+	       		{
+	       			if(i==0)
+	       			{
+	       	%>
+	       			<ul class="list-group">
+	       				<li class="list-group-item" style="font-size: 35px;" onclick="list_click(this)" id="listtwo"><%=list2.get(i).getCHILD_TBL_TYPE()%></li>
+	       			</ul>
+	       	<%			
+	       			}
+	       			else
+	       			{
+	       	%>
+	       			<ul class="list-group">
+	       				<li class="list-group-item" style="font-size: 35px;" onclick="list_click(this)"><%=list2.get(i).getCHILD_TBL_TYPE()%></li>
+	       			</ul>
+	       	<%
+	       			}
+	       		}
+	       	%>
+	       </div>
+	       
+	       <div style="float: left; width: 0.8%; height:100%; border-color: 'black'; border-right-style:solid;">
+	       </div>
+	       
+	       <div style="float: left; width: 1.2%; height:100%; border-color: 'black'; border-right-style:solid; border-right-width:0.5px;">
+	       </div>
+	       
+	       <div style="float: left; width: 70%; height:100%; border-color: 'black'">
+	       		<div id="itemManageTable2" class="ModalTable"></div>
+	       </div>
+	    </div>
+	  </div>
+	</div> 
+	
+	<div class="modal fade" id="chModal" tabindex="-1" role="dialog" aria-labelledby="myFullsizeModalLabel">
+	  <div class="modal-dialog modal-fullsize" role="document" style="width:30%;">
+	    <div class="modal-content modal-fullsize" style="height:100%;" >
+	       
+	       <div style="float: left; width: 100%; height:100%; border-color: 'black';overflow-y:scroll; padding: 10px;">
+	       	<div id="itemManageTable3" class="ModalTable"></div>
+	       </div>
+	    </div>
+	  </div>
+	</div> 
 
 	<div style="width: 100%;height: 100%;position: absolute; border: solid; overflow:hidden;">
 		<table style="width: 100%;">
@@ -97,7 +186,7 @@
 								품&nbsp;명
 							</td>
 							<td rowspan="2" style="padding: 10px;">
-								<input readonly value="" class="form-control form-control-lg" type="text" id="pname" style="padding-right: 170px; font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:right;">
+								<input readonly value="" class="form-control form-control-lg" type="text" id="pname" style="font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:center;">
 							</td>
 						</tr>
 						<tr>
@@ -111,7 +200,7 @@
 									규&nbsp;격
 								</td>
 								<td rowspan="2" style="padding: 10px;">
-									<input readonly value="20KG" class="form-control form-control-lg" type="text" id="sum_qty" style="padding-right: 170px; font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:right;">
+									<input readonly value="" class="form-control form-control-lg" type="text" id="sum_qty" style="font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:center;">
 								</td>
 							</tr>
 							<tr>
@@ -131,7 +220,23 @@
 									출&nbsp;고&nbsp;처
 								</td>
 								<td rowspan="2" style="padding: 10px;">
-									<input readonly value="" class="form-control form-control-lg" type="text" id="" style="padding-right: 170px; font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:right;">
+									<%
+										String list3_flag = (String)request.getAttribute("list3_flag");
+										List<DtlDto> list3 = (List<DtlDto>)request.getAttribute("list3");
+									
+										if(list3_flag.equals("on"))
+										{
+									%>
+										<input id="chr" onclick="chrclick()" class="form-control form-control-lg" type="text" style="font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:center;">	
+									<%		
+										}
+										else
+										{
+									%>
+										<input id="chr" class="form-control form-control-lg" type="text" value="<%=list3.get(0).getCHILD_TBL_TYPE()%>" style="font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:center;">
+									<%		
+										}
+									%>
 								</td>
 							</tr>
 							<tr>
@@ -227,12 +332,19 @@
 									
 								</td>
 								
-								<td style="text-align: center; background: rgb(207,213,234);">
-									20Kg
+								<td style="text-align: center; background: rgb(207,213,234);" id="gu">
+									
 								</td>
 								
-								<td style="text-align: center; background: rgb(207,213,234);" id="dtselect2">
-									
+								<td style="text-align: center; background: rgb(207,213,234);" id="chr2">
+									<%
+										if(list3_flag.equals("on"))
+										{
+									%>
+										<%=list3.get(0).getCHILD_TBL_TYPE()%>
+									<%		
+										}
+									%>
 								</td>
 								
 								<td style="text-align: center; background: rgb(207,213,234);" id="d_len2">
@@ -246,6 +358,27 @@
 								<td style="text-align: center; background: rgb(207,213,234);" id="current_qty">
 									0
 								</td>
+								
+								
+								
+								<%
+										if(!list3_flag.equals("on"))
+										{
+								%>
+										<td style="text-align: center; background: rgb(207,213,234);" id="chr2" code="<%=list3.get(0).getCHILD_TBL_NO()%>">
+											<%=list3.get(0).getCHILD_TBL_TYPE()%>
+										</td>
+								<%		
+										}
+										else
+										{
+								%>
+										<td style="text-align: center; background: rgb(207,213,234);" id="chr2" code="">
+											
+										</td>
+								<%
+										}
+								%>
 							</tr>
 						</thead>
 					</table>
@@ -281,7 +414,7 @@
 		</table>
 		
 		<div style="padding: 0px 50px 520px 50px; height: 100%;">
-			<div id="WorkOrder_tbl"></div>
+			<div id="WorkOrder_tbl" style="font-size: 40px;"></div>
 		</div>
 		
 
@@ -305,19 +438,26 @@
 	<script src="/js/materialLX/matOutputLXTablet.js"></script>
 	
 	<script type="text/javascript">
+	flag = "one";
 	document.getElementById("<%=request.getAttribute("b1")%>").onclick = function(){
+		flag = "one";
 		document.getElementById("<%=request.getAttribute("b1")%>").style.background = "red";
 		document.getElementById("<%=request.getAttribute("b2")%>").style.background = "white";
 	}
 
 	document.getElementById("<%=request.getAttribute("b2")%>").onclick = function(){
+		flag = "bu";
 		document.getElementById("<%=request.getAttribute("b1")%>").style.background = "white";
 		document.getElementById("<%=request.getAttribute("b2")%>").style.background = "red";
 	}
 	</script>
 
 	<style>
-		.tabulator { font-size: 16px; }
+		#itemManageTable.tabulator { font-size: 60px; }
+		
+		#itemManageTable2.tabulator { font-size: 60px; }
+		
+		#itemManageTable3.tabulator { font-size: 40px; }
 	</style>
 </body>
 </html>

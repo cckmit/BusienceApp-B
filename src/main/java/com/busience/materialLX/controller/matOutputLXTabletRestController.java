@@ -2,6 +2,7 @@ package com.busience.materialLX.controller;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,9 +14,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.busience.common.dto.DtlDto;
+import com.busience.common.service.DtlService;
+import com.busience.standard.dto.DTL_TBL;
+import com.busience.standard.dto.PRODUCT_INFO_TBL;
+
 @RestController("matOutputLXTabletRestController")
-@RequestMapping("matOutputLXTabletRest")
+@RequestMapping("/tablet/matOutputLXTabletRest")
 public class matOutputLXTabletRestController {
+	
+	@Autowired
+	DtlService dtls;
 	
 	@Autowired
 	JdbcTemplate jdbctemplate;
@@ -52,13 +61,44 @@ public class matOutputLXTabletRestController {
 	{
 		String sql = "select SM_Last_Qty+SM_In_Qty-SM_Out_Qty cqty from StockMatLX_tbl WHERE SM_Code = ?";
 		
-		return jdbctemplate.queryForObject(sql, new RowMapper<String>() {
+		try
+		{
+			return jdbctemplate.queryForObject(sql, new RowMapper<String>() {
+
+				@Override
+				public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+					return rs.getString("cqty");
+				}
+			},request.getParameter("code"));
+		}
+		catch(Exception ex)
+		{
+			return "0";
+		}
+	}
+	
+	@RequestMapping(value = "/Current_List", method = RequestMethod.GET)
+	public List<PRODUCT_INFO_TBL> Current_List(HttpServletRequest request, Model model) {
+		//PRODUCT_ITEM_CLSFC_1
+		String sql = "SELECT *,t2.CHILD_TBL_TYPE FROM PRODUCT_INFO_TBL t1 INNER JOIN DTL_TBL t2 ON t1."+request.getParameter("CLSFC")+" = t2.CHILD_TBL_NO WHERE t2.CHILD_TBL_TYPE = '"+request.getParameter("value")+"'";
+		
+		return jdbctemplate.query(sql, new RowMapper() {
 
 			@Override
-			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return rs.getString("cqty");
+			public PRODUCT_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
+				PRODUCT_INFO_TBL data = new PRODUCT_INFO_TBL();
+				data.setPRODUCT_ITEM_CODE(rs.getString("PRODUCT_ITEM_CODE"));
+				data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
+				data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
+				data.setPRODUCT_UNIT_PRICE(rs.getInt("PRODUCT_UNIT_PRICE"));
+				return data;
 			}
-		},request.getParameter("code"));
+		});
+	}
+	
+	@RequestMapping(value = "/Out_List", method = RequestMethod.GET)
+	public List<DtlDto> Out_List(HttpServletRequest request, Model model){
+		return dtls.getAlldtl(3);
 	}
 	
 }
