@@ -4,7 +4,6 @@ var workOrder_EquipCode = null;
 
 var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 	height: "95%",
-	layout: "fitColumns",
 	placeholder: "No Data Set",
 	resizableColumns: false,
 	rowClick: function(e, row) {
@@ -20,16 +19,16 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 		//array[array.length - 1].setAttribute("disabled", '');
 	},
 	columns: [
-		{ title: "작업지시No", field: "workOrder_ONo", headerHozAlign: "center", width: 180 },
-		{ title: "제품코드", field: "workOrder_ItemCode", headerHozAlign: "center", width: 100 },
-		{ title: "제품이름", field: "workOrder_ItemName", headerHozAlign: "center", width: 180 },
-		{ title: "규격", field: "product_INFO_STND_1", headerHozAlign: "center", width: 100 },
+		{ title: "작업지시No", field: "workOrder_ONo", headerHozAlign: "center"},
+		{ title: "제품코드", field: "workOrder_ItemCode", headerHozAlign: "center"},
+		{ title: "제품이름", field: "workOrder_ItemName", headerHozAlign: "center"},
+		{ title: "규격", field: "product_INFO_STND_1", headerHozAlign: "center"},
 		{ title: "지시수량", field: "workOrder_PQty", headerHozAlign: "center", align: "right", width: 100, visible:false },
-		{ title: "작업지시일", field: "workOrder_OrderTime", align: "right", headerHozAlign: "center", width: 160},
-		{ title: "작업지시완료일", field: "workOrder_CompleteOrderTime", align: "right", headerHozAlign: "center", width: 160},
-		{ title: "접수일", field: "workOrder_ReceiptTime", align: "right", headerHozAlign: "center", width: 160},
-		{ title: "작업시작일", field: "workOrder_StartTime", align: "right", headerHozAlign: "center", width: 160},
-		{ title: "작업완료일", field: "workOrder_CompleteTime", align: "right", headerHozAlign: "center", width: 160}
+		{ title: "작업지시일", field: "workOrder_OrderTime", align: "right", headerHozAlign: "center"},
+		{ title: "작업지시완료일", field: "workOrder_CompleteOrderTime", align: "right", headerHozAlign: "center"},
+		{ title: "접수일", field: "workOrder_ReceiptTime", align: "right", headerHozAlign: "center"},
+		{ title: "작업시작일", field: "workOrder_StartTime", align: "right", headerHozAlign: "center"},
+		{ title: "작업완료일", field: "workOrder_CompleteTime", align: "right", headerHozAlign: "center"}
 	],
 });
 
@@ -121,6 +120,7 @@ function radio_select(value) {
 }
 
 $('input[type=radio][name=options1]').change(function() {
+
 	if (initData == null)
 		return;
 
@@ -207,6 +207,34 @@ $('input[type=radio][name=options1]').change(function() {
 	}
 });
 
+var totaldata = null;
+var viewdata = [];
+
+$('input[type=radio][name=options2]').change(function() {
+	id = this.id.slice(0, -1);
+	
+	//console.log(id);
+	
+	if(id === "all")
+	{
+		WorkOrder_tbl.setData(totaldata);
+	}
+	else
+	{
+		viewdata = [];
+	
+		for(i=0;i<totaldata.length;i++)
+		{
+			if(totaldata[i].workOrder_WorkStatus === id)
+			{
+				viewdata.push(totaldata[i]);
+			}
+		}
+		
+		WorkOrder_tbl.setData(viewdata);
+	}
+});
+
 window.onload = function() {
 	//var array = document.getElementsByName("options1");
 	//array[array.length - 1].setAttribute("disabled", '');
@@ -223,6 +251,7 @@ window.onload = function() {
 	*/
 
 	$.get("../workOrderTABRestXO/MI_Searchd2?WorkOrder_EquipCode="+document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
+		totaldata = data;
 		WorkOrder_tbl.setData(data);
 	});
 }
