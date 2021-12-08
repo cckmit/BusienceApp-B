@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.busience.common.dao.TestCheckDao">
+	<select id="TestCheckListDao" resultType="com.busience.common.dto.TestCheckDto">
+		select * from insert_test_tbl
+	</select>
+	
+	<insert id="TestInsertDao">
+		insert into insert_test_tbl (iequip, ivalue, idatetime) values( #{iequip}, #{ivalue}, now())
+	</insert>
+</mapper>

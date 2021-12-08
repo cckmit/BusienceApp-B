@@ -28,4 +28,9 @@ public class MainController {
 	public String pwchange() {
 		return "thymeleaf/pwChange";
 	}
+	
+	@GetMapping("/test_check")
+	public String test_check() {	
+		return "test_check";
+	}
 }
