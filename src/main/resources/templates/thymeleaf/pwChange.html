@@ -6,52 +6,44 @@
 <meta name="_csrf" th:content="${_csrf.token}"/>
 <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 <title>비지언스 MES</title>
-<link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/bs_main.css}">
 </head>
 <body>
-<div class="limiter">
-	<div class="container-login100">
-		<div class="wrap-login100">
-			<div class="login100-pic">
-				<img th:src="@{/images/logo/bsLogo2.png}">
+<div class="bs_limiter">
+	<div class="bs_container">
+		<div class="bs_wrap_login">
+			<div>
+				<span class="bs_login_title"><strong>Password Change</strong></span>
+
+				<div class="bs_wrap_input"  th:with="member=${#authentication.principal.member}">
+					<input class="bs_input" type="text" id="inputId" th:value='${member.USER_CODE}' readonly>
+					<span class="bs_symbol">
+						<i class="fas fa-id-badge" aria-hidden="true"></i>
+					</span>
+				</div>
+
+				<div class="bs_wrap_input">
+					<input class="bs_input" type="password" id="password" placeholder="변경할 비밀번호" autofocus>
+					<span class="bs_symbol">
+						<i class="fa fa-lock" aria-hidden="true"></i>
+					</span>
+				</div>
+				
+				<div class="bs_wrap_input">
+					<input class="bs_input" type="password" id="passwordCheck" placeholder="변경할 비밀번호 확인">
+					<span class="bs_symbol">
+						<i class="fa fa-lock" aria-hidden="true"></i>
+					</span>
+				</div>
+				
+				<div class="bs_wrap_button">
+					<button type="button" id="pwChangeBtn" class="bs_button">Password Change</button>
+				</div>
 			</div>
-
-			<span class="login100-form-title">Password Change</span>
-
-            <div class="wrap-input100 validate-input" th:with="member=${#authentication.principal.member}">
-                  <input class="input100" type="text" id="inputId" th:value='${member.USER_CODE}' readonly>
-
-                  <span class="focus-input100"></span>
-                  <span class="symbol-input100">
-                     <i class="fas fa-id-badge" aria-hidden="true"></i>
-                  </span>
-            </div>
-
-            <div class="wrap-input100 validate-input" >
-                  <input class="input100" type="password" id="password" placeholder="변경할 비밀번호">
-                  <span class="focus-input100"></span>
-                  <span class="symbol-input100">
-                     <i class="fa fa-lock" aria-hidden="true"></i>
-                  </span>
-            </div>
-            
-            <div class="wrap-input100 validate-input" >
-                  <input class="input100" type="password" id="passwordCheck" placeholder="변경할 비밀번호 확인">
-                  <span class="focus-input100"></span>
-                  <span class="symbol-input100">
-                     <i class="fa fa-lock" aria-hidden="true"></i>
-                  </span>
-            </div>
-               
-            <div class="container-login100-form-btn">
-                  <button type="button" class="login100-form-btn" id="pwChangeBtn">
-                     Password Change
-                  </button>
-            </div>
 		</div>
 	</div>
 </div>
-<script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
+<script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
 <script th:src="@{/webjars/font-awesome/5.15.4/js/all.min.js}"></script>
 <script th:src="@{/js/pwChange.js}"></script>
 </body>
