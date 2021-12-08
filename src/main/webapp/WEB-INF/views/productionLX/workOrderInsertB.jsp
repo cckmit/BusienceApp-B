@@ -75,18 +75,36 @@
 					</td>
 				</tr>
 			</table>
-
+			
 			<div style="padding: 5px; text-align: center;" class="btn-group-md" role="group" aria-label="Basic radio toggle button group" >
+				
+				<input type="radio" class="btn-check" name="options1Name" id="" value="" autocomplete="off"/>
+				<label class="btn btn-primary" name="labelOptions" style="background-color:rgb(112,173,70); color:white; font-size: 30px;" id="" for="">수정<br/>Modify</label>
+				
 				<c:forEach var="item" items="${list2}">
 					<input type="radio" class="btn-check" name="options1" id="${item.CHILD_TBL_NO}" value="${item.CHILD_TBL_NO}" autocomplete="off"/>
 					<label class="btn btn-primary" name="labelOptions" style="border-color: rgb(246, 177, 148); background-color: rgb(237, 237, 237); font-size: 30px; color: black;" id="${item.CHILD_TBL_NO}c" for="${item.CHILD_TBL_NO}">${item.CHILD_TBL_TYPE}</label>
+				</c:forEach>
+			</div> 
+			
+			<div style="padding: 5px; text-align: center;" class="btn-group-md" role="group" aria-label="Basic radio toggle button group" >
+				
+				<input type="radio" class="btn-check" name="options2Name" id="g1s" value="" autocomplete="off" checked/>
+				<label class="btn btn-primary" name="labelOptions2" style="background-color:rgb(112,173,70); color:white; font-size: 30px;" id="" for="g1s">조회<br/>Select</label>
+				
+				<input type="radio" class="btn-check" name="options2" id="alls" value="" autocomplete="off"/>
+				<label class="btn btn-primary" name="labelOptions2" style="border-color: rgb(246, 177, 148); background-color: rgb(237, 237, 237); color:black; font-size: 30px;" id="" for="alls">전체<br/>ALL</label>
+				
+				<c:forEach var="item" items="${list2}">
+					<input type="radio" class="btn-check" name="options2" id="${item.CHILD_TBL_NO}s" value="" autocomplete="off"/>
+					<label class="btn btn-primary" name="labelOptions2" style="border-color: rgb(246, 177, 148); background-color: rgb(237, 237, 237); font-size: 30px; color: black;" id="${item.CHILD_TBL_NO}s" for="${item.CHILD_TBL_NO}s">${item.CHILD_TBL_TYPE}</label>
 				</c:forEach>
 			</div> 
 
 			<br/>
         	<input id="startDate" class="today" type="hidden" style="width: 230px; height: 50px; font-size: 30px;"> 
 			<input id="endDate" class="tomorrow" type="hidden" style="width: 230px; height: 50px; font-size: 30px;">
-			<div id="WorkOrder_tbl" style="height: 100%;padding: 0px 50px 390px 50px;"></div>    
+			<div id="WorkOrder_tbl" style="height: 100%;padding: 0px 50px 490px 50px; font-size: 22.75px;"></div>    
 			
         </div>
 

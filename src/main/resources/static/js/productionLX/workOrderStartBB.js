@@ -8,22 +8,22 @@
 			rowClick: function(e, row) {
 			},
 			columns: [
-				{ title: "작업지시번호", field: "workOrder_ONo", headerHozAlign: "center", width: 180 },
-				{ title: "제품코드", field: "workOrder_ItemCode", headerHozAlign: "center", width: 100 },
-				{ title: "제품이름", field: "workOrder_ItemName", headerHozAlign: "center", width: 180 },
-				{ title: "규격", field: "product_INFO_STND_1", headerHozAlign: "center", width: 100 },
+				{ title: "작업지시번호", field: "workOrder_ONo", headerHozAlign: "center"},
+				{ title: "제품코드", field: "workOrder_ItemCode", headerHozAlign: "center"},
+				{ title: "제품이름", field: "workOrder_ItemName", headerHozAlign: "center"},
+				{ title: "규격", field: "product_INFO_STND_1", headerHozAlign: "center"},
 				{ title: "목표량", field: "workOrder_PQty", headerHozAlign: "center", width: 100, align: "right",
 					formatter:function(cell, formatterParams, onRendered){
 						return cell.getValue() == null ? cell.getValue() :  cell.getValue().slice(0,-2); //return the contents of the cell;
 					},
 					visible:false
 				},
-				{ title: "생산량", field: "workOrder_RQty", headerHozAlign: "center", width: 100, align: "right",
+				{ title: "생산량", field: "workOrder_RQty", headerHozAlign: "center", align: "right",
 					formatter:"money", formatterParams: {precision: false}
 				},
-				{ title: "작업시작일", field: "workOrder_StartTime", align: "right", headerHozAlign: "center", width: 160},
-				{ title: "작업완료일", field: "workOrder_CompleteTime", align: "right", headerHozAlign: "center", width: 160},
-				{ title: "특이사항", field: "workOrder_Remark", align: "right", headerHozAlign: "center"}
+				{ title: "작업시작일", field: "workOrder_StartTime", align: "right", headerHozAlign: "center"},
+				{ title: "작업완료일", field: "workOrder_CompleteTime", align: "right", headerHozAlign: "center"},
+				{ title: "특이사항", field: "workOrder_Remark", align: "right", headerHozAlign: "center",visible:false}
 			],
 		});
 
