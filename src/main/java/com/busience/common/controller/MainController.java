@@ -29,6 +29,12 @@ public class MainController {
 		return "thymeleaf/pwChange";
 	}
 	
+	@GetMapping("/labelPrint")
+	public String labelPrint(Model model) {
+		model.addAttribute("pageName", "프린트 테스트");	
+		return "labelPrint";
+	}
+		
 	@GetMapping("/test_check")
 	public String test_check() {	
 		return "test_check";
