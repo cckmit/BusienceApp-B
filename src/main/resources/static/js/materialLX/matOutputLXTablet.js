@@ -237,8 +237,8 @@ var itemManageTable = new Tabulator("#itemManageTable",	{
 			});
 		},
 		columns: [
-			{ title: "제품이름", field: "product_ITEM_NAME", headerSort:false, headerHozAlign:"center",width:550},
-			{ title: "규격", field: "product_INFO_STND_1", headerSort:false, headerHozAlign:"center"}
+			{ title: "규격", field: "product_INFO_STND_1", headerSort:false, headerHozAlign:"center",width:300},
+			{ title: "제품이름", field: "product_ITEM_NAME", headerSort:false, headerHozAlign:"center"}
 		]
 });
 

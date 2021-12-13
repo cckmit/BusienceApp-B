@@ -222,6 +222,7 @@ public class workOrderRestController {
 
 	@RequestMapping(value = "/MO_Save", method = RequestMethod.GET)
 	public String MO_Save(HttpServletRequest request) throws org.json.simple.parser.ParseException, SQLException {
+		
 		String originData = request.getParameter("data");
 		
 		JSONParser parser = new JSONParser();
@@ -339,8 +340,9 @@ public class workOrderRestController {
 			conn.commit();
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
-			conn.setAutoCommit(true);
+			conn.setAutoCommit(false);
 			conn.rollback();
+			conn.setAutoCommit(true);
 		} finally {
 			if (rs != null)
 				rs.close();

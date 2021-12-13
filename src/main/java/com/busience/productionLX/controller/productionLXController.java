@@ -440,4 +440,9 @@ public class productionLXController {
 		return "normal/productionLX/tempStatusControl";
 	}
 	
+	@GetMapping("/tablet/MaterialInput")
+	public String MaterialInput(Model model) {
+		return "normal/productionLX/MaterialInput";
+	}
+	
 }

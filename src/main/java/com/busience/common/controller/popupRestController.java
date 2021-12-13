@@ -129,7 +129,7 @@ public class popupRestController {
 					+ " PRODUCT_INFO_STND_1,\r\n"
 					+ " PRODUCT_UNIT_PRICE\r\n"
 					+ " from PRODUCT_INFO_TBL\r\n"
-					+ " where (PRODUCT_ITEM_CODE like '%" + item_Word + "%' or PRODUCT_ITEM_NAME like '%" + item_Word + "%')\r\n"
+					+ " where (PRODUCT_ITEM_CODE like '%" + item_Word.trim() + "%' or PRODUCT_ITEM_NAME like '%" + item_Word + "%')\r\n"
 					+ " and PRODUCT_USE_STATUS='true'"
 					+ " and PRODUCT_MTRL_CLSFC in ("+terms+")";
 			
@@ -189,7 +189,7 @@ public class popupRestController {
 					+ " PRODUCT_INFO_STND_1,\r\n"
 					+ " PRODUCT_UNIT_PRICE\r\n"
 					+ " from PRODUCT_INFO_TBL\r\n"
-					+ " where PRODUCT_INFO_STND_1 like '%" + item_Word + "%'\r\n"
+					+ " where PRODUCT_INFO_STND_1 like '%" + item_Word.trim() + "%'\r\n"
 					+ " and PRODUCT_USE_STATUS='true'"
 					+ " and PRODUCT_MTRL_CLSFC in ("+terms+")";
 			

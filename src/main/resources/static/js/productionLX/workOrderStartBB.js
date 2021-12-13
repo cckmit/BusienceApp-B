@@ -28,10 +28,7 @@
 		});
 
 		var itemPopupTableModal = new Tabulator("#itemPopupTableModal", {
-			//페이징
-			pagination: "local",
-			paginationSize: 8,
-			paginationAddRow: "table",
+			layout:"fitDataStretch",
 			height:"100%",
 			rowTap:function(e, row){
 				
@@ -99,6 +96,7 @@
 					itemPopupTableModal.deselectRow();
 				}
 			},
+			/* 
 			rowFormatter:function(row){
 				var element = row.getElement(),
 				data = row.getData(),
@@ -136,11 +134,13 @@
 				//append newly formatted contents to the row
 				element.append(rowTable);
 			},
+			*/
 			columns:[ 
-			{title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center", visible:false},
-			{title:"품목코드", field:"product_ITEM_CODE", headerHozAlign:"center", visible:false},
-			{title:"품목이름", field:"product_ITEM_NAME", headerHozAlign:"center", visible:false},
-			{title:"규격", field:"product_INFO_STND_1", headerHozAlign:"center", visible:false}
+			{title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center", visible:true},
+			{title:"규격", field:"product_INFO_STND_1", headerHozAlign:"center", visible:true},
+			{title:"품목코드", field:"product_ITEM_CODE", headerHozAlign:"center", visible:true},
+			{title:"품목이름", field:"product_ITEM_NAME", headerHozAlign:"center", visible:true}
+			
 			]
 		});
 
@@ -218,32 +218,30 @@
 
 		var flag = "";
 
-		document.getElementById("n_len").onkeydown = function(){
-			if(event.keyCode==13)
-			{
-				event.preventDefault();
-				$('#testModal').modal("show");
+		document.getElementById("n_len").onclick = function(){
+			$('#testModal').modal("show");
 
-				document.getElementById("Item_Word").value = document.getElementById("n_len").value;
+			document.getElementById("n_len").value = "";
+			document.getElementById("o_len").value = "";
 
-				search();
+			document.getElementById("Item_Word").value = "";
 
-				flag = "v";
-			}
+			search();
+
+			flag = "v";
 		}
 
-		document.getElementById("o_len").onkeydown = function(){
-			if(event.keyCode==13)
-			{
-				event.preventDefault();
-				$('#testModal').modal("show");
+		document.getElementById("o_len").onclick = function(){
+			$('#testModal').modal("show");
 
-				document.getElementById("Item_Word").value = document.getElementById("o_len").value;
+			document.getElementById("n_len").value = "";
+			document.getElementById("o_len").value = "";
 
-				search2();
+			document.getElementById("Item_Word").value = "";
 
-				flag = "n";
-			}
+			search();
+
+			flag = "n";
 		}
 
 		document.getElementById("Item_Word").onkeydown = function(){

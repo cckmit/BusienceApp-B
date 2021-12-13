@@ -10,6 +10,7 @@
 	<link rel="manifest" href="/json/manifest.json">
 </head>
 <body>
+	
 	<div id="testModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	  <div class="modal-dialog modal-lg">
 	    <div class="modal-content">
@@ -25,7 +26,7 @@
 	      </div>
 	      
 	      <div class="modal-body" style="height: 400px;">
-			<div  id="itemPopupTableModal"></div>
+			<div  id="itemPopupTableModal" style="font-size: 30px;"></div>
 	      </div>
 	    </div>
 	  </div>
