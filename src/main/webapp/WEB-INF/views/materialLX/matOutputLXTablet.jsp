@@ -38,8 +38,17 @@
 	<div class="modal fade" id="myFullsizeModal" tabindex="-1" role="dialog" aria-labelledby="myFullsizeModalLabel">
 	  <div class="modal-dialog modal-fullsize" role="document">
 	    <div class="modal-content modal-fullsize"  style="height:100%;" >
+	    
+	    	<div style="height:10%; padding: 10px; border-bottom: solid;">
+		       	<div class="form-group row">
+				<label for="staticEmail" class="col-sm-2 col-form-label"><strong style="font-size: 40px;">검색</strong></label>
+				<div class="col-sm-5" style="padding-top: 5px;">
+					<input class="form-control form-control-lg" type="text" style="height: 50px; font-size: 35px;" id="Item_Word">
+				</div>
+				</div>
+	    	</div>
 	       
-	       <div style="float: left; width: 28%; height:100%; border-color: 'black';overflow-y:scroll; padding: 10px;">
+	       <div style="float: left; width: 28%; height:90%; border-color: 'black';overflow-y:scroll; padding: 10px;">
 	       	<ul class="list-group">
 	       		<li class="list-group-item" style="font-size: 35px; background-color:rgb(112,173,70);color: white;" id="bun1">품목분류</li>
 	       	</ul>
@@ -69,13 +78,13 @@
 	       	%>
 	       </div>
 	       
-	       <div style="float: left; width: 0.8%; height:100%; border-color: 'black'; border-right-style:solid;">
+	       <div style="float: left; width: 0.8%; height:90%; border-color: 'black'; border-right-style:solid;">
 	       </div>
 	       
-	       <div style="float: left; width: 1.2%; height:100%; border-color: 'black'; border-right-style:solid; border-right-width:0.5px;">
+	       <div style="float: left; width: 1.2%; height:90%; border-color: 'black'; border-right-style:solid; border-right-width:0.5px;">
 	       </div>
 	       
-	       <div style="float: left; width: 70%; height:100%; border-color: 'black'">
+	       <div style="float: left; width: 70%; height:90%; border-color: 'black'">
 	       		<div id="itemManageTable" class="ModalTable"></div>
 	       </div>
 	    </div>
