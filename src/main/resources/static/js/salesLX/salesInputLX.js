@@ -167,7 +167,9 @@ var salesInputSubTable = new Tabulator("#salesInputSubTable", {
 });
 
 $("#SI_SaveBtn").click(function(){
-	SI_Save();
+	if(confirm("저장하시겠습니까?")){
+		SI_Save();	
+	}
 })
 
 function SI_Save(){
@@ -201,8 +203,9 @@ function SI_Save(){
             if (result == 0) {
 				alert("중복된 값이 있습니다..");
 			} else if (result == 1) {
-				SI_Search();
 				alert("저장되었습니다.");
+				SI_Search();
+				salesInputSubTable.clearData();
 			}
         }
     })

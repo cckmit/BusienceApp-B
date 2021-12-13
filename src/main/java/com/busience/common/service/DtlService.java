@@ -26,7 +26,7 @@ public class DtlService {
 	
 	// 코드 조건으로 조회
 	public List<DtlDto> getAlldtl(int NEW_TBL_CODE) {
-		final List<DtlDto> dtlList = dtlDao.findByCode(NEW_TBL_CODE);
+		final List<DtlDto> dtlList = dtlDao.findAllByCode(NEW_TBL_CODE);
         return dtlList;
 	}
 	

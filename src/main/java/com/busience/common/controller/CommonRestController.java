@@ -16,10 +16,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.busience.common.dto.DtlDto;
 import com.busience.common.dto.MenuDto;
 import com.busience.common.dto.TestCheckDto;
+import com.busience.common.service.DtlService;
 import com.busience.common.service.MenuService;
-import com.busience.common.service.ProductionService;
 import com.busience.common.service.TestCheckService;
 import com.busience.standard.dto.DTL_TBL;
 
@@ -33,7 +34,7 @@ public class CommonRestController {
 	DataSource dataSource;
 	
 	@Autowired
-	ProductionService productionService;
+	DtlService dtlService;
 	
 	@Autowired
 	TestCheckService testCheckService;
@@ -43,32 +44,10 @@ public class CommonRestController {
 	
 	// 공통코드 찾기
 	@GetMapping("/dtl_tbl_select")
-	public List<DTL_TBL> dtl_tbl_select(HttpServletRequest request) throws SQLException {
-		String sql = "select * from DTL_TBL where NEW_TBL_CODE='"+request.getParameter("NEW_TBL_CODE")+"' order by CHILD_TBL_NUM*1";
-		//System.out.println(request.getParameter("NEW_TBL_CODE"));
-		Connection conn = dataSource.getConnection();
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		ResultSet rs = pstmt.executeQuery();
-		
-		List<DTL_TBL> deptList = new ArrayList<DTL_TBL>();
-		
-		while (rs.next()) {
-			DTL_TBL data =new DTL_TBL();
-			data.setCHILD_TBL_NO(rs.getString("CHILD_TBL_NO"));
-			data.setNEW_TBL_CODE(rs.getString("NEW_TBL_CODE"));
-			data.setCHILD_TBL_NUM(rs.getString("CHILD_TBL_NUM"));
-			data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
-			data.setCHILD_TBL_RMARK(rs.getString("CHILD_TBL_RMARK"));
-			data.setCHILD_TBL_USE_STATUS(rs.getString("CHILD_TBL_USE_STATUS"));
-			deptList.add(data);
-		}
-		
-		rs.close();
-		pstmt.close();
-		conn.close();
-		
-		return deptList;
+	public List<DtlDto> dtl_tbl_select(HttpServletRequest request) throws SQLException {
+		return dtlService.getAlldtl(Integer.parseInt(request.getParameter("NEW_TBL_CODE")));
 	}
+	
 	// 공통코드 찾기
 	@GetMapping(value = "/manager_select")
 	public List<DTL_TBL> manager_select(HttpServletRequest request) throws SQLException {

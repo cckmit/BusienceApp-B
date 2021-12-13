@@ -3,41 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <title>비지언스 MES</title>
-<link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/bs_main.css}">
 </head>
 <body>
-<div class="limiter">
-	<div class="container-login100">
-		<div class="wrap-login100">
-			<div class="login100-pic">
+<div class="bs_limiter">
+	<div class="bs_container">
+		<div class="bs_wrap_login">
+			<div class="bs_pic">
 				<img th:src="@{/images/logo/companyLogo.png}">
 			</div>
-
 			<form method="post">
-				<span class="login100-form-title"><strong> Member Login </strong></span>
+				<span class="bs_login_title"><strong> Member Login </strong></span>
 
-				<div class="wrap-input100 validate-input">
-					<input class="input100" type="text" id="username" name="username" placeholder="id">
-					<span class="focus-input100"></span>
-					<span class="symbol-input100">
+				<div class="bs_wrap_input">
+					<input class="bs_input" type="text" id="username" name="username" placeholder="id" autofocus>
+					<span class="bs_symbol">
 						<i class="fas fa-id-badge" aria-hidden="true"></i>
 					</span>
 				</div>
 
-				<div class="wrap-input100 validate-input">
-					<input class="input100" type="password" id="password" name="password" placeholder="password">
-					<span class="focus-input100"></span>
-					<span class="symbol-input100">
+				<div class="bs_wrap_input">
+					<input class="bs_input" type="password" id="password" name="password" placeholder="password">
+					<span class="bs_symbol">
 						<i class="fa fa-lock" aria-hidden="true"></i>
 					</span>
 				</div>
 				<div th:if="${param.error}">
-					<p style="color:red; text-align:center;" th:text="${errorMessage}">
+					<pre style="color:red; text-align:center;" th:text="${errorMessage}"></pre>
 				</div>
 				
-				<div class="container-login100-form-btn">
+				<div class="bs_wrap_button">
 					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-					<button type="submit" class="login100-form-btn">Login</button>
+					<button type="submit" class="bs_button">Login</button>
 				</div>
 			</form>
 		</div>

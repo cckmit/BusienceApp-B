@@ -29,4 +29,8 @@
 
 <script src="/js/xlsx.full.min.js"></script>
 
+<script src="/js/BrowserPrint-3.0.216.min.js"></script>
+
+<script src="/js/BrowserPrint-Zebra-1.0.216.min.js"></script>
+
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>

@@ -10,7 +10,7 @@ import com.busience.common.dto.DtlDto;
 @Mapper
 public interface DtlDao {
 	
-	public List<DtlDto> findAll();
+	public List<DtlDto> findAllByCode(@Param("NEW_TBL_CODE") int NEW_TBL_CODE);
 	
 	// 세부 테이블 정보 조회
 	public List<DtlDto> findByCode(@Param("NEW_TBL_CODE") int NEW_TBL_CODE);
