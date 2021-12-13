@@ -101,7 +101,6 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
       		editorParams:{values:dtl_arr}
 			,cellEdited: function(cell)
 			{
-				debugger;
 
 				//Right_Move(cell,"right");
 				console.log(cell.getValue());

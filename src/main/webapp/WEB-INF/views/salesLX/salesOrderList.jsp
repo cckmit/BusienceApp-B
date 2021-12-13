@@ -46,7 +46,7 @@
 						<!-- 버튼 -->
 						<div class="input-button" style="height: 73.13px">
 							<div>
-								<span><strong>발주일 기준</strong></span>
+								<span><strong>수주일 기준</strong></span>
 							</div>
 							<div>
 								<span style="background-color: green; color: white;"><strong>3개월 이상</strong></span>&nbsp;&nbsp;
