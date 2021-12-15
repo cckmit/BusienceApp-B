@@ -35,8 +35,8 @@ public class MainController {
 		return "labelPrint";
 	}
 		
-	@GetMapping("test_check")
+	@GetMapping("/test_check")
 	public String test_check() {	
-		return "normal/test_check";
+		return "test_check";
 	}
 }
