@@ -31,7 +31,7 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 							url: "product_check?PRODUCT_ITEM_CODE=" + cell.getValue(),
 							dataType: "json",
 							success: function(data) {
-								console.log("쿼리실행");
+								//console.log("쿼리실행");
 								if (data.length == 1) {
 									//검색어와 일치하는값이 있는경우
 									var today = new Date();
@@ -77,7 +77,6 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 							url: "product_check?PRODUCT_ITEM_CODE=" + cell.getValue(),
 							dataType: "json",
 							success: function(data) {
-								console.log("쿼리실행");
 								if (data.length == 1) {
 									//검색어와 일치하는값이 있는경우
 									var today = new Date();
@@ -126,8 +125,6 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 							url: "equipment_check?EQUIPMENT_INFO_CODE=" + cell.getValue(),
 							dataType: "json",
 							success: function(data) {
-								console.log("쿼리실행");
-								console.log(data);
 								if (data.length == 1) {
 									//검색어와 일치하는값이 있는경우
 									cell.getRow().update({
@@ -157,8 +154,6 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 							url: "equipment_check?EQUIPMENT_INFO_CODE=" + cell.getValue(),
 							dataType: "json",
 							success: function(data) {
-								console.log("쿼리실행");
-								console.log(data);
 								if (data.length == 1) {
 									//검색어와 일치하는값이 있는경우
 									cell.getRow().update({
@@ -195,7 +190,6 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 		{ title: "작업지시일", field: "workOrder_OrderTime", align: "right", headerHozAlign: "center", editor:"input", width: 160
 			,cellEdited: function(cell)
 			{
-				console.log("cellEdited");
 
 				WorkOrder_tbl_workOrder_ItemName_cell = cell;
 				Date_Check(cell);
@@ -203,7 +197,6 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 			}
 			, cellEditCancelled: function(cell)
 			{
-				console.log("cellEditCancelled");
 
 				WorkOrder_tbl_workOrder_ItemName_cell = cell;
 				Date_Check(cell);
@@ -276,8 +269,8 @@ function Search(){
 		dataType : "json",
 		url : "workOrderRest/MI_Search3?data="+ encodeURI(JSON.stringify(data)),
 		success : function(data) {
-			//console.log("MI");
-			console.log(data);
+			////console.log("MI");
+			//console.log(data);
 			
 			for(i=0;i<data.length;i++)
 				data[i].index1 = i;
@@ -329,7 +322,6 @@ var cellElement = null;
 
 function Date_Check(cell)
 {
-	console.log(cellElement);
 
 	cellElement = cell.getElement();
 	
@@ -369,8 +361,8 @@ function Date_Check(cell)
 				dataType : "json",
 				url : "workOrderRest/MI_Search2?data="+ encodeURI(JSON.stringify(data)),
 				success : function(data) {
-					//console.log("MI");
-					console.log(data);
+					////console.log("MI");
+					//console.log(data);
 					Sales_OrderMaster_tbl.clearData();
 					Sales_OrderMaster_tbl.setData(data);
 				}
@@ -425,6 +417,8 @@ $('#FI_SaveBtn').click(function(){
 			return;
 		}
 	}
+	
+	console.log(selectedData);
 	
 	$.ajax({
 		method : "GET",
@@ -540,7 +534,7 @@ function item_gridInit(PCode, PName, PSTND_1, PPrice, SaveV)
 		});
 	}
 	
-	console.log(WorkOrder_tbl_workOrder_ItemName_cell.getRow().getData());
+	//console.log(WorkOrder_tbl_workOrder_ItemName_cell.getRow().getData());
 	
 	data = {
 		Sales_Order_lCode: PCode,
@@ -552,8 +546,8 @@ function item_gridInit(PCode, PName, PSTND_1, PPrice, SaveV)
 		dataType : "json",
 		url : "workOrderRest/MI_Search2?data="+ encodeURI(JSON.stringify(data)),
 		success : function(data) {
-			//console.log("MI");
-			console.log(data);
+			////console.log("MI");
+			//console.log(data);
 			Sales_OrderMaster_tbl.clearData();
 			Sales_OrderMaster_tbl.setData(data);
 		}

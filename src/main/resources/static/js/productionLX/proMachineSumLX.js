@@ -12,6 +12,8 @@ function Search() {
 	var jsonData = {
 		startDate : $('#startDate').val(),
 		endDate : $('#endDate').val(),
+		MachineCode : $('#EQUIPMENT_INFO_CODE').val(),
+		MachineName : $('#EQUIPMENT_INFO_NAME').val(),
 		EQUIPMENT_INFO_CODE : $('#EQUIPMENT_INFO_CODE').val(),
 		EQUIPMENT_INFO_NAME : $('#EQUIPMENT_INFO_NAME').val()
 	}
@@ -30,7 +32,7 @@ $('#EQUIPMENT_INFO_NAME').keypress(function(e){
 		//내용이 있을경우 검색해서 값이 하나일경우 생략, 아닐경우 팝업창
 		$.ajax({
 			method: "GET",
-			url: "product_check?PRODUCT_ITEM_CODE=" + value,
+			url: "equipment_check?EQUIPMENT_INFO_CODE=" + value,
 			dataType: "json",
 			success: function(data) {
 				if (data.length == 1) {
@@ -39,7 +41,7 @@ $('#EQUIPMENT_INFO_NAME').keypress(function(e){
 					$('#EQUIPMENT_INFO_NAME').val(data[0].equipment_INFO_NAME)
 				} else {
 					//검색어와 일치하는값이 없는경우, 팝업창
-					machinePopup(value,'input','','sales')
+					machinePopup(value,'input','')
 				}
 			}
 		})

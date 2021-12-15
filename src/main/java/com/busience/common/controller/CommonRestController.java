@@ -77,10 +77,9 @@ public class CommonRestController {
 		return managerList;
 	}
 	
-	@GetMapping("/tablet/productAdd")
-	public void productAdd(HttpServletRequest request) {
-		String equip_code = request.getParameter("equip_code");
-		String count = request.getParameter("count");
+	public void productAdd(String equip,int value) {
+		String equip_code = equip;
+		int count = value;
 		
 		try
 		{
@@ -155,7 +154,7 @@ public class CommonRestController {
 		TestCheckDto testCheckDto = new TestCheckDto();
 		testCheckDto.setIequip(equip);
 		testCheckDto.setIvalue(value);
-		
+		productAdd(equip, value);
 		
 		return testCheckService.TestInsert(testCheckDto);
 	}
