@@ -159,7 +159,7 @@ public class CommonRestController {
 		return testCheckService.TestInsert(testCheckDto);
 	}
 
-	@GetMapping("/testCheck")
+	@GetMapping("tablet/testCheck")
 	public List<TestCheckDto> testCheck() {
 		return testCheckService.TestCheckList();
 	}
