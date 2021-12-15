@@ -1,5 +1,5 @@
 		var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
-			height:"51%",
+			height:"40%",
 			placeholder: "No Data Set",
 			resizableColumns: false,
 			rowClick: function(e, row) {
@@ -254,7 +254,7 @@
 		var itemPopupTableModal = new Tabulator("#itemPopupTableModal", {
 			layout:"fitDataStretch",
 			height:"100%",
-			rowTap:function(e, row){
+			rowDblTap:function(e, row){
 				itemPopupTableModal.deselectRow();
 
 				document.getElementById("n_len").value = row.getData().product_ITEM_NAME;
@@ -302,10 +302,10 @@
 			},
 			*/
 			columns:[ 
-			{title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center", visible:true},
-			{title:"규격", field:"product_INFO_STND_1", headerHozAlign:"center", visible:true},
-			{title:"품목코드", field:"product_ITEM_CODE", headerHozAlign:"center", visible:true},
-			{title:"품목이름", field:"product_ITEM_NAME", headerHozAlign:"center", visible:true}
+			{title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center", visible:true, resizable:false},
+			{title:"규격", field:"product_INFO_STND_1", headerHozAlign:"center", visible:true, resizable:false},
+			{title:"품목코드", field:"product_ITEM_CODE", headerHozAlign:"center", visible:true, resizable:false},
+			{title:"품목이름", field:"product_ITEM_NAME", headerHozAlign:"center", visible:true, resizable:false}
 			
 			]
 		});

@@ -68,13 +68,13 @@
 					    height:"100%",
 					    resizableColumns:false,
 					    columns:[
-					        {title:"작업지시번호", field:"workOrder_ONo",visible:true, headerSort:false, width: 200, headerHozAlign: "center"},
-					        { title: "제품이름", field: "workOrder_ItemName", headerHozAlign: "center", width: 180, headerSort:false },
-					        { title: "생산량", field: "workOrder_RQty", headerHozAlign: "center", width: 100, align: "right",
+					    	{title:"작업지시번호", field:"workOrder_ONo",visible:false, headerSort:false, width: 170, headerHozAlign: "center"},
+					        { title: "제품이름", field: "workOrder_ItemName", headerHozAlign: "center", width: 150, headerSort:false },
+					        { title: "생산", field: "workOrder_RQty", headerHozAlign: "center", width: 60, align: "right",
 								formatter:"money", formatterParams: {precision: false}, headerSort:false,visible:true
 							},
-							{ title: "작업시작일", field: "workOrder_StartTime", align: "right", headerHozAlign: "center", width: 160,visible:true, headerSort:false},
-							{ title: "작업완료일", field: "workOrder_CompleteTime", align: "right", headerHozAlign: "center", width: 160, headerSort:false},
+							{ title: "작업시작일", field: "workOrder_StartTime", align: "right", headerHozAlign: "center", width: 140,visible:true, headerSort:false},
+							{ title: "작업완료일", field: "workOrder_CompleteTime", align: "right", headerHozAlign: "center", width: 108, headerSort:false,visible:true},
 							{ title: "특이사항", field: "workOrder_Remark", align: "right", headerHozAlign: "center",visible:false, headerSort:true}
 					    ],
 					});

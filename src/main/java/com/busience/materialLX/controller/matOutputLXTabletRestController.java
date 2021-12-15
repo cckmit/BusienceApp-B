@@ -101,4 +101,26 @@ public class matOutputLXTabletRestController {
 		return dtls.getAlldtl(3);
 	}
 	
+	@RequestMapping(value = "/Out_Clsfc", method = RequestMethod.GET)
+	public PRODUCT_INFO_TBL Out_Clsfc(HttpServletRequest request, Model model){
+		String sql = "SELECT t1.*,t2.CHILD_TBL_TYPE FROM PRODUCT_INFO_TBL t1 INNER JOIN DTL_TBL t2 ON t1."+request.getParameter("PRODUCT_ITEM_CLSFC")+" = t2.CHILD_TBL_NO WHERE PRODUCT_ITEM_NAME LIKE '%"+request.getParameter("PRODUCT_ITEM_NAME")+"%' LIMIT 1";
+		
+		try {
+			return jdbctemplate.queryForObject(sql, new RowMapper<PRODUCT_INFO_TBL>() {
+
+				@Override
+				public PRODUCT_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
+					PRODUCT_INFO_TBL data = new PRODUCT_INFO_TBL();
+					data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
+					data.setPRODUCT_ITEM_CLSFC_1(rs.getString("CHILD_TBL_TYPE"));
+					return data;
+				}
+			});
+		}
+		catch(Exception ex)
+		{
+			return null;
+		}
+	}
+	
 }

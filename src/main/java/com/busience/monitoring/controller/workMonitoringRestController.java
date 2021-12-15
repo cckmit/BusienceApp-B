@@ -117,7 +117,9 @@ public class workMonitoringRestController {
 				data.setWorkOrder_No(rs.getString("WorkOrder_ONo"));
 				data.setWorkOrder_ONo(rs.getString("moving_flag"));
 				
-				data.setWorkOrder_ItemName((rs.getString("PRODUCT_ITEM_NAME").length() > 10)? rs.getString("PRODUCT_ITEM_NAME").substring(0, 10): rs.getString("PRODUCT_ITEM_NAME"));
+				System.out.println(rs.getString("PRODUCT_ITEM_NAME"));
+				
+				data.setWorkOrder_ItemName(rs.getString("PRODUCT_ITEM_NAME"));
 				data.setQty((rs.getString("SUM_PRODUCTION_Volume")==null)?"0":rs.getString("SUM_PRODUCTION_Volume"));
 				data.setWorkOrder_PQty( (rs.getString("Order_Volume")==null)?data.getQty():String.valueOf(rs.getInt("Order_Volume")) );
 				

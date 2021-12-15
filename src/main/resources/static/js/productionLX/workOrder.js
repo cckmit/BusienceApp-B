@@ -34,7 +34,24 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 								console.log("쿼리실행");
 								if (data.length == 1) {
 									//검색어와 일치하는값이 있는경우
+									var today = new Date();
+													
+									var montht = today.getMonth()+1;
+									var month = "";
+									if(montht <= 9)
+										month = "0"+montht;
+									else
+										month = montht;
+													
+									var datet = today.getDate();
+									var date = "";
+									if(datet <= 9)
+										date = "0"+datet;
+									else
+										date = datet;
+									
 									cell.getRow().update({
+										"workOrder_ONo": today.getFullYear() + "" + month + "" + date+"-"+data[0].product_ITEM_CODE+"-",
 										"workOrder_ItemCode": data[0].product_ITEM_CODE,
 										"workOrder_ItemName": data[0].product_ITEM_NAME
 									});
@@ -63,7 +80,24 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 								console.log("쿼리실행");
 								if (data.length == 1) {
 									//검색어와 일치하는값이 있는경우
+									var today = new Date();
+													
+									var montht = today.getMonth()+1;
+									var month = "";
+									if(montht <= 9)
+										month = "0"+montht;
+									else
+										month = montht;
+													
+									var datet = today.getDate();
+									var date = "";
+									if(datet <= 9)
+										date = "0"+datet;
+									else
+										date = datet;
+									
 									cell.getRow().update({
+										"workOrder_ONo": today.getFullYear() + "" + month + "" + date+"-"+data[0].product_ITEM_CODE+"-",
 										"workOrder_ItemCode": data[0].product_ITEM_CODE,
 										"workOrder_ItemName": data[0].product_ITEM_NAME
 									});
@@ -365,6 +399,7 @@ function Right_Move(cell,flag)
 }
 
 $('#FI_SaveBtn').click(function(){
+	debugger;
 	var selectedData = WorkOrder_tbl.getSelectedData();
 	
 	if(selectedData.length == 0)

@@ -20,6 +20,84 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 	],
 });
 
+function popbtnSelect(data,table)
+{
+	$.get("/tablet/matOutputLXTabletRest/Out_Clsfc",data,function(data2){
+		console.log(data2);
+
+		var list = document.getElementsByClassName("list-group-item");
+
+		for(i=0;i<list.length;i++)
+		{
+			if(data2.product_ITEM_CLSFC_1.trim() === list[i].innerHTML.trim())
+			{
+				list_click(list[i]);
+
+				setTimeout(function(){
+					for(i=0;i<table.getRows().length;i++)
+					{
+						//console.log(itemManageTable.getRows()[i].getData());
+
+						if(data2.product_ITEM_NAME.trim() === table.getRows()[i].getData().product_ITEM_NAME)
+						{
+							table.deselectRow();
+							table.getRows()[i].select();
+							console.log(table.getRows()[i].getData());
+							break;
+						}
+					}
+				},500);
+
+				break;
+			}
+		}
+	});
+}
+
+document.getElementById("popbtn").onclick = function(){
+	data = {
+		PRODUCT_ITEM_CLSFC : 'PRODUCT_ITEM_CLSFC_1',
+		PRODUCT_ITEM_NAME : document.getElementById("Item_Word").value
+	}
+
+	popbtnSelect(data,itemManageTable);
+}
+
+document.getElementById("Item_Word").onkeydown = function(){
+	if(event.keyCode==13)
+	{
+		event.preventDefault();
+		data = {
+			PRODUCT_ITEM_CLSFC : 'PRODUCT_ITEM_CLSFC_1',
+			PRODUCT_ITEM_NAME : document.getElementById("Item_Word").value
+		}
+	
+		popbtnSelect(data,itemManageTable);
+	}
+}
+
+document.getElementById("popbtn2").onclick = function(){
+	data = {
+		PRODUCT_ITEM_CLSFC : 'PRODUCT_ITEM_CLSFC_2',
+		PRODUCT_ITEM_NAME : document.getElementById("Item_Word2").value
+	}
+
+	popbtnSelect(data,itemManageTable2);
+}
+
+document.getElementById("Item_Word2").onkeydown = function(){
+	if(event.keyCode==13)
+	{
+		event.preventDefault();
+		data = {
+			PRODUCT_ITEM_CLSFC : 'PRODUCT_ITEM_CLSFC_2',
+			PRODUCT_ITEM_NAME : document.getElementById("Item_Word2").value
+		}
+	
+		popbtnSelect(data,itemManageTable2);
+	}
+}
+
 //검색
 function search(){
 	data = {
@@ -237,7 +315,7 @@ var itemManageTable = new Tabulator("#itemManageTable",	{
 			});
 		},
 		columns: [
-			{ title: "규격", field: "product_INFO_STND_1", headerSort:false, headerHozAlign:"center",width:300},
+			{ title: "규격", field: "product_INFO_STND_1", headerSort:false, headerHozAlign:"center",width:350},
 			{ title: "제품이름", field: "product_ITEM_NAME", headerSort:false, headerHozAlign:"center"}
 		]
 });
@@ -268,8 +346,8 @@ var itemManageTable2 = new Tabulator("#itemManageTable2",	{
 			});
 		},
 		columns: [
-			{ title: "제품이름", field: "product_ITEM_NAME", headerSort:false, headerHozAlign:"center",width:550},
-			{ title: "규격", field: "product_INFO_STND_1", headerSort:false, headerHozAlign:"center"}
+			{ title: "규격", field: "product_INFO_STND_1", headerSort:false, headerHozAlign:"center",width:350},
+			{ title: "제품이름", field: "product_ITEM_NAME", headerSort:false, headerHozAlign:"center"}
 		]
 });
 

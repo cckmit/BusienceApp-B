@@ -26,6 +26,24 @@
 				{ title: "특이사항", field: "workOrder_Remark", align: "right", headerHozAlign: "center",visible:false}
 			],
 		});
+		
+		function productCom(){
+			if(workOrder_Remark != "AUTO")
+			{
+				$.get("../workOrderTABRestXO/MI_Searche?WorkOrder_WorkStatus=243&WorkOrder_EquipCode=" + document.getElementById("eqselect").value+"&PRODUCTION_SERIAL_NUM="+workOrder_ONo, function(data) {            
+					select_program();
+					workOrder_ONo = "";
+				});
+			}
+			else
+			{
+				$.get("../workOrderTABRestXO/MI_Searche?WorkOrder_WorkStatus=245&WorkOrder_EquipCode=" + document.getElementById("eqselect").value+"&PRODUCTION_SERIAL_NUM="+workOrder_ONo, function(data) {            
+					select_program();	
+					workOrder_ONo = "";		
+				});
+			}
+			
+		}
 
 		var itemPopupTableModal = new Tabulator("#itemPopupTableModal", {
 			layout:"fitDataStretch",

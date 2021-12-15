@@ -162,13 +162,24 @@
 			<tr>
 				<td style="width: 50%;">
 					<center>
-					<table style="width: 90%; background-color: rgb(82,153,217); border-radius: 5%; margin: 10px;"> 
-						<tr>
-							<td style="font-size: 45px; color: white; text-align: center; width: 40%;">
-								작&nbsp;업&nbsp;현&nbsp;황
-							</td>
-						</tr>
-					</table>
+					<div style="padding-left: 48px;">
+						<table style="width: 60%; background-color: rgb(82,153,217); border-radius: 5%; float: left;"> 
+							<tr>
+								<td style="font-size: 45px; color: white; text-align: center; width: 40%;">
+									작&nbsp;업&nbsp;현&nbsp;황
+								</td>
+							</tr>
+						</table>
+						
+						<table style="width: 35%; background-color: rgb(246, 177, 148); border-radius: 5%; float: left;" onclick="productCom()"> 
+							<tr>
+								<td style="font-size: 45px; color: black; text-align: center; width: 40%;">
+									작&nbsp;업&nbsp;완&nbsp;료
+								</td>
+							</tr>
+						</table>
+					</div>
+					
 					</center>
 				</td>
 				
