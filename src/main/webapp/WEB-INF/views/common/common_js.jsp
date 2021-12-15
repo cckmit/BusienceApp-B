@@ -34,3 +34,7 @@
 <script src="/js/BrowserPrint-Zebra-1.0.216.min.js"></script>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script src="/js/hangul.js"></script>
+
+<script src="/js/keyboard.js"></script>

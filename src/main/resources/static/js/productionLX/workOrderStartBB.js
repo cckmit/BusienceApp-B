@@ -275,6 +275,10 @@
 					search2();
 			}
 		}
+		
+		document.getElementById("Item_Word").onclick = function(){
+			$('#testModal2').modal("show");
+		}
 
 		//검색
 		function search(){
