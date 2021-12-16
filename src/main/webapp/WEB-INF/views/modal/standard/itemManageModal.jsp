@@ -74,7 +74,7 @@
 						<div>
 							<label class="col-sm-3 control-label">&nbsp;&nbsp;단&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;가</label>
 							<div class="col-sm-5">
-								<input type="number" style="width: 80%; height: 25px;"
+								<input type="number" style="width: 80%; height: 25px;" value="0"
 									class="form-control-plaintext" id="product_UNIT_PRICE"
 									OnKeyDown="nextFocus('product_UNIT')">
 							</div>

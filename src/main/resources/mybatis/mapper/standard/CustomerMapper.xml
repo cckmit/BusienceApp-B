@@ -8,28 +8,33 @@
 	<select id="selectCustomerListDao" resultType="com.busience.standard.dto.CustomerDto">
 		select 
 			A.Cus_Code, A.Cus_Name, A.Cus_Clsfc, B.CHILD_TBL_TYPE Cus_Clsfc_Name,
-			A.Cus_Status, C.CHILD_TBL_TYPE Cus_Status_Name, A.Cus_Pymn_Date, D.CHILD_TBL_TYPE Cus_Pymn_Date_Name,
-			A.Cus_Co, A.Cus_Adr, A.Cus_Rgstr_Nr, A.Cus_Co_EstYr,
 			A.Cus_Rprsn, A.Cus_Rprsn_PhNr, A.Cus_Rprsn_Email,
-			A.Cus_Mng, A.Cus_Mng_PhNr, A.Cus_Mng_Email
+			A.Cus_Mng, A.Cus_Mng_PhNr, A.Cus_Mng_Email,
+			A.Cus_Co, A.Cus_Co_EstYr, A.Cus_Adr,
+			A.Cus_Pymn_Date, C.CHILD_TBL_TYPE Cus_Pymn_Date_Name,
+			A.Cus_Status, D.CHILD_TBL_TYPE Cus_Status_Name,
+			A.Cus_Bank, A.Cus_Account_No,
+			A.Cus_Rgstr_Nr
 			from Customer_tbl A
 			inner join (
 				select * from DTL_TBL where NEW_TBL_CODE=28
 			) B on A.Cus_Clsfc = B.CHILD_TBL_NO
 			inner join (
-				select * from DTL_TBL where NEW_TBL_CODE=15
-			) C on A.Cus_Status = C.CHILD_TBL_NO
-			inner join (
 				select * from DTL_TBL where NEW_TBL_CODE=39
-			) D on A.Cus_Pymn_Date = D.CHILD_TBL_NO
+			) C on A.Cus_Pymn_Date = C.CHILD_TBL_NO
+			inner join (
+				select * from DTL_TBL where NEW_TBL_CODE=15
+			) D on A.Cus_Status = D.CHILD_TBL_NO
 	</select>
 
 	<insert id="insertCustomerDao">
 		insert into Customer_tbl values(
-			#{Cus_Code}, #{Cus_Name}, #{Cus_Clsfc}, #{Cus_Status},
-			#{Cus_Pymn_Date}, #{Cus_Co}, #{Cus_Adr}, #{Cus_Rgstr_Nr},
-			#{Cus_Co_EstYr}, #{Cus_Rprsn}, #{Cus_Rprsn_PhNr}, #{Cus_Rprsn_Email},
-			#{Cus_Mng}, #{Cus_Mng_PhNr}, #{Cus_Mng_Email}
+			#{Cus_Code}, #{Cus_Name}, #{Cus_Clsfc},
+			#{Cus_Rprsn}, #{Cus_Rprsn_PhNr}, #{Cus_Rprsn_Email},
+			#{Cus_Mng}, #{Cus_Mng_PhNr}, #{Cus_Mng_Email},
+			#{Cus_Co}, #{Cus_Co_EstYr}, #{Cus_Adr},
+			#{Cus_Pymn_Date}, #{Cus_Status}, #{Cus_Bank}, #{Cus_Account_No},
+			#{Cus_Rgstr_Nr}
 		)
 	</insert>
 		
@@ -38,18 +43,20 @@
 			set
 			Cus_Name = #{Cus_Name},
 			Cus_Clsfc = #{Cus_Clsfc},
-			Cus_Status = #{Cus_Status},
-			Cus_Pymn_Date = #{Cus_Pymn_Date},
-			Cus_Co = #{Cus_Co},
-			Cus_Adr = #{Cus_Adr},
-			Cus_Rgstr_Nr = #{Cus_Rgstr_Nr},
-			Cus_Co_EstYr = #{Cus_Co_EstYr},
 			Cus_Rprsn = #{Cus_Rprsn},
 			Cus_Rprsn_PhNr = #{Cus_Rprsn_PhNr},
 			Cus_Rprsn_Email = #{Cus_Rprsn_Email},
 			Cus_Mng = #{Cus_Mng},
 			Cus_Mng_PhNr = #{Cus_Mng_PhNr},
-			Cus_Mng_Email = #{Cus_Mng_Email}
+			Cus_Mng_Email = #{Cus_Mng_Email},
+			Cus_Co = #{Cus_Co},
+			Cus_Co_EstYr = #{Cus_Co_EstYr},
+			Cus_Adr = #{Cus_Adr},
+			Cus_Pymn_Date = #{Cus_Pymn_Date},
+			Cus_Status = #{Cus_Status},
+			Cus_Bank = #{Cus_Bank},
+			Cus_Account_No = #{Cus_Account_No},
+			Cus_Rgstr_Nr = #{Cus_Rgstr_Nr},
 		where Cus_Code = #{Cus_Code}
 	</update>
 	
@@ -61,10 +68,13 @@
 	<select id="selectCustomerDao" resultType="com.busience.standard.dto.CustomerDto">
 		select 
 			A.Cus_Code, A.Cus_Name, A.Cus_Clsfc, B.CHILD_TBL_TYPE Cus_Clsfc_Name,
-			A.Cus_Status, C.CHILD_TBL_TYPE Cus_Status_Name, A.Cus_Pymn_Date, D.CHILD_TBL_TYPE Cus_Pymn_Date_Name,
-			A.Cus_Co, A.Cus_Adr, A.Cus_Rgstr_Nr, A.Cus_Co_EstYr,
 			A.Cus_Rprsn, A.Cus_Rprsn_PhNr, A.Cus_Rprsn_Email,
-			A.Cus_Mng, A.Cus_Mng_PhNr, A.Cus_Mng_Email
+			A.Cus_Mng, A.Cus_Mng_PhNr, A.Cus_Mng_Email,
+			A.Cus_Co, A.Cus_Co_EstYr, A.Cus_Adr,
+			A.Cus_Pymn_Date, C.CHILD_TBL_TYPE Cus_Pymn_Date_Name,
+			A.Cus_Status, D.CHILD_TBL_TYPE Cus_Status_Name,
+			A.Cus_Bank, A.Cus_Account_No,
+			A.Cus_Rgstr_Nr
 			from (
 				select * from Customer_tbl where Cus_Code = #{Cus_Code}
 			) A
@@ -72,10 +82,10 @@
 				select * from DTL_TBL where NEW_TBL_CODE=28
 			) B on A.Cus_Clsfc = B.CHILD_TBL_NO
 			inner join (
-				select * from DTL_TBL where NEW_TBL_CODE=15
-			) C on A.Cus_Status = C.CHILD_TBL_NO
-			inner join (
 				select * from DTL_TBL where NEW_TBL_CODE=39
-			) D on A.Cus_Pymn_Date = D.CHILD_TBL_NO
+			) C on A.Cus_Pymn_Date = C.CHILD_TBL_NO
+			inner join (
+				select * from DTL_TBL where NEW_TBL_CODE=15
+			) D on A.Cus_Status = D.CHILD_TBL_NO
 	</select>
 </mapper>

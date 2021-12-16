@@ -48,13 +48,59 @@
 							</select>
 						</div>
 						
-						<label class="col-sm-3 control-label">결&ensp;제&ensp;조&ensp;건</label>
+						<label class="col-sm-3 control-label">대&emsp;&ensp;표&emsp;&ensp;자</label>
 						<div class="col-sm-2">
-							<select id="cus_Status">
-								<c:forEach var="data" items="${paymentMethodList}">
-									<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>
-								</c:forEach>
-							</select>
+							<input type="text" id="cus_Rprsn">
+						</div>
+					</div>
+					
+					<div class="form-group row">
+						<label class="col-sm-3 control-label">대표전화번호</label>
+						<div class="col-sm-2">
+							<input type="text" id="cus_Rprsn_PhNr">
+						</div>
+						
+						<label class="col-sm-3 control-label">대 표 이 메 일</label>
+						<div class="col-sm-2">
+							<input type="text" id="cus_Rprsn_Email">
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-3 control-label">담&emsp;&ensp;당&emsp;&ensp;자</label>
+						<div class="col-sm-2">
+							<input type="text" id="cus_Mng">
+						</div>
+						
+						<label class="col-sm-3 control-label">담당전화번호</label>
+						<div class="col-sm-2">
+							<input type="text" id="cus_Mng_PhNr">
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-3 control-label">담 당 이 메 일</label>
+						<div class="col-sm-2">
+							<input type="text" id="cus_Mng_Email">
+						</div>
+						
+						<label class="col-sm-3 control-label">상&emsp;&ensp;호&emsp;&ensp;명</label>
+						<div class="col-sm-2">
+							<input type="text" id="cus_Co">
+						</div>
+					</div>
+					
+					<div class="form-group row">
+						<label class="col-sm-3 control-label">설&ensp;립&ensp;연&ensp;도</label>
+						<div class="col-sm-2">
+							<input type="date" class="today" id="cus_Co_EstYr">
+						</div>
+					</div>
+					
+					<div class="form-group row">
+						<label class="col-sm-3 control-label">주&emsp;&emsp;&emsp;&emsp;소</label>
+						<div class="col-sm-5">
+							<input type="text" id="cus_Adr">
 						</div>
 					</div>
 
@@ -68,68 +114,36 @@
 								</c:forEach>
 							</select>
 						</div>
-
-						<label class="col-sm-3 control-label">회&emsp;&ensp;사&emsp;&ensp;명</label>
+							
+						<label class="col-sm-3 control-label">결&ensp;제&ensp;방&ensp;법</label>
 						<div class="col-sm-2">
-							<input type="text" id="cus_Co">
+							<select id="cus_Status">
+								<c:forEach var="data" items="${paymentMethodList}">
+									<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>
+								</c:forEach>
+							</select>
 						</div>
 					</div>
 					
 					<div class="form-group row">
-						<label class="col-sm-3 control-label">주&emsp;&emsp;&emsp;&emsp;소</label>
-						<div class="col-sm-5">
-							<input type="text" id="cus_Adr">
+						<label class="col-sm-3 control-label">결&ensp;제&ensp;은&ensp;행</label>
+						<div class="col-sm-2">
+							<input type="text" id="cus_Bank">
+						</div>
+						
+						<label class="col-sm-3 control-label">계&ensp;좌&ensp;번&ensp;호</label>
+						<div class="col-sm-2">
+							<input type="text" id="cus_Account_No">
 						</div>
 					</div>
-
+					
 					<div class="form-group row">
 						<label class="col-sm-3 control-label">사업자등록번호</label>
 						<div class="col-sm-2">
 							<input type="text" id="cus_Rgstr_Nr">
 						</div>
-					
-						<label class="col-sm-3 control-label">회사설립연도</label>
-						<div class="col-sm-2">
-							<input type="date" class="today" id="cus_Co_EstYr">
-						</div>
 					</div>
 					
-					<div class="form-group row">
-						<label class="col-sm-3 control-label">대&ensp;표&ensp;자&ensp;명</label>
-						<div class="col-sm-2">
-							<input type="text" id="cus_Rprsn">
-						</div>
-						
-						<label class="col-sm-3 control-label">대표전화번호</label>
-						<div class="col-sm-2">
-							<input type="text" id="cus_Rprsn_PhNr">
-						</div>
-					</div>
-
-					<div class="form-group row">
-						<label class="col-sm-3 control-label">대표자이메일</label>
-						<div class="col-sm-2">
-							<input type="text" id="cus_Rprsn_Email">
-						</div>
-						
-						<label class="col-sm-3 control-label">담&ensp;당&ensp;자&ensp;명</label>
-						<div class="col-sm-2">
-							<input type="text" id="cus_Mng">
-						</div>
-					</div>
-
-					<div class="form-group row">
-						<label class="col-sm-3 control-label">담당자전화번호</label>
-						<div class="col-sm-2">
-							<input type="text" id="cus_Mng_PhNr">
-						</div>
-
-						<label class="col-sm-3 control-label">담당자이메일</label>
-						<div class="col-sm-2">
-							<input type="text" id="cus_Mng_Email">
-						</div>
-					</div>
-
 					<button type="button" class="btn btn-primary insert focusinsert" id="customerRegisterBtn">저장</button>
 					
 					<button type="button" class="btn btn-primary modify focusmodify" id="customerModifyBtn">수정</button>

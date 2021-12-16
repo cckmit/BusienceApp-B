@@ -51,6 +51,15 @@ function fromRowToJson(row, valueList){
 	return jsonData;
 }
 
+function fromInputToJson(valueList){
+	
+	var jsonData = new Object();
+	valueList.forEach(function(item,index,arr2){
+		jsonData[item] = $("#"+item).val();
+	})
+	return jsonData;
+}
+
 //json데이터 modal로 데이터 넣기
 function modalInputBox(json){
 	for (var key in json){
@@ -67,7 +76,6 @@ function modalInputBox(json){
 				$('#'+key).val(json[key]);
 			}
 		}
-		
 	}
 }
 

@@ -2,10 +2,11 @@ var nowModal
 
 //입력 및 업데이트 할 리스트
 var pickValue = ["cus_Code", "cus_Name", "cus_Clsfc",
-					"cus_Status", "cus_Pymn_Date", "cus_Co",
-					"cus_Adr", "cus_Rgstr_Nr", "cus_Co_EstYr",
 					"cus_Rprsn", "cus_Rprsn_PhNr", "cus_Rprsn_Email",
-					"cus_Mng", "cus_Mng_PhNr", "cus_Mng_Email"];
+					"cus_Mng", "cus_Mng_PhNr", "cus_Mng_Email",
+					"cus_Co", "cus_Co_EstYr", "cus_Adr",
+					"cus_Pymn_Date", "cus_Status", "cus_Bank", "cus_Account_No",
+					"cus_Rgstr_Nr"];
 
 
 if(pickValue != null){
@@ -45,21 +46,23 @@ var customerManageTable = new Tabulator("#customerManageTable", {
 		modalInputBox(jsonData);
     },
 	columns: [
-		{ title: "거래처코드", field: "cus_Code", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "코드", field: "cus_Code", headerHozAlign: "center", headerFilter: "input"},
 		{ title: "거래처명", field: "cus_Name", headerHozAlign: "center", headerFilter: "input"},
 		{ title: "분류",	field: "cus_Clsfc_Name", headerHozAlign: "center", headerFilter: "input"},
-		{ title: "결제조건", field: "cus_Status_Name", headerHozAlign: "center", headerFilter: "input"},
-		{ title: "결제일", field: "cus_Pymn_Date_Name", headerHozAlign: "center", headerFilter: "input"},
-		{ title: "회사명", field: "cus_Co", headerHozAlign: "center", headerFilter: "input"},
-		{ title: "주소", field: "cus_Adr", headerHozAlign: "center", headerFilter: "input"},
-		{ title: "사업자등록번호", field: "cus_Rgstr_Nr", headerHozAlign: "center", headerFilter: "input"},
-		{ title: "회사설립연도", field: "cus_Co_EstYr", headerHozAlign: "center", headerFilter: "input"},
-		{ title: "대표자명", field: "cus_Rprsn", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "대표자", field: "cus_Rprsn", headerHozAlign: "center", headerFilter: "input"},
 		{ title: "대표전화번호", field: "cus_Rprsn_PhNr", headerHozAlign: "center", headerFilter: "input"},
-		{ title: "대표자 이메일", field: "cus_Rprsn_Email", headerHozAlign: "center", headerFilter: "input"},
-		{ title: "담당자명", field: "cus_Mng", headerHozAlign: "center", headerFilter: "input"},
-		{ title: "담당자 전화번호", field: "cus_Mng_PhNr", headerHozAlign: "center", headerFilter: "input"},
-		{ title: "담당자 이메일", field: "cus_Mng_Email", headerHozAlign: "center", headerFilter: "input"}
+		{ title: "대표 이메일", field: "cus_Rprsn_Email", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "담당자", field: "cus_Mng", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "담당전화번호", field: "cus_Mng_PhNr", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "담당 이메일", field: "cus_Mng_Email", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "상호명", field: "cus_Co", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "주소", field: "cus_Adr", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "설립연도", field: "cus_Co_EstYr", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "결제일", field: "cus_Pymn_Date_Name", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "결제방법", field: "cus_Status_Name", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "결제은행", field: "cus_Bank", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "계좌번호", field: "cus_Account_No", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "사업자등록번호", field: "cus_Rgstr_Nr", headerHozAlign: "center", headerFilter: "input"}
 	]
 });
 
