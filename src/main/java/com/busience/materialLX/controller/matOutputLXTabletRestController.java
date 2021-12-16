@@ -98,7 +98,7 @@ public class matOutputLXTabletRestController {
 	
 	@RequestMapping(value = "/Out_List", method = RequestMethod.GET)
 	public List<DtlDto> Out_List(HttpServletRequest request, Model model){
-		return dtls.getAlldtl(3);
+		return dtls.getAllDtl(3);
 	}
 	
 	@RequestMapping(value = "/Out_Clsfc", method = RequestMethod.GET)

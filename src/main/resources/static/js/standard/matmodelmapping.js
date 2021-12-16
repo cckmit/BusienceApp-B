@@ -1,28 +1,6 @@
-var dtl_arr = new Object();
+var dtl_arr = dtlSelectList(32);
 
-$.ajax({
-   method : "GET",
-   async: false,
-   url : "dtl_tbl_select?NEW_TBL_CODE=32",
-   success : function(datas) {
-      for(i=0;i<datas.length;i++){
-      	dtl_arr[datas[i].child_TBL_NO] = datas[i].child_TBL_TYPE;
-      }
-   }
-});
-
-var dtl_arr2 = new Object();
-
-$.ajax({
-   method : "GET",
-   async: false,
-   url : "dtl_tbl_select?NEW_TBL_CODE=33",
-   success : function(datas) {
-      for(i=0;i<datas.length;i++){
-      	dtl_arr2[datas[i].child_TBL_NO] = datas[i].child_TBL_TYPE;
-      }
-   }
-});
+var dtl_arr2 = dtlSelectList(33);
 
 var product_ITEM_CODE = null;
 

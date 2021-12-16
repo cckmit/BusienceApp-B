@@ -42,10 +42,16 @@ public class CommonRestController {
 	@Autowired
 	JdbcTemplate jdbctemplate;
 	
-	// 공통코드 찾기
+	// 공통코드 찾기 (All)
 	@GetMapping("/dtl_tbl_select")
-	public List<DtlDto> dtl_tbl_select(HttpServletRequest request) throws SQLException {
-		return dtlService.getAlldtl(Integer.parseInt(request.getParameter("NEW_TBL_CODE")));
+	public List<DtlDto> dtl_tbl_select(HttpServletRequest request) {
+		return dtlService.getAllDtl(Integer.parseInt(request.getParameter("NEW_TBL_CODE")));
+	}
+	
+	// 공통코드 찾기 (true)
+	@GetMapping("/dtlTrueSelect")
+	public List<DtlDto> dtlTrueSelect(DtlDto dtlDto) {
+		return dtlService.getDtl(dtlDto.getNEW_TBL_CODE());
 	}
 	
 	// 공통코드 찾기

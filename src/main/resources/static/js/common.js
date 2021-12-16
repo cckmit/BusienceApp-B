@@ -79,6 +79,25 @@ function modalInputBox(json){
 	}
 }
 
+//공통
+function dtlSelectList(value){
+	var dtl_arr = new Object();
+	
+	$.ajax({
+		method : "GET",
+		async: false,
+		url : "dtlTrueSelect",
+		data : {"NEW_TBL_CODE" : value},
+		success : function(datas) {
+			for(i=0;i<datas.length;i++){
+				dtl_arr[datas[i].child_TBL_NO] = datas[i].child_TBL_TYPE;
+			}
+		}
+	});
+	
+	return dtl_arr;
+}
+
 $(document).ready(function(){
 	//input에서 백스페이스 누르면 앞에있는 input 내용 사라짐 
 	$('.clearInput').keydown(function(){

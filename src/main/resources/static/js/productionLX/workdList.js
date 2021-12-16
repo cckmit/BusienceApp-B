@@ -1,19 +1,3 @@
-// 출고구분 select를 구성하기위한 ajax
-var dtl_arr = new Object();
-
-$.ajax({
-	method: "GET",
-	async: false,
-	url: "dtl_tbl_select?NEW_TBL_CODE=29",
-	success: function(datas) {
-		for (i = 0; i < 2; i++) {
-			dtl_arr[datas[i].child_TBL_NO] = datas[i].child_TBL_TYPE;
-		}
-	}
-});
-
-
-
 var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 	height: "calc(100% - 175px)",
 	layout: "fitData",
