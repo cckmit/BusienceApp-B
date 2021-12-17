@@ -10,6 +10,7 @@
 				<!-- 버튼 -->
 				<div class="input-button">
 					<img src="/images/button/Search.png" id="MOL_SearchBtn" />
+					<img src="/images/button/Excel.png" id="download_xlsx"/>
 					<!-- <img src="/images/button/Print.png" id="MOL_PrintBtn"/> -->
 				</div>
 				<!-- 버튼 -->
@@ -32,6 +33,7 @@
 				<div style="background-color: blue; color: white;">
 					<span><strong>입고 완료 데이터</strong></span>
 				</div>
+				
 			</div>
 			<!-- 그리드 생성 장소 -->
 			<div id="matOrderListTable"></div>

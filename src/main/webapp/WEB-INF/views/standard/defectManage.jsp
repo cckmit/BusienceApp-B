@@ -27,6 +27,8 @@
 					<img src="/images/button/Update.png" id="modifyModal" onclick="updatedeleteView()"/>
 					
 					<img src="/images/button/Delete.png" id="modifyModal" onclick="updatedeleteView()"/>
+					
+					<img src="/images/button/Excel.png" id="download_xlsx"/>
 				</div>
 			</div>
 			<div id="example-table"></div>

@@ -121,6 +121,13 @@ public class productionLXController {
 		return "productionLX/proSumYearX";
 	}
 	
+	// proComparedInput
+	@GetMapping("proCalendar")
+	public String proComparedInput(Model model) {
+		model.addAttribute("pageName", "투입 대비 생산 실적");
+		return "productionLX/proCalendar";
+	}
+	
 	// workorder
 	@GetMapping("workorder")
 	public String workorder(Model model) {

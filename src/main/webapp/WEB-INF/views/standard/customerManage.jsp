@@ -14,6 +14,8 @@
 				<img src="/images/button/Update.png" id="customerUpdateBtn"/>
 				
 				<img src="/images/button/Delete.png" id="customerDeleteBtn"/>
+				
+				<img src="/images/button/Excel.png" id="download_xlsx"/>
 			</div>
 		</div>
 		<div id="customerManageTable"></div>

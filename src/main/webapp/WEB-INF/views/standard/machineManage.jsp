@@ -14,6 +14,8 @@
 				<img src="/images/button/Update.png" id="machineUpdateBtn"/>
 				
 				<img src="/images/button/Delete.png" id="machineDeleteBtn"/>
+				
+				<img src="/images/button/Excel.png" id="download_xlsx"/>
 			</div>
 		</div>
 			<!-- 그리드 생성 장소 -->
