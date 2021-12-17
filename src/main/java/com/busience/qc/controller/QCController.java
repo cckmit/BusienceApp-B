@@ -67,7 +67,7 @@ public class QCController {
 	// defectInsert
 	@GetMapping("defectInsert")
 	public String defectInsert(Model model) {
-		model.addAttribute("pageName", "불량 실적 입력");
+		model.addAttribute("pageName", "불량별 관리");
 		return "qc/defectInsert";
 	}
 	
