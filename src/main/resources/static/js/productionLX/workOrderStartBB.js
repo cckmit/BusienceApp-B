@@ -48,7 +48,8 @@
 		var itemPopupTableModal = new Tabulator("#itemPopupTableModal", {
 			layout:"fitDataStretch",
 			height:"100%",
-			rowTap:function(e, row){
+			resizableColumns: false,
+			rowDblTap:function(e, row){
 				
 				if(confirm("작업지시를 추가하시겠습니까?"))
 				{
@@ -68,6 +69,7 @@
 							$.get("../workOrderTABRestXO/MI_Searchd?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
 								WorkOrder_tbl.setData(data);
 								select_program();
+								$('#testModal').modal("hide");
 							});
 						
 						});
@@ -86,6 +88,7 @@
 									$.get("../workOrderTABRestXO/MI_Searchd?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
 										WorkOrder_tbl.setData(data);
 										select_program();
+										$('#testModal').modal("hide");
 									});
 								
 								});
@@ -102,6 +105,7 @@
 									$.get("../workOrderTABRestXO/MI_Searchd?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
 										WorkOrder_tbl.setData(data);
 										select_program();
+										$('#testModal').modal("hide");
 									});
 								
 								});
@@ -181,6 +185,7 @@
 
 					workOrder_ONo = data[0].workOrder_ONo;
 					workOrder_Remark = data[0].workOrder_Remark;
+					document.getElementById("t8").innerHTML = workOrder_ONo;
 				}
 				else
 				{
@@ -217,6 +222,9 @@
 		}
 
 		window.onload = function(){
+			workStatMoni();
+			document.getElementById("ko").style.height = window.innerHeight - document.getElementById("ko").offsetTop + "px";
+			document.getElementById("WorkOrder_tbl").style.height = window.innerHeight - document.getElementById("ko").offsetTop - 10 + "px";
 			select_program();
 		}
 
@@ -276,10 +284,6 @@
 			}
 		}
 		
-		document.getElementById("Item_Word").onclick = function(){
-			$('#testModal2').modal("show");
-		}
-
 		//검색
 		function search(){
 			itemPopupTableModal.setData("itemPopupSelect",
@@ -297,4 +301,76 @@
 			});
 
 			itemPopupTableModal.redraw(true);
+		}
+		
+		function lang_convert(n){
+			if(n.id==="kor")
+			{
+				document.getElementById("kor").style.background = "red";
+				document.getElementById("eng").style.background = "white";
+
+				document.getElementById("t1").innerHTML = "작업 관리";
+				document.getElementById("t2").innerHTML = "설&nbsp;&nbsp;&nbsp;비";
+				document.getElementById("t3").innerHTML = "누&nbsp;적&nbsp;수&nbsp;량";
+				document.getElementById("t4").innerHTML = "생&nbsp;산&nbsp;수&nbsp;량";
+				document.getElementById("t5").innerHTML = "목&nbsp;표&nbsp;수&nbsp;량";
+				document.getElementById("t6").innerHTML = "품&nbsp;명";
+				document.getElementById("t7").innerHTML = "규&nbsp;격";
+				document.getElementById("t9").innerHTML = "작&nbsp;업&nbsp;완&nbsp;료";
+				document.getElementById("t10").innerHTML = "작업 지시 선택";
+
+				for(i=2;i<11;i++)
+				{
+					document.getElementById("t"+i).style.fontSize = "50px";
+
+					if(i==6|| i==7)
+					document.getElementById("t"+i).style.paddingTop = "0px";
+				}
+			}
+			else if(n.id==="eng")
+			{
+				document.getElementById("kor").style.background = "white";
+				document.getElementById("eng").style.background = "red";
+
+				document.getElementById("t1").innerHTML = "Work Management";
+				document.getElementById("t2").innerHTML = "Machinery";
+				document.getElementById("t3").innerHTML = "Cum Prd Qty";
+				document.getElementById("t4").innerHTML = "Prd Qty";
+				document.getElementById("t5").innerHTML = "Allotted Qty";
+				document.getElementById("t6").innerHTML = "Prd Name";
+				document.getElementById("t7").innerHTML = "Prd Spec.";
+				document.getElementById("t9").innerHTML = "Work Complete";
+				document.getElementById("t10").innerHTML = "Work Select";
+
+				for(i=2;i<11;i++)
+				{
+					document.getElementById("t"+i).style.fontSize = "35px";
+
+					if(i==6|| i==7)
+					document.getElementById("t"+i).style.paddingTop = "5px";
+				}
+			}
+		}
+
+		flash = false;
+		setInterval(function(){
+			workStatMoni();
+		},1000);
+
+		function workStatMoni(){
+			if(document.getElementById("n_len").value === "")
+			{
+				document.getElementById("t8").innerHTML = "NONE";
+				document.getElementById("tp").style.color = "rgb(112,173,70)";
+				document.getElementById("tp").style.background = "rgb(112,173,70)";
+			}
+			else
+			{
+				flash = !flash;
+				document.getElementById("tp").style.color = "black";
+				if(flash)
+					document.getElementById("tp").style.background = "red";
+				else
+					document.getElementById("tp").style.background = "white";
+			}
 		}

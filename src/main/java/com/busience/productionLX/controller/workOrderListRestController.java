@@ -377,7 +377,7 @@ public class workOrderListRestController {
 		String workOrder_ONo = request.getParameter("workOrder_ONo");
 
 		// 접속자 정보
-		String modifier = principal.getName();
+		String modifier = (principal == null)? "admin" : principal.getName();
 
 		String sql = "update WorkOrder_tbl set WorkOrder_WorkStatus='243',WorkOrder_ReceiptTime=now(),WorkOrder_Worker='"
 				+ modifier + "'" + " where workOrder_ONo='" + workOrder_ONo + "'";

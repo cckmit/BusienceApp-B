@@ -2,6 +2,7 @@ package com.busience.productionLX.controller;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -244,16 +245,17 @@ public class productionLXController {
 				
 				String sql = "SELECT * FROM EQUIPMENT_INFO_TBL WHERE EQUIPMENT_INFO_CODE='"+( (request.getParameter("code")==null || request.getParameter("code").equals("null")) ? "' or 1=1" : request.getParameter("code")+"'" );
 				
-				model.addAttribute("list",
-						jdbctemplate.query(sql, new RowMapper<EQUIPMENT_INFO_TBL>() {
-							@Override
-							public EQUIPMENT_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
-								EQUIPMENT_INFO_TBL data = new EQUIPMENT_INFO_TBL();
-								data.setEQUIPMENT_INFO_CODE(rs.getString("EQUIPMENT_INFO_CODE"));
-								data.setEQUIPMENT_INFO_NAME(rs.getString("EQUIPMENT_INFO_NAME"));
-								return data;
-							}
-						}));
+				List<EQUIPMENT_INFO_TBL> list = jdbctemplate.query(sql, new RowMapper<EQUIPMENT_INFO_TBL>() {
+					@Override
+					public EQUIPMENT_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
+						EQUIPMENT_INFO_TBL data = new EQUIPMENT_INFO_TBL();
+						data.setEQUIPMENT_INFO_CODE(rs.getString("EQUIPMENT_INFO_CODE"));
+						data.setEQUIPMENT_INFO_NAME(rs.getString("EQUIPMENT_INFO_NAME"));
+						return data;
+					}
+				});
+				
+				model.addAttribute("list",list);
 				
 				model.addAttribute("list2",
 						jdbctemplate.query("SELECT * FROM DTL_TBL WHERE NEW_TBL_CODE='29' AND CHILD_TBL_NO <> '246'", new RowMapper<DTL_TBL>() {
@@ -316,13 +318,13 @@ public class productionLXController {
 						data.setCHILD_TBL_NO(rs.getString("CHILD_TBL_NO"));
 						
 						if(rs.getString("CHILD_TBL_NO").equals("242"))
-							data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE")+"<br/>Not accepted");
+							data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
 						else if(rs.getString("CHILD_TBL_NO").equals("243"))
-							data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE")+"<br/>Accepted");
+							data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
 						else if(rs.getString("CHILD_TBL_NO").equals("244"))
-							data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE")+"<br/>Start time of work");
+							data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
 						else if(rs.getString("CHILD_TBL_NO").equals("245"))
-							data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE")+"<br/>End time of work");
+							data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
 						return data;
 					}
 				}));
@@ -342,6 +344,62 @@ public class productionLXController {
 				}));
 
 		return "normal/productionLX/workOrderInsertB";
+	}
+	
+	// WorkOrderInsertB
+	@GetMapping("/tablet/workOrderInsertBB")
+	public String WorkOrderInsertBB(Model model, HttpServletRequest request) throws SQLException{
+		
+System.out.println(request.getParameter("code"));
+		
+		String sql = "SELECT * FROM EQUIPMENT_INFO_TBL WHERE EQUIPMENT_INFO_CODE='"+( (request.getParameter("code")==null || request.getParameter("code").equals("null")) ? "' or 1=1" : request.getParameter("code")+"'" );
+		
+		model.addAttribute("list",
+				jdbctemplate.query(sql, new RowMapper<EQUIPMENT_INFO_TBL>() {
+					@Override
+					public EQUIPMENT_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
+						EQUIPMENT_INFO_TBL data = new EQUIPMENT_INFO_TBL();
+						data.setEQUIPMENT_INFO_CODE(rs.getString("EQUIPMENT_INFO_CODE"));
+						data.setEQUIPMENT_INFO_NAME(rs.getString("EQUIPMENT_INFO_NAME"));
+						return data;
+					}
+				}));
+
+		model.addAttribute("list2",
+				jdbctemplate.query("SELECT * FROM DTL_TBL WHERE NEW_TBL_CODE='29' AND CHILD_TBL_NO <> '246'", new RowMapper<DTL_TBL>() {
+					@Override
+					public DTL_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
+						DTL_TBL data = new DTL_TBL();
+						
+						data.setCHILD_TBL_NO(rs.getString("CHILD_TBL_NO"));
+						
+						if(rs.getString("CHILD_TBL_NO").equals("242"))
+							data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
+						else if(rs.getString("CHILD_TBL_NO").equals("243"))
+							data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
+						else if(rs.getString("CHILD_TBL_NO").equals("244"))
+							data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
+						else if(rs.getString("CHILD_TBL_NO").equals("245"))
+							data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
+						return data;
+					}
+				}));
+		
+		model.addAttribute("list3",
+				jdbctemplate.query("SELECT * FROM PRODUCT_INFO_TBL LIMIT 10", new RowMapper<PRODUCT_INFO_TBL>() {
+					@Override
+					public PRODUCT_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
+						PRODUCT_INFO_TBL data = new PRODUCT_INFO_TBL();
+
+						data.setPRODUCT_ITEM_CODE(rs.getString("PRODUCT_ITEM_CODE"));
+						data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
+						data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
+						data.setPRODUCT_UNIT_PRICE(rs.getInt("PRODUCT_UNIT_PRICE"));
+						return data;
+					}
+				}));
+		
+		return "normal/productionLX/workOrderInsertBB";	
 	}
 
 	@GetMapping("/tablet/workOrderStartB")
@@ -391,6 +449,35 @@ public class productionLXController {
 		}));
 		
 		return "normal/productionLX/workOrderStartBB";
+	}
+	
+	@GetMapping("/tablet/workOrderStartBBB")
+	public String WorkOrderStartBBB(Model model, HttpServletRequest request) throws SQLException{
+		
+		String sql = "SELECT * FROM EQUIPMENT_INFO_TBL WHERE EQUIPMENT_INFO_CODE='"+( (request.getParameter("code")==null  || request.getParameter("code").equals("null")) ? "' or 1=1" : request.getParameter("code")+"'" );
+		
+		System.out.println(sql);
+		
+		model.addAttribute("list",
+				jdbctemplate.query(sql, new RowMapper<EQUIPMENT_INFO_TBL>() {
+					@Override
+					public EQUIPMENT_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
+						EQUIPMENT_INFO_TBL data = new EQUIPMENT_INFO_TBL();
+						data.setEQUIPMENT_INFO_CODE(rs.getString("EQUIPMENT_INFO_CODE"));
+						data.setEQUIPMENT_INFO_NAME(rs.getString("EQUIPMENT_INFO_NAME"));
+						return data;
+					}
+				}));
+		
+		model.addAttribute("visibility",jdbctemplate.queryForObject("select CHILD_TBL_RMARK from DTL_TBL where CHILD_TBL_NO = '282'", new RowMapper<String>() {
+
+			@Override
+			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+				return rs.getString(1);
+			}
+		}));
+		
+		return "normal/productionLX/workOrderStartBBB";
 	}
 	
 	@GetMapping("/tempDaily")

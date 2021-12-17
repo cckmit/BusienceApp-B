@@ -100,17 +100,25 @@ document.getElementById("endDate").onchange = function() {
 function radio_select(value) {
 	document.getElementsByName("options1").forEach(e => e.removeAttribute("disabled", ''));
 
+	document.getElementsByName('options1')[0].nextElementSibling.style.backgroundColor = "rgb(237, 237, 237)";
+	document.getElementsByName('options1')[1].nextElementSibling.style.backgroundColor = "rgb(237, 237, 237)";
+	document.getElementsByName('options1')[2].nextElementSibling.style.backgroundColor = "rgb(237, 237, 237)";
+
 	if (value === "242") {
 		document.getElementsByName('options1')[0].checked = true;
 		document.getElementsByName('options1')[0].focus();
+		document.getElementsByName('options1')[0].style.color = "red";
+		document.getElementsByName('options1')[0].nextElementSibling.style.backgroundColor = "red";
 	}
 	else if (value === "243") {
 		document.getElementsByName('options1')[1].checked = true;
 		document.getElementsByName('options1')[1].focus();
+		document.getElementsByName('options1')[1].nextElementSibling.style.backgroundColor = "red";
 	}
 	else if (value === "244") {
 		document.getElementsByName('options1')[2].checked = true;
 		document.getElementsByName('options1')[2].focus();
+		document.getElementsByName('options1')[2].nextElementSibling.style.backgroundColor = "red";
 	}
 	else if (value === "245") {
 		document.getElementsByName('options1')[3].checked = true;
@@ -127,18 +135,34 @@ $('input[type=radio][name=options1]').change(function() {
 	if (initData.workOrder_WorkStatus !== this.getAttribute("value")) {
 		// 미접수
 		if (initData.workOrder_WorkStatus === "242") {
-			if (this.getAttribute("value") === "245" || this.getAttribute("value") === "244") {
-				alert("미접수된 데이터는 접수완료를 선택하여 주십시오.");
+			if (this.getAttribute("value") === "245") {
+				alert("미접수된 데이터는 작업완료를 선택 할 수 없습니다.");
 				radio_select("242");
 				return;
 			}
-
-			$.get("../workOrderListRest/OrderUpdate?workOrder_ONo=" + initData.workOrder_ONo, function(data) {
-				//Equip_Select("M001");
-				//console.log(initRow.getData());
-				initRow.update({ "workOrder_ReceiptTime": data.workOrder_ReceiptTime, "workOrder_WorkStatus": data.workOrder_WorkStatus });
-				initData = data;
-			});
+			
+			if (this.getAttribute("value") === "244") {
+				$.get("../workListRest/OrderUpdate?workOrder_ONo=" + initData.workOrder_ONo + "&workOrder_EquipCode=" + workOrder_EquipCode + "&Start=t", function(data) {
+					if (data === "OK") {
+						alert("해당 호기에 이미 작업시작이 된 데이터가 존재합니다.");
+						radio_select("242");
+						return;
+					}
+					else {
+						//MI_Search2
+						location.href = "/tablet/workOrderStartBB?code="+document.getElementById("eqselect").value;
+					}
+				});
+			}
+			
+			if (this.getAttribute("value") === "243"){
+				$.get("../workOrderListRest/OrderUpdate?workOrder_ONo=" + initData.workOrder_ONo, function(data) {
+					//Equip_Select("M001");
+					//console.log(initRow.getData());
+					initRow.update({ "workOrder_ReceiptTime": data.workOrder_ReceiptTime, "workOrder_WorkStatus": data.workOrder_WorkStatus });
+					initData = data;
+				});
+			}
 		}
 		// 접수완료
 		else if (initData.workOrder_WorkStatus === "243") {
@@ -168,7 +192,7 @@ $('input[type=radio][name=options1]').change(function() {
 					}
 					else {
 						//MI_Search2
-						location.href = "/workOrderStartBB?code="+document.getElementById("eqselect").value;
+						location.href = "/tablet/workOrderStartBB?code="+document.getElementById("eqselect").value;
 
 						/* 
 						$.get("WorkOrderTABRest/MI_Search2?workOrder_ONo=" + initData.workOrder_ONo, function(data) {
@@ -210,11 +234,16 @@ $('input[type=radio][name=options1]').change(function() {
 var totaldata = null;
 var viewdata = [];
 
-$('input[type=radio][name=options2]').change(function() {
-	id = this.id.slice(0, -1);
-	
-	//console.log(id);
-	
+function option2click(n){
+	document.getElementsByName('options2')[0].nextElementSibling.style.backgroundColor = "rgb(237, 237, 237)";
+	document.getElementsByName('options2')[1].nextElementSibling.style.backgroundColor = "rgb(237, 237, 237)";
+	document.getElementsByName('options2')[2].nextElementSibling.style.backgroundColor = "rgb(237, 237, 237)";
+	document.getElementsByName('options2')[3].nextElementSibling.style.backgroundColor = "rgb(237, 237, 237)";
+	document.getElementsByName('options2')[4].nextElementSibling.style.backgroundColor = "rgb(237, 237, 237)";
+	n.style.backgroundColor = "red";
+
+	id = n.getAttribute("for").slice(0, -1);
+
 	if(id === "all")
 	{
 		WorkOrder_tbl.setData(totaldata);
@@ -233,22 +262,14 @@ $('input[type=radio][name=options2]').change(function() {
 		
 		WorkOrder_tbl.setData(viewdata);
 	}
-});
+}
 
 window.onload = function() {
-	//var array = document.getElementsByName("options1");
-	//array[array.length - 1].setAttribute("disabled", '');
-
-	//document.getElementById("246").style.display = "none";
-	//document.getElementById("246c").style.display = "none";
+	document.getElementById("ko").style.height = window.innerHeight - document.getElementById("ko").offsetTop + "px";
 
 	workOrder_EquipCode = "M001";
 
-	/* 
-	$.get("workOrderTABRest/MI_Search1?WorkOrder_EquipCode=M001", function(data) {
-		WorkOrder_tbl.setData(data);
-	});
-	*/
+	document.getElementsByName('options2')[0].nextElementSibling.style.backgroundColor = "red";
 
 	$.get("../workOrderTABRestXO/MI_Searchd2?WorkOrder_EquipCode="+document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
 		totaldata = data;
@@ -259,3 +280,100 @@ window.onload = function() {
 document.getElementById("move").onclick = function(){
 	move();
 }
+
+		function lang_convert(n){
+			if(n.id==="kor")
+			{
+				document.getElementById("kor").style.background = "red";
+				document.getElementById("eng").style.background = "white";
+
+				document.getElementById("t1").innerHTML = "작업 관리";
+				document.getElementById("t2").innerHTML = "설&nbsp;&nbsp;&nbsp;비";
+				document.getElementById("t3").innerHTML = "작업관리";
+				
+				document.getElementById("t4").innerHTML = "수정";
+				document.getElementById("t4").style.fontSize = "45px";
+				document.getElementById("242c").innerHTML = "미접수";
+				document.getElementById("243c").innerHTML = "접수완료";
+				document.getElementById("244c").innerHTML = "작업시작";
+				document.getElementById("245c").innerHTML = "작업완료";
+				
+				for(i=242;i<246;i++)
+				{
+					document.getElementById(i+"c").style.fontSize = "45px";
+				}
+				
+				document.getElementById("t5").innerHTML = "조회";
+				document.getElementById("t5").style.fontSize = "45px";
+				
+				document.getElementById("t6").innerHTML = "전체";
+				document.getElementById("t6").style.fontSize = "45px";
+
+				document.getElementById("t66").style.width = "";
+				document.getElementById("t66").style.marginLeft = "0px";
+				document.getElementById("t66").innerHTML = "전체";
+				document.getElementById("t66").style.fontSize = "45px";
+				
+				document.getElementById("242s").innerHTML = "미접수";
+				document.getElementById("243s").innerHTML = "접수완료";
+				document.getElementById("244s").innerHTML = "작업시작";
+				document.getElementById("245s").innerHTML = "작업완료";
+				
+				for(i=242;i<246;i++)
+				{
+					document.getElementById(i+"s").style.fontSize = "45px";
+				}
+
+				for(i=2;i<4;i++)
+				{
+					document.getElementById("t"+i).style.fontSize = "45px";
+				}
+			}
+			else if(n.id==="eng")
+			{
+				document.getElementById("kor").style.background = "white";
+				document.getElementById("eng").style.background = "red";
+
+				document.getElementById("t1").innerHTML = "Work Order";
+				document.getElementById("t2").innerHTML = "Machinery";
+				document.getElementById("t3").innerHTML = "Work Order";
+				
+				document.getElementById("t4").innerHTML = "Modify";
+				document.getElementById("t4").style.fontSize = "35px";
+				document.getElementById("242c").innerHTML = "Not accepted";
+				document.getElementById("243c").innerHTML = "Accepted";
+				document.getElementById("244c").innerHTML = "Start time of work";
+				document.getElementById("245c").innerHTML = "End time of work";
+				
+				for(i=242;i<246;i++)
+				{
+					document.getElementById(i+"c").style.fontSize = "35px";
+				}
+				
+				document.getElementById("t5").innerHTML = "Select&nbsp;";
+				document.getElementById("t5").style.fontSize = "35px";
+				
+				document.getElementById("t6").innerHTML = "ALL";
+				document.getElementById("t6").style.fontSize = "35px";
+				
+				document.getElementById("t66").innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+				//document.getElementById("t66").style.width = "4%";
+				document.getElementById("t66").style.marginLeft = "6px";
+				//document.getElementById("t66").style.fontSize = "35px";
+				
+				document.getElementById("242s").innerHTML = "Not accepted";
+				document.getElementById("243s").innerHTML = "Accepted";
+				document.getElementById("244s").innerHTML = "Start time of work";
+				document.getElementById("245s").innerHTML = "End time of work";
+				
+				for(i=242;i<246;i++)
+				{
+					document.getElementById(i+"s").style.fontSize = "35px";
+				}
+
+				for(i=2;i<4;i++)
+				{
+					document.getElementById("t"+i).style.fontSize = "40px";
+				}
+			}
+		}
