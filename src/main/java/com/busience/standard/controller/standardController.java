@@ -20,15 +20,15 @@ public class standardController {
 		
 		//사용자 타입
 		int userType = 1;
-		model.addAttribute("userTypeList", dtlService.getAlldtl(userType));
+		model.addAttribute("userTypeList", dtlService.getAllDtl(userType));
 		
 		//사업장
 		int company = 2;
-		model.addAttribute("companyList", dtlService.getAlldtl(company));
+		model.addAttribute("companyList", dtlService.getAllDtl(company));
 		
 		//부서
 		int dept = 3;
-		model.addAttribute("deptList", dtlService.getAlldtl(dept));
+		model.addAttribute("deptList", dtlService.getAllDtl(dept));
 		
 		//메뉴명
 		model.addAttribute("pageName", "사용자 관리");
@@ -41,35 +41,35 @@ public class standardController {
 
 		//사업장
 		int company = 2;
-		model.addAttribute("companyList", dtlService.getAlldtl(company));
+		model.addAttribute("companyList", dtlService.getAllDtl(company));
 		
 		//단위
 		int unit = 4;
-		model.addAttribute("unitList", dtlService.getAlldtl(unit));
+		model.addAttribute("unitList", dtlService.getAllDtl(unit));
 		
 		//자재분류
 		int mtrlClsfc = 5;
-		model.addAttribute("mtrlClsfcList", dtlService.getAlldtl(mtrlClsfc));
+		model.addAttribute("mtrlClsfcList", dtlService.getAllDtl(mtrlClsfc));
 	
 		//품목분류1
 		int itemClsfc1 = 6;
-		model.addAttribute("itemClsfc1List", dtlService.getAlldtl(itemClsfc1));
+		model.addAttribute("itemClsfc1List", dtlService.getAllDtl(itemClsfc1));
 	
 		//품목분류2
 		int itemClsfc2 = 7;
-		model.addAttribute("itemClsfc2List", dtlService.getAlldtl(itemClsfc2));
+		model.addAttribute("itemClsfc2List", dtlService.getAllDtl(itemClsfc2));
 		
 		//재질
 		int material = 8;
-		model.addAttribute("materialList", dtlService.getAlldtl(material));
+		model.addAttribute("materialList", dtlService.getAllDtl(material));
 		
 		//품목상태
 		int itemStatus = 9;
-		model.addAttribute("itemStatusList", dtlService.getAlldtl(itemStatus));
+		model.addAttribute("itemStatusList", dtlService.getAllDtl(itemStatus));
 		
 		//기본창고
 		int basicWarehouse = 10;
-		model.addAttribute("basicWarehouseList", dtlService.getAlldtl(basicWarehouse));
+		model.addAttribute("basicWarehouseList", dtlService.getAllDtl(basicWarehouse));
 
 		//페이지명
 		model.addAttribute("pageName", "품목 정보 관리");
@@ -82,15 +82,15 @@ public class standardController {
 
 		// 납품조건
 		int paymentMethod = 15;
-		model.addAttribute("paymentMethodList", dtlService.getAlldtl(paymentMethod));
+		model.addAttribute("paymentMethodList", dtlService.getAllDtl(paymentMethod));
 		
 		// 거래처 구분
 		int clsfc = 28;
-		model.addAttribute("clsfcMethodList", dtlService.getAlldtl(clsfc));
+		model.addAttribute("clsfcMethodList", dtlService.getAllDtl(clsfc));
 		
 		// 결제일
 		int paymentDate = 39;
-		model.addAttribute("paymentDateList", dtlService.getAlldtl(paymentDate));
+		model.addAttribute("paymentDateList", dtlService.getAllDtl(paymentDate));
 		
 		// 페이지명
 		model.addAttribute("pageName", "거래처 관리");
@@ -103,11 +103,11 @@ public class standardController {
 		
 		//사업장
 		int company = 2;
-		model.addAttribute("companyList", dtlService.getAlldtl(company));
+		model.addAttribute("companyList", dtlService.getAllDtl(company));
 		
 		//설비상태
 		int equipmentStatus = 12;
-		model.addAttribute("equipmentStatusList", dtlService.getAlldtl(equipmentStatus));
+		model.addAttribute("equipmentStatusList", dtlService.getAllDtl(equipmentStatus));
 		
 		model.addAttribute("pageName", "설비 정보 관리");
 		
@@ -131,7 +131,7 @@ public class standardController {
 		
 		// 자재분류
 		int mtrlClsfc = 5;
-		model.addAttribute("mtrlClsfcList", dtlService.getAlldtl(mtrlClsfc));
+		model.addAttribute("mtrlClsfcList", dtlService.getAllDtl(mtrlClsfc));
 		model.addAttribute("pageName", "BOM 입력");
 		
 		return "standard/BOM";
@@ -142,7 +142,7 @@ public class standardController {
 		
 		// 자재분류
 		int mtrlClsfc = 5;
-		model.addAttribute("mtrlClsfcList", dtlService.getAlldtl(mtrlClsfc));
+		model.addAttribute("mtrlClsfcList", dtlService.getAllDtl(mtrlClsfc));
 		model.addAttribute("pageName", "BOM 조회");
 		
 		return "standard/BOMList/BOMListMaster";

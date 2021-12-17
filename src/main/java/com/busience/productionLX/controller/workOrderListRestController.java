@@ -257,7 +257,7 @@ public class workOrderListRestController {
 				+ "			t1.WorkOrder_Worker,							\r\n"
 				+ "			t1.WorkOrder_Remark,\r\n"
 				+ "			t2.PRODUCT_INFO_STND_1	\r\n"
-				+ "			,(select a.Sales_SM_Last_Qty+a.Sales_SM_In_Qty-a.Sales_SM_Out_Qty from Sales_StockMat_tbl a where a.Sales_SM_Code=t1.WorkOrder_ItemCode) Qty \r\n"
+				+ "			,(select a.Sales_SM_Last_Qty+a.Sales_SM_In_Qty-a.Sales_SM_Out_Qty from Sales_StockMatLX_tbl a where a.Sales_SM_Code=t1.WorkOrder_ItemCode) Qty \r\n"
 				+ "FROM		WorkOrder_tbl t1\r\n"
 				+ "LEFT JOIN	PRODUCT_INFO_TBL t2 ON t1.WorkOrder_ItemCode = t2.PRODUCT_ITEM_CODE\r\n"
 				+ "LEFT JOIN	EQUIPMENT_INFO_TBL t3 ON t1.WorkOrder_EquipCode = t3.EQUIPMENT_INFO_CODE\r\n"
@@ -330,7 +330,7 @@ public class workOrderListRestController {
 				+ "			t1.WorkOrder_Worker,							\r\n"
 				+ "			t1.WorkOrder_Remark,\r\n"
 				+ "			t2.PRODUCT_INFO_STND_1	\r\n"
-				+ "			,(select a.Sales_SM_Last_Qty+a.Sales_SM_In_Qty-a.Sales_SM_Out_Qty from Sales_StockMat_tbl a where a.Sales_SM_Code=t1.WorkOrder_ItemCode) Qty \r\n"
+				+ "			,(select a.Sales_SM_Last_Qty+a.Sales_SM_In_Qty-a.Sales_SM_Out_Qty from Sales_StockMatLX_tbl a where a.Sales_SM_Code=t1.WorkOrder_ItemCode) Qty \r\n"
 				+ "FROM		WorkOrder_tbl t1\r\n"
 				+ "LEFT JOIN	PRODUCT_INFO_TBL t2 ON t1.WorkOrder_ItemCode = t2.PRODUCT_ITEM_CODE\r\n"
 				+ "LEFT JOIN	EQUIPMENT_INFO_TBL t3 ON t1.WorkOrder_EquipCode = t3.EQUIPMENT_INFO_CODE\r\n"
@@ -377,7 +377,7 @@ public class workOrderListRestController {
 		String workOrder_ONo = request.getParameter("workOrder_ONo");
 
 		// 접속자 정보
-		String modifier = principal.getName();
+		String modifier = (principal == null)? "admin" : principal.getName();
 
 		String sql = "update WorkOrder_tbl set WorkOrder_WorkStatus='243',WorkOrder_ReceiptTime=now(),WorkOrder_Worker='"
 				+ modifier + "'" + " where workOrder_ONo='" + workOrder_ONo + "'";

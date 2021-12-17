@@ -146,8 +146,8 @@ var matInputSubTable = new Tabulator("#matInputSubTable", {
 	{title:"구분", field:"order_Rcv_Clsfc", headerHozAlign:"center",
 		formatter:function(cell, formatterParams){
 		    var value = cell.getValue();
-			if(dtl_arr[value] != null){
-					value = dtl_arr[value];	
+			if(input_dtl[value] != null){
+					value = input_dtl[value];	
 				}else{
 					value = "";
 				}
@@ -168,20 +168,6 @@ function MIS_Search(order_lCus_No){
 		}
 	});
 }
-
-// 입고구분 select를 구성하기위한 ajax
-var dtl_arr = new Object();
-
-$.ajax({
-	method : "GET",
-	async: false,
-	url : "dtl_tbl_select?NEW_TBL_CODE=17",
-	success : function(datas) {
-		for(i=0;i<datas.length;i++){
-			dtl_arr[datas[i].child_TBL_NO] = datas[i].child_TBL_TYPE;
-		}
-	}
-});
 
 //matInputSub 커스텀 기능설정
 var MIM_InputEditor = function(cell, onRendered, success, cancel, editorParams){
@@ -243,6 +229,8 @@ var MIM_InputEditor = function(cell, onRendered, success, cancel, editorParams){
     return MIM_input;
 };
 
+// 입고구분 select를 구성하는 리스트
+var input_dtl = dtlSelectList(17);
 
 //inMatTable 이미 저장되있는 데이터는 편집 불가능 하게 하는 확인 기능
 var editCheck = function(cell){
@@ -317,14 +305,14 @@ var inMatTable = new Tabulator("#inMatTable", {
 	{title:"구분", field:"inMat_Rcv_Clsfc", headerHozAlign:"center", editor:"select", editable:editCheck, width : 65,
 		formatter:function(cell, formatterParams){
 		    var value = cell.getValue();
-			if(dtl_arr[value] != null){
-					value = dtl_arr[value];
+			if(input_dtl[value] != null){
+					value = input_dtl[value];
 				}else{
 					value = "";
 				}
 		    return value;
 		},
-		editorParams:{values:dtl_arr}
+		editorParams:{values:input_dtl}
 	},
 	{title:"거래처코드", field:"inMat_Client_Code", visible:false},
 	{title:"입고일자", field:"inMat_Date", headerHozAlign:"center", hozAlign:"right", width : 125}

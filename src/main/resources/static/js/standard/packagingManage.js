@@ -128,19 +128,7 @@ function item_gridInit(PCode, PName, PSTND_1, PPrice) {
 	cellPos.getElement().focus();
 }
 
-// 출하구분 select를 구성하기위한 ajax
-var dtl_arr = new Object();
-
-$.ajax({
-	method : "GET",
-	async: false,
-	url : "dtl_tbl_select?NEW_TBL_CODE=28",
-	success : function(datas) {
-		for(i=0;i<datas.length;i++){
-			dtl_arr[datas[i].child_TBL_NO] = datas[i].child_TBL_TYPE;
-		}
-	}
-});
+var dtl_arr = dtlSelectList(28);
 
 //셀 위치 저장
 var cellPos = null;

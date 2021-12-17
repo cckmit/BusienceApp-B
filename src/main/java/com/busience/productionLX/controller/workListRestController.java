@@ -265,6 +265,7 @@ public class workListRestController {
 	public String OrderUpdate(HttpServletRequest request, Principal principal) throws org.json.simple.parser.ParseException, SQLException {
 		String workOrder_ONo = request.getParameter("workOrder_ONo");
 		String workOrder_EquipCode = request.getParameter("workOrder_EquipCode");
+		String Start = request.getParameter("Start");
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -288,11 +289,17 @@ public class workListRestController {
 			return "OK";
 		} else {
 			// 접속자 정보
-			String modifier = principal.getName();
+			String modifier = (principal == null)? "admin" : principal.getName();
 
-			sql = "update WorkOrder_tbl set WorkOrder_WorkStatus='244',WorkOrder_StartTime=now(),WorkOrder_Worker='"
-					+ modifier + "',WorkOrder_RQty=null,WorkOrder_CompleteTime=null" + " where workOrder_ONo='"
-					+ workOrder_ONo + "'";
+			if(Start == null)
+				sql = "update WorkOrder_tbl set WorkOrder_WorkStatus='244',WorkOrder_StartTime=now(),WorkOrder_Worker='"
+						+ modifier + "',WorkOrder_RQty=null,WorkOrder_CompleteTime=null" + " where workOrder_ONo='"
+						+ workOrder_ONo + "'";
+			else
+				sql = "update WorkOrder_tbl set WorkOrder_WorkStatus='244',WorkOrder_ReceiptTime=now(),WorkOrder_StartTime=now(),WorkOrder_Worker='"
+						+ modifier + "',WorkOrder_RQty=null,WorkOrder_CompleteTime=null" + " where workOrder_ONo='"
+						+ workOrder_ONo + "'";	
+			
 			System.out.println(sql);
 
 			pstmt = con.prepareStatement(sql);
