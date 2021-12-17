@@ -14,9 +14,9 @@ var salesInputMasterTable = new Tabulator("#salesInputMasterTable", {
 		
 		if(!inputDuplCheck(row)){
 			salesInputSubTable.addRow({"sales_InMat_Code" : row.getData().product_ITEM_CODE,
-								   "sales_InMat_Name" : row.getData().product_ITEM_NAME,
-								   "sales_InMat_Qty" : 0,
-								   "sales_InMat_Rcv_Clsfc" : "203"
+										"sales_InMat_Name" : row.getData().product_ITEM_NAME,
+										"sales_InMat_Qty" : 0,
+										"sales_InMat_Rcv_Clsfc" : "203"
 									});
 			UseBtn();
 		}
@@ -54,22 +54,8 @@ function SI_Search(){
 	salesInputMasterTable.setData("salesInputLXRest/SI_Search");
 }
 
-// 입고구분 select를 구성하기위한 ajax
-var dtl_arr = new Object();
-
-// 매니저명 select를 구성하기 위한 ajax
-var manager_arr = new Object();
-
-$.ajax({
-	method: "GET",
-	async: false,
-	url: "dtl_tbl_select?NEW_TBL_CODE=17",
-	success: function(datas) {
-		for (i = 0; i < datas.length; i++) {
-			dtl_arr[datas[i].child_TBL_NO] = datas[i].child_TBL_TYPE;
-		}
-	}
-});
+// 입고구분 select를 구성하는 리스트
+var input_dtl = dtlSelectList(17);
 
 //salesInputSub 커스텀 기능설정
 var SIS_InputEditor = function(cell, onRendered, success, cancel, editorParams) {
@@ -154,14 +140,14 @@ var salesInputSubTable = new Tabulator("#salesInputSubTable", {
 		{ title: "구분", field: "sales_InMat_Rcv_Clsfc", headerHozAlign: "center", editor: "select",
 			formatter: function(cell, formatterParams) {
 				var value = cell.getValue();
-				if (dtl_arr[value] != null) {
-					value = dtl_arr[value];
+				if (input_dtl[value] != null) {
+					value = input_dtl[value];
 				} else {
-					value = dtl_arr[0];
+					value = input_dtl[0];
 				}
 				return value;
 			},
-			editorParams: { values: dtl_arr }
+			editorParams: { values: input_dtl }
 		}
 	]
 });

@@ -32,7 +32,7 @@ public class codeManageRestController {
 
 	@GetMapping("/CMS_Search")
 	public List<DtlDto> CMS_Search(int NEW_TBL_CODE) {
-		return dtlService.getAlldtl(NEW_TBL_CODE);
+		return dtlService.getAllDtl(NEW_TBL_CODE);
 	}
 
 	@PostMapping("/codeManageInsert")

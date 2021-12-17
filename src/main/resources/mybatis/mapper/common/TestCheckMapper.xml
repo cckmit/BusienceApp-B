@@ -6,7 +6,7 @@
 	
 <mapper namespace="com.busience.common.dao.TestCheckDao">
 	<select id="TestCheckListDao" resultType="com.busience.common.dto.TestCheckDto">
-		select iid, iequip, ivalue, idatetime from insert_test_tbl order by idatetime desc
+		select iid, iequip, ivalue, idatetime from insert_test_tbl order by iid desc
 	</select>
 	
 	<insert id="TestInsertDao">

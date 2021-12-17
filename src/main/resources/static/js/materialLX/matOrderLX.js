@@ -1,5 +1,3 @@
-
-
 //matOrder 커스텀 기능설정
 var MO_inputEditor = function(cell, onRendered, success, cancel, editorParams){
     //cell - 편집 가능한 셀의 셀 구성 요소
@@ -401,19 +399,9 @@ var MOL_InputEditor = function(cell, onRendered, success, cancel, editorParams){
     return MOL_input;
 };
 
-// 입고구분 select를 구성하기위한 ajax
-var dtl_arr = new Object();
-
-$.ajax({
-	method : "GET",
-	async: false,
-	url : "dtl_tbl_select?NEW_TBL_CODE=17",
-	success : function(datas) {
-		for(i=0;i<datas.length;i++){
-			dtl_arr[datas[i].child_TBL_NO] = datas[i].child_TBL_TYPE;
-		}
-	}
-});
+// 입고구분 select를 구성하는 리스트
+var input_dtl = dtlSelectList(17);
+console.log(input_dtl);
 
 //matOrderSubTable 이미 저장되있는 데이터는 편집 불가능 하게 하는 확인 기능
 var editCheck = function(cell){
@@ -547,14 +535,14 @@ var matOrderSubTable = new Tabulator("#matOrderSubTable", {
 	{title:"구분", field:"order_Rcv_Clsfc", headerHozAlign:"center",/* editor:"select",*/
 		formatter:function(cell, formatterParams){
 		    var value = cell.getValue();
-			if(dtl_arr[value] != null){
-					value = dtl_arr[value];	
+			if(input_dtl[value] != null){
+					value = input_dtl[value];	
 				}else{
 					value = "";
 				}
 		    return value;
 		},
-		editorParams:{values:dtl_arr}
+		editorParams:{values:input_dtl}
 	}
  	]
 });

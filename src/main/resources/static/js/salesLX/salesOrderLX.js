@@ -331,19 +331,8 @@ var SOL_InputEditor = function(cell, onRendered, success, cancel, editorParams) 
 	return SOL_input;
 };
 
-// 출하구분 select를 구성하기위한 ajax
-var dtl_arr = new Object();
-
-$.ajax({
-	method : "GET",
-	async: false,
-	url : "dtl_tbl_select?NEW_TBL_CODE=19",
-	success : function(datas) {
-		for(i=0;i<datas.length;i++){
-			dtl_arr[datas[i].child_TBL_NO] = datas[i].child_TBL_TYPE;
-		}
-	}
-});
+// 출하구분 select를 구성하는 리스트
+var output_dtl = dtlSelectList(19);
 
 //salesOrderSubTable 이미 저장되있는 데이터는 편집 불가능 하게 하는 확인 기능
 var editCheck = function(cell){
@@ -489,14 +478,14 @@ var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
 		{ title: "구분", field: "sales_Order_Send_Clsfc", headerHozAlign: "center", width: 70, editor: "select",
 			formatter: function(cell, formatterParams) {
 				var value = cell.getValue();
-				if(dtl_arr[value] != null){
-						value = dtl_arr[value];	
+				if(output_dtl[value] != null){
+						value = output_dtl[value];	
 					}else{
 						value = "";
 					}
 			    return value;
 			},
-			editorParams:{values:dtl_arr}}
+			editorParams:{values:output_dtl}}
 		]
 	});
 

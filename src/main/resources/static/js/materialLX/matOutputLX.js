@@ -85,36 +85,11 @@ $('#MR_SearchBtn').click(function() {
 
 
 
-// 입고구분 select를 구성하기위한 ajax
-var dtl_arr = new Object();
+// 출고구분 select를 구성하는 리스트
+var output_dtl = dtlSelectList(18);
 
-// 매니저명 select를 구성하기 위한 ajax
-var manager_arr = new Object();
-
-$.ajax({
-	method: "GET",
-	async: false,
-	url: "dtl_tbl_select?NEW_TBL_CODE=18",
-	success: function(datas) {
-		for (i = 0; i < datas.length; i++) {
-			dtl_arr[datas[i].child_TBL_NO] = datas[i].child_TBL_TYPE;
-		}
-	}
-});
-
-$.ajax({
-	method: "GET",
-	async: false,
-	url: "manager_select?NEW_TBL_CODE=1",
-	success: function(datas) {
-		console.log("매니저 조회 완료");
-		for (i = 0; i < datas.length; i++) {
-			manager_arr[datas[i].child_TBL_NO] = datas[i].child_TBL_TYPE;
-		}
-	}
-});
-
-
+// 매니저명 select를 구성하는 리스트
+var manager_dtl = dtlSelectList(1);
 
 //matInputSub 커스텀 기능설정
 var MOM_InputEditor = function(cell, onRendered, success, cancel, editorParams) {
@@ -209,26 +184,26 @@ var matOutputTable = new Tabulator("#matOutputTable", {
 			title: "수취인", field: "outMat_Consignee", headerHozAlign: "center", hozAlign: "left", editor: "select", editable: editCheck,
 			formatter: function(cell, formatterParams) {
 				var value = cell.getValue();
-				if (manager_arr[value] != null) {
-					value = manager_arr[value];
+				if (manager_dtl[value] != null) {
+					value = manager_dtl[value];
 				} else {
 					value = "";
 				}
 				return value;
-			}, editorParams: { values: manager_arr }
+			}, editorParams: { values: manager_dtl }
 		},
 		{
 			title: "구분", field: "outMat_Send_Clsfc", headerHozAlign: "center", editor: "select", editable: editCheck, width: 65,
 			formatter: function(cell, formatterParams) {
 				var value = cell.getValue();
-				if (dtl_arr[value] != null) {
-					value = dtl_arr[value];
+				if (output_dtl[value] != null) {
+					value = output_dtl[value];
 				} else {
-					value = dtl_arr[0];
+					value = output_dtl[0];
 				}
 				return value;
 			},
-			editorParams: { values: dtl_arr }
+			editorParams: { values: output_dtl }
 		}
 	]
 });
