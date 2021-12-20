@@ -146,7 +146,7 @@ public class matOutputReportLXRestController {
 
 			sql += where;
 
-			sql += " order by omt.OutMat_Date";
+			sql += " order by omt.OutMat_Date desc";
 
 			//System.out.println("where : " + where);
 			//System.out.println(sql);
