@@ -258,6 +258,11 @@ function modBtn() {
 	
 }
 
+//trigger download of data.xlsx file
+document.getElementById("download_xlsx").addEventListener("click", function(){
+    table.download("xlsx", "defectManage.xlsx", {sheetName:"defectManage"});
+});
+
 // 수정 모달창에서 취소버튼을 누를때 수정 모달창 데이터를 초기화
 function modResetBtn() {
 	document.getElementById("update_defect_NAME").value = "";

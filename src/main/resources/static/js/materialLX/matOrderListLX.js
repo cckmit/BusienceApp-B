@@ -94,7 +94,8 @@ function MOL_Search() {
 
 $('#MOL_SearchBtn').click(function() {
 	MOL_Search();
-})
+});
+
 
 var matOrderListSubTable = new Tabulator("#matOrderListSubTable", {
 	//페이징
@@ -164,6 +165,12 @@ var matOrderListSubTable = new Tabulator("#matOrderListSubTable", {
 		},
 		{ title: "비고", field: "order_lInfo_Remark", headerHozAlign: "center" },
 	]
+});
+
+//trigger download of data.xlsx file
+document.getElementById("download_xlsx").addEventListener("click", function(){
+    matOrderListTable.download("xlsx", "matOrderList.xlsx", {sheetName:"matOrderList"});
+    matOrderListSubTable.download("xlsx", "matOrderList.xlsx", {sheetName:"matOrderSub"});
 });
 
 //팝업창으로부터 특정 파라미터 값으로 데이터를 받는다 

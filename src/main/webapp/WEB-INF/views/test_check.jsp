@@ -26,10 +26,6 @@
 		 		{title:"삽입날짜", field:"idatetime", headerHozAlign:"center", hozAlign:"right"}
 		 	]
 		});
-		
-		$("#reset_table").click(function(){
-			testCheckTable.replaceData();
-		})
 	</script>
 </div>
 

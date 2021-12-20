@@ -14,6 +14,8 @@
 				<img src="/images/button/Update.png" id="itemUpdateBtn"/>
 					
 			 	<img src="/images/button/Delete.png" id="itemDeleteBtn"/>
+			 	
+			 	<img src="/images/button/Excel.png" id="download_xlsx"/>
 			</div>
 		</div>
 

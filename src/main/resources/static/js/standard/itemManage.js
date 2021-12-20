@@ -183,6 +183,11 @@ $("#itemModifyBtn").click(function(){
 	}
 })
 
+//trigger download of data.xlsx file
+document.getElementById("download_xlsx").addEventListener("click", function(){
+    itemManageTable.download("xlsx", "itemManage.xlsx", {sheetName:"itemManage"});
+});
+
 function itemModify() {
 	var datas = {
 		PRODUCT_BUSINESS_PLACE: $("#product_BUSINESS_PLACE").val(),

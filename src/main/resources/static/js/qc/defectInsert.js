@@ -1,169 +1,149 @@
-	var defectPerformance = new Tabulator("#defectPerformance", {
-			height:"calc(100% - 175px)",
-			//복사하여 엑셀 붙여넣기 가능
-			clipboard: true,
-			rowClick:function(e, row){
-			},
-			rowDblClick:function(e, row){
-		    },
-		    
-			columns:[
-				{ title: "작업지시 번호", field: "defect_USE_STATUS", headerHozAlign: "center",visible: false },
-				{ title: "불량 코드", field: "defect_CODE", headerHozAlign: "center" },
-				{ title: "불량 이름", field: "defect_NAME", headerHozAlign: "center" },
-				{ title: "불량 수량", field: "defect_ABR", headerHozAlign: "center",editor:"input"
-					, formatter:function(cell, formatterParams, onRendered){
-				    //cell - the cell component
-				    //formatterParams - parameters set for the column
-				    //onRendered - function to call when the formatter has been rendered
-				    
-				    return isNaN(parseInt(cell.getValue())) ? 0 : parseInt(cell.getValue()); //return the contents of the cell;
-					}
-					,cellClick:function(e, cell){
-						
-						var value = String(cell.getValue());
-						
-						if(value != "null" && value.split('.').length > 0)
-							cell.getRow().update({"defect_ABR":value.split('.')[0]});
-						else
-						{
-							cell.getRow().update({"defect_ABR":value == "null"?0:value});
-						}
-						
-						cell.getRow().getCell("defect_ABR").edit();
-						
-				    }
-					,cellEditCancelled:function(cell){
-				    
-						if(isNaN(cell.getValue()))
-						{
-							alert("불량 수량은 숫자를 입력하여 주십시오.");
-							cell.restoreOldValue();
-							return;
-						}
-}
-					,cellEdited(cell){
-						
-						if(isNaN(cell.getValue()))
-						{
-							alert("불량 수량은 숫자를 입력하여 주십시오.");
-							cell.restoreOldValue();
-							return;
-						}
-						
-				    }
-				},
-			]
-		});
-		
-		var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
-			height:"calc(100% - 175px)",
-			//복사하여 엑셀 붙여넣기 가능
-			clipboard: true,
-			rowClick:function(e, row){
-				if (e.detail == 1){
-					$.get("defectInsertRest/DEFECT_INFO_TBL_Load?oqcinspect_OqcInNo=" + row.getData().oqcinspect_OqcInNo, function(data) {
-						defectPerformance.setData(data);
-						//defectPerformance.
-						//row.getCell("order_mCode").edit();
-						WorkOrder_tbl.deselectRow();
-						row.select();
-						
-						var value = String(defectPerformance.getRows()[0].getCell("defect_ABR").getValue());
-						
-						if(value != "null" && value.split('.').length > 0)
-							defectPerformance.getRows()[0].update({"defect_ABR":value.split('.')[0]});
-						else
-						{
-							defectPerformance.getRows()[0].update({"defect_ABR":value == "null"?0:value});
-						}
-						
-						defectPerformance.getRows()[0].getCell("defect_ABR").edit();
-					});
-				}
-			},
-			rowDblClick:function(e, row){
-		    },
-		    
-			columns:[
-				{ title: "작업지시No", field: "oqcinspect_OqcInNo", headerHozAlign: "center", width: 160 },
-				{ title: "제품코드", field: "product_ITEM_CODE", headerHozAlign: "center", width: 100 },
-				{ title: "제품이름", field: "product_ITEM_NAME", headerHozAlign: "center", width: 180},
-				{ title: "설비코드", field: "cus_Code", headerHozAlign: "center", width: 100 },
-				{ title: "설비이름", field: "cus_Name", headerHozAlign: "center", width: 180 },
-				{ title: "규격", field: "product_INFO_STND_1", headerHozAlign: "center"},		
-				{ title: "상태", field: "oqcinspect_Prcsn_Clsfc_Name", headerHozAlign: "center"},	
-				{ title: "작업완료일", field: "oqcinspect_Date", headerHozAlign: "center"},	
-				{ title: "지시수량", field: "oqcinspect_PQty", headerHozAlign: "center", align:"right",formatter:function(cell, formatterParams, onRendered){
-				    //cell - the cell component
-				    //formatterParams - parameters set for the column
-				    //onRendered - function to call when the formatter has been rendered
-				    
-				    return isNaN(parseInt(cell.getValue())) ? 0 : parseInt(cell.getValue()); //return the contents of the cell;
-				}},
-				{ title: "생산수량", field: "oqcinspect_SaQty", headerHozAlign: "center", align:"right",formatter:function(cell, formatterParams, onRendered){
-				    //cell - the cell component
-				    //formatterParams - parameters set for the column
-				    //onRendered - function to call when the formatter has been rendered
+var WorkOrderTable = new Tabulator("#WorkOrderTable", {
+	//페이징
+	pagination: "local",
+	paginationSize: 20,
+	height:"calc(100% - 175px)",
+	layoutColumnsOnNewData : true,
+	rowClick:function(e, row){
+		row.getTable().deselectRow();
+		row.select();
+		DIS_Search(row.getData().workOrder_ONo);
+	},
+	columns:[
+		{ title: "작업지시No", field: "workOrder_ONo", headerHozAlign: "center"},
+		{ title: "제품코드", field: "workOrder_ItemCode", headerHozAlign: "center"},
+		{ title: "제품명", field: "workOrder_ItemName", headerHozAlign: "center"},
+		{ title: "규격", field: "workOrder_Item_STND_1", headerHozAlign: "center"},
+		{ title: "설비코드", field: "workOrder_EquipCode", headerHozAlign: "center"},
+		{ title: "설비명", field: "workOrder_EquipName", headerHozAlign: "center"},	
+		{ title: "작업상태", field: "workOrder_WorkStatus_Name", headerHozAlign: "center"},	
+		{ title: "작업완료일", field: "workOrder_CompleteTime", headerHozAlign: "center"},	
+		{ title: "지시수량", field: "workOrder_PQty", headerHozAlign: "center", align:"right"},
+		{ title: "생산수량", field: "workOrder_RQty", headerHozAlign: "center", align:"right"},
+		{ title: "불량수량", field: "workOrder_DQty", headerHozAlign: "center", align:"right"}
+	]
+});
 
-				    return isNaN(parseInt(cell.getValue())) ? 0 : parseInt(cell.getValue()); //return the contents of the cell;
-				}},
-				{ title: "불량수량", field: "oqcinspect_DQty", headerHozAlign: "center", align:"right", formatter:function(cell, formatterParams, onRendered){
-				    //cell - the cell component
-				    //formatterParams - parameters set for the column
-				    //onRendered - function to call when the formatter has been rendered
-				    
-				    return isNaN(parseInt(cell.getValue())) ? 0 : parseInt(cell.getValue()); //return the contents of the cell;
-				}
-				,cellClick:function(e, cell){
-					
-			    }
-				,cellEdited:function(cell){
-			    }
-				,cellEditCancelled:function(cell){
-			    }},
-			]
-		});
-		
-		function MI_searchBtn1(){
-			datas = {
-					startDate : $("#startDate").val(),
-					endDate : $("#endDate").val()
+$("#DI_SearchBtn").click(function(){
+	DI_Search();
+})
+
+function DI_Search(selectedRow){
+	var datas = {
+		startDate : $("#startDate").val(),
+		endDate : $("#endDate").val()
+	}
+	WorkOrderTable.setData("defectInsertRest/DI_Search", datas);
+}
+
+//defectTable 커스텀 기능설정
+var DIS_InputEditor = function(cell, onRendered, success, cancel, editorParams) {
+	//cell - 편집 가능한 셀의 셀 구성 요소
+	//onRendered - 에디터가 렌더링 되었을 때 호출 할 함수
+	//success - 성공적을 업데이트 된 값을 tabulator에 전달하기 위해 호출되는 함수
+	//cancel - 편집을 중단하고 일반 셀로 돌아 가기 위해 호출하는 함수
+	//editorParams - editorParams 열 정의 속성에 전달 된 params 객체
+
+	//create 및 style editor
+	var DIS_input = document.createElement("input");
+
+	DIS_input.setAttribute("type", "text");
+
+	//입력 생성 및 스타일 지정
+	DIS_input.style.padding = "3px";
+	DIS_input.style.width = "100%";
+	DIS_input.style.boxSizing = "border-box";
+
+	//편집기의 값을 셀의 현재 값으로 설정
+	if (cell.getValue() == undefined) {
+		DIS_input.value = "";
+	} else {
+		DIS_input.value = cell.getValue();
+	}
+
+	//에디터가 선택되면 선택 상자에 포커스 설정 (타임 아웃은 편집기를 DOM에 추가 할 수 있음)
+	onRendered(function() {
+		DIS_input.focus();
+		DIS_input.select();
+		DIS_input.style.css = "100%";
+	});
+
+	//값이 설정되면 업데이트 할 셀 트리거
+	function onChange() {
+		success(DIS_input.value);
+	}
+
+	//바꼈을때 블러됫을때 함수 발동
+	DIS_input.addEventListener("change", onChange);
+	DIS_input.addEventListener("blur", onChange);
+
+	//키버튼 이벤트
+	DIS_input.addEventListener("keydown", function(e) {
+		if (e.keyCode == 13) {
+			//수량셀
+			if (cell.getField() == "defect_Qty") {
+				cell.nav().down();
 			}
-			
-			console.log("defectInsertRest/Search?data=" + encodeURI(JSON.stringify(datas)));
-			
-			$.get("defectInsertRest/Search?data=" + encodeURI(JSON.stringify(datas)), function(data) {
-				WorkOrder_tbl.setData(data);
-			});
 		}
-		
-		function MI_saveBtn1(){
-			if(defectPerformance.getRows().length>0)
-			{
-				sum_defect_ABR = 0;
-				defectPerformance.getData().forEach(function(em){
-					sum_defect_ABR += isNaN(parseInt(em.defect_ABR)) ? 0 : parseInt(em.defect_ABR);
-				});
-				
-				oqcinspect_SaQty = WorkOrder_tbl.getSelectedRows()[0].getCell("oqcinspect_SaQty").getValue();
-				
-				if(sum_defect_ABR > oqcinspect_SaQty)
-				{
-					alert("불량수량은 생산수량보다 클 수 없습니다.");
-					return;
-				}
-				
-				$.get("defectInsertRest/Upsert?data=" + encodeURI(JSON.stringify(defectPerformance.getData())), function(data) {
-					alert("저장되었습니다.");
-					
-					WorkOrder_tbl.getSelectedRows()[0].update({"oqcinspect_DQty":sum_defect_ABR});
-				});
+	});
+	//반환
+	return DIS_input;
+};
+
+var defectTable = new Tabulator("#defectTable", {
+	height:"calc(100% - 175px)",
+	columns:[
+		{ title: "작업지시 번호", field: "defect_ONo", headerHozAlign: "center", visible: false },
+		{ title: "불량 코드", field: "defect_Code", headerHozAlign: "center" },
+		{ title: "불량 이름", field: "defect_Name", headerHozAlign: "center" },
+		{ title: "불량 수량", field: "defect_Qty", headerHozAlign: "center", align:"right", editor: DIS_InputEditor}
+	]
+});
+
+function DIS_Search(value){
+	defectTable.setData("defectInsertRest/DIS_Search", {"workOrder_ONo" : value})
+	.then(function(){
+		defectTable.getRows()[0].getCell("defect_Qty").edit();
+	})
+}
+
+$("#DI_SaveBtn").click(function(){
+	DI_Save();
+})
+
+function DI_Save(){
+	var rows = defectTable.getRows();
+	var sum = 0;
+	var selectedRow = WorkOrderTable.getRows("selected")[0];
+	for(let i=0;i<rows.length;i++){
+		sum += Number(rows[i].getCell("defect_Qty").getValue());
+	}
+	if(selectedRow.getData().workOrder_RQty < sum){
+		alert("생산수량보다 불량수량이 더 많을 수 없습니다.");
+		return false;
+	}
+	
+    $.ajax({
+        method : "post",
+        url : "defectInsertRest/DI_Save",
+		data : JSON.stringify(defectTable.getData()),
+		contentType:'application/json',
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
+        success : function(result) {
+            if (result == 0) {
+				alert("잘못 입력하였습니다.");
+			} else if (result == 1) {
+				alert("저장되었습니다.");
+				WorkOrderTable.updateRow(selectedRow,{"workOrder_DQty" : sum}); 
 			}
-		}
-		
-		window.onload = function(){
-             MI_searchBtn1();
         }
-		
-		
+    })
+}
+
+$(document).ready(function(){
+	DI_Search();
+})

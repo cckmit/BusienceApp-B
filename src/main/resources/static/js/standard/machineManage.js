@@ -170,6 +170,11 @@ $("#machineModifyBtn").click(function(){
 	}
 })
 
+//trigger download of data.xlsx file
+document.getElementById("download_xlsx").addEventListener("click", function(){
+    machineManageTable.download("xlsx", "machineManage.xlsx", {sheetName:"machineManage"});
+});
+
 function machineModify() {
 	var datas = {
 		EQUIPMENT_BUSINESS_PLACE: $("#equipment_BUSINESS_PLACE").val(),
