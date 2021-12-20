@@ -106,7 +106,7 @@ html, body {
 				<label class="btn btn-primary" name="labelOptions" style="background-color:rgb(112,173,70); color:white; font-size: 45px; margin-right: 5px; height: 70px;" id="t4" for="">수정</label>
 				
 				<input type="radio" class="btn-check" name="options22" value="" autocomplete="off"/>
-				<label class="btn btn-primary" name="labelOptions2" style="font-size: 45px; border-color: rgb(246, 177, 148); background-color: rgb(237, 237, 237); color:black; margin-right: 5px; height: 70px;" id="t66">전체</label>
+				<label class="btn btn-primary" name="labelOptions2" style="visibility:hidden; font-size: 45px; border-color: rgb(246, 177, 148); background-color: rgb(237, 237, 237); color:black; margin-right: 5px; height: 70px;" id="t66">전체</label>
 				
 				<c:forEach var="item" items="${list2}">
 					<input type="radio" class="btn-check" name="options1" id="${item.CHILD_TBL_NO}" value="${item.CHILD_TBL_NO}" autocomplete="off"/>
