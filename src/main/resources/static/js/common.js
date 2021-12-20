@@ -55,7 +55,14 @@ function fromInputToJson(valueList){
 	
 	var jsonData = new Object();
 	valueList.forEach(function(item,index,arr2){
-		jsonData[item] = $("#"+item).val();
+		//타입이 checkbox일 경우
+			if($('#'+item).attr("type") == "checkbox"){
+				jsonData[item] = $("#"+item).is(":checked");
+			}else{
+				//그외
+				jsonData[item] = $("#"+item).val();
+			}
+		
 	})
 	return jsonData;
 }

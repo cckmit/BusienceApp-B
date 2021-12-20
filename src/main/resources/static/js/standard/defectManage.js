@@ -1,352 +1,213 @@
-var table = null;
+var nowModal
 
-// DB의 데이터를 변수에 담아서 화면에 뿌여줄 용도
-var datas = "";
+//입력 및 업데이트 할 리스트
+var pickValue = ["defect_Code", "defect_Name", "defect_Abr", "defect_Rmrks",
+					"defect_Use_Status", "defect_Modify_D",	"defect_Modifier"];
+					
+var defectManageTable = new Tabulator("#defectManageTable", {
+	//페이징
+	pagination: "local",
+	paginationSize: 20,
+	layoutColumnsOnNewData : true,
+	headerFilterPlaceholder: null,
+	height: "calc(100% - 175px)",
+	ajaxURL:"defectManageRest/defectManageSelect",
+    ajaxConfig:"get",
+    ajaxContentType:"json",
+	rowClick: function(e, row) {
+		row.getTable().deselectRow();
+		row.select();
+	},
+	rowDblClick: function(e, row) {
+		//모달창 띄움
+		modifyModalShow();
+	},
+	rowSelected:function(row){
+    	var jsonData = fromRowToJson(row, pickValue);
+		modalInputBox(jsonData);
+    },
+	columns: [ //Define Table Columns
+		{ title: "번호", field: "rownum", formatter: "rownum", hozAlign: "center", headerHozAlign: "center"},
+		{ title: "불량코드", field: "defect_Code", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "불량명", field: "defect_Name", width: 150, headerHozAlign: "center", headerFilter: "input"},
+		{ title: "약자", field: "defect_Abr", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "비고", field: "defect_Rmrks", width: 200, headerHozAlign: "center", headerFilter: "input"},
+		{ title: "사용유무", field: "defect_Use_Status", headerHozAlign: "center", hozAlign: "center", 
+			formatter: "tickCross", editorParams: { values: {"true": "사용","false": "미사용"}}, headerFilter: true,
+			headerFilterParams: {values: {"true": "사용","false": "미사용"	}}},
+		{ title: "수정일자", field: "defect_Modify_D", headerHozAlign: "center", hozAlign: "right", sorter: "date", formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" },
+			headerFilter: "input"},
+		{ title: "수정자", field: "defect_Modifier", headerHozAlign: "center", headerFilter: "input"}
+	]
+});
 
-// 선택한 행을 변수에 담아서 더블클릭한 행에 색깔을 칠하는 변수
-var element = null;
+// ADD버튼을 클릭할때 모달창을 여는 이벤트
+$("#defectADDBtn").click(function() {
+	defectManageTable.deselectRow();
+	registerModalShow()
+});
 
-// 행을 더블클릭하여서 해당 행의 인덱스를 저장하는 변수
-var rowindex = 0;
-
-// 행을 더블클릭하여서 해당 행의 데이터를 저장했다가 화면에서 뿌려주는 변수
-var defect_CODE = null;
-var defect_NAME = null;
-var defect_ABR = null;
-var defect_MODIFIER = null;
-var defect_MODIFY_D = null;
-var defect_RMRKS = null;
-var defect_USE_STATUS = null;
-
-// 행을 더블클릭했는지 안했는지 아는 변수
-var defect_FLAG = false;
-
-function updatedeleteView() {
-	if (!defect_FLAG) {
-		alert("행을 선택한 후에 수정 및 삭제를 시도하여 주십시오.");
-		return;
+function registerModalShow(){
+	
+	$('.modify').addClass('none');
+	
+	if ($('.insert').hasClass('none')) {
+		$('.insert').removeClass('none');
 	}
-
-	$("#defectModifyModal").modal("show");
-	modviewBtn();
-}
-
-window.onload = function() {
-	$.ajax({
-		method: "GET",
-		url: "defectManageRest/view",
-		success: function(data) {
-			datas = data;
-
-			table = new Tabulator(
-				"#example-table",
-				{
-					//페이징
-					layout: "fitColumns",
-					pagination: "local",
-					paginationSize: 20,
-					height: "calc(100% - 175px)",
-					headerFilterPlaceholder: null,
-					selectable: 1, //make rows selectable
-					rowClick: function(e, row) {
-						// 클릭한 행의 색상을 칠해준다.
-						if (element == null) {
-							element = row.getElement();
-							element.style.color = "red";
-							element.style.fontWeight = "bold";
-						}
-						else {
-							element.style.color = "black";
-							element.style.fontWeight = "normal";
-							row.getElement().style.color = "red";
-							row.getElement().style.fontWeight = "bold";
-							element = row.getElement();
-						}
-
-						rowindex = row.getIndex();
-
-						// 더블클릭할때 데이터를 저장
-						defect_CODE = row.getData().defect_CODE;
-						defect_NAME = row.getData().defect_NAME;
-						defect_ABR = row.getData().defect_ABR;
-						defect_MODIFIER = row.getData().defect_MODIFIER;
-						defect_MODIFY_D = row.getData().defect_MODIFY_D;
-						defect_RMRKS = row.getData().defect_RMRKS;
-						defect_USE_STATUS = row.getData().defect_USE_STATUS;
-
-						defect_FLAG = true;
-					},
-					rowDblClick: function(e, row) {
-						row.select();
-
-						// 클릭한 행의 색상을 칠해준다.
-						if (element == null) {
-							element = row.getElement();
-							element.style.color = "red";
-							element.style.fontWeight = "bold";
-						}
-						else {
-							element.style.color = "black";
-							element.style.fontWeight = "normal";
-							row.getElement().style.color = "red";
-							row.getElement().style.fontWeight = "bold";
-							element = row.getElement();
-						}
-
-						rowindex = row.getIndex();
-
-						// 더블클릭할때 데이터를 저장
-						defect_CODE = row.getData().defect_CODE;
-						defect_NAME = row.getData().defect_NAME;
-						defect_ABR = row.getData().defect_ABR;
-						defect_MODIFIER = row.getData().defect_MODIFIER;
-						defect_MODIFY_D = row.getData().defect_MODIFY_D;
-						defect_RMRKS = row.getData().defect_RMRKS;
-						defect_USE_STATUS = row.getData().defect_USE_STATUS;
-
-						defect_FLAG = true;
-
-						$("#defectModifyModal").modal("show");
-						modviewBtn();
-					},
-					data: datas, //assign data to table
-					columns: [ //Define Table Columns
-						{
-							title: "번호",
-							field: "id",
-							hozAlign: "center",
-							headerHozAlign: "center",
-							width: 60
-						}, {
-							title: "불량코드",
-							field: "defect_CODE",
-							width: 100,
-							headerHozAlign: "center",
-							headerFilter: "input"
-						}, {
-							title: "불량명",
-							field: "defect_NAME",
-							width: 200,
-							headerHozAlign: "center",
-							headerFilter: "input"
-						}, {
-							title: "약자",
-							field: "defect_ABR",
-							width: 100,
-							headerHozAlign: "center",
-							headerFilter: "input"
-						}, {
-							title: "비고",
-							field: "defect_RMRKS",
-							width: 200,
-							headerHozAlign: "center",
-							headerFilter: "input"
-						}, {
-							title: "사용유무",
-							field: "defect_USE_STATUS",
-							width: 100,
-							headerHozAlign: "center",
-							hozAlign: "center",
-							formatter: "tickCross",
-							editor: "text",
-							editorParams: {
-								values: {
-									"true": "사용",
-									"false": "미사용"
-								}
-							},
-							headerFilter: true,
-							headerFilterParams: {
-								values: {
-									"true": "사용",
-									"false": "미사용"
-								}
-							}
-						}, {
-							title: "수정일자",
-							field: "defect_MODIFY_D",
-							width: 150,
-							headerHozAlign: "center",
-							hozAlign: "right",
-							sorter: "date",
-							formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" },
-							headerFilter: "input"
-						}, {
-							title: "수정자",
-							field: "defect_MODIFIER",
-							width: 150,
-							headerHozAlign: "center",
-							headerFilter: "input"
-						}],
-				});
-		}
+	$("#defectManageModal").find('form')[0].reset();
+	$("#defect_Code").removeAttr('readonly');
+	
+	$("#defectManageModal").modal("show").on("shown.bs.modal", function () {
+		$("#defect_Code").focus();
 	});
-
-	//SubmenuSelector("2", "13251");
 }
 
-// 삭제 기능을 수행하는 함수
-function delBtn() {
-	// 화면에서 선택한 행의 인덱스를 지우는 로직
-	table.deleteRow(rowindex);
+//모달창내 등록버튼
+$("#defectRegisterBtn").click(function(){
+	if(confirm("등록 하시겠습니까?")){
+		defectRegister();
+	}
+})
 
-	// 실제로 DB에서 선택한 행의 데이터를 지운다.
+function defectRegister() {
+	
+	var datas = fromInputToJson(pickValue)
+		
+	if (datas.defect_Code.length != 4) {
+		alert("불량코드는 4글자로 입력해야 합니다.");
+		return $("#defect_Code").focus();
+	}
+	console.log(datas);
 	$.ajax({
-		method: "POST",
-		url: "defectManageRest/delete?DEFECT_CODE="
-			+ defect_CODE,
+		method : "post",
+		url : "defectManageRest/defectManageInsert",
+		data : datas,
 		beforeSend: function (xhr) {
            var header = $("meta[name='_csrf_header']").attr("content");
            var token = $("meta[name='_csrf']").attr("content");
            xhr.setRequestHeader(header, token);
 		},
-		success: function(data, testStatus) {
-			alert("삭제 되었습니다.");
-			// DB까지 지우고 나면 화면을 새로고침
-			location.reload();
+		success : function(data) {
+			if (data) {
+				alert("저장 되었습니다.");
+				
+				defectManageTable.replaceData();
+				
+				$("#defectManageModal").modal("hide");
+			}else{
+				alert("중복된 코드 입니다.");
+			}
+		}
+	});
+}
+
+// update버튼을 클릭을 할때 모달창을 여는 이벤트
+$("#defectUpdateBtn").click(function() {
+	var selectedRow = defectManageTable.getData("selected");
+	
+	if(selectedRow.length == 0){
+		alert("수정할 행을 선택하세요.");
+	} else {
+		modifyModalShow()
+	}
+});
+
+function modifyModalShow(){
+	nowModal = "modify"
+	
+	$('.insert').addClass('none');
+	
+	if ($('.modify').hasClass('none')) {
+		$('.modify').removeClass('none');
+	}
+	$("#defect_Code").attr('readonly', 'readonly');
+	
+	$("#defectManageModal").modal("show").on("shown.bs.modal", function () {
+		$("#defect_Name").focus();
+	});
+}
+
+//모달창내 수정버튼
+$("#defectModifyBtn").click(function(){
+	if(confirm("수정 하시겠습니까?")){
+		defectModify();
+	}
+})
+
+//trigger download of data.xlsx file
+document.getElementById("download_xlsx").addEventListener("click", function(){
+    defectManageTable.download("xlsx", "defectManage.xlsx", {sheetName:"defectManage"});
+});
+
+function defectModify() {
+	
+	var datas = fromInputToJson(pickValue)
+
+	$.ajax({
+		method: "put",
+		data: datas,
+		url: "defectManageRest/defectManageUpdate",
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
+		success : function(data) {
+			if (data) {
+				alert("저장 되었습니다.");
+				defectManageTable.replaceData();
+				
+				$("#defectManageModal").modal("hide");
+			}else{
+				alert("오류가 발생했습니다.");
+			}
 		},
 		error:function(request,status,error){
         alert("사용 중인 코드는 삭제할 수 없습니다.");
        }
 	});
+}
 
+// delete버튼을 클릭을 할때 모달창을 여는 이벤트
+$("#defectDeleteBtn").click(function() {
+	var selectedRow = defectManageTable.getData("selected");
 	
-}
+	if(selectedRow.length == 0){
+		alert("삭제할 행을 선택하세요.");
+	}else{
+		modifyModalShow();		
+	}
+});
 
-function modviewBtn() {
-	// 수정,삭제 모달창에 더블클릭한 데이터를 렌더링함
-	document.getElementById("update_defect_CODE").value = defect_CODE;
-	document.getElementById("update_defect_NAME").value = defect_NAME;
-	document.getElementById("update_defect_ABR").value = defect_ABR;
-	document.getElementById("update_defect_RMRKS").value = defect_RMRKS;
+//모달창내 삭제버튼
+$("#defectRemoveBtn").click(function(){
+	if(confirm("삭제 하시겠습니까?")){
+		defectRemove();	
+	}
+})
 
-	if (defect_USE_STATUS == "true")
-		document.getElementById("update_defect_USE_STATUS").checked = true;
-	else
-		document.getElementById("update_defect_USE_STATUS").checked = false;
-}
-
-function modBtn() {
-	datas = {
-		DEFECT_CODE: defect_CODE,
-		DEFECT_NAME: document.getElementById("update_defect_NAME").value,
-		DEFECT_ABR: document.getElementById("update_defect_ABR").value,
-		DEFECT_USE_STATUS: document.getElementById("update_defect_USE_STATUS").checked,
-		DEFECT_RMRKS: document.getElementById("update_defect_RMRKS").value
-	};
+function defectRemove() {
+	
+	var datas = fromInputToJson(pickValue)
 
 	$.ajax({
-		method: "POST",
+		method: "delete",
 		data: datas,
-		url: "defectManageRest/update?data="
-			+ encodeURI(JSON.stringify(datas)),
+		url: "defectManageRest/defectManageDelete",
 		beforeSend: function (xhr) {
            var header = $("meta[name='_csrf_header']").attr("content");
            var token = $("meta[name='_csrf']").attr("content");
            xhr.setRequestHeader(header, token);
 		},
-		success: function(data, testStatus) {
-			if (data == "Success") {
-				alert("수정 되었습니다.");
-				location.reload();
-			} else {
-				alert("오류가 발생했습니다. 다시 시도해주세요.");
+		success : function(data) {
+			if (data) {
+				alert("삭제 되었습니다.");
+				defectManageTable.replaceData();
+				
+				$("#defectManageModal").modal("hide");
+			}else{
+				alert("오류가 발생했습니다.");
 			}
 		}
 	});
-
-	
-}
-
-//trigger download of data.xlsx file
-document.getElementById("download_xlsx").addEventListener("click", function(){
-    table.download("xlsx", "defectManage.xlsx", {sheetName:"defectManage"});
-});
-
-// 수정 모달창에서 취소버튼을 누를때 수정 모달창 데이터를 초기화
-function modResetBtn() {
-	document.getElementById("update_defect_NAME").value = "";
-	document.getElementById("update_defect_ABR").value = "";
-	document.getElementById("update_defect_USE_STATUS").checked = false;
-	document.getElementById("update_defect_RMRKS").value = "";
-}
-
-// 입력버튼을 클릭을 할때 모달창을 여는 이벤트
-$("#registerModal").click(function() {
-	$("#defectRegisterModal").modal("show");
-});
-
-// 수정버튼을 클릭을 할때 모달창을 여는 이벤트
-if (defect_FLAG) {
-	$("#modifyModal").click(function() {
-		$("#defectModifyModal").modal("show");
-	});
-}
-
-// 입력모달창이 열릴때 가장 상단의 input에 포커스를 주는 이벤트
-$("#defectRegisterModal").on("shown.bs.modal", function() {
-	$("#insert_defect_CODE").focus();
-});
-
-// 수정모달창이 열릴때 가장 상단의 input에 포커스를 주는 이벤트
-$("#defectModifyModal").on("shown.bs.modal", function() {
-	$("#update_defect_NAME").focus();
-});
-
-// 저장할지 말지 여부를 묻는 모달창 열기
-function insertModal() {
-	$("#insertYesNo").modal("show");
-}
-
-function insBtn() {
-	var dcode = document.getElementById("insert_defect_CODE").value;
-
-	if (dcode == "") {
-		alert("불량코드는 반드시 입력하셔야 합니다.");
-		document.getElementById("insert_defect_CODE").focus();
-		return;
-	}
-
-	if (dcode.length > 4) {
-		alert("불량코드는 4글자 이하로 입력하여주세요.");
-		document.getElementById("insert_defect_CODE").focus();
-		return;
-	}
-
-	datas = {
-		DEFECT_CODE: dcode,
-		DEFECT_NAME: document.getElementById("insert_defect_NAME").value,
-		DEFECT_ABR: document.getElementById("insert_defect_ABR").value,
-		DEFECT_USE_STATUS: document.getElementById("insert_defect_USE_STATUS").checked,
-		DEFECT_RMRKS: document.getElementById("insert_defect_RMRKS").value
-	};
-
-	$.ajax({
-		method: "POST",
-		data: datas,
-		url: "defectManageRest/insert?data="
-			+ encodeURI(JSON.stringify(datas)),
-		beforeSend: function (xhr) {
-           var header = $("meta[name='_csrf_header']").attr("content");
-           var token = $("meta[name='_csrf']").attr("content");
-           xhr.setRequestHeader(header, token);
-		},
-		success: function(data) {
-			if (data == "Overlap")
-				alert("중복코드를 입력하셨습니다. 다른 코드를 입력해주세요.");
-			else if (data == "Success") {
-				alert("저장 되었습니다.");
-				location.reload();
-			}
-		}
-	});
-}
-
-// 입력 모달창에서 취소버튼을 누를때 입력 모달창 데이터를 초기화
-function insResetBtn() {
-	document.getElementById("insert_defect_CODE").value = "";
-	document.getElementById("insert_defect_NAME").value = "";
-	document.getElementById("insert_defect_ABR").value = "";
-	document.getElementById("insert_defect_USE_STATUS").checked = false;
-	document.getElementById("insert_defect_RMRKS").value = "";
 }
