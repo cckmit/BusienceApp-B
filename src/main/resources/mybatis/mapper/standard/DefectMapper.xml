@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.busience.standard.dao.DefectDao">
+	<select id="selectDefectListDao" resultType="com.busience.standard.dto.DefectInfoDto">
+		SELECT
+			DEFECT_CODE, DEFECT_NAME, DEFECT_ABR, DEFECT_RMRKS,
+			DEFECT_MODIFY_D, DEFECT_MODIFIER, DEFECT_USE_STATUS
+			FROM DEFECT_INFO_TBL
+	</select>
+
+	<insert id="insertDefectDao">
+		insert into DEFECT_INFO_TBL (
+			DEFECT_CODE, DEFECT_NAME, DEFECT_ABR, DEFECT_RMRKS,
+			DEFECT_MODIFY_D, DEFECT_MODIFIER, DEFECT_USE_STATUS
+			) values (
+			#{Defect_Code}, #{Defect_Name}, #{Defect_Abr}, #{Defect_Rmrks},
+			now(), #{Defect_Modifier}, #{Defect_Use_Status}
+			)
+	</insert>
+		
+	<update id="updateDefectDao">
+		update DEFECT_INFO_TBL
+			set
+			DEFECT_NAME = #{Defect_Name},
+			DEFECT_ABR = #{Defect_Abr},
+			DEFECT_RMRKS = #{Defect_Rmrks},
+			DEFECT_MODIFY_D = now(),
+			DEFECT_MODIFIER = #{Defect_Modifier},
+			DEFECT_USE_STATUS = #{Defect_Use_Status}
+			where DEFECT_CODE = #{Defect_Code}
+	</update>
+	
+	<delete id="deleteDefectDao">
+		delete from DEFECT_INFO_TBL where DEFECT_CODE = #{Defect_Code}
+	</delete>
+	
+	<select id="selectDefectDao" resultType="com.busience.standard.dto.DefectInfoDto">
+		SELECT
+			DEFECT_CODE, DEFECT_NAME, DEFECT_ABR, DEFECT_RMRKS,
+			DEFECT_MODIFY_D, DEFECT_MODIFIER, DEFECT_USE_STATUS
+			FROM DEFECT_INFO_TBL
+			where DEFECT_CODE = #{Defect_Code}
+	</select>
+</mapper>

@@ -12,17 +12,17 @@ import com.busience.standard.dto.CustomerDto;
 public class CustomerService {
 
 	@Autowired
-	CustomerDao CustomerDao;
+	CustomerDao customerDao;
 		
 	//조회
 	public List<CustomerDto> selectCustomerList() {
-		return CustomerDao.selectCustomerListDao();
+		return customerDao.selectCustomerListDao();
 	}
 	
 	//등록
 	public int insertCustomer(CustomerDto CustomerDto) {				
 		try {
-			CustomerDao.insertCustomerDao(CustomerDto);
+			customerDao.insertCustomerDao(CustomerDto);
 			return 1;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -33,11 +33,11 @@ public class CustomerService {
 
 	//수정
 	public int updateCustomer(CustomerDto CustomerDto) {
-		return CustomerDao.updateCustomerDao(CustomerDto);
+		return customerDao.updateCustomerDao(CustomerDto);
 	};
 	
 	//삭제
 	public int deleteCustomer(String Cus_Code) {
-		return CustomerDao.deleteCustomerDao(Cus_Code);
+		return customerDao.deleteCustomerDao(Cus_Code);
 	};
 }
