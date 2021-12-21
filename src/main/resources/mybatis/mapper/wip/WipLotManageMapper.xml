@@ -124,7 +124,7 @@
 			A.Wip_InputDate_P4, A.Wip_OutputDate_P4,
 			A.Wip_InputDate_P5, A.Wip_OutputDate_P5
 			FROM (
-				select * from WipLotMaster_tbl where Wip_Process < #{endProcessCode}
+				select * from WipLotMaster_tbl where Wip_Process <= #{endProcessCode}
 			) A
 			inner join DTL_TBL B on A.Wip_Process = B.CHILD_TBL_NO
 			order by A.Wip_LotNo asc

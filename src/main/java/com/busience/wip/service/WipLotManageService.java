@@ -154,7 +154,7 @@ public class WipLotManageService {
 		List<DtlDto> dtlDtoList = dtlDao.findByCode(32);
 		
 		//공정과정중인 재공품 리스트를 가져와서 조건에따라 입출고 시킴
-		wipLotMasterDtoList = wipLotManageDao.wipProcessingListDao(dtlDao.findByCode(32).get(5).getCHILD_TBL_NO());
+		wipLotMasterDtoList = wipLotManageDao.wipProcessingListDao(dtlDao.findByCode(32).get(4).getCHILD_TBL_NO());
 		
 		WipLotMasterDto wipLotMasterDto = new WipLotMasterDto(); 
 		WipLotTransDto wipLotTransDto = new WipLotTransDto();
@@ -253,7 +253,7 @@ public class WipLotManageService {
 	
 	//wipProcessingList
 	public List<WipLotMasterDto> wipProcessingList() {
-		String endProcessCode = dtlDao.findByCode(32).get(5).getCHILD_TBL_NO();
+		String endProcessCode = dtlDao.findByCode(32).get(4).getCHILD_TBL_NO();
 		List<WipLotMasterDto> WipLotMasterDtoList = wipLotManageDao.wipProcessingListDao(endProcessCode);
 		for(int i=0;i<WipLotMasterDtoList.size();i++) {
 			setSaveDate(WipLotMasterDtoList.get(i));
