@@ -44,31 +44,6 @@ public class contolController {
 		return "normal/monitoring/proMonitoring";
 	}
 	
-	// proMonitoringㅡ
-	@GetMapping("proMonitoringm")
-	public String proMonitoringm(Model model) {
-			model.addAttribute("pageName", "생산현황 모니터링");
-
-			model.addAttribute("CHILD_TBL_TYPE", jdbctemplate
-					.queryForObject("select CHILD_TBL_TYPE from DTL_TBL where CHILD_TBL_NO='247'", new RowMapper<String>() {
-
-						@Override
-						public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-							int num = rs.getInt("CHILD_TBL_TYPE");
-
-							if (num > 1 && num % 2 != 0)
-								--num;
-
-							if (num > 8)
-								num = 8;
-
-							return String.valueOf(num);
-						}
-					}));
-
-			return "normal/monitoring/proMonitoringm";
-	}
-
 	// defectMonitoring
 	@GetMapping("defectMonitoring")
 	public String defectMonitoring(Model model) {
@@ -112,49 +87,6 @@ public class contolController {
 		return "normal/monitoring/defectMonitoring";
 	}
 	
-	// defectMonitoringm
-	@GetMapping("defectMonitoringm")
-	public String defectMonitoringm(Model model) {
-		model.addAttribute("pageName", "불량현황 모니터링");
-
-		model.addAttribute("CHILD_TBL_TYPE", jdbctemplate
-					.queryForObject("select CHILD_TBL_TYPE from DTL_TBL where CHILD_TBL_NO='247'", new RowMapper<String>() {
-
-						@Override
-						public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-							int num = rs.getInt("CHILD_TBL_TYPE");
-
-							if (num > 1 && num % 2 != 0)
-								--num;
-
-							if (num > 8)
-								num = 8;
-
-							return String.valueOf(num);
-						}
-					}));
-
-		model.addAttribute("defect_list",
-					jdbctemplate.query("select *,LOWER(DEFECT_CODE) DEFECT_CODE2 from DEFECT_INFO_TBL", new RowMapper() {
-
-						@Override
-						public DEFECT_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
-							DEFECT_INFO_TBL data = new DEFECT_INFO_TBL();
-							data.setDEFECT_CODE(rs.getString("DEFECT_CODE2"));
-							data.setDEFECT_NAME(rs.getString("DEFECT_NAME"));
-							data.setDEFECT_ABR(rs.getString("DEFECT_ABR"));
-							data.setDEFECT_MODIFIER(rs.getString("DEFECT_MODIFIER"));
-							data.setDEFECT_MODIFY_D(rs.getString("DEFECT_MODIFY_D"));
-							data.setDEFECT_RMRKS(rs.getString("DEFECT_RMRKS"));
-							data.setDEFECT_USE_STATUS(rs.getString("DEFECT_USE_STATUS"));
-							// System.out.println(data.toString());
-							return data;
-						}
-					}));
-
-		return "normal/monitoring/defectMonitoringm";
-	}
-
 	// workMonitoring
 	@GetMapping("workMonitoring")
 	public String workMonitoring(Model model) {
@@ -176,7 +108,7 @@ public class contolController {
 					}
 				}));
 
-		return "normal/monitoring/workMonitoringm";
+		return "normal/monitoring/workMonitoring";
 	}
 
 	// TemperatureMonitoring

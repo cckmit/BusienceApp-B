@@ -3,17 +3,9 @@
 	
 <head>
 	<title>불량 모니터링</title>
-	
-	<style type="text/css">
-	html, body {
-	    margin: 0;
-	    height: 100%;
-	    overflow: hidden;
-	}
-	</style>
 </head>
 
-<body>
+<body style="background: rgb(42,44,57); color: white;">
 	<%
 		String CHILD_TBL_TYPE = (String)request.getAttribute("CHILD_TBL_TYPE");
 	%>
