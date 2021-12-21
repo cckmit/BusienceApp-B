@@ -27,6 +27,6 @@
 	<!-- END MAIN -->
 </div>
 <!-- Javascript -->
-<script src="/js/wip/wipLotManage.js"></script>
+<script src="/js/wip/wipLotManage.js?v=<%=System.currentTimeMillis() %>"></script>
 
-<script src="/js/labelPrint.js"></script>
+<script src="/js/labelPrint.js?v=<%=System.currentTimeMillis() %>"></script>
