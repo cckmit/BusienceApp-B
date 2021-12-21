@@ -43,7 +43,7 @@ public class salesLXController {
 
 		// 입고구분
 		int salesInputLX = 17;
-		model.addAttribute("salesInputLX", dtlService.getAllDtl(salesInputLX));
+		model.addAttribute("salesInputLX", dtlService.getDtl(salesInputLX));
 		
 		// 메뉴명
 		model.addAttribute("pageName", "제품 입고 관리");
@@ -57,7 +57,7 @@ public class salesLXController {
 
 		// 입고구분
 		int salesInputLX = 17;
-		model.addAttribute("salesInputLX", dtlService.getAllDtl(salesInputLX));
+		model.addAttribute("salesInputLX", dtlService.getDtl(salesInputLX));
 		
 		// 메뉴명
 		model.addAttribute("pageName", "제품 입고 관리 (수동)");
@@ -98,7 +98,7 @@ public class salesLXController {
 
 		// 입고구분
 		int InputType = 17;
-		model.addAttribute("InputType", dtlService.getAllDtl(InputType));
+		model.addAttribute("InputType", dtlService.getDtl(InputType));
 		
 		// 메뉴명
 		model.addAttribute("pageName", "제품 입고 조회");
@@ -112,7 +112,7 @@ public class salesLXController {
 		
 		// 출하구분
 		int OutputType = 19;
-		model.addAttribute("OutputType", dtlService.getAllDtl(OutputType));
+		model.addAttribute("OutputType", dtlService.getDtl(OutputType));
 		// 메뉴명
 		model.addAttribute("pageName", "제품 출하 조회");
 		
@@ -134,7 +134,7 @@ public class salesLXController {
 		
 		// 출고현황
 		int OutputType = 19;
-		model.addAttribute("OutputType", dtlService.getAllDtl(OutputType));
+		model.addAttribute("OutputType", dtlService.getDtl(OutputType));
 		
 		// 메뉴명
 		model.addAttribute("pageName", "납품 현황 조회");

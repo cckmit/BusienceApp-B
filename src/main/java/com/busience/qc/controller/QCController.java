@@ -19,19 +19,19 @@ public class QCController {
 		
 		//로직
 		int rogic = 22;
-		model.addAttribute("rogicList", dtlService.getAllDtl(rogic));
+		model.addAttribute("rogicList", dtlService.getDtl(rogic));
 		
 		//작업자
 		int in = 23;
-		model.addAttribute("inList", dtlService.getAllDtl(in));
+		model.addAttribute("inList", dtlService.getDtl(in));
 		
 		//유형
 		int cost = 25;
-		model.addAttribute("costList", dtlService.getAllDtl(cost));
+		model.addAttribute("costList", dtlService.getDtl(cost));
 		
 		//판정
 		int check = 27;
-		model.addAttribute("checkList", dtlService.getAllDtl(check));
+		model.addAttribute("checkList", dtlService.getDtl(check));
 		
 		model.addAttribute("pageName", "출하 검사 관리");
 		
@@ -44,7 +44,7 @@ public class QCController {
 		
 		//로직
 		int rogic = 22;
-		model.addAttribute("rogicList", dtlService.getAllDtl(rogic));
+		model.addAttribute("rogicList", dtlService.getDtl(rogic));
 		
 		model.addAttribute("pageName", "출하 검사 실적");
 		
@@ -57,7 +57,7 @@ public class QCController {
 		
 		//로직
 		int rogic = 22;
-		model.addAttribute("rogicList", dtlService.getAllDtl(rogic));
+		model.addAttribute("rogicList", dtlService.getDtl(rogic));
 		
 		model.addAttribute("pageName", "제품별 불량율");
 		

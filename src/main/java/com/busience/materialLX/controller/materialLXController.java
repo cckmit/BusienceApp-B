@@ -73,7 +73,7 @@ public class materialLXController {
 			
 		// 입고구분
 		int InMatType = 17;
-		model.addAttribute("InMatType", dtlService.getAllDtl(InMatType));
+		model.addAttribute("InMatType", dtlService.getDtl(InMatType));
 		
 		// 마지막날
 		int LastDay = 2;
@@ -101,7 +101,7 @@ public class materialLXController {
 		
 		// 출고구분
 		int OutMatType = 18;
-		model.addAttribute("OutMatType", dtlService.getAllDtl(OutMatType));
+		model.addAttribute("OutMatType", dtlService.getDtl(OutMatType));
 		
 		// 부서명
 		int OutMatDept = 3;
@@ -193,7 +193,7 @@ public class materialLXController {
 			}
 		}));
 		
-		List<DtlDto> list3 = dtlService.getAllDtl(3);
+		List<DtlDto> list3 = dtlService.getDtl(3);
 		model.addAttribute("list3",list3);
 		model.addAttribute("list3_flag",(list3.size() == 1)?"off":"on");
 		
@@ -251,7 +251,7 @@ public class materialLXController {
 			}
 		}));
 		
-		List<DtlDto> list3 = dtlService.getAllDtl(3);
+		List<DtlDto> list3 = dtlService.getDtl(3);
 		model.addAttribute("list3",list3);
 		model.addAttribute("list3_flag",(list3.size() == 1)?"off":"on");
 		

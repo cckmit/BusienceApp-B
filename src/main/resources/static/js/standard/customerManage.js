@@ -55,7 +55,7 @@ var customerManageTable = new Tabulator("#customerManageTable", {
 		{ title: "담당자", field: "cus_Mng", headerHozAlign: "center", headerFilter: "input"},
 		{ title: "담당전화번호", field: "cus_Mng_PhNr", headerHozAlign: "center", headerFilter: "input"},
 		{ title: "담당 이메일", field: "cus_Mng_Email", headerHozAlign: "center", headerFilter: "input"},
-		{ title: "상호명", field: "cus_Co", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "간략업체명", field: "cus_Co", headerHozAlign: "center", headerFilter: "input"},
 		{ title: "주소", field: "cus_Adr", headerHozAlign: "center", headerFilter: "input"},
 		{ title: "설립연도", field: "cus_Co_EstYr", headerHozAlign: "center", headerFilter: "input"},
 		{ title: "결제일", field: "cus_Pymn_Date_Name", headerHozAlign: "center", headerFilter: "input"},

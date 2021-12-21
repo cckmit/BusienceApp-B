@@ -32,7 +32,7 @@ public class typeAuthorityRestController {
 	//TAM_Search
 	@GetMapping("/TAM_Search")
 	public List<DtlDto> TAM_Search() {
-		return dtlService.getAllDtl(1);
+		return dtlService.getDtl(1);
 	}
 	
 	//TAS_Search

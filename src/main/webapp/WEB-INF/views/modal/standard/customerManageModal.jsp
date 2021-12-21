@@ -84,7 +84,7 @@
 							<input type="text" id="cus_Mng_Email">
 						</div>
 						
-						<label class="col-sm-3 control-label">상&emsp;&ensp;호&emsp;&ensp;명</label>
+						<label class="col-sm-3 control-label">간 략 업 체 명</label>
 						<div class="col-sm-2">
 							<input type="text" id="cus_Co">
 						</div>
