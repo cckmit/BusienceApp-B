@@ -20,7 +20,7 @@ public class ProductionMgmtService {
 		List<ProductionMgmtDto> resultList = productionMgmtDao.proItemListDao(searchDto);
 		
 		for(ProductionMgmtDto dto : resultList) {
-			if(dto.getPRODUCTION_WorkOrder_No() == null) {
+			if(dto.getPRODUCTION_WorkOrder_No() == 0) {
 				if(dto.getPRODUCTION_Product_Code() == null) {
 					dto.setPRODUCTION_WorkOrder_ONo("Grand Total");
 				}else {
@@ -38,7 +38,7 @@ public class ProductionMgmtService {
 		List<ProductionMgmtDto> resultList = productionMgmtDao.proMachineListDao(searchDto);
 
 		for(ProductionMgmtDto dto : resultList) {
-			if(dto.getPRODUCTION_WorkOrder_No() == null) {
+			if(dto.getPRODUCTION_WorkOrder_No() == 0) {
 				if(dto.getPRODUCTION_Equipment_Code() == null) {
 					dto.setPRODUCTION_WorkOrder_ONo("Grand Total");
 				}else {

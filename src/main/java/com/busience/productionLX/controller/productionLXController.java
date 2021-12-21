@@ -28,7 +28,7 @@ public class productionLXController {
 	@GetMapping("proResultLX")
 	public String proResultLX(Model model) {
 		model.addAttribute("pageName", "생산 실적 관리");
-		return "productionLX/proResult";
+		return "productionLX/proResultLX";
 	}
 
 	// proResultLXX

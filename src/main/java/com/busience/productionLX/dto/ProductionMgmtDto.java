@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 public class ProductionMgmtDto {
 	
-	private String PRODUCTION_WorkOrder_No;
+	private int PRODUCTION_WorkOrder_No;
 	
 	private String PRODUCTION_WorkOrder_ONo;
 	

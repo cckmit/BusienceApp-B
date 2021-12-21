@@ -13,11 +13,12 @@ var salesInputMasterTable = new Tabulator("#salesInputMasterTable", {
 		row.select();
 		
 		if(!inputDuplCheck(row)){
-			salesInputSubTable.addRow({"sales_InMat_Code" : row.getData().product_ITEM_CODE,
-										"sales_InMat_Name" : row.getData().product_ITEM_NAME,
-										"sales_InMat_Qty" : 0,
-										"sales_InMat_Rcv_Clsfc" : "203"
-									});
+			salesInputSubTable.addRow({
+				"sales_InMat_Code" : row.getData().product_ITEM_CODE,
+				"sales_InMat_Name" : row.getData().product_ITEM_NAME,
+				"sales_InMat_Qty" : 0,
+				"sales_InMat_Rcv_Clsfc" : "203"
+			});
 			UseBtn();
 		}
 	},

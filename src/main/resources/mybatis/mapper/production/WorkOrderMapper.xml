@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	 
+<mapper namespace="com.busience.productionLX.dao.WorkOrderDao">
+	<select id="proResultSelectDao" resultType="com.busience.productionLX.dto.ProductionMgmtDto">
+	<![CDATA[
+		SELECT
+			A.PRODUCTION_WorkOrder_No,
+			A.PRODUCTION_WorkOrder_ONo,
+			A.PRODUCTION_Product_Code,
+			B.PRODUCT_ITEM_NAME PRODUCTION_Product_Name,
+			A.PRODUCTION_Volume,
+			A.PRODUCTION_Equipment_Code,
+			C.EQUIPMENT_INFO_NAME PRODUCTION_Equipment_Name,
+			date_format(A.PRODUCTION_Date,'%Y-%m-%d %T') PRODUCTION_Date
+			FROM PRODUCTION_MGMT_TBL2 A
+			inner join PRODUCT_INFO_TBL B on A.PRODUCTION_Product_Code = B.PRODUCT_ITEM_CODE
+			inner join EQUIPMENT_INFO_TBL C on A.PRODUCTION_Equipment_Code = C.EQUIPMENT_INFO_CODE
+			where A.PRODUCTION_Date >= #{startDate} and A.PRODUCTION_Date < #{endDate}  
+			and A.PRODUCTION_Product_Code like concat('%',#{itemCode},'%') and B.PRODUCT_ITEM_NAME like concat('%',#{itemName},'%')
+			and A.PRODUCTION_Equipment_Code like concat('%',#{machineCode},'%') and C.EQUIPMENT_INFO_NAME like concat('%',#{machineName},'%')
+			order by A.PRODUCTION_Product_Code, A.PRODUCTION_WorkOrder_ONo, A.PRODUCTION_WorkOrder_No
+	]]>
+	</select>
+
+	<select id="workOrderDetailDao" resultType="com.busience.productionLX.dto.WorkOrderDto">
+		SELECT A.WorkOrder_ItemCode, B.PRODUCT_ITEM_NAME WorkOrder_ItemName, A.WorkOrder_EquipCode, C.EQUIPMENT_INFO_NAME WorkOrder_EquipName
+			FROM (
+				select WorkOrder_ItemCode, WorkOrder_EquipCode
+				from WorkOrder_tbl where WorkOrder_ONo = #{WorkOrder_ONo}
+			) A
+			inner join PRODUCT_INFO_TBL B on A.WorkOrder_ItemCode = B.PRODUCT_ITEM_CODE
+			inner join EQUIPMENT_INFO_TBL C on A.WorkOrder_EquipCode = C.EQUIPMENT_INFO_CODE
+	</select>
+	
+	<update id="proResultUpdateDao">
+		update PRODUCTION_MGMT_TBL2
+			set
+			PRODUCTION_WorkOrder_ONo = #{PRODUCTION_WorkOrder_ONo},
+			PRODUCTION_Product_Code = #{PRODUCTION_Product_Code},
+			PRODUCTION_Equipment_Code = #{PRODUCTION_Equipment_Code}
+			where PRODUCTION_WorkOrder_No = #{PRODUCTION_WorkOrder_No}
+	</update>
+</mapper>
