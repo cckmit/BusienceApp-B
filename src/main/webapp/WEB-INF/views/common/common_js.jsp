@@ -20,7 +20,7 @@
 <!-- js -->
 <script src="/js/today.js"></script>
 
-<script src="/js/common.js"></script>
+<script src="/js/common.js?v=<%=System.currentTimeMillis() %>"></script>
 
 <script src="/js/popup_common.js"></script>
 

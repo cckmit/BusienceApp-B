@@ -105,6 +105,24 @@ function dtlSelectList(value){
 	return dtl_arr;
 }
 
+//공통
+function dtlTrueSelect(value){
+	var dtl_arr
+	
+	$.ajax({
+		method: "GET",
+		async: false,
+		url: "dtlTrueSelect",
+		data: {"NEW_TBL_CODE" : value},
+		success: function(result) {
+			dtl_arr = result
+		}
+	});
+	
+	return dtl_arr;
+}
+
+
 $(document).ready(function(){
 	//input에서 백스페이스 누르면 앞에있는 input 내용 사라짐 
 	$('.clearInput').keydown(function(){
