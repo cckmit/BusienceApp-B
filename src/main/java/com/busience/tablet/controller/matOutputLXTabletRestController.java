@@ -1,4 +1,4 @@
-package com.busience.materialLX.controller;
+package com.busience.tablet.controller;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
