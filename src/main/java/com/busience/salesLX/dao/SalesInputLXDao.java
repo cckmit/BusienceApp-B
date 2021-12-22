@@ -14,8 +14,8 @@ public interface SalesInputLXDao {
 	public List<ItemDto> salesInputListDao();
 	
 	//입고테이블 등록
-	public int salesInputInsertDao(Sales_InMat_tbl sales_InMat_tbl);
+	public int salesInMatInsertDao(Sales_InMat_tbl sales_InMat_tbl);
 	
 	//재고테이블 수정
-	public int salesInputUpdateDao(Sales_InMat_tbl sales_InMat_tbl);
+	public int salesStockMatUpdateDao(Sales_InMat_tbl sales_InMat_tbl);
 }

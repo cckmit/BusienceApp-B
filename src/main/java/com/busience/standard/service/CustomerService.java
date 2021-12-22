@@ -3,6 +3,8 @@ package com.busience.standard.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.busience.standard.dao.CustomerDao;
@@ -20,24 +22,23 @@ public class CustomerService {
 	}
 	
 	//등록
-	public int insertCustomer(CustomerDto CustomerDto) {				
-		try {
-			customerDao.insertCustomerDao(CustomerDto);
-			return 1;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return 0;
-		}
+	public int insertCustomer(CustomerDto customerDto) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		customerDto.setCus_Modifier(authentication.getName());
 		
-	};
+		return customerDao.insertCustomerDao(customerDto);	
+	}
 
 	//수정
-	public int updateCustomer(CustomerDto CustomerDto) {
-		return customerDao.updateCustomerDao(CustomerDto);
-	};
+	public int updateCustomer(CustomerDto customerDto) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		customerDto.setCus_Modifier(authentication.getName());
+		
+		return customerDao.updateCustomerDao(customerDto);
+	}
 	
 	//삭제
 	public int deleteCustomer(String Cus_Code) {
 		return customerDao.deleteCustomerDao(Cus_Code);
-	};
+	}
 }

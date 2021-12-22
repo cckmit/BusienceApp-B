@@ -11,7 +11,7 @@
 		where PRODUCT_MTRL_CLSFC = 28
 	</select>
 	
-	<update id="salesInputInsertDao">
+	<update id="salesInMatInsertDao">
 		insert into Sales_InMatLX_tbl(
 			Sales_InMat_Code, Sales_InMat_Qty, Sales_InMat_Date,
 			Sales_InMat_Rcv_Clsfc, Sales_InMat_dInsert_Time, Sales_InMat_Modifier
@@ -21,7 +21,7 @@
 			)
 	</update>
 	
-	<update id="salesInputUpdateDao">
+	<update id="salesStockMatUpdateDao">
 		insert into Sales_StockMatLX_tbl (
 			Sales_SM_Code, Sales_SM_Last_Qty, Sales_SM_In_Qty,
 		    Sales_SM_Out_Qty, Sales_SM_Prcs_Date
