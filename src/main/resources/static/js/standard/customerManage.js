@@ -62,7 +62,10 @@ var customerManageTable = new Tabulator("#customerManageTable", {
 		{ title: "결제방법", field: "cus_Status_Name", headerHozAlign: "center", headerFilter: "input"},
 		{ title: "결제은행", field: "cus_Bank", headerHozAlign: "center", headerFilter: "input"},
 		{ title: "계좌번호", field: "cus_Account_No", headerHozAlign: "center", headerFilter: "input"},
-		{ title: "사업자등록번호", field: "cus_Rgstr_Nr", headerHozAlign: "center", headerFilter: "input"}
+		{ title: "사업자등록번호", field: "cus_Rgstr_Nr", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "수정일자", field: "cus_Modify_D", headerHozAlign: "center", hozAlign: "right", headerFilter: "input",
+				formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" }},
+		{ title: "수정자", field: "cus_Modifier", headerHozAlign: "center", headerFilter: "input"}
 	]
 });
 

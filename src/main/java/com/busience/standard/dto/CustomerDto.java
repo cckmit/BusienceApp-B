@@ -18,7 +18,7 @@ public class CustomerDto {
 	private String Cus_Mng; // 담당자명
 	private String Cus_Mng_PhNr; // 담당자전화번호
 	private String Cus_Mng_Email; // 담당자이메일
-	private String Cus_Co; // 회사상호명
+	private String Cus_Co; // 간략업체명
 	private String Cus_Co_EstYr; // 회사설립연도
 	private String Cus_Adr; // 주소
 	private String Cus_Pymn_Date; // 결제일코드
@@ -28,4 +28,6 @@ public class CustomerDto {
 	private String Cus_Bank; // 결제은행
 	private String Cus_Account_No; // 계좌번호
 	private String Cus_Rgstr_Nr; // 사업자등록번호
+	private String Cus_Modify_D; // 수정일자
+	private String Cus_Modifier; // 수정자
 }

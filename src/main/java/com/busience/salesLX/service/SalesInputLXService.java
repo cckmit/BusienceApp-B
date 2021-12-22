@@ -36,9 +36,9 @@ public class SalesInputLXService {
 					for(int i=0;i<sales_InMat_tbl_List.size();i++) {
 						sales_InMat_tbl_List.get(i).setSales_InMat_Modifier(userCode);
 						
-						salesInputLXDao.salesInputInsertDao(sales_InMat_tbl_List.get(i));
+						salesInputLXDao.salesInMatInsertDao(sales_InMat_tbl_List.get(i));
 						
-						salesInputLXDao.salesInputUpdateDao(sales_InMat_tbl_List.get(i));
+						salesInputLXDao.salesStockMatUpdateDao(sales_InMat_tbl_List.get(i));
 					}
 					
 				}

@@ -13,6 +13,8 @@ public class SearchDto {
 	
 	private String EndDate;
 	
+	private String LotNo;
+	
 	private String ItemCode;
 	
 	private String ItemName;

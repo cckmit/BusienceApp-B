@@ -93,7 +93,7 @@
 					<div class="form-group row">
 						<label class="col-sm-3 control-label">설&ensp;립&ensp;연&ensp;도</label>
 						<div class="col-sm-2">
-							<input type="date" class="today" id="cus_Co_EstYr">
+							<input type="date" id="cus_Co_EstYr">
 						</div>
 					</div>
 					

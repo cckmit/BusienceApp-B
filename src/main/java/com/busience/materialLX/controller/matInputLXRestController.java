@@ -271,9 +271,14 @@ public class matInputLXRestController {
 						+ " and Order_lCode = '"+obj.get("inMat_Code")+"'";
 				
 				//StockMat테이블에 update
-				StockMatLX_tbl_sql = " update StockMatLX_tbl set" 
-						+ " SM_In_Qty = SM_In_Qty+"+obj.get("inMat_Qty")
-						+ " where SM_Code = '"+obj.get("inMat_Code")+"'";
+				StockMatLX_tbl_sql = "insert into StockMatLX_tbl (\r\n"
+						+ "SM_Code, SM_Last_Qty, SM_In_Qty, SM_Out_Qty,\r\n"
+						+ "SM_Prcs_Date\r\n"
+						+ ") value (\r\n"
+						+ "'"+obj.get("inMat_Code")+"', 0, "+obj.get("inMat_Qty")+", 0,\r\n"
+						+ "'2109'\r\n"
+						+ ") on duplicate key update" 
+						+ " SM_In_Qty = SM_In_Qty+"+obj.get("inMat_Qty");
 				
 				//OrderMaster 테이블에 입고상태 update
 				OrderMaster_sql = " update OrderMasterLX_tbl\r\n"

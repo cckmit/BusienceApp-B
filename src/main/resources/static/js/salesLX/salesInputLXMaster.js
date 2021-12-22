@@ -3,6 +3,7 @@ var salesInputListTable = new Tabulator("#salesInputListTable", {
 	pagination:"local",
 	paginationSize:20,
 	headerFilterPlaceholder: null,
+	selectable: true,
 	height:"calc(100% - 175px)",
  	columns:[ //Define Table Columns
  	{title:"순번", field:"id", headerHozAlign: "center", headerFilter:true, hozAlign: "center"},
@@ -79,3 +80,8 @@ function FIIL_SearchBtn() {
 		}
 	});
 }
+
+$("#SIL_Print").click(function(){
+	var selectedDatas = salesInputListTable.getData();
+	salesInputPrinter(selectedDatas)
+})

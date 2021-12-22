@@ -27,6 +27,8 @@
 				<!-- 버튼 -->
 				<div class="input-button">
 					<img src="/images/button/Save.png" id="SI_SaveBtn" class="unUseBtn BtnStatus" />
+					<span><strong>프린터 :</strong></span>
+					<select id="selected_device" onchange=onDeviceSelected(this);></select>
 				</div>
 			</div>
 			<!-- 그리드 생성 장소 -->
@@ -38,4 +40,5 @@
 	<!-- END MAIN -->
 </div>
 <!-- Javascript -->
-<script src="/js/salesLX/salesInputLX.js"></script>
+<script src="/js/salesLX/salesInputLX.js?v=<%=System.currentTimeMillis() %>"></script>
+<script src="/js/labelPrint.js?v=<%=System.currentTimeMillis() %>"></script>

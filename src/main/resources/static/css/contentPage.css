@@ -9,7 +9,6 @@ body {
 	background-color: #F3F5F8;
 }
 
-
 .none{
 	display: none;
 }
@@ -153,7 +152,9 @@ input::-webkit-calendar-picker-indicator {
 	border-bottom: 1px solid #bbb;
 	font-size: 12px;
 }
-
+.tabulator .tabulator-header .tabulator-col-group{
+	width: auto !important;
+}
 .tabulator-col-title{
 	font-family : 'NanumBarunGothicLightSubset';
 	color: black;
