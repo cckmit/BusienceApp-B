@@ -103,6 +103,30 @@ function CustomLabelPrinter(value)
 	selected_device.send(printCode, undefined, errorCallback);
 }
 
+function salesInputPrinter(jsonDatas)
+{	
+	var printCode = ""
+	var date = ""
+	
+	for(let j=0;j<jsonDatas.length;j++){
+		if(jsonDatas[j].sales_InMat_Date){
+			date = jsonDatas[j].sales_InMat_Date.substring(0, 10)
+		}else{
+			date = today.toISOString()
+		}
+		printCode += "^XA"
+					+"^CFJ,50^SEE:UHANGUL.DAT^FS"
+					+"^CW1,E:KFONT3.FNT^CI28^FS"
+					+"^FO6,20^GB360,80,80^FS"
+					+"^FT80,80^A1N,60,60^FR^FD"+jsonDatas[j].sales_InMat_Code+"^FS"
+					+"^FT10,180^A1N,60,60^FDQty: "+jsonDatas[j].sales_InMat_Qty+"^FS"
+					+"^FT10,280^A1N,60,60^FD"+date+"^FS"
+					+"^XZ"
+	}
+
+	selected_device.send(printCode, undefined, errorCallback);
+}
+
 var errorCallback = function(errorMessage){
 	alert(errorMessage+"");	
 }

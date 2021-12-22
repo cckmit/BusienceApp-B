@@ -155,7 +155,7 @@ var salesInputSubTable = new Tabulator("#salesInputSubTable", {
 
 $("#SI_SaveBtn").click(function(){
 	if(confirm("저장하시겠습니까?")){
-		SI_Save();	
+		SI_Save();
 	}
 })
 
@@ -175,7 +175,16 @@ function SI_Save(){
 			realData.push(rowData[i]);
 		}
 	}
-	
+	if(selected_device != null){
+		salesInputPrinter(realData);
+	}
+	/*
+	if(selected_device != null){
+		for(let j=0;j<realData.length;j++){
+			salesInputPrinter(realData[j]);
+		}
+	}*/
+	/*
     $.ajax({
         method : "post",
         url : "salesInputLXRest/SI_Save",
@@ -195,5 +204,5 @@ function SI_Save(){
 				salesInputSubTable.clearData();
 			}
         }
-    })
+    })*/
 }
