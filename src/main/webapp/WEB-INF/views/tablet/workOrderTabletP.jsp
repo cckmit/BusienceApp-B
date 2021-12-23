@@ -5,29 +5,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-	<meta name="mobile-web-app-capable" content="yes">
-	<link rel="manifest" href="/json/manifest.json">
-	
-	<style type="text/css">
-	.modal-dialog.modal-fullsize {
-	  width: 90%;
-	  height: 80%;
-	  margin-top: 85px;
-	}
-	.modal-content.modal-fullsize {
-	  height: auto;
-	  min-height: 100%;
-	  border-radius: 0; 
-	}
-	
-	.ModalTable .tabulator-col-content {
-	    background-color:rgb(112,173,70);
-	}
-	
-	.ModalTable .tabulator-col-title{
-		color:white;
-	}
-	</style>
+<style>
+html, body {
+	margin: 0;
+	height: 100%;
+	overflow: hidden;
+}
+</style>
 </head>
 <body>
 	<input type="hidden" id="eqcode" value="<%=request.getParameter("eqcode")%>"/>
@@ -56,120 +40,133 @@
 	    </div>
 	  </div>
 	</div>
-
-	<div style="width: 100%;height: 100%;position: absolute; border: solid; overflow:hidden; padding: 0px 10px 0px 10px;">
-		<table style="width: 100%;">
-			<tr>
-				<td style="text-align: center;" colspan="2">
-					<center>
-					<div style="width: 60%; background-color:rgb(112,173,70); margin: 10px; text-align: center; border-radius: 5%;"><strong style="font-size: 40px; color: white;">작업 관리 <br/>Work Management</strong></div> 
-					</center>
-				</td>
-			</tr>
+	
+	<div class="row" style="margin: 5px;">
+		<div class="col-md-12" style="border:solid; background-color:rgb(112,173,70); text-align: center; border-radius: 5%;">
+			<div style="font-size: 60px; color: white; text-align: center; width: 100%; float: left;" id="t1">작업 관리</div>
 			
-			<tr>
-				<td style="width: 50%;">
-					<table style="width: 100%; background-color: rgb(82,153,217); border-radius: 5%;">
-							<tr>
-								<td style="font-size: 45px; color: white; text-align: center; width: 40%;">
-									입&nbsp;력
-								</td>
-								<td style="padding: 10px;">
-									<input class="form-control form-control-lg" type="text" id="input" style="font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:right;">
-								</td>
-							</tr>
-							
-							<tr>
-								<td style="font-size: 45px; color: white; text-align: center; width: 40%;">
-									박&nbsp;스&nbsp;LotNo
-								</td>
-								<td style="padding: 10px;">
-									<input readonly="readonly" class="form-control form-control-lg" type="text" id="" style="font-size: 40px; height: 70px; width: 90%; background-color: black; color: white; border:groove; border-color: black;border-width: 1px; text-align:right;">
-								</td>
-							</tr>
-							
-							<tr>
-								<td style="font-size: 45px; color: white; text-align: center; width: 40%;">
-									생&nbsp;산&nbsp;LotNo
-								</td>
-								<td style="padding: 10px;">
-									<input readonly="readonly" id="workOrder_ONo" class="form-control form-control-lg" type="text" id="" style="font-size: 40px; height: 70px; width: 90%; background-color: black; color: white; border:groove; border-color: black;border-width: 1px; text-align:right;">
-								</td>
-							</tr>
-							
-							<tr>
-								<td style="font-size: 45px; color: white; text-align: center; width: 40%;">
-									누&nbsp;적&nbsp;생&nbsp;산&nbsp;량
-								</td>
-								<td style="padding: 10px;">
-									<input readonly="readonly" id="sum_qty" class="form-control form-control-lg" value="0" type="text" id="" style="font-size: 40px; height: 70px; width: 90%; background-color: black; color: white; border:groove; border-color: black;border-width: 1px; text-align:right;">
-								</td>
-							</tr>
-
-							<tr>
-								<td style="font-size: 45px; color: white; text-align: center; width: 40%;">
-									품&nbsp;명
-								</td>
-								<td style="padding: 10px;">
-									<input class="form-control form-control-lg" type="text" id="n_len" style="font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:right;">
-								</td>
-							</tr>
-					</table>
-				</td>
-				
-				<td style="width: 50%;">
-					<table style="width: 100%; background-color: rgb(82,153,217); border-radius: 5%; margin: 10px;">
-							<tr>
-								<td style="font-size: 45px; color: white; text-align: center; width: 40%;">
-									원&nbsp;자&nbsp;재&nbsp;LotNo
-								</td>
-								<td style="padding: 10px;">
-									<input readonly="readonly" class="form-control form-control-lg" code="one" type="text" id="" style="font-size: 40px; height: 70px; width: 90%; background-color: black; color: white; border:groove; border-color: black;border-width: 1px; text-align:right;">
-								</td>
-							</tr>
-							
-							<tr>
-								<td style="font-size: 45px; color: white; text-align: center; width: 40%;">
-									원&nbsp;자&nbsp;재&nbsp;LotNo
-								</td>
-								<td style="padding: 10px;">
-									<input readonly="readonly" class="form-control form-control-lg" code="one" type="text" id="" style="font-size: 40px; height: 70px; width: 90%; background-color: black; color: white; border:groove; border-color: black;border-width: 1px; text-align:right;">
-								</td>
-							</tr>
-							
-							<tr>
-								<td style="font-size: 45px; color: white; text-align: center; width: 40%;">
-									원&nbsp;자&nbsp;재&nbsp;LotNo
-								</td>
-								<td style="padding: 10px;">
-									<input readonly="readonly" class="form-control form-control-lg" code="one" type="text" id="" style="font-size: 40px; height: 70px; width: 90%; background-color: black; color: white; border:groove; border-color: black;border-width: 1px; text-align:right;">
-								</td>
-							</tr>
-							
-							<tr>
-								<td style="font-size: 45px; color: white; text-align: center; width: 40%;">
-									원&nbsp;자&nbsp;재&nbsp;LotNo
-								</td>
-								<td style="padding: 10px;">
-									<input readonly="readonly" class="form-control form-control-lg" code="one" type="text" id="" style="font-size: 40px; height: 70px; width: 90%; background-color: black; color: white; border:groove; border-color: black;border-width: 1px; text-align:right;">
-								</td>
-							</tr>
-
-							<tr>
-								<td style="font-size: 45px; color: white; text-align: center; width: 40%;">
-									규&nbsp;격
-								</td>
-								<td style="padding: 10px;">
-									<input class="form-control form-control-lg" type="text" id="o_len" style="font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:right;">
-								</td>
-							</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
+		</div>
+	</div>
+	
+	<div class="row" style="margin: 5px;">
+		<div class="col-md-6" style="padding:10px; border:solid; font-size: 50px; text-align: center; background-color: rgb(82,153,217); border-radius: 5%;">
+			<table style="width: 100%;"> 
+				<tr>
+					<td style="color: white; text-align: center; width: 40%;" id="t4">
+						입&nbsp;력
+					</td>
+					<td style="color: black; text-align: center; width: 60%;">
+						<input class="form-control form-control-lg" type="text" id="input" style="font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:right;">
+					</td>
+				</tr>
+			</table>
+			
+			<table style="width: 100%;"> 
+				<tr>
+					<td style="color: white; text-align: center; width: 40%;" id="t5">
+						박&nbsp;스&nbsp;Lot
+					</td>
+					<td style="color: black; text-align: center; width: 60%;">
+						<input readonly="readonly" class="form-control form-control-lg" type="text" id="" style="font-size: 40px; height: 70px; width: 90%; background-color: black; color: white; border:groove; border-color: black;border-width: 1px; text-align:right;">
+					</td>
+				</tr>
+			</table>
+			
+			<table style="width: 100%;"> 
+				<tr>
+					<td style="color: white; text-align: center; width: 40%;" id="t5">
+						생&nbsp;산&nbsp;Lot
+					</td>
+					<td style="color: black; text-align: center; width: 60%;">
+						<input readonly="readonly" id="workOrder_ONo" class="form-control form-control-lg" type="text" id="" style="font-size: 40px; height: 70px; width: 90%; background-color: black; color: white; border:groove; border-color: black;border-width: 1px; text-align:right;">
+					</td>
+				</tr>
+			</table>
+			
+			<table style="width: 100%;"> 
+				<tr>
+					<td style="color: white; text-align: center; width: 40%;" id="t5">
+						누적생산량
+					</td>
+					<td style="color: black; text-align: center; width: 60%;">
+						<input readonly="readonly" id="sum_qty" class="form-control form-control-lg" value="0" type="text" id="" style="font-size: 40px; height: 70px; width: 90%; background-color: black; color: white; border:groove; border-color: black;border-width: 1px; text-align:right;">
+					</td>
+				</tr>
+			</table>
+			
+			<table style="width: 100%;"> 
+				<tr>
+					<td style="color: white; text-align: center; width: 40%;" id="t5">
+						품&nbsp;명
+					</td>
+					<td style="color: black; text-align: center; width: 60%;">
+						<input class="form-control form-control-lg" type="text" id="n_len" style="font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:right;">
+					</td>
+				</tr>
+			</table>
+		</div>
 		
-		<div style="height: 70%;">
-			<div id="WorkOrder_tbl" style="font-size: 40px;"></div>
+		<div class="col-md-6" style="padding:10px; border:solid; font-size: 50px; text-align: center; background-color: rgb(82,153,217); border-radius: 5%;">
+			<table style="width: 100%;"> 
+				<tr>
+					<td style="color: white; text-align: center; width: 40%;" id="t4">
+						원&nbsp;자&nbsp;재&nbsp;Lot
+					</td>
+					<td style="color: black; text-align: center; width: 60%;">
+						<input readonly="readonly" class="form-control form-control-lg" code="one" type="text" id="" style="font-size: 40px; height: 70px; width: 90%; background-color: black; color: white; border:groove; border-color: black;border-width: 1px; text-align:right;">
+					</td>
+				</tr>
+			</table>
+			
+			<table style="width: 100%;"> 
+				<tr>
+					<td style="color: white; text-align: center; width: 40%;" id="t5">
+						원&nbsp;자&nbsp;재&nbsp;Lot
+					</td>
+					<td style="color: black; text-align: center; width: 60%;">
+						<input readonly="readonly" class="form-control form-control-lg" code="one" type="text" id="" style="font-size: 40px; height: 70px; width: 90%; background-color: black; color: white; border:groove; border-color: black;border-width: 1px; text-align:right;">
+					</td>
+				</tr>
+			</table>
+			
+			<table style="width: 100%;"> 
+				<tr>
+					<td style="color: white; text-align: center; width: 40%;" id="t5">
+						원&nbsp;자&nbsp;재&nbsp;Lot
+					</td>
+					<td style="color: black; text-align: center; width: 60%;">
+						<input readonly="readonly" class="form-control form-control-lg" code="one" type="text" id="" style="font-size: 40px; height: 70px; width: 90%; background-color: black; color: white; border:groove; border-color: black;border-width: 1px; text-align:right;">
+					</td>
+				</tr>
+			</table>
+			
+			<table style="width: 100%;"> 
+				<tr>
+					<td style="color: white; text-align: center; width: 40%;" id="t5">
+						원&nbsp;자&nbsp;재&nbsp;Lot
+					</td>
+					<td style="color: black; text-align: center; width: 60%;">
+						<input readonly="readonly" class="form-control form-control-lg" code="one" type="text" id="" style="font-size: 40px; height: 70px; width: 90%; background-color: black; color: white; border:groove; border-color: black;border-width: 1px; text-align:right;">
+					</td>
+				</tr>
+			</table>
+			
+			<table style="width: 100%;"> 
+				<tr>
+					<td style="color: white; text-align: center; width: 40%;" id="t5">
+						규&nbsp;격
+					</td>
+					<td style="color: black; text-align: center; width: 60%;">
+						<input class="form-control form-control-lg" type="text" id="o_len" style="font-size: 40px; height: 70px; width: 90%; background-color: rgb(90,155,213); color: black; border:groove; border-color: black;border-width: 1px; text-align:right;">
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	
+	<div class="row" style="margin: 5px;" >
+		<div class="col-md-12" id="ko" style="padding:10px; font-size: 50px; text-align: center; border-radius: 5%; ">
+			<div id="WorkOrder_tbl" style="font-size: 40px; border: solid;"></div>
 		</div>
 	</div>
 	
@@ -179,6 +176,7 @@
 			<span style="text-align: center"><strong>~</strong></span>
 			<input id="endDate" class="tomorrow" type="date" style="width: 180px; height: 35px; font-size: 20px;">
 			<input id="n_len_code" class="tomorrow" type="text" style="width: 180px; height: 35px; font-size: 20px;">
+			<input id="eqcode" type="text" value="${eqcode}" style="width: 180px; height: 35px; font-size: 20px;">
 	</div>
 	
 	<script src="/js/tablet/workOrderTabletP.js"></script>

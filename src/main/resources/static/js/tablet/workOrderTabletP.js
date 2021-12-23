@@ -181,6 +181,13 @@
 			
 		});
 		
+		window.onload = function(){
+			//workStatMoni();
+			document.getElementById("ko").style.height = window.innerHeight - document.getElementById("ko").offsetTop + "px";
+			document.getElementById("WorkOrder_tbl").style.height = window.innerHeight - document.getElementById("ko").offsetTop - 20 + "px";
+			//select_program();
+		}
+		
 		document.getElementById("n_len").onclick = function(){
 			$('#testModal').modal("show");
 			document.getElementById("Item_Word").value = "";

@@ -44,12 +44,16 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 		document.getElementById("pdselect").onclick = function(){
 			pdselectFun();
 		}
+		
+		document.getElementById("pdselect").onchange = function(){
+			pdselectFun();
+		}
 
 		function pdselectFun()
 		{
 			var selectList = document.getElementById("pdselect");
-			document.getElementById("pdselect2").innerHTML = selectList.options[selectList.selectedIndex].innerHTML;
-			document.getElementById("pdselect2").setAttribute("code",selectList.options[selectList.selectedIndex].value);
+			document.getElementById("sum_qty").value = selectList.options[selectList.selectedIndex].innerHTML;
+			document.getElementById("sum_qty").setAttribute("code",selectList.options[selectList.selectedIndex].value);
 			qtyselectFun();
 		}
 
@@ -68,7 +72,7 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 		function qtyselectFun()
 		{
 			data = {
-				code : document.getElementById("pdselect2").getAttribute("code")
+				code : document.getElementById("sum_qty").getAttribute("code")
 			};
 
 			$.get("matOutputLXTabletRest/Current_Save",data,function(idata){
@@ -117,7 +121,7 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 
 		document.getElementById("okbtn").onclick = function(){
 			data = {
-				pdcode : document.getElementById("pdselect2").getAttribute("code"),
+				pdcode : document.getElementById("sum_qty").getAttribute("code"),
 				dtcode : document.getElementById("dtselect2").getAttribute("code"),
 				qty : document.getElementById("d_len2").innerHTML
 			};
