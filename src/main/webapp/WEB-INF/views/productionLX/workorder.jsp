@@ -1,7 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 	<div class="soloView">
 		<!-- MAIN -->
 		<div class="main">
@@ -23,16 +20,11 @@
 				</div>
 			</div>
 			<!-- 그리드 생성 장소 -->
-			<div id="WorkOrder_tbl"></div>
-			<div id="Sales_OrderMaster_tbl"></div>
+			<div id="WorkOrderTable"></div>
+			<div id="SalesOrderMasterTable"></div>
 		</div>
 		<!-- END MAIN -->
 	</div>
 <!-- END WRAPPER -->
 <!-- Javascript -->
-<script src="/js/today.js"></script>
-<script src="/js/productionLX/workOrder.js"></script>
-<script src="/js/tabMenu.js"></script>
-
-</body>
-</html>
+<script src="/js/productionLX/workOrder.js?v=<%=System.currentTimeMillis() %>"></script>

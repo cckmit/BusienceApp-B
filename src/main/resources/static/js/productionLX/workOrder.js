@@ -1,25 +1,22 @@
-WorkOrder_tbl_workOrder_ItemName_cell = null;
+WorkOrderTable_workOrder_ItemName_cell = null;
 
-var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
+var WorkOrderTable = new Tabulator("#WorkOrderTable", {
 	//페이징
 	pagination: "local",
 	paginationSize: 20,
 	paginationAddRow: "table",
-	height: "calc(70% - 175px)",
-	layout:"fitDataStretch",
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
+	height: "calc(62% - 100px)",
+	layoutColumnsOnNewData : true,
 	rowFormatter:function(row){
 		if(row.getData().dbdata_flag=="y")
 			row.getElement().style.color = "blue";
 	},
 	index:"index1",
 	columns: [
-		{formatter:"rowSelection", titleFormatter:"rowSelection", headerHozAlign:"center", hozAlign:"center", headerSort:false, width:40},
-		{ title: "인덱스", field: "index1", visible:false},
-		{ title: "작업지시No", field: "workOrder_ONo", headerHozAlign: "center", width: 160 },
-		{ title: "제품코드", field: "workOrder_ItemCode", headerHozAlign: "center", width: 100 },
-		{ title: "제품이름", field: "workOrder_ItemName", headerHozAlign: "center", width: 180, editor:"input"
+		{formatter:"rowSelection", titleFormatter:"rowSelection", headerHozAlign:"center", hozAlign:"center", headerSort:false},
+		{ title: "작업지시No", field: "workOrder_ONo", headerHozAlign: "center"},
+		{ title: "제품코드", field: "workOrder_ItemCode", headerHozAlign: "center"},
+		{ title: "제품이름", field: "workOrder_ItemName", headerHozAlign: "center", editor:"input"
 			, cellEdited: function(cell)
 			{
 				var cellElement = cell.getElement();
@@ -58,7 +55,7 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 									cell.getRow().getCell("workOrder_EquipName").edit();
 								} else {
 									//검색어와 일치하는값이 없는경우, 팝업창
-									WorkOrder_tbl_workOrder_ItemName_cell = cell;
+									WorkOrderTable_workOrder_ItemName_cell = cell;
 									itemPopup(cell.getValue(),'grid','','sales');
 								}
 							}
@@ -103,7 +100,7 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 									cell.getRow().getCell("workOrder_EquipName").edit();
 								} else {
 									//검색어와 일치하는값이 없는경우, 팝업창
-									WorkOrder_tbl_workOrder_ItemName_cell = cell;
+									WorkOrderTable_workOrder_ItemName_cell = cell;
 									itemPopup(cell.getValue(),'grid','','sales');
 								}
 							}
@@ -112,8 +109,9 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 				});
 			} 
 		},
-		{ title: "설비코드", field: "workOrder_EquipCode", headerHozAlign: "center", width: 100 },
-		{ title: "설비이름", field: "workOrder_EquipName", headerHozAlign: "center", width: 180, editor:"input"
+		{ title: "규격", field: "product_INFO_STND_1", headerHozAlign: "center"},
+		{ title: "설비코드", field: "workOrder_EquipCode", headerHozAlign: "center"},
+		{ title: "설비이름", field: "workOrder_EquipName", headerHozAlign: "center", editor:"input"
 			, cellEdited: function(cell)
 			{
 				var cellElement = cell.getElement();
@@ -134,7 +132,7 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 									cell.getRow().getCell("workOrder_PQty").edit();
 								} else {
 									//검색어와 일치하는값이 없는경우, 팝업창
-									WorkOrder_tbl_workOrder_ItemName_cell = cell;
+									WorkOrderTable_workOrder_ItemName_cell = cell;
 									var cellValue = cell.getValue();
 									machinePopup(cell.getValue(),'grid','','sales');
 								}
@@ -163,7 +161,7 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 									cell.getRow().getCell("workOrder_PQty").edit();
 								} else {
 									//검색어와 일치하는값이 없는경우, 팝업창
-									WorkOrder_tbl_workOrder_ItemName_cell = cell;
+									WorkOrderTable_workOrder_ItemName_cell = cell;
 									var cellValue = cell.getValue();
 									itemPopup(cell.getValue(),'grid','','sales');
 								}
@@ -173,7 +171,6 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 				});
 			} 
 		},
-		{ title: "규격", field: "product_INFO_STND_1", headerHozAlign: "center"},
 		{ title: "영업재고", field: "qty", headerHozAlign: "center",align:"right"},
 		{ title: "지시수량", field: "workOrder_PQty", headerHozAlign: "center", editor:"input",align:"right"
 		, formatter:"money", formatterParams: {precision: false}
@@ -187,35 +184,35 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 			}  
 		}
 		,
-		{ title: "작업지시일", field: "workOrder_OrderTime", align: "right", headerHozAlign: "center", editor:"input", width: 160
+		{ title: "작업지시일", field: "workOrder_OrderTime", align: "right", headerHozAlign: "center", editor:"input"
 			,cellEdited: function(cell)
 			{
 
-				WorkOrder_tbl_workOrder_ItemName_cell = cell;
+				WorkOrderTable_workOrder_ItemName_cell = cell;
 				Date_Check(cell);
 				Right_Move(cell,"right");
 			}
 			, cellEditCancelled: function(cell)
 			{
 
-				WorkOrder_tbl_workOrder_ItemName_cell = cell;
+				WorkOrderTable_workOrder_ItemName_cell = cell;
 				Date_Check(cell);
 				Right_Move(cell,"right");
 			}
 		},
-		{ title: "작업지시완료일", field: "workOrder_CompleteOrderTime", align: "right", headerHozAlign: "center", editor:"input", width: 160 
+		{ title: "작업지시완료일", field: "workOrder_CompleteOrderTime", align: "right", headerHozAlign: "center", editor:"input"
 			,cellEdited: function(cell)
 			{
-				WorkOrder_tbl_workOrder_ItemName_cell = cell;
+				WorkOrderTable_workOrder_ItemName_cell = cell;
 				Date_Check(cell);
 			}
 			, cellEditCancelled: function(cell)
 			{
-				WorkOrder_tbl_workOrder_ItemName_cell = cell;
+				WorkOrderTable_workOrder_ItemName_cell = cell;
 				Date_Check(cell);
 			}
 		},
-		{ title: "등록일", field: "workOrder_RegisterTime", align: "right", headerHozAlign: "center", width: 160},
+		{ title: "등록일", field: "workOrder_RegisterTime", align: "right", headerHozAlign: "center"},
 		{ title: "특이사항", field: "workOrder_Remark", headerHozAlign: "center", editor:"input" 
 			,cellEdited: function(cell)
 			{
@@ -225,25 +222,17 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 	]
 });
 
-var Sales_OrderMaster_tbl = new Tabulator("#Sales_OrderMaster_tbl", {
-	height: "calc(49% - 175px)",
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
-	rowClick: function(e, row) {
-	},
-
+var SalesOrderMasterTable = new Tabulator("#SalesOrderMasterTable", {
+	layoutColumnsOnNewData : true,
+	height: "calc(38% - 75px)",
 	columns: [
 		{ title: "수주No", field: "sales_Order_mCus_No", headerHozAlign: "center"},
 		{ title: "거래처", field: "sales_Order_mCode", headerHozAlign: "center"},
 		{ title: "거래처명", field: "sales_Order_mName", headerHozAlign: "center"},
-		{ title: "수주일", field: "sales_Order_mDate", headerHozAlign: "center",visible:false},
 		{ title: "납기일자", field: "sales_Order_mDlvry_Date", headerHozAlign: "center"},
 		{ title: "제품코드", field: "sales_Order_lCode", headerHozAlign: "center"},
 		{ title: "제품명", field: "sales_Order_lName", headerHozAlign: "center"},
-		{ title: "수주수량", field: "sales_Order_lQty", headerHozAlign: "center", formatter:"money", formatterParams: {precision: false}, align: "right" },
-		{ title: "합계", field: "sales_Order_lSum", headerHozAlign: "center", formatter:"money", formatterParams: {precision: false}, align: "right",visible:false },
-		{ title: "단가", field: "sales_Order_lUnit_Price", headerHozAlign: "center", formatter:"money", formatterParams: {precision: false}, align: "right",visible:false },
-		{ title: "금액", field: "sales_Order_lPrice", headerHozAlign: "center", formatter:"money", formatterParams: {precision: false}, align: "right",visible:false }
+		{ title: "수주수량", field: "sales_Order_lQty", headerHozAlign: "center", formatter:"money", formatterParams: {precision: false}, align: "right" }
 	]
 });
 
@@ -261,32 +250,15 @@ function Search(){
 		endDate: $("#endDate").val()
 	}
 	
-	WorkOrder_tbl.setData("workOrderRest/MI_Search3",jsonData);
-
-	/*
-	$.ajax({
-		method : "GET",
-		dataType : "json",
-		url : "workOrderRest/MI_Search3?data="+ encodeURI(JSON.stringify(data)),
-		success : function(data) {
-			////console.log("MI");
-			//console.log(data);
-			
-			for(i=0;i<data.length;i++)
-				data[i].index1 = i;
-			
-			WorkOrder_tbl.setData(data);
-		}
-	});
-	*/
+	WorkOrderTable.setData("workOrderRest/MI_Search3",jsonData);
 }
 
 function newRow_Add()
 {
-	LRow = WorkOrder_tbl.getRows()[WorkOrder_tbl.getRows().length-1];
+	LRow = WorkOrderTable.getRows()[WorkOrderTable.getRows().length-1];
 	index = 0;
 		
-	if(WorkOrder_tbl.getRows().length > 0)
+	if(WorkOrderTable.getRows().length > 0)
 	{
 		newRow_flag = false;
 		lastRowData = LRow.getData();
@@ -310,11 +282,11 @@ function newRow_Add()
 	var nextday = new Date(nextday.setDate(nextday.getDate()+1));
 		
 	//페이지 이동(전체 행 수/페이지당 행 수)
-	WorkOrder_tbl.setPage(Math.ceil(WorkOrder_tbl.getDataCount("active") / WorkOrder_tbl.getPageSize()));
+	WorkOrderTable.setPage(Math.ceil(WorkOrderTable.getDataCount("active") / WorkOrderTable.getPageSize()));
 	
-	WorkOrder_tbl.addRow({index1:index,workOrder_PQty:"0",workOrder_OrderTime:day,workOrder_CompleteOrderTime:nextday.toISOString().substring(0, 10),workOrder_RegisterTime:day});
+	WorkOrderTable.addRow({index1:index,workOrder_PQty:"0",workOrder_OrderTime:day,workOrder_CompleteOrderTime:nextday.toISOString().substring(0, 10),workOrder_RegisterTime:day});
 		
-	LRow = WorkOrder_tbl.getRows()[WorkOrder_tbl.getRows().length-1];
+	LRow = WorkOrderTable.getRows()[WorkOrderTable.getRows().length-1];
 	LRow.getCell("workOrder_ItemName").edit();
 }
 
@@ -352,8 +324,8 @@ function Date_Check(cell)
 			}
 
 			data = {
-				Sales_Order_lCode: WorkOrder_tbl_workOrder_ItemName_cell.getRow().getData().workOrder_ItemCode,
-				endDate: WorkOrder_tbl_workOrder_ItemName_cell.getRow().getData().workOrder_CompleteOrderTime
+				Sales_Order_lCode: WorkOrderTable_workOrder_ItemName_cell.getRow().getData().workOrder_ItemCode,
+				endDate: WorkOrderTable_workOrder_ItemName_cell.getRow().getData().workOrder_CompleteOrderTime
 			}
 			
 			$.ajax({
@@ -363,8 +335,8 @@ function Date_Check(cell)
 				success : function(data) {
 					////console.log("MI");
 					//console.log(data);
-					Sales_OrderMaster_tbl.clearData();
-					Sales_OrderMaster_tbl.setData(data);
+					SalesOrderMasterTable.clearData();
+					SalesOrderMasterTable.setData(data);
 				}
 			});
 			
@@ -392,7 +364,7 @@ function Right_Move(cell,flag)
 
 $('#FI_SaveBtn').click(function(){
 	debugger;
-	var selectedData = WorkOrder_tbl.getSelectedData();
+	var selectedData = WorkOrderTable.getSelectedData();
 	
 	if(selectedData.length == 0)
 	{
@@ -468,13 +440,13 @@ function workOrder_PQty_Check(cell)
 
 function machine_gridInit(code,name)
 {
-	WorkOrder_tbl_workOrder_ItemName_cell.getRow().update({
+	WorkOrderTable_workOrder_ItemName_cell.getRow().update({
 			"workOrder_EquipCode": code,
 			"workOrder_EquipName": name
 		});
 		
-	WorkOrder_tbl_workOrder_ItemName_cell.getRow().getCell("workOrder_PQty").edit();
-	WorkOrder_tbl.selectRow(WorkOrder_tbl.getRows().length-1);
+	WorkOrderTable_workOrder_ItemName_cell.getRow().getCell("workOrder_PQty").edit();
+	WorkOrderTable.selectRow(WorkOrderTable.getRows().length-1);
 }
 
 function item_gridInit(PCode, PName, PSTND_1, PPrice, SaveV)
@@ -510,11 +482,11 @@ function item_gridInit(PCode, PName, PSTND_1, PPrice, SaveV)
 				}
 	});
 	
-	dbdata_flag = WorkOrder_tbl_workOrder_ItemName_cell.getRow().getData().dbdata_flag;
+	dbdata_flag = WorkOrderTable_workOrder_ItemName_cell.getRow().getData().dbdata_flag;
 	
 	if(dbdata_flag=='y')
 	{
-		WorkOrder_tbl_workOrder_ItemName_cell.getRow().update({
+		WorkOrderTable_workOrder_ItemName_cell.getRow().update({
 			"workOrder_ItemCode": PCode,
 			"workOrder_ItemName": PName,
 			"product_INFO_STND_1": PSTND_1,
@@ -525,7 +497,7 @@ function item_gridInit(PCode, PName, PSTND_1, PPrice, SaveV)
 	{
 		//
 	
-		WorkOrder_tbl_workOrder_ItemName_cell.getRow().update({
+		WorkOrderTable_workOrder_ItemName_cell.getRow().update({
 			"workOrder_ONo": today.getFullYear() + "" + month + "" + date+"-"+PCode+"-",
 			"workOrder_ItemCode": PCode,
 			"workOrder_ItemName": PName,
@@ -534,11 +506,11 @@ function item_gridInit(PCode, PName, PSTND_1, PPrice, SaveV)
 		});
 	}
 	
-	//console.log(WorkOrder_tbl_workOrder_ItemName_cell.getRow().getData());
+	//console.log(WorkOrderTable_workOrder_ItemName_cell.getRow().getData());
 	
 	data = {
 		Sales_Order_lCode: PCode,
-		endDate: WorkOrder_tbl_workOrder_ItemName_cell.getRow().getData().workOrder_CompleteOrderTime
+		endDate: WorkOrderTable_workOrder_ItemName_cell.getRow().getData().workOrder_CompleteOrderTime
 	}
 	
 	$.ajax({
@@ -548,13 +520,13 @@ function item_gridInit(PCode, PName, PSTND_1, PPrice, SaveV)
 		success : function(data) {
 			////console.log("MI");
 			//console.log(data);
-			Sales_OrderMaster_tbl.clearData();
-			Sales_OrderMaster_tbl.setData(data);
+			SalesOrderMasterTable.clearData();
+			SalesOrderMasterTable.setData(data);
 		}
 	});
 	
-	WorkOrder_tbl_workOrder_ItemName_cell.getRow().getCell("workOrder_EquipName").edit();
-	WorkOrder_tbl.selectRow(WorkOrder_tbl.getRows().length-1);
+	WorkOrderTable_workOrder_ItemName_cell.getRow().getCell("workOrder_EquipName").edit();
+	WorkOrderTable.selectRow(WorkOrderTable.getRows().length-1);
 }
 
 function grid_itemPopup(cell)
