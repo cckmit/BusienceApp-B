@@ -20,4 +20,6 @@ public class ProductionDto {
 	private int PRODUCTION_Volume;
 	
 	private LocalDateTime PRODUCTION_Date;
+	
+	private String WorkOrder_Status;
 }

@@ -1,6 +1,5 @@
 package com.busience.productionLX.controller;
 
-import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

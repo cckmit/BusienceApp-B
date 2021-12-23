@@ -64,7 +64,7 @@ function registerModalShow(){
 	$("#codeManageModal").find('form')[0].reset();
 	
 	$("#codeManageModal").modal("show").on("shown.bs.modal", function () {
-		$("#CHILD_TBL_TYPE").focus();
+		$("#child_TBL_TYPE").focus();
 	});
 }
 
@@ -115,7 +115,7 @@ function modifyModalShow(){
 	}
 	
 	$("#codeManageModal").modal("show").on("shown.bs.modal", function () {
-		$("#CHILD_TBL_TYPE").focus();
+		$("#child_TBL_TYPE").focus();
 	});
 }
 
