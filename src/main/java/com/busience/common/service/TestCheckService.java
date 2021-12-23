@@ -16,10 +16,5 @@ public class TestCheckService {
 		
 	public List<TestCheckDto> TestCheckList() {
         return testCheckDao.TestCheckListDao();
-	}
-	
-	public int TestInsert(TestCheckDto testCheckDto) {
-		return testCheckDao.TestInsertDao(testCheckDto);
-	}
-	
+	}	
 }
