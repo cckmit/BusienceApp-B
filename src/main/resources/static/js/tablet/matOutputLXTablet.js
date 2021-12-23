@@ -137,6 +137,9 @@ $(document).ready(function() {
 	var day = ('0' + today.getDate()).slice(-2);
 	document.getElementById("today").innerHTML = year + '-' + month  + '-' + day;
 	
+	document.getElementById("ko").style.height = window.innerHeight - document.getElementById("ko").offsetTop - 150 + "px";
+			document.getElementById("WorkOrder_tbl").style.height = window.innerHeight - document.getElementById("ko").offsetTop - 150 + "px";
+	
 	MO_ListViewSearchBtn();
 });
 
@@ -153,9 +156,9 @@ document.getElementById("d_len").onclick = function(){
 
 document.getElementById("okbtn").onclick = function(){
 	data = {
-		pdcode : document.getElementById("pdselect2").getAttribute("code"),
-		dtcode : document.getElementById("chr2").getAttribute("code"),
-		qty : document.getElementById("d_len2").innerHTML.trim()
+		pdcode : document.getElementById("pname").getAttribute("code"),
+		dtcode : document.getElementById("chr").getAttribute("code"),
+		qty : document.getElementById("d_len").value
 	};
 
 	if(data.qty == 0)
@@ -292,6 +295,8 @@ function list_select(){
 var itemManageTable = new Tabulator("#itemManageTable",	{
 		layout:"fitDataStretch",
 		//페이징
+		pagination:"local",
+		paginationSize:7,
 		layoutColumnsOnNewData : true,
 		headerFilterPlaceholder: null,
 		height: "100%",
@@ -302,13 +307,11 @@ var itemManageTable = new Tabulator("#itemManageTable",	{
 		rowDblTap: function(e, row) {
 			console.log(row.getData());
 			document.getElementById("pname").value = row.getData().product_ITEM_NAME;
-			document.getElementById("sum_qty").value = row.getData().product_INFO_STND_1;
+			document.getElementById("pname").setAttribute("code",row.getData().product_ITEM_CODE);
 
-			document.getElementById("gu").innerHTML = row.getData().product_INFO_STND_1;
-
-			document.getElementById("pdselect2").innerHTML = row.getData().product_ITEM_NAME;
-			document.getElementById("pdselect2").setAttribute("code",row.getData().product_ITEM_CODE);
+			document.getElementById("gu").value = row.getData().product_INFO_STND_1;
 			$('#myFullsizeModal').modal("hide");
+			
 
 			$.get("/tablet/matOutputLXTabletRest/Current_Save?code="+row.getData().product_ITEM_CODE,function(data){
 				document.getElementById("current_qty").innerHTML = parseInt(data);
@@ -323,6 +326,8 @@ var itemManageTable = new Tabulator("#itemManageTable",	{
 var itemManageTable2 = new Tabulator("#itemManageTable2",	{
 		layout:"fitDataStretch",
 		//페이징
+		pagination:"local",
+		paginationSize:7,
 		layoutColumnsOnNewData : true,
 		headerFilterPlaceholder: null,
 		height: "100%",
@@ -333,13 +338,11 @@ var itemManageTable2 = new Tabulator("#itemManageTable2",	{
 		rowDblTap: function(e, row) {
 			console.log(row.getData());
 			document.getElementById("pname").value = row.getData().product_ITEM_NAME;
-			document.getElementById("sum_qty").value = row.getData().product_INFO_STND_1;
+			document.getElementById("pname").setAttribute("code",row.getData().product_ITEM_CODE);
 
-			document.getElementById("gu").innerHTML = row.getData().product_INFO_STND_1;
-
-			document.getElementById("pdselect2").innerHTML = row.getData().product_ITEM_NAME;
-			document.getElementById("pdselect2").setAttribute("code",row.getData().product_ITEM_CODE);
+			document.getElementById("gu").value = row.getData().product_INFO_STND_1;
 			$('#myFullsizeModal2').modal("hide");
+			
 
 			$.get("/tablet/matOutputLXTabletRest/Current_Save?code="+row.getData().product_ITEM_CODE,function(data){
 				document.getElementById("current_qty").innerHTML = parseInt(data);
@@ -364,8 +367,8 @@ var itemManageTable3 = new Tabulator("#itemManageTable3",	{
 		},
 		rowDblTap: function(e, row) {
 			document.getElementById("chr").value = row.getData().child_TBL_TYPE;
-			document.getElementById("chr2").innerHTML = row.getData().child_TBL_TYPE;
-			document.getElementById("chr2").setAttribute("code",row.getData().child_TBL_NO);
+			document.getElementById("chr").innerHTML = row.getData().child_TBL_TYPE;
+			document.getElementById("chr").setAttribute("code",row.getData().child_TBL_NO);
 			$('#chModal').modal("hide");
 		},
 		columns: [
@@ -386,6 +389,26 @@ document.getElementById("pname").onclick = function(){
 			}
 			
 			
+			
+			var array = document.getElementsByClassName("modal-dialog modal-fullsize");
+
+			for(i=0;i<array.length;i++)
+			{
+				array[i].scrollTop = 0;
+			}
+}
+
+document.getElementById("gu").onclick = function(){
+			if(flag === "one")
+			{
+				init_list_click();
+				$('#myFullsizeModal').modal("show");
+			}
+			else if(flag === "bu")
+			{
+				init_list_click();
+				$('#myFullsizeModal2').modal("show");
+			}
 			
 			var array = document.getElementsByClassName("modal-dialog modal-fullsize");
 
