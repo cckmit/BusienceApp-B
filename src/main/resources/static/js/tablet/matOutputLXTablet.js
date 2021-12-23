@@ -304,12 +304,31 @@ var itemManageTable = new Tabulator("#itemManageTable",	{
 			row.getTable().deselectRow();
 			row.select();
 		},
+		rowTap: function(e, row) {
+			row.getTable().deselectRow();
+			row.select();
+		},
 		rowDblTap: function(e, row) {
 			console.log(row.getData());
 			document.getElementById("pname").value = row.getData().product_ITEM_NAME;
 			document.getElementById("pname").setAttribute("code",row.getData().product_ITEM_CODE);
 
 			document.getElementById("gu").value = row.getData().product_INFO_STND_1;
+			document.getElementById("gu2").value = row.getData().product_INFO_STND_1;
+			$('#myFullsizeModal').modal("hide");
+			
+
+			$.get("/tablet/matOutputLXTabletRest/Current_Save?code="+row.getData().product_ITEM_CODE,function(data){
+				document.getElementById("current_qty").innerHTML = parseInt(data);
+			});
+		},
+		rowDblClick: function(e, row) {
+			console.log(row.getData());
+			document.getElementById("pname").value = row.getData().product_ITEM_NAME;
+			document.getElementById("pname").setAttribute("code",row.getData().product_ITEM_CODE);
+
+			document.getElementById("gu").value = row.getData().product_INFO_STND_1;
+			document.getElementById("gu2").value = row.getData().product_INFO_STND_1;
 			$('#myFullsizeModal').modal("hide");
 			
 
@@ -335,12 +354,31 @@ var itemManageTable2 = new Tabulator("#itemManageTable2",	{
 			row.getTable().deselectRow();
 			row.select();
 		},
+		rowTap: function(e, row) {
+			row.getTable().deselectRow();
+			row.select();
+		},
 		rowDblTap: function(e, row) {
 			console.log(row.getData());
 			document.getElementById("pname").value = row.getData().product_ITEM_NAME;
 			document.getElementById("pname").setAttribute("code",row.getData().product_ITEM_CODE);
 
 			document.getElementById("gu").value = row.getData().product_INFO_STND_1;
+			document.getElementById("gu2").value = row.getData().product_INFO_STND_1;
+			$('#myFullsizeModal2').modal("hide");
+			
+
+			$.get("/tablet/matOutputLXTabletRest/Current_Save?code="+row.getData().product_ITEM_CODE,function(data){
+				document.getElementById("current_qty").innerHTML = parseInt(data);
+			});
+		},
+		rowDblClick: function(e, row) {
+			console.log(row.getData());
+			document.getElementById("pname").value = row.getData().product_ITEM_NAME;
+			document.getElementById("pname").setAttribute("code",row.getData().product_ITEM_CODE);
+
+			document.getElementById("gu").value = row.getData().product_INFO_STND_1;
+			document.getElementById("gu2").value = row.getData().product_INFO_STND_1;
 			$('#myFullsizeModal2').modal("hide");
 			
 
@@ -365,7 +403,17 @@ var itemManageTable3 = new Tabulator("#itemManageTable3",	{
 			row.getTable().deselectRow();
 			row.select();
 		},
+		rowTap: function(e, row) {
+			row.getTable().deselectRow();
+			row.select();
+		},
 		rowDblTap: function(e, row) {
+			document.getElementById("chr").value = row.getData().child_TBL_TYPE;
+			document.getElementById("chr").innerHTML = row.getData().child_TBL_TYPE;
+			document.getElementById("chr").setAttribute("code",row.getData().child_TBL_NO);
+			$('#chModal').modal("hide");
+		},
+		rowDblClick: function(e, row) {
 			document.getElementById("chr").value = row.getData().child_TBL_TYPE;
 			document.getElementById("chr").innerHTML = row.getData().child_TBL_TYPE;
 			document.getElementById("chr").setAttribute("code",row.getData().child_TBL_NO);

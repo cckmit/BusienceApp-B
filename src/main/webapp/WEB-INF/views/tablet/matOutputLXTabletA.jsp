@@ -38,7 +38,7 @@ html, body {
 								for(int i=0;i<list.size();i++)
 								{
 							%>
-									<option value="<%=list.get(i).getPRODUCTION_PRODUCT_CODE()%>"><%=list.get(i).getPRODUCTION_EQUIPMENT_INFO_NAME()%></option>
+									<option value="<%=list.get(i).getPRODUCTION_PRODUCT_CODE()%>" stnd="<%=list.get(i).getPRODUCT_INFO_STND_1()%>"><%=list.get(i).getPRODUCTION_EQUIPMENT_INFO_NAME()%></option>
 							<%
 								}
 							%>	
@@ -135,8 +135,8 @@ html, body {
 									
 								</td>
 								
-								<td style="text-align: center; background: rgb(207,213,234); color: black;">
-									20Kg
+								<td style="text-align: center; background: rgb(207,213,234); color: black;" id="stnd">
+									
 								</td>
 								
 								<td style="text-align: center; background: rgb(207,213,234); color: black;" id="dtselect2">

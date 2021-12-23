@@ -123,4 +123,9 @@ public class matOutputLXTabletRestController {
 		}
 	}
 	
+	@RequestMapping(value = "/Out_List2", method = RequestMethod.GET)
+	public void Out_List2(HttpServletRequest request, Model model){
+		
+	}
+	
 }

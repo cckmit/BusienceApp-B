@@ -52,8 +52,11 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 		function pdselectFun()
 		{
 			var selectList = document.getElementById("pdselect");
-			document.getElementById("sum_qty").value = selectList.options[selectList.selectedIndex].innerHTML;
+			document.getElementById("stnd").innerHTML = selectList.options[selectList.selectedIndex].getAttribute("stnd");
+			document.getElementById("sum_qty").value = selectList.options[selectList.selectedIndex].getAttribute("stnd");
 			document.getElementById("sum_qty").setAttribute("code",selectList.options[selectList.selectedIndex].value);
+			document.getElementById("pdselect2").innerHTML = selectList.options[selectList.selectedIndex].innerHTML;
+			document.getElementById("pdselect2").setAttribute("code",selectList.options[selectList.selectedIndex].value);
 			qtyselectFun();
 		}
 
@@ -72,7 +75,7 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 		function qtyselectFun()
 		{
 			data = {
-				code : document.getElementById("sum_qty").getAttribute("code")
+				code : document.getElementById("pdselect2").getAttribute("code")
 			};
 
 			$.get("matOutputLXTabletRest/Current_Save",data,function(idata){
@@ -91,6 +94,7 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 
 			//document.getElementById("d_len").value = "1";
 			//document.getElementById("d_len2").innerHTML = "1";
+			document.getElementById("d_len").value = "1";
 		}
 
 		window.onload = function(){
@@ -121,7 +125,7 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 
 		document.getElementById("okbtn").onclick = function(){
 			data = {
-				pdcode : document.getElementById("sum_qty").getAttribute("code"),
+				pdcode : document.getElementById("pdselect2").getAttribute("code"),
 				dtcode : document.getElementById("dtselect2").getAttribute("code"),
 				qty : document.getElementById("d_len2").innerHTML
 			};
@@ -141,6 +145,11 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 
 			$.get("matOutputLXTabletRest/MOM_Save",data,function(){
 				reload();
+				
+				document.getElementById("sum_qty").value = "";
+				document.getElementById("sum_qty").setAttribute("code","");
+				document.getElementById("pdselect2").innerHTML = "";
+				document.getElementById("pdselect2").setAttribute("code","");
 			});
 		}
 

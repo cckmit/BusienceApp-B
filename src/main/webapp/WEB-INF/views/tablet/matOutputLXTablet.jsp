@@ -271,8 +271,8 @@
 									
 								</td>
 								
-								<td style="text-align: center; background: rgb(207,213,234); color: black;">
-									20Kg
+								<td style="text-align: center; background: rgb(207,213,234); color: black;" id="gu2">
+									
 								</td>
 								
 								<td style="text-align: center; background: rgb(207,213,234); color: black;" id="dtselect2">

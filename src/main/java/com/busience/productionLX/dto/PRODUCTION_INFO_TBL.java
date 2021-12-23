@@ -22,12 +22,21 @@ public class PRODUCTION_INFO_TBL {
 	private String PRODUCTION_USER_CODE; // 사용자코드
 	private String PRODUCTION_MODIFY_D; // 날짜
 	private String PRODUCTION_CC; // 구분
+	private String PRODUCT_INFO_STND_1; // 규격
 
 	private String TIME; // 이유 : 생산,불량현황 모니터링의 시간데이터를 받는 역할 / 이름 : 박성민
 
 	private Integer PRODUCTION_WorkOrder_No;
 	private String PRODUCTION_WorkOrder_ONo;
 	private String PRODUCTION_Date;
+
+	public String getPRODUCT_INFO_STND_1() {
+		return PRODUCT_INFO_STND_1;
+	}
+
+	public void setPRODUCT_INFO_STND_1(String pRODUCT_INFO_STND_1) {
+		PRODUCT_INFO_STND_1 = pRODUCT_INFO_STND_1;
+	}
 
 	public int getId() {
 		return Id;

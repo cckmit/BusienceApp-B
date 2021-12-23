@@ -43,8 +43,9 @@ html, body {
 	
 	<div class="row" style="margin: 5px;">
 		<div class="col-md-12" style="border:solid; background-color:rgb(112,173,70); text-align: center; border-radius: 5%;">
-			<div style="font-size: 60px; color: white; text-align: center; width: 100%; float: left;" id="t1">작업 관리</div>
-			
+			<div style="font-size: 60px; color: black; text-align: center; width: 15%; float: left; background-color:red; border-radius: 10%; border: solid;" id="t1"><%=request.getParameter("eqcode")%></div>
+		
+			<div style="font-size: 60px; color: white; text-align: center; width: 70%; float: left;" id="t1">작업 관리</div>	
 		</div>
 	</div>
 	
@@ -176,7 +177,6 @@ html, body {
 			<span style="text-align: center"><strong>~</strong></span>
 			<input id="endDate" class="tomorrow" type="date" style="width: 180px; height: 35px; font-size: 20px;">
 			<input id="n_len_code" class="tomorrow" type="text" style="width: 180px; height: 35px; font-size: 20px;">
-			<input id="eqcode" type="text" value="${eqcode}" style="width: 180px; height: 35px; font-size: 20px;">
 	</div>
 	
 	<script src="/js/tablet/workOrderTabletP.js"></script>

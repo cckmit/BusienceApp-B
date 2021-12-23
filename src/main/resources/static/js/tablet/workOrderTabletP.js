@@ -27,6 +27,9 @@
 		document.getElementById("input").focus();
 
 		oldVal = '';
+		num1 = 0;
+		num2 = 0;
+		arrays2 = [];
 
 		$("#input").on("propertychange change keydown paste input", function() {
 
@@ -41,17 +44,50 @@
 			{
 				var arrays = document.getElementsByClassName("form-control form-control-lg");
 
-				for(i=0;i<arrays.length;i++)
+				
+				if(num1<4)
 				{
-					if(arrays[i].getAttribute("code")=="one" && arrays[i].value=="")
+					if(arrays2.length < 4)
 					{
-						arrays[i].value = oldVal;
+						for(i=0;i<arrays.length;i++)
+						{
+							if(arrays[i].getAttribute("code")=="one" && arrays[i].value=="")
+							{
+								arrays2.push(arrays[i]);
+								arrays[i].value = oldVal;
+								document.getElementById("input").value = "";
+								num1+=1;
+								return;
+							}
+						}
+					}
+					else
+					{
+						arrays2[num1].value = oldVal;
+						num1+=1;
 						document.getElementById("input").value = "";
+						if(num1 == 4)
+						{
+							num1 = 0;
+							num2 = 0;
+						}
 						return;
 					}
 				}
+				else
+				{
+					arrays2[num2].value = oldVal;
+					++num2;
+					document.getElementById("input").value = "";
+					if(num2 == 4)
+					{
+						num1 = 0;
+						num2 = 0;
+					}
+					return;
+				}
 				
-				alert("원자재가 이미 다 입력되었습니다.");
+				num1 = 0;
 				document.getElementById("input").value = "";
 				return;
 			}

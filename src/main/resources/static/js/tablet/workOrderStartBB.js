@@ -326,6 +326,8 @@
 					if(i==6|| i==7)
 					document.getElementById("t"+i).style.paddingTop = "0px";
 				}
+				
+				document.getElementById("t8").style.fontSize = "40px";
 			}
 			else if(n.id==="eng")
 			{
@@ -349,6 +351,8 @@
 					if(i==6|| i==7)
 					document.getElementById("t"+i).style.paddingTop = "5px";
 				}
+				
+				document.getElementById("t8").style.fontSize = "40px";
 			}
 		}
 

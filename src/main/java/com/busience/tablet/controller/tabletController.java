@@ -97,6 +97,7 @@ public class tabletController {
 	            PRODUCTION_INFO_TBL data = new PRODUCTION_INFO_TBL();
 	            data.setPRODUCTION_PRODUCT_CODE(rs.getString("PRODUCT_ITEM_CODE"));
 	            data.setPRODUCTION_EQUIPMENT_INFO_NAME(rs.getString("PRODUCT_ITEM_NAME"));
+	            data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
 	            return data;
 	         }
 	      }));
@@ -166,7 +167,7 @@ public class tabletController {
 						}
 					}));
 					
-					return "normal/productionLX/"+rs.getString(1);
+					return "normal/tablet/"+rs.getString(1);
 				}
 			});
 	}
