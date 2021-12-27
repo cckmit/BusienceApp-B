@@ -82,6 +82,6 @@ function FIIL_SearchBtn() {
 }
 
 $("#SIL_Print").click(function(){
-	var selectedDatas = salesInputListTable.getData();
+	var selectedDatas = salesInputListTable.getData("selected");
 	salesInputPrinter(selectedDatas)
 })
