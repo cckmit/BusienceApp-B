@@ -123,9 +123,15 @@ public class matOutputLXTabletRestController {
 		}
 	}
 	
-	@RequestMapping(value = "/Out_List2", method = RequestMethod.GET)
-	public void Out_List2(HttpServletRequest request, Model model){
-		
+	@RequestMapping(value = "/pd_name_export", method = RequestMethod.GET)
+	public String pd_name_export(HttpServletRequest request, Model model){
+		return jdbctemplate.queryForObject("SELECT * FROM PRODUCT_INFO_TBL WHERE PRODUCT_ITEM_CODE=?", new RowMapper<String>() {
+			@Override
+			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		},request.getAttribute("pcode"));
 	}
 	
 }

@@ -312,9 +312,12 @@ var itemManageTable = new Tabulator("#itemManageTable",	{
 			console.log(row.getData());
 			document.getElementById("pname").value = row.getData().product_ITEM_NAME;
 			document.getElementById("pname").setAttribute("code",row.getData().product_ITEM_CODE);
+			
+			document.getElementById("pdselect2").value = row.getData().product_ITEM_NAME;
+			document.getElementById("pdselect2").setAttribute("code",row.getData().product_ITEM_CODE);
 
 			document.getElementById("gu").value = row.getData().product_INFO_STND_1;
-			document.getElementById("gu2").value = row.getData().product_INFO_STND_1;
+			document.getElementById("gu2").innerHTML = row.getData().product_INFO_STND_1;
 			$('#myFullsizeModal').modal("hide");
 			
 
@@ -326,9 +329,12 @@ var itemManageTable = new Tabulator("#itemManageTable",	{
 			console.log(row.getData());
 			document.getElementById("pname").value = row.getData().product_ITEM_NAME;
 			document.getElementById("pname").setAttribute("code",row.getData().product_ITEM_CODE);
+			
+			document.getElementById("pdselect2").innerHTML = row.getData().product_ITEM_NAME;
+			document.getElementById("pdselect2").setAttribute("code",row.getData().product_ITEM_CODE);
 
 			document.getElementById("gu").value = row.getData().product_INFO_STND_1;
-			document.getElementById("gu2").value = row.getData().product_INFO_STND_1;
+			document.getElementById("gu2").innerHTML = row.getData().product_INFO_STND_1;
 			$('#myFullsizeModal').modal("hide");
 			
 
@@ -411,12 +417,16 @@ var itemManageTable3 = new Tabulator("#itemManageTable3",	{
 			document.getElementById("chr").value = row.getData().child_TBL_TYPE;
 			document.getElementById("chr").innerHTML = row.getData().child_TBL_TYPE;
 			document.getElementById("chr").setAttribute("code",row.getData().child_TBL_NO);
+			
+			document.getElementById("dtselect2").innerHTML = row.getData().child_TBL_TYPE;
 			$('#chModal').modal("hide");
 		},
 		rowDblClick: function(e, row) {
 			document.getElementById("chr").value = row.getData().child_TBL_TYPE;
 			document.getElementById("chr").innerHTML = row.getData().child_TBL_TYPE;
 			document.getElementById("chr").setAttribute("code",row.getData().child_TBL_NO);
+			
+			document.getElementById("dtselect2").innerHTML = row.getData().child_TBL_TYPE;
 			$('#chModal').modal("hide");
 		},
 		columns: [

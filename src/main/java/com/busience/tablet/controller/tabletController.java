@@ -346,5 +346,10 @@ public class tabletController {
 	public String workOrderTabletP(Model model) {
 		return "normal/tablet/workOrderTabletP";
 	}	
+	
+	@GetMapping("/tablet/workOrderTabletP2")
+	public String workOrderTabletP2(Model model) {
+		return "normal/tablet/workOrderTabletP2";
+	}
 		
 }
