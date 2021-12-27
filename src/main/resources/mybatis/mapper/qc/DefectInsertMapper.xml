@@ -27,7 +27,7 @@
 	
 	<select id="defectInfoDao" resultType="com.busience.qc.dto.DefectDto">
 		select DEFECT_CODE Defect_Code, DEFECT_NAME Defect_Name
-			from DEFECT_INFO_TBL where DEFECT_USE_STATUS = true
+			from DEFECT_INFO_TBL where DEFECT_USE_STATUS = 'true'
 	</select>
 	
 	<select id="defectListDao" resultType="com.busience.qc.dto.DefectDto">
