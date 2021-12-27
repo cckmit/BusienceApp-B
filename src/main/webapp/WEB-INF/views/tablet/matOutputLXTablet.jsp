@@ -159,8 +159,8 @@
 		<div class="col-md-12" style="border:solid; background-color:rgb(112,173,70); text-align: center; border-radius: 5%;">
 			<div style="font-size: 60px; color: white; text-align: center; width: 70%; float: left;" id="t1">자재출고관리</div>
 
-			<div style="font-size: 60px; color: black; text-align: center; width: 15%; float: left; background-color:red; border-radius: 10%; border: solid;" id="${b1}">원자재</div>
-			<div style="font-size: 60px; color: black; text-align: center; width: 15%; float: left; background-color:white; border-radius: 10%; border: solid;" id="${b2}">부자재</div>
+			<div style="font-size: 56px; color: black; text-align: center; width: 15%; float: left; background-color:red; border-radius: 10%; border: solid;" id="${b1}">원자재</div>
+			<div style="font-size: 56px; color: black; text-align: center; width: 15%; float: left; background-color:white; border-radius: 10%; border: solid;" id="${b2}">부자재</div>
 		</div>
 	</div>
 	

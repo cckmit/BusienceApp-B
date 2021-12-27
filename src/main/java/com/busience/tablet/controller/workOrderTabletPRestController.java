@@ -22,14 +22,32 @@ public class workOrderTabletPRestController {
 	
 	@RequestMapping(value = "/pd_name_export", method = RequestMethod.GET)
 	public String pd_name_export(HttpServletRequest request, Model model){
-		System.out.println(request.getParameter("pcode"));
-		
 		return jdbctemplate.queryForObject("SELECT EQUIPMENT_INFO_NAME FROM EQUIPMENT_INFO_TBL WHERE EQUIPMENT_INFO_CODE=?", new RowMapper<String>() {
 			@Override
 			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
 				return rs.getString("EQUIPMENT_INFO_NAME");
 			}
 		},request.getParameter("pcode"));
+	}
+	
+	@RequestMapping(value = "/pd_insert", method = RequestMethod.GET)
+	public String pd_insert(HttpServletRequest request, Model model) {
+		
+		String sql = "SELECT \r\n"
+				+ "			WorkOrder_WorkStatus\r\n"
+				+ "FROM		PalDang_WorkOrder_tbl\r\n"
+				+ "WHERE		WorkOrder_WorkStatus = '244'\r\n"
+				+ "AND		WorkOrder_EquipCode = ?";
+		
+		jdbctemplate.queryForObject(sql, new RowMapper<String>() {
+
+			@Override
+			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+				return rs.getString("WorkOrder_WorkStatus");
+			}
+		});
+		
+		return null;
 	}
 	
 }

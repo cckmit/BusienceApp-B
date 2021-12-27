@@ -25,7 +25,7 @@ public class workOrderTabletP2RestController {
 	@Autowired
 	JdbcTemplate jdbctemplate;
 	
-	@RequestMapping(value = "/WorkOrder_ONo_export", method = RequestMethod.GET)
+	@RequestMapping(value = "/pd_name_export", method = RequestMethod.GET)
 	public PalDang_Product_tbl pd_name_export(HttpServletRequest request, Model model){
 
 		return jdbctemplate.queryForObject("SELECT \r\n"

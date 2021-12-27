@@ -324,7 +324,8 @@ public class workOrderTABRestXOController {
 			sql = "DELETE\r\n"
 					+ "FROM		WorkOrder_tbl\r\n"
 					+ "WHERE 0 = (SELECT t1.WorkOrder_RQty FROM (SELECT WorkOrder_RQty FROM WorkOrder_tbl  WHERE WorkOrder_EquipCode='"+WorkOrder_EquipCode+"' AND WorkOrder_WorkStatus='245' ORDER BY WorkOrder_RegisterTime DESC LIMIT 1) t1)\r\n"
-					+ "AND	WorkOrder_ONo = (SELECT t2.WorkOrder_ONo FROM (SELECT WorkOrder_ONo FROM WorkOrder_tbl  WHERE WorkOrder_EquipCode='"+WorkOrder_EquipCode+"' AND WorkOrder_WorkStatus='245' ORDER BY WorkOrder_RegisterTime DESC LIMIT 1) t2)";
+					+ "AND	WorkOrder_ONo = (SELECT t2.WorkOrder_ONo FROM (SELECT WorkOrder_ONo FROM WorkOrder_tbl  WHERE WorkOrder_EquipCode='"+WorkOrder_EquipCode+"' AND WorkOrder_WorkStatus='245' ORDER BY WorkOrder_RegisterTime DESC LIMIT 1) t2)\r\n"
+					+ "AND  WorkOrder_EquipCode='"+WorkOrder_EquipCode+"'";
 			
 			System.out.println(sql);
 			

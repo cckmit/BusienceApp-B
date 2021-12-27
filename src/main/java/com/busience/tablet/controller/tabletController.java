@@ -351,5 +351,11 @@ public class tabletController {
 	public String workOrderTabletP2(Model model) {
 		return "normal/tablet/workOrderTabletP2";
 	}
+	
+	@GetMapping("/tablet/workOrderTabletSeyeon")
+	public String workOrderTabletSeyeon(Model model, HttpServletRequest request) throws SQLException
+	{
+		return "normal/tablet/workOrderTabletSeyeon";
+	}
 		
 }

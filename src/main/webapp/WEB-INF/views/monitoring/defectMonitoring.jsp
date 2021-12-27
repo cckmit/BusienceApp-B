@@ -3,6 +3,10 @@
 	
 <head>
 	<title>불량 모니터링</title>
+	
+	<style type="text/css">
+	body{ -ms-overflow-style: none; } ::-webkit-scrollbar { display: none; }
+	</style>
 </head>
 
 <body style="background: rgb(42,44,57); color: white;">
@@ -54,5 +58,4 @@
 	<%
 		}
 	%>
-	
 </body>

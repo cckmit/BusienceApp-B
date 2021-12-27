@@ -79,6 +79,8 @@ public class matOutputLXTabletRestController {
 	
 	@RequestMapping(value = "/Current_List", method = RequestMethod.GET)
 	public List<PRODUCT_INFO_TBL> Current_List(HttpServletRequest request, Model model) {
+		System.out.println(request.getParameter("CLSFC"));
+		System.out.println(request.getParameter("value"));
 		//PRODUCT_ITEM_CLSFC_1
 		String sql = "SELECT *,t2.CHILD_TBL_TYPE FROM PRODUCT_INFO_TBL t1 INNER JOIN DTL_TBL t2 ON t1."+request.getParameter("CLSFC")+" = t2.CHILD_TBL_NO WHERE t2.CHILD_TBL_TYPE = '"+request.getParameter("value")+"'";
 		
