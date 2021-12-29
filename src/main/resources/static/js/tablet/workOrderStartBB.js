@@ -230,7 +230,7 @@
 
 		setInterval(function(){
 			$.get("../workOrderStartBRest/workOrderSumQty?eqselect=" + document.getElementById("eqselect").value, function(data){
-				document.getElementById("sum_qty").value = data;
+				document.getElementById("sum_qty").value = Number(data)+Number(document.getElementById("current_qty").value);
 				
 				select_program();
 			});

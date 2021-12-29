@@ -94,7 +94,15 @@ public class workOrderStartBRestController {
 	@GetMapping("/workOrderCurrentQty")
 	public Float workOrderCurrentQty(Model model, HttpServletRequest request)
 	{
-		String sql = "SELECT * FROM PRODUCTION_MGMT_TBL2 a1 WHERE a1.PRODUCTION_WorkOrder_ONo=(SELECT t1.WorkOrder_ONo FROM WorkOrder_tbl t1 WHERE t1.WorkOrder_EquipCode='"+request.getParameter("eqselect")+"' AND t1.WorkOrder_WorkStatus='244') ORDER BY PRODUCTION_Date DESC LIMIT 1";
+		/*
+		 * String sql =
+		 * "SELECT * FROM PRODUCTION_MGMT_TBL2 a1 WHERE a1.PRODUCTION_WorkOrder_ONo=(SELECT t1.WorkOrder_ONo FROM WorkOrder_tbl t1 WHERE t1.WorkOrder_EquipCode='"
+		 * +request.getParameter("eqselect")
+		 * +"' AND t1.WorkOrder_WorkStatus='244') ORDER BY PRODUCTION_Date DESC LIMIT 1"
+		 * ;
+		 */
+		
+		String sql = "SELECT SUM(PRODUCTION_Volume) sum FROM PRODUCTION_MGMT_TBL2 a1 WHERE a1.PRODUCTION_WorkOrder_ONo=(SELECT t1.WorkOrder_ONo FROM WorkOrder_tbl t1 WHERE t1.WorkOrder_EquipCode='"+request.getParameter("eqselect")+"' AND t1.WorkOrder_WorkStatus='244')";
 		
 		Float CurrentQty = (float) 0;
 		
@@ -104,7 +112,7 @@ public class workOrderStartBRestController {
 
 				@Override
 				public Float mapRow(ResultSet rs, int rowNum) throws SQLException {
-					return rs.getFloat("PRODUCTION_Volume");
+					return rs.getFloat("sum");
 				}
 			});
 		}
