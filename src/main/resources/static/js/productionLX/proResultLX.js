@@ -46,7 +46,7 @@ $('#itemName').keypress(function(e){
 	}
 })
 
-$('#itemName').keypress(function(e){
+$('#machineName').keypress(function(e){
 	if(e.keyCode==13) {
 		var value = $(this).val()
 		//내용이 있을경우 검색해서 값이 하나일경우 생략, 아닐경우 팝업창
