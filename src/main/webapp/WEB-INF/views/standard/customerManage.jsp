@@ -15,7 +15,7 @@
 				
 				<img src="/images/button/Delete.png" id="customerDeleteBtn"/>
 				
-				<img src="/images/button/Excel.png" id="download_xlsx"/>
+				<img src="/images/button/Excel.png" onclick="excel_download(customerManageTable)"/>
 			</div>
 		</div>
 		<div id="customerManageTable"></div>

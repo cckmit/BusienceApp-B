@@ -122,11 +122,6 @@ $("#userUpdateBtn").click(function() {
 	
 });
 
-//trigger download of data.xlsx file
-document.getElementById("download_xlsx").addEventListener("click", function(){
-    userManageTable.download("xlsx", "userManage.xlsx", {sheetName:"userManage"});
-});
-
 function modifyModalShow(){	
 	
 	$('.insert').addClass('none');

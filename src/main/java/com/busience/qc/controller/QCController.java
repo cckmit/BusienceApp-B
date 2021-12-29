@@ -72,6 +72,13 @@ public class QCController {
 	}
 	
 	// defectInsertM
+	@GetMapping("defectItemList")
+	public String defectItemList(Model model) {
+		model.addAttribute("pageName", "불량 조회(제품별)");
+		return "qc/defectItemList";
+	}
+	
+	// defectInsertM
 	@GetMapping("defectInsertM")
 	public String defectInsertM(Model model) {
 		return "normal/qc/defectInsertM";

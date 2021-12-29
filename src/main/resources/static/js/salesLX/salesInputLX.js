@@ -178,13 +178,7 @@ function SI_Save(){
 	if(selected_device != null){
 		salesInputPrinter(realData);
 	}
-	/*
-	if(selected_device != null){
-		for(let j=0;j<realData.length;j++){
-			salesInputPrinter(realData[j]);
-		}
-	}*/
-	/*
+	
     $.ajax({
         method : "post",
         url : "salesInputLXRest/SI_Save",
@@ -204,5 +198,5 @@ function SI_Save(){
 				salesInputSubTable.clearData();
 			}
         }
-    })*/
+    })
 }

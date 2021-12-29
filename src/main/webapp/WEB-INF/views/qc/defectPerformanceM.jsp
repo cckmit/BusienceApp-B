@@ -47,7 +47,6 @@ html, body {
 		<script src="/js/qc/defectPerformanceM.js"></script>
 	</div>
 </div>
-		
-	</div>
+</div>
 </body>
 </html>

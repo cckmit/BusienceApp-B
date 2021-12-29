@@ -134,11 +134,6 @@ $("#defectModifyBtn").click(function(){
 	}
 })
 
-//trigger download of data.xlsx file
-document.getElementById("download_xlsx").addEventListener("click", function(){
-    defectManageTable.download("xlsx", "defectManage.xlsx", {sheetName:"defectManage"});
-});
-
 function defectModify() {
 	
 	var datas = fromInputToJson(pickValue)

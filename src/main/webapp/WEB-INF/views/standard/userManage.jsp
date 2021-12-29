@@ -15,7 +15,7 @@
 					
 					<img src="/images/button/Update.png" id="userUpdateBtn"/>
 					
-					<img src="/images/button/Excel.png" id="download_xlsx"/>
+					<img src="/images/button/Excel.png" onclick="excel_download(userManageTable)"/>
 				</div>
 			</div>
 

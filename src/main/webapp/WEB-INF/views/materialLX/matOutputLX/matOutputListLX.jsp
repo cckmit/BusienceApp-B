@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!-- MAIN -->
@@ -8,6 +7,7 @@
 		<!-- 버튼 -->
 		<div class="input-button">
 			<img src="/images/button/Search.png" onclick="MO_ListViewSearchBtn()"/>
+			<img src="/images/button/Excel.png" onclick="excel_download(matOutputListTable)"/>
 		</div>
 		<!-- 버튼 -->
 		<div class="input-box">
