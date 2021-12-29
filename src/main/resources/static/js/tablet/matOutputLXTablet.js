@@ -435,6 +435,7 @@ var itemManageTable3 = new Tabulator("#itemManageTable3",	{
 });
 
 document.getElementById("pname").onclick = function(){
+	/*
 			if(flag === "one")
 			{
 				init_list_click();
@@ -454,9 +455,33 @@ document.getElementById("pname").onclick = function(){
 			{
 				array[i].scrollTop = 0;
 			}
+	*/
+	if(flag === "one")
+	{
+		data = {
+			PRODUCT_MTRL_CLSFC : 'A'
+		};
+	
+		$.get("/tablet/matOutputLXTabletRest/Current_List",data,function(data){
+			itemPopupTableModal.setData(data);
+		});
+	}
+	else
+	{
+		data = {
+			PRODUCT_MTRL_CLSFC : 'B'
+		};
+	
+		$.get("/tablet/matOutputLXTabletRest/Current_List",data,function(data){
+			itemPopupTableModal.setData(data);
+		});
+	}
+	
+	$('#testModal').modal("show");
 }
 
 document.getElementById("gu").onclick = function(){
+			/*
 			if(flag === "one")
 			{
 				init_list_click();
@@ -474,7 +499,25 @@ document.getElementById("gu").onclick = function(){
 			{
 				array[i].scrollTop = 0;
 			}
+			*/
+			
+	$('#testModal').modal("show");
 }
+
+var itemPopupTableModal = new Tabulator("#itemPopupTableModal", {
+	layout:"fitDataStretch",
+	height:"100%",
+	resizableColumns: false,
+	rowDblTap:function(e, row){
+				
+	},
+	columns:[ 
+	{title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center", visible:true},
+	{title:"규격", field:"product_INFO_STND_1", headerHozAlign:"center", visible:true,width:150},
+	{title:"품목코드", field:"product_ITEM_CODE", headerHozAlign:"center", visible:true},
+	{title:"품목이름", field:"product_ITEM_NAME", headerHozAlign:"center", visible:true}		
+	]
+});
 
 function chrclick(){
 	$('#chModal').modal("show");

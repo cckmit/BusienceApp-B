@@ -285,6 +285,7 @@ public class workOrderTABRestXOController {
 				+ "LEFT JOIN	PRODUCT_INFO_TBL a2 ON a1.WorkOrder_ItemCode = a2.PRODUCT_ITEM_CODE\r\n"
 				+ "	WHERE		a1.WorkOrder_EquipCode='"+request.getParameter("WorkOrder_EquipCode")+"'\r\n"
 				+ "AND		a1.WorkOrder_WorkStatus='245'\r\n"
+				+ "AND		DATE_FORMAT(a1.WorkOrder_OrderTime, '%y-%m') = DATE_FORMAT(NOW(), '%y-%m')\r\n"
 				+ "ORDER BY a1.WorkOrder_CompleteTime DESC";
 
 		return jdbctemplate.query(sql, new RowMapper() {

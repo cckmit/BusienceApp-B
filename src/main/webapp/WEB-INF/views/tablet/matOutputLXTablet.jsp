@@ -32,6 +32,27 @@
 	</style>
 </head>
 <body>
+	<div id="testModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-lg">
+	    <div class="modal-content">
+	    
+	      <div class="modal-header">
+			<div class="form-group row">
+				<label for="staticEmail" class="col-sm-2 col-form-label"><strong style="font-size: 40px;">검색</strong></label>
+				<div class="col-sm-5" style="padding-top: 5px;">
+					<input class="form-control form-control-lg" type="text" style="height: 50px; font-size: 35px;" id="Item_Word">
+				</div>
+			</div>
+			
+	      </div>
+	      
+	      <div class="modal-body" style="height: 400px;">
+			<div  id="itemPopupTableModal" style="font-size: 30px;"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
 	<div class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" id="myFullsizeModal"> 
 	    <div class="modal-dialog" style=" max-height:100%; width: 95%; height: 100%;" > 
 	        <div class="modal-content" style="height: 95%;"> 
