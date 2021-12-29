@@ -69,7 +69,7 @@ public class workOrderStartBRestController {
 	public Float workOrderSumQty(Model model, HttpServletRequest request)
 	{
 		String sql = "SELECT SUM(PRODUCTION_Volume) sum FROM PRODUCTION_MGMT_TBL2 a1 WHERE a1.PRODUCTION_WorkOrder_ONo=(SELECT t1.WorkOrder_ONo FROM WorkOrder_tbl t1 WHERE t1.WorkOrder_EquipCode='"+request.getParameter("eqselect")+"' AND t1.WorkOrder_WorkStatus='244')";
-		
+		/*
 		sql = "SELECT\r\n"
 				+ "			SUM(PRODUCTION_Volume) sum\r\n"
 				+ "FROM		PRODUCTION_MGMT_TBL2 t1\r\n"
@@ -78,7 +78,7 @@ public class workOrderStartBRestController {
 				+ "WHERE\r\n"
 				+ "t2.WorkOrder_EquipCode = '"+request.getParameter("eqselect")+"' AND\r\n"
 				+ "t2.WorkOrder_WorkStatus = '245' AND\r\n"
-				+ "DATE_FORMAT(t2.WorkOrder_CompleteTime, \"%Y-%c-%e\") = DATE_FORMAT(NOW(), \"%Y-%c-%e\")";
+				+ "DATE_FORMAT(t2.WorkOrder_CompleteTime, \"%Y-%c-%e\") = DATE_FORMAT(NOW(), \"%Y-%c-%e\")";*/
 		
 		Float sum = jdbctemplate.queryForObject(sql, new RowMapper<Float>() {
 
@@ -94,7 +94,15 @@ public class workOrderStartBRestController {
 	@GetMapping("/workOrderCurrentQty")
 	public Float workOrderCurrentQty(Model model, HttpServletRequest request)
 	{
-		String sql = "SELECT * FROM PRODUCTION_MGMT_TBL2 a1 WHERE a1.PRODUCTION_WorkOrder_ONo=(SELECT t1.WorkOrder_ONo FROM WorkOrder_tbl t1 WHERE t1.WorkOrder_EquipCode='"+request.getParameter("eqselect")+"' AND t1.WorkOrder_WorkStatus='244') ORDER BY PRODUCTION_Date DESC LIMIT 1";
+		/*
+		 * String sql =
+		 * "SELECT * FROM PRODUCTION_MGMT_TBL2 a1 WHERE a1.PRODUCTION_WorkOrder_ONo=(SELECT t1.WorkOrder_ONo FROM WorkOrder_tbl t1 WHERE t1.WorkOrder_EquipCode='"
+		 * +request.getParameter("eqselect")
+		 * +"' AND t1.WorkOrder_WorkStatus='244') ORDER BY PRODUCTION_Date DESC LIMIT 1"
+		 * ;
+		 */
+		
+		String sql = "SELECT SUM(PRODUCTION_Volume) sum FROM PRODUCTION_MGMT_TBL2 a1 WHERE a1.PRODUCTION_WorkOrder_ONo=(SELECT t1.WorkOrder_ONo FROM WorkOrder_tbl t1 WHERE t1.WorkOrder_EquipCode='"+request.getParameter("eqselect")+"' AND t1.WorkOrder_WorkStatus='244')";
 		
 		Float CurrentQty = (float) 0;
 		
