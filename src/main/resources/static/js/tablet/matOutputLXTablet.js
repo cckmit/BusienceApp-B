@@ -500,6 +500,27 @@ document.getElementById("gu").onclick = function(){
 				array[i].scrollTop = 0;
 			}
 			*/
+	
+	if(flag === "one")
+	{
+		data = {
+			PRODUCT_MTRL_CLSFC : 'A'
+		};
+	
+		$.get("/tablet/matOutputLXTabletRest/Current_List",data,function(data){
+			itemPopupTableModal.setData(data);
+		});
+	}
+	else
+	{
+		data = {
+			PRODUCT_MTRL_CLSFC : 'B'
+		};
+	
+		$.get("/tablet/matOutputLXTabletRest/Current_List",data,function(data){
+			itemPopupTableModal.setData(data);
+		});
+	}
 			
 	$('#testModal').modal("show");
 }
