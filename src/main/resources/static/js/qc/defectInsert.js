@@ -123,6 +123,8 @@ function DI_Save(){
 		return false;
 	}
 	
+	console.log(defectTable.getData());
+	
     $.ajax({
         method : "post",
         url : "defectInsertRest/DI_Save",

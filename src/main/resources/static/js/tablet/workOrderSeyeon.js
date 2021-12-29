@@ -25,7 +25,8 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 });
 
 workOrder_Remark = null;
-workOrder_ONo = null;
+workOrder_ONo_M1 = null;
+workOrder_ONo_M2 = null;
 
 function workOrderDataInit(){
 		data = {
@@ -40,6 +41,10 @@ function workOrderDataInit(){
 			data = {
 				eqcode : 'M002'
 			};
+			
+			document.getElementById("n_len").value = "";
+			document.getElementById("o_len").value = "";
+			document.getElementById("t8").innerHTML = "NONE";
 	
 			$.get("/tablet/workOrderSeyeonRest/WorkOrder_ONo_export",data,function(data2){
 				if(data1 == "" && data2 != "")
@@ -47,7 +52,6 @@ function workOrderDataInit(){
 					document.getElementById("n_len").value = data2.workOrder_ItemName;
 					document.getElementById("o_len").value = data2.product_INFO_STND_1;
 					document.getElementById("t8").innerHTML = data2.workOrder_ONo;
-					workOrder_ONo = data2.workOrder_ONo;
 					workOrder_Remark = data2.workOrder_Remark;
 				}
 				else if(data1 != "" && data2 == "")
@@ -65,14 +69,75 @@ function workOrderDataInit(){
 					document.getElementById("n_len").value = data2.workOrder_ItemName;
 					document.getElementById("o_len").value = data2.product_INFO_STND_1;
 					document.getElementById("t8").innerHTML = data2.workOrder_ONo;
-					workOrder_ONo = data2.workOrder_ONo;
 					workOrder_Remark = data2.workOrder_Remark;
 				}
+				
+				if(data1 != null)
+					workOrder_ONo_M1 = data1.workOrder_ONo;
+				if(data2 != null)	
+					workOrder_ONo_M2 = data2.workOrder_ONo;
 			});
 		});
 		
 		$.get("../workOrderTABRestXO/MI_Searchd?WorkOrder_EquipCode=M002" + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
 				WorkOrder_tbl.setData(data);
+		});
+}
+
+setInterval(function(){
+	workOrderDataInit();
+	
+	workOrderCountInit();
+},3000);
+
+errorFlag = false;
+n3 = 0;
+
+function workOrderCountInit(){
+	data = {
+		WorkOrder_ONo : workOrder_ONo_M2,
+		WorkOrder_EquipCode : 'M001'
+	};
+	
+	$.get("/tablet/workOrderSeyeonRest/workOrderCurrentQty",data, function(data){
+				document.getElementById("n1").value = data;
+				
+				data = {
+					WorkOrder_ONo : workOrder_ONo_M2,
+					WorkOrder_EquipCode : 'M002'
+				}
+				
+				$.get("/tablet/workOrderSeyeonRest/workOrderCurrentQty",data, function(data){
+						document.getElementById("n2").value = data;
+						
+						n1 = parseInt(document.getElementById("n1").value);
+						n2 = parseInt(document.getElementById("n2").value);
+
+						if(n1 > 0 || n2 > 0)
+						{
+							document.getElementById("n3").value = n1 - n2;
+							
+							n3 = parseInt(document.getElementById("n3").value);
+								
+							if(n3 < 0)
+							{
+								if(document.getElementById("exampleModal").style.display !== "block")
+								{
+									$('#exampleModal').modal("show");
+								}
+									
+								errorFlag = true;
+							}
+							else
+							{
+								errorFlag = false;
+							}
+						}
+						else
+						{
+							document.getElementById("n3").value = '0';
+						}
+				});
 		});
 }
 
@@ -82,22 +147,51 @@ window.onload = function(){
 	workOrderDataInit();
 }
 
-
+function modalClose(){
+	$('#exampleModal').modal("hide");
+}
 
 function productCom(){
-	if(workOrder_Remark != "AUTO")
+	modalClose();
+
+	data = {
+		PRODUCTION_SERIAL_NUM : workOrder_ONo_M2,
+		WorkOrder_EquipCode : 'M001',
+		WorkOrder_WorkStatus : '245'
+	};
+	
+	$.get("../workOrderTABRestXO/MI_Searche",data, function(data) {
+	
+		data = {
+			PRODUCTION_SERIAL_NUM : workOrder_ONo_M2,
+			WorkOrder_EquipCode : 'M002',
+			WorkOrder_WorkStatus : '245'
+		};
+	
+		$.get("../workOrderTABRestXO/MI_Searche",data, function(data) {
+
+			if(errorFlag)
 			{
-				$.get("../workOrderTABRestXO/MI_Searche?WorkOrder_WorkStatus=243&WorkOrder_EquipCode=M002"+"&PRODUCTION_SERIAL_NUM="+workOrder_ONo, function(data) {            
-					workOrderDataInit();
-					workOrder_Remark = "";
-				});
+				data = {
+					workOrder_ONo_M1 : workOrder_ONo_M1,
+					workOrder_ONo_M2 : workOrder_ONo_M2,
+					workOrder_ONo_Qty : n3 * -1
+				};
+				
+				$.get("/tablet/workOrderSeyeonRest/workOrderUpdate",data, function(data) {});
 			}
-			else
+			
+			if(n3 >= 0)
 			{
-				$.get("../workOrderTABRestXO/MI_Searche?WorkOrder_WorkStatus=245&WorkOrder_EquipCode=M002"+"&PRODUCTION_SERIAL_NUM="+workOrder_ONo, function(data) {            
-					workOrderDataInit();	
-					workOrder_Remark = "";		
+				data = {
+						Defect_ONo : workOrder_ONo_M2,
+						Defect_Qty : n3
+					};
+				$.get("/tablet/workOrderSeyeonRest/workOrderDefectInsert",data, function(data) {
+					workOrderDataInit();
 				});
 			}
 			
+		});
+	});
 }

@@ -27,8 +27,8 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 		{ title: "작업지시일", field: "workOrder_OrderTime", align: "right", headerHozAlign: "center"},
 		{ title: "작업지시완료일", field: "workOrder_CompleteOrderTime", align: "right", headerHozAlign: "center"},
 		{ title: "접수일", field: "workOrder_ReceiptTime", align: "right", headerHozAlign: "center"},
-		{ title: "작업시작일", field: "workOrder_StartTime", align: "right", headerHozAlign: "center"},
-		{ title: "작업완료일", field: "workOrder_CompleteTime", align: "right", headerHozAlign: "center"}
+		{ title: "작업시작일", field: "workOrder_StartTime", align: "right", headerHozAlign: "center", width: 140},
+		{ title: "작업완료일", field: "workOrder_CompleteTime", align: "right", headerHozAlign: "center", width: 140}
 	],
 });
 
@@ -248,6 +248,13 @@ function option2click(n){
 	{
 		WorkOrder_tbl.setData(totaldata);
 	}
+	else if(id === "245")
+	{
+		//WorkOrder_EquipCode
+		$.get("../workOrderTABRestXO/MI_End_Search?WorkOrder_EquipCode="+document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
+			WorkOrder_tbl.setData(data);
+		});
+	}
 	else
 	{
 		viewdata = [];
@@ -266,6 +273,7 @@ function option2click(n){
 
 window.onload = function() {
 	document.getElementById("ko").style.height = window.innerHeight - document.getElementById("ko").offsetTop + "px";
+	document.getElementById("WorkOrder_tbl").style.height = window.innerHeight - document.getElementById("ko").offsetTop - 10 + "px";
 
 	workOrder_EquipCode = "M001";
 
