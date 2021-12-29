@@ -229,7 +229,7 @@
 		var itemPopupTableModal = new Tabulator("#itemPopupTableModal", {
 			layout:"fitDataStretch",
 			height:"100%",
-			rowDblTap:function(e, row){
+			rowDblClick:function(e, row){
 				itemPopupTableModal.deselectRow();
 
 				document.getElementById("n_len").value = row.getData().product_ITEM_NAME;

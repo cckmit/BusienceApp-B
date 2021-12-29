@@ -49,7 +49,7 @@
 			layout:"fitDataStretch",
 			height:"100%",
 			resizableColumns: false,
-			rowDblTap:function(e, row){
+			rowDblClick:function(e, row){
 				
 				if(confirm("작업지시를 추가하시겠습니까?"))
 				{

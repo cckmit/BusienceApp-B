@@ -24,6 +24,7 @@ public class WorkOrder_tbl {
 	private String WorkOrder_WorkStatus;
 	private String WorkOrder_Worker;
 	private String WorkOrder_Remark;
+	private boolean WorkOrder_Use_Status;
 	
 	private int WorkOrder_InputPQty; // 투입대비 생산실적 지시량
 	private int WorkOrder_InputRQty; // 투입대비 생산실적 생산량

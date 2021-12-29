@@ -299,7 +299,7 @@ var itemManageTable = new Tabulator("#itemManageTable",	{
 			row.getTable().deselectRow();
 			row.select();
 		},
-		rowDblTap: function(e, row) {
+		rowDblClick: function(e, row) {
 			console.log(row.getData());
 			document.getElementById("pname").value = row.getData().product_ITEM_NAME;
 			document.getElementById("sum_qty").value = row.getData().product_INFO_STND_1;
@@ -330,7 +330,7 @@ var itemManageTable2 = new Tabulator("#itemManageTable2",	{
 			row.getTable().deselectRow();
 			row.select();
 		},
-		rowDblTap: function(e, row) {
+		rowDblClick: function(e, row) {
 			console.log(row.getData());
 			document.getElementById("pname").value = row.getData().product_ITEM_NAME;
 			document.getElementById("sum_qty").value = row.getData().product_INFO_STND_1;
@@ -362,7 +362,7 @@ var itemManageTable3 = new Tabulator("#itemManageTable3",	{
 			row.getTable().deselectRow();
 			row.select();
 		},
-		rowDblTap: function(e, row) {
+		rowDblClick: function(e, row) {
 			document.getElementById("chr").value = row.getData().child_TBL_TYPE;
 			document.getElementById("chr2").innerHTML = row.getData().child_TBL_TYPE;
 			document.getElementById("chr2").setAttribute("code",row.getData().child_TBL_NO);

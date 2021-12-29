@@ -423,7 +423,8 @@ public class workOrderTABRestXOController {
 					+ "	WorkOrder_CompleteOrderTime,\r\n"
 					+ "	WorkOrder_WorkStatus,\r\n"
 					+ "	WorkOrder_Worker,\r\n"
-					+ "	WorkOrder_Remark\r\n"
+					+ "	WorkOrder_Remark,\r\n"
+					+ "	WorkOrder_Use_Status\r\n"
 					+ ")\r\n"
 					+ "VALUES(\r\n"
 					+ "	(SELECT count(*)+1 WorkOrder_ONo FROM WorkOrder_tbl a1 where LEFT(WorkOrder_ONo,8) = CURDATE() AND a1.WorkOrder_EquipCode = '"+WorkOrder_EquipCode+"'),\r\n"
@@ -442,6 +443,7 @@ public class workOrderTABRestXOController {
 					+ "	'244',\r\n"
 					+ "	'"+( (principal==null)?"admin":principal.getName() )+"',\r\n"
 					+ "	'AUTO'\r\n"
+					+ " true\r\n"
 					+ ")";
 			
 			System.out.println(sql);

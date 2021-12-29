@@ -5,43 +5,27 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	 
 <mapper namespace="com.busience.productionLX.dao.WorkOrderDao">
-	<select id="proResultSelectDao" resultType="com.busience.productionLX.dto.ProductionMgmtDto">
+	<select id="workOrderSelectDao" resultType="com.busience.productionLX.dto.WorkOrderDto">
 	<![CDATA[
-		SELECT
-			A.PRODUCTION_WorkOrder_No,
-			A.PRODUCTION_WorkOrder_ONo,
-			A.PRODUCTION_Product_Code,
-			B.PRODUCT_ITEM_NAME PRODUCTION_Product_Name,
-			A.PRODUCTION_Volume,
-			A.PRODUCTION_Equipment_Code,
-			C.EQUIPMENT_INFO_NAME PRODUCTION_Equipment_Name,
-			date_format(A.PRODUCTION_Date,'%Y-%m-%d %T') PRODUCTION_Date
-			FROM PRODUCTION_MGMT_TBL2 A
-			inner join PRODUCT_INFO_TBL B on A.PRODUCTION_Product_Code = B.PRODUCT_ITEM_CODE
-			inner join EQUIPMENT_INFO_TBL C on A.PRODUCTION_Equipment_Code = C.EQUIPMENT_INFO_CODE
-			where A.PRODUCTION_Date >= #{startDate} and A.PRODUCTION_Date < #{endDate}  
-			and A.PRODUCTION_Product_Code like concat('%',#{itemCode},'%') and B.PRODUCT_ITEM_NAME like concat('%',#{itemName},'%')
-			and A.PRODUCTION_Equipment_Code like concat('%',#{machineCode},'%') and C.EQUIPMENT_INFO_NAME like concat('%',#{machineName},'%')
-			order by A.PRODUCTION_Product_Code, A.PRODUCTION_WorkOrder_ONo, A.PRODUCTION_WorkOrder_No
+		select 
+			A.WorkOrder_No, A.WorkOrder_ONo,
+			A.WorkOrder_ItemCode, B.PRODUCT_ITEM_NAME WorkOrder_ItemName, B.PRODUCT_INFO_STND_1 WorkOrder_Item_STND_1,
+			A.WorkOrder_EquipCode, C.EQUIPMENT_INFO_NAME WorkOrder_EquipName,
+			D.Sales_SM_Last_Qty + D.Sales_SM_In_Qty - D.Sales_SM_Out_Qty WorkOrder_SQty, A.WorkOrder_PQty, A.WorkOrder_RQty,
+			A.WorkOrder_RegisterTime, A.WorkOrder_ReceiptTime, A.WorkOrder_OrderTime,
+			A.WorkOrder_StartTime, A.WorkOrder_CompleteOrderTime, A.WorkOrder_CompleteTime,
+			A.WorkOrder_WorkStatus, E.CHILD_TBL_TYPE WorkOrder_WorkStatusName, A.WorkOrder_Remark, A.WorkOrder_Use_Status
+			from WorkOrder_tbl A
+			inner join PRODUCT_INFO_TBL B on A.WorkOrder_ItemCode = B.PRODUCT_ITEM_CODE
+			inner join EQUIPMENT_INFO_TBL C on A.WorkOrder_EquipCode = C.EQUIPMENT_INFO_CODE
+			left outer join Sales_StockMatLX_tbl D on A.WorkOrder_ItemCode = D.Sales_SM_Code
+			inner join (SELECT * FROM DTL_TBL where NEW_TBL_CODE = '29') E on A.WorkOrder_WorkStatus = E.CHILD_TBL_NO
+			where A.WorkOrder_RegisterTime >= '2021-12-01' and A.WorkOrder_RegisterTime < '2021-12-30' and A.WorkOrder_WorkStatus = '242'
+			order by A.WorkOrder_RegisterTime DESC
 	]]>
 	</select>
 
-	<select id="workOrderDetailDao" resultType="com.busience.productionLX.dto.WorkOrderDto">
-		SELECT A.WorkOrder_ItemCode, B.PRODUCT_ITEM_NAME WorkOrder_ItemName, A.WorkOrder_EquipCode, C.EQUIPMENT_INFO_NAME WorkOrder_EquipName
-			FROM (
-				select WorkOrder_ItemCode, WorkOrder_EquipCode
-				from WorkOrder_tbl where WorkOrder_ONo = #{WorkOrder_ONo}
-			) A
-			inner join PRODUCT_INFO_TBL B on A.WorkOrder_ItemCode = B.PRODUCT_ITEM_CODE
-			inner join EQUIPMENT_INFO_TBL C on A.WorkOrder_EquipCode = C.EQUIPMENT_INFO_CODE
-	</select>
-	
-	<update id="proResultUpdateDao">
-		update PRODUCTION_MGMT_TBL2
-			set
-			PRODUCTION_WorkOrder_ONo = #{PRODUCTION_WorkOrder_ONo},
-			PRODUCTION_Product_Code = #{PRODUCTION_Product_Code},
-			PRODUCTION_Equipment_Code = #{PRODUCTION_Equipment_Code}
-			where PRODUCTION_WorkOrder_No = #{PRODUCTION_WorkOrder_No}
+	<update id="workOrderUpdateDao">
+		
 	</update>
 </mapper>

@@ -109,7 +109,7 @@ var WorkOrderTable = new Tabulator("#WorkOrderTable", {
 				});
 			} 
 		},
-		{ title: "규격", field: "product_INFO_STND_1", headerHozAlign: "center"},
+		{ title: "규격", field: "workOrder_Item_STND_1", headerHozAlign: "center"},
 		{ title: "설비코드", field: "workOrder_EquipCode", headerHozAlign: "center"},
 		{ title: "설비이름", field: "workOrder_EquipName", headerHozAlign: "center", editor:"input"
 			, cellEdited: function(cell)
@@ -171,7 +171,7 @@ var WorkOrderTable = new Tabulator("#WorkOrderTable", {
 				});
 			} 
 		},
-		{ title: "영업재고", field: "qty", headerHozAlign: "center",align:"right"},
+		{ title: "창고재고", field: "workOrder_SQty", headerHozAlign: "center",align:"right"},
 		{ title: "지시수량", field: "workOrder_PQty", headerHozAlign: "center", editor:"input",align:"right"
 		, formatter:"money", formatterParams: {precision: false}
 			,cellEdited: function(cell)
@@ -218,7 +218,8 @@ var WorkOrderTable = new Tabulator("#WorkOrderTable", {
 			{
 				Right_Move(cell,"bottom");
 			}
-		}
+		},
+		{ title: "사용유무", field: "workOrder_Use_Status", headerHozAlign: "center", align: "center", formatter:"tickCross", editor:true}
 	]
 });
 
@@ -250,7 +251,7 @@ function Search(){
 		endDate: $("#endDate").val()
 	}
 	
-	WorkOrderTable.setData("workOrderRest/MI_Search3",jsonData);
+	WorkOrderTable.setData("workOrderRest/workOrderSelect",jsonData)
 }
 
 function newRow_Add()
@@ -284,7 +285,12 @@ function newRow_Add()
 	//페이지 이동(전체 행 수/페이지당 행 수)
 	WorkOrderTable.setPage(Math.ceil(WorkOrderTable.getDataCount("active") / WorkOrderTable.getPageSize()));
 	
-	WorkOrderTable.addRow({index1:index,workOrder_PQty:"0",workOrder_OrderTime:day,workOrder_CompleteOrderTime:nextday.toISOString().substring(0, 10),workOrder_RegisterTime:day});
+	WorkOrderTable.addRow({
+		index1:index,workOrder_PQty:"0",
+		workOrder_OrderTime:day,
+		workOrder_CompleteOrderTime:nextday.toISOString().substring(0, 10),
+		workOrder_RegisterTime:day,
+		workOrder_Use_Status : true});
 		
 	LRow = WorkOrderTable.getRows()[WorkOrderTable.getRows().length-1];
 	LRow.getCell("workOrder_ItemName").edit();

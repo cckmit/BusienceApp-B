@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.busience.common.dto.SearchDto;
 import com.busience.productionLX.dto.ProductionMgmtDto;
 import com.busience.productionLX.dto.WorkOrderDto;
-import com.busience.productionLX.service.WorkOrderService;
+import com.busience.productionLX.service.ProResultService;
 
 @RestController("proResultLXRestController")
 @RequestMapping("proResultLXRest")
@@ -24,21 +24,21 @@ public class proResultLXRestController {
 	DataSource dataSource;
 	
 	@Autowired
-	WorkOrderService workOrderService;
+	ProResultService proResultService;
 	
 	// proResultSelect
 	@GetMapping("/proResultSelect")
 	public List<ProductionMgmtDto> proResultSelect(SearchDto searchDto) {
-		return workOrderService.proResultSelect(searchDto);
+		return proResultService.proResultSelect(searchDto);
 	}
 	
 	@GetMapping("/workOrderDetail")
 	public WorkOrderDto workOrderDetail(WorkOrderDto workOrderDto) {
-		return workOrderService.workOrderDetail(workOrderDto);
+		return proResultService.workOrderDetail(workOrderDto);
 	}
 	
 	@PutMapping("/proResultUpdate")
 	public int proResultUpdate(@RequestBody List<ProductionMgmtDto> productionMgmtDtoList) {
-		return workOrderService.proResultUpdate(productionMgmtDtoList);
+		return proResultService.proResultUpdate(productionMgmtDtoList);
 	}
 }

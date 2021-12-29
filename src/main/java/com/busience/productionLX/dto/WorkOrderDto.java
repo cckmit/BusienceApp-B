@@ -15,9 +15,10 @@ public class WorkOrderDto {
 	private String WorkOrder_ItemName;
 	private String WorkOrder_EquipCode;
 	private String WorkOrder_EquipName;
-	private String workOrder_Item_STND_1;
+	private String WorkOrder_Item_STND_1;
 	private String WorkOrder_WorkStatus;
 	private String WorkOrder_WorkStatus_Name;
+	private int WorkOrder_SQty;
 	private int WorkOrder_PQty;
 	private int WorkOrder_RQty;
 	private int WorkOrder_DQty;
@@ -29,4 +30,5 @@ public class WorkOrderDto {
 	private String WorkOrder_CompleteTime;
 	private String WorkOrder_Worker;
 	private String WorkOrder_Remark;
+	private boolean WorkOrder_Use_Status;
 }
