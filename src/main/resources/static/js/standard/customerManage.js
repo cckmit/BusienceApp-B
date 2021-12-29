@@ -164,11 +164,6 @@ $("#customerModifyBtn").click(function(){
 	}
 })
 
-//trigger download of data.xlsx file
-document.getElementById("download_xlsx").addEventListener("click", function(){
-    customerManageTable.download("xlsx", "customerManage.xlsx", {sheetName:"customerManage"});
-});
-
 function customerModify() {
 	
 	var datas = fromInputToJson(pickValue)

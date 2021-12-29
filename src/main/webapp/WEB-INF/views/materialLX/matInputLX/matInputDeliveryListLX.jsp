@@ -1,12 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <div class="main">
 	<div class="top-var">
 		<!-- 버튼 -->
 		<div class="input-button">
 			<img src="/images/button/Search.png" id="MI_DeliveryListSearchBtn" />
+			<img src="/images/button/Excel.png" onclick="excel_download(matInputDeliveryItemTable)"/>
 		</div>
 		<!-- 버튼 -->
 		<div class="input-box">

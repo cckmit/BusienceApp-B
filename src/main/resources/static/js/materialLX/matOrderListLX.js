@@ -167,12 +167,6 @@ var matOrderListSubTable = new Tabulator("#matOrderListSubTable", {
 	]
 });
 
-//trigger download of data.xlsx file
-document.getElementById("download_xlsx").addEventListener("click", function(){
-    matOrderListTable.download("xlsx", "matOrderList.xlsx", {sheetName:"matOrderList"});
-    matOrderListSubTable.download("xlsx", "matOrderList.xlsx", {sheetName:"matOrderSub"});
-});
-
 //팝업창으로부터 특정 파라미터 값으로 데이터를 받는다 
 function product_test(PCode, PName, PSTND_1, PPrice) {
 	cellPos.getRow().update({

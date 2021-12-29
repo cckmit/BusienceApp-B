@@ -14,7 +14,7 @@
 				
 				<img src="/images/button/Delete.png" id="defectDeleteBtn"/>
 				
-				<img src="/images/button/Excel.png" id="download_xlsx"/>
+				<img src="/images/button/Excel.png" onclick="excel_download(defectManageTable)"/>
 			</div>
 		</div>
 		<div id="defectManageTable"></div>

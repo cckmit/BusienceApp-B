@@ -105,24 +105,31 @@ function dtlSelectList(value){
 	return dtl_arr;
 }
 
-//공통
-function dtlTrueSelect(value){
-	var dtl_arr
-	
-	$.ajax({
-		method: "GET",
-		async: false,
-		url: "dtlTrueSelect",
-		data: {"NEW_TBL_CODE" : value},
-		success: function(result) {
-			dtl_arr = result
-		}
-	});
-	
-	return dtl_arr;
+function excel_download(table){
+	table.download("xlsx", "data.xlsx", {sheetName : "Sheet1"});
+}
+/*
+//define custom accessor
+var nullToEmptyString = function(value, data, type, params, column){
+	//value - original value of the cell
+	//data - the data for the row
+	//type - the type of access occurring  (data|download|clipboard)
+	//params - the accessorParams object passed from the column definition
+	//column - column component for the column this accessor is bound to
+
+	return value || ""; //return the new value for the cell data.
 }
 
+import {Tabulator, Module} from 'tabulator-tables';
 
+class SelectableColumnsModule extends Module{
+    constructor(table){
+        super(table);
+		//register column definition options
+    	this.registerColumnOption("accessorDownload", nullToEmptyString);
+    }
+}
+*/
 $(document).ready(function(){
 	//input에서 백스페이스 누르면 앞에있는 input 내용 사라짐 
 	$('.clearInput').keydown(function(){

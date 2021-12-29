@@ -8,6 +8,7 @@
 		<!-- 버튼 -->
 		<div class="input-button">
 			<img src="/images/button/Search.png" onclick="MI_CustomerViewSearchBtn()"/>
+			<img src="/images/button/Excel.png" onclick="excel_download(matInputCustomerViewTable)"/>
 		</div>
 		<!-- 버튼 -->
 		<div class="input-box">

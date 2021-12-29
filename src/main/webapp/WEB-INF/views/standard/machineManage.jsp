@@ -15,7 +15,7 @@
 				
 				<img src="/images/button/Delete.png" id="machineDeleteBtn"/>
 				
-				<img src="/images/button/Excel.png" id="download_xlsx"/>
+				<img src="/images/button/Excel.png" onclick="excel_download(machineManageTable)"/>
 			</div>
 		</div>
 			<!-- 그리드 생성 장소 -->

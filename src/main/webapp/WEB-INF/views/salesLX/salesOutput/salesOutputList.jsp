@@ -6,6 +6,7 @@
 		<!-- 버튼 -->
 		<div class="input-button">
 			<img src="images/button/Search.png" id="SOL_SearchBtn"/>
+			<img src="/images/button/Excel.png" onclick="excel_download(salesOutputListTable)"/>
 		</div>
 		<!-- 버튼 -->
 		<div class="input-box">

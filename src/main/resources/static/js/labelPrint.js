@@ -66,7 +66,7 @@ function writeToSelectedPrinter()
 
 function CustomLabelPrinter(value)
 {
-	var dtlCode = dtlTrueSelect(32);
+	var dtlCode = dtlSelectList(32);
 	
 	var printCode = "^XA"
 					+"^CFJ,50^SEE:UHANGUL.DAT^FS"
