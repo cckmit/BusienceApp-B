@@ -90,7 +90,7 @@ public class tabletController {
 	@GetMapping("tablet/matOutputLXTabletA")
 	public String matOutputLXTabletA(Model model) {
 		
-		model.addAttribute("product_list",jdbctemplate.query("SELECT * FROM PRODUCT_INFO_TBL WHERE PRODUCT_ITEM_CLSFC_1 = '32'", new RowMapper() {
+		model.addAttribute("product_list",jdbctemplate.query("SELECT * FROM PRODUCT_INFO_TBL WHERE PRODUCT_ITEM_CLSFC_1 = '32' ORDER BY PRODUCT_ITEM_NAME DESC", new RowMapper() {
 
 	         @Override
 	         public PRODUCTION_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {

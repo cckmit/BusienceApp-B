@@ -525,6 +525,30 @@ document.getElementById("gu").onclick = function(){
 	$('#testModal').modal("show");
 }
 
+
+function search(){
+	data = null;
+
+	if(flag === "one")
+	{
+		data = {
+			PRODUCT_MTRL_CLSFC : 'A'
+		};
+	}
+	else
+	{
+		data = {
+			PRODUCT_MTRL_CLSFC : 'B'
+		};
+	}
+	
+	data.value = document.getElementById("Item_Word").value;
+	
+	$.get("/tablet/matOutputLXTabletRest/Current_List",data,function(data){
+			itemPopupTableModal.setData(data);
+	});
+}
+
 var itemPopupTableModal = new Tabulator("#itemPopupTableModal", {
 	layout:"fitDataStretch",
 	height:"100%",

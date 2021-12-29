@@ -86,7 +86,7 @@ html, body {
 						수&nbsp;<font style="color:rgb(82,153,217);">설</font>&nbsp;량
 					</td>
 					<td style="color: black; text-align: center; width: 60%;">
-						<input type="number" id="d_len" value="1" min="1" style="text-align:center; width: 100%; height: 70%; padding-right: 5px;">
+						<input type="number" id="d_len" value="12" min="12" style="text-align:center; width: 100%; height: 70%; padding-right: 5px;">
 					</td>
 				</tr>
 			</table>

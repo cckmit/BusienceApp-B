@@ -81,6 +81,8 @@ public class matOutputLXTabletRestController {
 	public List<PRODUCT_INFO_TBL> Current_List(HttpServletRequest request, Model model) {
 		//PRODUCT_ITEM_CLSFC_1
 		String sql = "SELECT * FROM PRODUCT_INFO_TBL WHERE PRODUCT_MTRL_CLSFC = (SELECT CHILD_TBL_NO FROM DTL_TBL WHERE CHILD_TBL_RMARK='"+request.getParameter("PRODUCT_MTRL_CLSFC")+"')";
+
+		sql += (request.getParameter("value") != null)? " AND (PRODUCT_ITEM_CODE like '%" + request.getParameter("value") + "%' or PRODUCT_ITEM_NAME like '%" + request.getParameter("value") + "%')\r\n" :"";
 		
 		return jdbctemplate.query(sql, new RowMapper() {
 

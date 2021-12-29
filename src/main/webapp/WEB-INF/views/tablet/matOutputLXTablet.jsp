@@ -38,9 +38,11 @@
 	    
 	      <div class="modal-header">
 			<div class="form-group row">
-				<label for="staticEmail" class="col-sm-2 col-form-label"><strong style="font-size: 40px;">검색</strong></label>
-				<div class="col-sm-5" style="padding-top: 5px;">
+				<div class="col-sm-6" style="padding-top: 5px;">
 					<input class="form-control form-control-lg" type="text" style="height: 50px; font-size: 35px;" id="Item_Word">
+				</div>
+				<div class="col-sm-6" style="padding-top: 5px;">
+					<button type="button" class="btn btn-primary btn-lg" style="width: 100%;" onclick="search()">검색</button>
 				</div>
 			</div>
 			
