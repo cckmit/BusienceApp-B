@@ -94,7 +94,7 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 
 			//document.getElementById("d_len").value = "1";
 			//document.getElementById("d_len2").innerHTML = "1";
-			document.getElementById("d_len").value = "1";
+			document.getElementById("d_len").value = "12";
 		}
 
 		window.onload = function(){
