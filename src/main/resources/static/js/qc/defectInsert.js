@@ -95,7 +95,7 @@ var defectTable = new Tabulator("#defectTable", {
 	columns:[
 		{ title: "작업지시 번호", field: "defect_ONo", headerHozAlign: "center", visible: false },
 		{ title: "불량 코드", field: "defect_Code", headerHozAlign: "center" },
-		{ title: "불량 이름", field: "defect_Name", headerHozAlign: "center" },
+		{ title: "불량 명", field: "defect_Name", headerHozAlign: "center" },
 		{ title: "불량 수량", field: "defect_Qty", headerHozAlign: "center", align:"right", editor: DIS_InputEditor}
 	]
 });

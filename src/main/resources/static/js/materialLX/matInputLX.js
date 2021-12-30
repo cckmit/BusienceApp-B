@@ -126,21 +126,10 @@ var matInputSubTable = new Tabulator("#matInputSubTable", {
  	{title:"품목명", field:"order_lName", headerHozAlign:"center"},
  	{title:"수량", field:"order_lQty", headerHozAlign:"center", hozAlign:"right"},
 	{title:"입고수량", field:"order_lSum", headerHozAlign:"center", hozAlign:"right"},
- 	{title:"단가", field:"order_lUnit_Price", headerHozAlign:"center", hozAlign:"right", formatter : "money", formatterParams:{ precision:false}, topCalc:function(){return "합계금액"}, width:75},
+ 	{title:"단가", field:"order_lUnit_Price", headerHozAlign:"center", hozAlign:"right", formatter : "money", formatterParams:{ precision:false},
+		topCalc:function(){return "합계금액"}, width:75},
  	{title:"금액", field:"order_lPrice", headerHozAlign:"center", hozAlign:"right", formatter : "money", formatterParams:{ precision:false}, width:75,
-		//맨윗줄 합계금액 나타내기
-		topCalc:function(values, data, calcParams){
-		    //values - array of column values
-		    //data - all table data
-		    //calcParams - params passed from the column definition object
-		
-		    var calc = 0;
-
-		    values.forEach(function(value){
-			calc += value
-		 });
-    	return calc;
-	}, topCalcFormatter : "money", topCalcFormatterParams: {precision: false}},
+		topCalc:"sum", topCalcFormatter : "money", topCalcFormatterParams: {precision: false}},
 	{title:"미입고", field:"order_lNot_Stocked", headerHozAlign:"center", hozAlign:"right"},
  	{title:"비고", field:"order_lInfo_Remark", headerHozAlign:"center"},
 	{title:"구분", field:"order_Rcv_Clsfc", headerHozAlign:"center",
