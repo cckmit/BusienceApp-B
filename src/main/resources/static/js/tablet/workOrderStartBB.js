@@ -23,13 +23,15 @@
 				},
 				{ title: "작업시작일", field: "workOrder_StartTime", align: "right", headerHozAlign: "center"},
 				{ title: "작업완료일", field: "workOrder_CompleteTime", align: "right", headerHozAlign: "center"},
-				{ title: "특이사항", field: "workOrder_Remark", align: "right", headerHozAlign: "center",visible:false}
+				{ title: "특이사항", field: "workOrder_Remark", align: "right", headerHozAlign: "center", visible:false}
 			],
 		});
 		
+		//작업완료 버튼을 눌렀을때
 		function productCom(){
 			if(workOrder_Remark != "AUTO")
 			{
+				//오토가 아닌거 즉 수동으로 만든 작업지시
 				$.get("../workOrderTABRestXO/MI_Searche?WorkOrder_WorkStatus=243&WorkOrder_EquipCode=" + document.getElementById("eqselect").value+"&PRODUCTION_SERIAL_NUM="+workOrder_ONo, function(data) {            
 					select_program();
 					workOrder_ONo = "";
@@ -37,6 +39,7 @@
 			}
 			else
 			{
+				//오토인거 즉 자동으로 만들어진 작업지시
 				$.get("../workOrderTABRestXO/MI_Searche?WorkOrder_WorkStatus=245&WorkOrder_EquipCode=" + document.getElementById("eqselect").value+"&PRODUCTION_SERIAL_NUM="+workOrder_ONo, function(data) {            
 					select_program();	
 					workOrder_ONo = "";		
@@ -50,7 +53,7 @@
 			height:"100%",
 			resizableColumns: false,
 			rowDblClick:function(e, row){
-				
+				//팝업창에서 품목을 선택했을때
 				if(confirm("작업지시를 추가하시겠습니까?"))
 				{
 					// 품목코드
@@ -60,31 +63,37 @@
 					// 규격
 					document.getElementById("o_len").value = row.getData().product_INFO_STND_1;
 
+					
 					if(workOrder_ONo==="")
+					//쟁여둔 작업지시번호가 없을때
 					{
+						//작업지시를 생성하고 작업지시번호 쟁여둠
 						$.get("../workOrderTABRestXO/MI_Searchi?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&PRODUCTION_PRODUCT_CODE=" + document.getElementById("n_len_code").value, function(data) {                 
 							
 							workOrder_ONo = data[0].workOrder_ONo;
-
+							
+							//그리드
 							$.get("../workOrderTABRestXO/MI_Searchd?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
 								WorkOrder_tbl.setData(data);
 								select_program();
 								$('#testModal').modal("hide");
 							});
-						
 						});
 					}
 					else{
-						
-
+						//쟁여둔 작업지시번호가 있을때
 						if(workOrder_Remark != "AUTO")
+						// 수동으로만든작업지시일때
 						{
-							$.get("../workOrderTABRestXO/MI_Searche?WorkOrder_WorkStatus=243&WorkOrder_EquipCode=" + document.getElementById("eqselect").value+"&PRODUCTION_SERIAL_NUM="+workOrder_ONo, function(data) {            
+							//작업완료로 변경
+							$.get("../workOrderTABRestXO/MI_Searche?WorkOrder_WorkStatus=245&WorkOrder_EquipCode=" + document.getElementById("eqselect").value+"&PRODUCTION_SERIAL_NUM="+workOrder_ONo, function(data) {            
+								//작업지시 생성
 								$.get("../workOrderTABRestXO/MI_Searchi?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&PRODUCTION_PRODUCT_CODE=" + document.getElementById("n_len_code").value, function(data) {                 
 								
 									workOrder_ONo = data[0].workOrder_ONo;
 									workOrder_Remark = data[0].workOrder_Remark;
 			
+									//그리드 조회
 									$.get("../workOrderTABRestXO/MI_Searchd?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
 										WorkOrder_tbl.setData(data);
 										select_program();
@@ -95,13 +104,16 @@
 							});
 						}
 						else
+						//수동이 아닐때
 						{
-							$.get("../workOrderTABRestXO/MI_Searche?WorkOrder_WorkStatus=245&WorkOrder_EquipCode=" + document.getElementById("eqselect").value+"&PRODUCTION_SERIAL_NUM="+workOrder_ONo, function(data) {            
+							//작업완료
+							$.get("../workOrderTABRestXO/MI_Searche?WorkOrder_WorkStatus=245&WorkOrder_EquipCode=" + document.getElementById("eqselect").value+"&PRODUCTION_SERIAL_NUM="+workOrder_ONo, function(data) {
+								//작업지시 만들고            
 								$.get("../workOrderTABRestXO/MI_Searchi?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&PRODUCTION_PRODUCT_CODE=" + document.getElementById("n_len_code").value, function(data) {                 
 								
 									workOrder_ONo = data[0].workOrder_ONo;
 									workOrder_Remark = data[0].workOrder_Remark;
-			
+									//그리드 조회
 									$.get("../workOrderTABRestXO/MI_Searchd?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
 										WorkOrder_tbl.setData(data);
 										select_program();
@@ -169,7 +181,8 @@
 		document.getElementById("eqselect").onchange = function(){
 			select_program();
 		}
-
+		
+		//선택되면 화면에 뿌려주는 기능
 		function select_program()
 		{
 			$.get("../workOrderStartBRest/workOrderStartInit?eqselect="+document.getElementById("eqselect").value,function(data){
@@ -199,7 +212,8 @@
 				}
 
 			});
-
+			
+			//그리드 조회
 			$.get("../workOrderTABRestXO/MI_Searchd?WorkOrder_EquipCode=" + document.getElementById("eqselect").value + "&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
 				
 				console.log(data);

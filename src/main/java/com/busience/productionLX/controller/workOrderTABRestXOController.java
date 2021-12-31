@@ -334,6 +334,7 @@ public class workOrderTABRestXOController {
 		
 		if(WorkOrder_WorkStatus.equals("243"))
 		{
+			//작업지시를 접수완료로 변경, 시작시간 완료시간 초기화
 			sql = "UPDATE WorkOrder_tbl SET WorkOrder_WorkStatus = '243',\r\n"
 					+ "WorkOrder_StartTime = NULL,\r\n"
 					+ "WorkOrder_CompleteTime = NULL\r\n"
@@ -343,6 +344,7 @@ public class workOrderTABRestXOController {
 		}
 		else
 		{
+			//그외에는 완료로 변경
 			sql = "UPDATE WorkOrder_tbl SET WorkOrder_WorkStatus = '245',\r\n"
 					+ "WorkOrder_PQty = IFNULL((SELECT SUM(PRODUCTION_Volume) FROM PRODUCTION_MGMT_TBL2 WHERE PRODUCTION_WorkOrder_ONo=?),0),\r\n"
 					+ "WorkOrder_RQty = IFNULL((SELECT SUM(PRODUCTION_Volume) FROM PRODUCTION_MGMT_TBL2 WHERE PRODUCTION_WorkOrder_ONo=?),0),\r\n"
@@ -351,6 +353,7 @@ public class workOrderTABRestXOController {
 			
 			jdbctemplate.update(sql, PRODUCTION_SERIAL_NUM, PRODUCTION_SERIAL_NUM, PRODUCTION_SERIAL_NUM, WorkOrder_EquipCode);
 			
+			//완료로 변경하는데 지시수량이 0일경우는 삭제
 			sql = "DELETE\r\n"
 					+ "FROM		WorkOrder_tbl\r\n"
 					+ "WHERE 0 = (SELECT t1.WorkOrder_RQty FROM (SELECT WorkOrder_RQty FROM WorkOrder_tbl  WHERE WorkOrder_EquipCode='"+WorkOrder_EquipCode+"' AND WorkOrder_WorkStatus='245' ORDER BY WorkOrder_RegisterTime DESC LIMIT 1) t1)\r\n"
