@@ -230,8 +230,8 @@ public class tabletController {
 		
 		@GetMapping("/tablet/workOrderStartBB")
 		public String WorkOrderStartBB(Model model, HttpServletRequest request) throws SQLException {
-
-			String sql = "SELECT * FROM EQUIPMENT_INFO_TBL WHERE EQUIPMENT_INFO_CODE='"+( (request.getParameter("code")==null  || request.getParameter("code").equals("null")) ? "' or 1=1" : request.getParameter("code")+"'" );
+			String sql = "SELECT * FROM EQUIPMENT_INFO_TBL WHERE EQUIPMENT_INFO_CODE='"+( (request.getParameter("code")==null  || request.getParameter("code").equals("null")) ? "' or EQUIPMENT_INFO_CODE = 'M001'" : request.getParameter("code")+"'" );
+			//String sql = "SELECT * FROM EQUIPMENT_INFO_TBL WHERE EQUIPMENT_INFO_CODE='"+( (request.getParameter("code")==null  || request.getParameter("code").equals("null")) ? "' or 1=1" : request.getParameter("code")+"'" );
 			
 			System.out.println(sql);
 			
@@ -262,8 +262,10 @@ public class tabletController {
 		public String WorkOrderInsertBB(Model model, HttpServletRequest request) throws SQLException{
 			
 	System.out.println(request.getParameter("code"));
-			
-			String sql = "SELECT * FROM EQUIPMENT_INFO_TBL WHERE EQUIPMENT_INFO_CODE='"+( (request.getParameter("code")==null || request.getParameter("code").equals("null")) ? "' or 1=1" : request.getParameter("code")+"'" );
+	
+			String sql = "SELECT * FROM EQUIPMENT_INFO_TBL WHERE EQUIPMENT_INFO_CODE='"+( (request.getParameter("code")==null || request.getParameter("code").equals("null")) ? "' or EQUIPMENT_INFO_CODE = 'M001'" : request.getParameter("code")+"'" );
+	
+			//String sql = "SELECT * FROM EQUIPMENT_INFO_TBL WHERE EQUIPMENT_INFO_CODE='"+( (request.getParameter("code")==null || request.getParameter("code").equals("null")) ? "' or 1=1" : request.getParameter("code")+"'" );
 			
 			model.addAttribute("list",
 					jdbctemplate.query(sql, new RowMapper<EQUIPMENT_INFO_TBL>() {
