@@ -68,7 +68,9 @@ public class workOrderStartBRestController {
 	@GetMapping("/workOrderSumQty")
 	public Float workOrderSumQty(Model model, HttpServletRequest request)
 	{
-		String sql = "SELECT SUM(PRODUCTION_Volume) sum FROM PRODUCTION_MGMT_TBL2 a1 WHERE a1.PRODUCTION_WorkOrder_ONo=(SELECT t1.WorkOrder_ONo FROM WorkOrder_tbl t1 WHERE t1.WorkOrder_EquipCode='"+request.getParameter("eqselect")+"' AND t1.WorkOrder_WorkStatus='244')";
+		String sql = "SELECT SUM(PRODUCTION_Volume) sum FROM PRODUCTION_MGMT_TBL2 a1 WHERE a1.PRODUCTION_WorkOrder_ONo=("
+				+ "SELECT t1.WorkOrder_ONo FROM WorkOrder_tbl t1 WHERE t1.WorkOrder_EquipCode='"+request.getParameter("eqselect")+"' AND t1.WorkOrder_WorkStatus='244')"
+						+ "and PRODUCTION_Equipment_Code = '"+request.getParameter("eqselect")+"'";
 		
 		sql = "SELECT\r\n"
 				+ "			SUM(PRODUCTION_Volume) sum\r\n"
@@ -102,7 +104,9 @@ public class workOrderStartBRestController {
 		 * ;
 		 */
 		
-		String sql = "SELECT SUM(PRODUCTION_Volume) sum FROM PRODUCTION_MGMT_TBL2 a1 WHERE a1.PRODUCTION_WorkOrder_ONo=(SELECT t1.WorkOrder_ONo FROM WorkOrder_tbl t1 WHERE t1.WorkOrder_EquipCode='"+request.getParameter("eqselect")+"' AND t1.WorkOrder_WorkStatus='244')";
+		String sql = "SELECT SUM(PRODUCTION_Volume) sum FROM PRODUCTION_MGMT_TBL2 a1 WHERE a1.PRODUCTION_WorkOrder_ONo=("
+				+ "SELECT t1.WorkOrder_ONo FROM WorkOrder_tbl t1 WHERE t1.WorkOrder_EquipCode='"+request.getParameter("eqselect")+"' AND t1.WorkOrder_WorkStatus='244')"
+				+ "and PRODUCTION_Equipment_Code = '"+request.getParameter("eqselect")+"'";
 		
 		Float CurrentQty = jdbctemplate.queryForObject(sql, new RowMapper<Float>() {
 
