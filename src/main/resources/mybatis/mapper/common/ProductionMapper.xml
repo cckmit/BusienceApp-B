@@ -43,7 +43,7 @@
 					end
 			]]>
 			</if>
-			where WorkOrder_ONo = #{PRODUCTION_WorkOrder_ONo}
+			where WorkOrder_ONo = #{PRODUCTION_WorkOrder_ONo} and WorkOrder_EquipCode = #{PRODUCTION_Equipment_Code}
 	
 	</update>
 
