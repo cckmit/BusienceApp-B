@@ -186,10 +186,7 @@ function customerModify() {
 			}else{
 				alert("오류가 발생했습니다.");
 			}
-		},
-		error:function(request,status,error){
-        alert("사용 중인 코드는 삭제할 수 없습니다.");
-       }
+		}
 	});
 }
 
@@ -233,6 +230,9 @@ function customerRemove() {
 			}else{
 				alert("오류가 발생했습니다.");
 			}
-		}
+		},
+		error:function(request,status,error){
+        alert("사용 중인 코드는 삭제할 수 없습니다.");
+       }
 	});
 }

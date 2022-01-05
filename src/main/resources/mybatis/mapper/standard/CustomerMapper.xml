@@ -58,6 +58,8 @@
 			Cus_Bank = #{Cus_Bank},
 			Cus_Account_No = #{Cus_Account_No},
 			Cus_Rgstr_Nr = #{Cus_Rgstr_Nr},
+			Cus_Modify_D = now(),
+			Cus_Modifier = #{Cus_Modifier}
 		where Cus_Code = #{Cus_Code}
 	</update>
 	
