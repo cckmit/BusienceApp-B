@@ -76,8 +76,8 @@
 			A.Cus_Co, A.Cus_Co_EstYr, A.Cus_Adr,
 			A.Cus_Pymn_Date, C.CHILD_TBL_TYPE Cus_Pymn_Date_Name,
 			A.Cus_Status, D.CHILD_TBL_TYPE Cus_Status_Name,
-			A.Cus_Bank, A.Cus_Account_No,
-			A.Cus_Rgstr_Nr
+			A.Cus_Bank, A.Cus_Account_No, A.Cus_Rgstr_Nr,
+			A.Cus_Modify_D, E.USER_NAME Cus_Modifier
 			from (
 				select * from Customer_tbl where Cus_Code = #{Cus_Code}
 			) A
@@ -90,5 +90,6 @@
 			inner join (
 				select * from DTL_TBL where NEW_TBL_CODE=15
 			) D on A.Cus_Status = D.CHILD_TBL_NO
+			left outer join USER_INFO_TBL E on A.Cus_Modifier = E.USER_CODE
 	</select>
 </mapper>

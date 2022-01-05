@@ -32,6 +32,8 @@ var outputTable = new Tabulator("#outputTable", {
 		{ title: "순번", field: "id", headerHozAlign: "center", hozAlign: "center" },
 		{ title: "코드", field: "sm_Code", headerHozAlign: "center", headerFilter: true },
 		{ title: "품목명", field: "sm_Name", headerHozAlign: "center", hozAlign: "left", headerFilter: true, width: 120 },
+		{ title: "규격", field: "sm_STND_1", headerHozAlign: "center", headerFilter: true },
+		{ title: "품목분류1", field: "sm_CLSFC_1_Name", headerHozAlign: "center", headerFilter: true },
 		{ title: "재고", field: "sm_Last_Qty", headerHozAlign: "center", headerFilter: true }]
 });
 

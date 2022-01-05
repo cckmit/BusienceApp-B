@@ -43,9 +43,11 @@ public class matOutputLXRestController {
 		
 		List<StockMat_tbl> list = new ArrayList<StockMat_tbl>();
 
-		String sql = "SELECT SM_Code, pit.PRODUCT_ITEM_NAME as SM_Name, (SM_Last_Qty+SM_In_Qty-SM_Out_Qty) SM_Last_Qty\r\n"
+		String sql = "SELECT SM_Code, pit.PRODUCT_ITEM_NAME as SM_Name, (SM_Last_Qty+SM_In_Qty-SM_Out_Qty) SM_Last_Qty,\r\n"
+				+ "pit.PRODUCT_INFO_STND_1 SM_STND_1, C.CHILD_TBL_TYPE SM_CLSFC_1_Name\r\n"
 				+ "FROM StockMatLX_tbl smlt\r\n"
-				+ "INNER JOIN PRODUCT_INFO_TBL pit ON smlt.SM_Code = pit.PRODUCT_ITEM_CODE\r\n";
+				+ "INNER JOIN PRODUCT_INFO_TBL pit ON smlt.SM_Code = pit.PRODUCT_ITEM_CODE\r\n"
+				+ "inner join DTL_TBL C on pit.PRODUCT_ITEM_CLSFC_1 = C.CHILD_TBL_NO\r\n";
 
 		String where = " WHERE SM_Last_Qty+SM_In_Qty-SM_Out_Qty > 0";
 
@@ -71,6 +73,8 @@ public class matOutputLXRestController {
 			data.setSM_Code(rs.getString("SM_Code"));
 			data.setSM_Name(rs.getString("SM_Name"));
 			data.setSM_Last_Qty(rs.getInt("SM_Last_Qty"));
+			data.setSM_STND_1(rs.getString("SM_STND_1"));
+			data.setSM_CLSFC_1_Name(rs.getString("SM_CLSFC_1_Name"));
 
 			list.add(data);
 		}
