@@ -175,9 +175,10 @@ function SI_Save(){
 			realData.push(rowData[i]);
 		}
 	}
-	if(selected_device != null){
+	
+	/*if(selected_device != null){
 		salesInputPrinter(realData);
-	}
+	}*/
 	
     $.ajax({
         method : "post",

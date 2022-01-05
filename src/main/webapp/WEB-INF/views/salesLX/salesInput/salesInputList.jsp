@@ -30,11 +30,11 @@
 				</select>
 			</div>
 		</div>
-		<div class="input-button">
+		<!-- <div class="input-button">
 			<img src="images/button/Print.png" id="SIL_Print"/>
 			<span><strong>프린터 :</strong></span>
 			<select id="selected_device" onchange=onDeviceSelected(this);></select>
-		</div>
+		</div> -->
 	</div>
 	<div id="salesInputListTable"></div>
 </div>

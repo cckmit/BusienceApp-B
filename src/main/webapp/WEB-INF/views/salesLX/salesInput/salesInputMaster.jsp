@@ -38,6 +38,6 @@
 <!-- Javascript -->
 <script src="/js/tabMenu.js"></script>
 <script src="/js/salesLX/salesInputLXMaster.js?v=<%=System.currentTimeMillis() %>"></script>
-<script src="/js/labelPrint.js?v=<%=System.currentTimeMillis() %>"></script>
+<%-- <script src="/js/labelPrint.js?v=<%=System.currentTimeMillis() %>"></script> --%>
 </body>
 </html>
