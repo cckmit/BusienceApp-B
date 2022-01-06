@@ -13,20 +13,20 @@ import com.busience.qc.dto.DefectDto;
 import com.busience.qc.service.DefectListService;
 
 @RestController
-@RequestMapping("defectItemListRest")
-public class defectItemListRestController {
+@RequestMapping("defectMachineListRest")
+public class defectMachineListRestController {
 	
 	@Autowired
-	DefectListService defectItemListService;
+	DefectListService defectListService;
 		
-	@GetMapping("/DIL_Search")
+	@GetMapping("/DML_Search")
 	public List<WorkOrderDto> DIL_Search(SearchDto searchDto){
-		return defectItemListService.defectItemListSelect(searchDto);
+		return defectListService.defectMachineListSelect(searchDto);
 	}
 	
-	@GetMapping("/DILS_Search")
+	@GetMapping("/DMLS_Search")
 	public List<DefectDto> DILS_Search(SearchDto searchDto){
-		return defectItemListService.defectListSub(searchDto);
+		return defectListService.defectListSub(searchDto);
 	}
 		
 }

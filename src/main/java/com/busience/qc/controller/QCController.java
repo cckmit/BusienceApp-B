@@ -33,7 +33,7 @@ public class QCController {
 		int check = 27;
 		model.addAttribute("checkList", dtlService.getDtl(check));
 		
-		model.addAttribute("pageName", "출하 검사 관리");
+		model.addAttribute("pageName", "최종 검사(제품별)");
 		
 		return "qc/oqcOutputInspect";
 	}
@@ -46,7 +46,7 @@ public class QCController {
 		int rogic = 22;
 		model.addAttribute("rogicList", dtlService.getDtl(rogic));
 		
-		model.addAttribute("pageName", "출하 검사 실적");
+		model.addAttribute("pageName", "최종 검사(설비별)");
 		
 		return "qc/oqcOutputList";
 	}
@@ -74,8 +74,15 @@ public class QCController {
 	// defectInsertM
 	@GetMapping("defectItemList")
 	public String defectItemList(Model model) {
-		model.addAttribute("pageName", "불량 조회(제품별)");
+		model.addAttribute("pageName", "검사 이력 관리(제품별)");
 		return "qc/defectItemList";
+	}
+	
+	// defectInsertM
+	@GetMapping("defectMachineList")
+	public String defectMachineList(Model model) {
+		model.addAttribute("pageName", "검사 이력 관리(설비별)");
+		return "qc/defectMachineList";
 	}
 	
 	// defectInsertM

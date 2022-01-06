@@ -7,12 +7,11 @@ var WorkOrderTable = new Tabulator("#WorkOrderTable", {
 	rowClick:function(e, row){
 		row.getTable().deselectRow();
 		row.select();
-		DILS_Search(row.getData().workOrder_ItemCode);
+		DILS_Search(row.getData().workOrder_EquipCode);
 	},
 	columns:[
-		{ title: "제품코드", field: "workOrder_ItemCode", headerHozAlign: "center"},
-		{ title: "제품명", field: "workOrder_ItemName", headerHozAlign: "center"},
-		{ title: "규격", field: "workOrder_Item_STND_1", headerHozAlign: "center"},
+		{ title: "설비코드", field: "workOrder_EquipCode", headerHozAlign: "center"},
+		{ title: "설비명", field: "workOrder_EquipName", headerHozAlign: "center"},
 		{ title: "작업완료일", field: "workOrder_CompleteTime", headerHozAlign: "center"},
 		{ title: "생산수량", field: "workOrder_RQty", headerHozAlign: "center", align:"right"},
 		{ title: "불량수량", field: "workOrder_DQty", headerHozAlign: "center", align:"right"},
@@ -37,13 +36,12 @@ function DIL_Search(){
 		startDate : $("#startDate").val(),
 		endDate : $("#endDate").val()
 	}
-	WorkOrderTable.setData("defectItemListRest/DIL_Search", datas);
+	WorkOrderTable.setData("defectMachineListRest/DML_Search", datas);
 }
 
 var defectTable = new Tabulator("#defectTable", {
 	height:"calc(100% - 175px)",
 	columns:[
-		{ title: "작업지시 번호", field: "defect_ONo", headerHozAlign: "center", visible: false },
 		{ title: "불량 코드", field: "defect_Code", headerHozAlign: "center" },
 		{ title: "불량 명", field: "defect_Name", headerHozAlign: "center" },
 		{ title: "불량 수량", field: "defect_Qty", headerHozAlign: "center", align:"right", topCalc:"sum"},
@@ -70,9 +68,9 @@ function DILS_Search(value){
 	var datas = {
 		startDate : $("#startDate").val(),
 		endDate : $("#endDate").val(),
-		itemCode : value
+		MachineCode : value
 	}
-	defectTable.setData("defectItemListRest/DILS_Search", datas)
+	defectTable.setData("defectMachineListRest/DMLS_Search", datas)
 }
 
 $(document).ready(function(){
