@@ -554,7 +554,20 @@ var itemPopupTableModal = new Tabulator("#itemPopupTableModal", {
 	height:"100%",
 	resizableColumns: false,
 	rowDblClick:function(e, row){
-				
+		document.getElementById("pname").value = row.getData().product_ITEM_NAME;
+		document.getElementById("pname").setAttribute("code",row.getData().product_ITEM_CODE);
+			
+		document.getElementById("pdselect2").innerHTML = row.getData().product_ITEM_NAME;
+		document.getElementById("pdselect2").setAttribute("code",row.getData().product_ITEM_CODE);
+
+		document.getElementById("gu").value = row.getData().product_INFO_STND_1;
+		document.getElementById("gu2").innerHTML = row.getData().product_INFO_STND_1;
+		$('#testModal').modal("hide");
+		
+
+		$.get("/tablet/matOutputLXTabletRest/Current_Save?code="+row.getData().product_ITEM_CODE,function(data){
+			document.getElementById("current_qty").innerHTML = parseInt(data);
+		});
 	},
 	columns:[ 
 	{title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center", visible:true},
