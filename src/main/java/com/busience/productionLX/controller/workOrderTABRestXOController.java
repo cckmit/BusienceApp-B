@@ -3,23 +3,30 @@ package com.busience.productionLX.controller;
 import java.security.Principal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.busience.productionLX.dto.WorkOrderDto;
 import com.busience.productionLX.dto.WorkOrder_tbl;
+import com.busience.productionLX.service.WorkOrderService;
 
 @RestController("workOrderTABRestXOController")
 @RequestMapping("workOrderTABRestXO")
 public class workOrderTABRestXOController {
 
+	@Autowired
+	WorkOrderService workOrderService;
+	
 	@Autowired
 	JdbcTemplate jdbctemplate;
 
@@ -315,55 +322,10 @@ public class workOrderTABRestXOController {
 		});
 	}
 
-	@RequestMapping(value = "/MI_Searche", method = RequestMethod.GET)
-	public void MI_Searche(HttpServletRequest request) throws SQLException {
-		String WorkOrder_EquipCode = request.getParameter("WorkOrder_EquipCode");
-		String PRODUCTION_SERIAL_NUM = request.getParameter("PRODUCTION_SERIAL_NUM");
-		String WorkOrder_WorkStatus = request.getParameter("WorkOrder_WorkStatus");
-
-		/*
-		String sql = "UPDATE WorkOrder_tbl_X SET PRODUCTION_END_TIME = NOW(),\r\n" + "PRODUCTION_CC='E',\r\n"
-				+ "PRODUCTION_SUM_VOLUME=IFNULL((SELECT SUM(PRODUCTION_VOLUME) FROM PRODUCTION_MGMT_TBL_X WHERE PRODUCTION_SERIAL_NUM = ? GROUP BY PRODUCTION_SERIAL_NUM),0),\r\n"
-				+ "PRODUCTION_SUM_BAD=IFNULL((SELECT SUM(PRODUCTION_BAD) FROM PRODUCTION_MGMT_TBL_X WHERE PRODUCTION_SERIAL_NUM = ? GROUP BY PRODUCTION_SERIAL_NUM),0)\r\n"
-				+ "WHERE PRODUCTION_SERIAL_NUM = ?";
-
-		jdbctemplate.update(sql, PRODUCTION_SERIAL_NUM, PRODUCTION_SERIAL_NUM, PRODUCTION_SERIAL_NUM);
-		*/
+	@GetMapping("/MI_Searche")
+	public int MI_Searche(WorkOrderDto workOrderDto) {
 		
-		String sql = "";
-		
-		if(WorkOrder_WorkStatus.equals("243"))
-		{
-			//작업지시를 접수완료로 변경, 시작시간 완료시간 초기화
-			sql = "UPDATE WorkOrder_tbl SET WorkOrder_WorkStatus = '243',\r\n"
-					+ "WorkOrder_StartTime = NULL,\r\n"
-					+ "WorkOrder_CompleteTime = NULL\r\n"
-					+ "WHERE WorkOrder_ONo = ? AND WorkOrder_EquipCode=? AND WorkOrder_WorkStatus='244'";
-			
-			jdbctemplate.update(sql, PRODUCTION_SERIAL_NUM, WorkOrder_EquipCode);
-		}
-		else
-		{
-			//그외에는 완료로 변경
-			sql = "UPDATE WorkOrder_tbl SET WorkOrder_WorkStatus = '245',\r\n"
-					+ "WorkOrder_PQty = IFNULL((SELECT SUM(PRODUCTION_Volume) FROM PRODUCTION_MGMT_TBL2 WHERE PRODUCTION_WorkOrder_ONo=?),0),\r\n"
-					+ "WorkOrder_RQty = IFNULL((SELECT SUM(PRODUCTION_Volume) FROM PRODUCTION_MGMT_TBL2 WHERE PRODUCTION_WorkOrder_ONo=?),0),\r\n"
-					+ "WorkOrder_CompleteTime = NOW()\r\n"
-					+ "WHERE WorkOrder_ONo = ? AND WorkOrder_EquipCode=? AND WorkOrder_WorkStatus='244'";
-			
-			jdbctemplate.update(sql, PRODUCTION_SERIAL_NUM, PRODUCTION_SERIAL_NUM, PRODUCTION_SERIAL_NUM, WorkOrder_EquipCode);
-			
-			//완료로 변경하는데 지시수량이 0일경우는 삭제
-			sql = "DELETE\r\n"
-					+ "FROM		WorkOrder_tbl\r\n"
-					+ "WHERE 0 = (SELECT t1.WorkOrder_RQty FROM (SELECT WorkOrder_RQty FROM WorkOrder_tbl  WHERE WorkOrder_EquipCode='"+WorkOrder_EquipCode+"' AND WorkOrder_WorkStatus='245' ORDER BY WorkOrder_RegisterTime DESC LIMIT 1) t1)\r\n"
-					+ "AND	WorkOrder_ONo = (SELECT t2.WorkOrder_ONo FROM (SELECT WorkOrder_ONo FROM WorkOrder_tbl  WHERE WorkOrder_EquipCode='"+WorkOrder_EquipCode+"' AND WorkOrder_WorkStatus='245' ORDER BY WorkOrder_RegisterTime DESC LIMIT 1) t2)\r\n";
-					//+ "AND  WorkOrder_EquipCode='"+WorkOrder_EquipCode+"'";
-			
-			System.out.println(sql);
-			
-			jdbctemplate.update(sql);
-		}
+		return workOrderService.workOrderUpdate(workOrderDto);
 	}
 	
 	@RequestMapping(value = "/MI_Searche2", method = RequestMethod.GET)

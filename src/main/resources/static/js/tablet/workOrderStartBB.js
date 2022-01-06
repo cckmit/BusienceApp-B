@@ -29,23 +29,25 @@
 		
 		//작업완료 버튼을 눌렀을때
 		function productCom(){
-			if(workOrder_Remark != "AUTO")
-			{
-				//오토가 아닌거 즉 수동으로 만든 작업지시
-				$.get("../workOrderTABRestXO/MI_Searche?WorkOrder_WorkStatus=243&WorkOrder_EquipCode=" + document.getElementById("eqselect").value+"&PRODUCTION_SERIAL_NUM="+workOrder_ONo, function(data) {            
-					select_program();
-					workOrder_ONo = "";
-				});
-			}
-			else
-			{
-				//오토인거 즉 자동으로 만들어진 작업지시
-				$.get("../workOrderTABRestXO/MI_Searche?WorkOrder_WorkStatus=245&WorkOrder_EquipCode=" + document.getElementById("eqselect").value+"&PRODUCTION_SERIAL_NUM="+workOrder_ONo, function(data) {            
-					select_program();	
-					workOrder_ONo = "";		
-				});
-			}
 			
+			var datas = {
+				WorkOrder_ONo : $("#t8").text(),
+				WorkOrder_EquipCode : $("#eqselect").val(),
+				WorkOrder_PQty : $("#d_len").val(),
+				WorkOrder_RQty : $("#current_qty").val()
+			} 
+			$.ajax({
+				method : "get",
+				url : "../workOrderTABRestXO/MI_Searche",
+				data : datas,
+				success : function(data) {
+					if (data) {
+						select_program();
+						workOrder_ONo = "";
+					}else{
+					}
+				}
+			});
 		}
 
 		var itemPopupTableModal = new Tabulator("#itemPopupTableModal", {

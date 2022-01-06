@@ -147,10 +147,10 @@ html, body {
 		<div class="col-md-4" style="padding: 6.5px; border:solid; font-size: 40px; text-align: center; background-color: rgb(82,153,217); border-radius: 5%;">
 			<font style="color: white;" id="t8">NONE</font>
 		</div>
-		<div class="col-md-3" style="border:solid; font-size: 50px; text-align: center; background-color: rgb(246, 177, 148); border-radius: 5%;" onclick="productCom()">
+		<div class="col-md-3" style="border:solid; font-size: 50px; text-align: center; background-color: rgb(246, 177, 148); border-radius: 5%; cursor: pointer" onclick="productCom()">
 			<font style="color: black;" id="t9">작&nbsp;업&nbsp;완&nbsp;료</font>
 		</div>
-		<div class="col-md-5" style="border:solid; font-size: 50px; text-align: center; background-color: rgb(246, 177, 148); border-radius: 5%;" onclick="move()">
+		<div class="col-md-5" style="border:solid; font-size: 50px; text-align: center; background-color: rgb(246, 177, 148); border-radius: 5%; cursor: pointer" onclick="move()">
 			<font style="color: black;" id="t10">작업 지시 선택</font>
 		</div>
 	</div>

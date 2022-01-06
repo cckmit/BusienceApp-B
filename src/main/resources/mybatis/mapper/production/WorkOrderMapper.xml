@@ -26,6 +26,32 @@
 	</select>
 
 	<update id="workOrderUpdateDao">
-		
+		update WorkOrder_tbl
+			set
+			<if test="WorkOrder_PQty == 0">
+				WorkOrder_PQty = #{WorkOrder_RQty},
+			</if>
+			<!-- 
+			<if test="WorkOrder_RQty != null">
+				WorkOrder_RQty = #{WorkOrder_RQty},
+			</if>
+			<if test="WorkOrder_OrderTime != null">
+				WorkOrder_OrderTime = #{WorkOrder_OrderTime},
+			</if>
+			<if test="WorkOrder_StartTime != null">
+				WorkOrder_StartTime = #{WorkOrder_StartTime},
+			</if>
+			<if test="WorkOrder_CompleteOrderTime != null">
+				WorkOrder_CompleteOrderTime = #{WorkOrder_CompleteOrderTime},
+			</if> -->
+			WorkOrder_CompleteTime = now(),
+			WorkOrder_WorkStatus = #{WorkOrder_WorkStatus}
+			where WorkOrder_ONo = #{WorkOrder_ONo} and WorkOrder_EquipCode = #{WorkOrder_EquipCode}
 	</update>
+	
+	<delete id="workOrderDeleteDao">
+		delete from WorkOrder_tbl
+		where WorkOrder_ONo = #{WorkOrder_ONo}
+		and WorkOrder_EquipCode = #{WorkOrder_EquipCode}
+	</delete>
 </mapper>

@@ -13,5 +13,7 @@ public interface WorkOrderDao {
 	///workOrderSelectDao
 	public List<WorkOrderDto> workOrderSelectDao(SearchDto searchDto);
 	
+	public int workOrderUpdateDao(WorkOrderDto workOrderDto);
 	
+	public int workOrderDeleteDao(WorkOrderDto workOrderDto);
 }

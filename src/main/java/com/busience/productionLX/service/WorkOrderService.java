@@ -23,5 +23,15 @@ public class WorkOrderService {
 		return workOrderDao.workOrderSelectDao(searchDto);
 	}
 	
-
+	public int workOrderUpdate(WorkOrderDto workOrderDto) {
+		
+		if(workOrderDto.getWorkOrder_RQty() == 0) {
+			//생산수량이 0 일경우 작업지시 자체를 삭제
+			return workOrderDao.workOrderDeleteDao(workOrderDto);
+		}else {
+			//그외의 경우 작업 완료 처리
+			workOrderDto.setWorkOrder_WorkStatus("245");
+			return workOrderDao.workOrderUpdateDao(workOrderDto);
+		}
+	}
 }
