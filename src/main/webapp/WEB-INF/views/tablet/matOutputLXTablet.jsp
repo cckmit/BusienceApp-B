@@ -339,7 +339,7 @@
 		<input id="matOutputList_endDate" class="tomorrow" type="date">
 	</div>
 
-	<script src="/js/tablet/matOutputLXTablet.js"></script>
+	<script src="/js/tablet/matOutputLXTablet.js?v=<%=System.currentTimeMillis() %>"></script>
 	
 	<script type="text/javascript">
 	flag = "one";
