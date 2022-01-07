@@ -359,5 +359,9 @@ public class tabletController {
 	{
 		return "normal/tablet/workOrderTabletSeyeon";
 	}
-		
+	
+	@GetMapping("/tablet/productionPLC")
+	public String productionPLC() {
+		return "normal/tablet/productionPLC";
+	}
 }

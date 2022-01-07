@@ -142,7 +142,7 @@ $('input[type=radio][name=options1]').change(function() {
 			}
 			
 			if (this.getAttribute("value") === "244") {
-				$.get("../workListRest/OrderUpdate?workOrder_ONo=" + initData.workOrder_ONo + "&workOrder_EquipCode=" + workOrder_EquipCode + "&Start=t", function(data) {
+				$.get("../workOrderListRest/OrderUpdate?workOrder_ONo=" + initData.workOrder_ONo + "&workOrder_EquipCode=" + workOrder_EquipCode + "&Start=t", function(data) {
 					if (data === "OK") {
 						alert("해당 호기에 이미 작업시작이 된 데이터가 존재합니다.");
 						radio_select("242");
@@ -183,8 +183,28 @@ $('input[type=radio][name=options1]').change(function() {
 			if (this.getAttribute("value") === "244") {
 				//alert(initData.workOrder_EquipCode);
 				//alert(workOrder_EquipCode);
-
-				$.get("../workListRest/OrderUpdate?workOrder_ONo=" + initData.workOrder_ONo + "&workOrder_EquipCode=" + workOrder_EquipCode, function(data) {
+				
+				var datas = {
+				WorkOrder_ONo : initData.workOrder_ONo,
+				WorkOrder_EquipCode : workOrder_EquipCode,
+				WorkOrder_WorkStatus : '244'
+				}
+				$.ajax({
+					method : "get",
+					url : "../workOrderTABRestXO/MI_Searche",
+					data : datas,
+					success : function(data) {
+						if (data) {
+							location.href = "/tablet/workOrderStartBB?code="+document.getElementById("eqselect").value;
+						}else{
+							alert("해당 호기에 이미 작업시작이 된 데이터가 존재합니다.");
+							radio_select("243");
+							return;
+						}
+					}
+				});
+			/*
+				$.get("../workOrderListRest/OrderUpdate?workOrder_ONo=" + initData.workOrder_ONo + "&workOrder_EquipCode=" + workOrder_EquipCode, function(data) {
 					if (data === "OK") {
 						alert("해당 호기에 이미 작업시작이 된 데이터가 존재합니다.");
 						radio_select("243");
@@ -194,16 +214,16 @@ $('input[type=radio][name=options1]').change(function() {
 						//MI_Search2
 						location.href = "/tablet/workOrderStartBB?code="+document.getElementById("eqselect").value;
 
-						/* 
+						
 						$.get("WorkOrderTABRest/MI_Search2?workOrder_ONo=" + initData.workOrder_ONo, function(data) {
 							initRow.update({ "workOrder_StartTime": data.workOrder_StartTime, "workOrder_WorkStatus": data.workOrder_WorkStatus });
 							initData = data;
 
 							location.href = "/workOrderStartBB?code="+data.workOrder_EquipCode;
 						});
-						*/
+						
 					}
-				});
+				});*/
 			}
 		}
 		// 작업시작
@@ -215,7 +235,7 @@ $('input[type=radio][name=options1]').change(function() {
 				return;
 			}
 
-			$.get("../workListRest/OrderUpdate2?workOrder_ONo=" + initData.workOrder_ONo + "&workOrder_EquipCode=" + initData.workOrder_EquipCode, function(data) {
+			$.get("../workOrderListRest/OrderUpdate2?workOrder_ONo=" + initData.workOrder_ONo + "&workOrder_EquipCode=" + initData.workOrder_EquipCode, function(data) {
 				//MI_Search2
 				$.get("../workOrderTABRest/MI_Search2?workOrder_ONo=" + initData.workOrder_ONo, function(data) {
 					initRow.update({ "workOrder_CompleteTime": data.workOrder_CompleteTime, "workOrder_WorkStatus": data.workOrder_WorkStatus });

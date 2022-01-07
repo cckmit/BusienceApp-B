@@ -34,7 +34,8 @@
 				WorkOrder_ONo : $("#t8").text(),
 				WorkOrder_EquipCode : $("#eqselect").val(),
 				WorkOrder_PQty : $("#d_len").val(),
-				WorkOrder_RQty : $("#current_qty").val()
+				WorkOrder_RQty : $("#current_qty").val(),
+				WorkOrder_WorkStatus : '245'
 			} 
 			$.ajax({
 				method : "get",

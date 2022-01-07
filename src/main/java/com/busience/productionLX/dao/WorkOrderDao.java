@@ -16,4 +16,6 @@ public interface WorkOrderDao {
 	public int workOrderUpdateDao(WorkOrderDto workOrderDto);
 	
 	public int workOrderDeleteDao(WorkOrderDto workOrderDto);
+	
+	public int workOrderCountDao(WorkOrderDto workOrderDto);
 }

@@ -1,0 +1,139 @@
+body{
+	background: white;
+}
+.board-green{
+	/*background: rgb(112, 173, 71);
+	border: 1px solid rgb(80, 126, 50);
+	border-radius: 1vh;*/
+	border:solid black;
+	background-color:rgb(112,173,70);
+	border-radius: 5%;
+	color: white;
+}
+.board-orange{
+	background: linear-gradient( to bottom, rgb(247, 188, 162), rgb(247, 169, 136));
+	border: 1px solid rgb(237, 125, 49);
+}
+.board-grayblue{
+	background: linear-gradient( to bottom, rgb(167, 182, 223), rgb(136, 159, 215));
+	border: 1px solid rgb(68, 114, 196);
+}
+.board-blue{
+	background: rgb(68,114,196);
+	border: 1px solid rgb(47, 82, 143);
+	color: white;
+}
+.board-gray{
+	border: 1px solid white;
+	background: rgb(207, 213, 234);
+}
+.board-sky{
+	background: rgb(0, 176, 240);
+	border: 1px solid rgb(237, 125, 49);
+}
+.content{
+	height: 100vh;
+	width: 75vw;
+	margin:auto;
+}
+.top{
+	height: 8vh;
+	margin-bottom: 1vh;
+}
+.title{
+	height: 80%;
+	width: 100%;
+	margin:auto;
+	top: 10%;
+	position:relative;
+	text-align: center;
+}
+.title span{
+	top: 10%;
+	position:relative;
+	font-size: 3.5vh;
+}
+.mid1{
+	height: 32vh;
+}
+.mid1>div{
+	height: 85%;
+	width: 48%;	
+	float: left;
+	border-radius: 4vh;
+	margin: 1%;
+	padding: 1%;
+}
+.m1-top{
+	margin: auto;
+	height: 60%;
+	width: 90%;
+	display: flex;
+}
+.m1-top .m1-input div{
+	cursor: pointer;
+}
+.m1-bottom{
+	margin: auto;
+	height: 40%;
+	width: 90%;
+	display: flex;
+}
+.m1-label{
+	width: 40%;
+	margin: auto;
+	text-align: center;
+	font-size: 4.5vh;
+}
+.m1-input{
+	width: 60%;
+	padding: 2%;
+	font-size: 3vh;
+}
+.m1-input>div{
+	padding: 2.5%;
+}
+.m1-input div.selected{
+	background: rgb(68,114,196);
+	color: white;
+	cursor: default;
+}
+.board-btn{
+	height: 100%;
+	width: 100%;
+	border-radius: 0.6vh;
+    font-size: 3vh;
+}
+.board-title{
+	border-radius: 1vh;
+	text-align: center;
+}
+.board-title span{
+	font-size: 3vh;
+    top: 15%;
+    position: relative;
+}
+table{
+	width: 100%;
+	border-spacing: 2px;
+	border-collapse: separate;
+	table-layout: fixed;
+	font-size: 3vh;
+}
+th{
+	background: rgb(68,114,196);
+	color: white;
+	text-align: center;
+}
+td{
+	background: rgb(207,213,234);
+	text-align: center;
+}
+
+.plus-minus:hover{
+	cursor: pointer;
+	color: gray;
+}
+.plus-minus:active{
+	color: white;
+}
