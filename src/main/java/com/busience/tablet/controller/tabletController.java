@@ -364,4 +364,30 @@ public class tabletController {
 	public String productionPLC() {
 		return "normal/tablet/productionPLC";
 	}
+	
+	@GetMapping("/tablet/workOrderTabletMaster")
+	public String workOrderTabletMaster(Model model) {
+
+		model.addAttribute("list2",
+				jdbctemplate.query("SELECT * FROM DTL_TBL WHERE NEW_TBL_CODE='29' AND CHILD_TBL_NO <> '246'", new RowMapper<DTL_TBL>() {
+					@Override
+					public DTL_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
+						DTL_TBL data = new DTL_TBL();
+						
+						data.setCHILD_TBL_NO(rs.getString("CHILD_TBL_NO"));
+						
+						if(rs.getString("CHILD_TBL_NO").equals("242"))
+							data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
+						else if(rs.getString("CHILD_TBL_NO").equals("243"))
+							data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
+						else if(rs.getString("CHILD_TBL_NO").equals("244"))
+							data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
+						else if(rs.getString("CHILD_TBL_NO").equals("245"))
+							data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
+						return data;
+					}
+				}));
+		
+		return "normal/tablet/workOrderTabletMaster";
+	}
 }

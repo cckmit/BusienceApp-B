@@ -62,7 +62,7 @@ html, body {
 	</div>
 	
 	<div class="row" style="margin: 5px;">
-		<div class="col-md-4" style="padding:10px; border:solid; font-size: 50px; text-align: center; background-color: rgb(82,153,217); border-radius: 5%;">
+		<div class="col-md-4" style="padding:10px; border:solid; font-size: 45px; text-align: center; background-color: rgb(82,153,217); border-radius: 5%;">
 			 <div style="float: left; width: 50%; color: white; text-align: center;" id="t6">
 			 	설비1 수량
 			 </div>
@@ -70,7 +70,7 @@ html, body {
 			 	<input readonly="readonly" type="text" style="width: 100%; height: 70%; text-align:right;" id="n1">
 			 </div>
 		</div>
-		<div class="col-md-4" style="padding:10px; border:solid; font-size: 50px; text-align: center; background-color: rgb(82,153,217); border-radius: 5%;">
+		<div class="col-md-4" style="padding:10px; border:solid; font-size: 45px; text-align: center; background-color: rgb(82,153,217); border-radius: 5%;">
 			<div style="float: left; width: 50%; color: white; text-align: center;" id="t7">
 			 	설비2 수량
 			 </div>
@@ -78,7 +78,7 @@ html, body {
 			 	<input readonly="readonly" type="text" style="width: 100%; height: 70%; text-align:right;" id="n2">
 			 </div>
 		</div>
-		<div class="col-md-4" style="padding:10px; border:solid; font-size: 50px; text-align: center; background-color: rgb(82,153,217); border-radius: 5%;">
+		<div class="col-md-4" style="padding:10px; border:solid; font-size: 45px; text-align: center; background-color: rgb(82,153,217); border-radius: 5%;">
 			<div style="float: left; width: 30%; color: white; text-align: center;" id="t7">
 			 	차이
 			 </div>
