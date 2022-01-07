@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="/css/common/header.css?v=<%=System.currentTimeMillis() %>">
 
 <nav class="navbar-busience">
-	<a class="navbar-logo" href="/main"><img src="/images/logo/headerLogo.png"></a>
+	<a class="navbar-logo" href="/main"><img src="/images/logo/headerLogo.png?v=<%=System.currentTimeMillis() %>"></a>
 
 	<ul class="navbar-menu">
 	</ul>
