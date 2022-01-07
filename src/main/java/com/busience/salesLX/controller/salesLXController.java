@@ -150,4 +150,13 @@ public class salesLXController {
 		
 		return "salesLX/salesStock/salesStockMaster";
 	}
+	
+	// salesLabelPrint
+	@GetMapping("salesLabelPrint")
+	public String salesLabelPrint(Model model) {
+		
+		model.addAttribute("pageName", "라벨 출력");
+		
+		return "salesLX/salesLabelPrint";
+	}
 }

@@ -112,7 +112,7 @@ function salesInputPrinter(jsonDatas)
 		if(jsonDatas[j].sales_InMat_Date){
 			date = jsonDatas[j].sales_InMat_Date.substring(0, 10)
 		}else{
-			date = today.toISOString()
+			date = today.toISOString().substring(0, 10)
 		}
 		printCode += "^XA"
 					+"^CFJ,50^SEE:UHANGUL.DAT^FS"
@@ -123,7 +123,6 @@ function salesInputPrinter(jsonDatas)
 					+"^FT10,280^A1N,60,60^FD"+date+"^FS"
 					+"^XZ"
 	}
-
 	selected_device.send(printCode, undefined, errorCallback);
 }
 

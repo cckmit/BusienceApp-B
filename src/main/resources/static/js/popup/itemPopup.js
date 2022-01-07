@@ -34,7 +34,9 @@ var itemPopupTable = new Tabulator("#itemPopupTable", {
 	columns:[ 
 	{title:"", field:"rownum", formatter:"rownum", hozAlign:"center"},
 	{title:"품목코드", field:"product_ITEM_CODE", headerHozAlign:"center"},
-	{title:"품목이름", field:"product_ITEM_NAME", headerHozAlign:"center"}]
+	{title:"품목이름", field:"product_ITEM_NAME", headerHozAlign:"center"},
+	{title:"규격1", field:"product_INFO_STND_1", headerHozAlign:"center"}]
+	
 })
 
 function list_select(row){
