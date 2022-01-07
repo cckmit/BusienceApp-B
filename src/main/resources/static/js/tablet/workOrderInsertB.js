@@ -199,7 +199,6 @@ $('input[type=radio][name=options1]').change(function() {
 						}else{
 							alert("해당 호기에 이미 작업시작이 된 데이터가 존재합니다.");
 							radio_select("243");
-							return;
 						}
 					}
 				});

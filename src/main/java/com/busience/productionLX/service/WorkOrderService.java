@@ -29,11 +29,8 @@ public class WorkOrderService {
 			//생산수량이 0 일경우 작업지시 자체를 삭제
 			return workOrderDao.workOrderDeleteDao(workOrderDto);
 		}else {
-			System.out.println("점검1");
-			if(workOrderDto.getWorkOrder_WorkStatus() == "244") {
-				System.out.println("점검2");
+			if(workOrderDto.getWorkOrder_WorkStatus().equals("244")) {
 				if(workOrderDao.workOrderCountDao(workOrderDto) > 0) {
-					System.out.println("점검3");
 					return 0;
 				}
 			}

@@ -20,7 +20,7 @@
    <definition name="normal/*/*/*" extends="nomalLayout">
        <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
    </definition>
-
+   
    <!-- main -->
    <definition name="tilesLayout" template="/WEB-INF/views/common/tilesLayout.jsp">
        <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
