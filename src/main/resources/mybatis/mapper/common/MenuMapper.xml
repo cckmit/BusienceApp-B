@@ -8,7 +8,7 @@
 
 	<select id="menuListDao" resultType="com.busience.common.dto.MenuDto">
 		select A.Menu_Code, A.Menu_Parent_No, B.CHILD_TBL_TYPE Menu_Parent_Name, B.CHILD_TBL_RMARK Menu_Icon,
-			A.Menu_Child_No, A.Menu_Name, A.Menu_PageName, C.Menu_User_Code
+			A.Menu_Child_No, A.Menu_Name, A.Menu_PageName, C.Menu_User_Code, D.User_Code
 		from (SELECT * FROM Menu_tbl where Menu_Use_Status = true) A
 		inner join (
 			select * from DTL_TBL where NEW_TBL_CODE = '16'
