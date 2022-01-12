@@ -303,7 +303,7 @@ public class salesOrderLXRestController {
 	}
 
 	// salesOrderListLX delete
-	@RequestMapping(value = "/SOL_Delete", method = RequestMethod.POST)
+	@RequestMapping(value = "/SOL_Delete", method = RequestMethod.GET)
 	public String SOL_Delete(HttpServletRequest request, Model model) throws ParseException, SQLException {
 		JSONParser parser = new JSONParser();
 

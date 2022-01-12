@@ -56,7 +56,6 @@ var SO_inputEditor = function(cell, onRendered, success, cancel, editorParams) {
 					url: "customer_check?Cus_Code=" + SO_input.value,
 					dataType: "json",
 					success: function(data) {
-						console.log("쿼리실행");
 						if (data.length == 1) {
 							//검색어와 일치하는값이 있는경우
 							cell.getRow().update({
@@ -295,7 +294,6 @@ var SOL_InputEditor = function(cell, onRendered, success, cancel, editorParams) 
 					url: "product_check?PRODUCT_ITEM_CODE=" + SOL_input.value,
 					dataType: "json",
 					success: function(data) {
-						console.log("쿼리실행");
 						if (data.length == 1) {
 							//검색어와 일치하는값이 있는경우
 							cell.getRow().update({
@@ -552,13 +550,13 @@ function SOL_Delete() {
 				realData.push(selectedData[i]);
 			}
 		}
+		
 		//배열에 담은 데이터가 있을경우 쿼리 실행
 		if(realData.length != 0){
 			$.ajax({
-				method: "post",
+				method: "get",
 				url: "salesOrderLXRest/SOL_Delete?data=" + encodeURI(JSON.stringify(realData)),
 				success: function(result) {
-					console.log(result);
 					if (result == "error") {
 						alert("삭제 오류")
 					}
