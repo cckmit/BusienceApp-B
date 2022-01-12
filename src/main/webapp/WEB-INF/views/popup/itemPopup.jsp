@@ -17,5 +17,5 @@
 </div>
 
 <!-- js -->
-<script src="/js/popup/popup.js"></script>
-<script src="/js/popup/itemPopup.js"></script>
+<script src="/js/popup/popup.js?v=<%=System.currentTimeMillis() %>"></script>
+<script src="/js/popup/itemPopup.js?v=<%=System.currentTimeMillis() %>"></script>
