@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 	<div class="soloView">
 	   	<!-- matOrderSub -->
@@ -28,4 +27,4 @@
 		<!-- END MAIN -->
 	</div>
 <!-- Javascript -->
-<script src="/js/wip/wipInOut.js"></script>
+<script src="/js/wip/wipInOut.js?v=<%=System.currentTimeMillis() %>"></script>
