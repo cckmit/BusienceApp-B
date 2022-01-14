@@ -16,18 +16,6 @@ function TableSetData(table,jsondata)
 	table.setData(jsondata);
 }
 
-function SubmenuSelector(id, highlight)  {
-	try{
-		document.getElementById("subPages"+id+"a").setAttribute('class', 'active');
-		document.getElementById("subPages"+id+"a").setAttribute('aria-expanded', 'true');
-		document.getElementById("subPages"+id).setAttribute('class', 'collapse in');
-		document.getElementById("subPages"+id).setAttribute('aria-expanded', 'true');
-		document.getElementById(id+highlight).setAttribute('class', 'active');	
-	}catch(e){
-		console.log("사용자 메뉴에 페이지 없음 : "+e);
-	}
-}
-
 function UseBtn() {
 	//버튼 활성화
 	if ($('.BtnStatus').hasClass('unUseBtn')) {
@@ -108,28 +96,7 @@ function dtlSelectList(value){
 function excel_download(table){
 	table.download("xlsx", "data.xlsx", {sheetName : "Sheet1"});
 }
-/*
-//define custom accessor
-var nullToEmptyString = function(value, data, type, params, column){
-	//value - original value of the cell
-	//data - the data for the row
-	//type - the type of access occurring  (data|download|clipboard)
-	//params - the accessorParams object passed from the column definition
-	//column - column component for the column this accessor is bound to
 
-	return value || ""; //return the new value for the cell data.
-}
-
-import {Tabulator, Module} from 'tabulator-tables';
-
-class SelectableColumnsModule extends Module{
-    constructor(table){
-        super(table);
-		//register column definition options
-    	this.registerColumnOption("accessorDownload", nullToEmptyString);
-    }
-}
-*/
 $(document).ready(function(){
 	//input에서 백스페이스 누르면 앞에있는 input 내용 사라짐 
 	$('.clearInput').keydown(function(){

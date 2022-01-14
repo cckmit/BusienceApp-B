@@ -1,6 +1,7 @@
 package com.busience.wip.service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -132,8 +133,17 @@ public class WipLotManageService {
 	}*/
 	
 	//wipInOutList
-	public List<WipLotTransDto> wipInOutList() {		
-		return wipLotManageDao.wipInOutListDao();
+	public List<WipLotTransDto> wipInOutList() {
+		List<WipLotTransDto> WipLotTransDtoList = new ArrayList<WipLotTransDto>();
+		WipLotTransDtoList = wipLotManageDao.wipInOutListDao();
+		for(int i=0;i<WipLotTransDtoList.size();i++) {
+			String inputDate = WipLotTransDtoList.get(i).getWip_InputDate();
+			String outputDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+			WipLotTransDtoList.get(i).setWip_SaveTime(saveDateCalc(inputDate, outputDate));
+		}
+		
+		return WipLotTransDtoList;
 	}
 	
 	// wipInputList
@@ -305,17 +315,22 @@ public class WipLotManageService {
 		}
 		//차이 분
 		long totalMinutes = ChronoUnit.MINUTES.between(inputDateTime, outputDateTime);
+		//일
+		long day = totalMinutes/(60*24);
 		//시간
-		long hour = totalMinutes/60;
+		long hour = totalMinutes%(60*24)/60;
 		//분
 		long minute = totalMinutes%60;
 		//문자
-		String HM = "";
-		if(hour != 0) {
-			HM += hour+"시간 ";
+		String DHM = "";
+		if(day != 0) {
+			DHM += day+"일 ";
 		}
-		HM += minute+"분";
-		return HM;
+		if(hour != 0) {
+			DHM += hour+"시간 ";
+		}
+		DHM += minute+"분";
+		return DHM;
 	}
 	
 	//wipInputRollback

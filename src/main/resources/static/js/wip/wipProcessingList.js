@@ -41,29 +41,6 @@ $.ajax({
 		}
 	}
 });
-/*
-function wip_saveTime(wip_InputDate, wip_OutputDate){
-	var returnTime = ""
-	
-	if(wip_InputDate != null){
-		var inputDate = new Date(wip_InputDate);
-		var outputDate = new Date(wip_OutputDate);	
-		if(wip_OutputDate == null){
-			outputDate = new Date();	
-		}
-		
-		var saveDate = outputDate - inputDate;
-		var hour = Math.floor(saveDate / (1000 * 60 * 60));
-		var minute = Math.floor((saveDate % (1000 * 60 * 60)) / (1000 * 60));
-		
-		if(hour!=0){
-			returnTime += hour+"시간 ";
-		}
-		returnTime += minute+"분";	
-	}
-
-	return returnTime
-}*/
 
 $("#WPL_SearchBtn").click(function(){
 	wipProcessingListTable.setData("wipLotManageRest/wipProcessingListSelect");

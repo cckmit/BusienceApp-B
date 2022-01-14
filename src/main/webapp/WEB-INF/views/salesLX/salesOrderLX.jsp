@@ -57,6 +57,6 @@
 		<!-- END MAIN -->
 	</div>
 <!-- Javascript -->
-<script src="/js/salesLX/salesOrderLX.js"></script>
+<script src="/js/salesLX/salesOrderLX.js?v=<%=System.currentTimeMillis() %>"></script>
 </body>
 </html>

@@ -178,35 +178,10 @@ var wipManageTable = new Tabulator("#wipManageTable", {
 		{title:"Lot번호", field:"wip_LotNo", headerHozAlign:"center", hozAlign:"center"},
 		{title:"공정단계", field:"wip_Process_Name", headerHozAlign:"center", hozAlign:"center"},
 		{title:"입고시간", field:"wip_InputDate", headerHozAlign:"center"},
-		{title:"보관기간", field:"wip_SaveTime", headerHozAlign:"center", hozAlign:"center",
-			formatter:function(cell, formatterParams, onRendered){
-				return wip_saveTime(cell.getRow().getData().wip_InputDate);}}
-		]
+		{title:"보관기간", field:"wip_SaveTime", headerHozAlign:"center", hozAlign:"center"}]
 	}
  	]
 });
-
-function wip_saveTime(wip_InputDate, wip_OutputDate){
-	var returnTime = ""
-	
-	if(wip_InputDate != null){
-		var inputDate = new Date(wip_InputDate);
-		var outputDate = new Date(wip_OutputDate);	
-		if(wip_OutputDate == null){
-			outputDate = new Date();	
-		}
-		var saveDate = outputDate - inputDate;
-		var hour = Math.floor(saveDate / (1000 * 60 * 60));
-		var minute = Math.floor((saveDate % (1000 * 60 * 60)) / (1000 * 60));
-		
-		if(hour!=0){
-			returnTime += hour+"시간 ";
-		}
-		returnTime += minute+"분";	
-	}
-
-	return returnTime
-}
 
 var wipInputTable = new Tabulator("#wipInputTable", {
 	placeholder:"오늘 입고 된 재공품",

@@ -101,11 +101,20 @@ public class salesInReturnLXRestController {
 				System.out.println(obj);
 
 				// 입고테이블에 insert
-				Sales_InMatLX_tbl_sql = " insert into Sales_InMatLX_tbl(\r\n" + " Sales_InMat_Code,\r\n"
-						+ " Sales_InMat_Qty,\r\n" + " Sales_InMat_Date,\r\n" + " Sales_InMat_Rcv_Clsfc,\r\n"
-						+ " Sales_InMat_dInsert_Time,\r\n" + " Sales_InMat_Modifier\r\n" + " ) value (\r\n" + " '"
-						+ obj.get("sales_InMat_Code") + "',\r\n" + " -" + obj.get("sales_InReturn_Qty") + ",\r\n"
-						+ " now(),\r\n" + "	'175',\r\n" + " now(),\r\n" + " '" + modifier + "')";
+				Sales_InMatLX_tbl_sql = " insert into Sales_InMatLX_tbl(\r\n"
+						+ " Sales_InMat_Code,\r\n"
+						+ " Sales_InMat_Qty,\r\n"
+						+ " Sales_InMat_Date,\r\n"
+						+ " Sales_InMat_Rcv_Clsfc,\r\n"
+						+ " Sales_InMat_dInsert_Time,\r\n"
+						+ " Sales_InMat_Modifier\r\n"
+						+ " ) value (\r\n" + " '"
+						+ obj.get("sales_InMat_Code") + "',\r\n"
+						+ " -" + obj.get("sales_InReturn_Qty") + ",\r\n"
+						+ " now(),\r\n"
+						+ "	(select CHILD_TBL_NO from DTL_TBL where NEW_TBL_CODE = '17' and CHILD_TBL_NUM = '5'),\r\n"
+						+ " now(),\r\n"
+						+ " '" + modifier + "')";
 
 				System.out.println("Sales_InMatLX_tbl_sql = " + Sales_InMatLX_tbl_sql);
 				pstmt = conn.prepareStatement(Sales_InMatLX_tbl_sql);
@@ -163,7 +172,7 @@ public class salesInReturnLXRestController {
 		if (obj.get("sales_InMat_Code") != null && !obj.get("sales_InMat_Code").equals("")) {
 			where += " and Sales_InMat_Code like '%" + obj.get("sales_InMat_Code") + "%'";
 		}
-		where += " and A.Sales_InMat_Rcv_Clsfc = '175'";
+		where += " and A.Sales_InMat_Rcv_Clsfc = (select CHILD_TBL_NO from DTL_TBL where NEW_TBL_CODE = '17' and CHILD_TBL_NUM = '5')";
 
 		sql += where;
 		System.out.println(sql);

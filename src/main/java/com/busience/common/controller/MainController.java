@@ -13,7 +13,7 @@ public class MainController {
 	@Autowired
 	JdbcTemplate jdbctemplate;
 	
-	@RequestMapping("/")
+	@GetMapping("/")
 	public String login() {
 		return "thymeleaf/login";
 	}
