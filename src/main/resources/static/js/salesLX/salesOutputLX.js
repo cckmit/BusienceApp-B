@@ -100,7 +100,7 @@ var salesOutputSubTable = new Tabulator("#salesOutputSubTable", {
 		if(row.getData().sales_SM_Last_Qty == 0){
 			return false;
 		}
-		var SOS_Qty = row.getData().sales_Order_lQty
+		var SOS_Qty = row.getData().sales_Order_lNot_Stocked
 		if(SOS_Qty > row.getData().sales_SM_Last_Qty){
 			SOS_Qty = row.getData().sales_SM_Last_Qty
 		}
