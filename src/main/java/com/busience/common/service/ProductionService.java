@@ -15,6 +15,8 @@ import com.busience.common.dto.DtlDto;
 import com.busience.common.dto.ProductionDto;
 import com.busience.common.dto.TestCheckDto;
 import com.busience.productionLX.dto.WorkOrderDto;
+import com.busience.standard.dao.ItemDao;
+import com.busience.standard.dto.ItemDto;
 
 @Service
 public class ProductionService {
@@ -24,6 +26,9 @@ public class ProductionService {
 	
 	@Autowired
 	TestCheckDao testCheckDao;
+	
+	@Autowired
+	ItemDao itemDao;
 	
 	@Autowired
 	DtlDao dtlDao;
@@ -47,15 +52,24 @@ public class ProductionService {
 					testCheckDto.setIvalue(value);
 					testCheckDao.TestInsertDao(testCheckDto);
 					
-					List<WorkOrderDto> workOrderDtoList = productionDao.selectWorkOrderDao(equip);
-
+					List<WorkOrderDto> workOrderDtoList = productionDao.selectWorkOrderDao(equip);	
+					
 					//작업지시 있을때 맞춰서 인서트, 해당설비의 작업시작값이 꼭 1개
 					if(workOrderDtoList.size()>0) {
+						//해당 품목의 정보를 가져옴
+						ItemDto itemDto = itemDao.selectItemCode(workOrderDtoList.get(0).getWorkOrder_ItemCode());	
+												
 						ProductionDto productionDto = new ProductionDto();
 						productionDto.setPRODUCTION_WorkOrder_ONo(workOrderDtoList.get(0).getWorkOrder_ONo());
 						productionDto.setPRODUCTION_Product_Code(workOrderDtoList.get(0).getWorkOrder_ItemCode());
 						productionDto.setPRODUCTION_Equipment_Code(equip);
-						productionDto.setPRODUCTION_Volume(value);
+						
+						//생산량 배수가 있으면 배수만큼 곱해줌 만약 0이거나 값이 없으면 들어온값 그대로
+						if(itemDto.getPRODUCT_MULTIPLE()>0) {
+							productionDto.setPRODUCTION_Volume(value*itemDto.getPRODUCT_MULTIPLE());
+						}else {
+							productionDto.setPRODUCTION_Volume(value);
+						}
 						//PRODUCTION_MGMT_TBL2에 인서트
 						productionDao.insertProductionDao(productionDto);
 						

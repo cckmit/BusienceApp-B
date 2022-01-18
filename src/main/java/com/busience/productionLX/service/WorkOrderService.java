@@ -12,6 +12,7 @@ import com.busience.common.dao.DtlDao;
 import com.busience.common.dto.DtlDto;
 import com.busience.common.dto.SearchDto;
 import com.busience.productionLX.dao.WorkOrderDao;
+import com.busience.productionLX.dto.ProductionMgmtDto;
 import com.busience.productionLX.dto.WorkOrderDto;
 
 @Service
@@ -178,5 +179,13 @@ public class WorkOrderService {
 			workOrderDao.workOrderStockUpdateDao(workOrderDto);
 		}
 		return workOrderDao.workOrderUpdateDao(workOrderDto);
+	}
+	
+	public int lastProductQty(ProductionMgmtDto productionMgmtDto) {
+		return workOrderDao.lastProductQtyDao(productionMgmtDto);
+	}
+	
+	public int lastProductModify(ProductionMgmtDto productionMgmtDto) {
+		return workOrderDao.lastProductModifyDao(productionMgmtDto);
 	}
 }

@@ -15,6 +15,15 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 	],
 });
 
+$("#WOT_Complete").click(function(){
+	if($("#t8").text() != "NONE"){
+		if(confirm("작업을 완료하시겠습니까?")){
+			workOrderComplete();
+		
+		}
+	}
+})
+
 //작업완료 버튼을 눌렀을때
 function workOrderComplete(){
 	var datas = {
@@ -271,6 +280,63 @@ function working(){
 		else
 			document.getElementById("tp").style.background = "white";
 	}
+}
+
+$("#current_qty").dblclick(function(){
+	if($("#t8").text() != "NONE" && $("#WOT_Complete_Modify").hasClass("none")){
+		$.when(lastProductQty())
+		.then(function(){
+			$("#WOT_Complete_Modify").removeClass("none")
+		})
+	}	
+})
+
+$("#WOT_Modify").click(function(){
+	$.when(lastProductModify())
+	.then(function(){
+		$("#WOT_Complete_Modify").addClass("none")
+	})
+})
+
+$("#WOT_Modify_Cancel").click(function(){
+	$("#WOT_Complete_Modify").addClass("none")
+})
+
+//마지막생산수량 불러오는 코드
+function lastProductQty(){
+	var datas = {
+		PRODUCTION_WorkOrder_ONo : $("#t8").text(),
+		PRODUCTION_Equipment_Code : $("#eqselect").val()
+		/*,
+		PRODUCTION_Volume : ""*/
+	}
+	var ajaxResult = $.ajax({
+		method : "get",
+		url : "../workOrderTABRestXO/lastProductQty",
+		data : datas,
+		success : function(data) {
+			$("#pQty").val(data)
+		}
+	});
+	return ajaxResult;
+}
+
+//마지막 생산수량 수정후 업데이트
+function lastProductModify(){
+	var datas = {
+		PRODUCTION_WorkOrder_ONo : $("#t8").text(),
+		PRODUCTION_Equipment_Code : $("#eqselect").val(),
+		PRODUCTION_Volume : $("#pQty").val()
+	}
+	var ajaxResult = $.ajax({
+		method : "get",
+		url : "../workOrderTABRestXO/lastProductModify",
+		data : datas,
+		success : function(data) {
+			console.log("수정됨")
+		}
+	});
+	return ajaxResult;
 }
 
 function move(){

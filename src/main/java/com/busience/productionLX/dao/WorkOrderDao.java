@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.busience.common.dto.SearchDto;
+import com.busience.productionLX.dto.ProductionMgmtDto;
 import com.busience.productionLX.dto.WorkOrderDto;
 
 @Mapper
@@ -30,5 +31,9 @@ public interface WorkOrderDao {
 	public int workOrderStockUpdateDao(WorkOrderDto workOrderDto);
 	
 	public int workOrderDeleteDao(WorkOrderDto workOrderDto);
+	
+	public int lastProductQtyDao(ProductionMgmtDto productionMgmtDto);
+	
+	public int lastProductModifyDao(ProductionMgmtDto productionMgmtDto);
 	
 }

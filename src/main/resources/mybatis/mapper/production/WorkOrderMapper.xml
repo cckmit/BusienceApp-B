@@ -85,6 +85,14 @@
 				]]>
 			</otherwise>
 		</choose>	
+	</select>	
+	
+	<select id="lastProductQtyDao" resultType="int">
+		select PRODUCTION_Volume from PRODUCTION_MGMT_TBL2
+			where PRODUCTION_WorkOrder_ONo = #{PRODUCTION_WorkOrder_ONo}
+			and PRODUCTION_Equipment_Code = #{PRODUCTION_Equipment_Code}
+			order by PRODUCTION_Date desc
+			limit 1
 	</select>
 	
 	<insert id="workOrderInsertDao">
@@ -144,6 +152,16 @@
 			)
 			on duplicate key update
 			SM_In_Qty = SM_In_Qty + #{WorkOrder_RQty}
+	</update>
+	
+	<update id="lastProductModifyDao">
+		update PRODUCTION_MGMT_TBL2
+			set
+			PRODUCTION_Volume = PRODUCTION_Volume + #{PRODUCTION_Volume}
+			where PRODUCTION_WorkOrder_ONo = #{PRODUCTION_WorkOrder_No}
+			and PRODUCTION_Equipment_Code = #{PRODUCTION_Equipment_Code}
+			order by PRODUCTION_Date desc
+			limit 1
 	</update>
 	
 	<delete id="workOrderDeleteDao">
