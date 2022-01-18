@@ -83,6 +83,7 @@ html, body {
 					생&nbsp;산&nbsp;수&nbsp;량
 				</td>
 				<td style="color: black; text-align: center; width: 60%;">
+					<button type="button" id="WOT_Complete_ModifyBtn" class="btn" style="position: absolute; font-size: 30px; top: 17px; left: 41%;">수정</button>
 					<input readonly type="text" id="current_qty" style="width: 100%; height: 70%; text-align: right; padding-right: 5px;">
 				</td>
 			</tr>
@@ -138,15 +139,21 @@ html, body {
 	</div>
 </div>
 
-<div id="WOT_Complete_Modify" class="none" style="position: absolute; z-index: 999; top: 30%; left: 40%; height: 25vh; width: 40vh; color: black; background-color: lightgray;
-		display: flex; justify-content: space-evenly; align-items: center; flex-wrap: wrap; font-size: 3vh; border: solid 2px; border-radius: 15px;">
+<div id="WOT_Complete_Modify" class="none" style="position: absolute; z-index: 999; top: 30%; left: 40%; height: 25vh; width: 40vh; min-height: 200px; min-width: 300px; color: black; background-color: lightgray;
+		display: flex; justify-content: space-evenly; align-items: center; flex-direction: column; font-size: 2em; border: solid 2px; border-radius: 15px;">
 	<span>마지막 생산수량 수정</span>
+	<div>
 		<label for="pQty">생산수량</label>
-		<input type="text" id="pQty" style="width: 20vh" readonly>
+		<input type="text" id="pQty" style="width: 20vh; min-width: 150px" readonly>
+	</div>
+	<div>
 		<label for="sQty">수정수량</label>
-		<input type="text" id="sQty" style="width: 20vh">
-		<button type="button"  id="" class="btn btn-primary">수정 후 작업완료</button>
-		<button type="button"  id="WOT_Modify_Cancel" class="btn btn-danger">취소</button>
+		<input type="text" id="sQty" style="width: 20vh; min-width: 150px">
+	</div>
+	<div>
+		<button type="button" id="WOT_Modify" class="btn btn-primary" style="margin:0 30px;">수정</button>
+		<button type="button" id="WOT_Modify_Cancel" class="btn btn-danger" style="margin:0 30px;">취소</button>
+	</div>
 </div>
 
 <div style="float:none; display:none;">

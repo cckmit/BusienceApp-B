@@ -282,7 +282,7 @@ function working(){
 	}
 }
 
-$("#current_qty").dblclick(function(){
+$("#WOT_Complete_ModifyBtn").click(function(){
 	if($("#t8").text() != "NONE" && $("#WOT_Complete_Modify").hasClass("none")){
 		$.when(lastProductQty())
 		.then(function(){
@@ -307,8 +307,6 @@ function lastProductQty(){
 	var datas = {
 		PRODUCTION_WorkOrder_ONo : $("#t8").text(),
 		PRODUCTION_Equipment_Code : $("#eqselect").val()
-		/*,
-		PRODUCTION_Volume : ""*/
 	}
 	var ajaxResult = $.ajax({
 		method : "get",
@@ -326,7 +324,7 @@ function lastProductModify(){
 	var datas = {
 		PRODUCTION_WorkOrder_ONo : $("#t8").text(),
 		PRODUCTION_Equipment_Code : $("#eqselect").val(),
-		PRODUCTION_Volume : $("#pQty").val()
+		PRODUCTION_Volume : $("#sQty").val()
 	}
 	var ajaxResult = $.ajax({
 		method : "get",

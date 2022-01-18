@@ -22,4 +22,4 @@
 	</div>
 	<!-- END MAIN -->
 </div>
-<script src="/js/standard/itemManage.js"></script>
+<script src="/js/standard/itemManage.js?v=<%=System.currentTimeMillis() %>"></script>

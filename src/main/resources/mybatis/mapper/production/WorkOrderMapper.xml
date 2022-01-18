@@ -157,8 +157,8 @@
 	<update id="lastProductModifyDao">
 		update PRODUCTION_MGMT_TBL2
 			set
-			PRODUCTION_Volume = PRODUCTION_Volume + #{PRODUCTION_Volume}
-			where PRODUCTION_WorkOrder_ONo = #{PRODUCTION_WorkOrder_No}
+			PRODUCTION_Volume = #{PRODUCTION_Volume}
+			where PRODUCTION_WorkOrder_ONo = #{PRODUCTION_WorkOrder_ONo}
 			and PRODUCTION_Equipment_Code = #{PRODUCTION_Equipment_Code}
 			order by PRODUCTION_Date desc
 			limit 1
