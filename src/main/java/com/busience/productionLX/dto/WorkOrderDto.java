@@ -11,6 +11,7 @@ public class WorkOrderDto {
 
 	private int WorkOrder_No;
 	private String WorkOrder_ONo;
+	private String NewWorkOrder_ONo;
 	private String WorkOrder_ItemCode;
 	private String WorkOrder_ItemName;
 	private String WorkOrder_EquipCode;

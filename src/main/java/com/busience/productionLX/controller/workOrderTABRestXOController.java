@@ -1,23 +1,15 @@
 package com.busience.productionLX.controller;
 
-import java.security.Principal;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.busience.common.dto.SearchDto;
 import com.busience.productionLX.dto.WorkOrderDto;
-import com.busience.productionLX.dto.WorkOrder_tbl;
 import com.busience.productionLX.service.WorkOrderService;
 
 @RestController("workOrderTABRestXOController")
@@ -26,421 +18,34 @@ public class workOrderTABRestXOController {
 
 	@Autowired
 	WorkOrderService workOrderService;
-	
-	@Autowired
-	JdbcTemplate jdbctemplate;
-
-	@RequestMapping(value = "/MI_Searchd", method = RequestMethod.GET)
-	public List<WorkOrder_tbl> MI_Searchd(HttpServletRequest request) throws SQLException {
-		System.out.println(request.getParameter("startDate"));
-		System.out.println(request.getParameter("endDate"));
-		System.out.println(request.getParameter("WorkOrder_EquipCode"));
-
-		String startDate = request.getParameter("startDate") + " 00:00:00";
-		String endDate = request.getParameter("endDate") + " 23:59:59";
 		
-		/*
-		String sql = "SELECT\r\n"
-				+ "			*\r\n"
-				+ "FROM\r\n"
-				+ "(\r\n"
-				+ "	SELECT\r\n"
-				+ "			a1.*,\r\n"
-				+ "			a2.PRODUCT_ITEM_NAME,\r\n"
-				+ "			a2.PRODUCT_INFO_STND_1\r\n"
-				+ "	FROM			WorkOrder_tbl a1\r\n"
-				+ "	LEFT JOIN	PRODUCT_INFO_TBL a2 ON a1.WorkOrder_ItemCode = a2.PRODUCT_ITEM_CODE\r\n"
-				+ "	WHERE		a1.WorkOrder_EquipCode='"+request.getParameter("WorkOrder_EquipCode")+"'\r\n"
-				+ "	AND		a1.WorkOrder_WorkStatus='244'\r\n"
-				+ ")  t1\r\n"
-				+ "UNION ALL\r\n"
-				+ "(\r\n"
-				+ "	SELECT\r\n"
-				+ "			a1.*,\r\n"
-				+ "			a2.PRODUCT_ITEM_NAME,\r\n"
-				+ "			a2.PRODUCT_INFO_STND_1\r\n"
-				+ "	FROM			WorkOrder_tbl a1\r\n"
-				+ "	LEFT JOIN	PRODUCT_INFO_TBL a2 ON a1.WorkOrder_ItemCode = a2.PRODUCT_ITEM_CODE\r\n"
-				+ "	WHERE		WorkOrder_ReceiptTime BETWEEN '"+startDate+"' AND '"+endDate+"'\r\n"
-				+ "	AND		a1.WorkOrder_EquipCode='"+request.getParameter("WorkOrder_EquipCode")+"'\r\n"
-				+ "	AND		a1.WorkOrder_WorkStatus='245'\r\n"
-				+ ")";
-		*/
-		
-		String sql = "SELECT\r\n"
-				+ "			a1.*,\r\n"
-				+ "			a2.PRODUCT_ITEM_NAME,\r\n"
-				+ "			a2.PRODUCT_INFO_STND_1\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_RegisterTime, '%Y-%m-%d %H:%i') WorkOrder_RegisterTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_ReceiptTime, '%Y-%m-%d %H:%i') WorkOrder_ReceiptTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_OrderTime, '%Y-%m-%d %H:%i') WorkOrder_OrderTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_StartTime, '%Y-%m-%d %H:%i') WorkOrder_StartTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_CompleteOrderTime, '%Y-%m-%d %H:%i') WorkOrder_CompleteOrderTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_CompleteTime, '%Y-%m-%d %H:%i') WorkOrder_CompleteTime2\r\n"
-				+ "	FROM			WorkOrder_tbl a1\r\n"
-				+ "	LEFT JOIN	PRODUCT_INFO_TBL a2 ON a1.WorkOrder_ItemCode = a2.PRODUCT_ITEM_CODE\r\n"
-				+ "	WHERE		WorkOrder_CompleteTime BETWEEN '"+startDate+"' AND '"+endDate+"'\r\n"
-				+ "	AND		a1.WorkOrder_EquipCode='"+request.getParameter("WorkOrder_EquipCode")+"'\r\n"
-				+ "	AND		a1.WorkOrder_WorkStatus='245'";
-		
-		sql += " Order by WorkOrder_CompleteTime desc";
-		
-		System.out.println(sql);
-		
-		return jdbctemplate.query(sql, new RowMapper() {
-
-			@Override
-			public WorkOrder_tbl mapRow(ResultSet rs, int rowNum) throws SQLException {
-				WorkOrder_tbl data = new WorkOrder_tbl();
-				 data.setWorkOrder_ONo(rs.getString("WorkOrder_ONo"));
-				 
-				 data.setWorkOrder_ItemCode(rs.getString("WorkOrder_ItemCode"));
-				 data.setWorkOrder_ItemName(rs.getString("PRODUCT_ITEM_NAME"));
-				 data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
-				 
-				 data.setWorkOrder_PQty(rs.getString("WorkOrder_PQty"));
-				 data.setWorkOrder_RQty((rs.getString("WorkOrder_RQty") == null)? "0" : rs.getString("WorkOrder_RQty"));
-				 
-				 data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime2"));
-				 data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime2"));
-				 
-				 data.setWorkOrder_EquipCode(rs.getString("WorkOrder_EquipCode"));
-				data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime"));
-				data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime"));
-				//data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTimef"));
-				data.setWorkOrder_WorkStatus(rs.getString("WorkOrder_WorkStatus"));	
-				
-				data.setWorkOrder_Remark(rs.getString("WorkOrder_Remark"));
-				
-				return data;
-			}
-			
-		});
+	@GetMapping("/WOT_Search")
+	public List<WorkOrderDto> WOT_Search(SearchDto searchDto){
+		return workOrderService.workOrderCompleteSelect(searchDto);
 	}
 	
-	@RequestMapping(value = "/MI_Searchd2", method = RequestMethod.GET)
-	public List<WorkOrder_tbl> MI_Searchd2(HttpServletRequest request) throws SQLException {		
-		String sql = "SELECT\r\n"
-				+ "			a1.*,\r\n"
-				+ "			a2.PRODUCT_ITEM_NAME,\r\n"
-				+ "			a2.PRODUCT_INFO_STND_1\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_RegisterTime, '%y-%m-%d %H:%i') WorkOrder_RegisterTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_ReceiptTime, '%y-%m-%d %H:%i') WorkOrder_ReceiptTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_OrderTime, '%y-%m-%d %H:%i') WorkOrder_OrderTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_StartTime, '%y-%m-%d %H:%i') WorkOrder_StartTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_CompleteOrderTime, '%Y-%m-%d') WorkOrder_CompleteOrderTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_CompleteTime, '%y-%m-%d %H:%i') WorkOrder_CompleteTime2\r\n"
-				+ "FROM			WorkOrder_tbl a1\r\n"
-				+ "LEFT JOIN	PRODUCT_INFO_TBL a2 ON a1.WorkOrder_ItemCode = a2.PRODUCT_ITEM_CODE\r\n"
-				+ "	WHERE		a1.WorkOrder_EquipCode='"+request.getParameter("WorkOrder_EquipCode")+"'\r\n"
-				+ "AND		a1.WorkOrder_WorkStatus='244'";
-		
-		List<WorkOrder_tbl> list = new ArrayList<WorkOrder_tbl>();
-		
-		jdbctemplate.query(sql, new RowMapper() {
-
-			@Override
-			public WorkOrder_tbl mapRow(ResultSet rs, int rowNum) throws SQLException {
-				WorkOrder_tbl data = new WorkOrder_tbl();
-				data.setWorkOrder_ONo(rs.getString("WorkOrder_ONo"));
-				 
-				data.setWorkOrder_ItemCode(rs.getString("WorkOrder_ItemCode"));
-				data.setWorkOrder_ItemName(rs.getString("PRODUCT_ITEM_NAME"));
-				data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
-				 
-				data.setWorkOrder_PQty(rs.getString("WorkOrder_PQty"));
-				data.setWorkOrder_RQty((rs.getString("WorkOrder_RQty") == null)? "0" : rs.getString("WorkOrder_RQty"));
-				 
-				data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime2"));
-				data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime2"));
-				 
-				data.setWorkOrder_EquipCode(rs.getString("WorkOrder_EquipCode"));
-				data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime2"));
-				data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime2"));
-				data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime2"));
-				data.setWorkOrder_WorkStatus(rs.getString("WorkOrder_WorkStatus"));	
-				list.add(data);
-				return data;
-			}
-			
-		});
-		
-		sql = "SELECT\r\n"
-				+ "			a1.*,\r\n"
-				+ "			a2.PRODUCT_ITEM_NAME,\r\n"
-				+ "			a2.PRODUCT_INFO_STND_1\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_RegisterTime, '%y-%m-%d %H:%i') WorkOrder_RegisterTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_ReceiptTime, '%y-%m-%d %H:%i') WorkOrder_ReceiptTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_OrderTime, '%y-%m-%d %H:%i') WorkOrder_OrderTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_StartTime, '%y-%m-%d %H:%i') WorkOrder_StartTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_CompleteOrderTime, '%Y-%m-%d') WorkOrder_CompleteOrderTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_CompleteTime, '%y-%m-%d %H:%i') WorkOrder_CompleteTime2\r\n"
-				+ "FROM			WorkOrder_tbl a1\r\n"
-				+ "LEFT JOIN	PRODUCT_INFO_TBL a2 ON a1.WorkOrder_ItemCode = a2.PRODUCT_ITEM_CODE\r\n"
-				+ "	WHERE		a1.WorkOrder_EquipCode='"+request.getParameter("WorkOrder_EquipCode")+"'\r\n"
-				+ "AND		a1.WorkOrder_WorkStatus='243'\r\n"
-				+ "ORDER BY a1.WorkOrder_ReceiptTime DESC";
-		
-		jdbctemplate.query(sql, new RowMapper() {
-
-			@Override
-			public WorkOrder_tbl mapRow(ResultSet rs, int rowNum) throws SQLException {
-				WorkOrder_tbl data = new WorkOrder_tbl();
-				data.setWorkOrder_ONo(rs.getString("WorkOrder_ONo"));
-				 
-				data.setWorkOrder_ItemCode(rs.getString("WorkOrder_ItemCode"));
-				data.setWorkOrder_ItemName(rs.getString("PRODUCT_ITEM_NAME"));
-				data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
-				 
-				data.setWorkOrder_PQty(rs.getString("WorkOrder_PQty"));
-				data.setWorkOrder_RQty((rs.getString("WorkOrder_RQty") == null)? "0" : rs.getString("WorkOrder_RQty"));
-				 
-				data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime2"));
-				data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime2"));
-				 
-				data.setWorkOrder_EquipCode(rs.getString("WorkOrder_EquipCode"));
-				data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime2"));
-				data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime2"));
-				data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime2"));
-				data.setWorkOrder_WorkStatus(rs.getString("WorkOrder_WorkStatus"));	
-				list.add(data);
-				return data;
-			}
-			
-		});
-		
-		sql = "SELECT\r\n"
-				+ "			a1.*,\r\n"
-				+ "			a2.PRODUCT_ITEM_NAME,\r\n"
-				+ "			a2.PRODUCT_INFO_STND_1\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_RegisterTime, '%y-%m-%d %H:%i') WorkOrder_RegisterTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_ReceiptTime, '%y-%m-%d %H:%i') WorkOrder_ReceiptTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_OrderTime, '%y-%m-%d %H:%i') WorkOrder_OrderTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_StartTime, '%y-%m-%d %H:%i') WorkOrder_StartTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_CompleteOrderTime, '%Y-%m-%d') WorkOrder_CompleteOrderTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_CompleteTime, '%y-%m-%d %H:%i') WorkOrder_CompleteTime2\r\n"
-				+ "FROM			WorkOrder_tbl a1\r\n"
-				+ "LEFT JOIN	PRODUCT_INFO_TBL a2 ON a1.WorkOrder_ItemCode = a2.PRODUCT_ITEM_CODE\r\n"
-				+ "WHERE		a1.WorkOrder_EquipCode='M001'\r\n"
-				+ "AND		a1.WorkOrder_WorkStatus='242'\r\n"
-				+ "ORDER BY a1.WorkOrder_OrderTime DESC";
-		
-		jdbctemplate.query(sql, new RowMapper() {
-
-			@Override
-			public WorkOrder_tbl mapRow(ResultSet rs, int rowNum) throws SQLException {
-				WorkOrder_tbl data = new WorkOrder_tbl();
-				data.setWorkOrder_ONo(rs.getString("WorkOrder_ONo"));
-				 
-				data.setWorkOrder_ItemCode(rs.getString("WorkOrder_ItemCode"));
-				data.setWorkOrder_ItemName(rs.getString("PRODUCT_ITEM_NAME"));
-				data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
-				 
-				data.setWorkOrder_PQty(rs.getString("WorkOrder_PQty"));
-				data.setWorkOrder_RQty((rs.getString("WorkOrder_RQty") == null)? "0" : rs.getString("WorkOrder_RQty"));
-				 
-				data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime2"));
-				data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime2"));
-				 
-				data.setWorkOrder_EquipCode(rs.getString("WorkOrder_EquipCode"));
-				data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime2"));
-				data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime2"));
-				data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime2"));
-				data.setWorkOrder_WorkStatus(rs.getString("WorkOrder_WorkStatus"));	
-				list.add(data);
-				return data;
-			}
-			
-		});
-		
-		return list;
-	}
-
-	@RequestMapping(value = "/MI_Searchc", method = RequestMethod.GET)
-	public List<WorkOrder_tbl> MI_Searchc(HttpServletRequest request) throws SQLException {
-		String startDate = request.getParameter("startDate") + " 00:00:00";
-		String endDate = request.getParameter("endDate") + " 23:59:59";
-
-		String sql = "SELECT\r\n" + "			*\r\n" + "FROM		WorkOrder_tbl\r\n"
-				+ "WHERE		WorkOrder_EquipCode = ?\r\n" + "AND		WorkOrder_WorkStatus='244'";
-
-		System.out.println(sql);
-
-		return jdbctemplate.query(sql, new RowMapper() {
-			@Override
-			public WorkOrder_tbl mapRow(ResultSet rs, int rowNum) throws SQLException {
-				WorkOrder_tbl data = new WorkOrder_tbl();
-				data.setWorkOrder_ONo(rs.getString("WorkOrder_ONo"));
-				return data;
-			}
-		}, request.getParameter("WorkOrder_EquipCode"));
+	@GetMapping("/WOT_Choice")
+	public List<WorkOrderDto> WOT_Choice(SearchDto searchDto){
+		return workOrderService.workOrderChoiceSelectDao(searchDto);
 	}
 	
-	@RequestMapping(value = "/MI_End_Search", method = RequestMethod.GET)
-	public List<WorkOrder_tbl> MI_End_Search(HttpServletRequest request) throws SQLException {
-		String sql = "SELECT\r\n"
-				+ "			a1.*,\r\n"
-				+ "			a2.PRODUCT_ITEM_NAME,\r\n"
-				+ "			a2.PRODUCT_INFO_STND_1\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_RegisterTime, '%y-%m-%d %H:%i') WorkOrder_RegisterTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_ReceiptTime, '%y-%m-%d %H:%i') WorkOrder_ReceiptTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_OrderTime, '%y-%m-%d %H:%i') WorkOrder_OrderTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_StartTime, '%y-%m-%d %H:%i') WorkOrder_StartTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_CompleteOrderTime, '%Y-%m-%d') WorkOrder_CompleteOrderTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_CompleteTime, '%y-%m-%d %H:%i') WorkOrder_CompleteTime2\r\n"
-				+ "FROM			WorkOrder_tbl a1\r\n"
-				+ "LEFT JOIN	PRODUCT_INFO_TBL a2 ON a1.WorkOrder_ItemCode = a2.PRODUCT_ITEM_CODE\r\n"
-				+ "	WHERE		a1.WorkOrder_EquipCode='"+request.getParameter("WorkOrder_EquipCode")+"'\r\n"
-				+ "AND		a1.WorkOrder_WorkStatus='245'\r\n"
-				+ "AND		DATE_FORMAT(a1.WorkOrder_OrderTime, '%y-%m') = DATE_FORMAT(NOW(), '%y-%m')\r\n"
-				+ "ORDER BY a1.WorkOrder_CompleteTime DESC";
-
-		return jdbctemplate.query(sql, new RowMapper() {
-
-			@Override
-			public WorkOrder_tbl mapRow(ResultSet rs, int rowNum) throws SQLException {
-				WorkOrder_tbl data = new WorkOrder_tbl();
-				data.setWorkOrder_ONo(rs.getString("WorkOrder_ONo"));
-				 
-				data.setWorkOrder_ItemCode(rs.getString("WorkOrder_ItemCode"));
-				data.setWorkOrder_ItemName(rs.getString("PRODUCT_ITEM_NAME"));
-				data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
-				 
-				data.setWorkOrder_PQty(rs.getString("WorkOrder_PQty"));
-				data.setWorkOrder_RQty((rs.getString("WorkOrder_RQty") == null)? "0" : rs.getString("WorkOrder_RQty"));
-				 
-				data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime2"));
-				data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime2"));
-				 
-				data.setWorkOrder_EquipCode(rs.getString("WorkOrder_EquipCode"));
-				data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime2"));
-				data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime2"));
-				data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime2"));
-				data.setWorkOrder_WorkStatus(rs.getString("WorkOrder_WorkStatus"));	
-				return data;
-			}
-		});
+	@GetMapping("/workOrderSumQty")
+	public int workOrderSumQty(SearchDto searchDto) {
+		return workOrderService.workOrderSumQty(searchDto);
 	}
-
-	@GetMapping("/MI_Searche")
-	public int MI_Searche(WorkOrderDto workOrderDto) {
-		
+	
+	@GetMapping("/workOrderUpdate")
+	public int workOrderUpdate(WorkOrderDto workOrderDto) {
 		return workOrderService.workOrderUpdate(workOrderDto);
 	}
 	
-	@RequestMapping(value = "/MI_Searche2", method = RequestMethod.GET)
-	public void MI_Searche2(HttpServletRequest request) throws SQLException{
-		String WorkOrder_EquipCode = request.getParameter("WorkOrder_EquipCode");
+	//태블릿화면에서 작업지시저장
+	@GetMapping("/WOT_Save")
+	public int WOT_Save(WorkOrderDto workOrderDto) {
+		List<WorkOrderDto> WorkOrderDtoList = new ArrayList<WorkOrderDto>();
+				
+		WorkOrderDtoList.add(0, workOrderDto);		
 		
-		String sql = "SELECT IFNULL((SELECT SUM(t1.PRODUCTION_Volume) FROM PRODUCTION_MGMT_TBL2 t1 WHERE t1.PRODUCTION_WorkOrder_ONo = (SELECT t2.WorkOrder_ONo FROM WorkOrder_tbl t2 WHERE t2.WorkOrder_EquipCode=? AND t2.WorkOrder_WorkStatus='244')),0) hap";
-	
-		Integer hap = jdbctemplate.queryForObject(sql, new RowMapper<Integer>() {
-
-			@Override
-			public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return rs.getInt("hap");
-			}
-		},WorkOrder_EquipCode);
-		
-		sql = "UPDATE WorkOrder_tbl SET WorkOrder_WorkStatus = '245',\r\n"
-				+ "WorkOrder_PQty = ?,\r\n"
-				+ "WorkOrder_RQty = ?,\r\n"
-				+ "WorkOrder_CompleteTime = NOW()\r\n"
-				+ "WHERE WorkOrder_EquipCode=? AND WorkOrder_WorkStatus='244'";
-		
-		jdbctemplate.update(sql, hap, hap, WorkOrder_EquipCode);
-		
-		sql = "DELETE\r\n"
-				+ "FROM		WorkOrder_tbl\r\n"
-				+ "WHERE 0 = (SELECT t1.WorkOrder_RQty FROM (SELECT WorkOrder_RQty FROM WorkOrder_tbl  WHERE WorkOrder_EquipCode='"+WorkOrder_EquipCode+"' AND WorkOrder_WorkStatus='245' ORDER BY WorkOrder_RegisterTime DESC LIMIT 1) t1)\r\n"
-				+ "AND	WorkOrder_ONo = (SELECT t2.WorkOrder_ONo FROM (SELECT WorkOrder_ONo FROM WorkOrder_tbl  WHERE WorkOrder_EquipCode='"+WorkOrder_EquipCode+"' AND WorkOrder_WorkStatus='245' ORDER BY WorkOrder_RegisterTime DESC LIMIT 1) t2)";
-		
-		jdbctemplate.update(sql);
+		return workOrderService.workOrderRegister(WorkOrderDtoList, "admin");
 	}
-
-	@RequestMapping(value = "/MI_Searchi", method = RequestMethod.GET)
-	public List<WorkOrder_tbl> MI_Searchi(HttpServletRequest request, Principal principal) throws SQLException {
-		String WorkOrder_EquipCode = request.getParameter("WorkOrder_EquipCode");
-		String PRODUCTION_PRODUCT_CODE = request.getParameter("PRODUCTION_PRODUCT_CODE");
-
-		String sql = "SELECT COUNT(*) count FROM WorkOrder_tbl WHERE WorkOrder_EquipCode='"+WorkOrder_EquipCode+"' AND WorkOrder_WorkStatus = '244'";
-		
-		Integer count = jdbctemplate.queryForObject(sql, new RowMapper<Integer>() {
-
-			@Override
-			public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return rs.getInt("count");
-			}
-		});
-		
-		if(count == 0)
-		{
-			sql = "INSERT INTO WorkOrder_tbl\r\n"
-					+ "(\r\n"
-					+ "	WorkOrder_No,\r\n"
-					+ "	WorkOrder_ONo,\r\n"
-					+ "	WorkOrder_ItemCode,\r\n"
-					+ "	WorkOrder_EquipCode,\r\n"
-					+ "	WorkOrder_RegisterTime,\r\n"
-					+ "	WorkOrder_ReceiptTime,\r\n"
-					+ "	WorkOrder_OrderTime,\r\n"
-					+ "	WorkOrder_StartTime,\r\n"
-					+ "	WorkOrder_CompleteOrderTime,\r\n"
-					+ "	WorkOrder_WorkStatus,\r\n"
-					+ "	WorkOrder_Worker,\r\n"
-					+ "	WorkOrder_Remark,\r\n"
-					+ "	WorkOrder_Use_Status\r\n"
-					+ ")\r\n"
-					+ "VALUES(\r\n"
-					+ "	(SELECT count(*)+1 WorkOrder_ONo FROM WorkOrder_tbl a1 where LEFT(WorkOrder_ONo,8) = CURDATE() AND a1.WorkOrder_EquipCode = '"+WorkOrder_EquipCode+"'),\r\n"
-					+ "	CONCAT(\r\n"
-					+ "	date_format(CURDATE(),\"%Y%m%d\"),\r\n"
-					+ "	'-"+PRODUCTION_PRODUCT_CODE+"-',\r\n"
-					+ "	LPAD((SELECT count(*)+1 WorkOrder_ONo FROM WorkOrder_tbl a1 where LEFT(WorkOrder_ONo,8) = CURDATE() AND a1.WorkOrder_EquipCode = '"+WorkOrder_EquipCode+"'),'2','0')\r\n"
-					+ "	),\r\n"
-					+ "	'"+PRODUCTION_PRODUCT_CODE+"',\r\n"
-					+ "	'"+WorkOrder_EquipCode+"',\r\n"
-					+ "	DATE_ADD(NOW(), INTERVAL -2 DAY),\r\n"
-					+ "	DATE_ADD(NOW(), INTERVAL -1 MINUTE),\r\n"
-					+ "	DATE_ADD(NOW(), INTERVAL -1 DAY),\r\n"
-					+ "	NOW(),\r\n"
-					+ "	DATE_ADD(NOW(), INTERVAL +1 DAY),\r\n"
-					+ "	'244',\r\n"
-					+ "	'"+( (principal==null)?"admin":principal.getName() )+"',\r\n"
-					+ "	'AUTO',\r\n"
-					+ " true\r\n"
-					+ ")";
-			
-			System.out.println(sql);
-			
-			jdbctemplate.update(sql);
-		}
-		
-		return jdbctemplate.query("SELECT t1.*,t2.PRODUCT_ITEM_NAME,t2.PRODUCT_INFO_STND_1 FROM WorkOrder_tbl t1 LEFT JOIN PRODUCT_INFO_TBL t2 ON t1.WorkOrder_ItemCode = t2.PRODUCT_ITEM_CODE WHERE t1.WorkOrder_EquipCode=? AND t1.WorkOrder_WorkStatus='244'", new RowMapper() {
-			@Override
-			public WorkOrder_tbl mapRow(ResultSet rs, int rowNum) throws SQLException {
-				WorkOrder_tbl data = new WorkOrder_tbl();
-				
-				data.setWorkOrder_WorkStatus(rs.getString("WorkOrder_WorkStatus"));
-				data.setWorkOrder_ONo(rs.getString("WorkOrder_ONo"));
-				 
-				data.setWorkOrder_ItemCode(rs.getString("WorkOrder_ItemCode"));
-				data.setWorkOrder_ItemName(rs.getString("PRODUCT_ITEM_NAME"));
-				data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
-				 
-				data.setWorkOrder_PQty(rs.getString("WorkOrder_PQty"));
-				data.setWorkOrder_RQty((rs.getString("WorkOrder_RQty") == null)? "0" : rs.getString("WorkOrder_RQty"));
-				
-				data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime"));
-				data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime"));
-				data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime"));
-				
-				data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime"));
-				data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime"));
-				
-				return data;
-			}
-		}, request.getParameter("WorkOrder_EquipCode"));
-	}
-
 }

@@ -34,6 +34,7 @@
 			inner join DTL_TBL I on A.PRODUCT_BASIC_WAREHOUSE = I.CHILD_TBL_NO
 			left outer join DTL_TBL J on A.PRODUCT_SAVE_AREA = J.CHILD_TBL_NO
 			inner join USER_INFO_TBL K on A.PRODUCT_MODIFIER = K.USER_CODE
+			order by A.PRODUCT_ITEM_CODE
 	</select>
 
 	<insert id="insertItemCode">

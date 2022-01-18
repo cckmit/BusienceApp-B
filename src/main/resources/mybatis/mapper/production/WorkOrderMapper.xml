@@ -20,7 +20,7 @@
 			inner join EQUIPMENT_INFO_TBL C on A.WorkOrder_EquipCode = C.EQUIPMENT_INFO_CODE
 			left outer join Sales_StockMatLX_tbl D on A.WorkOrder_ItemCode = D.Sales_SM_Code
 			inner join (SELECT * FROM DTL_TBL where NEW_TBL_CODE = '29') E on A.WorkOrder_WorkStatus = E.CHILD_TBL_NO
-			where A.WorkOrder_RegisterTime >= '2021-12-01' and A.WorkOrder_RegisterTime < '2021-12-30' and A.WorkOrder_WorkStatus = '242'
+			where A.WorkOrder_RegisterTime >= #{startDate} and A.WorkOrder_RegisterTime < #{endDate} and A.WorkOrder_WorkStatus = '242'
 			order by A.WorkOrder_RegisterTime DESC
 	]]>
 	</select>
@@ -28,33 +28,126 @@
 	<select id="workOrderCountDao" resultType="int">
 		SELECT count(*) FROM WorkOrder_tbl where WorkOrder_EquipCode = #{WorkOrder_EquipCode} and WorkOrder_WorkStatus = '244';
 	</select>
+	
+	<select id="workOrderChoiceSelectDao" resultType="com.busience.productionLX.dto.WorkOrderDto">
+		SELECT
+			A.WorkOrder_ONo, A.WorkOrder_ItemCode, B.PRODUCT_ITEM_NAME WorkOrder_ItemName, B.PRODUCT_INFO_STND_1 WorkOrder_Item_STND_1,
+			A.WorkOrder_EquipCode, A.WorkOrder_PQty, A.WorkOrder_RQty,
+			A.WorkOrder_RegisterTime, A.WorkOrder_OrderTime, A.WorkOrder_CompleteOrderTime
+		FROM WorkOrder_tbl A
+		inner join PRODUCT_INFO_TBL B on A.WorkOrder_ItemCode = B.PRODUCT_ITEM_CODE
+		where A.WorkOrder_EquipCode = #{MachineCode} and WorkOrder_WorkStatus = '244';
+	</select>
+	
+	<select id="workOrderNoSelectDao" resultType="int">
+		SELECT count(*) FROM WorkOrder_tbl where WorkOrder_RegisterTime >= curdate();
+	</select>
+	
+	<select id="workOrderCompleteSelectDao" resultType="com.busience.productionLX.dto.WorkOrderDto">
+	
+		select 
+			A.WorkOrder_ONo, A.WorkOrder_EquipCode, A.WorkOrder_ItemCode, B.PRODUCT_ITEM_NAME WorkOrder_ItemName,
+			B.PRODUCT_INFO_STND_1 WorkOrder_Item_STND_1, A.WorkOrder_RQty,
+			A.WorkOrder_OrderTime, A.WorkOrder_ReceiptTime, A.WorkOrder_StartTime, A.WorkOrder_CompleteTime,
+			A.WorkOrder_WorkStatus
+			from WorkOrder_tbl A
+			inner join PRODUCT_INFO_TBL B on A.WorkOrder_ItemCode = B.PRODUCT_ITEM_CODE
+			where A.WorkOrder_EquipCode= #{machineCode}
+			and A.WorkOrder_WorkStatus in 
+			<foreach collection="statusCodeArr" item="statusCode" open="(" close=")" separator=",">
+				#{statusCode}
+			</foreach>
+	<choose>
+		<when test="statusCodeArr[0] == '245'">
+		<![CDATA[
+			and WorkOrder_CompleteTime >= #{startDate} and WorkOrder_CompleteTime < #{endDate}
+		]]>
+			Order by WorkOrder_CompleteTime desc;
+		</when>
+		<otherwise>
+			order by WorkOrder_OrderTime desc;
+		</otherwise>
+	</choose>
+	</select>
+	
+	<select id="workOrderSumQtyDao" resultType="int">
+	
+		select IFNULL(sum(PRODUCTION_Volume), 0)
+			from PRODUCTION_MGMT_TBL2
+			where PRODUCTION_Equipment_Code = #{MachineCode}
+		<choose>
+			<when test="WorkOrderONo != null">
+				and PRODUCTION_WorkOrder_ONo = #{WorkOrderONo}
+			</when>
+			<otherwise>
+				<![CDATA[
+					and PRODUCTION_Date >= curdate()
+				]]>
+			</otherwise>
+		</choose>	
+	</select>
+	
+	<insert id="workOrderInsertDao">
+		insert into WorkOrder_tbl (
+			WorkOrder_No, WorkOrder_ONo, WorkOrder_ItemCode,
+		    WorkOrder_EquipCode, WorkOrder_PQty,
+		    WorkOrder_RegisterTime, WorkOrder_ReceiptTime,
+		    WorkOrder_OrderTime, WorkOrder_StartTime, WorkOrder_CompleteOrderTime,
+		    WorkOrder_WorkStatus, WorkOrder_Worker, WorkOrder_Remark
+		) values (
+			#{WorkOrder_No}, #{WorkOrder_ONo}, #{WorkOrder_ItemCode},
+		    #{WorkOrder_EquipCode}, #{WorkOrder_PQty},
+		    now(), #{WorkOrder_ReceiptTime},
+		    #{WorkOrder_OrderTime}, #{WorkOrder_StartTime}, #{WorkOrder_CompleteOrderTime},
+		    #{WorkOrder_WorkStatus}, #{WorkOrder_Worker}, #{WorkOrder_Remark}
+		)on duplicate key update
+		WorkOrder_ONo = #{NewWorkOrder_ONo},
+		WorkOrder_ItemCode = #{WorkOrder_ItemCode},
+		WorkOrder_EquipCode = #{WorkOrder_EquipCode},
+		WorkOrder_PQty = #{WorkOrder_PQty},
+		WorkOrder_OrderTime = #{WorkOrder_OrderTime},
+		WorkOrder_CompleteOrderTime = #{WorkOrder_CompleteOrderTime},
+		WorkOrder_Worker = #{WorkOrder_Worker},
+		WorkOrder_Remark = #{WorkOrder_Remark}
+	</insert>
 
 	<update id="workOrderUpdateDao">
 		update WorkOrder_tbl
 			set
-			<!-- 
-			<if test="WorkOrder_RQty != null">
-				WorkOrder_RQty = #{WorkOrder_RQty},
+			<if test='WorkOrder_WorkStatus_Name == "Y"'>
+				WorkOrder_ReceiptTime = now(),
 			</if>
-			<if test="WorkOrder_OrderTime != null">
-				WorkOrder_OrderTime = #{WorkOrder_OrderTime},
-			</if>-->
-			<if test="WorkOrder_WorkStatus == 244">
+			<if test='WorkOrder_WorkStatus_Name == "S"'>
 				WorkOrder_StartTime = now(),
 			</if>
-			<if test="WorkOrder_WorkStatus == 245">
-				<if test="WorkOrder_PQty == 0">
-					WorkOrder_PQty = #{WorkOrder_RQty},
-				</if>
+			<if test='WorkOrder_WorkStatus_Name == "E"'>
+				<choose>
+					<when test="WorkOrder_PQty == 0">
+						WorkOrder_PQty = #{WorkOrder_RQty},
+					</when>
+					<otherwise>
+						WorkOrder_PQty = #{WorkOrder_PQty},
+						WorkOrder_RQty = #{WorkOrder_RQty},
+					</otherwise>
+				</choose>	
 				WorkOrder_CompleteTime = now(),
 			</if>
 			WorkOrder_WorkStatus = #{WorkOrder_WorkStatus}
 			where WorkOrder_ONo = #{WorkOrder_ONo} and WorkOrder_EquipCode = #{WorkOrder_EquipCode}
 	</update>
 	
+	<update id="workOrderStockUpdateDao">
+		insert into StockMatLX_tbl (
+			SM_Code, SM_Last_Qty, SM_In_Qty, SM_Out_Qty, SM_Prcs_Date
+			) values (
+			#{WorkOrder_ItemCode}, 0, #{WorkOrder_RQty}, 0, '2201'
+			)
+			on duplicate key update
+			SM_In_Qty = SM_In_Qty + #{WorkOrder_RQty}
+	</update>
+	
 	<delete id="workOrderDeleteDao">
 		delete from WorkOrder_tbl
 		where WorkOrder_ONo = #{WorkOrder_ONo}
-		and WorkOrder_EquipCode = #{WorkOrder_EquipCode}
 	</delete>
 </mapper>

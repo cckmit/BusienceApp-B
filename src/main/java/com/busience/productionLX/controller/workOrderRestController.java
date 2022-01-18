@@ -1,5 +1,6 @@
 package com.busience.productionLX.controller;
 
+import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,6 +23,8 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -155,134 +158,10 @@ public class workOrderRestController {
 	public List<WorkOrderDto> workOrderSelect(SearchDto searchDto) {
 		return workOrderService.workOrderSelect(searchDto);
 	}
-
-	@RequestMapping(value = "/MO_Save", method = RequestMethod.GET)
-	public String MO_Save(HttpServletRequest request) throws org.json.simple.parser.ParseException, SQLException {
-		
-		String originData = request.getParameter("data");
-		
-		JSONParser parser = new JSONParser();
-		JSONArray dataList = (JSONArray) parser.parse(originData);
-
-		HttpSession session = request.getSession();
-
-		Connection conn = dataSource.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		try {
-			conn.setAutoCommit(false);
-
-			if (dataList.size() > 0) {
-				for (int i = 0; i < dataList.size(); i++) {
-					JSONObject datas = (JSONObject) dataList.get(i);
-
-					String dbdata_flag = (String) datas.get("dbdata_flag");
-					String sql = "";
-
-					String workOrder_Remark = (String) datas.get("workOrder_Remark");
-					if (workOrder_Remark == null)
-						workOrder_Remark = "";
-					
-					if (workOrder_Remark.trim().equals("AUTO"))
-						workOrder_Remark = "오토";
-
-					if (dbdata_flag == null) {
-						sql = "SELECT count(*)+1 WorkOrder_ONo FROM WorkOrder_tbl a1 where LEFT(WorkOrder_ONo,8) = CURDATE()";
-						//sql = "SELECT count(*)+1 WorkOrder_ONo FROM WorkOrder_tbl where date_format(WorkOrder_RegisterTime,\"%Y-%m-%d\") = curdate()";
-						pstmt = conn.prepareStatement(sql);
-						rs = pstmt.executeQuery();
-						int WorkOrder_No = 1;
-						while (rs.next())
-							WorkOrder_No = rs.getInt("WorkOrder_ONo");
-
-						String WorkOrder_No_Value = "";
-						if (WorkOrder_No <= 9)
-							WorkOrder_No_Value = "0" + String.valueOf(WorkOrder_No);
-						else
-							WorkOrder_No_Value = String.valueOf(WorkOrder_No);
-
-						sql = "select CHILD_TBL_NO from DTL_TBL where CHILD_TBL_RMARK='n'";
-						pstmt = conn.prepareStatement(sql);
-						rs = pstmt.executeQuery();
-						int CHILD_TBL_NO = 1;
-						while (rs.next())
-							CHILD_TBL_NO = rs.getInt("CHILD_TBL_NO");
-
-						SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-						Date time = new Date();
-						
-						sql = "INSERT INTO `WorkOrder_tbl`\r\n" + "(" + "`WorkOrder_No`,\r\n" + "`WorkOrder_ONo`,\r\n"
-								+ "`WorkOrder_ItemCode`,\r\n" + "`WorkOrder_EquipCode`,\r\n" + "`WorkOrder_PQty`,\r\n"
-								+ "`WorkOrder_WorkStatus`,\r\n" + "`WorkOrder_OrderTime`,\r\n"
-								+ "`WorkOrder_CompleteOrderTime`,\r\n" + "`WorkOrder_Remark`\r\n" + ")\r\n"
-								+ "VALUES\r\n" + "(" + "'" + WorkOrder_No + "'\r\n" + ",\r\n" + "'"
-								+ datas.get("workOrder_ONo") + WorkOrder_No_Value + "'\r\n" + ",\r\n" + "'"
-								+ datas.get("workOrder_ItemCode") + "'\r\n" + ",\r\n" + "'"
-								+ datas.get("workOrder_EquipCode") + "'\r\n" + ",\r\n" + "'"
-								+ datas.get("workOrder_PQty") + "'\r\n" + ",\r\n" + "'" + CHILD_TBL_NO + "'\r\n"
-								+ ",\r\n" + "'" + format2.format(time) + "'\r\n" + ",\r\n" + "'"
-								+ datas.get("workOrder_CompleteOrderTime") + "'\r\n" + ",\r\n" + "'" + workOrder_Remark
-								+ "'\r\n" + ")";
-
-						System.out.println(sql);
-
-						pstmt = conn.prepareStatement(sql);
-						pstmt.executeUpdate();
-					} else {
-						SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-						Date time = new Date();
-
-						String workOrder_ItemCode = (String) datas.get("workOrder_ItemCode");
-						String workOrder_ONo = (String) datas.get("workOrder_ONo");
-						String workOrder_OrderTime_t = (String) datas.get("workOrder_OrderTime");
-						LocalTime now = LocalTime.now();
-						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-						String formatedNow = now.format(formatter);
-						String workOrder_OrderTime = workOrder_OrderTime_t + " " + formatedNow;
-						boolean workOrder_Use_Status = (boolean) datas.get("workOrder_Use_Status");
-						
-						sql = "UPDATE `WorkOrder_tbl`\r\n" 
-								+ "SET\r\n"
-								+ "`WorkOrder_ONo` = '"+ workOrder_ONo.replace(workOrder_ONo.split("-")[1], workOrder_ItemCode) + "',\r\n"
-								+ "`WorkOrder_ItemCode` = '" + workOrder_ItemCode + "',\r\n"
-								+ "`WorkOrder_PQty` = '" + datas.get("workOrder_PQty") + "',\r\n"
-								+ "`WorkOrder_OrderTime` = '" + workOrder_OrderTime + "',\r\n"
-								+ "`WorkOrder_CompleteOrderTime` = '" + datas.get("workOrder_CompleteOrderTime") + "',\r\n"
-								+ "`WorkOrder_Remark` = '" + workOrder_Remark + "'\r\n"
-								+ "`WorkOrder_Use_Status` = " + workOrder_Use_Status + "\r\n"
-								+ "WHERE `WorkOrder_ONo` = \r\n" + "'" + datas.get("workOrder_ONo") + "'";
-
-						String where = " AND WorkOrder_WorkStatus = '242'";
-						
-						sql += where;
-						
-						System.out.println(sql);
-
-						pstmt = conn.prepareStatement(sql);
-						pstmt.executeUpdate();
-					}
-				}
-			}
-
-			conn.commit();
-		} catch (Exception ex) {
-			System.out.println(ex.getMessage());
-			conn.setAutoCommit(false);
-			conn.rollback();
-			conn.setAutoCommit(true);
-		} finally {
-			if (rs != null)
-				rs.close();
-			if (pstmt != null)
-				pstmt.close();
-			if (conn != null) {
-				conn.setAutoCommit(true);
-				conn.close();
-			}
-		}
-
-		return "";
+	
+	//작업지시 등록
+	@PostMapping("/workOrderRegister")
+	public int workOrderRegister(@RequestBody List<WorkOrderDto> workOrderDtoList, Principal principal) {
+		return workOrderService.workOrderRegister(workOrderDtoList, principal.getName());
 	}
-
 }

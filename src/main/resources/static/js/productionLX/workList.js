@@ -150,7 +150,7 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 								
 								if(data.responseText=="OK")
 								{
-									alert("해당 호기에 이미 작업시작이 된 데이터가 존재합니다.");
+									alert("해당 설비에 작업중인 데이터가 존재합니다.");
 									cell.restoreOldValue();
 									return;
 								}
@@ -174,16 +174,20 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 				
 					if(confirm("작업을 완료하시겠습니까?"))
 					{
-						$.ajax({
-							method : "GET",
-							dataType : "json",
-							url : "workListRest/OrderUpdate2?workOrder_ONo="+ cell.getRow().getData().workOrder_ONo+"&workOrder_EquipCode="+cell.getRow().getData().workOrder_EquipCode,
-							complete : function(data) {
-								console.log(data.responseText);
-								
-								MI_searchBtn1();
-							}
-						});
+						if(cell.getRow().getData().workOrder_RQty){
+							alert("생산수량이 0인 작업지시는 작업완료 할 수 없습니다.");							
+							MI_searchBtn1();
+						}else{
+							$.ajax({
+								method : "GET",
+								dataType : "json",
+								url : "workListRest/OrderUpdate2?workOrder_ONo="+ cell.getRow().getData().workOrder_ONo+"&workOrder_EquipCode="+cell.getRow().getData().workOrder_EquipCode,
+								complete : function(data) {									
+									MI_searchBtn1();
+								}
+							});
+						}
+						
 					}
 					else
 						cell.restoreOldValue();

@@ -2,7 +2,6 @@ package com.busience.productionLX.controller;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,9 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.productionLX.dto.WorkOrder_tbl;
-import com.busience.salesLX.dto.Sales_StockMat_tbl;
-
 @RestController("workOrderStartBRestController")
 @RequestMapping("workOrderStartBRest")
 public class workOrderStartBRestController {
@@ -24,47 +20,6 @@ public class workOrderStartBRestController {
 	@Autowired
 	JdbcTemplate jdbctemplate;
 
-	@GetMapping("/workOrderStartInit")
-	public List<Sales_StockMat_tbl> workOrderStartInit(Model model, HttpServletRequest request){
-		String sql = "SELECT\r\n"
-				+ "				a1.*,\r\n"
-				+ "				a2.PRODUCT_ITEM_NAME,\r\n"
-				+ "				a2.PRODUCT_INFO_STND_1\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_RegisterTime, '%Y-%m-%d %H:%i') WorkOrder_RegisterTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_ReceiptTime, '%Y-%m-%d %H:%i') WorkOrder_ReceiptTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_OrderTime, '%Y-%m-%d %H:%i') WorkOrder_OrderTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_StartTime, '%Y-%m-%d %H:%i') WorkOrder_StartTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_CompleteOrderTime, '%Y-%m-%d %H:%i') WorkOrder_CompleteOrderTime2\r\n"
-				+ "				,DATE_FORMAT(a1.WorkOrder_CompleteTime, '%Y-%m-%d %H:%i') WorkOrder_CompleteTime2\r\n"
-				+ "FROM			WorkOrder_tbl a1\r\n"
-				+ "LEFT JOIN	PRODUCT_INFO_TBL a2 ON a1.WorkOrder_ItemCode = a2.PRODUCT_ITEM_CODE\r\n"
-				+ "WHERE			a1.WorkOrder_EquipCode='"+request.getParameter("eqselect")+"'\r\n"
-				+ "AND			a1.WorkOrder_WorkStatus='244'";
-		
-		return jdbctemplate.query(sql, new RowMapper() {
-
-			@Override
-			public WorkOrder_tbl mapRow(ResultSet rs, int rowNum) throws SQLException {
-				WorkOrder_tbl data = new WorkOrder_tbl();
-				 data.setWorkOrder_ONo(rs.getString("WorkOrder_ONo"));
-				 
-				 data.setWorkOrder_ItemCode(rs.getString("WorkOrder_ItemCode"));
-				 data.setWorkOrder_ItemName(rs.getString("PRODUCT_ITEM_NAME"));
-				 data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
-				 
-				 data.setWorkOrder_PQty((rs.getString("WorkOrder_PQty") == null)? "0" : rs.getString("WorkOrder_PQty"));
-				 data.setWorkOrder_RQty((rs.getString("WorkOrder_RQty") == null)? "0" : rs.getString("WorkOrder_RQty"));
-				 
-				 data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime2"));
-				 data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime2"));
-				 data.setWorkOrder_Remark(rs.getString("WorkOrder_Remark"));
-				
-				return data;
-			}
-			
-		});
-	}
-	
 	@GetMapping("/workOrderSumQty")
 	public Float workOrderSumQty(Model model, HttpServletRequest request)
 	{

@@ -15,6 +15,8 @@ public class SearchDto {
 	
 	private String LotNo;
 	
+	private String WorkOrderONo;
+	
 	private String ItemCode;
 	
 	private String ItemName;
@@ -31,4 +33,5 @@ public class SearchDto {
 		
 	private String ItemSendClsfc;
 	
+	private String[] StatusCodeArr;
 }

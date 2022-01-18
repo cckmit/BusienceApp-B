@@ -16,7 +16,7 @@ var salesOutputListTable = new Tabulator("#salesOutputListTable", {
  	{title:"수량", field:"sales_OutMat_Qty", headerHozAlign:"center", headerFilter:true, hozAlign:"right"},
 	{title:"등록자", field:"sales_OutMat_Modifier", headerHozAlign:"center", headerFilter:true, hozAlign:"left", width:80},
  	{title:"등록일자", field:"sales_OutMat_dInsert_Time", headerHozAlign:"center", headerFilter:true, hozAlign:"left", width:140, formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
- 	],
+ 	]
 });
 
 function SOL_Search() {

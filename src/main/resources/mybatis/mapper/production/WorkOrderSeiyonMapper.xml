@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	 
+<mapper namespace="com.busience.productionLX.dao.WorkOrderSeiyonDao">
+	<select id="workOrderSeiyonGapDao" resultType="com.busience.productionLX.dto.ProductionMgmtDto">
+		select count(*) PRODUCTION_Volume, PRODUCTION_Equipment_Code
+			from PRODUCTION_MGMT_TBL2
+			where PRODUCTION_WorkOrder_ONo = #{WorkOrder_ONo}
+			group by PRODUCTION_Equipment_Code;
+	</select>
+
+	<update id="workOrderNewUpdateDao">
+		update PRODUCTION_MGMT_TBL2
+			set
+			PRODUCTION_WorkOrder_ONo = #{NewWorkOrder_ONo}
+			where PRODUCTION_WorkOrder_ONo = #{WorkOrder_ONo}
+			order by PRODUCTION_Date desc
+			limit #{WorkOrder_RQty}
+	</update>
+	
+</mapper>

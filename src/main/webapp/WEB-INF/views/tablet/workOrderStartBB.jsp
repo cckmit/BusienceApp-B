@@ -1,22 +1,12 @@
-<%@page import="com.busience.standard.dto.EQUIPMENT_INFO_TBL"%>
-<%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <style>
 html, body {
-	margin: 0;
-	height: 100%;
 	overflow: hidden;
 }
+
 </style>
-</head>
-<body>
 
 	<div id="testModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	  <div class="modal-dialog modal-lg">
@@ -58,18 +48,17 @@ html, body {
 						설&nbsp;<font style="color:rgb(82,153,217);">설</font>&nbsp;<font style="color: rgb(82,153,217);">설</font>&nbsp;비
 					</td>
 					<td style="color: black; text-align: center; width: 60%;">
-						<%
-								List<EQUIPMENT_INFO_TBL> list = (List<EQUIPMENT_INFO_TBL>)request.getAttribute("list");								
-						%>
 						<select id="eqselect" name="eqselectn" style="width: 100%;">
-							<%
-								for(int i=0;i<list.size();i++)
-								{
-							%>
-									<option value="<%=list.get(i).getEQUIPMENT_INFO_CODE()%>"><%=list.get(i).getEQUIPMENT_INFO_NAME()%></option>
-							<%
-								}
-							%>	
+							<c:forEach var="data" items="${machineList}">
+								<c:choose>
+									<c:when test="${data.EQUIPMENT_INFO_CODE == machineCode}">
+										<option value="${data.EQUIPMENT_INFO_CODE}" selected>${data.EQUIPMENT_INFO_NAME}</option>
+									</c:when>									
+									<c:otherwise>									
+										<option value="${data.EQUIPMENT_INFO_CODE}">${data.EQUIPMENT_INFO_NAME}</option>									
+									</c:otherwise>								
+								</c:choose>
+							</c:forEach>
 						</select>
 					</td>
 				</tr>
@@ -114,18 +103,6 @@ html, body {
 	
 	<div class="row" style="margin: 5px;">
 		<div class="col-md-6" style="padding:10px; border:solid; font-size: 50px; text-align: center; background-color: rgb(82,153,217); border-radius: 5%;">
-			<!-- 
-			<table style="width: 100%;"> 
-				<tr>
-					<td style="color: white; text-align: center; width: 40%;" id="t6">
-						품&nbsp;<font style="color:rgb(82,153,217);">설</font>&nbsp;<font style="color: rgb(82,153,217);">설</font>&nbsp;명
-					</td>
-					<td style="color: black; text-align: center; width: 60%;">
-						<input readonly="readonly" type="text" id="n_len" style="width: 100%; height: 70%;">
-					</td>
-				</tr>
-			</table>
-			 -->
 			 <div style="float: left; width: 30%; color: white; text-align: center;" id="t6">
 			 	품&nbsp;명
 			 </div>
@@ -147,10 +124,10 @@ html, body {
 		<div class="col-md-4" style="padding: 6.5px; border:solid; font-size: 40px; text-align: center; background-color: rgb(82,153,217); border-radius: 5%;">
 			<font style="color: white;" id="t8">NONE</font>
 		</div>
-		<div class="col-md-3" style="border:solid; font-size: 50px; text-align: center; background-color: rgb(246, 177, 148); border-radius: 5%; cursor: pointer" onclick="productCom()">
+		<div class="col-md-3" style="border:solid; font-size: 50px; text-align: center; background-color: rgb(246, 177, 148); border-radius: 5%; cursor: pointer;" onclick="workOrderComplete()">
 			<font style="color: black;" id="t9">작&nbsp;업&nbsp;완&nbsp;료</font>
 		</div>
-		<div class="col-md-5" style="border:solid; font-size: 50px; text-align: center; background-color: rgb(246, 177, 148); border-radius: 5%; cursor: pointer" onclick="move()">
+		<div class="col-md-5" style="border:solid; font-size: 50px; text-align: center; background-color: rgb(246, 177, 148); border-radius: 5%; cursor: pointer;" onclick="move()">
 			<font style="color: black;" id="t10">작업 지시 선택</font>
 		</div>
 	</div>
@@ -161,24 +138,12 @@ html, body {
 		</div>
 	</div>
 	
-	<div style="float:none; visibility:hidden;">
+	<div style="float:none; display:none;">
 				<span><strong style="font-size: 20px;">작업시작일</strong></span> 
 				<input id="startDate" class="today" type="date" style="width: 180px; height: 35px; font-size: 20px;"> 
 				<span style="text-align: center"><strong>~</strong></span>
 				<input id="endDate" class="tomorrow" type="date" style="width: 180px; height: 35px; font-size: 20px;">
 				<input id="n_len_code" class="tomorrow" type="text" style="width: 180px; height: 35px; font-size: 20px;">
 	</div>
-	
-	<script>
-			function move(){
-				location.href = "/tablet/workOrderInsertB?code=<%out.print(request.getParameter("code"));%>";
-			}
-	</script>
-	<script src="/js/tablet/workOrderStartBB.js"></script>
 
-	<style>
-		.tabulator { font-size: 16px; }
-	</style>
-	
-</body>
-</html>
+	<script src="/js/tablet/workOrderStartBB.js"></script>
