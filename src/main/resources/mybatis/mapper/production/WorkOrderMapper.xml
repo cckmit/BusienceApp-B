@@ -132,6 +132,7 @@
 				<choose>
 					<when test="WorkOrder_PQty == 0">
 						WorkOrder_PQty = #{WorkOrder_RQty},
+						WorkOrder_RQty = #{WorkOrder_RQty},
 					</when>
 					<otherwise>
 						WorkOrder_PQty = #{WorkOrder_PQty},

@@ -286,7 +286,8 @@ $("#WOT_Complete_ModifyBtn").click(function(){
 	if($("#t8").text() != "NONE" && $("#WOT_Complete_Modify").hasClass("none")){
 		$.when(lastProductQty())
 		.then(function(){
-			$("#WOT_Complete_Modify").removeClass("none")
+			$("#WOT_Complete_Modify").removeClass("none");
+			$("#sQty").focus();
 		})
 	}	
 })
@@ -294,12 +295,12 @@ $("#WOT_Complete_ModifyBtn").click(function(){
 $("#WOT_Modify").click(function(){
 	$.when(lastProductModify())
 	.then(function(){
-		$("#WOT_Complete_Modify").addClass("none")
+		$("#WOT_Complete_Modify").addClass("none");
 	})
 })
 
 $("#WOT_Modify_Cancel").click(function(){
-	$("#WOT_Complete_Modify").addClass("none")
+	$("#WOT_Complete_Modify").addClass("none");
 })
 
 //마지막생산수량 불러오는 코드
@@ -331,7 +332,6 @@ function lastProductModify(){
 		url : "../workOrderTABRestXO/lastProductModify",
 		data : datas,
 		success : function(data) {
-			console.log("수정됨")
 		}
 	});
 	return ajaxResult;
