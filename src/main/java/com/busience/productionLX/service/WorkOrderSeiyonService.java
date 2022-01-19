@@ -100,7 +100,6 @@ public class WorkOrderSeiyonService {
 					List<ProductionMgmtDto> ProductionMgmtDtoList = workOrderSeiyonDao.workOrderSeiyonGapDao(workOrderDto);
 					int M001_Qty = 0;
 					int M002_Qty = 0;
-					System.out.println(ProductionMgmtDtoList);
 
 					for(int i=0;i<ProductionMgmtDtoList.size();i++) {
 						if(ProductionMgmtDtoList.get(i).getPRODUCTION_Equipment_Code().equals("M001")) {

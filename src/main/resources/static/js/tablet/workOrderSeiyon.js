@@ -27,14 +27,11 @@ function WOS_Choice(){
 	$.when(WOT_Choice_Ajax("M001"),WOT_Choice_Ajax("M002"))
 	.then(function(data1, data2){
 		if(data2[0].length > 0){
-		{
 			$("#n_len_code").val(data2[0][0].workOrder_ItemCode);
 			$("#n_len").val(data2[0][0].workOrder_ItemName);
 			$("#o_len").val(data2[0][0].workOrder_Item_STND_1);
 			$("#t8").text(data2[0][0].workOrder_ONo)
 			qtyCalc()
-		}			
-			
 			
 		}else{
 			//2에 존재하지 않는 경우, M001의 데이터를 바탕으로 작업지시 새로 생성			
@@ -51,6 +48,7 @@ function WOS_Choice(){
 				$("#n_len").val("");
 				$("#o_len").val("");
 				$("#t8").text("NONE")
+				qtyCalc()
 			}
 		}
 	})
@@ -62,6 +60,8 @@ $("#WOS_CompleteBtn").click(function(){
 	if(confirm("작업지시를 완료하시겠습니까?")){
 		//M001의 데이터를 가져옴, 진행중인 작업 완료
 		$.when(WOT_Choice_Ajax("M001"),WOS_Complete())
+		// 초과량이 있는데 다음 작업지시가 있는경우 근데 설비1수량이 0인경우 완료 불가능
+		// 초과량이 있는데 다음 작업지시가 없는경우 초과량은 삭제 알림 
 	}
 })
 
