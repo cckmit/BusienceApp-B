@@ -114,6 +114,15 @@ function WOT_Choice_Ajax(machineCodeValue){
 				document.getElementById("o_len").value = data[0].workOrder_Item_STND_1;
 				document.getElementById("d_len").value = data[0].workOrder_PQty;
 				document.getElementById("t8").innerHTML = data[0].workOrder_ONo;
+				if(data[0].workOrder_Item_Multiple >1){
+					if($("#WOT_Complete_ModifyBtn").hasClass("none")){
+						$("#WOT_Complete_ModifyBtn").removeClass("none")
+					}
+				}else{
+					if(!$("#WOT_Complete_ModifyBtn").hasClass("none")){
+						$("#WOT_Complete_ModifyBtn").addClass("none")
+					}
+				}				
 			}
 			else
 			{	

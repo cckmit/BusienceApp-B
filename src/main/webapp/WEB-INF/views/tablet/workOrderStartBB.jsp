@@ -83,7 +83,7 @@ html, body {
 					생&nbsp;산&nbsp;수&nbsp;량
 				</td>
 				<td style="color: black; text-align: center; width: 60%;">
-					<button type="button" id="WOT_Complete_ModifyBtn" class="btn" style="position: absolute; font-size: 30px; top: 17px; left: 41%;">수정</button>
+					<button type="button" id="WOT_Complete_ModifyBtn" class="btn none" style="position: absolute; font-size: 30px; top: 17px; left: 41%;">수정</button>
 					<input readonly type="text" id="current_qty" style="width: 100%; height: 70%; text-align: right; padding-right: 5px;">
 				</td>
 			</tr>

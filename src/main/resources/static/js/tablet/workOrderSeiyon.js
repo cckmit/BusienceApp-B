@@ -24,7 +24,7 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 
 function WOS_Choice(){
 	//M001의 작업지시, M002의 작업지시 가져옴
-	$.when(WOT_Choice_Ajax("M001"),WOT_Choice_Ajax("M002"))
+	$.when(WOS_Choice_Ajax("M001"),WOS_Choice_Ajax("M002"))
 	.then(function(data1, data2){
 		if(data2[0].length > 0){
 			$("#n_len_code").val(data2[0][0].workOrder_ItemCode);
@@ -59,7 +59,7 @@ function WOS_Choice(){
 $("#WOS_CompleteBtn").click(function(){
 	if(confirm("작업지시를 완료하시겠습니까?")){
 		//M001의 데이터를 가져옴, 진행중인 작업 완료
-		$.when(WOT_Choice_Ajax("M001"),WOS_Complete())
+		$.when(WOS_Choice_Ajax("M001"),WOS_Complete())
 		// 초과량이 있는데 다음 작업지시가 있는경우 근데 설비1수량이 0인경우 완료 불가능
 		// 초과량이 있는데 다음 작업지시가 없는경우 초과량은 삭제 알림 
 	}
@@ -90,7 +90,7 @@ function WOS_Complete(){
 	return ajaxResult
 }
 
-function WOT_Choice_Ajax(machineCodeValue){
+function WOS_Choice_Ajax(machineCodeValue){
 	var ajaxResult = $.ajax({
 		method : "get",
 		url : "../workOrderTABRestXO/WOT_Choice",
