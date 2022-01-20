@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						$.ajax({
 							contentType: "application/json",
 							dataType: "json",
-							url: "proComparedInputRest/CW_ListView?data=" + encodeURI(JSON.stringify(data)),
+							url: "proCalendarRest/CW_ListView?data=" + encodeURI(JSON.stringify(data)),
 							type: "get",
 							async: false,
 							success: function(data) {
@@ -175,7 +175,7 @@ function date_calculation(month) {
 	$.ajax({
 		contentType: "application/json",
 		dataType: "json",
-		url: "proComparedInputRest/CWOM_ListView?data=" + encodeURI(JSON.stringify(data)),
+		url: "proCalendarRest/CWOM_ListView?data=" + encodeURI(JSON.stringify(data)),
 		type: "get",
 		async: false,
 		success: function(datas) {
@@ -211,7 +211,7 @@ function count_calculation(selectedData) {
 	$.ajax({
 		contentType: "application/json",
 		dataType: "json",
-		url: "proComparedInputRest/CW_Count?data=" + encodeURI(JSON.stringify(data)),
+		url: "proCalendarRest/CW_Count?data=" + encodeURI(JSON.stringify(data)),
 		type: "get",
 		async: false,
 		success: function(datas) {
