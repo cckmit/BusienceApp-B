@@ -17,7 +17,6 @@ import com.busience.productionLX.service.ProCalendarService;
 
 @RestController("proCalendarRestController")
 @RequestMapping("proCalendarRest")
-@ComponentScan(basePackages = { "com.busience.productionLX.service.ProCalendarService" })
 public class ProCalendarRestController {
 
 	@Autowired
@@ -32,7 +31,6 @@ public class ProCalendarRestController {
 	// 작업지시 총생산량
 	@GetMapping("/CWOM_ListView")
 	public List<ProComparedInput> workOrderTotalQty(ProComparedInput proComparedInput) throws ParseException {
-
 		String back_days = null;
 
 		// 2021년 11월에 총생산량이 있는 마지막 날짜
@@ -40,7 +38,7 @@ public class ProCalendarRestController {
 		List<ProComparedInput> list = proCalendarService.workOrderTotalQty(proComparedInput);
 
 		if (list.size() > 0) {
-			back_days = list.get(list.size() - 1).getWorkOrder_CompleteOrderTime();
+			back_days = list.get(list.size() - 1).getWorkOrder_CompleteTime();
 
 		}
 
@@ -77,14 +75,17 @@ public class ProCalendarRestController {
 		String datestr1 = sdf2.format(start.getTime());
 
 		System.out.println("datestr1 = " + datestr1);
-
+		
+		proComparedInput.setOutMat_Date(datestr1);
+		System.out.println(proComparedInput);
+		
 		return proCalendarService.outMatList(proComparedInput);
 	}
+	
 
 	// 자재 출고 수량
 	@GetMapping("/CW_Count")
 	public List<ProComparedInput> outMatTotalQty(ProComparedInput proComparedInput) throws ParseException {
-		
 		String back_days = null;
 		
 		// 2021년 11월에 총생산량이 있는 마지막 날짜
@@ -92,7 +93,7 @@ public class ProCalendarRestController {
 		List<ProComparedInput> list = proCalendarService.workOrderTotalQty(proComparedInput);
 		
 		if(list.size() > 0) {
-			back_days = list.get(list.size() - 1).getWorkOrder_CompleteOrderTime();
+			back_days = list.get(list.size() - 1).getWorkOrder_CompleteTime();
 		}
 		
 		Calendar start = Calendar.getInstance();
@@ -128,7 +129,7 @@ public class ProCalendarRestController {
 
 		String datestr1 = sdf2.format(start.getTime());
 
-		System.out.println("datestr1 = " + datestr1);
+		proComparedInput.setOutMat_Date(datestr1);
 		
 		return proCalendarService.outMatTotalQty(proComparedInput);
 	}

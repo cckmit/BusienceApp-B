@@ -1,5 +1,9 @@
 package com.busience.productionLX.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +30,12 @@ public class ProCalendarService {
 	}
 	
 	// 자재 출고 조회
-	public List<ProComparedInput> outMatList(ProComparedInput proComparedInput) {
+	public List<ProComparedInput> outMatList(ProComparedInput proComparedInput) throws ParseException {
 		return proCalendarDao.outMatList(proComparedInput);
 	}
 	
 	// 자재 출고 수량
-	public List<ProComparedInput> outMatTotalQty(ProComparedInput proComparedInput) {
+	public List<ProComparedInput> outMatTotalQty(ProComparedInput proComparedInput) throws ParseException {
 		return proCalendarDao.outMatTotalQty(proComparedInput);
 	}
 }

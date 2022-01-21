@@ -54,7 +54,8 @@ document.addEventListener('DOMContentLoaded', function() {
 						$.ajax({
 							contentType: "application/json",
 							dataType: "json",
-							url: "proCalendarRest/CW_ListView?data=" + encodeURI(JSON.stringify(data)),
+							url: "proCalendarRest/CW_ListView",
+							data: data,
 							type: "get",
 							async: false,
 							success: function(data) {
@@ -106,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
 										completeTime1 = data[i].workOrder_CompleteTime;
 										// 자재출고
 										for (var j = counData; j < outMat_data.length; j++) {
+											console.log(outMat_data[j]);
 											var outmattitleName = '';
 											// 출고일 표시
 											var outmatDate = moment(outMat_data[j].outMat_Date).format('MM/DD');
@@ -175,7 +177,8 @@ function date_calculation(month) {
 	$.ajax({
 		contentType: "application/json",
 		dataType: "json",
-		url: "proCalendarRest/CWOM_ListView?data=" + encodeURI(JSON.stringify(data)),
+		url: "proCalendarRest/CWOM_ListView",
+		data: data,
 		type: "get",
 		async: false,
 		success: function(datas) {
@@ -211,7 +214,8 @@ function count_calculation(selectedData) {
 	$.ajax({
 		contentType: "application/json",
 		dataType: "json",
-		url: "proCalendarRest/CW_Count?data=" + encodeURI(JSON.stringify(data)),
+		url: "proCalendarRest/CW_Count",
+		data: data,
 		type: "get",
 		async: false,
 		success: function(datas) {

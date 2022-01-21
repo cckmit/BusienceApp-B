@@ -11,9 +11,9 @@
 		</select>
 		<select id="workOrderTotalQty" resultType="com.busience.productionLX.dto.ProComparedInput">
 			SELECT date(WorkOrder_CompleteTime) WorkOrder_CompleteTime
-			FROM WorkOrder_tbl wt\r\n" + "WHERE WorkOrder_WorkStatus='245'
+			FROM WorkOrder_tbl wt WHERE WorkOrder_WorkStatus='245'
 			AND date_format(WorkOrder_CompleteTime, '%Y-%m') = #{startDate}
-			GROUP BY date(wt.WorkOrder_CompleteTime) ORDER BY date(wt.WorkOrder_CompleteTime) DESC LIMIT 1";
+			GROUP BY date(wt.WorkOrder_CompleteTime) ORDER BY date(wt.WorkOrder_CompleteTime) DESC LIMIT 1
 		</select>
 		<select id="outMatList" resultType="com.busience.productionLX.dto.ProComparedInput">
 			SELECT omlt.OutMat_Code, pit.PRODUCT_ITEM_NAME OutMat_Name, SUM(omlt.OutMat_Qty) OutMat_Qty, omlt.OutMat_Consignee, dt2.CHILD_TBL_TYPE OutMat_Consignee_Name, date(OutMat_Date) AS OutMat_Date, LAST_DAY(OutMat_Date - interval 2 month) + interval 1 DAY AS Last_Month
@@ -21,7 +21,7 @@
 			INNER JOIN DTL_TBL dt2 ON omlt.OutMat_Consignee = dt2.CHILD_TBL_NO
 			INNER JOIN PRODUCT_INFO_TBL pit ON omlt.OutMat_Code = pit.PRODUCT_ITEM_CODE
 			where DATE(OutMat_Date) BETWEEN LAST_DAY(OutMat_Date - interval 2 month) + interval 1 DAY AND 
-			#{datestr1} AND OutMat_Qty != 0
+			#{OutMat_Date} AND OutMat_Qty != 0
 			GROUP BY OutMat_Name, OutMat_Consignee, DATE(OutMat_Date) order by DATE(OutMat_Date) desc
 		</select>
 		<select id="outMatTotalQty" resultType="com.busience.productionLX.dto.ProComparedInput">
@@ -30,7 +30,7 @@
 			FROM OutMatLX_tbl omlt
 			INNER JOIN DTL_TBL dt2 ON omlt.OutMat_Consignee = dt2.CHILD_TBL_NO
 			INNER JOIN PRODUCT_INFO_TBL pit ON omlt.OutMat_Code = pit.PRODUCT_ITEM_CODE
-			WHERE DATE(OutMat_Date) BETWEEN LAST_DAY(OutMat_Date - INTERVAL 2 MONTH) + INTERVAL 1 DAY AND #{datestr1} AND OutMat_Qty != 0\
+			WHERE DATE(OutMat_Date) BETWEEN LAST_DAY(OutMat_Date - INTERVAL 2 MONTH) + INTERVAL 1 DAY AND #{OutMat_Date} AND OutMat_Qty != 0
 			GROUP BY  OutMat_Consignee, OutMat_Name, DATE(OutMat_Date)) AS rocal
 			GROUP BY DATE(OutMat_Date) ORDER BY DATE(OutMat_Date) desc
 		</select>
