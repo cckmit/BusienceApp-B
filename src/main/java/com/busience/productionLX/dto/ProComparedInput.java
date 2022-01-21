@@ -55,4 +55,5 @@ public class ProComparedInput {
 	private String OutMat_STND_1;
 	private String OutMat_UNIT;
 	private String OutMat_Info_Remark;
+	private String startDate;
 }
