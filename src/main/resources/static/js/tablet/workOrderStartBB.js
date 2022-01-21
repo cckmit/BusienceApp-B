@@ -15,6 +15,23 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 	],
 });
 
+//작업지시 숫자 갱신
+function workOrderQtyUpdate(){
+	var datas = {
+		workOrder_ONo : $("#t8").text(),
+		workOrder_EquipCode : $("#eqselect").val(),
+		workOrder_RQty : $("#current_qty").val(),
+		workOrder_Remark : $("#remark").val()
+	} 
+	$.ajax({
+		method : "get",
+		url : "../workOrderTABRestXO/workOrderQtyUpdate",
+		data : datas,
+		success : function(data) {
+		}
+	});
+}
+
 $("#WOT_Complete").click(function(){
 	if($("#t8").text() != "NONE"){
 		if(confirm("작업을 완료하시겠습니까?")){
@@ -28,9 +45,9 @@ $("#WOT_Complete").click(function(){
 function workOrderComplete(){
 	var datas = {
 		workOrder_ONo : $("#t8").text(),
-		workOrder_ItemCode : $("#n_len_code").val(),
+		workOrder_ItemCode : $("#itemCode").val(),
 		workOrder_EquipCode : $("#eqselect").val(),
-		workOrder_PQty : $("#d_len").val(),
+		workOrder_PQty : $("#target_qty").val(),
 		workOrder_WorkStatus_Name : "E"
 	} 
 	$.ajax({
@@ -109,11 +126,12 @@ function WOT_Choice_Ajax(machineCodeValue){
 		success : function(data) {
 			if(data.length > 0)
 			{
-				document.getElementById("n_len_code").value = data[0].workOrder_ItemCode;
-				document.getElementById("n_len").value = data[0].workOrder_ItemName;
-				document.getElementById("o_len").value = data[0].workOrder_Item_STND_1;
-				document.getElementById("d_len").value = data[0].workOrder_PQty;
-				document.getElementById("t8").innerHTML = data[0].workOrder_ONo;
+				$("#itemCode").val(data[0].workOrder_ItemCode);
+				$("#itemName").val(data[0].workOrder_ItemName);
+				$("#o_len").val(data[0].workOrder_Item_STND_1);
+				$("#target_qty").val(data[0].workOrder_PQty);
+				$("#t8").text(data[0].workOrder_ONo);
+				$("#remark").val(data[0].workOrder_Remark);
 				if(data[0].workOrder_Item_Multiple >1){
 					if($("#WOT_Complete_ModifyBtn").hasClass("none")){
 						$("#WOT_Complete_ModifyBtn").removeClass("none")
@@ -126,11 +144,12 @@ function WOT_Choice_Ajax(machineCodeValue){
 			}
 			else
 			{	
-				document.getElementById("t8").innerHTML = "NONE";
-				document.getElementById("n_len_code").value = "";
-				document.getElementById("n_len").value = "";
-				document.getElementById("o_len").value = "";
-				document.getElementById("d_len").value = "0";
+				$("#itemCode").val();
+				$("#itemName").val();
+				$("#o_len").val();
+				$("#target_qty").val(0);
+				$("#t8").text("NONE");
+				$("#remark").val();
 			}
 		}
 	});
@@ -142,6 +161,7 @@ function WOT_Choice()
 {
 	$.when(WOT_Choice_Ajax($("#eqselect").val()))
 	.then(function(){
+		workOrderQtyUpdate();
 		WOT_Search();
 	})
 }
@@ -172,7 +192,7 @@ function sumQty(){
 	});
 }
 
-document.getElementById("n_len").onclick = function(){
+document.getElementById("itemName").onclick = function(){
 	$('#testModal').modal("show");
 
 	search();
@@ -274,7 +294,7 @@ function lang_convert(n){
 flash = false;
 
 function working(){
-	if(document.getElementById("n_len").value === "")
+	if(document.getElementById("itemName").value === "")
 	{
 		document.getElementById("t8").innerHTML = "NONE";
 		document.getElementById("tp").style.color = "rgb(112,173,70)";

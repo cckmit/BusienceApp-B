@@ -95,7 +95,7 @@ html, body {
 					목&nbsp;표&nbsp;수&nbsp;량
 				</td>
 				<td style="color: black; text-align: center; width: 60%;">
-					<input readonly type="text" id="d_len" style="width: 100%; height: 70%; text-align: right; padding-right: 5px;">
+					<input readonly type="text" id="target_qty" style="width: 100%; height: 70%; text-align: right; padding-right: 5px;">
 				</td>
 			</tr>
 		</table>
@@ -108,7 +108,7 @@ html, body {
 		 	품&nbsp;명
 		 </div>
 		 <div style="float: left; width: 70%;">
-		 	<input readonly="readonly" type="text" id="n_len" style="width: 100%; height: 70%;">
+		 	<input readonly="readonly" type="text" id="itemName" style="width: 100%; height: 70%;">
 		 </div>
 	</div>
 	<div class="col-md-6" style="padding:10px; border:solid; font-size: 50px; text-align: center; background-color: rgb(82,153,217); border-radius: 5%;">
@@ -156,12 +156,10 @@ html, body {
 	</div>
 </div>
 
-<div style="float:none; display:none;">
-			<span><strong style="font-size: 20px;">작업시작일</strong></span> 
-			<input id="startDate" class="today" type="date" style="width: 180px; height: 35px; font-size: 20px;"> 
-			<span style="text-align: center"><strong>~</strong></span>
-			<input id="endDate" class="tomorrow" type="date" style="width: 180px; height: 35px; font-size: 20px;">
-			<input id="n_len_code" class="tomorrow" type="text" style="width: 180px; height: 35px; font-size: 20px;">
+<div style="display:none;">
+			<input id="startDate" class="today" type="date"> 
+			<input id="endDate" class="tomorrow" type="date">
+			<input id="itemCode" type="text">
+			<input id="remark" type="text">
 </div>
-
 <script src="/js/tablet/workOrderStartBB.js?v=<%=System.currentTimeMillis() %>"></script>

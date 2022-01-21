@@ -34,7 +34,8 @@
 			A.WorkOrder_ONo, A.WorkOrder_ItemCode, B.PRODUCT_ITEM_NAME WorkOrder_ItemName,
             B.PRODUCT_INFO_STND_1 WorkOrder_Item_STND_1, B.PRODUCT_MULTIPLE WorkOrder_Item_Multiple,
 			A.WorkOrder_EquipCode, A.WorkOrder_PQty, A.WorkOrder_RQty,
-			A.WorkOrder_RegisterTime, A.WorkOrder_OrderTime, A.WorkOrder_CompleteOrderTime
+			A.WorkOrder_RegisterTime, A.WorkOrder_OrderTime, A.WorkOrder_CompleteOrderTime,
+			A.WorkOrder_Remark
 			FROM WorkOrder_tbl A
 			inner join PRODUCT_INFO_TBL B on A.WorkOrder_ItemCode = B.PRODUCT_ITEM_CODE
 			where A.WorkOrder_EquipCode = #{MachineCode}
@@ -148,7 +149,7 @@
 	</update>
 	
 	<update id="workOrderStockUpdateDao">
-		insert into StockMatLX_tbl (
+		insert into Sales_StockMatLX_tbl (
 			SM_Code, SM_Last_Qty, SM_In_Qty, SM_Out_Qty, SM_Prcs_Date
 			) values (
 			#{WorkOrder_ItemCode}, 0, #{WorkOrder_RQty}, 0, '2201'
@@ -165,6 +166,16 @@
 			and PRODUCTION_Equipment_Code = #{PRODUCTION_Equipment_Code}
 			order by PRODUCTION_Date desc
 			limit 1
+	</update>
+	
+	<update id="workOrderQtyUpdateDao">
+		update WorkOrder_tbl
+			set
+			<if test="workOrder_Remark == 'AUTO'">
+				WorkOrder_PQty = #{WorkOrder_RQty},
+			</if>
+			WorkOrder_RQty = #{WorkOrder_RQty}
+			where WorkOrder_ONo = #{WorkOrder_ONo} and WorkOrder_EquipCode = #{WorkOrder_EquipCode}
 	</update>
 	
 	<delete id="workOrderDeleteDao">

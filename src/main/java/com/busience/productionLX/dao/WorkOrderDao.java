@@ -30,6 +30,8 @@ public interface WorkOrderDao {
 	
 	public int workOrderStockUpdateDao(WorkOrderDto workOrderDto);
 	
+	public int workOrderQtyUpdateDao(WorkOrderDto workOrderDto);
+	
 	public int workOrderDeleteDao(WorkOrderDto workOrderDto);
 	
 	public int lastProductQtyDao(ProductionMgmtDto productionMgmtDto);

@@ -14,12 +14,17 @@ import com.busience.common.dto.SearchDto;
 import com.busience.productionLX.dao.WorkOrderDao;
 import com.busience.productionLX.dto.ProductionMgmtDto;
 import com.busience.productionLX.dto.WorkOrderDto;
+import com.busience.salesLX.dao.SalesInputLXDao;
+import com.busience.salesLX.dto.Sales_InMat_tbl;
 
 @Service
 public class WorkOrderService {
 	
 	@Autowired
 	WorkOrderDao workOrderDao;
+	
+	@Autowired
+	SalesInputLXDao salesInputLXDao;
 	
 	@Autowired
 	DtlDao dtlDao;
@@ -155,7 +160,6 @@ public class WorkOrderService {
 		//작업지시 상태
 		//Y : 접수완료, S : 작업시작, E : 작업완료
 		for(int j=0;j<dtlList.size();j++) {
-			//작업시작
 			if(dtlList.get(j).getCHILD_TBL_RMARK().equals(workOrderDto.getWorkOrder_WorkStatus_Name())) {
 				workOrderDto.setWorkOrder_WorkStatus(dtlList.get(j).getCHILD_TBL_NO());
 			}
@@ -163,6 +167,7 @@ public class WorkOrderService {
 		
 		//상태가 작업시작으로 바껴야 하는 경우
 		if(workOrderDto.getWorkOrder_WorkStatus_Name().equals("S")) {
+			//이미 작업 시작인 데이터가 있을경우 저장하면 안됨
 			if(workOrderDao.workOrderCountDao(workOrderDto) > 0) {
 				//에러
 				return 0;
@@ -176,10 +181,22 @@ public class WorkOrderService {
 				//생산수량이 0 일경우 작업지시 자체를 삭제
 				return workOrderDao.workOrderDeleteDao(workOrderDto);
 			}
-			//재고에 업데이트
-			workOrderDao.workOrderStockUpdateDao(workOrderDto);
+			//입고처리
+			Sales_InMat_tbl sales_InMat_tbl = new Sales_InMat_tbl();
+			sales_InMat_tbl.setSales_InMat_Code(workOrderDto.getWorkOrder_ItemCode());
+			sales_InMat_tbl.setSales_InMat_Qty(workOrderDto.getWorkOrder_RQty());
+			sales_InMat_tbl.setSales_InMat_Rcv_Clsfc(dtlDao.findByCode(17).get(0).getCHILD_TBL_NO()); //정상입고
+			sales_InMat_tbl.setSales_InMat_Modifier("admin");
+			
+			salesInputLXDao.salesInMatInsertDao(sales_InMat_tbl);
+			
+			salesInputLXDao.salesStockMatUpdateDao(sales_InMat_tbl);
 		}
 		return workOrderDao.workOrderUpdateDao(workOrderDto);
+	}
+	
+	public int workOrderQtyUpdate(WorkOrderDto workOrderDto) {
+		return workOrderDao.workOrderQtyUpdateDao(workOrderDto);
 	}
 	
 	public int lastProductQty(ProductionMgmtDto productionMgmtDto) {
