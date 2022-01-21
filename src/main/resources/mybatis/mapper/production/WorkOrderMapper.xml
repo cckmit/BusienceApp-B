@@ -31,12 +31,14 @@
 	
 	<select id="workOrderChoiceSelectDao" resultType="com.busience.productionLX.dto.WorkOrderDto">
 		SELECT
-			A.WorkOrder_ONo, A.WorkOrder_ItemCode, B.PRODUCT_ITEM_NAME WorkOrder_ItemName, B.PRODUCT_INFO_STND_1 WorkOrder_Item_STND_1,
+			A.WorkOrder_ONo, A.WorkOrder_ItemCode, B.PRODUCT_ITEM_NAME WorkOrder_ItemName,
+            B.PRODUCT_INFO_STND_1 WorkOrder_Item_STND_1, B.PRODUCT_MULTIPLE WorkOrder_Item_Multiple,
 			A.WorkOrder_EquipCode, A.WorkOrder_PQty, A.WorkOrder_RQty,
 			A.WorkOrder_RegisterTime, A.WorkOrder_OrderTime, A.WorkOrder_CompleteOrderTime
-		FROM WorkOrder_tbl A
-		inner join PRODUCT_INFO_TBL B on A.WorkOrder_ItemCode = B.PRODUCT_ITEM_CODE
-		where A.WorkOrder_EquipCode = #{MachineCode} and WorkOrder_WorkStatus = '244';
+			FROM WorkOrder_tbl A
+			inner join PRODUCT_INFO_TBL B on A.WorkOrder_ItemCode = B.PRODUCT_ITEM_CODE
+			where A.WorkOrder_EquipCode = #{MachineCode}
+	        and WorkOrder_WorkStatus = (select CHILD_TBL_NO from DTL_TBL where NEW_TBL_CODE = '29' and CHILD_TBL_NUM = '3')
 	</select>
 	
 	<select id="workOrderNoSelectDao" resultType="int">

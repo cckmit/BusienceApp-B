@@ -352,7 +352,11 @@ public class popupRestController {
        		+ "inner join ("
        			+ "select * from DTL_TBL where NEW_TBL_CODE = '28'"
        		+ ") B on A.Cus_Clsfc = B.CHILD_TBL_NO\r\n"
-       		+ "where (A.Cus_Code like '%"+cus_Word+"%' or A.Cus_Name like '%"+cus_Word+"%') and B.CHILD_TBL_RMARK='"+search_value+"'";
+       		+ "where (A.Cus_Code like '%"+cus_Word+"%' or A.Cus_Name like '%"+cus_Word+"%')";
+       
+       if(!search_value.equals("all")) {
+           sql += " and B.CHILD_TBL_RMARK='"+search_value+"'";
+       }
 
        System.out.println(sql);
 

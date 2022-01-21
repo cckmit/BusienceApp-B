@@ -293,11 +293,11 @@ public class workListRestController {
 
 			if(Start == null)
 				sql = "update WorkOrder_tbl set WorkOrder_WorkStatus='244',WorkOrder_StartTime=now(),WorkOrder_Worker='"
-						+ modifier + "',WorkOrder_RQty=null,WorkOrder_CompleteTime=null" + " where workOrder_ONo='"
+						+ modifier + "',WorkOrder_CompleteTime=null" + " where workOrder_ONo='"
 						+ workOrder_ONo + "'";
 			else
 				sql = "update WorkOrder_tbl set WorkOrder_WorkStatus='244',WorkOrder_ReceiptTime=now(),WorkOrder_StartTime=now(),WorkOrder_Worker='"
-						+ modifier + "',WorkOrder_RQty=null,WorkOrder_CompleteTime=null" + " where workOrder_ONo='"
+						+ modifier + "',WorkOrder_CompleteTime=null" + " where workOrder_ONo='"
 						+ workOrder_ONo + "'";	
 			
 			System.out.println(sql);

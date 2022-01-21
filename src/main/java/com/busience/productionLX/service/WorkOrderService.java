@@ -81,7 +81,8 @@ public class WorkOrderService {
 									WorkStatus = dtlList.get(j).getCHILD_TBL_NO();
 								}
 								//태블릿은 작업시작인 상태로 저장
-								if(workOrderDtoList.get(i).getWorkOrder_Remark().equals("AUTO")) {
+								
+								if("AUTO".equals(workOrderDtoList.get(i).getWorkOrder_Remark())) {
 									if(dtlList.get(j).getCHILD_TBL_RMARK().equals("S")) {
 										WorkStatus = dtlList.get(j).getCHILD_TBL_NO();
 										//작업시작이므로 접수시간, 작업시작시간도 자동으로 처리
@@ -115,7 +116,7 @@ public class WorkOrderService {
 							String WorkStatus = "";
 							for(int j=0;j<dtlList.size();j++) {
 								//태블릿은 작업시작인 상태로 저장
-								if(workOrderDtoList.get(i).getWorkOrder_Remark().equals("AUTO")) {
+								if("AUTO".equals(workOrderDtoList.get(i).getWorkOrder_Remark())) {
 									if(dtlList.get(j).getCHILD_TBL_RMARK().equals("S")) {
 										WorkStatus = dtlList.get(j).getCHILD_TBL_NO();
 										//작업시작이므로 접수시간, 작업시작시간도 자동으로 처리

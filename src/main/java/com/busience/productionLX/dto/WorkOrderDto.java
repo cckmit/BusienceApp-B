@@ -17,6 +17,7 @@ public class WorkOrderDto {
 	private String WorkOrder_EquipCode;
 	private String WorkOrder_EquipName;
 	private String WorkOrder_Item_STND_1;
+	private int WorkOrder_Item_Multiple;
 	private String WorkOrder_WorkStatus;
 	private String WorkOrder_WorkStatus_Name;
 	private int WorkOrder_SQty;
