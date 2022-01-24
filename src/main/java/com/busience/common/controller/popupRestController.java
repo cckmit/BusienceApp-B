@@ -48,7 +48,7 @@ public class popupRestController {
 		ResultSet rs = null;
 		
 		conn = dataSource.getConnection();
-		
+		/*
 		String terms = null;
 		String terms_sql = "select CHILD_TBL_RMARK from DTL_TBL\r\n"
 				+ "where NEW_TBL_CODE = 37 and CHILD_TBL_TYPE = '"+search_value+"'";
@@ -61,17 +61,19 @@ public class popupRestController {
 		}
 		System.out.println("============");
 		System.out.println(terms);
-		
+		*/
 		String sql = "";
 		
-		sql = " select PRODUCT_ITEM_CODE,\r\n"
-				+ " PRODUCT_ITEM_NAME,\r\n"
-				+ " PRODUCT_INFO_STND_1,\r\n"
-				+ " PRODUCT_UNIT_PRICE\r\n"
-				+ " from PRODUCT_INFO_TBL\r\n"
-				+ " where (PRODUCT_ITEM_CODE like '%" + item_Word + "%' or PRODUCT_ITEM_NAME like '%" + item_Word + "%')\r\n"
-				+ " and PRODUCT_USE_STATUS='true'"
-				+ " and PRODUCT_MTRL_CLSFC in ("+terms+")";
+		sql = " select A.PRODUCT_ITEM_CODE,\r\n"
+				+ " A.PRODUCT_ITEM_NAME,\r\n"
+				+ " A.PRODUCT_INFO_STND_1,\r\n"
+				+ " B.CHILD_TBL_TYPE PRODUCT_MTRL_CLSFC,\r\n"
+				+ " A.PRODUCT_UNIT_PRICE\r\n"
+				+ " from PRODUCT_INFO_TBL A\r\n"
+				+ " inner join DTL_TBL B on A.PRODUCT_MTRL_CLSFC = B.CHILD_TBL_NO\r\n"
+				+ " where (A.PRODUCT_ITEM_CODE like '%"+item_Word+"%' or A.PRODUCT_ITEM_NAME like '%"+item_Word+"%')\r\n"
+				+ " and A.PRODUCT_MTRL_CLSFC like '%" + search_value + "%'\r\n"
+				+ " and A.PRODUCT_USE_STATUS='true'";
 		
 		pstmt = conn.prepareStatement(sql);
 		rs = pstmt.executeQuery();
@@ -86,6 +88,7 @@ public class popupRestController {
 			data.setPRODUCT_ITEM_CODE(rs.getString("PRODUCT_ITEM_CODE"));
 			data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
 			data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
+			data.setPRODUCT_MTRL_CLSFC(rs.getString("PRODUCT_MTRL_CLSFC"));
 			data.setPRODUCT_UNIT_PRICE(rs.getInt("PRODUCT_UNIT_PRICE"));
 			list.add(data);
 		}	

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	 
+<mapper namespace="com.busience.materialLX.dao.MatOutputDao">
+	<select id="outMatListDao" resultType="com.busience.materialLX.dto.StockMat_tbl">
+		SELECT A.SM_Code, B.PRODUCT_ITEM_NAME SM_Name, A.SM_Qty,
+			B.PRODUCT_INFO_STND_1 SM_STND_1, C.CHILD_TBL_TYPE SM_CLSFC_1_Name
+			FROM (
+				select SM_Code, (SM_Last_Qty+SM_In_Qty-SM_Out_Qty) SM_Qty from StockMatLX_tbl
+				where SM_Last_Qty+SM_In_Qty-SM_Out_Qty > 0
+				) A
+			INNER JOIN PRODUCT_INFO_TBL B ON A.SM_Code = B.PRODUCT_ITEM_CODE
+			inner join DTL_TBL C on B.PRODUCT_ITEM_CLSFC_1 = C.CHILD_TBL_NO;
+	</select>
+	
+	<update id="outMatInsertDao">
+		insert into OutMatLX_tbl(
+			OutMat_Code, OutMat_Qty, OutMat_Consignee, OutMat_Dept_Code,
+			OutMat_Send_Clsfc, OutMat_Date, OutMat_dInsert_Time, OutMat_Modifier
+			) values (
+			#{OutMat_Code}, #{OutMat_Qty}, #{OutMat_Consignee}, '13',
+			#{OutMat_Send_Clsfc}, now(), now(), #{OutMat_Modifier}
+			)
+	</update>
+	
+	<update id="stockMatUpdateDao">
+		update StockMatLX_tbl
+		set
+		SM_Out_Qty = SM_Out_Qty+#{OutMat_Qty}
+		where SM_Code = #{OutMat_Code}
+	</update>
+</mapper>

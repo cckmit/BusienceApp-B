@@ -1,12 +1,15 @@
+.top-var{
+	display: flex;
+	justify-content: space-evenly;
+}
+
 .popup-box{
 	padding:10px 0;
 	position: relative;
-    left: 70px;
 }
 .popup-button{
 	padding:10px 0;
 	position: relative;
-    left: 140px;
 }
 .popup-table{
 	margin:20px;

@@ -35,7 +35,9 @@ var itemPopupTable = new Tabulator("#itemPopupTable", {
 	{title:"", field:"rownum", formatter:"rownum", hozAlign:"center"},
 	{title:"품목코드", field:"product_ITEM_CODE", headerHozAlign:"center"},
 	{title:"품목이름", field:"product_ITEM_NAME", headerHozAlign:"center"},
-	{title:"규격1", field:"product_INFO_STND_1", headerHozAlign:"center"}]
+	{title:"규격1", field:"product_INFO_STND_1", headerHozAlign:"center"},
+	{title:"품목분류", field:"product_MTRL_CLSFC", headerHozAlign:"center"}
+	]
 	
 })
 
@@ -59,7 +61,7 @@ function list_select(row){
 //검색
 function search(){
 	itemPopupTable.setData("itemPopupSelect",
-		{item_Word:$('#Item_Word').val(),search_value:urlParams.get('search_value')})
+		{item_Word:$('#Item_Word').val(),search_value:$("#item_Type").val()})
 	.then(function(){
 		if(itemPopupTable.getDataCount()>0){
 			itemPopupTable.getRows()[0].select();
@@ -84,10 +86,19 @@ $("#Item_Word").keypress(function(e){
 	}
 })
 
+$("#item_Type").change(function(){
+	search();
+})
+
 $(document).ready(function(){
 	// 팝업창이 뜨면 데이터 받음
 	$('#Item_Word').val(urlParams.get('input_value'));
 	
-	// 팝업이 뜨자마자 바로 검색
+	//search_value 가 material이면 원자재 기준, sales이면 완제품 기준
+	if(urlParams.get('search_value') == "material"){
+		$("#item_Type").val('24')
+	}else if (urlParams.get('search_value') == "sales"){
+		$("#item_Type").val('28')
+	}
 	search();
 })

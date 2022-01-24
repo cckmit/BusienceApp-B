@@ -1,15 +1,24 @@
 package com.busience.common.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.busience.common.dto.PopupDto;
+import com.busience.common.service.DtlService;
+
 @Controller
 public class popupController {
 
+	@Autowired
+	DtlService dtlService;
+	
 	//itemPopup
 	@GetMapping("/itemPopup")
-	public String itemPopup() {
+	public String itemPopup(PopupDto popupDto, Model model) {
+		model.addAttribute("popupDto", popupDto);
+		model.addAttribute("itemTypeList", dtlService.getDtl(5));
 		return "normal/popup/itemPopup";
 	}
 	

@@ -385,7 +385,7 @@ var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
 			"sales_Order_lNo": next_order_lNo,
 			"sales_Order_lPrice": 0,
 			"sales_Order_lInfo_Remark": '',
-			"sales_Order_Send_Clsfc": "191"
+			"sales_Order_Send_Clsfc": "211"
 		});
 
 		//행이 추가되면 첫셀에 포커스
