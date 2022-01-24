@@ -148,7 +148,7 @@ html, body {
 	</div>
 	<div>
 		<label for="sQty">수정수량</label>
-		<input type="text" id="sQty" style="width: 20vh; min-width: 150px">
+		<input type="number" id="sQty" style="width: 20vh; min-width: 150px">
 	</div>
 	<div>
 		<button type="button" id="WOT_Modify" class="btn btn-primary" style="margin:0 30px;">수정</button>

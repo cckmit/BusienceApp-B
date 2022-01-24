@@ -132,6 +132,7 @@ function WOT_Choice_Ajax(machineCodeValue){
 				$("#target_qty").val(data[0].workOrder_PQty);
 				$("#t8").text(data[0].workOrder_ONo);
 				$("#remark").val(data[0].workOrder_Remark);
+				//배수가 1보다 크면 수정버튼 등장
 				if(data[0].workOrder_Item_Multiple >1){
 					if($("#WOT_Complete_ModifyBtn").hasClass("none")){
 						$("#WOT_Complete_ModifyBtn").removeClass("none")
@@ -312,7 +313,7 @@ function working(){
 }
 
 $("#WOT_Complete_ModifyBtn").click(function(){
-	if($("#t8").text() != "NONE" && $("#WOT_Complete_Modify").hasClass("none")){
+	if($("#t8").text() != "NONE" && $("#WOT_Complete_Modify").hasClass("none") && $("#current_qty").val() > 0){
 		$.when(lastProductQty())
 		.then(function(){
 			$("#WOT_Complete_Modify").removeClass("none");
@@ -322,10 +323,14 @@ $("#WOT_Complete_ModifyBtn").click(function(){
 })
 
 $("#WOT_Modify").click(function(){
-	$.when(lastProductModify())
-	.then(function(){
-		$("#WOT_Complete_Modify").addClass("none");
-	})
+	if($("#sQty").val()>0){
+		$.when(lastProductModify())
+		.then(function(){
+			$("#WOT_Complete_Modify").addClass("none");
+		})
+	}else{
+		alert("숫자를 입력해주세요.")
+	}
 })
 
 $("#WOT_Modify_Cancel").click(function(){
