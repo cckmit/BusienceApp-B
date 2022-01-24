@@ -410,7 +410,7 @@ public class matOutReturnLXRestController {
 							+ "'213',\r\n"
 							+ "'"+ obj.get("outMat_Consignee") + "',\r\n"
 							+ "'"+ obj.get("outMat_Dept_Code") +"',\r\n"
-							+ "'"+obj.get("inMat_Date")+"',\r\n"
+							+ "now(),\r\n"
 							+ "now(),"
 							+ "'"+ modifier + "'"
 							+ ")";

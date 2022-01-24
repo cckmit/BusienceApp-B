@@ -1,4 +1,4 @@
-var outputTable = new Tabulator("#outputTable", {
+var matOutputTable = new Tabulator("#matOutputTable", {
 	//페이징
 	pagination: "local",
 	paginationSize: 20,
@@ -14,11 +14,11 @@ var outputTable = new Tabulator("#outputTable", {
 	},
 	rowDblClick: function(e, row) {
 
-		outputTable.deselectRow();
+		matOutputTable.deselectRow();
 		row.select();
 		
 		if(!inputDuplCheck(row)){
-			matOutputTable.addRow({"outMat_Code": row.getData().sm_Code,
+			matOutputSubTable.addRow({"outMat_Code": row.getData().sm_Code,
 									"outMat_Name": row.getData().sm_Name, 
 									"outMat_Qty": 0,
 									"outMat_Consignee": '1',
@@ -41,7 +41,7 @@ var outputTable = new Tabulator("#outputTable", {
 function inputDuplCheck(row){
 	var selectDataCode = row.getData("selected").sm_Code;
 	
-	var inputDatas = matOutputTable.getData();
+	var inputDatas = matOutputSubTable.getData();
 	
 	var idResult = inputDatas.some(function(currentValue, index, array){
 		return (currentValue.outMat_Code == selectDataCode);
@@ -59,8 +59,8 @@ function inputDuplCheck(row){
 function MOS_Search() {
 
 	data = {
-		SM_Code: outputTable.getData("selected").sm_Code,
-		SM_Name: outputTable.getData("selected").sm_Name,
+		SM_Code: matOutputTable.getData("selected").sm_Code,
+		SM_Name: matOutputTable.getData("selected").sm_Name,
 		itemCode: $("#outmatLX_itemCode").val()
 	}
 
@@ -70,13 +70,13 @@ function MOS_Search() {
 		async: false,
 		url: "matOutputLXRest/MOS_Search?data=" + encodeURI(JSON.stringify(data)),
 		success: function(data) {
-			console.log(data);
-			outputTable.setData(data);
-			SM_Code = outputTable.getData("selected").sm_Code;
-			SM_Name = outputTable.getData("selected").sm_Name;
+			//console.log(data);
+			matOutputTable.setData(data);
+			SM_Code = matOutputTable.getData("selected").sm_Code;
+			SM_Name = matOutputTable.getData("selected").sm_Name;
 			//console.log("sm_code val = " + SM_Code);
 			MOM_Search(SM_Code, SM_Name);
-			//matOutputTable.clearData();
+			//matOutputSubTable.clearData();
 		}
 	});
 }
@@ -89,7 +89,11 @@ $('#MR_SearchBtn').click(function() {
 
 // 출고구분 select를 구성하는 리스트
 var output_dtl = dtlSelectList(18);
-
+for(prop in output_dtl){
+	if(output_dtl[prop] == "판매출고"){
+		delete output_dtl[prop]
+	}
+}
 // 매니저명 select를 구성하는 리스트
 var manager_dtl = dtlSelectList(1);
 
@@ -156,7 +160,7 @@ var editCheck = function(cell) {
 	return data.outMat_Date == null;
 }
 
-var matOutputTable = new Tabulator("#matOutputTable", {
+var matOutputSubTable = new Tabulator("#matOutputSubTable", {
 	height: "calc(100% - 175px)",
 	layoutColumnsOnNewData: true,
 	rowAdded: function(row, cell) {
@@ -166,7 +170,7 @@ var matOutputTable = new Tabulator("#matOutputTable", {
 		do {
 			setTimeout(function() {
 				row.getCell("outMat_Qty").edit();
-				matOutputTable.deselectRow();
+				matOutputSubTable.deselectRow();
 				row.select();
 			}, 100);
 		}
@@ -174,7 +178,7 @@ var matOutputTable = new Tabulator("#matOutputTable", {
 
 	},
 	rowClick: function(e, row) {
-		matOutputTable.deselectRow();
+		matOutputSubTable.deselectRow();
 		row.select();
 	},
 	columns: [
@@ -222,7 +226,7 @@ function MOM_Search(sm_Code, sm_Name) {
 		method: "GET",
 		url: "matOutputLXRest/MOM_Search?sm_Code=&sm_Name=" + sm_Code + sm_Name,
 		success: function(MIM_datas, row) {
-			matOutputTable.setData(MIM_datas);
+			matOutputSubTable.setData(MIM_datas);
 			//console.log(MIM_datas);
 		}
 	});
@@ -233,9 +237,9 @@ function MOM_Save() {
 
 	realData = [];
 
-	rowData = matOutputTable.getData();
+	rowData = matOutputSubTable.getData();
 
-	stockData = outputTable.getData("selected");
+	stockData = matOutputTable.getData("selected");
 	//realData.push(rowData[i]);
 
 	for (var i = 0; i < rowData.length; i++) {

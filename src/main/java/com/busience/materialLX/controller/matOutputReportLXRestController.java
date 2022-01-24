@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
 import com.busience.materialLX.dto.OutMat_tbl;
+import com.busience.salesLX.dto.Sales_OutMat_tbl;
 
 @RestController("matOutputReportLXRestController")
 @RequestMapping("matOutputReportLXRest")
@@ -71,7 +72,7 @@ public class matOutputReportLXRestController {
 		sql += " order by omt.OutMat_Date";
 
 		//System.out.println("where : " + where);
-		//System.out.println(sql);
+		System.out.println(sql);
 
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -496,6 +497,62 @@ public class matOutputReportLXRestController {
 
 		}
 		//System.out.println("---");
+		rs.close();
+		pstmt.close();
+		conn.close();
+
+		return list;
+	}
+	
+	// MOSL_Search
+	@GetMapping("/MOSL_Search")
+	public List<Sales_OutMat_tbl> MOSL_Search(SearchDto searchDto) throws SQLException {
+		System.out.println(searchDto);
+		
+		Connection conn = dataSource.getConnection();
+
+		String sql = "select \r\n"
+				+ "somt.Sales_OutMat_No,\r\n"
+				+ "somt.Sales_OutMat_Client_Code,\r\n"
+				+ "ct.Cus_Name Sales_OutMat_Client_Name,\r\n"
+				+ "sum(somt.Sales_OutMat_Qty) Sales_OutMat_Qty\r\n"
+				+ "from Sales_OutMatLX_tbl somt \r\n"
+				+ "inner join Customer_tbl ct on somt.Sales_OutMat_Client_Code = ct.Cus_Code\r\n"
+				+ " where somt.Sales_OutMat_Date >= '" + searchDto.getStartDate() + "'\r\n"
+				+ " and somt.Sales_OutMat_Date < '" + searchDto.getEndDate() + "'\r\n";
+
+		sql += " group by Sales_OutMat_Client_Code";
+
+		System.out.println("SOC_DeliveryView = " + sql);
+
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		ResultSet rs = pstmt.executeQuery();
+
+		int i = 0;
+		List<Sales_OutMat_tbl> list = new ArrayList<Sales_OutMat_tbl>();
+
+		while (rs.next()) {
+			if (rs.getString("sales_OutMat_Client_Code") == null) {
+				Sales_OutMat_tbl data = new Sales_OutMat_tbl();
+
+				data.setSales_OutMat_Client_Code("Sub Total");
+				data.setSales_OutMat_Qty(rs.getInt("sales_OutMat_Qty"));
+
+				list.add(data);
+			} else {
+				Sales_OutMat_tbl data = new Sales_OutMat_tbl();
+
+				i++;
+				data.setID(i);
+				// data.setSales_OutMat_No(rs.getInt("sales_OutMat_No"));
+				data.setSales_OutMat_Client_Code(rs.getString("sales_OutMat_Client_Code"));
+				data.setSales_OutMat_Client_Name(rs.getString("sales_OutMat_Client_Name"));
+				data.setSales_OutMat_Qty(rs.getInt("sales_OutMat_Qty"));
+
+				list.add(data);
+			}
+		}
+
 		rs.close();
 		pstmt.close();
 		conn.close();

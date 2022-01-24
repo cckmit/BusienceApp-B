@@ -40,6 +40,11 @@ public class workOrderTABRestXOController {
 		return workOrderService.workOrderUpdate(workOrderDto);
 	}
 	
+	@GetMapping("/workOrderQtyUpdate")
+	public int workOrderQtyUpdate(WorkOrderDto workOrderDto) {
+		return workOrderService.workOrderQtyUpdate(workOrderDto);
+	}
+	
 	//태블릿화면에서 작업지시저장
 	@GetMapping("/WOT_Save")
 	public int WOT_Save(WorkOrderDto workOrderDto) {
