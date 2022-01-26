@@ -6,23 +6,25 @@
 	
 <mapper namespace="com.busience.standard.dao.RoutingDao">
 	<select id="selectRoutingListDao" resultType="com.busience.standard.dto.RoutingDto">
-		select 
-			A.Item_Clsfc_1, F.CHILD_TBL_TYPE Item_Clsfc_1_Name,
-		    A.Routing Routing_1,
-		    (select Routing from Routing_Info_tbl where Item_Clsfc_1 = A.Item_Clsfc_1 and Routing_No = 2) Routing_2,
-			(select Routing from Routing_Info_tbl where Item_Clsfc_1 = A.Item_Clsfc_1 and Routing_No = 3) Routing_3,
-		    (select Routing from Routing_Info_tbl where Item_Clsfc_1 = A.Item_Clsfc_1 and Routing_No = 4) Routing_4,
-		    (select Routing from Routing_Info_tbl where Item_Clsfc_1 = A.Item_Clsfc_1 and Routing_No = 5) Routing_5,
-		    F.CHILD_TBL_USE_STATUS Use_Status
-		from Routing_Info_tbl A
-		left outer join DTL_TBL F on A.Item_Clsfc_1 = F.CHILD_TBL_NO
-		where A.Routing_No = 1
-		order by A.Item_Clsfc_1*1;
+		select
+			A.CHILD_TBL_NO Item_Clsfc_1,
+		    A.CHILD_TBL_TYPE Item_Clsfc_1_Name,
+		    B.Routing Routing_1,
+			(select Routing from Routing_Info_tbl where Item_Clsfc_1 = A.CHILD_TBL_NO and Routing_No = 2) Routing_2,
+			(select Routing from Routing_Info_tbl where Item_Clsfc_1 = A.CHILD_TBL_NO and Routing_No = 3) Routing_3,
+			(select Routing from Routing_Info_tbl where Item_Clsfc_1 = A.CHILD_TBL_NO and Routing_No = 4) Routing_4,
+			(select Routing from Routing_Info_tbl where Item_Clsfc_1 = A.CHILD_TBL_NO and Routing_No = 5) Routing_5,
+		    A.CHILD_TBL_USE_STATUS Use_Status
+		from (select CHILD_TBL_NO, CHILD_TBL_TYPE, CHILD_TBL_USE_STATUS
+		from DTL_TBL
+		where NEW_TBL_CODE = 6) A
+		left outer join Routing_Info_tbl B on A.CHILD_TBL_NO = B.Item_Clsfc_1 and B.Routing_No = 1
+		order by A.CHILD_TBL_NO*1
 	</select>
 	
 	<select id="selectRoutingDetailDao" resultType="com.busience.standard.dto.RoutingDto">
 		SELECT Item_Clsfc_1, Routing_No, Routing
-		FROM busience2.Routing_Info_tbl
+		FROM Routing_Info_tbl
 		where Item_Clsfc_1 = #{Item_Clsfc_1}
 	</select>
 	

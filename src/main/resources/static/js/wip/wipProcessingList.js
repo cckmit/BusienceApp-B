@@ -28,7 +28,13 @@ var wipProcessingListTable = new Tabulator("#wipProcessingListTable", {
 function customColumns(value){
 	var list = [
 		{title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
-		{title:"Lot번호", field:"wip_LotNo", headerHozAlign:"center", hozAlign:"center", headerFilter: "input"}
+		{title:"접두사", field:"wip_Prefix", visible:false},
+		{title:"Lot번호", field:"wip_LotNo", headerHozAlign:"center", hozAlign:"center", headerFilter: "input",
+			formatter: function(cell){
+				var prefix = cell.getRow().getData().wip_Prefix
+				return prefix + cell.getValue();
+			}
+		}
  	]
 	$.ajax({
 		method: "GET",
