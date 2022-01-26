@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
-import com.busience.wip.dto.WipLotMasterDto;
+import com.busience.standard.dto.ItemDto;
 import com.busience.wip.dto.WipLotTransDto;
 import com.busience.wip.service.WipLotManageService;
 
@@ -22,13 +22,23 @@ public class wipLotManageRestController {
 	
 
 	@GetMapping("/wipLotManageSelect")
-	public List<WipLotMasterDto> wipLotManageSelect(SearchDto searchDto) {
+	public List<WipLotTransDto> wipLotManageSelect(SearchDto searchDto) {
 		return wipLotManageService.wipLotManageList(searchDto);
 	}
 	
+	@GetMapping("/wipLastDataSelect")
+	public List<WipLotTransDto> wipLastDataSelect(SearchDto searchDto) {
+		return wipLotManageService.wipLastData(searchDto);
+	}
+	
+	@GetMapping("/wipLotManageSubSelect")
+	public List<ItemDto> wipLotManageSubSelect() {
+		return wipLotManageService.selectItemList();
+	}
+	
 	@GetMapping("/wipLabelPrint")
-	public WipLotMasterDto wipLabelPrint(WipLotMasterDto wipLotManageDto) {
-		return wipLotManageService.wipLabelPrint(wipLotManageDto);
+	public WipLotTransDto wipLabelPrint(ItemDto itemDto) {
+		return wipLotManageService.wipLabelPrint(itemDto);
 	}
 	
 	@GetMapping("/wipInOutListSelect")
@@ -53,23 +63,15 @@ public class wipLotManageRestController {
 	}
 	
 	@GetMapping("/wipLotMasterListSelect")
-	public List<WipLotMasterDto> wipLotMasterListSelect(SearchDto searchDto) {
-
-		return wipLotManageService.wipLotMasterList(searchDto);
+	public List<WipLotTransDto> wipLotMasterListSelect(WipLotTransDto wipLotTransDto) {
+		return wipLotManageService.wipLotMasterList(wipLotTransDto);
 	}
 	
 	@GetMapping("/wipProcessingListSelect")
-	public List<WipLotMasterDto> wipProcessingListSelect() {
-
-		return wipLotManageService.wipProcessingList();
+	public List<WipLotTransDto> wipProcessingListSelect(WipLotTransDto wipLotTransDto) {
+		return wipLotManageService.wipProcessingList(wipLotTransDto);
 	}
-	
-	@GetMapping("wipOutputRollbackCheck")
-	public WipLotMasterDto wipOutputRollbackCheck(SearchDto searchDto) {
 		
-		return wipLotManageService.wipOutputRollbackCheck(searchDto);
-	}
-	
 	@PostMapping("/wipInputRollback")
 	public int wipInputRollback(WipLotTransDto wipLotTransDto) {
 

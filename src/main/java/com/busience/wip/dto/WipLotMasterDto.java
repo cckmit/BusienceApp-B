@@ -9,11 +9,12 @@ import lombok.ToString;
 @ToString
 public class WipLotMasterDto {
 	
+	private String Wip_Prefix;
 	private String Wip_LotNo;
 	
-	private String Wip_Process;
+	private String Wip_Process_Type;
 	private String Wip_Process_Name;
-	private String Wip_Process_No;
+	private int Wip_Process_No;
 	
 	private String Wip_InputDate_P1;
 	private String Wip_OutputDate_P1;

@@ -29,4 +29,7 @@ public interface ItemDao {
 	
 	//품목코드로 검색
 	public ItemDto selectItemCode(String itemCode);
+	
+	//자재분류로 검색
+	public List<ItemDto> selectMaterialClsfc(String materialClsfc);
 }

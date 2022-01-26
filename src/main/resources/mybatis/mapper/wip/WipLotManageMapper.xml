@@ -6,32 +6,48 @@
 	
 <mapper namespace="com.busience.wip.dao.WipLotManageDao">
 
-	<select id="wipLotManageListDao" resultType="com.busience.wip.dto.WipLotMasterDto">
+	<select id="wipLotManageListDao" resultType="com.busience.wip.dto.WipLotTransDto">
 	<![CDATA[
-		SELECT
-			A.Wip_LotNo,
-			A.Wip_Process,
-			B.CHILD_TBL_TYPE Wip_Process_Name,
-			A.Wip_InputDate_P1
-			FROM (
-				select * from WipLotMaster_tbl where Wip_InputDate_P1 >= #{startDate} and Wip_InputDate_P1 < #{endDate}
-			) A
-			inner join DTL_TBL B on A.Wip_Process = B.CHILD_TBL_NO
+		SELECT A.Wip_LotNo,
+			A.Wip_Prefix, A.Wip_LotNo, A.Wip_Process_Type,
+			A.Wip_Process_No, C.Routing Wip_Process_Name,
+			A.Wip_InputDate
+		FROM WipLotTrans_tbl A
+		INNER JOIN (
+		    SELECT Wip_LotNo, max(Wip_Process_No) Wip_Process_No
+		    FROM WipLotTrans_tbl
+		    GROUP BY Wip_LotNo
+		) B ON A.Wip_LotNo = B.Wip_LotNo AND A.Wip_Process_No = B.Wip_Process_No
+		inner join Routing_Info_tbl C on A.Wip_Process_Type = C.Item_Clsfc_1 and A.Wip_Process_No = C.Routing_No
+		where Wip_InputDate >= #{startDate} and Wip_InputDate < #{endDate}
 	]]>		
+	</select>
+	
+	<!-- 해당 랏의 가장 마지막 데이터 -->
+	<select id="wipLastDataDao" resultType="com.busience.wip.dto.WipLotTransDto">
+		SELECT 
+			A.Wip_Prefix, A.Wip_LotNo, A.Wip_Process_Type,
+		    A.Wip_Process_No, B.Routing Wip_Process_Name,
+		    A.Wip_InputDate, A.Wip_OutputDate
+		FROM WipLotTrans_tbl A
+		inner join Routing_Info_tbl B on A.Wip_Process_Type = B.Item_Clsfc_1 and A.Wip_Process_No = B.Routing_No
+		where Wip_LotNo = #{LotNo}
+		order by A.Wip_Process_No desc
+		limit 1
 	</select>
 	
 	<insert id="wipLotMasterInsertDao">
 		insert into WipLotMaster_tbl(
-			Wip_LotNo, Wip_Process, Wip_InputDate_P1 
+			Wip_Prefix, Wip_LotNo, Wip_Process_Type, Wip_Process_No, Wip_InputDate_P1 
 		)values(
-			#{Wip_LotNo}, #{Wip_Process}, #{Wip_InputDate_P1}
+			#{Wip_Prefix}, #{Wip_LotNo}, #{Wip_Process_Type}, #{Wip_Process_No}, #{Wip_InputDate_P1}
 		)
 	</insert>
 	
 	<update id="wipLotMasterUpdateDao">
 		update WipLotMaster_tbl
 			set
-			Wip_Process = #{Wip_Process},
+			Wip_Process_Type = #{Wip_Process_Type},
 			Wip_InputDate_P1 = #{Wip_InputDate_P1},
 			Wip_OutputDate_P1 = #{Wip_OutputDate_P1},
 			Wip_InputDate_P2 = #{Wip_InputDate_P2},
@@ -45,19 +61,21 @@
 			where Wip_LotNo = #{Wip_LotNo}
 	</update>
 	
+	<!-- 입고 -->
 	<insert id="wipLotTransInsertDao">
 		insert into WipLotTrans_tbl(
-			Wip_LotNo, Wip_Process, Wip_InputDate
+			Wip_Prefix, Wip_LotNo, Wip_Process_Type, Wip_Process_No, Wip_InputDate
 		)values(
-			#{Wip_LotNo}, #{Wip_Process}, #{Wip_InputDate}
+			#{Wip_Prefix}, #{Wip_LotNo}, #{Wip_Process_Type}, #{Wip_Process_No}, now()
 		)
 	</insert>
 	
+	<!-- 출고 -->
 	<update id="wipLotTransUpdateDao">
 		update WipLotTrans_tbl
 		set
-		Wip_OutputDate = #{Wip_OutputDate}
-		where Wip_LotNo = #{Wip_LotNo} and Wip_Process = #{Wip_Process};
+			Wip_OutputDate = #{Wip_OutputDate}
+		where Wip_LotNo = #{Wip_LotNo} and Wip_Process_No = #{Wip_Process_No};
 	</update>
 	
 	<select id="wipLotManageListCountDao" resultType="int">
@@ -66,115 +84,80 @@
 	]]>		
 	</select>
 	
+	<!-- 공정중인 데이터 -->
 	<select id="wipInOutListDao" resultType="com.busience.wip.dto.WipLotTransDto">
 		SELECT 
-			A.Wip_LotNo, A.Wip_Process, B.CHILD_TBL_TYPE Wip_Process_Name, A.Wip_InputDate, A.Wip_OutputDate
-			FROM (
-				select * from WipLotTrans_tbl where Wip_OutputDate is null
-			) A
-			inner join DTL_TBL B on A.Wip_Process = B.CHILD_TBL_NO;
+			A.Wip_Prefix, A.Wip_LotNo, A.Wip_Process_Type, B.Routing Wip_Process_Name,
+			A.Wip_Process_No, A.Wip_InputDate, A.Wip_OutputDate
+		FROM (
+			select * from WipLotTrans_tbl where Wip_OutputDate is null
+		) A
+		inner join Routing_Info_tbl B on A.Wip_Process_Type = B.Item_Clsfc_1 and A.Wip_Process_No = B.Routing_No
+		group by A.Wip_LotNo;
 	</select>
 	
+	<!-- 입고한 데이터 -->
 	<select id="wipInputListDao" resultType="com.busience.wip.dto.WipLotTransDto">
 	<![CDATA[
 		SELECT 
-			A.Wip_LotNo, A.Wip_Process, B.CHILD_TBL_TYPE Wip_Process_Name, A.Wip_InputDate, A.Wip_OutputDate
-			FROM (
-				select * from WipLotTrans_tbl where Wip_InputDate >= #{startDate} and Wip_InputDate < #{endDate}
-			) A
-			inner join DTL_TBL B on A.Wip_Process = B.CHILD_TBL_NO
+			A.Wip_Prefix, A.Wip_LotNo, A.Wip_Process_Type, B.Routing Wip_Process_Name,
+			A.Wip_Process_No, A.Wip_InputDate, A.Wip_OutputDate
+		FROM (
+			select * from WipLotTrans_tbl where Wip_InputDate >= #{startDate} and Wip_InputDate < #{endDate}
+		) A
+		inner join Routing_Info_tbl B on A.Wip_Process_Type = B.Item_Clsfc_1 and A.Wip_Process_No = B.Routing_No
 	]]>
 	</select>
 	
+	<!-- 출고한 데이터 -->	
 	<select id="wipOutputListDao" resultType="com.busience.wip.dto.WipLotTransDto">
 	<![CDATA[
 		SELECT 
-			A.Wip_LotNo, A.Wip_Process, B.CHILD_TBL_TYPE Wip_Process_Name, A.Wip_InputDate, A.Wip_OutputDate
-			FROM (
-				select * from WipLotTrans_tbl where Wip_OutputDate >= #{startDate} and Wip_OutputDate < #{endDate}
-			) A
-			inner join DTL_TBL B on A.Wip_Process = B.CHILD_TBL_NO
+			A.Wip_Prefix, A.Wip_LotNo, A.Wip_Process_Type, B.Routing Wip_Process_Name, A.Wip_InputDate, A.Wip_OutputDate
+		FROM (
+			select * from WipLotTrans_tbl where Wip_OutputDate >= #{startDate} and Wip_OutputDate < #{endDate}
+		) A
+		inner join Routing_Info_tbl B on A.Wip_Process_Type = B.Item_Clsfc_1 and A.Wip_Process_No = B.Routing_No
 	]]>
 	</select>
 	
-	<select id="wipLotMasterListDao" resultType="com.busience.wip.dto.WipLotMasterDto">
+	<select id="wipLotMasterListDao" resultType="com.busience.wip.dto.WipLotTransDto">
 	<![CDATA[
 		SELECT
-			A.Wip_LotNo, A.Wip_Process, B.CHILD_TBL_RMARK Wip_Process_No,
-			A.Wip_InputDate_P1, A.Wip_OutputDate_P1,
-			A.Wip_InputDate_P2, A.Wip_OutputDate_P2,
-			A.Wip_InputDate_P3, A.Wip_OutputDate_P3,
-			A.Wip_InputDate_P4, A.Wip_OutputDate_P4,
-			A.Wip_InputDate_P5, A.Wip_OutputDate_P5
-			FROM (
-				select * from WipLotMaster_tbl where Wip_LotNo like concat('%',#{lotNo},'%')
-			) A
-			inner join DTL_TBL B on A.Wip_Process = B.CHILD_TBL_NO
-			order by A.Wip_LotNo asc
+			A.Wip_Prefix, A.Wip_LotNo,
+		    A.Wip_Process_No Wip_Process_No_1, A.Wip_InputDate wip_InputDate_P1, A.Wip_OutputDate wip_OutputDate_P1,
+		    B.Wip_Process_No Wip_Process_No_2, B.Wip_InputDate wip_InputDate_P2, B.Wip_OutputDate wip_OutputDate_P2,
+		    C.Wip_Process_No Wip_Process_No_3, C.Wip_InputDate wip_InputDate_P3, C.Wip_OutputDate wip_OutputDate_P3,
+		    D.Wip_Process_No Wip_Process_No_4, D.Wip_InputDate wip_InputDate_P4, D.Wip_OutputDate wip_OutputDate_P4,
+		    E.Wip_Process_No Wip_Process_No_5, E.Wip_InputDate wip_InputDate_P5, E.Wip_OutputDate wip_OutputDate_P5
+		FROM WipLotTrans_tbl A
+		left outer join (select Wip_LotNo, Wip_Process_No, Wip_InputDate, Wip_OutputDate from WipLotTrans_tbl where Wip_Process_No = 2) B on A.Wip_LotNo = B.Wip_LotNo
+		left outer join (select Wip_LotNo, Wip_Process_No, Wip_InputDate, Wip_OutputDate from WipLotTrans_tbl where Wip_Process_No = 3) C on A.Wip_LotNo = C.Wip_LotNo
+		left outer join (select Wip_LotNo, Wip_Process_No, Wip_InputDate, Wip_OutputDate from WipLotTrans_tbl where Wip_Process_No = 4) D on A.Wip_LotNo = D.Wip_LotNo
+		left outer join (select Wip_LotNo, Wip_Process_No, Wip_InputDate, Wip_OutputDate from WipLotTrans_tbl where Wip_Process_No = 5) E on A.Wip_LotNo = E.Wip_LotNo
+		where Wip_Process_Type = #{Wip_Process_Type} and A.Wip_Process_No = 1;
 	]]>	
 	</select>
 	
-	<select id="wipProcessingListDao" resultType="com.busience.wip.dto.WipLotMasterDto">
+	<select id="wipProcessingListDao" resultType="com.busience.wip.dto.WipLotTransDto">
 	<![CDATA[
 		SELECT
-			A.Wip_LotNo, A.Wip_Process, B.CHILD_TBL_TYPE Wip_Process_Name,
-			A.Wip_InputDate_P1, A.Wip_OutputDate_P1,
-			A.Wip_InputDate_P2, A.Wip_OutputDate_P2,
-			A.Wip_InputDate_P3, A.Wip_OutputDate_P3,
-			A.Wip_InputDate_P4, A.Wip_OutputDate_P4,
-			A.Wip_InputDate_P5, A.Wip_OutputDate_P5
-			FROM (
-				select * from WipLotMaster_tbl where Wip_Process <= #{endProcessCode}
-			) A
-			inner join DTL_TBL B on A.Wip_Process = B.CHILD_TBL_NO
-			order by A.Wip_LotNo asc
+			A.Wip_Prefix, A.Wip_LotNo,
+		    A.Wip_Process_No Wip_Process_No_1, A.Wip_InputDate wip_InputDate_P1, A.Wip_OutputDate wip_OutputDate_P1,
+		    B.Wip_Process_No Wip_Process_No_2, B.Wip_InputDate wip_InputDate_P2, B.Wip_OutputDate wip_OutputDate_P2,
+		    C.Wip_Process_No Wip_Process_No_3, C.Wip_InputDate wip_InputDate_P3, C.Wip_OutputDate wip_OutputDate_P3,
+		    D.Wip_Process_No Wip_Process_No_4, D.Wip_InputDate wip_InputDate_P4, D.Wip_OutputDate wip_OutputDate_P4,
+		    E.Wip_Process_No Wip_Process_No_5, E.Wip_InputDate wip_InputDate_P5, E.Wip_OutputDate wip_OutputDate_P5
+		FROM WipLotTrans_tbl A
+		left outer join (select Wip_LotNo, Wip_Process_No, Wip_InputDate, Wip_OutputDate from WipLotTrans_tbl where Wip_Process_No = 2) B on A.Wip_LotNo = B.Wip_LotNo
+		left outer join (select Wip_LotNo, Wip_Process_No, Wip_InputDate, Wip_OutputDate from WipLotTrans_tbl where Wip_Process_No = 3) C on A.Wip_LotNo = C.Wip_LotNo
+		left outer join (select Wip_LotNo, Wip_Process_No, Wip_InputDate, Wip_OutputDate from WipLotTrans_tbl where Wip_Process_No = 4) D on A.Wip_LotNo = D.Wip_LotNo
+		left outer join (select Wip_LotNo, Wip_Process_No, Wip_InputDate, Wip_OutputDate from WipLotTrans_tbl where Wip_Process_No = 5) E on A.Wip_LotNo = E.Wip_LotNo
+		where Wip_Process_Type = #{Wip_Process_Type} and A.Wip_Process_No = 1 and E.Wip_OutputDate is null;
 	]]>	
 	</select>
 	
 	<delete id="wipLotTransDeleteDao">
-		delete from WipLotTrans_tbl where Wip_LotNo = #{Wip_LotNo} and Wip_Process = #{Wip_Process}
+		delete from WipLotTrans_tbl where Wip_LotNo = #{Wip_LotNo} and Wip_Process_No = #{Wip_Process_No}
 	</delete>
-	
-	<update id="wipInputRollbackDao">
-		update WipLotMaster_tbl
-			set
-			<if test="Wip_Process_No == 0">
-				Wip_InputDate_P1 = null
-			</if>
-			<if test="Wip_Process_No == 1">
-				Wip_InputDate_P2 = null
-			</if>
-			<if test="Wip_Process_No == 2">
-				Wip_InputDate_P3 = null
-			</if>
-			<if test="Wip_Process_No == 3">
-				Wip_InputDate_P4 = null
-			</if>
-			<if test="Wip_Process_No == 4">
-				Wip_InputDate_P5 = null
-			</if>
-			where Wip_LotNo = #{Wip_LotNo}
-	</update>
-	
-	<update id="wipOutputRollbackDao">
-		update WipLotMaster_tbl
-			set
-			Wip_Process = #{Wip_Process},
-			<if test="Wip_Process_No == 0">
-				Wip_OutputDate_P1 = null
-			</if>
-			<if test="Wip_Process_No == 1">
-				Wip_OutputDate_P2 = null
-			</if>
-			<if test="Wip_Process_No == 2">
-				Wip_OutputDate_P3 = null
-			</if>
-			<if test="Wip_Process_No == 3">
-				Wip_OutputDate_P4 = null
-			</if>
-			<if test="Wip_Process_No == 4">
-				Wip_OutputDate_P5 = null
-			</if>
-			where Wip_LotNo = #{Wip_LotNo}
-	</update>
 </mapper>

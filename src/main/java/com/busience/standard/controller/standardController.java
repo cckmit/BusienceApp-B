@@ -126,6 +126,12 @@ public class standardController {
 		return "standard/defectManage";
 	}
 	
+	@GetMapping("routingManage")
+	public String routing(Model model){
+		model.addAttribute("pageName", "라우팅 관리");
+		return "standard/routingManage";
+	}
+	
 	@GetMapping("BOM")
 	public String BOM(Model model) {
 		

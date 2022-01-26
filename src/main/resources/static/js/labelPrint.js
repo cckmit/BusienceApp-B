@@ -66,14 +66,17 @@ function writeToSelectedPrinter()
 
 function CustomLabelPrinter(value)
 {
-	var dtlCode = dtlSelectList(32);
-	
-	var printCode = "^XA"
+	//재공 출력물 양식 반영
+	var routingList = routingSelectList();
+
+	for(let i=0;i<routingList.length;i++){
+		if(routingList[i].item_Clsfc_1 == value.wip_Process_Type){
+			var printCode = "^XA"
 					+"^CFJ,50^SEE:UHANGUL.DAT^FS"
 					+"^CW1,E:KFONT3.FNT^CI28^FS"
 					+"^FO6,20^GB603,71,71^FS"
-					+"^FT155,77^A0N,56,69^FB603,1,0^FR^FH\^FD"+value.wip_LotNo+"^FS"
-					+"^FT27,132^A1N,39,39^FD발행일: "+value.wip_InputDate_P1+"^FS"
+					+"^FT155,77^A0N,56,69^FB603,1,0^FR^FH\^FD"+value.wip_Prefix+value.wip_LotNo+"^FS"
+					+"^FT27,132^A1N,39,39^FD발행일: "+value.wip_InputDate+"^FS"
 					+"^FO6,150^GB603,0,1^FS"
 					+"^FO6,261^GB603,0,1^FS"
 					+"^FO6,306^GB603,0,1^FS"
@@ -82,25 +85,29 @@ function CustomLabelPrinter(value)
 					+"^FO246,150^GB0,156,1^FS"
 					+"^FO367,150^GB0,156,1^FS"
 					+"^FO488,150^GB0,156,1^FS"
-					+"^FO608,150^GB0,156,1^FS";
-	for(let i=0;i<dtlCode.length;i++){
-		if(i>=5){
-			break;
-		}
-		if(dtlCode[i].child_TBL_TYPE.length==1){
-			dtlCode[i].child_TBL_TYPE = "   "+dtlCode[i].child_TBL_TYPE+"   "
-		}else if(dtlCode[i].child_TBL_TYPE.length==2){
-			dtlCode[i].child_TBL_TYPE = "  "+dtlCode[i].child_TBL_TYPE+"  "
-		}else if(dtlCode[i].child_TBL_TYPE.length==3){
-			dtlCode[i].child_TBL_TYPE = " "+dtlCode[i].child_TBL_TYPE+" "
-		}
-		printCode += "^FT"+(11+120*i)+",295^A1N,32,28^FD"+dtlCode[i].child_TBL_TYPE+"^FS"
-	}
-		printCode += "^BY3,3,69^FT42,384^B3N,N,,N,N"
+					+"^FO608,150^GB0,156,1^FS"
+					+"^FT11,295^A1N,32,28^FD"+spaceAdd(routingList[i].routing_1)+"^FS"
+					+"^FT131,295^A1N,32,28^FD"+spaceAdd(routingList[i].routing_2)+"^FS"
+					+"^FT251,295^A1N,32,28^FD"+spaceAdd(routingList[i].routing_3)+"^FS"
+					+"^FT371,295^A1N,32,28^FD"+spaceAdd(routingList[i].routing_4)+"^FS"
+					+"^FT491,295^A1N,32,28^FD"+spaceAdd(routingList[i].routing_5)+"^FS"
+					+"^BY3,3,69^FT50,384^B3N,N,,N,N"
 					+"^FD"+value.wip_LotNo+"^FS"
 					+"^XZ";
+			selected_device.send(printCode, undefined, errorCallback);
+		}		
+	}
+}
 
-	selected_device.send(printCode, undefined, errorCallback);
+function spaceAdd(word){
+    if(word.length==1){
+        word = "   "+word+"   "
+    }else if(word.length==2){
+        word = "  "+word+"  "
+    }else if(word.length==3){
+        word = " "+word+" "
+    }
+	return word
 }
 
 function salesInputPrinter(jsonDatas)

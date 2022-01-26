@@ -10,7 +10,6 @@
 			<li class="two"><a href="#div2">출고현황(품목)</a></li>
 			<li class="three"><a href="#div3">출고현황(부서)</a></li>
 			<li class="four"><a href="#div4">부서별명세서</a></li>
-			<li class="five"><a href="#div5">판매출고상세조회</a></li>
 			<li class="shadow"></li>
 		</ul>
 
@@ -24,8 +23,6 @@
 							page="matOutputDeptViewLX.jsp" /></div></li>
 				<li><div id="div4"><jsp:include
 							page="matOutputDeliveryListLX.jsp" /></div></li>
-				<li><div id="div5"><jsp:include
-							page="matOutputSalesListLX.jsp" /></div></li>
 			</ol>
 		</div>
 	</div>

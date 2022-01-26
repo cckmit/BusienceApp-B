@@ -17,9 +17,6 @@ public class DefectService {
 	@Autowired
 	DefectDao defectDao;
 	
-	@Autowired
-	TransactionTemplate transactionTemplate;
-	
 	//조회
 	public List<DefectInfoDto> selectDefectList() {
 		return defectDao.selectDefectListDao();

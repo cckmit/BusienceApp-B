@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.busience.standard.dao.RoutingDao">
+	<select id="selectRoutingListDao" resultType="com.busience.standard.dto.RoutingDto">
+		select 
+			A.Item_Clsfc_1, F.CHILD_TBL_TYPE Item_Clsfc_1_Name,
+		    A.Routing Routing_1,
+		    (select Routing from Routing_Info_tbl where Item_Clsfc_1 = A.Item_Clsfc_1 and Routing_No = 2) Routing_2,
+			(select Routing from Routing_Info_tbl where Item_Clsfc_1 = A.Item_Clsfc_1 and Routing_No = 3) Routing_3,
+		    (select Routing from Routing_Info_tbl where Item_Clsfc_1 = A.Item_Clsfc_1 and Routing_No = 4) Routing_4,
+		    (select Routing from Routing_Info_tbl where Item_Clsfc_1 = A.Item_Clsfc_1 and Routing_No = 5) Routing_5,
+		    F.CHILD_TBL_USE_STATUS Use_Status
+		from Routing_Info_tbl A
+		left outer join DTL_TBL F on A.Item_Clsfc_1 = F.CHILD_TBL_NO
+		where A.Routing_No = 1
+		order by A.Item_Clsfc_1*1;
+	</select>
+	
+	<select id="selectRoutingDetailDao" resultType="com.busience.standard.dto.RoutingDto">
+		SELECT Item_Clsfc_1, Routing_No, Routing
+		FROM busience2.Routing_Info_tbl
+		where Item_Clsfc_1 = #{Item_Clsfc_1}
+	</select>
+	
+	<insert id="insertRoutingDao">
+		insert into Routing_Info_tbl 
+			values (
+			 #{Item_Clsfc_1}, #{Routing_No}, #{Routing}
+			)
+			on duplicate key update
+			Routing = #{Routing}
+	</insert>
+	
+	<update id="updateRoutingDao">
+		update DTL_TBL
+			set
+			CHILD_TBL_TYPE = #{Item_Clsfc_1_Name},
+			CHILD_TBL_USE_STATUS = #{Use_Status}
+			where CHILD_TBL_NO = #{Item_Clsfc_1}
+	</update>
+</mapper>

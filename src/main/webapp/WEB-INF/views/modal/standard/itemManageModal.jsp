@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- Update Modal -->
 <div class="modal fade" id="itemManageModal" tabindex="-1" role="dialog"
@@ -76,37 +75,41 @@
 							<div class="col-sm-5">
 								<input type="number" style="width: 80%; height: 25px;" value="0"
 									class="form-control-plaintext" id="product_UNIT_PRICE"
-									OnKeyDown="nextFocus('product_UNIT')">
+									OnKeyDown="nextFocus('product_MULTIPLE')">
 							</div>
 						</div>
 					</fieldset>
 					<br>
 					<fieldset>
 						<div>
-							<label class="col-sm-4 control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;단&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;위</label>
-							<label class="col-sm-4 control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;재&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;질</label>
-							<label class="col-sm-4 control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;자&nbsp;재&nbsp;분&nbsp;류</label>
+							<label class="col-sm-3 control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;배&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;수</label>
+							<label class="col-sm-3 control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;단&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;위</label>
+							<label class="col-sm-3 control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;재&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;질</label>
+							<label class="col-sm-3 control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;자&nbsp;재&nbsp;분&nbsp;류</label>
 						</div>
 						<br>
 						<div style="">
-							<div class="col-sm-4">
-								<select id="product_UNIT" style="width: 80%; height: 25px;"
+							<div class="col-sm-3">
+								<input type="number" value="1" id="product_MULTIPLE" style="width: 100%; height: 25px;" OnKeyDown="nextFocus('product_UNIT')">
+							</div>
+							<div class="col-sm-3">
+								<select id="product_UNIT" style="width: 100%; height: 25px;"
 								OnKeyDown="nextFocus('product_MATERIAL')">
 									<c:forEach var="data" items="${unitList}">
 										<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>
 									</c:forEach>
 								</select>
 							</div>
-							<div class="col-sm-4">
-								<select id="product_MATERIAL" style="width: 80%; height: 25px;"
+							<div class="col-sm-3">
+								<select id="product_MATERIAL" style="width: 100%; height: 25px;"
 								OnKeyDown="nextFocus('product_MTRL_CLSFC')">
 									<c:forEach var="data" items="${materialList}">
 										<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>
 									</c:forEach>
 								</select>
 							</div>
-							<div class="col-sm-4">
-								<select id="product_MTRL_CLSFC" style="width: 80%; height: 27px;"
+							<div class="col-sm-3">
+								<select id="product_MTRL_CLSFC" style="width: 100%; height: 25px;"
 								OnKeyDown="nextFocus('product_ITEM_CLSFC_1')">
 									<c:forEach var="data" items="${mtrlClsfcList}">
 										<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>
@@ -120,7 +123,6 @@
 							<label class="col-sm-3 control-label">&nbsp;&nbsp;&nbsp;&nbsp;품&nbsp;목&nbsp;분&nbsp;류2</label>
 							<label class="col-sm-3 control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;품&nbsp;목&nbsp;상&nbsp;태</label>
 							<label class="col-sm-3 control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;기&nbsp;본&nbsp;창&nbsp;고</label>
-
 						</div>
 						<br>
 						<div style="padding: auto; margin: 0px;">

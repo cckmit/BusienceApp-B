@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import com.busience.standard.dao.ItemDao;
 import com.busience.standard.dto.ItemDto;
@@ -16,9 +15,6 @@ public class ItemService {
 
 	@Autowired
 	ItemDao itemDao;
-	
-	@Autowired
-	TransactionTemplate transactionTemplate;
 	
 	//조회
 	public List<ItemDto> selectItemList() {

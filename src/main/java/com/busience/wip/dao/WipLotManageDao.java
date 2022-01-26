@@ -5,20 +5,16 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.busience.common.dto.SearchDto;
-import com.busience.wip.dto.WipLotMasterDto;
 import com.busience.wip.dto.WipLotTransDto;
 
 @Mapper
 public interface WipLotManageDao {
 	
 	//wipLotManageListDao
-	public List<WipLotMasterDto> wipLotManageListDao(SearchDto searchDto);
+	public List<WipLotTransDto> wipLotManageListDao(SearchDto searchDto);
 	
-	//wipLotManageInsertDao
-	public int wipLotMasterInsertDao(WipLotMasterDto wipLotManageDto);
-	
-	//wipLotMasterUpdateDao
-	public int wipLotMasterUpdateDao(WipLotMasterDto wipLotMasterDto);
+	//wipLastDataDao
+	public List<WipLotTransDto> wipLastDataDao(SearchDto searchDto);
 	
 	//wipLotTransInsertDao
 	public int wipLotTransInsertDao(WipLotTransDto wipLotTransDto);
@@ -28,6 +24,9 @@ public interface WipLotManageDao {
 	
 	//wipLotManageListCountDao
 	public int wipLotManageListCountDao(String wip_Create_Date);
+	
+	//wipLastDataDao
+	public WipLotTransDto wipLastDataDao(String wip_LotNo);
 	
 	//wipInOutDao
 	public List<WipLotTransDto> wipInOutListDao();
@@ -39,17 +38,11 @@ public interface WipLotManageDao {
 	public List<WipLotTransDto> wipOutputListDao(SearchDto searchDto);
 	
 	//wipLotMasterListDao
-	public List<WipLotMasterDto> wipLotMasterListDao(SearchDto searchDto);
+	public List<WipLotTransDto> wipLotMasterListDao(WipLotTransDto wipLotTransDto);
 	
 	//wipProcessingListDao
-	public List<WipLotMasterDto> wipProcessingListDao(String endProcessCode);
+	public List<WipLotTransDto> wipProcessingListDao(WipLotTransDto wipLotTransDto);
 	
 	//wipLotTransDelete
 	public int wipLotTransDeleteDao(WipLotTransDto wipLotTransDto);
-	
-	//wipInputRollbackDao
-	public int wipInputRollbackDao(WipLotTransDto wipLotTransDt);
-	
-	//wipOutputRollbackDao
-	public int wipOutputRollbackDao(WipLotTransDto wipLotTransDt);
 }

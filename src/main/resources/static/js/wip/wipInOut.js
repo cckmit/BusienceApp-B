@@ -6,53 +6,64 @@ $("#wipLotNo").keypress(function(e){
 })
 
 function LotNoCheck(LotNo){
-	if(LotNo.length == 9){
-		var thisValue = processCheck(LotNo)
-		console.log(thisValue);
-		if(thisValue){
-			
-			var tableData = wipManageTable.getData();
-			
-			var resultCheck = tableData.some(function(currentValue, index, array){
-				return (thisValue.wip_LotNo == currentValue.wip_LotNo);
-			})
-			if(resultCheck){
-				if(confirm("Lot번호 "+thisValue.wip_LotNo+"의 현재 공정은 '"+thisValue.wip_Process_Name+"' 입니다.\r\n출고 하시겠습니까?")){
-					wipInOutInsert(thisValue.wip_LotNo)
-				}
-			}else{
-				if(confirm("Lot번호 "+thisValue.wip_LotNo+"의 다음 공정은 '"+thisValue.wip_Process_Name+"' 입니다.\r\n입고 하시겠습니까?")){
-					wipInOutInsert(thisValue.wip_LotNo)
-				}
-			}
-							
-		}else{
-			alert( "Lot번호 "+LotNo+"는 이미 공정이 완료되었거나, 존재하지 않는 LotNo입니다.");
-		}
-	}else{
+	if(LotNo.length != 9){
 		alert("Lot번호 "+LotNo+"는 잘못된 Lot번호 입니다.");
+		return false;
 	}
+	$.when(processCheck(LotNo))
+	.then(function(data){
+		if(data.length == 0){
+			alert( "Lot번호 "+LotNo+"는 존재하지 않는 LotNo입니다.");
+			return false;
+		}
+		//출고시간이 비어있으면 출고, 아니면 입고
+		if(data[0].wip_OutputDate == null){
+			if(confirm("Lot번호 "+data[0].wip_LotNo+"의 현재 공정은 '"+data[0].wip_Process_Name+"' 입니다.\r\n출고 하시겠습니까?")){
+				wipInOutInsert(data[0].wip_LotNo)
+			}
+		}else{
+			//입고하는데 만약 순번이 5번째면 입고하면 안됨
+			if(data[0].wip_Process_No != 5){
+				nextProcess(data[0])
+				if(confirm("Lot번호 "+data[0].wip_LotNo+"의 다음 공정은 '"+data[0].wip_Process_Name+"' 입니다.\r\n입고 하시겠습니까?")){
+					wipInOutInsert(data[0].wip_LotNo)
+				}	
+			}else{
+				alert( "Lot번호 "+LotNo+"는 이미 공정이 완료되었습니다.");
+			}
+		}
+	})
 }
 
 //공정과정중인 재공품인지 확인
 function processCheck(value){
-	var result
-	var resultCheck
-	$.ajax({
+	var ajaxResult = $.ajax({
 		method : "get",
-		url : "wipLotManageRest/wipProcessingListSelect",
-		async: false,
+		data : {lotNo : value},
+		url : "wipLotManageRest/wipLastDataSelect",
 		success : function(data) {
-			console.log(data)
-			resultCheck = data.some(function(currentValue, index, array){
-				result = currentValue
-				return (value == currentValue.wip_LotNo);
-			})
 		}
 	});
-	if(resultCheck){
-		return result;
-	}
+	return ajaxResult
+}
+
+//다음 공정을 가져옴
+function nextProcess(values){
+	var beforData = values;
+	$.ajax({
+		method : "get",
+		data : {Item_Clsfc_1 : values.wip_Process_Type},
+		url : "routingManageRest/routingManageDetail",
+		async : false,
+		success : function(data) {
+			for(let i=0;i<data.length-1;i++){
+				if(data[i].routing_No == beforData.wip_Process_No){
+					beforData.wip_Process_Name = data[i+1].routing
+				}
+			}
+		}
+	});
+	return beforData
 }
 
 $("#wipLotNo").blur(function(){
@@ -83,55 +94,43 @@ function wipInOutInsert(datas){
 
 function wipInputRollback(row){
 	var datas = row.getData();
-
+	
 	if(datas.wip_OutputDate){
-		alert("출고내역이 있는 행은 취소 할 수 없습니다.")
-	}else{
-		if(confirm("Lot번호 "+datas.wip_LotNo+"의 '"+datas.wip_Process_Name+"' 입고를 취소하시겠습니까?")){
-			
-			$.ajax({
-				method : "POST",
-				url : "wipLotManageRest/wipInputRollback",
-				data : datas,
-				beforeSend: function (xhr) {
-		           var header = $("meta[name='_csrf_header']").attr("content");
-		           var token = $("meta[name='_csrf']").attr("content");
-		           xhr.setRequestHeader(header, token);
-				},
-				success : function(data) {
-					wipManageTable.replaceData();
-					WI_Search();
-					WO_Search();
-				}
-			});		
-		}
+		alert("출고상태인 품목은 입고취소 할 수 없습니다.")
+		return false;
+	}
+	if(confirm("Lot번호 "+datas.wip_LotNo+"의 '"+datas.wip_Process_Name+"' 입고를 취소하시겠습니까?")){
+		
+		$.ajax({
+			method : "POST",
+			url : "wipLotManageRest/wipInputRollback",
+			data : datas,
+			beforeSend: function (xhr) {
+	           var header = $("meta[name='_csrf_header']").attr("content");
+	           var token = $("meta[name='_csrf']").attr("content");
+	           xhr.setRequestHeader(header, token);
+			},
+			success : function(data) {
+				wipManageTable.replaceData();
+				WI_Search();
+				WO_Search();
+			}
+		});		
 	}
 }
 
 function wipOutputRollback(row){
-	var datas = row.getData();
-
-	var checkData
-	
-	$.ajax({
-		method : "get",
-		url : "wipLotManageRest/wipOutputRollbackCheck",
-		async : false,
-		data : {LotNo : datas.wip_LotNo},
-		success : function(data) {
-			checkData = data
+	$.when(processCheck(row.getData().wip_LotNo))
+	.then(function(data){
+		if(data[0].wip_OutputDate == null){
+			alert("입고상태인 품목은 출고취소 할 수 없습니다.");
+			return false;
 		}
-	});
-	
-	if(checkData == null){
-		alert("입고내역이 있는 행은 취소 할 수 없습니다.")
-	}else{
-		if(confirm("Lot번호 "+checkData.wip_LotNo+"의 '"+checkData.wip_Process_Name+"' 출고를 취소하시겠습니까?")){
-		
+		if(confirm("Lot번호 "+data[0].wip_LotNo+"의 '"+data[0].wip_Process_Name+"' 출고를 취소하시겠습니까?")){
 			$.ajax({
 				method : "POST",
 				url : "wipLotManageRest/wipOutputRollback",
-				data : checkData,
+				data : data[0],
 				beforeSend: function (xhr) {
 			       var header = $("meta[name='_csrf_header']").attr("content");
 			       var token = $("meta[name='_csrf']").attr("content");
@@ -143,8 +142,8 @@ function wipOutputRollback(row){
 					WO_Search();
 				}
 			});
-		}		
-	}
+		}
+	})
 }
 
 var customInOutReceiver = function(fromRow, toRow, toTable){
@@ -175,7 +174,13 @@ var wipManageTable = new Tabulator("#wipManageTable", {
 	{title:"창고 내 재공품", headerHozAlign:"center",
 		columns:[
 		{title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
-		{title:"Lot번호", field:"wip_LotNo", headerHozAlign:"center", hozAlign:"center"},
+		{title:"접두사", field:"wip_Prefix", visible:false},
+		{title:"Lot번호", field:"wip_LotNo", headerHozAlign:"center", hozAlign:"center",
+			formatter: function(cell){
+				var prefix = cell.getRow().getData().wip_Prefix
+				return prefix + cell.getValue();
+			}
+		},
 		{title:"공정단계", field:"wip_Process_Name", headerHozAlign:"center", hozAlign:"center"},
 		{title:"입고시간", field:"wip_InputDate", headerHozAlign:"center"},
 		{title:"보관기간", field:"wip_SaveTime", headerHozAlign:"center", hozAlign:"center"}]
@@ -194,7 +199,13 @@ var wipInputTable = new Tabulator("#wipInputTable", {
 	{title:"오늘 입고 된 재공품", headerHozAlign:"center",
 		columns:[
 		{title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
-		{title:"Lot번호", field:"wip_LotNo", headerHozAlign:"center", hozAlign:"center"},
+		{title:"접두사", field:"wip_Prefix", visible:false},
+		{title:"Lot번호", field:"wip_LotNo", headerHozAlign:"center", hozAlign:"center",
+			formatter: function(cell){
+				var prefix = cell.getRow().getData().wip_Prefix
+				return prefix + cell.getValue();
+			}
+		},
 		{title:"공정단계", field:"wip_Process_Name", headerHozAlign:"center", hozAlign:"center"},
 	 	{title:"입고시간", field:"wip_InputDate", headerHozAlign:"center"}
 		]
@@ -213,7 +224,13 @@ var wipOutputTable = new Tabulator("#wipOutputTable", {
 	{title:"오늘 출고 된 재공품", headerHozAlign:"center",
 		columns:[
 		{title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
-		{title:"Lot번호", field:"wip_LotNo", headerHozAlign:"center", hozAlign:"center"},
+		{title:"접두사", field:"wip_Prefix", visible:false},
+		{title:"Lot번호", field:"wip_LotNo", headerHozAlign:"center", hozAlign:"center",
+			formatter: function(cell){
+				var prefix = cell.getRow().getData().wip_Prefix
+				return prefix + cell.getValue();
+			}
+		},
 		{title:"공정단계", field:"wip_Process_Name", headerHozAlign:"center", hozAlign:"center"},
 		{title:"출고시간", field:"wip_OutputDate", headerHozAlign:"center"}
 		]
@@ -222,8 +239,6 @@ var wipOutputTable = new Tabulator("#wipOutputTable", {
 });
 
 function WI_Search(){
-	console.log(today);
-	console.log(tomorrow);
 	wipInputTable.setData("wipLotManageRest/wipInputListSelect",
 	{startDate:today.toISOString().substring(0, 10), endDate:tomorrow.toISOString().substring(0, 10)});
 }
