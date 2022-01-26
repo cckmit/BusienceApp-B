@@ -96,8 +96,6 @@ $("#itemRegisterBtn").click(function(){
 })
 
 function itemRegister() {
-	var datas = fromInputToJson(pickValue)
-	/*
 	var datas = {
 		PRODUCT_BUSINESS_PLACE: $("#product_BUSINESS_PLACE").val(),
 		PRODUCT_ITEM_CODE: $("#product_ITEM_CODE").val(),
@@ -118,7 +116,7 @@ function itemRegister() {
 		PRODUCT_BUYER: $("#product_BUYER").val(),
 		PRODUCT_WRHSN_INSPC: $("#product_WRHSN_INSPC").is(":checked"),
 		PRODUCT_USE_STATUS: $("#product_USE_STATUS").is(":checked")
-	};*/
+	};
 	
 	if (datas.PRODUCT_ITEM_CODE.length != 6) {
 		alert("품목코드는 6글자로 입력해야 합니다.");
@@ -187,7 +185,7 @@ $("#itemModifyBtn").click(function(){
 
 function itemModify() {
 	var datas = fromInputToJson(pickValue)
-	/*
+	
 	var datas = {
 		PRODUCT_BUSINESS_PLACE: $("#product_BUSINESS_PLACE").val(),
 		PRODUCT_ITEM_CODE: $("#product_ITEM_CODE").val(),
@@ -208,7 +206,7 @@ function itemModify() {
 		PRODUCT_BUYER: $("#product_BUYER").val(),
 		PRODUCT_WRHSN_INSPC: $("#product_WRHSN_INSPC").is(":checked"),
 		PRODUCT_USE_STATUS: $("#product_USE_STATUS").is(":checked")
-	};*/
+	};
 
 	if (datas.PRODUCT_UNIT_PRICE.length == 0) {
 		alert("단가를 입력해야 합니다.");
