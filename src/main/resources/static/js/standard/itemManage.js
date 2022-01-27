@@ -96,8 +96,6 @@ $("#itemRegisterBtn").click(function(){
 })
 
 function itemRegister() {
-	var datas = fromInputToJson(pickValue)
-	/*
 	var datas = {
 		PRODUCT_BUSINESS_PLACE: $("#product_BUSINESS_PLACE").val(),
 		PRODUCT_ITEM_CODE: $("#product_ITEM_CODE").val(),
@@ -111,6 +109,7 @@ function itemRegister() {
 		PRODUCT_ITEM_CLSFC_1: $("#product_ITEM_CLSFC_1").val(),
 		PRODUCT_ITEM_CLSFC_2: $("#product_ITEM_CLSFC_2").val(),
 		PRODUCT_UNIT_PRICE: $("#product_UNIT_PRICE").val(),
+		PRODUCT_MULTIPLE: $("#product_MULTIPLE").val(),
 		PRODUCT_SUBSID_MATL_MGMT: $("#product_SUBSID_MATL_MGMT").is(":checked"),
 		PRODUCT_ITEM_STTS: $("#product_ITEM_STTS").val(),
 		PRODUCT_BASIC_WAREHOUSE: $("#product_BASIC_WAREHOUSE").val(),
@@ -118,7 +117,7 @@ function itemRegister() {
 		PRODUCT_BUYER: $("#product_BUYER").val(),
 		PRODUCT_WRHSN_INSPC: $("#product_WRHSN_INSPC").is(":checked"),
 		PRODUCT_USE_STATUS: $("#product_USE_STATUS").is(":checked")
-	};*/
+	};
 	
 	if (datas.PRODUCT_ITEM_CODE.length != 6) {
 		alert("품목코드는 6글자로 입력해야 합니다.");
@@ -186,8 +185,8 @@ $("#itemModifyBtn").click(function(){
 })
 
 function itemModify() {
-	var datas = fromInputToJson(pickValue)
-	/*
+	//var datas = fromInputToJson(pickValue)
+	
 	var datas = {
 		PRODUCT_BUSINESS_PLACE: $("#product_BUSINESS_PLACE").val(),
 		PRODUCT_ITEM_CODE: $("#product_ITEM_CODE").val(),
@@ -201,6 +200,7 @@ function itemModify() {
 		PRODUCT_ITEM_CLSFC_1: $("#product_ITEM_CLSFC_1").val(),
 		PRODUCT_ITEM_CLSFC_2: $("#product_ITEM_CLSFC_2").val(),
 		PRODUCT_UNIT_PRICE: $("#product_UNIT_PRICE").val(),
+		PRODUCT_MULTIPLE: $("#product_MULTIPLE").val(),
 		PRODUCT_SUBSID_MATL_MGMT: $("#product_SUBSID_MATL_MGMT").is(":checked"),
 		PRODUCT_ITEM_STTS: $("#product_ITEM_STTS").val(),
 		PRODUCT_BASIC_WAREHOUSE: $("#product_BASIC_WAREHOUSE").val(),
@@ -208,8 +208,7 @@ function itemModify() {
 		PRODUCT_BUYER: $("#product_BUYER").val(),
 		PRODUCT_WRHSN_INSPC: $("#product_WRHSN_INSPC").is(":checked"),
 		PRODUCT_USE_STATUS: $("#product_USE_STATUS").is(":checked")
-	};*/
-
+	};
 	if (datas.PRODUCT_UNIT_PRICE.length == 0) {
 		alert("단가를 입력해야 합니다.");
 		return $("#product_UNIT_PRICE").focus();

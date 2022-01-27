@@ -178,23 +178,89 @@ function SOS_Search(sales_Order_lCus_No){
 	});
 }
 
+
+//matInputSub 커스텀 기능설정
+var SOM_InputEditor = function(cell, onRendered, success, cancel, editorParams){
+    //cell - 편집 가능한 셀의 셀 구성 요소
+    //onRendered - 에디터가 렌더링 되었을 때 호출 할 함수
+    //success - 성공적을 업데이트 된 값을 tabulator에 전달하기 위해 호출되는 함수
+    //cancel - 편집을 중단하고 일반 셀로 돌아 가기 위해 호출하는 함수
+    //editorParams - editorParams 열 정의 속성에 전달 된 params 객체
+
+    //create 및 style editor
+    var SOM_input = document.createElement("input");
+
+    SOM_input.setAttribute("type", "text");
+
+    //입력 생성 및 스타일 지정
+    SOM_input.style.padding = "3px";
+    SOM_input.style.width = "100%";
+    SOM_input.style.boxSizing = "border-box";
+
+    //편집기의 값을 셀의 현재 값으로 설정
+	if(cell.getValue() == undefined){
+		SOM_input.value = "";
+	}else{
+		SOM_input.value = cell.getValue();
+	}
+
+    //에디터가 선택되면 선택 상자에 포커스 설정 (타임 아웃은 편집기를 DOM에 추가 할 수 있음)
+    onRendered(function(){
+        SOM_input.focus();
+		SOM_input.select();
+        SOM_input.style.css = "100%";
+    });
+
+    //값이 설정되면 업데이트 할 셀 트리거
+    function onChange(){
+        success(SOM_input.value);
+    }
+    
+	//바꼈을때 블러됫을때 함수 발동
+    SOM_input.addEventListener("change", onChange);
+    SOM_input.addEventListener("blur", onChange);
+
+    //키버튼 이벤트
+    SOM_input.addEventListener("keydown", function (e) {
+		
+    });
+    //반환
+    return SOM_input;
+};
+
 var salesOutMatTable = new Tabulator("#salesOutMatTable", {
 	height: "calc(50% - 124.1px)",
 	layoutColumnsOnNewData : true,
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
-	selectable: true,
-	//커스텀 키 설정
-	rowAdded:function(row){
-		row.getTable().deselectRow();
-		row.select();
+	rowAdded : function ( row ) {
+		//행이 추가되면 첫셀에 포커스
+		do{
+		setTimeout(function(){
+			row.getCell("sales_OutMat_Qty").edit();
+			salesOutMatTable.deselectRow();
+			row.select();
+			},100);
+		}
+		while(row.getData().sales_OutMat_Qty === "undefined");
+
 	},
  	columns:[
 	{title:"순번", field:"Number", headerHozAlign:"center", hozAlign:"center", formatter:"rownum"},
  	{title:"코드", field:"sales_OutMat_Code", headerHozAlign:"center"},
  	{title:"품목명", field:"sales_OutMat_Name", headerHozAlign:"center", width: 140},
- 	{title:"수량", field:"sales_OutMat_Qty", headerHozAlign:"center", hozAlign:"right", 
-		formatter:"money", formatterParams: {precision: false}},
+ 	{title:"수량", field:"sales_OutMat_Qty", headerHozAlign:"center", hozAlign:"right", editor: SOM_InputEditor,
+		formatter:"money", formatterParams: {precision: false},
+		cellEdited:function(cell){
+			//수량이 변경될때 금액값이 계산되어 입력
+			temQty = cell.getValue();
+			temUP = cell.getRow().getData().sales_OutMat_Unit_Price;			
+	
+			if(temQty*temUP>0){
+				iPrice = temQty*temUP
+			}else{
+				iPrice = 0;	
+			}
+			cell.getRow().update({"sales_OutMat_Price": iPrice});
+		}},
 	{title:"단가", field:"sales_OutMat_Unit_Price", headerHozAlign:"center", hozAlign:"right",
 		formatter:"money", formatterParams: {precision: false}},
 	{title:"금액", field:"sales_OutMat_Price", headerHozAlign:"center", hozAlign:"right",
@@ -282,7 +348,7 @@ $("#allOutput").click(function(){
 	var rows = salesOutputSubTable.getRows();
 	for(var i=0;i<salesOutputSubTable.getDataCount();i++){
 		if(rows[i].getData().sales_Order_lSum == 0){
-			salesOutputSubTable.selectRow(rows[i]);			
+			salesOutputSubTable.selectRow(rows[i]);
 		}
 	}
 })

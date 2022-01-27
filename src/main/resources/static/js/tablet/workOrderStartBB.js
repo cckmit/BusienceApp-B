@@ -2,6 +2,7 @@ var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 	height:"100%",
 	placeholder: "No Data Set",
 	resizableColumns: false,
+	layoutColumnsOnNewData : true,
 	ajaxLoader:false,
 	columns: [
 		{ title: "작업지시번호", field: "workOrder_ONo", headerHozAlign: "center"},
@@ -87,7 +88,7 @@ var itemPopupTableModal = new Tabulator("#itemPopupTableModal", {
 	columns:[ 
 		{title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
 		{title:"품목코드", field:"product_ITEM_CODE", headerHozAlign:"center"},
-		{title:"품목이름", field:"product_ITEM_NAME", headerHozAlign:"center"},
+		{title:"품목이름", field:"product_ITEM_NAME", headerHozAlign:"center", width: 300},
 		{title:"규격", field:"product_INFO_STND_1", headerHozAlign:"center"}	
 	]
 });
@@ -145,12 +146,12 @@ function WOT_Choice_Ajax(machineCodeValue){
 			}
 			else
 			{	
-				$("#itemCode").val();
-				$("#itemName").val();
-				$("#o_len").val();
+				$("#itemCode").val("");
+				$("#itemName").val("");
+				$("#o_len").val("");
 				$("#target_qty").val(0);
 				$("#t8").text("NONE");
-				$("#remark").val();
+				$("#remark").val("");
 			}
 		}
 	});
@@ -215,10 +216,7 @@ document.getElementById("Item_Word").onkeydown = function(){
 //검색
 function search(){
 	itemPopupTableModal.setData("itemPopupSelect",
-		{item_Word:$('#Item_Word').val(),search_value:"sales"})
-	.then(function(){
-		itemPopupTableModal.redraw(true);
-	});
+		{item_Word:$('#Item_Word').val(), search_value:"sales"})
 
 }
 

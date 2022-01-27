@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!-- MAIN -->
-<div class="main">
+
+<div class="soloView">
+	<div class="main">
 	<div class="top-var">
 		<!-- 버튼 -->
 		<div class="input-button">
@@ -21,4 +22,7 @@
 	</div>
 	<div id="matStockItemListTable"></div>
 </div>
-<!-- END MAIN -->
+</div>
+
+<!-- Javascript -->
+<script src="/js/materialLX/matStockListLX.js"></script>
