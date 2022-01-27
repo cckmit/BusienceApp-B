@@ -7,6 +7,10 @@
 html, body {
 	overflow: hidden;
 }
+
+.workActive{
+	background-color: red !important;
+}
 </style>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
@@ -94,7 +98,7 @@ html, body {
 			<label class="btn btn-primary" name="labelOptions2" style="visibility:hidden; font-size: 45px; border-color: rgb(246, 177, 148); background-color: rgb(237, 237, 237); color:black; margin-right: 5px; height: 70px;" id="t66">전체</label>
 			
 			<c:forEach var="item" items="${list2}" end="3">
-				<input type="radio" class="btn-check" name="options1" id="${item.CHILD_TBL_NO}" value="${item.CHILD_TBL_NO}" autocomplete="off"/>
+				<input type="radio" class="btn-check modifyRadioBtn" name="options1" id="${item.CHILD_TBL_NO}" value="${item.CHILD_TBL_NO}" autocomplete="off"/>
 				<label class="btn btn-primary" name="labelOptions" style="font-size: 45px;border-color: rgb(246, 177, 148); background-color: rgb(237, 237, 237); color: black; margin-right: 5px; height: 70px;" id="${item.CHILD_TBL_NO}c" for="${item.CHILD_TBL_NO}">${item.CHILD_TBL_TYPE}</label>
 			</c:forEach>
 		</div> 
@@ -109,11 +113,11 @@ html, body {
 			<label class="btn btn-primary" name="labelOptions2" style="font-size: 45px; background-color:rgb(112,173,70); color:white; margin-right: 5px; height: 70px;" id="t5" for="g1s">조회</label>
 			
 			<input type="radio" class="btn-check" name="options2" id="alls" value="" autocomplete="off"/>
-			<label class="btn btn-primary" name="labelOptions2" style="font-size: 45px; border-color: rgb(246, 177, 148); background-color: rgb(237, 237, 237); color:black; margin-right: 5px; height: 70px;" id="t6" for="alls" onclick="option2click(this)">전체</label>
+			<label class="btn btn-primary selectRadioBtn workActive" name="labelOptions2" style="font-size: 45px; border-color: rgb(246, 177, 148); background-color: rgb(237, 237, 237); color:black; margin-right: 5px; height: 70px;" id="alls" for="alls">전체</label>
 			
 			<c:forEach var="item" items="${list2}" end="3">
 				<input type="radio" class="btn-check" name="options2" value="" autocomplete="off"/>
-				<label class="btn btn-primary" name="labelOptions2" style="font-size: 45px; border-color: rgb(246, 177, 148); background-color: rgb(237, 237, 237); color: black; margin-right: 5px; height: 70px;" id="${item.CHILD_TBL_NO}s" for="${item.CHILD_TBL_NO}s" onclick="option2click(this)">${item.CHILD_TBL_TYPE}</label>
+				<label class="btn btn-primary selectRadioBtn" name="labelOptions2" style="font-size: 45px; border-color: rgb(246, 177, 148); background-color: rgb(237, 237, 237); color: black; margin-right: 5px; height: 70px;" id="${item.CHILD_TBL_NO}s" for="${item.CHILD_TBL_NO}s">${item.CHILD_TBL_TYPE}</label>
 			</c:forEach>
 		</div> 
 	</div>

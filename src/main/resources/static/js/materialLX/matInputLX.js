@@ -226,14 +226,12 @@ var editCheck = function(cell){
     //cell - the cell component for the editable cell
     //get row data
     var data = cell.getRow().getData();
-    return data.inMat_Order_No == null;
+    return data.inMat_Order_No != null;
 }
 
 var inMatTable = new Tabulator("#inMatTable", {
 	height:"calc(50% - 124.1px)",
 	layoutColumnsOnNewData : true,
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
 	//커스텀 키 설정
 	keybindings:{
         "navNext" : "13"
@@ -326,7 +324,6 @@ function MIM_Search(inMat_Order_No){
 //inMatTable 저장
 function MIM_Save(){
 	rowData = inMatTable.getData();
-	console.log("rowData =" + rowData);
 	realData = []
 	//금액이 0 이거나 입고날짜 컬럼을 확인하여 빈칸일경우 저장안됨
 	for(i=0;i<rowData.length;i++){
@@ -352,7 +349,6 @@ function MIM_Save(){
 		contentType:'application/json',
 		url : "matInputLXRest/MIM_Save?data="+ encodeURI(JSON.stringify(realData)),
 		success : function(result) {
-			console.log(result);
 			if(result == "error"){
 				alert("중복된 값이 있습니다..");
 			}else if(result == "success"){
