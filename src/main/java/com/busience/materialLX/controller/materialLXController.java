@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.busience.common.dto.DtlDto;
 import com.busience.common.service.DtlService;
 import com.busience.standard.dto.DTL_TBL;
-import com.busience.standard.dto.PRODUCT_INFO_TBL;
 
 @Controller
 public class materialLXController {
@@ -138,7 +137,7 @@ public class materialLXController {
 	@GetMapping("matStockMasterLX")
 	public String matStockMasterLX(Model model) {
 		model.addAttribute("pageName", "현재고 현황");
-		return "materialLX/matStockLX/matStockMasterLX";
+		return "materialLX/matStockMasterLX";
 	}
 	
 	@GetMapping("tablet/matOutputLXTablet2")
