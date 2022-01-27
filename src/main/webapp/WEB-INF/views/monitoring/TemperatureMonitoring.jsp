@@ -65,7 +65,7 @@ input[type="checkbox"]:hover {
 		%>
 		
 		function tempSelect(){
-			$.get("/temperatureMonitoringRestController/temperature_Status_Check",function(data){
+			$.get("/temperature_Status_Check",function(data){
 				if(data=='true'){
 					document.getElementById("<%=data.getEquip_Code()%>").checked = true;
 				}
@@ -74,13 +74,13 @@ input[type="checkbox"]:hover {
 				}
 			});
 
-			$.get("/temperatureMonitoringRestController/History_Update_Insert_Check",function(data){
+			$.get("/History_Update_Insert_Check",function(data){
 				
 				
 				
 				if(data=='true'){
 
-					$.get("/temperatureMonitoringRestController/temperature_Compulsion_On",function(data){
+					$.get("/temperature_Compulsion_On",function(data){
 						
 					});
 					
@@ -100,7 +100,7 @@ input[type="checkbox"]:hover {
 				else
 				{
 
-					$.get("/temperatureMonitoringRestController/temperature_Current",function(data){
+					$.get("/temperature_Current",function(data){
 						if(data == "NONE")
 						{
 							document.getElementById("progressb").innerHTML = data;
@@ -115,7 +115,7 @@ input[type="checkbox"]:hover {
 						}
 					});
 					
-					$.get("/temperatureMonitoringRestController/temperature_Equip_No_Select",function(vno){
+					$.get("/temperature_Equip_No_Select",function(vno){
 						if(vno=="NONE")
 						{
 							dds = [];
@@ -183,11 +183,11 @@ input[type="checkbox"]:hover {
 		var dds = [];
 		
 		setInterval(function() {
-			$.get("/temperatureMonitoringRestController/temperature_Status_Check",function(data){
+			$.get("/temperature_Status_Check",function(data){
 				console.log(data);
 			});
 			
-			$.get("/temperatureMonitoringRestController/History_Update_Insert_Check",function(data){
+			$.get("/History_Update_Insert_Check",function(data){
 				if(data=='true')
 				{
 					document.getElementById("progressb").innerHTML = data;
@@ -202,7 +202,7 @@ input[type="checkbox"]:hover {
 				}
 				else
 				{
-					$.get("/temperatureMonitoringRestController/temperature_Current",function(data){
+					$.get("/temperature_Current",function(data){
 						if(data == "NONE")
 						{
 							document.getElementById("progressb").innerHTML = data;
@@ -217,7 +217,7 @@ input[type="checkbox"]:hover {
 						}
 					});
 					
-					$.get("/temperatureMonitoringRestController/temperature_Equip_No_Select",function(vno){
+					$.get("/temperature_Equip_No_Select",function(vno){
 						if(vno=="NONE")
 						{
 							dds = [];
@@ -282,7 +282,7 @@ input[type="checkbox"]:hover {
 	    	var rand = randomNum(0, 100);
 			
 			
-			$.get("/temperatureMonitoringRestController/tablet/temperature_Insert?equip=m001&value="+rand,function(data){
+			$.get("/tablet/temperature_Insert?equip=m001&value="+rand,function(data){
 			});
 			
 	
@@ -298,7 +298,7 @@ input[type="checkbox"]:hover {
 			rand += 0.5;
 			
 			
-			$.get("/temperatureMonitoringRestController/tablet/temperature_Insert?equip=m001&value="+rand,function(data){
+			$.get("/tablet/temperature_Insert?equip=m001&value="+rand,function(data){
 			});
 			
 	

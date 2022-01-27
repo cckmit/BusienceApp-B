@@ -17,27 +17,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.busience.common.service.ProductionService;
 import com.busience.monitoring.dto.Equip_Temperature_History;
-import com.busience.productionLX.dto.WorkOrder_tbl;
 import com.busience.standard.dto.DTL_TBL;
 import com.busience.standard.dto.Equip_Monitoring_TBL;
 
 @RestController
-@RequestMapping("temperatureMonitoringRestController")
+@RequestMapping
 public class temperatureMonitoringRestController {
 
 	@Autowired
 	JdbcTemplate jdbctemplate;
 	
+	@Autowired
+	ProductionService productionService;
+	
 	Boolean templeLog = true;
 	Boolean currentLog = true;
 	String init_temp_no = "",current_temp_no = "20211124-M001-05";
 	
-	@GetMapping("tablet/temperature_Insert")
+	@GetMapping("bsapp_temp")
 	public void temperature_Insert(HttpServletRequest request) throws SQLException, InterruptedException{
 		String equip = request.getParameter("equip");
 		String value = request.getParameter("value");
-		
+				
 		if(Equip_Status_Check(equip))
 		{
 			String sql = "UPDATE Equip_Monitoring_TBL\r\n"
