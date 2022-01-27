@@ -67,6 +67,7 @@ function MOS_Search() {
 		success: function(data) {
 			//console.log(data);
 			matOutputTable.setData(data);
+			matOutputSubTable.clearData();
 		}
 	});
 }

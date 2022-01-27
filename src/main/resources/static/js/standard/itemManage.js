@@ -209,8 +209,7 @@ function itemModify() {
 		PRODUCT_WRHSN_INSPC: $("#product_WRHSN_INSPC").is(":checked"),
 		PRODUCT_USE_STATUS: $("#product_USE_STATUS").is(":checked")
 	};
-
-	if (datas.product_UNIT_PRICE.length == 0) {
+	if (datas.PRODUCT_UNIT_PRICE.length == 0) {
 		alert("단가를 입력해야 합니다.");
 		return $("#product_UNIT_PRICE").focus();
 	}
