@@ -77,7 +77,7 @@ public class popupRestController {
 		
 		pstmt = conn.prepareStatement(sql);
 		rs = pstmt.executeQuery();
-
+		System.out.println("기본");
 		System.out.println("itemPopupSelect =" + sql);
 		
 		List<PRODUCT_INFO_TBL> list = new ArrayList<PRODUCT_INFO_TBL>();
@@ -111,7 +111,7 @@ public class popupRestController {
 			ResultSet rs = null;
 			
 			conn = dataSource.getConnection();
-			
+			/*
 			String terms = null;
 			String terms_sql = "select CHILD_TBL_RMARK from DTL_TBL\r\n"
 					+ "where NEW_TBL_CODE = 37 and CHILD_TBL_TYPE = '"+search_value+"'";
@@ -124,7 +124,7 @@ public class popupRestController {
 			}
 			System.out.println("============");
 			System.out.println(terms);
-			
+			*/
 			String sql = "";
 			
 			sql = " select PRODUCT_ITEM_CODE,\r\n"
@@ -132,13 +132,13 @@ public class popupRestController {
 					+ " PRODUCT_INFO_STND_1,\r\n"
 					+ " PRODUCT_UNIT_PRICE\r\n"
 					+ " from PRODUCT_INFO_TBL\r\n"
-					+ " where (PRODUCT_ITEM_CODE like '%" + item_Word.trim() + "%' or PRODUCT_ITEM_NAME like '%" + item_Word + "%')\r\n"
+					+ " where (PRODUCT_ITEM_CODE like '%" + item_Word + "%' or PRODUCT_ITEM_NAME like '%" + item_Word + "%')\r\n"
 					+ " and PRODUCT_USE_STATUS='true'"
-					+ " and PRODUCT_MTRL_CLSFC in ("+terms+")";
+					+ " and PRODUCT_MTRL_CLSFC in ("+search_value+")";
 			
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-
+			System.out.println("태블릿");
 			System.out.println("itemPopupSelect =" + sql);
 			
 			List<PRODUCT_INFO_TBL> list = new ArrayList<PRODUCT_INFO_TBL>();
@@ -198,7 +198,7 @@ public class popupRestController {
 			
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-
+			System.out.println("태블릿2");
 			System.out.println("itemPopupSelect =" + sql);
 			
 			List<PRODUCT_INFO_TBL> list = new ArrayList<PRODUCT_INFO_TBL>();
@@ -258,7 +258,7 @@ public class popupRestController {
 				
 				pstmt = conn.prepareStatement(sql);
 				rs = pstmt.executeQuery();
-
+				System.out.println("기본2");
 				System.out.println("itemPopupSelect =" + sql);
 				
 				List<PRODUCT_INFO_TBL> list = new ArrayList<PRODUCT_INFO_TBL>();

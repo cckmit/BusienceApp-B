@@ -95,7 +95,7 @@ $('input[type=radio][name=options1]').change(function() {
 					async : false,
 					success : function(data) {
 						if (data) {
-							
+							move()
 						}else{							
 							alert("작업 중인 데이터가 있습니다.");
 						}

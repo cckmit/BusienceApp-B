@@ -263,8 +263,8 @@ public class workOrderListRestController {
 				+ "LEFT JOIN	DTL_TBL t4 ON t1.WorkOrder_WorkStatus = t4.CHILD_TBL_NO	\r\n"
 				+ "WHERE			t1.WorkOrder_RegisterTime between ? AND ?\r\n"
 				+ "AND 			t1.WorkOrder_WorkStatus = '242'\r\n"
-				+ "AND			(t2.PRODUCT_ITEM_CODE = '"+((PRODUCT_ITEM_CODE==null || PRODUCT_ITEM_CODE=="")?"' OR 1=1":PRODUCT_ITEM_CODE)+")\r\n"
-				+ "AND			(t3.EQUIPMENT_INFO_CODE = '"+((Machine_Code==null || Machine_Code=="")?"' OR 1=1":Machine_Code)+")\r\n"
+				+ "AND			(t2.PRODUCT_ITEM_CODE like '%"+PRODUCT_ITEM_CODE+"%')\r\n"
+				+ "AND			(t3.EQUIPMENT_INFO_CODE like '%"+Machine_Code+"%')\r\n"
 				+ "ORDER BY 	t1.WorkOrder_RegisterTime DESC, t1.WorkOrder_No DESC";
 		
 		return jdbctemplate.query(sql, new RowMapper<WorkOrder_tbl>() {
@@ -336,8 +336,8 @@ public class workOrderListRestController {
 				+ "LEFT JOIN	DTL_TBL t4 ON t1.WorkOrder_WorkStatus = t4.CHILD_TBL_NO	\r\n"
 				+ "WHERE			t1.WorkOrder_RegisterTime between ? AND ?\r\n"
 				+ "AND 			t1.WorkOrder_WorkStatus = '243'\r\n"
-				+ "AND			(t2.PRODUCT_ITEM_CODE = '"+((PRODUCT_ITEM_CODE==null || PRODUCT_ITEM_CODE=="")?"' OR 1=1":PRODUCT_ITEM_CODE)+")\r\n"
-				+ "AND			(t3.EQUIPMENT_INFO_CODE = '"+((Machine_Code==null || Machine_Code=="")?"' OR 1=1":Machine_Code)+")\r\n"
+				+ "AND			(t2.PRODUCT_ITEM_CODE like '%"+PRODUCT_ITEM_CODE+"%')\r\n"
+				+ "AND			(t3.EQUIPMENT_INFO_CODE like '%"+Machine_Code+"%')\r\n"
 				+ "ORDER BY 	t1.WorkOrder_RegisterTime DESC, t1.WorkOrder_No DESC";
 		
 		return jdbctemplate.query(sql, new RowMapper<WorkOrder_tbl>() {

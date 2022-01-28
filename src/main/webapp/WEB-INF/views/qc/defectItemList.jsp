@@ -18,6 +18,7 @@
 		<div id="WorkOrderTable" style="float:left; width: calc(55% - 10px)"></div>
 		<div id="defectTable" style="float:left; width: 45%; margin-left: 10px;"></div>
 
-		<script src="/js/qc/defectItemList.js?v=<%=System.currentTimeMillis() %>"></script>
 	</div>
 </div>
+
+<script src="/js/qc/defectItemList.js?v=<%=System.currentTimeMillis() %>"></script>

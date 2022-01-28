@@ -132,4 +132,4 @@ html, body {
 <input id="startDate" class="today" type="hidden" style="width: 230px; height: 50px; font-size: 30px;"> 
 		<input id="endDate" class="tomorrow" type="hidden" style="width: 230px; height: 50px; font-size: 30px;">
 
-<script src="/js/tablet/workOrderInsertB.js"></script>
+<script src="/js/tablet/workOrderInsertB.js?v=<%=System.currentTimeMillis() %>"></script>
