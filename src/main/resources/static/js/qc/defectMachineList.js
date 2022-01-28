@@ -45,7 +45,7 @@ var defectTable = new Tabulator("#defectTable", {
 		{ title: "불량 코드", field: "defect_Code", headerHozAlign: "center" },
 		{ title: "불량 명", field: "defect_Name", headerHozAlign: "center" },
 		{ title: "불량 수량", field: "defect_Qty", headerHozAlign: "center", align:"right", topCalc:"sum"},
-		{ title: "불량률", field: "defect_Rate", headerHozAlign: "center", align:"right",
+		{ title: "비율", field: "defect_Rate", headerHozAlign: "center", align:"right",
 			formatter : function(cell, formatterParams, onRendered){
 				var tableData = cell.getTable().getData()
 				var denomin = 0;
