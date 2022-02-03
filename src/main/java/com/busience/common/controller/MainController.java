@@ -40,4 +40,9 @@ public class MainController {
 	public String test_check() {	
 		return "normal/test_check";
 	}
+	
+	@GetMapping("/test_fileUpload")
+	public String test_fileUpload() {
+		return "test_fileUpload";
+	}
 }
