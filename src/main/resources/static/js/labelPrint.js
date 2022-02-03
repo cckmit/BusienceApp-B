@@ -75,7 +75,7 @@ function CustomLabelPrinter(value)
 					+"^CFJ,50^SEE:UHANGUL.DAT^FS"
 					+"^CW1,E:KFONT3.FNT^CI28^FS"
 					+"^FO6,20^GB603,71,71^FS"
-					+"^FT155,77^A0N,56,69^FB603,1,0^FR^FH\^FD"+value.wip_Prefix+value.wip_LotNo+"^FS"
+					+"^FT100,72^A1N,55,55^FB603,1,0^FR^FH^FD"+value.wip_Prefix+value.wip_LotNo+"^FS"
 					+"^FT27,132^A1N,39,39^FD발행일: "+value.wip_InputDate+"^FS"
 					+"^FO6,150^GB603,0,1^FS"
 					+"^FO6,261^GB603,0,1^FS"

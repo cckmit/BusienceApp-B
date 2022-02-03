@@ -63,7 +63,8 @@ public class salesOutReturnLXRestController {
 			where += " and Sales_OutMat_Client_Code like '%" + obj.get("sales_OutMat_Client_Code") + "%'";
 		}
 
-		where += " group by A.Sales_OutMat_Cus_No\r\n" + " having Sales_OutMat_Qty>0";
+		where += " group by A.Sales_OutMat_Cus_No, A.Sales_OutMat_Code\r\n"
+				+ " having Sales_OutMat_Qty>0";
 
 		sql += where;
 		System.out.println(sql);
@@ -144,7 +145,7 @@ public class salesOutReturnLXRestController {
 						+ " -" + obj.get("sales_OutReturn_Qty") + ",\r\n" + " " + obj.get("sales_OutMat_Unit_Price")
 						+ ",\r\n" + " -" + obj.get("sales_OutReturn_Qty") + "*" + obj.get("sales_OutMat_Unit_Price")
 						+ ",\r\n" + " '" + obj.get("sales_OutMat_Client_Code") + "',\r\n" + " '"
-						+ obj.get("sales_OutMat_Date") + "',\r\n" + "	'194',\r\n" + " now(),\r\n" + " '" + modifier
+						+ obj.get("sales_OutMat_Date") + "',\r\n" + "	'214',\r\n" + " now(),\r\n" + " '" + modifier
 						+ "')";
 
 				System.out.println("Sales_OutMat_tbl_sql = " + Sales_OutMat_tbl_sql);
@@ -212,7 +213,7 @@ public class salesOutReturnLXRestController {
 		if (obj.get("sales_OutMat_Client_Code") != null && !obj.get("sales_OutMat_Client_Code").equals("")) {
 			where += " and Sales_OutMat_Client_Code like '%" + obj.get("sales_OutMat_Client_Code") + "%'";
 		}
-		where += " and Sales_OutMat_Send_Clsfc = '194'";
+		where += " and Sales_OutMat_Send_Clsfc = '214'";
 
 		sql += where;
 		System.out.println(sql);
