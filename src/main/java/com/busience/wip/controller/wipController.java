@@ -27,6 +27,13 @@ public class wipController {
 		return "wip/wipInOut";
 	}
 	
+	// wipDefect
+	@GetMapping("wipDefect")
+	public String wipDefect(Model model) {
+		model.addAttribute("pageName", "재공 불량 관리");
+		return "wip/wipDefect";
+	}
+	
 	// wipInputList
 	@GetMapping("wipInputList")
 	public String wipInputList(Model model) {
@@ -39,6 +46,13 @@ public class wipController {
 	public String wipOutputList(Model model) {
 		model.addAttribute("pageName", "재공 출고 현황");
 		return "wip/wipOutputList";
+	}
+	
+	// wipDefectList
+	@GetMapping("wipDefectList")
+	public String wipDefectList(Model model) {
+		model.addAttribute("pageName", "재공 불량 현황");
+		return "wip/wipDefectList";
 	}
 	
 	// wipInOutList

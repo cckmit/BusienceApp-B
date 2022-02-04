@@ -10,16 +10,20 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import com.busience.common.dao.DtlDao;
 import com.busience.common.dto.DtlDto;
 import com.busience.common.dto.SearchDto;
+import com.busience.qc.dto.DefectDto;
 import com.busience.standard.dao.ItemDao;
 import com.busience.standard.dao.RoutingDao;
 import com.busience.standard.dto.ItemDto;
 import com.busience.wip.dao.WipLotManageDao;
+import com.busience.wip.dto.WipLotMasterDto;
 import com.busience.wip.dto.WipLotTransDto;
 
 @Service
@@ -45,6 +49,11 @@ public class WipLotManageService {
 		return wipLotManageDao.wipLotManageListDao(searchDto);
 	}
 	
+	//lot 생존 조건 목록
+	public List<WipLotTransDto> wipLotTransList(SearchDto searchDto) {
+		return wipLotManageDao.wipLotTransListDao(searchDto);
+	}
+	
 	//해당lot 최근 데이터
 	public List<WipLotTransDto> wipLastData(SearchDto searchDto) {
 		return wipLotManageDao.wipLastDataDao(searchDto);
@@ -68,33 +77,19 @@ public class WipLotManageService {
 	public WipLotTransDto wipLabelPrint(ItemDto itemDto){
 				
 		SimpleDateFormat sdf1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
-		SimpleDateFormat sdf2 = new SimpleDateFormat ( "yyyy-MM-dd");
 		SimpleDateFormat sdf3 = new SimpleDateFormat ( "yyMMdd");
 		
 		Date date = new Date();
-		
-		String Wip_LotNo = null;
-		int count = 0;
-		
-		String time2 = sdf2.format(date);
-				
+								
 		//오늘 생성한 랏번호 확인
-		count = wipLotManageDao.wipLotManageListCountDao(time2);
+		int count = wipLotManageDao.wipLotManageListCountDao();
 		
 		//랏번호 생성
-		Wip_LotNo = sdf3.format(date)+String.format("%03d", count+1);
-		/*
-		WipLotMasterDto wipLotMasterDto = new WipLotMasterDto();
+		String Wip_LotNo = sdf3.format(date)+String.format("%03d", count+1);
 		
-		//wipLotMaster
-		wipLotMasterDto.setWip_Prefix(itemDto.getPRODUCT_OLD_ITEM_CODE());
-		wipLotMasterDto.setWip_LotNo(Wip_LotNo);
-		wipLotMasterDto.setWip_Process_Type(itemDto.getPRODUCT_ITEM_CLSFC_1());
-		wipLotMasterDto.setWip_Process_No(1);
-		wipLotMasterDto.setWip_InputDate_P1(sdf1.format(date));	
-
-		wipLotManageDao.wipLotMasterInsertDao(wipLotMasterDto);
-		*/
+		//랏마스터에 저장
+		wipLotMasterInsert(Wip_LotNo, 1);
+		
 		//wipLotTrans
 		WipLotTransDto wipLotTransDto = new WipLotTransDto();
 		
@@ -110,6 +105,16 @@ public class WipLotManageService {
 		//wipLabelPrinter(wipLotTransDto);
 		return wipLotTransDto;
 	}
+	
+	private void wipLotMasterInsert(String wip_LotNo, int status) {
+		WipLotMasterDto wipLotMasterDto = new WipLotMasterDto();
+		
+		//wipLotMaster
+		wipLotMasterDto.setWip_LotNo(wip_LotNo);
+		wipLotMasterDto.setWip_Status(status);
+		wipLotManageDao.wipLotMasterInsertDao(wipLotMasterDto);
+	}
+	
 	/*
 	public void wipLabelPrinter(WipLotMasterDto wipLotManageDto) throws Exception {
 		String commands = "";
@@ -210,6 +215,10 @@ public class WipLotManageService {
 				wipLotManageDao.wipLotTransInsertDao(wipLotTransDto);
 			}
 		}else {
+			if(wipLotTransDto.getWip_Process_No() == 5) {
+				//wipLotMaster
+				wipLotMasterInsert(wipLotTransDto.getWip_LotNo(), 2);
+			}
 			//출고처리
 			wipLotTransDto.setWip_OutputDate(outputDate);
 			INorOUT = "out";
@@ -312,5 +321,35 @@ public class WipLotManageService {
 		}
 		DHM += minute+"분";
 		return DHM;
+	}
+	
+	//wipDefectSelect
+	public List<DefectDto> wipDefectSelect(String wip_LotNo) {
+		return wipLotManageDao.wipDefectSelectDao(wip_LotNo);
+	}
+	
+	//wipDefectInsert
+	public int wipDefectInsert(List<DefectDto> defectDtoList) {
+		try {
+			
+			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+				
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					for(int i=0;i<defectDtoList.size();i++) {
+						System.out.println(defectDtoList);
+						//wipLotMaster
+						wipLotMasterInsert(defectDtoList.get(i).getDefect_LotNo(), 3);
+						
+						wipLotManageDao.wipDefectInsertDao(defectDtoList.get(i));
+					}					
+				}
+			});
+			
+			return 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
 	}
 }

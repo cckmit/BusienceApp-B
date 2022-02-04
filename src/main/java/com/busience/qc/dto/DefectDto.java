@@ -10,6 +10,8 @@ import lombok.ToString;
 public class DefectDto {
 	private String Defect_ONo;
 	
+	private String Defect_LotNo;
+	
 	private String Defect_ItemCode;
 	
 	private String Defect_Code;
@@ -19,4 +21,6 @@ public class DefectDto {
 	private int Defect_Qty;
 	
 	private String Defect_Insert_Time;
+	
+	private String Defect_Note;
 }

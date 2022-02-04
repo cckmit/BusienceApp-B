@@ -34,4 +34,6 @@ public class SearchDto {
 	private String ItemSendClsfc;
 	
 	private String[] StatusCodeArr;
+	
+	private int WipStatus;
 }

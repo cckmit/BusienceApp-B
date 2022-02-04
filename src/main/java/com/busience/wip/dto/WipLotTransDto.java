@@ -16,10 +16,13 @@ public class WipLotTransDto {
 	private String Wip_Process_Name;
 	private int Wip_Process_No;
 	
+	private String Wip_Worker;
+	private String Wip_Worker_Name;
+	
 	private String Wip_InputDate;
 	private String Wip_OutputDate;	
 	private String Wip_SaveTime;
-	
+		
 	private String Wip_InputDate_P1;
 	private String Wip_OutputDate_P1;
 	private String Wip_SaveDate_P1;
@@ -39,4 +42,7 @@ public class WipLotTransDto {
 	private String Wip_InputDate_P5;
 	private String Wip_OutputDate_P5;
 	private String Wip_SaveDate_P5;
+	
+	private String Wip_DateTime;
+	private String Wip_Status;
 }

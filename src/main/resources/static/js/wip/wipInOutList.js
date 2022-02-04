@@ -4,12 +4,16 @@ $("#WIOL_SearchBtn").click(function(){
 
 $("#wip_Process_Type").change(function(){
 	WIOL_Search($(this).val());
-	wipInOutListTable.setColumns(customColumns($(this).val())) 
+	wipInOutListTable.setColumns(customColumns($(this).val()))
+	
 })
 
 function WIOL_Search(value){
 	wipInOutListTable.setData("wipLotManageRest/wipLotMasterListSelect",
-		{Wip_Process_Type: value});
+		{Wip_Process_Type: value})
+	.then(function(){
+		console.log(wipInOutListTable.getData());
+	});
 }
 
 var wipInOutListTable = new Tabulator("#wipInOutListTable", {
@@ -53,6 +57,18 @@ function customColumns(value){
 					]
 				})
 			}
+			list.push({title:"상태", field:"wip_Status", headerHozAlign:"center", 
+						formatter: function(cell){
+							var status = "공정중"
+							if(cell.getValue() == 1){
+								status = "공정중"
+							}else if(cell.getValue() == 2){
+								status = "완료"
+							}else if(cell.getValue() == 3){
+								status = "불량"
+							}
+							return status;
+						}})
 		}
 	});
 	

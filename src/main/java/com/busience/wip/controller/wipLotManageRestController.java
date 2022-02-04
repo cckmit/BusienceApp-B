@@ -5,10 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
+import com.busience.qc.dto.DefectDto;
 import com.busience.standard.dto.ItemDto;
 import com.busience.wip.dto.WipLotTransDto;
 import com.busience.wip.service.WipLotManageService;
@@ -24,6 +26,11 @@ public class wipLotManageRestController {
 	@GetMapping("/wipLotManageSelect")
 	public List<WipLotTransDto> wipLotManageSelect(SearchDto searchDto) {
 		return wipLotManageService.wipLotManageList(searchDto);
+	}
+	
+	@GetMapping("/wipLotTransList")
+	public List<WipLotTransDto> wipLotTransList(SearchDto searchDto) {
+		return wipLotManageService.wipLotTransList(searchDto);
 	}
 	
 	@GetMapping("/wipLastDataSelect")
@@ -43,7 +50,6 @@ public class wipLotManageRestController {
 	
 	@GetMapping("/wipInOutListSelect")
 	public List<WipLotTransDto> wipInOutListSelect() {
-
 		return wipLotManageService.wipInOutList();
 	}
 	
@@ -62,6 +68,16 @@ public class wipLotManageRestController {
 		return wipLotManageService.wipInOutInsert(wip_LotNo);
 	}
 	
+	@GetMapping("/wipDefectSelect")
+	public List<DefectDto> wipDefectSelect(String wip_LotNo) {
+		return wipLotManageService.wipDefectSelect(wip_LotNo);
+	}
+	
+	@PostMapping("/wipDefectInsert")
+	public int wipDefectInsert(@RequestBody List<DefectDto> defectDtoList) {
+		return wipLotManageService.wipDefectInsert(defectDtoList);
+	}
+	
 	@GetMapping("/wipLotMasterListSelect")
 	public List<WipLotTransDto> wipLotMasterListSelect(WipLotTransDto wipLotTransDto) {
 		return wipLotManageService.wipLotMasterList(wipLotTransDto);
@@ -74,13 +90,11 @@ public class wipLotManageRestController {
 		
 	@PostMapping("/wipInputRollback")
 	public int wipInputRollback(WipLotTransDto wipLotTransDto) {
-
 		return wipLotManageService.wipInputRollback(wipLotTransDto);
 	}
 	
 	@PostMapping("/wipOutputRollback")
 	public int wipOutputRollback(WipLotTransDto wipLotTransDto) {
-
 		return wipLotManageService.wipOutputRollback(wipLotTransDto);
 	}
 }
