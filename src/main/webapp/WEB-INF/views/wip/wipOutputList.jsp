@@ -24,6 +24,6 @@
 		<!-- END MAIN -->
 	</div>
 <!-- Javascript -->
-<script src="/js/wip/wipOutputList.js"></script>
+<script src="/js/wip/wipOutputList.js?v=<%=System.currentTimeMillis() %>"></script>
 </body>
 </html>
