@@ -5,6 +5,12 @@ function nextFocus(next) {
 	}
 }
 
+$("#product_ITEM_CODE").on("keyup", function() {
+
+    $(this).val($(this).val().toUpperCase());
+
+});
+
 //입력 및 업데이트 할 리스트
 var pickValue = ["product_BUSINESS_PLACE", "product_ITEM_CODE", "product_OLD_ITEM_CODE",
 					"product_ITEM_NAME", "product_INFO_STND_1", "product_INFO_STND_2",
