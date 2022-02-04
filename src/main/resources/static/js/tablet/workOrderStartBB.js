@@ -216,7 +216,7 @@ document.getElementById("Item_Word").onkeydown = function(){
 //검색
 function search(){
 	itemPopupTableModal.setData("itemPopupSelect",
-		{item_Word:$('#Item_Word').val(), search_value:"sales"})
+		{item_Word:$('#Item_Word').val(), search_value:28})
 
 }
 
