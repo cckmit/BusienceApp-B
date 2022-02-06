@@ -18,11 +18,11 @@
 <script src="/webjars/font-awesome/5.15.4/js/all.min.js"></script>
 
 <!-- js -->
-<script src="/js/today.js"></script>
+<script src="/js/today.js?v=<%=System.currentTimeMillis() %>"></script>
 
 <script src="/js/common.js?v=<%=System.currentTimeMillis() %>"></script>
 
-<script src="/js/popup_common.js"></script>
+<script src="/js/popup_common.js?v=<%=System.currentTimeMillis() %>"></script>
 
 <script src="/js/google_chart.js"></script>
 
