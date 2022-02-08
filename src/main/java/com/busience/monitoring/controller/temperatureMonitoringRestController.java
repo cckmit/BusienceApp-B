@@ -40,7 +40,9 @@ public class temperatureMonitoringRestController {
 	public void temperature_Insert(HttpServletRequest request) throws SQLException, InterruptedException{
 		String equip = request.getParameter("equip");
 		String value = request.getParameter("value");
-				
+		
+		productionService.insertProduction(equip, (int) Double.parseDouble(value) + 1);
+		
 		if(Equip_Status_Check(equip))
 		{
 			String sql = "UPDATE Equip_Monitoring_TBL\r\n"
