@@ -123,7 +123,7 @@ public class salesLXController {
 	@GetMapping("salesInoutListLX")
 	public String salesInoutList(Model model) {
 		
-		model.addAttribute("pageName", "제품 입출고 조회");
+		model.addAttribute("pageName", "제품 입출고 현황");
 		
 		return "salesLX/salesInoutListLX";
 	}

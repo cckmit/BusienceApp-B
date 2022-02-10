@@ -44,7 +44,7 @@ var SO_inputEditor = function(cell, onRendered, success, cancel, editorParams) {
 		//거래처코드 셀에서 백스페이스를 눌렀을경우 거래처명이 사라지게함
 		if (e.keyCode == 8) {
 			if (cell.getField() == "sales_Order_mCode") {
-				cell.getRow().update({"sales_Order_mName":''})
+				cell.getRow().update({ "sales_Order_mName": '' })
 			}
 		}
 		if (e.keyCode == 13) {
@@ -64,12 +64,24 @@ var SO_inputEditor = function(cell, onRendered, success, cancel, editorParams) {
 							});
 						} else {
 							//검색어와 일치하는값이 없는경우, 팝업창
-							customerPopup(SO_input.value,'grid','','out');
+							customerPopup(SO_input.value, 'grid', '', 'out');
 						}
 
 					}
 				})
 			}
+			
+			//납기일 자동 입력
+			if (cell.getField() == "sales_Order_mDate") {
+				if (cell.getRow().getData().sales_Order_mDate.length != "0") {
+					var order_Date = cell.getRow().getData().sales_Order_mDate;
+					var dateConvert = moment(order_Date).format('YYYY-MM-DD');
+					cell.getRow().update({
+						"sales_Order_mDlvry_Date": dateConvert
+					});
+				}
+			}
+			
 			//특이사항셀 체크
 			if (cell.getField() == "sales_Order_mRemarks") {
 				//납기일자를 체크해서 잘못되었으면 반응 안함
@@ -79,9 +91,9 @@ var SO_inputEditor = function(cell, onRendered, success, cancel, editorParams) {
 
 				} else {
 					//특이사항에서 엔터를 하면 행추가
-					if(cell.getRow().getData().sales_Order_mCheck != "I"){
+					if (cell.getRow().getData().sales_Order_mCheck != "I") {
 						salesOrderSubTable.addRow();
-					}					
+					}
 				}
 			}
 		}
@@ -104,7 +116,7 @@ function customer_gridInit(CCode, CName) {
 var cellPos = null;
 
 var salesOrderTable = new Tabulator("#salesOrderTable", {
-	layoutColumnsOnNewData : true,
+	layoutColumnsOnNewData: true,
 	//페이징
 	pagination: "local",
 	paginationSize: 20,
@@ -117,7 +129,7 @@ var salesOrderTable = new Tabulator("#salesOrderTable", {
 		//order_mCheck가 Y면 빨간색 I면 파란색으로 바꿔준다
 		if (row.getData().sales_Order_mCheck == "Y") {
 			row.getElement().style.color = "red";
-		} else if  (row.getData().sales_Order_mCheck == "I")  {
+		} else if (row.getData().sales_Order_mCheck == "I") {
 			row.getElement().style.color = "blue";
 		}
 	},
@@ -127,51 +139,52 @@ var salesOrderTable = new Tabulator("#salesOrderTable", {
 	},
 	//id를 인덱스로 설정
 	index: "sales_Order_mCus_No",
-	rowClick: function(e, row) {		
+	rowClick: function(e, row) {
 		row.getTable().deselectRow();
 		row.select();
 	},
-	rowSelected:function(row){
-    	SOL_Search(row.getData().sales_Order_mCus_No);
+	rowSelected: function(row) {
+		SOL_Search(row.getData().sales_Order_mCus_No);
 
 		//버튼 설정
 		ResetBtn()
-		if(row.getData().sales_Order_mCheck != 'I'){
+		if (row.getData().sales_Order_mCheck != 'I') {
 			UseBtn();
 		}
-    },
+	},
 	//행추가시 기능
 	rowAdded: function(row) {
 		row.getTable().deselectRow();
 		row.select();
-		
-		row.update({"sales_Order_mCus_No": '',
-					"sales_Order_mDlvry_Date": '',
-					"sales_Order_mCode": $("#Sales_InMat_Client_Code").val(),
-					"sales_Order_mName": $("#Sales_InMat_Client_Name").val(),
-					"sales_Order_mDate": moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+
+		row.update({
+			"sales_Order_mCus_No": '',
+			"sales_Order_mCode": $("#Sales_InMat_Client_Code").val(),
+			"sales_Order_mName": $("#Sales_InMat_Client_Name").val(),
+			"sales_Order_mDate": moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
 		});
-		
+
 		//페이지 이동(전체 행 수/페이지당 행 수)
 		salesOrderTable.setPage(Math.ceil(salesOrderTable.getDataCount("active") / salesOrderTable.getPageSize()));
-	
+
 		//MO_Add버튼 비활성화 (작성중인 행이 있다면 추가못하게함)
-		if (!$('#SO_AddBtn').hasClass('unUseBtn'))  {
+		if (!$('#SO_AddBtn').hasClass('unUseBtn')) {
 			$('#SO_AddBtn').addClass('unUseBtn');
 		}
-	
+
 		UseBtn();
 		//list와 stock의 데이터를 없에준다
 		salesOrderSubTable.clearData();
 		salesOrderStockTable.clearData();
-		
+
 		//행이 추가되면 첫셀에 포커스
 		do {
 			setTimeout(function() {
-				row.getCell("sales_Order_mCode").edit();
+				row.getCell("sales_Order_mDate").edit();
 			}, 100);
 		}
 		while (row.getData().sales_Order_mCode === "undefined");
+
 	},
 	cellEditing: function(cell) {
 		//셀위치 저장하여 포커싱부여
@@ -181,20 +194,24 @@ var salesOrderTable = new Tabulator("#salesOrderTable", {
 		{ title: "수주번호", field: "sales_Order_mCus_No", headerHozAlign: "center", hozAlign: "right", headerFilter: true, width: 117 },
 		{ title: "코드", field: "sales_Order_mCode", headerHozAlign: "center", headerFilter: true, editor: SO_inputEditor, width: 70 },
 		{ title: "거래처명", field: "sales_Order_mName", headerHozAlign: "center", headerFilter: true },
-		{ title: "수주일", field: "sales_Order_mDate", headerHozAlign: "center", hozAlign: "right", headerFilter: true, width: 137,
-			formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss", color: "red" }},
+		{
+			title: "수주일", field: "sales_Order_mDate", headerHozAlign: "center", hozAlign: "right", editor: SO_inputEditor, headerFilter: true, width: 137,
+			formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss", color: "red" }
+		},
 		{ title: "납기일자", field: "sales_Order_mDlvry_Date", headerHozAlign: "center", hozAlign: "right", editor: SO_inputEditor, headerFilter: true, width: 90 },
 		{ title: "특이사항", field: "sales_Order_mRemarks", headerHozAlign: "center", editor: SO_inputEditor, headerFilter: true, width: 90 },
 		{ title: "합계금액", field: "sales_Order_mTotal", headerHozAlign: "center", hozAlign: "right", headerFilter: true, formatter: "money", formatterParams: { precision: false }, width: 90 },
 		{ title: "수정자", field: "sales_Order_mModifier", headerHozAlign: "center", headerFilter: true, width: 90 },
-		{ title: "수정일자", field: "sales_Order_mModify_Date", headerHozAlign: "center", headerFilter: true, width: 137,
-			formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" }},
+		{
+			title: "수정일자", field: "sales_Order_mModify_Date", headerHozAlign: "center", headerFilter: true, width: 137,
+			formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" }
+		},
 		{ title: "목록확인", field: "sales_Order_mCheck", visible: false },
 	]
 });
 
 //SO_AddBtn
-$('#SO_AddBtn').click(function(){
+$('#SO_AddBtn').click(function() {
 	//행추가
 	salesOrderTable.addRow();
 })
@@ -206,7 +223,7 @@ function SO_Search() {
 		endDate: $("#endDate").val(),
 		sales_Order_mCode: $("#Sales_InMat_Client_Code").val()
 	}
-	
+
 	$.ajax({
 		method: "GET",
 		dataType: "json",
@@ -214,21 +231,21 @@ function SO_Search() {
 		url: "salesOrderLXRest/SO_Search?data=" + encodeURI(JSON.stringify(data)),
 		success: function(datas) {
 			salesOrderTable.setData(datas);
-			
+
 			// list와 Stock의 데이터를 없애준다
 			salesOrderSubTable.clearData();
 			salesOrderStockTable.clearData();
 			ResetBtn()
 			//SO_ADD버튼 활성화
-			if($('#SO_AddBtn').hasClass('unUseBtn')){
-				$('#SO_AddBtn').removeClass('unUseBtn');				
+			if ($('#SO_AddBtn').hasClass('unUseBtn')) {
+				$('#SO_AddBtn').removeClass('unUseBtn');
 			}
 		}
 	});
 }
 
 //SO_SearchBtn
-$('#SO_SearchBtn').click(function(){
+$('#SO_SearchBtn').click(function() {
 	SO_Search();
 })
 
@@ -278,9 +295,11 @@ var SOL_InputEditor = function(cell, onRendered, success, cancel, editorParams) 
 		//제품코드 셀에서 백스페이스를 눌렀을경우 제품명이 사라지게함
 		if (e.keyCode == 8) {
 			if (cell.getField() == "sales_Order_lCode") {
-				cell.getRow().update({"sales_Order_lName":'',
-									"sales_Order_STND_1": '',
-									"sales_Order_lUnit_Price": ''})
+				cell.getRow().update({
+					"sales_Order_lName": '',
+					"sales_Order_STND_1": '',
+					"sales_Order_lUnit_Price": ''
+				})
 			}
 		}
 		//제품코드 팝업창
@@ -304,7 +323,7 @@ var SOL_InputEditor = function(cell, onRendered, success, cancel, editorParams) 
 							})
 						} else {
 							//검색어와 일치하는값이 없는경우, 팝업창
-							itemPopup(SOL_input.value,'grid','','sales');
+							itemPopup(SOL_input.value, 'grid', '', 'sales');
 						}
 					}
 				})
@@ -315,7 +334,8 @@ var SOL_InputEditor = function(cell, onRendered, success, cancel, editorParams) 
 				cell.nav().next();
 				//만약 마지막행의 합계금액이 비어있을경우 추가 안됨
 				lastRow = salesOrderSubTable.getData()[salesOrderSubTable.getDataCount("active") - 1];
-				if (lastRow.sales_Order_lPrice == 0) {
+				console.log(lastRow.sales_Order_Send_Clsfc);
+				if (lastRow.sales_Order_Send_Clsfc == 211 && lastRow.sales_Order_lPrice == 0) {
 					alert("수량과 단가를 입력해주세요.");
 					cell.nav().prev();
 				} else if (lastRow.sales_Order_lCode.length != "6") {
@@ -333,11 +353,11 @@ var SOL_InputEditor = function(cell, onRendered, success, cancel, editorParams) 
 var output_dtl = dtlSelectList(19);
 
 //salesOrderSubTable 이미 저장되있는 데이터는 편집 불가능 하게 하는 확인 기능
-var editCheck = function(cell){
-    //cell - the cell component for the editable cell
-    //get row data
-    var data = cell.getRow().getData();
-    return data.sales_Order_lCus_No == null;
+var editCheck = function(cell) {
+	//cell - the cell component for the editable cell
+	//get row data
+	var data = cell.getRow().getData();
+	return data.sales_Order_lCus_No == null;
 }
 
 var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
@@ -355,20 +375,20 @@ var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
 	keybindings: {
 		"navNext": "13"
 	},
-	rowFormatter:function(row){
+	rowFormatter: function(row) {
 		//order_lNot_Stocked가 0이면 빨간색으로, 입고수량보다 작으면 파란색으로 나타냄
-        if(row.getData().sales_Order_lNot_Stocked == 0){
-            row.getElement().style.color = "red";
-        }else if(row.getData().sales_Order_lNot_Stocked < row.getData().sales_Order_lQty){
+		if (row.getData().sales_Order_lNot_Stocked == 0) {
+			row.getElement().style.color = "red";
+		} else if (row.getData().sales_Order_lNot_Stocked < row.getData().sales_Order_lQty) {
 			row.getElement().style.color = "blue";
 		}
-    },
+	},
 	//id를 인덱스로 설정
 	index: "sales_Order_lNo",
 	//행을 클릭하면 salesOrderStockTable에 리스트가 나타남
-	rowClick:function(e, row){
+	rowClick: function(e, row) {
 		SOS_Search(row.getData().sales_Order_lCode);
-    },
+	},
 	//행이 추가될때마다 인덱스 부여
 	rowAdded: function(row) {
 		//순번을 정하는 코드 마지막행의 순번+1
@@ -402,24 +422,26 @@ var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
 		cellPos = cell;
 		//편집하는 행의 품목에 대한 재고가 테이블에 나타남
 		var cell_lCode = null;
-		if(cell.getRow().getData().sales_Order_lCode != cell_lCode){
-			if(cell.getRow().getData().sales_Order_lCode.length == 6){
+		if (cell.getRow().getData().sales_Order_lCode != cell_lCode) {
+			if (cell.getRow().getData().sales_Order_lCode.length == 6) {
 				SOS_Search(cell.getRow().getData().sales_Order_lCode);
-				
-				cell_lCode = cell.getRow().getData().sales_Order_lCode	
+
+				cell_lCode = cell.getRow().getData().sales_Order_lCode
 			}
 		}
-		
+
 	},
 	columns: [
 		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false, width: 40 },
 		{ title: "순번", field: "sales_Order_lNo", headerHozAlign: "center", hozAlign: "center", width: 65 },
-		{ title: "수주No", field: "sales_Order_lCus_No", visible: false},
-		{ title: "코드", field: "sales_Order_lCode", headerHozAlign: "center", editor: SOL_InputEditor, editable:editCheck, width: 65
+		{ title: "수주No", field: "sales_Order_lCus_No", visible: false },
+		{
+			title: "코드", field: "sales_Order_lCode", headerHozAlign: "center", editor: SOL_InputEditor, editable: editCheck, width: 65
 		},
-		{ title: "제품명", field: "sales_Order_lName", headerHozAlign: "center", width: 200},
+		{ title: "제품명", field: "sales_Order_lName", headerHozAlign: "center", width: 200 },
 		{ title: "규격1", field: "sales_Order_STND_1", headerHozAlign: "center", width: 75 },
-		{ title: "수량", field: "sales_Order_lQty", headerHozAlign: "center", hozAlign: "right", editor: SOL_InputEditor,
+		{
+			title: "수량", field: "sales_Order_lQty", headerHozAlign: "center", hozAlign: "right", editor: SOL_InputEditor,
 			formatter: "money", formatterParams: { precision: false }, width: 65,
 			cellEdited: function(cell) {
 				//수량이 변경될때 금액값이 계산되어 입력
@@ -433,7 +455,8 @@ var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
 				cell.getRow().update({ "sales_Order_lPrice": iPrice });
 			}
 		},
-		{ title: "단가", field: "sales_Order_lUnit_Price", headerHozAlign: "center", hozAlign: "right", editor: SOL_InputEditor,
+		{
+			title: "단가", field: "sales_Order_lUnit_Price", headerHozAlign: "center", hozAlign: "right", editor: SOL_InputEditor,
 			topCalc: function() { return "합계금액" }, formatter: "money", formatterParams: { precision: false }, width: 75,
 			cellEdited: function(cell) {
 				//단가가 변경될때 금액값이 계산되어 입력
@@ -465,27 +488,29 @@ var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
 					calc += value
 				});
 				if (salesOrderTable.getDataCount("selected") == 1) {
-					salesOrderTable.getRows('selected')[0].update({"sales_Order_mTotal": calc});
+					salesOrderTable.getRows('selected')[0].update({ "sales_Order_mTotal": calc });
 				}
 				return calc;
 			}, topCalcFormatter: "money", topCalcFormatterParams: { precision: false }
 
 		},
-		{ title: "미입고재고", field: "sales_Order_lNot_Stocked", visible: false},
+		{ title: "미입고재고", field: "sales_Order_lNot_Stocked", visible: false },
 		{ title: "비고", field: "sales_Order_lInfo_Remark", headerHozAlign: "center", editor: SOL_InputEditor, width: 70 },
-		{ title: "구분", field: "sales_Order_Send_Clsfc", headerHozAlign: "center", width: 70, editor: "select",
+		{
+			title: "구분", field: "sales_Order_Send_Clsfc", headerHozAlign: "center", width: 70, editor: "select",
 			formatter: function(cell, formatterParams) {
 				var value = cell.getValue();
-				if(output_dtl[value] != null){
-						value = output_dtl[value];	
-					}else{
-						value = "";
-					}
-			    return value;
+				if (output_dtl[value] != null) {
+					value = output_dtl[value];
+				} else {
+					value = "";
+				}
+				return value;
 			},
-			editorParams:{values:output_dtl}}
-		]
-	});
+			editorParams: { values: output_dtl }
+		}
+	]
+});
 
 //팝업창으로부터 특정 파라미터 값으로 데이터를 받는다 
 function item_gridInit(PCode, PName, PSTND_1, PPrice) {
@@ -514,15 +539,15 @@ function SOL_Search(sales_Order_lCus_No) {
 //행추가
 function SOL_Add() {
 	//master 납기일자 입력했는지 확인
-	if(salesOrderTable.getData("selected")[0].sales_Order_mDlvry_Date.length != "10"){
+	if (salesOrderTable.getData("selected")[0].sales_Order_mDlvry_Date.length != "10") {
 		alert("납기일자를 잘못 입력하였습니다.")
 		return false;
 	}
 	//목록의 제품명과 합계금액을 검사하여 입력하지 않았을 경우 추가 안됨
-	for(i=0;i<salesOrderSubTable.getDataCount("active");i++){
+	for (i = 0; i < salesOrderSubTable.getDataCount("active"); i++) {
 		rowData = salesOrderSubTable.getData()[i];
-		
-		if(rowData.sales_Order_lPrice == 0 || rowData.sales_Order_lName == ''){
+		console.log(rowData.sales_Order_Send_Clsfc);
+		if ((rowData.sales_Order_Send_Clsfc == 211 && rowData.sales_Order_lPrice == 0) || rowData.sales_Order_lName == '') {
 			alert("작성중인 행이 있습니다.");
 			return false;
 		}
@@ -532,7 +557,7 @@ function SOL_Add() {
 }
 
 //SOL_AddBtn
-$('#SOL_AddBtn').click(function(){
+$('#SOL_AddBtn').click(function() {
 	SOL_Add();
 })
 
@@ -541,18 +566,18 @@ function SOL_Delete() {
 	//list테이블에서 선택한 데이터
 	selectedData = salesOrderSubTable.getSelectedData();
 	realData = []
-	
+
 	// 기존 조회한 데이터는 수주번호가 있고, 새로 추가된데이터는 수주번호가 없다
-	if(confirm("선택한 행이 삭제됩니다. 삭제하시겠습니까?")){
+	if (confirm("선택한 행이 삭제됩니다. 삭제하시겠습니까?")) {
 		//list데이터에서 수주번호가 있는것만 따로 배열에 담아서 쿼리로 실행한다.
-		for(i=0;i<selectedData.length;i++){
-			if(selectedData[i].sales_Order_lCus_No != null){
+		for (i = 0; i < selectedData.length; i++) {
+			if (selectedData[i].sales_Order_lCus_No != null) {
 				realData.push(selectedData[i]);
 			}
 		}
-		
+
 		//배열에 담은 데이터가 있을경우 쿼리 실행
-		if(realData.length != 0){
+		if (realData.length != 0) {
 			$.ajax({
 				method: "get",
 				url: "salesOrderLXRest/SOL_Delete?data=" + encodeURI(JSON.stringify(realData)),
@@ -565,23 +590,23 @@ function SOL_Delete() {
 		}
 		// 행삭제
 		salesOrderSubTable.deleteRow(salesOrderSubTable.getSelectedRows())
-		.then(function(){
-			// 삭제후 순번 정리
-			rowCount = salesOrderSubTable.getDataCount("active");
-			for(i=0;i<rowCount;i++){
-				salesOrderSubTable.getRows()[i].update({sales_Order_lNo:i+1})
-			}
-			//sub에 행이 없을경우 master도 삭제함
-			if(!rowCount){
-				salesOrderTable.deleteRow(salesOrderTable.getSelectedRows())
-				ResetBtn()
-			}
-		});
+			.then(function() {
+				// 삭제후 순번 정리
+				rowCount = salesOrderSubTable.getDataCount("active");
+				for (i = 0; i < rowCount; i++) {
+					salesOrderSubTable.getRows()[i].update({ sales_Order_lNo: i + 1 })
+				}
+				//sub에 행이 없을경우 master도 삭제함
+				if (!rowCount) {
+					salesOrderTable.deleteRow(salesOrderTable.getSelectedRows())
+					ResetBtn()
+				}
+			});
 	}
 }
 
 //SOL_DeleteBtn
-$('#SOL_DeleteBtn').click(function(){
+$('#SOL_DeleteBtn').click(function() {
 	SOL_Delete();
 })
 
@@ -589,28 +614,28 @@ $('#SOL_DeleteBtn').click(function(){
 function SOL_Save() {
 	selectedRow = salesOrderTable.getData("selected")[0];
 	rowCount = salesOrderSubTable.getDataCount("active");
-	
+
 	//목록의 마지막 데이터를 확인하고 금액이 0이면 행을 삭제하고 저장한다. 
-	if(salesOrderSubTable.getData()[rowCount-1].sales_Order_lPrice == 0){
-		salesOrderSubTable.deleteRow(salesOrderSubTable.getRows()[rowCount-1]);
+	if (salesOrderSubTable.getData()[rowCount - 1].sales_Order_lPrice == 0) {
+		salesOrderSubTable.deleteRow(salesOrderSubTable.getRows()[rowCount - 1]);
 	}
-	
+
 	//만약 선택한행의 합계금액이 비어있을경우 저장 안됨
-	if(selectedRow.sales_Order_mTotal == 0){
+	if (selectedRow.sales_Order_Send_Clsfc == 211 && selectedRow.sales_Order_mTotal == 0) {
 		alert("작성중인 목록이 있습니다.");
 		return false;
 	}
-	
-	if(item_Code_Check()){
+
+	if (item_Code_Check()) {
 		alert("중복된 품목이 있습니다.");
 		return false;
 	}
-	
+
 	//OrderSub 저장부분
 	$.ajax({
 		method: "get",
 		url: "salesOrderLXRest/SOL_Save?masterData=" + encodeURI(JSON.stringify(selectedRow))
-										+"&listData=" + encodeURI(JSON.stringify(salesOrderSubTable.getData())),
+			+ "&listData=" + encodeURI(JSON.stringify(salesOrderSubTable.getData())),
 		success: function(result) {
 			if (result == "error") {
 				alert("빈칸이 있어서 저장할 수 없습니다.")
@@ -622,14 +647,14 @@ function SOL_Save() {
 			}
 		}
 	});
-	
+
 	if ($('#SO_AddBtn').hasClass('unUseBtn')) {
 		$('#SO_AddBtn').removeClass('unUseBtn');
 	}
 }
 
 //SOL_SaveBtn
-$('#SOL_SaveBtn').click(function(){
+$('#SOL_SaveBtn').click(function() {
 	SOL_Save();
 })
 
@@ -651,20 +676,20 @@ function Cus_No_select() {
 //list에서 같은 품목을 추가할때 경고 알리고 추가안됨
 function item_Code_Check() {
 	rowCount = salesOrderSubTable.getDataCount("active");
-	
+
 	itemCode = salesOrderSubTable.getColumn("sales_Order_lCode").getCells();
 	//컬럼값을 검색해서 입력값을 포함하는 값이 있으면 선택한다.
-	for (i=0;i<rowCount-1;i++) {
+	for (i = 0; i < rowCount - 1; i++) {
 		count = 0;
-		for(j=i+1;j<rowCount;j++){
-			if(itemCode[i].getValue() == itemCode[j].getValue()){
+		for (j = i + 1; j < rowCount; j++) {
+			if (itemCode[i].getValue() == itemCode[j].getValue()) {
 				count++
 				//중복일경우
-				if(count>0){
+				if (count > 0) {
 					salesOrderSubTable.selectRow(itemCode[i].getRow())
 					salesOrderSubTable.selectRow(itemCode[j].getRow())
 					return true;
-				}	
+				}
 			}
 		}
 	}
