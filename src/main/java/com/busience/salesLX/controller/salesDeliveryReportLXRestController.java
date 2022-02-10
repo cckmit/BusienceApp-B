@@ -61,7 +61,7 @@ public class salesDeliveryReportLXRestController {
 			sql += " and Sales_OutMat_Send_Clsfc = '" + searchDto.getItemSendClsfc() + "'";
 		}
 
-		sql += " group by somt.Sales_OutMat_Client_Code, somt.Sales_OutMat_Code with rollup;";
+		sql += " group by somt.Sales_OutMat_Client_Code, somt.Sales_OutMat_Date with rollup";
 
 		System.out.println("SOCL_Search = " + sql);
 
@@ -75,19 +75,25 @@ public class salesDeliveryReportLXRestController {
 		while (rs.next()) {
 			Sales_OutMat_tbl data = new Sales_OutMat_tbl();
 
-			if (rs.getString("sales_OutMat_Code") == null && rs.getString("sales_OutMat_Client_Code") != null) {
+			if (rs.getString("sales_OutMat_Date") == null && rs.getString("sales_OutMat_Client_Code") != null) {
 
 				data.setSales_OutMat_Send_Clsfc("Sub Total");
+				data.setSales_OutMat_Date(rs.getString("sales_OutMat_Date"));
 				data.setSales_OutMat_Client_Code(rs.getString("sales_OutMat_Client_Code"));
 				data.setSales_OutMat_Client_Name(rs.getString("Sales_OutMat_Client_Name"));
+				data.setSales_OutMat_Code(rs.getString("sales_OutMat_Code"));
+				data.setSales_OutMat_Name(rs.getString("sales_OutMat_Name"));
 				data.setSales_OutMat_Qty(rs.getInt("sales_OutMat_Qty"));
 				data.setSales_OutMat_Price(rs.getInt("sales_OutMat_Price"));
 
 				list.add(data);
 
-			} else if(rs.getString("sales_OutMat_Code") == null && rs.getString("sales_OutMat_Client_Code") == null){
+			} else if(rs.getString("sales_OutMat_Date") == null && rs.getString("sales_OutMat_Client_Code") == null){
 				
 				data.setSales_OutMat_Send_Clsfc("Grand Total");
+				data.setSales_OutMat_Date(rs.getString("sales_OutMat_Date"));
+				data.setSales_OutMat_Code(rs.getString("sales_OutMat_Code"));
+				data.setSales_OutMat_Name(rs.getString("sales_OutMat_Name"));
 				data.setSales_OutMat_Qty(rs.getInt("sales_OutMat_Qty"));
 				data.setSales_OutMat_Price(rs.getInt("sales_OutMat_Price"));
 
