@@ -180,7 +180,7 @@ var salesOrderTable = new Tabulator("#salesOrderTable", {
 		//행이 추가되면 첫셀에 포커스
 		do {
 			setTimeout(function() {
-				row.getCell("sales_Order_mDate").edit();
+				row.getCell("sales_Order_mCode").edit();
 			}, 100);
 		}
 		while (row.getData().sales_Order_mCode === "undefined");
