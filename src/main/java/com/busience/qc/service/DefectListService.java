@@ -24,6 +24,11 @@ public class DefectListService {
 	@Autowired
 	TransactionTemplate transactionTemplate;
 	
+	//불량합계
+	public List<WorkOrderDto> defectListSelectDao(SearchDto searchDto) {
+		return defectListDao.defectListSelectDao(searchDto);
+	}
+	
 	//제품별 불량합계
 	public List<WorkOrderDto> defectItemListSelect(SearchDto searchDto) {
         return defectListDao.defectItemListSelectDao(searchDto);

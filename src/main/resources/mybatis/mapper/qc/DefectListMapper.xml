@@ -5,6 +5,25 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="com.busience.qc.dao.DefectListDao">
+	<select id="defectListSelectDao" resultType="com.busience.productionLX.dto.WorkOrderDto">
+	<![CDATA[
+		SELECT A.WorkOrder_ONo,
+			A.WorkOrder_ItemCode, B.PRODUCT_ITEM_NAME WorkOrder_ItemName, B.PRODUCT_INFO_STND_1 WorkOrder_Item_STND_1,
+			A.WorkOrder_EquipCode, C.EQUIPMENT_INFO_NAME WorkOrder_EquipName,
+			A.WorkOrder_PQty, A.WorkOrder_RQty, A.WorkOrder_CompleteTime, E.Defect_Qty WorkOrder_DQty
+			FROM (
+				select * from WorkOrder_tbl
+				where WorkOrder_WorkStatus = (select CHILD_TBL_NO from DTL_TBL where NEW_TBL_CODE = '29' and CHILD_TBL_NUM = '4')
+                and WorkOrder_CompleteTime >= #{startDate} and WorkOrder_CompleteTime < #{endDate}
+			) A
+			inner join PRODUCT_INFO_TBL B on A.WorkOrder_ItemCode = B.PRODUCT_ITEM_CODE
+			inner join EQUIPMENT_INFO_TBL C on A.WorkOrder_EquipCode = C.EQUIPMENT_INFO_CODE
+			left outer join (
+				SELECT Defect_ONo, sum(Defect_Qty) Defect_Qty FROM defect_tbl group by Defect_ONo
+			) E on A.WorkOrder_ONo = E.Defect_ONo
+	]]>		
+	</select>
+
 	<select id="defectItemListSelectDao" resultType="com.busience.productionLX.dto.WorkOrderDto">
 	<![CDATA[
 		SELECT	A.WorkOrder_ItemCode, B.PRODUCT_ITEM_NAME WorkOrder_ItemName, B.PRODUCT_INFO_STND_1 WorkOrder_Item_STND_1,

@@ -9,82 +9,89 @@ import com.busience.common.service.DtlService;
 
 @Controller
 public class QCController {
-	
+
 	@Autowired
 	DtlService dtlService;
-	
-	//oqcOutputInspect
+
+	// oqcOutputInspect
 	@GetMapping("/oqcOutputInspect")
 	public String iqcInputInspect(Model model) {
-		
-		//로직
+
+		// 로직
 		int rogic = 22;
 		model.addAttribute("rogicList", dtlService.getDtl(rogic));
-		
-		//작업자
+
+		// 작업자
 		int in = 23;
 		model.addAttribute("inList", dtlService.getDtl(in));
-		
-		//유형
+
+		// 유형
 		int cost = 25;
 		model.addAttribute("costList", dtlService.getDtl(cost));
-		
-		//판정
+
+		// 판정
 		int check = 27;
 		model.addAttribute("checkList", dtlService.getDtl(check));
-		
+
 		model.addAttribute("pageName", "최종 검사(제품별)");
-		
+
 		return "qc/oqcOutputInspect";
 	}
-	
-	//oqcOutputList
+
+	// oqcOutputList
 	@GetMapping("oqcOutputList")
 	public String oqcOutputList(Model model) {
-		
-		//로직
+
+		// 로직
 		int rogic = 22;
 		model.addAttribute("rogicList", dtlService.getDtl(rogic));
-		
+
 		model.addAttribute("pageName", "최종 검사(설비별)");
-		
+
 		return "qc/oqcOutputList";
 	}
-	
+
 	// oqcOutputDefecterate
 	@GetMapping("oqcOutputDefecterate")
 	public String oqcOutputDefecterate(Model model) {
-		
-		//로직
+
+		// 로직
 		int rogic = 22;
 		model.addAttribute("rogicList", dtlService.getDtl(rogic));
-		
+
 		model.addAttribute("pageName", "제품별 불량율");
-		
+
 		return "qc/oqcOutputDefectrate/oqcMaster";
 	}
-	
+
 	// defectInsert
 	@GetMapping("defectInsert")
 	public String defectInsert(Model model) {
 		model.addAttribute("pageName", "불량별 관리");
 		return "qc/defectInsert";
 	}
-	
+
+	// defectList
+	@GetMapping("defectList")
+	public String defectList(Model model) {
+		model.addAttribute("pageName", "검사 이력 관리");
+		return "qc/defectList";
+	}
+
 	// defectInsertM
 	@GetMapping("defectItemList")
 	public String defectItemList(Model model) {
 		model.addAttribute("pageName", "검사 이력 관리(제품별)");
 		return "qc/defectItemList";
 	}
-	
+
 	// defectInsertM
 	@GetMapping("defectMachineList")
 	public String defectMachineList(Model model) {
 		model.addAttribute("pageName", "검사 이력 관리(설비별)");
 		return "qc/defectMachineList";
 	}
-	
+
 	// defectInsertM
 	@GetMapping("defectInsertM")
 	public String defectInsertM(Model model) {

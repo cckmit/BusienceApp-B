@@ -11,6 +11,9 @@ import com.busience.qc.dto.DefectDto;
 @Mapper
 public interface DefectListDao {
 	
+	//불량합계
+	public List<WorkOrderDto> defectListSelectDao(SearchDto searchDto);
+	
 	//제품별 불량합계
 	public List<WorkOrderDto> defectItemListSelectDao(SearchDto searchDto);
 	
