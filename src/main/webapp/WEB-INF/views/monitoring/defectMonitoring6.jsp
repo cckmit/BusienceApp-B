@@ -81,20 +81,15 @@
 			<%
 				}
 			%>
-		</script>
-		
-		<style>
-			.tabulator { font-size: 16px; }
-		</style>
 
-<script>
-			setInterval(function(){
+			function setClock(){
 				vtoday = new Date();
 				
 				let year = vtoday.getFullYear(); // 년도
-				let month = vtoday.getMonth() + 1;  // 월
-				let date = vtoday.getDate();  // 날짜
-				let day = vtoday.getDay();  // 요일
+				
+				let month = pluszero(vtoday.getMonth() + 1, 2);  // 월
+				let date = pluszero(vtoday.getDate(), 2);  // 날짜
+				let day = pluszero(vtoday.getDay(), 2);  // 요일
 				
 				if(day==0)
 					day = "일요일"
@@ -115,10 +110,17 @@
 				
 				document.getElementById("day").innerHTML = value;
 				
-				let hours = vtoday.getHours(); // 시
-				let minutes = vtoday.getMinutes();  // 분
-				let seconds = vtoday.getSeconds();  // 초
+				let hours = pluszero(vtoday.getHours(), 2); // 시
+				let minutes = pluszero(vtoday.getMinutes(), 2);  // 분
+				let seconds = pluszero(vtoday.getSeconds(), 2);  // 초
 				
 				document.getElementById("time").innerHTML = hours + ':' + minutes + ':' + seconds;
-			},1000);
-		</script>
+				
+			}
+			setClock();
+			setInterval(setClock,1000);
+			</script>
+			
+			<style>
+				.tabulator { font-size: 16px; }
+			</style>

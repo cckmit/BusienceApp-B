@@ -45,86 +45,74 @@
 		<input id="endDate" class="tomorrow" type="date" style="width: 180px; height: 35px; font-size: 20px;">
 		</div>
 		<script>
-		<%
-		for(int i=1;i<2;i++)
-			{
-		%>
-				var m00<%=i%>_table = new Tabulator("#m00<%=i%>_table", {
+			for(let i=1;i<2;i++){
+				new Tabulator("#M00"+i+"_table", {
 				    height:"75%",
+					layoutColumnsOnNewData : true,
 				    resizableColumns:false,
+				    ajaxLoader:false,
+				    ajaxURL:"workOrderTABRestXO/WOT_Search",
+				    ajaxConfig:"get",
+				    ajaxContentType:"json",
+				    ajaxParams:{
+				    	machineCode : "M00"+i,
+				    	startDate : today.toISOString().substring(0, 10),
+				    	endDate : tomorrow.toISOString().substring(0, 10),
+				    	statusCodeArr : "245"
+				    },
 				    columns:[
-				        {title:"작업지시번호", field:"workOrder_ONo",visible:false, headerSort:false, width: 170, headerHozAlign: "center"},
-				        { title: "제품이름", field: "workOrder_ItemName", headerHozAlign: "center", width: 150, headerSort:false },
-				        { title: "생산", field: "workOrder_RQty", headerHozAlign: "center", width: 60, align: "right",
-							formatter:"money", formatterParams: {precision: false}, headerSort:false,visible:true
+				        {title:"작업지시번호", field:"workOrder_ONo",visible:false, headerSort:false, headerHozAlign: "center"},
+				        { title: "제품이름", field: "workOrder_ItemName", headerHozAlign: "center", headerSort:false},
+				        { title: "생산", field: "workOrder_RQty", headerHozAlign: "center", align: "right",
+							formatter:"money", formatterParams: {precision: false}, headerSort:false, bottomCalc:"sum"					
 						},
-						{ title: "작업시작일", field: "workOrder_StartTime", align: "right", headerHozAlign: "center", width: 140,visible:true, headerSort:false},
-						{ title: "작업완료일", field: "workOrder_CompleteTime", align: "right", headerHozAlign: "center", width: 108, headerSort:false,visible:true},
-						{ title: "특이사항", field: "workOrder_Remark", align: "right", headerHozAlign: "center",visible:false, headerSort:true}
-				    ],
-				});
-				
-				setInterval(function(){
-						$.get("workOrderTABRestXO/WOT_Search?machineCode=M00<%=i%>"+"&startDate="+$("#startDate").val() + "&endDate=" + $("#endDate").val() +"&statusCodeArr="+ 245, function(data) {
-							
-							sum_workOrder_RQty = 0;
-							
-							data.forEach(function(element){
-								sum_workOrder_RQty += parseInt(element.workOrder_RQty);
-							});
-							
-							if(data.length > 0)
-							{
-								result = {};
-								result.workOrder_RQty = sum_workOrder_RQty;
-								result.workOrder_ItemName = "총 생산량";
-								data.push(result);
-							}
-							
-							m00<%=i%>_table.setData(data);
-						});
-				},10000);
-		<%
+						{ title: "작업시작일", field: "workOrder_StartTime", align: "right", headerHozAlign: "center", headerSort:false,
+							formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm" }},
+						{ title: "작업완료일", field: "workOrder_CompleteTime", align: "right", headerHozAlign: "center", headerSort:false,
+							formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm" }}
+				    ]
+				});	
 			}
-		%>
+
+		function setClock(){
+			vtoday = new Date();
+			
+			let year = vtoday.getFullYear(); // 년도
+			
+			let month = pluszero(vtoday.getMonth() + 1, 2);  // 월
+			let date = pluszero(vtoday.getDate(), 2);  // 날짜
+			let day = pluszero(vtoday.getDay(), 2);  // 요일
+			
+			if(day==0)
+				day = "일요일"
+			else if(day==1)
+				day = "월요일"
+			else if(day==2)
+				day = "화요일"
+			else if(day==3)
+				day = "수요일"
+			else if(day==4)
+				day = "목요일"
+			else if(day==5)
+				day = "금요일"
+			else if(day==6)
+				day = "토요일"
+				
+			let value = year + '-' + month + '-' + date + ' ' + day;
+			
+			document.getElementById("day").innerHTML = value;
+			
+			let hours = pluszero(vtoday.getHours(), 2); // 시
+			let minutes = pluszero(vtoday.getMinutes(), 2);  // 분
+			let seconds = pluszero(vtoday.getSeconds(), 2);  // 초
+			
+			document.getElementById("time").innerHTML = hours + ':' + minutes + ':' + seconds;
+			
+		}
+		setClock();
+		setInterval(setClock,1000);
 		</script>
 		
 		<style>
 			.tabulator { font-size: 16px; }
 		</style>
-		
-		<script>
-			setInterval(function(){
-				vtoday = new Date();
-				
-				let year = vtoday.getFullYear(); // 년도
-				let month = vtoday.getMonth() + 1;  // 월
-				let date = vtoday.getDate();  // 날짜
-				let day = vtoday.getDay();  // 요일
-				
-				if(day==0)
-					day = "일요일"
-				else if(day==1)
-					day = "월요일"
-				else if(day==2)
-					day = "화요일"
-				else if(day==3)
-					day = "수요일"
-				else if(day==4)
-					day = "목요일"
-				else if(day==5)
-					day = "금요일"
-				else if(day==6)
-					day = "토요일"
-					
-				let value = year + '-' + month + '-' + date + ' ' + day;
-				
-				document.getElementById("day").innerHTML = value;
-				
-				let hours = vtoday.getHours(); // 시
-				let minutes = vtoday.getMinutes();  // 분
-				let seconds = vtoday.getSeconds();  // 초
-				
-				document.getElementById("time").innerHTML = hours + ':' + minutes + ':' + seconds;
-			},1000);
-		</script>
