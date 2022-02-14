@@ -45,8 +45,6 @@
 		<input id="endDate" class="tomorrow" type="date" style="width: 180px; height: 35px; font-size: 20px;">
 		</div>
 		<script>
-			
-		
 			<%
 				for(int i=1;i<9;i++)
 				{
@@ -67,7 +65,7 @@
 					});
 					
 					setInterval(function(){
-							$.get("workOrderTABRestXO/MI_Searchd?WorkOrder_EquipCode=m00<%=i%>"+"&startDate=" + $("#startDate").val() + "&endDate=" + $("#endDate").val(), function(data) {
+							$.get("workOrderTABRestXO/WOT_Search?machineCode=M00<%=i%>"+"&startDate="+$("#startDate").val() + "&endDate=" + $("#endDate").val() +"&statusCodeArr="+ 245, function(data) {
 								
 								sum_workOrder_RQty = 0;
 								
