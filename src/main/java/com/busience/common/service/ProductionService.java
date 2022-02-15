@@ -36,8 +36,20 @@ public class ProductionService {
 	@Autowired
 	TransactionTemplate transactionTemplate;
 	
-	//가입시 메뉴 저장
+	boolean pause = true;
+	
+	public boolean pauseChange(boolean TF) {
+		pause = TF;
+		return pause;
+	}
+	
+	//생산량 저장
 	public int insertProduction(String equip, int value) {
+		//pause가 false일 경우 일시중지
+		if(!pause) {
+			return 0;
+		}
+		
 		try {
 			
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {

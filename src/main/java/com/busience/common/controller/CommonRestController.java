@@ -50,6 +50,13 @@ public class CommonRestController {
 		return menuService.menuList(principal.getName());
 	}
 	
+	//카운트일시정지 기능
+	@GetMapping("/pauseChange")
+	public boolean pauseChange(boolean TF) {
+		return productionService.pauseChange(TF);
+	}
+	
+	//생산량 저장
 	@GetMapping("/bsapp2")
 	public int bsapp2(String equip, int value) {
 		return productionService.insertProduction(equip, value);

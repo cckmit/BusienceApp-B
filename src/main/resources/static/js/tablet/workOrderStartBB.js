@@ -231,7 +231,6 @@ function WOT_Search(){
 	WorkOrder_tbl.setData("../workOrderTABRestXO/WOT_Search",datas)
 	.then(function(){
 		sumQty();
-		working();
 	})
 }
 
@@ -289,26 +288,35 @@ function lang_convert(n){
 	}
 }
 
-//작업중 깜빡이는 기능
-flash = false;
+$("#tp").click(function(){
+	if($(this).text() == "작업중"){
+		$(this).text("일시중지")
+		if($(this).hasClass("red_light")){
+			$(this).removeClass("red_light")
+			pauseChange(false)
+		}
+	}else{
+		$(this).text("작업중")
+		if(!$(this).hasClass("red_light")){
+			$(this).addClass("red_light")
+			pauseChange(true)
+		}
+	}
+})
 
-function working(){
-	if(document.getElementById("itemName").value === "")
-	{
-		document.getElementById("t8").innerHTML = "NONE";
-		document.getElementById("tp").style.color = "rgb(112,173,70)";
-		document.getElementById("tp").style.background = "rgb(112,173,70)";
-	}
-	else
-	{
-		flash = !flash;
-		document.getElementById("tp").style.color = "black";
-		if(flash)
-			document.getElementById("tp").style.background = "red";
-		else
-			document.getElementById("tp").style.background = "white";
-	}
+function pauseChange(value){
+	var ajaxResult = $.ajax({
+		method : "get",
+		url : "/pauseChange",
+		data : {TF : value},
+		success : function(data) {
+			console.log(data);
+		}
+	});
+	return ajaxResult
 }
+
+
 
 $("#WOT_Complete_ModifyBtn").click(function(){
 	if($("#t8").text() != "NONE" && $("#WOT_Complete_Modify").hasClass("none") && $("#current_qty").val() > 0){

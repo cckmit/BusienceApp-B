@@ -6,6 +6,14 @@ html, body {
 	overflow: hidden;
 }
 
+@keyframes change-effect {
+    50% {
+        background-color: red;
+    }
+}
+.red_light{
+    animation: change-effect 2s step-end infinite;
+}
 </style>
 
 <div id="testModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -33,7 +41,7 @@ html, body {
 	<div class="col-md-12" style="border:solid; background-color:rgb(112,173,70); text-align: center; border-radius: 5%;">
 		<div style="font-size: 60px; color: white; text-align: center; width: 50%; float: left;" id="t1">작업 관리</div>
 		
-		<div style="background-color:white; font-size: 60px; color: black; text-align: center; width: 20%; float: left; border: solid;" id="tp">작업중</div>
+		<div style="background-color:white; font-size: 60px; color: black; text-align: center; width: 20%; float: left; border: solid; cursor: pointer;" id="tp" class="red_light">작업중</div>
 
 		<div style="font-size: 60px; color: black; text-align: center; width: 15%; float: left; background-color:red; border-radius: 10%; border: solid;" id="kor" onclick="lang_convert(this)">한글</div>
 		<div style="font-size: 60px; color: black; text-align: center; width: 15%; float: left; background-color:white; border-radius: 10%; border: solid;" id="eng" onclick="lang_convert(this)">ENG</div>
