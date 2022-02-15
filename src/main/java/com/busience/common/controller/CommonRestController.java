@@ -51,7 +51,7 @@ public class CommonRestController {
 	}
 	
 	//카운트일시정지 기능
-	@GetMapping("/pauseChange")
+	@GetMapping("/tablet/pauseChange")
 	public boolean pauseChange(boolean TF) {
 		return productionService.pauseChange(TF);
 	}

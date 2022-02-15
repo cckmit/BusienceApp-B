@@ -289,34 +289,31 @@ function lang_convert(n){
 }
 
 $("#tp").click(function(){
-	if($(this).text() == "작업중"){
-		$(this).text("일시중지")
-		if($(this).hasClass("red_light")){
-			$(this).removeClass("red_light")
-			pauseChange(false)
-		}
-	}else{
-		$(this).text("작업중")
-		if(!$(this).hasClass("red_light")){
-			$(this).addClass("red_light")
-			pauseChange(true)
-		}
-	}
+	pauseChange(true);
 })
 
 function pauseChange(value){
+	//TF = true: 상태변경, false: 기존유지,
 	var ajaxResult = $.ajax({
 		method : "get",
-		url : "/pauseChange",
+		url : "/tablet/pauseChange",
 		data : {TF : value},
 		success : function(data) {
-			console.log(data);
+			if(data){
+				$("#tp").text("작업중")
+				if(!$("#tp").hasClass("red_light")){
+					$("#tp").addClass("red_light")
+				}
+			}else{
+				$("#tp").text("일시중지")
+				if($("#tp").hasClass("red_light")){
+					$("#tp").removeClass("red_light")
+				}
+			}			
 		}
 	});
 	return ajaxResult
 }
-
-
 
 $("#WOT_Complete_ModifyBtn").click(function(){
 	if($("#t8").text() != "NONE" && $("#WOT_Complete_Modify").hasClass("none") && $("#current_qty").val() > 0){
@@ -390,6 +387,7 @@ window.onload = function(){
 	document.getElementById("ko").style.height = window.innerHeight - document.getElementById("ko").offsetTop + "px";
 	document.getElementById("WorkOrder_tbl").style.height = window.innerHeight - document.getElementById("ko").offsetTop - 10 + "px";
 	WOT_Choice();
+	pauseChange(false);
 	
 	setInterval(function(){
 		WOT_Choice();

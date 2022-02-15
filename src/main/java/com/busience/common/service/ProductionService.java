@@ -39,7 +39,9 @@ public class ProductionService {
 	boolean pause = true;
 	
 	public boolean pauseChange(boolean TF) {
-		pause = TF;
+		if(TF) {
+			pause = !pause;
+		}
 		return pause;
 	}
 	
