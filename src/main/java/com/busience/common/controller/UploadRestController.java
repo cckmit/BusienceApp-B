@@ -3,6 +3,8 @@ package com.busience.common.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -34,19 +36,19 @@ public class UploadRestController {
 			
 		//폴더 경로
 		String uploadFolder = "/home/hosting_users/"+username+"/tomcat/conf/files";
-		 
+		
 		//폴더 만들기 
 		File uploadPath = new File(uploadFolder, getFolder());
 		
 		//리턴할 파일목록
 		List<FileDto> fileDtoList = new ArrayList<FileDto>();
-		FileDto fileDto = new FileDto();
 		
 		if(uploadPath.exists() == false) {
 			uploadPath.mkdirs();
 		}
-		  
 		for(MultipartFile multipartFile : uploadFile) {
+			FileDto fileDto = new FileDto();
+			
 			UUID uuid = UUID.randomUUID();
 			String originalName = multipartFile.getOriginalFilename();
 			String newName = uuid+"_"+multipartFile.getOriginalFilename();
@@ -55,12 +57,16 @@ public class UploadRestController {
 			fileDto.setFileName(newName);
 			fileDto.setFileSize(multipartFile.getSize());
 			fileDto.setSavePath(uploadPath.toString());
-				  
-			File saveFile = new File(uploadPath, newName);
-			  
+
+			String fullFilePath = uploadPath + File.separator + newName;
+
+			//File saveFile = new File(uploadPath, newName);
 			try {
 				fileDtoList.add(fileDto);
-				multipartFile.transferTo(saveFile);
+				//multipartFile.transferTo(saveFile);
+
+				Path path = Paths.get(fullFilePath).toAbsolutePath();
+				multipartFile.transferTo(path);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
@@ -80,14 +86,12 @@ public class UploadRestController {
 		System.out.println(filePath);
 		File file = new File(filePath);
 		
-		System.out.println(file);
-		
 		ResponseEntity<byte[]> result = null;
 		
 		try {
 			HttpHeaders header = new HttpHeaders();
 			
-			header.add("COntent-Type", Files.probeContentType(file.toPath()));
+			header.add("Content-Type", Files.probeContentType(file.toPath()));
 			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
 		} catch (IOException e) {
 			e.printStackTrace();
