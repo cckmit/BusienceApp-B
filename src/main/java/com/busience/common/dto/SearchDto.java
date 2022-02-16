@@ -15,6 +15,8 @@ public class SearchDto {
 	
 	private String LotNo;
 	
+	private String OrderNo;
+	
 	private String WorkOrderONo;
 	
 	private String ItemCode;

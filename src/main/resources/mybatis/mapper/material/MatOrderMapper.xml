@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	 
+<mapper namespace="com.busience.materialLX.dao.MatOrderDao">
+	<select id="matOrderMasterSelectDao" resultType="com.busience.materialLX.dto.OrderMasterDto">
+		SELECT 
+		 A.Order_mCus_No, A.Order_mCode, B.Cus_Name Order_mName,
+		 A.Order_mDate, A.Order_mTotal, A.Order_mDlvry_Date,
+		 A.Order_mRemarks, A.Order_mModifier, A.Order_mModify_Date,
+		 A.Order_mCheck
+		 FROM OrderMasterLX_tbl A
+		 inner join Customer_tbl B on A.Order_mCode = B.Cus_Code
+	<![CDATA[
+		 where A.Order_mDate >= #{startDate} and Order_mDate < #{endDate}
+	]]>
+		 and not Order_mCheck = 'Y'
+		 and Order_mCode like concat('%',#{ItemCode},'%')
+		 order by Order_mDate
+	</select>
+	
+	<select id="matOrderListSelectDao" resultType="com.busience.materialLX.dto.OrderListDto">
+		SELECT 
+			A.Order_lNo, A.Order_lCus_No,
+			B.PRODUCT_ITEM_NAME Order_lName, A.Order_lCode,
+			B.PRODUCT_INFO_STND_1 Order_STND_1,
+			A.Order_lQty, A.Order_lUnit_Price, A.Order_lPrice,
+			A.Order_lNot_Stocked, A.Order_Rcv_Clsfc,
+			A.Order_lInfo_Remark
+		FROM OrderListLX_tbl A
+		inner join PRODUCT_INFO_TBL B on A.Order_lCode = B.PRODUCT_ITEM_CODE
+		where Order_lCus_No = #{OrderNo}
+		Order by Order_lNo
+	</select>
+	
+	<select id="stockMatSelectDao" resultType="com.busience.materialLX.dto.StockMatDto">
+		SELECT 
+			A.SM_Code, B.PRODUCT_ITEM_NAME SM_Name,
+			B.PRODUCT_INFO_STND_1 SM_STND_1,
+			A.SM_Last_Qty+A.SM_In_Qty-A.SM_Out_Qty SM_Qty
+		FROM StockMatLX_tbl A
+		inner join PRODUCT_INFO_TBL B ON A.SM_Code = B.PRODUCT_ITEM_CODE
+		where A.SM_Code = #{ItemCode}
+	</select>
+	
+	<insert id="matOrderMasterInsertDao">
+		insert into OrderMasterLX_tbl(
+			Order_mCus_No, Order_mCode, Order_mDate,
+		    Order_mTotal, Order_mDlvry_Date, Order_mRemarks,
+		    Order_mModifier, Order_mModify_Date
+		) values (
+		    #{Order_mCus_No}, #{Order_mCode}, #{Order_mDate},
+		    #{Order_mTotal}, #{Order_mDlvry_Date}, #{Order_mRemarks},
+		    #{Order_mModifier}, now()
+		) on duplicate key update
+		    Order_mTotal = #{Order_mTotal},
+		    Order_mDlvry_Date = #{Order_mDlvry_Date},
+		    Order_mRemarks = #{Order_mRemarks},
+		    Order_mModifier = #{Order_mModifier},
+		    Order_mModify_Date = now()
+	</insert>
+</mapper>
