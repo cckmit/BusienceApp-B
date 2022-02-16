@@ -64,8 +64,8 @@ var routingManageTable = new Tabulator("#routingManageTable",	{
 	},
 	columns: [
 		{ title: "순번",	field: "rownum", hozAlign: "center", formatter:"rownum"},
-		{ title: "품목분류", field: "item_Clsfc_1", headerHozAlign: "center"},
-		{ title: "품목분류명", field: "item_Clsfc_1_Name", headerHozAlign: "center", editor: RM_InputEditor},
+		{ title: "품목분류1", field: "item_Clsfc_1", headerHozAlign: "center", visible:false},
+		{ title: "품목분류1명", field: "item_Clsfc_1_Name", headerHozAlign: "center", editor: RM_InputEditor},
 		{ title: "공정", headerHozAlign:"center",
 			
 			columns:[

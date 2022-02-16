@@ -35,7 +35,7 @@
 				) B ON A.Wip_LotNo = B.Wip_LotNo AND A.Wip_Process_No = B.Wip_Process_No
 		inner join Routing_Info_tbl C on A.Wip_Process_Type = C.Item_Clsfc_1 and A.Wip_Process_No = C.Routing_No
 		inner join WipLotMaster_tbl D on A.Wip_LotNo = D.Wip_LotNo and D.Wip_Status = #{WipStatus}
-		<if test="WipStatus == 3">
+		<if test="WipStatus == 323">
 		<![CDATA[
 			where D.Wip_DateTIme >= #{startDate} and D.Wip_DateTIme < #{endDate}
 		]]>	
