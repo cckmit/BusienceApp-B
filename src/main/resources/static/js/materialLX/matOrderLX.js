@@ -133,10 +133,11 @@ var matOrderTable = new Tabulator("#matOrderTable", {
     	MOL_Search(row.getData().order_mCus_No);
 		
 		//버튼 설정
-		ResetBtn()
+		/*ResetBtn()
 		if(row.getData().order_mCheck != 'I'){
 			UseBtn();
-		}
+		}*/
+		UseBtn();
     },
 	//행추가시 기능
 	rowAdded : function ( row ) {
@@ -250,6 +251,11 @@ function MO_Delete(){
 		$.ajax({
 			method: "post",
 			url: "matOrderLXRest/MO_Delete?data=" + encodeURI(JSON.stringify(selectedData[0])),
+			beforeSend: function (xhr) {
+	           var header = $("meta[name='_csrf_header']").attr("content");
+	           var token = $("meta[name='_csrf']").attr("content");
+	           xhr.setRequestHeader(header, token);
+			},
 			success: function(result) {
 				console.log(result);
 				if (result == "error") {
@@ -616,6 +622,11 @@ function MOL_Delete(){
 			$.ajax({
 				method: "post",
 				url: "matOrderLXRest/MOL_Delete?data=" + encodeURI(JSON.stringify(realData)),
+				beforeSend: function (xhr) {
+		           var header = $("meta[name='_csrf_header']").attr("content");
+		           var token = $("meta[name='_csrf']").attr("content");
+		           xhr.setRequestHeader(header, token);
+				},
 				success: function(result) {
 					console.log(result);
 					if (result == "error") {
