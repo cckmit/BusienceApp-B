@@ -13,9 +13,12 @@
 				
 				<!-- 버튼 -->
 				<div class="input-box">
-					<span><strong>LotNo</strong></span>
-					<input id="wipLotNo" type="text" autofocus>
+					<div>
+						<span><strong>LotNo</strong></span>
+						<input id="wipLotNo" type="text" placeholder="숫자만 입력" autofocus>
+					</div>
 				</div>
+				
 			</div>
 				<!-- 그리드 생성 장소 -->
 			<div id="wipManageTable" class="master-in"></div>

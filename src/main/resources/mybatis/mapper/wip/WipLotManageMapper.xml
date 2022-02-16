@@ -100,7 +100,7 @@
 			select * from WipLotTrans_tbl where Wip_OutputDate is null
 		) A
 		inner join Routing_Info_tbl B on A.Wip_Process_Type = B.Item_Clsfc_1 and A.Wip_Process_No = B.Routing_No
-		inner join WipLotMaster_tbl C on A.Wip_LotNo = C.Wip_LotNo and C.Wip_Status = 1
+		inner join WipLotMaster_tbl C on A.Wip_LotNo = C.Wip_LotNo and C.Wip_Status = 321
 		group by A.Wip_LotNo
 	</select>
 	
@@ -117,7 +117,7 @@
 		) A
 		inner join Routing_Info_tbl B on A.Wip_Process_Type = B.Item_Clsfc_1 and A.Wip_Process_No = B.Routing_No
 		inner join WipLotMaster_tbl C on A.Wip_LotNo = C.Wip_LotNo
-		<if test="WipStatus == 1">
+		<if test="WipStatus == 321">
 			and C.Wip_Status = #{WipStatus}
 		</if>
 		inner join USER_INFO_TBL D on A.Wip_Worker = D.USER_CODE
@@ -136,7 +136,7 @@
 		) A
 		inner join Routing_Info_tbl B on A.Wip_Process_Type = B.Item_Clsfc_1 and A.Wip_Process_No = B.Routing_No
 		inner join WipLotMaster_tbl C on A.Wip_LotNo = C.Wip_LotNo
-		<if test="WipStatus == 1">
+		<if test="WipStatus == 321">
 			and C.Wip_Status = #{WipStatus}
 		</if>
 		inner join USER_INFO_TBL D on A.Wip_Worker = D.USER_CODE
@@ -170,14 +170,18 @@
 		    C.Wip_Process_No Wip_Process_No_3, C.Wip_InputDate wip_InputDate_P3, C.Wip_OutputDate wip_OutputDate_P3,
 		    D.Wip_Process_No Wip_Process_No_4, D.Wip_InputDate wip_InputDate_P4, D.Wip_OutputDate wip_OutputDate_P4,
 		    E.Wip_Process_No Wip_Process_No_5, E.Wip_InputDate wip_InputDate_P5, E.Wip_OutputDate wip_OutputDate_P5,
-            F.Wip_Status
+            F.Wip_Status, G.CHILD_TBL_TYPE Wip_Status_Name
 		FROM WipLotTrans_tbl A
 		left outer join (select Wip_LotNo, Wip_Process_No, Wip_InputDate, Wip_OutputDate from WipLotTrans_tbl where Wip_Process_No = 2) B on A.Wip_LotNo = B.Wip_LotNo
 		left outer join (select Wip_LotNo, Wip_Process_No, Wip_InputDate, Wip_OutputDate from WipLotTrans_tbl where Wip_Process_No = 3) C on A.Wip_LotNo = C.Wip_LotNo
 		left outer join (select Wip_LotNo, Wip_Process_No, Wip_InputDate, Wip_OutputDate from WipLotTrans_tbl where Wip_Process_No = 4) D on A.Wip_LotNo = D.Wip_LotNo
 		left outer join (select Wip_LotNo, Wip_Process_No, Wip_InputDate, Wip_OutputDate from WipLotTrans_tbl where Wip_Process_No = 5) E on A.Wip_LotNo = E.Wip_LotNo
         inner join WipLotMaster_tbl F on A.Wip_LotNo = F.Wip_LotNo
-		where A.Wip_Process_Type = #{Wip_Process_Type} and A.Wip_Process_No = 1
+        inner join DTL_TBL G on F.Wip_Status = G.CHILD_TBL_NO
+		where A.Wip_Process_No = 1 
+		<if test="Wip_Process_Type != 31">
+			and A.Wip_Process_Type = #{Wip_Process_Type}
+		</if>
 	</select>
 	
 	<!-- 공정중인 모든 데이터 -->
@@ -196,7 +200,10 @@
 		left outer join (select Wip_LotNo, Wip_Process_No, Wip_InputDate, Wip_OutputDate from WipLotTrans_tbl where Wip_Process_No = 4) D on A.Wip_LotNo = D.Wip_LotNo
 		left outer join (select Wip_LotNo, Wip_Process_No, Wip_InputDate, Wip_OutputDate from WipLotTrans_tbl where Wip_Process_No = 5) E on A.Wip_LotNo = E.Wip_LotNo
         inner join WipLotMaster_tbl F on A.Wip_LotNo = F.Wip_LotNo
-		where A.Wip_Process_Type = #{Wip_Process_Type} and A.Wip_Process_No = 1 and F.Wip_Status in (1)
+		where A.Wip_Process_No = 1 and F.Wip_Status in (321)
+		<if test="Wip_Process_Type != 31">
+			and A.Wip_Process_Type = #{Wip_Process_Type}
+		</if>
 	</select>
 	
 	<!-- 입고취소시 랏트랜스삭제 -->

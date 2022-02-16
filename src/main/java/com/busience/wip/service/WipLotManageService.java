@@ -179,12 +179,25 @@ public class WipLotManageService {
 	
 	// wipInputList
 	public List<WipLotTransDto> wipInputList(SearchDto searchDto) {
-		return wipLotManageDao.wipInputListDao(searchDto);
+		List<WipLotTransDto> WipLotTransDtoList = wipLotManageDao.wipInputListDao(searchDto);
+		
+		for(int i=0;i<WipLotTransDtoList.size();i++) {
+			String Wip_FullLotNo = WipLotTransDtoList.get(i).getWip_Prefix()+WipLotTransDtoList.get(i).getWip_LotNo();
+			WipLotTransDtoList.get(i).setWip_FullLotNo(Wip_FullLotNo);
+		}
+		
+		return WipLotTransDtoList;
 	}
 	
 	// wipOutputList
 	public List<WipLotTransDto> wipOutputList(SearchDto searchDto) {
-		return wipLotManageDao.wipOutputListDao(searchDto);
+		List<WipLotTransDto> WipLotTransDtoList = wipLotManageDao.wipOutputListDao(searchDto);
+		
+		for(int i=0;i<WipLotTransDtoList.size();i++) {
+			String Wip_FullLotNo = WipLotTransDtoList.get(i).getWip_Prefix()+WipLotTransDtoList.get(i).getWip_LotNo();
+			WipLotTransDtoList.get(i).setWip_FullLotNo(Wip_FullLotNo);
+		}
+		return WipLotTransDtoList;
 	}
 	
 	// wipInOutInsert
@@ -231,6 +244,9 @@ public class WipLotManageService {
 	public List<WipLotTransDto> wipLotMasterList(WipLotTransDto wipLotTransDto) {
 		List<WipLotTransDto> WipLotTransDtoList = wipLotManageDao.wipLotMasterListDao(wipLotTransDto);
 		for(int i=0;i<WipLotTransDtoList.size();i++) {
+			String Wip_FullLotNo = WipLotTransDtoList.get(i).getWip_Prefix()+WipLotTransDtoList.get(i).getWip_LotNo();
+			WipLotTransDtoList.get(i).setWip_FullLotNo(Wip_FullLotNo);
+			
 			setSaveDate(WipLotTransDtoList.get(i));
 		}
 		
@@ -242,6 +258,9 @@ public class WipLotManageService {
 	public List<WipLotTransDto> wipProcessingList(WipLotTransDto wipLotTransDto) {
 		List<WipLotTransDto> WipLotTransDtoList = wipLotManageDao.wipProcessingListDao(wipLotTransDto);
 		for(int i=0;i<WipLotTransDtoList.size();i++) {
+			String Wip_FullLotNo = WipLotTransDtoList.get(i).getWip_Prefix()+WipLotTransDtoList.get(i).getWip_LotNo();
+			WipLotTransDtoList.get(i).setWip_FullLotNo(Wip_FullLotNo);
+			
 			setSaveDate(WipLotTransDtoList.get(i));
 		}
 		return WipLotTransDtoList;

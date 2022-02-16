@@ -242,7 +242,7 @@ function WI_Search(){
 	wipInputTable.setData("wipLotManageRest/wipInputListSelect",
 		{startDate : today.toISOString().substring(0, 10),
 		endDate : tomorrow.toISOString().substring(0, 10),
-		wipStatus : 1}
+		wipStatus : 321}
 	);
 }
 
@@ -250,7 +250,7 @@ function WO_Search(){
 	wipOutputTable.setData("wipLotManageRest/wipOutputListSelect",
 		{startDate : today.toISOString().substring(0, 10),
 		endDate : tomorrow.toISOString().substring(0, 10),
-		wipStatus : 1}
+		wipStatus : 321}
 	);
 }
 

@@ -5,12 +5,8 @@ var wipInputListTable = new Tabulator("#wipInputListTable", {
  	columns:[
 	{title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
 	{title:"접두사", field:"wip_Prefix", visible:false},
-	{title:"Lot번호", field:"wip_LotNo", headerHozAlign:"center", hozAlign:"center", headerFilter: "input",
-		formatter: function(cell){
-			var prefix = cell.getRow().getData().wip_Prefix
-			return prefix + cell.getValue();
-		}
-	},
+	{title:"Lot번호", field:"wip_LotNo", headerHozAlign:"center", hozAlign:"center", visible:false},
+	{title:"Lot번호", field:"wip_FullLotNo", headerHozAlign:"center", hozAlign:"center", headerFilter: "input"},
 	{title:"공정단계", field:"wip_Process_Name", headerHozAlign:"center", hozAlign:"center"},
  	{title:"입고시간", field:"wip_InputDate", headerHozAlign:"center"},
 	{title:"출고시간", field:"wip_OutputDate", headerHozAlign:"center"},

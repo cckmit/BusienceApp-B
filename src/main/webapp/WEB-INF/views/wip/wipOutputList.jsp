@@ -9,6 +9,7 @@
 					<!-- 버튼 -->
 				<div class="input-button">
 					<img id="WOL_SearchBtn" src="images/button/Search.png" />
+					<img src="/images/button/Excel.png" onclick="excel_download(wipOutputListTable)"/>
 				</div>
 				<!-- 버튼 -->
 				<div class="input-box">

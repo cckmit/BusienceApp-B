@@ -4,7 +4,7 @@ var wipManageTable = new Tabulator("#wipManageTable", {
 	ajaxURL:"wipLotManageRest/wipLotTransList",
     ajaxConfig:"get",
     ajaxContentType:"json",
-	ajaxParams:{WipStatus : 3,
+	ajaxParams:{WipStatus : 323,
 				startDate : today.toISOString().substring(0, 10),
 				endDate : tomorrow.toISOString().substring(0, 10)},
 	rowClick:function(e, row){
@@ -37,7 +37,7 @@ function WD_Search(value){
 
 $("#WD_SearchBtn").click(function(){
 	wipManageTable.setData("wipLotManageRest/wipLotTransList",
-		{WipStatus : 3,
+		{WipStatus : 323,
 		startDate : $("#startDate").val(),
 		endDate : $("#endDate").val()});
 })

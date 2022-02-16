@@ -33,12 +33,8 @@ function customColumns(value){
 	var list = [
 		{title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
 		{title:"접두사", field:"wip_Prefix", visible:false},
-		{title:"Lot번호", field:"wip_LotNo", headerHozAlign:"center", hozAlign:"center", headerFilter: "input",
-			formatter: function(cell){
-				var prefix = cell.getRow().getData().wip_Prefix
-				return prefix + cell.getValue();
-			}
-		}
+		{title:"Lot번호", field:"wip_LotNo", headerHozAlign:"center", hozAlign:"center", visible:false},
+		{title:"Lot번호", field:"wip_FullLotNo", headerHozAlign:"center", hozAlign:"center", headerFilter: "input"}
  	]
 	$.ajax({
 		method: "GET",
@@ -57,18 +53,7 @@ function customColumns(value){
 					]
 				})
 			}
-			list.push({title:"상태", field:"wip_Status", headerHozAlign:"center", 
-						formatter: function(cell){
-							var status = "공정중"
-							if(cell.getValue() == 1){
-								status = "공정중"
-							}else if(cell.getValue() == 2){
-								status = "완료"
-							}else if(cell.getValue() == 3){
-								status = "불량"
-							}
-							return status;
-						}})
+			list.push({title:"상태", field:"wip_Status_Name", headerHozAlign:"center"})
 		}
 	});
 	

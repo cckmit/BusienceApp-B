@@ -11,6 +11,7 @@ public class WipLotTransDto {
 	
 	private String Wip_Prefix;
 	private String Wip_LotNo;
+	private String Wip_FullLotNo;
 	
 	private String Wip_Process_Type;
 	private String Wip_Process_Name;
@@ -45,4 +46,5 @@ public class WipLotTransDto {
 	
 	private String Wip_DateTime;
 	private String Wip_Status;
+	private String Wip_Status_Name;
 }

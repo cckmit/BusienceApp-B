@@ -4,7 +4,7 @@ var wipManageTable = new Tabulator("#wipManageTable", {
 	ajaxURL:"wipLotManageRest/wipLotTransList",
     ajaxConfig:"get",
     ajaxContentType:"json",
-	ajaxParams:{WipStatus : 1},
+	ajaxParams:{WipStatus : 321},
 	rowClick:function(e, row){
 		row.getTable().deselectRow();
 		row.select();
@@ -23,7 +23,7 @@ var wipManageTable = new Tabulator("#wipManageTable", {
 		},
 		{title:"공정단계", field:"wip_Process_Name", headerHozAlign:"center", hozAlign:"center"},
 		{title:"입고시간", field:"wip_InputDate", headerHozAlign:"center"},
-		{title:"보관기간", field:"wip_SaveTime", headerHozAlign:"center", hozAlign:"center"}]
+		{title:"출고시간", field:"wip_OutputDate", headerHozAlign:"center", hozAlign:"center"}]
 	}
  	]
 });
