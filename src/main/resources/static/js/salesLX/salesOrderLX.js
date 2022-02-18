@@ -191,19 +191,17 @@ var salesOrderTable = new Tabulator("#salesOrderTable", {
 		cellPos = cell;
 	},
 	columns: [
-		{ title: "수주번호", field: "sales_Order_mCus_No", headerHozAlign: "center", hozAlign: "right", headerFilter: true, width: 117 },
-		{ title: "코드", field: "sales_Order_mCode", headerHozAlign: "center", headerFilter: true, editor: SO_inputEditor, width: 70 },
+		{ title: "수주번호", field: "sales_Order_mCus_No", headerHozAlign: "center", hozAlign: "right", headerFilter: true},
+		{ title: "코드", field: "sales_Order_mCode", headerHozAlign: "center", headerFilter: true, editor: SO_inputEditor},
 		{ title: "거래처명", field: "sales_Order_mName", headerHozAlign: "center", headerFilter: true },
-		{
-			title: "수주일", field: "sales_Order_mDate", headerHozAlign: "center", hozAlign: "right", editor: SO_inputEditor, headerFilter: true, width: 137,
+		{ title: "수주일", field: "sales_Order_mDate", headerHozAlign: "center", hozAlign: "right", editor: SO_inputEditor, headerFilter: true, width: 135,
 			formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss", color: "red" }
 		},
-		{ title: "납기일자", field: "sales_Order_mDlvry_Date", headerHozAlign: "center", hozAlign: "right", editor: SO_inputEditor, headerFilter: true, width: 90 },
-		{ title: "특이사항", field: "sales_Order_mRemarks", headerHozAlign: "center", editor: SO_inputEditor, headerFilter: true, width: 90 },
-		{ title: "합계금액", field: "sales_Order_mTotal", headerHozAlign: "center", hozAlign: "right", headerFilter: true, formatter: "money", formatterParams: { precision: false }, width: 90 },
-		{ title: "수정자", field: "sales_Order_mModifier", headerHozAlign: "center", headerFilter: true, width: 90 },
-		{
-			title: "수정일자", field: "sales_Order_mModify_Date", headerHozAlign: "center", headerFilter: true, width: 137,
+		{ title: "납기일자", field: "sales_Order_mDlvry_Date", headerHozAlign: "center", hozAlign: "right", editor: SO_inputEditor, headerFilter: true},
+		{ title: "특이사항", field: "sales_Order_mRemarks", headerHozAlign: "center", editor: SO_inputEditor, headerFilter: true},
+		{ title: "합계금액", field: "sales_Order_mTotal", headerHozAlign: "center", hozAlign: "right", headerFilter: true, formatter: "money", formatterParams: { precision: false }},
+		{ title: "수정자", field: "sales_Order_mModifier", headerHozAlign: "center", headerFilter: true},
+		{ title: "수정일자", field: "sales_Order_mModify_Date", headerHozAlign: "center", headerFilter: true,
 			formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" }
 		},
 		{ title: "목록확인", field: "sales_Order_mCheck", visible: false },
@@ -334,9 +332,8 @@ var SOL_InputEditor = function(cell, onRendered, success, cancel, editorParams) 
 				cell.nav().next();
 				//만약 마지막행의 합계금액이 비어있을경우 추가 안됨
 				lastRow = salesOrderSubTable.getData()[salesOrderSubTable.getDataCount("active") - 1];
-				console.log(lastRow.sales_Order_Send_Clsfc);
-				if (lastRow.sales_Order_Send_Clsfc == 211 && lastRow.sales_Order_lPrice == 0) {
-					alert("수량과 단가를 입력해주세요.");
+				if (lastRow.sales_Order_lQty == 0) {
+					alert("수량을 입력해주세요.");
 					cell.nav().prev();
 				} else if (lastRow.sales_Order_lCode.length != "6") {
 					alert("제품코드를 잘못 입력하였습니다.")
@@ -361,15 +358,9 @@ var editCheck = function(cell) {
 }
 
 var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
-	paginationAddRow: "table",
-	headerFilterPlaceholder: null,
+	layoutColumnsOnNewData: true,
 	height: "calc(90% - 175px)",
 	selectable: true,
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
 	tabEndNewRow: true,
 	//커스텀 키 설정
 	keybindings: {
@@ -432,17 +423,14 @@ var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
 
 	},
 	columns: [
-		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false, width: 40 },
-		{ title: "순번", field: "sales_Order_lNo", headerHozAlign: "center", hozAlign: "center", width: 65 },
+		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false},
+		{ title: "순번", field: "sales_Order_lNo", headerHozAlign: "center", hozAlign: "center"},
 		{ title: "수주No", field: "sales_Order_lCus_No", visible: false },
-		{
-			title: "코드", field: "sales_Order_lCode", headerHozAlign: "center", editor: SOL_InputEditor, editable: editCheck, width: 65
-		},
-		{ title: "제품명", field: "sales_Order_lName", headerHozAlign: "center", width: 200 },
-		{ title: "규격1", field: "sales_Order_STND_1", headerHozAlign: "center", width: 75 },
-		{
-			title: "수량", field: "sales_Order_lQty", headerHozAlign: "center", hozAlign: "right", editor: SOL_InputEditor,
-			formatter: "money", formatterParams: { precision: false }, width: 65,
+		{ title: "코드", field: "sales_Order_lCode", headerHozAlign: "center", editor: SOL_InputEditor, editable: editCheck},
+		{ title: "제품명", field: "sales_Order_lName", headerHozAlign: "center"},
+		{ title: "규격1", field: "sales_Order_STND_1", headerHozAlign: "center"},
+		{ title: "수량", field: "sales_Order_lQty", headerHozAlign: "center", hozAlign: "right", editor: SOL_InputEditor,
+			formatter: "money", formatterParams: { precision: false },
 			cellEdited: function(cell) {
 				//수량이 변경될때 금액값이 계산되어 입력
 				temQty = cell.getValue();
@@ -457,7 +445,7 @@ var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
 		},
 		{
 			title: "단가", field: "sales_Order_lUnit_Price", headerHozAlign: "center", hozAlign: "right", editor: SOL_InputEditor,
-			topCalc: function() { return "합계금액" }, formatter: "money", formatterParams: { precision: false }, width: 75,
+			topCalc: function() { return "합계금액" }, formatter: "money", formatterParams: { precision: false },
 			cellEdited: function(cell) {
 				//단가가 변경될때 금액값이 계산되어 입력
 				temQty = cell.getRow().getData().sales_Order_lQty;
@@ -471,8 +459,7 @@ var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
 				cell.getRow().update({ "sales_Order_lPrice": iPrice });
 			}
 		},
-		{
-			title: "금액", field: "sales_Order_lPrice", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false }, width: 75,
+		{ title: "금액", field: "sales_Order_lPrice", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false },
 			//금액이 변경될때 합계금액을 계산하여 mastertable에 입력
 			topCalc: function(values, data, calcParams) {
 				//values - array of column values
@@ -492,12 +479,10 @@ var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
 				}
 				return calc;
 			}, topCalcFormatter: "money", topCalcFormatterParams: { precision: false }
-
 		},
 		{ title: "미입고재고", field: "sales_Order_lNot_Stocked", visible: false },
-		{ title: "비고", field: "sales_Order_lInfo_Remark", headerHozAlign: "center", editor: SOL_InputEditor, width: 70 },
-		{
-			title: "구분", field: "sales_Order_Send_Clsfc", headerHozAlign: "center", width: 70, editor: "select",
+		{ title: "비고", field: "sales_Order_lInfo_Remark", headerHozAlign: "center", editor: SOL_InputEditor},
+		{ title: "구분", field: "sales_Order_Send_Clsfc", headerHozAlign: "center", editor: "select",
 			formatter: function(cell, formatterParams) {
 				var value = cell.getValue();
 				if (output_dtl[value] != null) {
@@ -518,6 +503,7 @@ function item_gridInit(PCode, PName, PSTND_1, PPrice) {
 		"sales_Order_lCode": PCode,
 		"sales_Order_lName": PName,
 		"sales_Order_STND_1": PSTND_1,
+		"sales_Order_lQty": 0,
 		"sales_Order_lUnit_Price": PPrice
 	})
 	cellPos.getElement().focus();
@@ -546,8 +532,7 @@ function SOL_Add() {
 	//목록의 제품명과 합계금액을 검사하여 입력하지 않았을 경우 추가 안됨
 	for (i = 0; i < salesOrderSubTable.getDataCount("active"); i++) {
 		rowData = salesOrderSubTable.getData()[i];
-		console.log(rowData.sales_Order_Send_Clsfc);
-		if ((rowData.sales_Order_Send_Clsfc == 211 && rowData.sales_Order_lPrice == 0) || rowData.sales_Order_lName == '') {
+		if (rowData.sales_Order_lQty == 0 || rowData.sales_Order_lName == '') {
 			alert("작성중인 행이 있습니다.");
 			return false;
 		}
@@ -616,12 +601,12 @@ function SOL_Save() {
 	rowCount = salesOrderSubTable.getDataCount("active");
 
 	//목록의 마지막 데이터를 확인하고 금액이 0이면 행을 삭제하고 저장한다. 
-	if (salesOrderSubTable.getData()[rowCount - 1].sales_Order_lPrice == 0) {
+	if (salesOrderSubTable.getData()[rowCount - 1].sales_Order_lQty == 0) {
 		salesOrderSubTable.deleteRow(salesOrderSubTable.getRows()[rowCount - 1]);
 	}
 
-	//만약 선택한행의 합계금액이 비어있을경우 저장 안됨
-	if (selectedRow.sales_Order_Send_Clsfc == 211 && selectedRow.sales_Order_mTotal == 0) {
+	//만약 선택한행의 수량이 비어있을경우 저장 안됨
+	if (selectedRow.sales_Order_lQty == 0) {
 		alert("작성중인 목록이 있습니다.");
 		return false;
 	}

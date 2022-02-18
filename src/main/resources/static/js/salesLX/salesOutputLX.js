@@ -251,15 +251,18 @@ var salesOutMatTable = new Tabulator("#salesOutMatTable", {
 		formatter:"money", formatterParams: {precision: false},
 		cellEdited:function(cell){
 			//수량이 변경될때 금액값이 계산되어 입력
-			temQty = cell.getValue();
+			temQty = qtyCheck(cell.getRow().getData().sales_OutMat_Code,cell.getValue())
 			temUP = cell.getRow().getData().sales_OutMat_Unit_Price;			
-	
+			
 			if(temQty*temUP>0){
 				iPrice = temQty*temUP
 			}else{
 				iPrice = 0;	
 			}
-			cell.getRow().update({"sales_OutMat_Price": iPrice});
+			cell.getRow().update({
+							"sales_OutMat_Qty":temQty,
+							"sales_OutMat_Price": iPrice
+						});
 		}},
 	{title:"단가", field:"sales_OutMat_Unit_Price", headerHozAlign:"center", hozAlign:"right",
 		formatter:"money", formatterParams: {precision: false}},
@@ -280,9 +283,22 @@ var salesOutMatTable = new Tabulator("#salesOutMatTable", {
  	]
 });
 
+function qtyCheck(itemCode,itemQty){
+	var subTableData = salesOutputSubTable.getData();
+	var forResult = itemQty;
+	for(let i=0;i<subTableData.length;i++){
+		if(subTableData[i].sales_Order_lCode == itemCode){
+			if(subTableData[i].sales_Order_lNot_Stocked < itemQty){
+				alert("미출고 수량을 초과할 수 없습니다.")
+				forResult = subTableData[i].sales_Order_lNot_Stocked
+			}
+		}
+	}
+	return forResult;
+}
+
 //Sales_OutMat 목록검색
 function SOM_Search(CusNo,Code){
-	
 	data = {
 		sales_OutMat_Order_No : CusNo,
 		sales_OutMat_Code : Code
