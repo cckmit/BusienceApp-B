@@ -88,7 +88,7 @@ public class WipLotManageService {
 		String Wip_LotNo = sdf3.format(date)+String.format("%03d", count+1);
 		
 		//랏마스터에 저장
-		wipLotMasterInsert(Wip_LotNo, 1);
+		wipLotMasterInsert(Wip_LotNo, 321);
 		
 		//wipLotTrans
 		WipLotTransDto wipLotTransDto = new WipLotTransDto();
@@ -230,7 +230,7 @@ public class WipLotManageService {
 		}else {
 			if(wipLotTransDto.getWip_Process_No() == 5) {
 				//wipLotMaster
-				wipLotMasterInsert(wipLotTransDto.getWip_LotNo(), 2);
+				wipLotMasterInsert(wipLotTransDto.getWip_LotNo(), 322);
 			}
 			//출고처리
 			wipLotTransDto.setWip_OutputDate(outputDate);
@@ -358,7 +358,7 @@ public class WipLotManageService {
 					for(int i=0;i<defectDtoList.size();i++) {
 						System.out.println(defectDtoList);
 						//wipLotMaster
-						wipLotMasterInsert(defectDtoList.get(i).getDefect_LotNo(), 3);
+						wipLotMasterInsert(defectDtoList.get(i).getDefect_LotNo(), 323);
 						
 						wipLotManageDao.wipDefectInsertDao(defectDtoList.get(i));
 					}					

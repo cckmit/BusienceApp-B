@@ -17,5 +17,5 @@ public interface ProductionDao {
 	public int insertProductionDao(ProductionDto productionDto);
 	
 	//작업지시 업데이트
-	public int updateWorkOrderDao(ProductionDto productionDt);
+	public int updateWorkOrderDao(ProductionDto productionDto);
 }
