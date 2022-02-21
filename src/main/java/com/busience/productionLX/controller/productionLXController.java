@@ -2,7 +2,6 @@ package com.busience.productionLX.controller;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,12 +14,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.busience.standard.dto.DTL_TBL;
 import com.busience.standard.dto.EQUIPMENT_INFO_TBL;
-import com.busience.standard.dto.Equip_Monitoring_TBL;
 import com.busience.standard.dto.PRODUCT_INFO_TBL;
+import com.busience.standard.service.MachineService;
 
 @Controller
 public class productionLXController {
 
+	@Autowired
+	MachineService machineService;
+	
 	@Autowired
 	JdbcTemplate jdbctemplate;
 	
@@ -243,7 +245,11 @@ public class productionLXController {
 	
 	@GetMapping("/tempDaily")
 	public String tempDaily(Model model, HttpServletRequest request) throws SQLException{
-		model.addAttribute("pageName", "누룩 온도 조회");
+		
+		// 설비 리스트 가져오기
+		model.addAttribute("machineList", machineService.selectMachineList());
+		
+		model.addAttribute("pageName", "온도 조회");
 		return "/productionLX/tempDaily";
 	}
 	
@@ -252,42 +258,7 @@ public class productionLXController {
 		model.addAttribute("pageName", "누룩 온도 조회");
 		return "/productionLX/tempMonthly";
 	}
-	
-	@GetMapping("/tablet/tempStatusControl")
-	public String tempStatusControl(Model model) {
-		String sql = "SELECT \r\n"
-				+ "			t1.Equip_Code,	\r\n"
-				+ "			t1.Equip_Time,	\r\n"
-				+ "			t1.Humi,\r\n"
-				+ "			t1.Speed,	\r\n"
-				+ "			t1.Temp,\r\n"
-				+ "			t1.Equip_Status,	\r\n"
-				+ "			t1.Equip_No,\r\n"
-				+ "			t2.EQUIPMENT_INFO_NAME\r\n"
-				+ "FROM Equip_Monitoring_TBL t1\r\n"
-				+ "INNER JOIN EQUIPMENT_INFO_TBL t2\r\n"
-				+ "ON t1.Equip_Code = t2.EQUIPMENT_INFO_CODE";
 		
-		model.addAttribute("list1", jdbctemplate.query(sql, new RowMapper() {
-
-			@Override
-			public Equip_Monitoring_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
-				Equip_Monitoring_TBL data = new Equip_Monitoring_TBL();
-				data.setEquip_Code(rs.getString("Equip_Code"));
-				data.setEquip_Time(rs.getString("Equip_Time"));
-				data.setHumi(rs.getString("Humi"));
-				data.setSpeed(rs.getString("Speed"));
-				data.setTemp(rs.getString("Temp"));
-				data.setEquip_Status(rs.getString("Equip_Status"));
-				data.setEquip_No(rs.getString("Equip_No"));
-				data.setEquip_Name(rs.getString("EQUIPMENT_INFO_NAME"));
-				return data;
-			}
-		}));
-		
-		return "normal/productionLX/tempStatusControl";
-	}
-	
 	@GetMapping("/tablet/MaterialInput")
 	public String MaterialInput(Model model) {
 		return "normal/productionLX/MaterialInput";

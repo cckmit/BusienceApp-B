@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	 
+<mapper namespace="com.busience.productionLX.dao.TempDailyDao">
+	<select id="TempDailyListDao" resultType="com.busience.monitoring.dto.EquipTemperatureHistoryDto">
+		select
+			A.Temp_Monthly, A.Temp_Daily, A.Temp_Hourly,
+			round(avg(A.Temp_Value),1) Temp_Value, A.Temp_Time,
+			A.Temp_EquipCode, B.EQUIPMENT_INFO_NAME Temp_EquipName, A.Temp_No
+		from (
+			SELECT
+				TNo, date_format(Temp_Time,'%m') Temp_Monthly,
+				date_format(Temp_Time,'%d') Temp_Daily,
+				date_format(Temp_Time,'%h') Temp_Hourly,
+				Temp_Value, Temp_Time, Temp_EquipCode, Temp_No
+			FROM Equip_Temperature_History
+			where Temp_EquipCode = #{machineCode}
+			<![CDATA[
+				and Temp_Time >= #{startDate} and Temp_Time < #{endDate}
+			]]> 
+		) A
+		inner join EQUIPMENT_INFO_TBL B on A.Temp_EquipCode = B.EQUIPMENT_INFO_CODE
+		<if test="condition == 'monthly'">
+			group by temp_Monthly
+		</if>
+		<if test="condition == 'daily'">
+			group by temp_Daily
+		</if>
+		<if test="condition == 'hourly'">
+			group by temp_Hourly
+		</if>
+		order by A.Temp_Time desc	
+	</select>
+</mapper>

@@ -9,8 +9,6 @@
 
 <script src="/webjars/momentjs/2.29.1/moment.js"></script>
 
-<script src="/webjars/jquery.easy-pie-chart/2.1.6/jquery.easypiechart.js"></script>
-
 <script src="/webjars/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
 <script src="/webjars/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js"></script>
@@ -31,8 +29,6 @@
 <script src="/js/BrowserPrint-3.0.216.min.js"></script>
 
 <script src="/js/BrowserPrint-Zebra-1.0.216.min.js"></script>
-
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script src="/js/hangul.js"></script>
 

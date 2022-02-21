@@ -61,6 +61,12 @@ public class CommonRestController {
 	public int bsapp2(String equip, int value) {
 		return productionService.insertProduction(equip, value);
 	}
+	
+	//온도 저장(임시)
+	@GetMapping("/bsapp_temp")
+	public int bsapp_temp(String equip, float value) {
+		return productionService.insertTemperature(equip, value);
+	}
 
 	@GetMapping("tablet/testCheck")
 	public List<TestCheckDto> testCheck() {

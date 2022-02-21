@@ -1,5 +1,8 @@
 package com.busience.common.service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +16,11 @@ import com.busience.common.dao.ProductionDao;
 import com.busience.common.dao.TestCheckDao;
 import com.busience.common.dto.DtlDto;
 import com.busience.common.dto.ProductionDto;
+import com.busience.common.dto.SearchDto;
 import com.busience.common.dto.TestCheckDto;
+import com.busience.monitoring.dao.TemperatureMonitoringDao;
+import com.busience.monitoring.dto.EquipMonitoringDto;
+import com.busience.monitoring.dto.EquipTemperatureHistoryDto;
 import com.busience.productionLX.dto.WorkOrderDto;
 import com.busience.standard.dao.ItemDao;
 import com.busience.standard.dto.ItemDto;
@@ -32,6 +39,9 @@ public class ProductionService {
 	
 	@Autowired
 	DtlDao dtlDao;
+	
+	@Autowired
+	TemperatureMonitoringDao temperatureMonitoringDao;
 	
 	@Autowired
 	TransactionTemplate transactionTemplate;
@@ -104,5 +114,69 @@ public class ProductionService {
 	//work order 조회
 	public List<WorkOrderDto> getWorkOrder(String code) {
     	return productionDao.selectWorkOrderDao(code);
+	}
+	
+	//온도 저장
+	public int insertTemperature(String equip, float value) {
+		try {
+			
+			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+				
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					SearchDto searchDto = new SearchDto();
+					searchDto.setMachineCode(equip);
+					
+					//해당설비의 작업정보를 가져옴
+					EquipMonitoringDto equipMonitoringDto = temperatureMonitoringDao.selectEquipMonitoringDao(searchDto).get(0);
+					equipMonitoringDto.setTemp(value);
+					
+					EquipTemperatureHistoryDto equipTemperatureHistoryDto = temperatureMonitoringDao.selectEquipTemperatureHistoryDao(searchDto).get(0); 	
+					
+					//처음 입력하는 데이터 이거나
+					//모니터링 테이블에 저장된 시간과 지금 저장하려는 값의 시간차이가 공통코드의 시간보다 클경우만 저장
+					boolean testvalue = timeGap(equipTemperatureHistoryDto.getTemp_Time());
+					System.out.println(testvalue);
+					if(testvalue) {
+						temperatureMonitoringDao.insertTemperatureDao(equipMonitoringDto);
+					}
+					
+					temperatureMonitoringDao.updateTemperatureDao(equipMonitoringDto);
+				}
+			});
+			return 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	//시간 차이
+	private boolean timeGap(String saveTime) {
+		DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		
+		LocalDateTime dateTime = LocalDateTime.parse(saveTime, DTF);
+
+		//받아온 시간과 현재 시간의 차이
+		Duration duration = Duration.between(dateTime, LocalDateTime.now());
+		
+		List<DtlDto> DtlDtoList = dtlDao.findByCode(31);
+		System.out.println(DtlDtoList);
+		//시간
+		int timeCode = Integer.parseInt(DtlDtoList.get(2).getCHILD_TBL_RMARK()); 
+		//시, 분
+		String timeUnit = DtlDtoList.get(5).getCHILD_TBL_RMARK();
+				
+		if("분".equals(timeUnit)) {
+			if(duration.toMinutesPart() >= timeCode) {
+				return true;				
+			}
+		}else if("시".equals(timeUnit)){			
+			if(duration.toHoursPart() >= timeCode) {
+				return true;				
+			}
+		}
+		
+		return false;
 	}
 }

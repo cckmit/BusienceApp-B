@@ -13,6 +13,8 @@ public class SearchDto {
 	
 	private String EndDate;
 	
+	private String TargetTime;
+	
 	private String LotNo;
 	
 	private String OrderNo;
@@ -38,4 +40,6 @@ public class SearchDto {
 	private String[] StatusCodeArr;
 	
 	private int WipStatus;
+	
+	private String condition;
 }

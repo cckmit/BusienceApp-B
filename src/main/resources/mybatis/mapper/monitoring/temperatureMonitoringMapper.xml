@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	 
+<mapper namespace="com.busience.monitoring.dao.TemperatureMonitoringDao">
+	
+	<select id="selectEquipMonitoringDao" resultType="com.busience.monitoring.dto.EquipMonitoringDto">
+		select 
+			Equip_Code, Equip_Time, Temp, Equip_Status, Equip_No
+		from Equip_Monitoring_TBL
+		where Equip_Code = #{MachineCode}
+	</select>
+	
+	<select id="selectEquipTemperatureHistoryDao" resultType="com.busience.monitoring.dto.EquipTemperatureHistoryDto">
+		select 
+			Temp_Value, Temp_Time, Temp_EquipCode, Temp_No
+		from Equip_Temperature_History
+		where Temp_EquipCode = #{MachineCode}
+		order by Temp_Time desc
+		limit 1
+	</select>
+
+	<insert id="insertTemperatureDao">
+		insert into Equip_Temperature_History(
+			Temp_Value, Temp_Time, Temp_EquipCode, Temp_No
+		)values(
+			#{Temp}, now(), #{Equip_Code}, #{Equip_No}
+		)
+	</insert>
+
+	<update id="updateTemperatureDao">
+		insert into Equip_Monitoring_TBL(
+			Equip_Code, Equip_Time, Humi, Speed, Temp, Equip_Status
+		)values(
+			#{Equip_Code}, now(), 0, 0, 0, false
+		) on duplicate key update
+		Equip_Time = now()
+		<if test="Temp != null">
+			,
+			Temp = #{Temp}
+		</if>
+		<if test="Equip_No != null">
+			,
+			Equip_No = #{Equip_No}
+		</if>
+	</update>
+	
+	<select id="startTemperatureDataDao" resultType="com.busience.monitoring.dto.TempChartDto">
+		select Temp_Time ChartTime, Temp_Value ChartTemp
+		from Equip_Temperature_History
+		where Temp_No = #{OrderNo}
+		order by Temp_Time asc
+		limit 1;
+	</select>
+	<select id="endTemperatureDataDao" resultType="com.busience.monitoring.dto.TempChartDto">
+		select Temp_Time ChartTime, Temp_Value ChartTemp
+		from Equip_Temperature_History
+		where Temp_No = #{OrderNo}
+		order by Temp_Time desc
+		limit 1;
+	</select>
+	<select id="upperTemperatureDataDao" resultType="com.busience.monitoring.dto.TempChartDto">
+		select Temp_Time ChartTime, Temp_Value ChartTemp
+	    from Equip_Temperature_History
+	    where Temp_No = #{OrderNo}
+	<![CDATA[
+		and Temp_Time >= #{TargetTime}
+	]]>	    
+		order by Temp_Time asc
+		limit 1
+	</select>
+	<select id="underTemperatureDataDao" resultType="com.busience.monitoring.dto.TempChartDto">
+		select Temp_Time ChartTime, Temp_Value ChartTemp
+		from Equip_Temperature_History
+		where Temp_No = #{OrderNo}
+	<![CDATA[
+		and Temp_Time <= #{TargetTime}
+	]]>
+		order by Temp_Time desc
+		limit 1
+	</select>
+	
+	<select id="countTemperatureDataDao" resultType="int">
+		select count(*)
+		from Equip_Temperature_History
+		where Temp_No = #{OrderNo}
+	</select>
+	
+	<select id="tempDailyOrderCountDao" resultType="int">
+		select count(*)
+		from (
+			SELECT distinct Temp_No
+			FROM Equip_Temperature_History
+			where Temp_EquipCode = #{Equip_Code}
+			and left(Temp_No,8) = #{Equip_Time}
+		) A
+	</select>
+</mapper>
