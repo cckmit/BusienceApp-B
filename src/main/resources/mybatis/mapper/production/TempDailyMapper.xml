@@ -14,7 +14,7 @@
 			SELECT
 				TNo, date_format(Temp_Time,'%m') Temp_Monthly,
 				date_format(Temp_Time,'%d') Temp_Daily,
-				date_format(Temp_Time,'%h') Temp_Hourly,
+				date_format(Temp_Time,'%H') Temp_Hourly,
 				Temp_Value, Temp_Time, Temp_EquipCode, Temp_No
 			FROM Equip_Temperature_History
 			where Temp_EquipCode = #{machineCode}
@@ -23,15 +23,14 @@
 			]]> 
 		) A
 		inner join EQUIPMENT_INFO_TBL B on A.Temp_EquipCode = B.EQUIPMENT_INFO_CODE
-		<if test="condition == 'monthly'">
-			group by temp_Monthly
+			group by
+		<if test="condition == 'hourly'">
+			temp_Hourly, temp_Daily,
 		</if>
 		<if test="condition == 'daily'">
-			group by temp_Daily
+			temp_Daily,
 		</if>
-		<if test="condition == 'hourly'">
-			group by temp_Hourly
-		</if>
+			temp_Monthly
 		order by A.Temp_Time desc	
 	</select>
 </mapper>

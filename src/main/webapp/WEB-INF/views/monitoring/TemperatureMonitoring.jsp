@@ -41,7 +41,7 @@ input[type="checkbox"]:hover {
 
 <div class="main" style="display: flex; flex-direction: column; align-items: center;">
 	<div>
-		<select id="machineCode" style="position: absolute; left: 100px; top: 10px; height: 40px; width: 140px; font-size: 30px">
+		<select id="machineCode" style="position: absolute; left: 100px; top: 10px; height: 40px; width: 220px; font-size: 30px">
 			<c:forEach var="data" items="${machineList}">
 				<c:choose>
 					<c:when test="${data.EQUIPMENT_INFO_CODE == machineCode}">
