@@ -136,7 +136,7 @@ public class ProductionService {
 					//처음 입력하는 데이터 이거나
 					//모니터링 테이블에 저장된 시간과 지금 저장하려는 값의 시간차이가 공통코드의 시간보다 클경우만 저장
 					boolean testvalue = timeGap(equipTemperatureHistoryDto.getTemp_Time());
-					System.out.println(testvalue);
+					
 					if(testvalue) {
 						temperatureMonitoringDao.insertTemperatureDao(equipMonitoringDto);
 					}
@@ -166,7 +166,8 @@ public class ProductionService {
 		int timeCode = Integer.parseInt(DtlDtoList.get(2).getCHILD_TBL_RMARK()); 
 		//시, 분
 		String timeUnit = DtlDtoList.get(5).getCHILD_TBL_RMARK();
-				
+
+		
 		if("분".equals(timeUnit)) {
 			if(duration.toMinutesPart() >= timeCode) {
 				return true;				

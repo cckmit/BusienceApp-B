@@ -61,16 +61,17 @@ function tempChartDatas(value){
     })
 	return ajaxResult;
 }
-
-$.when(selectEquipMonitoring())
-.then(function(data1){
-	console.log(data1[0]);
-	$("#Temperature_switch").prop("checked", data1[0].equip_Status);
-	document.getElementById("progressb").innerHTML = data1[0].temp+"°C";
-	document.getElementById("progressb").setAttribute("aria-valuenow",data1[0].temp);
-	document.getElementById("progressb").style.width = data1[0].temp+"%";
-	tempChartDatas(data1[0].equip_No)
-})
+function viewData(){
+	$.when(selectEquipMonitoring())
+	.then(function(data1){
+		console.log(data1[0]);
+		$("#Temperature_switch").prop("checked", data1[0].equip_Status);
+		document.getElementById("progressb").innerHTML = data1[0].temp+"°C";
+		document.getElementById("progressb").setAttribute("aria-valuenow",data1[0].temp);
+		document.getElementById("progressb").style.width = data1[0].temp+"%";
+		tempChartDatas(data1[0].equip_No)
+	})
+}
 
 function drawBackgroundColor(jsonData) {
 	//작업지시번호를 가져와서
@@ -129,4 +130,10 @@ function tempJsonData(jsonData){
 		"maxTemp" : maxTemp,
 		"minTemp" : minTemp
 	}
+}
+window.onload = function(){
+	viewData();
+	setInterval(function(){
+		viewData();
+	},5000);
 }
