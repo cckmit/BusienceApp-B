@@ -17,18 +17,18 @@
 			C.CHILD_TBL_TYPE AS EQUIPMENT_STATUS_NAME, A.EQUIPMENT_INFO_RMARK,
 			A.EQUIPMENT_USE_STATUS, A.EQUIPMENT_MODIFY_D,
 			D.USER_NAME EQUIPMENT_MODIFIER
-			FROM EQUIPMENT_INFO_TBL A
+			FROM Equipment_Info_tbl A
 			INNER JOIN (
 				select * from DTL_TBL where NEW_TBL_CODE=2
 			) B ON A.EQUIPMENT_BUSINESS_PLACE = B.CHILD_TBL_NO
 			INNER JOIN (
 				select * from DTL_TBL where NEW_TBL_CODE=12
 			) C ON A.EQUIPMENT_STATUS = C.CHILD_TBL_NO
-			INNER JOIN USER_INFO_TBL D ON A.EQUIPMENT_MODIFIER = D.USER_CODE
+			INNER JOIN User_Info_tbl D ON A.EQUIPMENT_MODIFIER = D.USER_CODE
 	</select>
 
 	<insert id="insertMachineDao">
-		insert into EQUIPMENT_INFO_TBL values(
+		insert into Equipment_Info_tbl values(
 			#{EQUIPMENT_BUSINESS_PLACE}, #{EQUIPMENT_INFO_CODE},
 		    #{EQUIPMENT_INFO_NAME}, #{EQUIPMENT_INFO_ABR},
 		    #{EQUIPMENT_HEIGHT}, #{EQUIPMENT_WIDTH},
@@ -42,7 +42,7 @@
 	</insert>
 		
 	<update id="updateMachineDao">
-		update EQUIPMENT_INFO_TBL
+		update Equipment_Info_tbl
 			set
 			EQUIPMENT_BUSINESS_PLACE = #{EQUIPMENT_BUSINESS_PLACE},
 			EQUIPMENT_INFO_NAME = #{EQUIPMENT_INFO_NAME},
@@ -64,7 +64,7 @@
 	</update>
 	
 	<delete id="deleteMachineDao">
-		delete from EQUIPMENT_INFO_TBL
+		delete from Equipment_Info_tbl
 			where EQUIPMENT_INFO_CODE= #{machineCode}
 	</delete>
 </mapper>

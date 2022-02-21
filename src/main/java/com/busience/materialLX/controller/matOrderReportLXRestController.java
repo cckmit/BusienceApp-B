@@ -47,7 +47,7 @@ public class matOrderReportLXRestController {
 				+ "A.Order_mRemarks,\r\n"
 				+ "A.Order_mModifier,\r\n"
 				+ "date_format(A.Order_mModify_Date,'%Y-%m-%d %T') Order_mModify_Date\r\n"
-				+ "from OrderMasterLX_tbl A\r\n"
+				+ "from OrderMaster_tbl A\r\n"
 				+ "inner join Customer_tbl B on A.Order_mCode = B.Cus_Code ";
 
 		String where = "where A.Order_mDlvry_Date between '" + obj.get("startDate") + " 00:00:00' and '" + obj.get("endDate")
@@ -113,7 +113,7 @@ public class matOrderReportLXRestController {
 				+ " A.Order_lPrice,\r\n"
 				+ " A.Order_lNot_Stocked,\r\n"
 				+ " A.Order_lInfo_Remark\r\n"
-				+ " FROM OrderListLX_tbl A\r\n"
+				+ " FROM OrderList_tbl A\r\n"
 				+ " inner join PRODUCT_INFO_TBL B on A.Order_lCode = B.PRODUCT_ITEM_CODE";
 
 		String where = "  where Order_lCus_No = '" + order_lCus_No + "'";

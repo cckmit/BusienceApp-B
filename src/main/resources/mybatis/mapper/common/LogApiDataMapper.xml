@@ -7,7 +7,7 @@
 <mapper namespace="com.busience.common.dao.LogApiDataDao">
 
 	<insert id="LogDataInsertDao">
-		insert into log_api_data_tbl (
+		insert into Log_Api_Data_tbl (
 			crfcKey, logDt, useSe,
 			sysUser, conectIp, dataUsgqty
 		)value(
@@ -18,7 +18,7 @@
 	
 	<select id="LogDataSelectDao" resultType="com.busience.common.dto.LogApiDataDto">
 		SELECT logDt, useSe, sysUser
-		FROM log_api_data_tbl
+		FROM Log_Api_Data_tbl
 		where sysUser = #{sysUser}
 		order by logNo DESC limit 1
 	</select>

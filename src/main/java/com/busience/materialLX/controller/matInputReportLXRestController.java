@@ -47,7 +47,7 @@ public class matInputReportLXRestController {
 				+ "A.InMat_Order_No, \r\n" + "A.InMat_Modifier, \r\n" + "A.InMat_dInsert_Time  \r\n"
 				+ "from InMatLX_tbl A \r\n" + "inner join Customer_tbl B \r\n"
 				+ "on A.InMat_Client_Code = B.Cus_Code \r\n" + "inner join PRODUCT_INFO_TBL C \r\n"
-				+ "on A.InMat_Code = C.PRODUCT_ITEM_CODE \r\n" + "inner join OrderListLX_tbl D\r\n"
+				+ "on A.InMat_Code = C.PRODUCT_ITEM_CODE \r\n" + "inner join OrderList_tbl D\r\n"
 				+ "on A.InMat_Order_No = D.Order_lCus_No and A.InMat_Code = D.Order_lCode \r\n"
 				+ "left outer join DTL_TBL E\r\n" + "on C.PRODUCT_UNIT = E.CHILD_TBL_NO\r\n"
 				+ "left outer join DTL_TBL F\r\n" + "on A.InMat_Rcv_Clsfc = F.CHILD_TBL_NO ";
@@ -127,7 +127,7 @@ public class matInputReportLXRestController {
 				+ "A.InMat_No, \r\n" + "A.InMat_Order_No\r\n" + "from InMatLX_tbl A \r\n"
 				+ "inner join Customer_tbl B \r\n" + "on A.InMat_Client_Code = B.Cus_Code \r\n"
 				+ "inner join PRODUCT_INFO_TBL C \r\n" + "on A.InMat_Code = C.PRODUCT_ITEM_CODE \r\n"
-				+ "inner join OrderListLX_tbl D\r\n" + "on A.InMat_Order_No = D.Order_lCus_No \r\n"
+				+ "inner join OrderList_tbl D\r\n" + "on A.InMat_Order_No = D.Order_lCus_No \r\n"
 				+ "left outer join DTL_TBL E\r\n" + "on C.PRODUCT_UNIT = E.CHILD_TBL_NO\r\n"
 				+ "left outer join DTL_TBL F\r\n" + "on A.InMat_Rcv_Clsfc = F.CHILD_TBL_NO";
 
@@ -228,7 +228,7 @@ public class matInputReportLXRestController {
 				+ "A.InMat_No, \r\n" + "A.InMat_Order_No\r\n" + "from InMatLX_tbl A \r\n"
 				+ "inner join Customer_tbl B \r\n" + "on A.InMat_Client_Code = B.Cus_Code \r\n"
 				+ "inner join PRODUCT_INFO_TBL C \r\n" + "on A.InMat_Code = C.PRODUCT_ITEM_CODE \r\n"
-				+ "inner join OrderListLX_tbl D\r\n" + "on A.InMat_Order_No = D.Order_lCus_No \r\n"
+				+ "inner join OrderList_tbl D\r\n" + "on A.InMat_Order_No = D.Order_lCus_No \r\n"
 				+ "left outer join DTL_TBL E\r\n" + "on C.PRODUCT_UNIT = E.CHILD_TBL_NO\r\n"
 				+ "left outer join DTL_TBL F\r\n" + "on A.InMat_Rcv_Clsfc = F.CHILD_TBL_NO";
 

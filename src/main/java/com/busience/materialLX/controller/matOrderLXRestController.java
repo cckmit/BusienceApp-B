@@ -76,7 +76,7 @@ public class matOrderLXRestController {
 			conn.setAutoCommit(false);
 			
 			//master데이터에 속한 list데이터가 없는경우 master데이터도 삭제한다.
-			OM_delete_sql = "delete from OrderMasterLX_tbl"
+			OM_delete_sql = "delete from OrderMaster_tbl"
 					+ " where Order_mCus_No = '" + obj.get("order_mCus_No") + "'";
 			
 			System.out.println("OM_delete_sql = " + OM_delete_sql);
@@ -118,8 +118,8 @@ public class matOrderLXRestController {
 		
 		String modifier = principal.getName();
 		String Cus_No_sql = null;
-		String OrderMasterLX_tbl_sql = null;
-		String OrderListLX_tbl_sql = null;
+		String OrderMaster_tbl_sql = null;
+		String OrderList_tbl_sql = null;
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -139,7 +139,7 @@ public class matOrderLXRestController {
 				Cus_No_sql = "select concat('"+masterobj.get("order_mCode")+"','-',date_format(now(),'%y%m%d'),'-',"
 						+ " lpad("
 						+ " (select * from ("
-							+ "select count(*)+1 from OrderMasterLX_tbl"
+							+ "select count(*)+1 from OrderMaster_tbl"
 							+ " where Order_mCode = '"+masterobj.get("order_mCode")+"' and Order_mDate >= curdate()) AA),"
 						+ " 2,'0'))\r\n";
 				
@@ -153,7 +153,7 @@ public class matOrderLXRestController {
 			}
 			
 			
-			OrderMasterLX_tbl_sql = " insert into OrderMasterLX_tbl(\r\n" 
+			OrderMaster_tbl_sql = " insert into OrderMaster_tbl(\r\n" 
 					+ " Order_mCus_No,\r\n" 
 					+ " Order_mCode,\r\n"
 					+ " Order_mDate,\r\n" 
@@ -178,15 +178,15 @@ public class matOrderLXRestController {
 					+ " Order_mModifier ='" + modifier + "',"
 					+ " Order_mModify_Date = now()";
 			
-			System.out.println("OrderMasterLX_tbl_sql = " + OrderMasterLX_tbl_sql);
-			pstmt = conn.prepareStatement(OrderMasterLX_tbl_sql);
+			System.out.println("OrderMaster_tbl_sql = " + OrderMaster_tbl_sql);
+			pstmt = conn.prepareStatement(OrderMaster_tbl_sql);
 			pstmt.executeUpdate();
 			
 			for(int i=0;i<listarr.size();i++) {
 				JSONObject listobj = (JSONObject) listarr.get(i);
 				System.out.println(listobj);
 				
-				OrderListLX_tbl_sql = "insert into OrderListLX_tbl(\r\n" 
+				OrderList_tbl_sql = "insert into OrderList_tbl(\r\n" 
 						+ " Order_lNo,\r\n" 
 						+ " Order_lCus_No,\r\n" 
 						+ " Order_lCode,\r\n"
@@ -218,8 +218,8 @@ public class matOrderLXRestController {
 						+ " Order_Rcv_Clsfc = '" + listobj.get("order_Rcv_Clsfc") + "',"
 						+ " Order_lInfo_Remark = '" + listobj.get("order_lInfo_Remark") + "'";
 
-				System.out.println("OrderListLX_tbl_sql = " + OrderListLX_tbl_sql);
-				pstmt = conn.prepareStatement(OrderListLX_tbl_sql);
+				System.out.println("OrderList_tbl_sql = " + OrderList_tbl_sql);
+				pstmt = conn.prepareStatement(OrderList_tbl_sql);
 				pstmt.executeUpdate();
 			}
 			
@@ -273,7 +273,7 @@ public class matOrderLXRestController {
 				Order_lCus_No = (String) obj.get("order_lCus_No");
 				
 				//새로추가
-				OS_delete_sql = "delete from OrderListLX_tbl"
+				OS_delete_sql = "delete from OrderList_tbl"
 						+ " where Order_lNo = '" + obj.get("order_lNo") + "'"
 						+ " and Order_lCus_No = '" + obj.get("order_lCus_No") + "'";
 				
@@ -283,7 +283,7 @@ public class matOrderLXRestController {
 			}
 			
 			//삭제후 list 순번을 재정리 해준다.
-			Cus_No_sql = " UPDATE OrderListLX_tbl A, (SELECT @rank:=0) B"
+			Cus_No_sql = " UPDATE OrderList_tbl A, (SELECT @rank:=0) B"
 					+ " SET A.Order_lNo = @rank:=@rank+1\r\n"
 					+ " where A.Order_lCus_No = '"+Order_lCus_No+"';";
 

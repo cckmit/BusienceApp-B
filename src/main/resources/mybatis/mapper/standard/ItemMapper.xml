@@ -23,7 +23,7 @@
 			A.PRODUCT_BUYER, A.PRODUCT_WRHSN_INSPC,
 			A.PRODUCT_USE_STATUS, A.PRODUCT_MODIFY_D,
 			K.USER_NAME PRODUCT_MODIFIER
-			from PRODUCT_INFO_TBL A
+			from Product_Info_tbl A
 			inner join DTL_TBL B on A.PRODUCT_BUSINESS_PLACE = B.CHILD_TBL_NO
 			inner join DTL_TBL C on A.PRODUCT_UNIT = C.CHILD_TBL_NO
 			inner join DTL_TBL D on A.PRODUCT_MATERIAL = D.CHILD_TBL_NO
@@ -33,12 +33,12 @@
 			inner join DTL_TBL H on A.PRODUCT_ITEM_STTS = H.CHILD_TBL_NO
 			inner join DTL_TBL I on A.PRODUCT_BASIC_WAREHOUSE = I.CHILD_TBL_NO
 			left outer join DTL_TBL J on A.PRODUCT_SAVE_AREA = J.CHILD_TBL_NO
-			inner join USER_INFO_TBL K on A.PRODUCT_MODIFIER = K.USER_CODE
+			inner join User_Info_tbl K on A.PRODUCT_MODIFIER = K.USER_CODE
 			order by A.PRODUCT_ITEM_CODE
 	</select>
 
 	<insert id="insertItemCode">
-		insert into PRODUCT_INFO_TBL(
+		insert into Product_Info_tbl(
 			PRODUCT_BUSINESS_PLACE,	PRODUCT_ITEM_CODE, PRODUCT_OLD_ITEM_CODE,
 			PRODUCT_ITEM_NAME, PRODUCT_INFO_STND_1, PRODUCT_INFO_STND_2,
 			PRODUCT_UNIT, PRODUCT_MATERIAL, PRODUCT_MTRL_CLSFC,
@@ -68,7 +68,7 @@
 	</insert>
 	
 	<update id="updateItemCode">
-		update PRODUCT_INFO_TBL
+		update Product_Info_tbl
 			set
 			PRODUCT_BUSINESS_PLACE = #{PRODUCT_BUSINESS_PLACE},
 			PRODUCT_OLD_ITEM_CODE = #{PRODUCT_OLD_ITEM_CODE},
@@ -95,7 +95,7 @@
 	</update>
 	
 	<delete id="deleteItemCode">
-		delete from PRODUCT_INFO_TBL
+		delete from Product_Info_tbl
 			where PRODUCT_ITEM_CODE = #{itemCode}
 	</delete>
 	
@@ -117,7 +117,7 @@
 			A.PRODUCT_BUYER, A.PRODUCT_WRHSN_INSPC,
 			A.PRODUCT_USE_STATUS, A.PRODUCT_MODIFY_D,
 			K.USER_NAME PRODUCT_MODIFIER
-			from PRODUCT_INFO_TBL A
+			from Product_Info_tbl A
 			inner join DTL_TBL B on A.PRODUCT_BUSINESS_PLACE = B.CHILD_TBL_NO
 			inner join DTL_TBL C on A.PRODUCT_UNIT = C.CHILD_TBL_NO
 			inner join DTL_TBL D on A.PRODUCT_MATERIAL = D.CHILD_TBL_NO
@@ -127,7 +127,7 @@
 			inner join DTL_TBL H on A.PRODUCT_ITEM_STTS = H.CHILD_TBL_NO
 			inner join DTL_TBL I on A.PRODUCT_BASIC_WAREHOUSE = I.CHILD_TBL_NO
 			left outer join DTL_TBL J on A.PRODUCT_SAVE_AREA = J.CHILD_TBL_NO
-			inner join USER_INFO_TBL K on A.PRODUCT_MODIFIER = K.USER_CODE
+			inner join User_Info_tbl K on A.PRODUCT_MODIFIER = K.USER_CODE
 			where A.PRODUCT_ITEM_CODE = #{itemCode}
 	</select>
 	
@@ -149,7 +149,7 @@
 			A.PRODUCT_BUYER, A.PRODUCT_WRHSN_INSPC,
 			A.PRODUCT_USE_STATUS, A.PRODUCT_MODIFY_D,
 			K.USER_NAME PRODUCT_MODIFIER
-			from PRODUCT_INFO_TBL A
+			from Product_Info_tbl A
 			inner join DTL_TBL B on A.PRODUCT_BUSINESS_PLACE = B.CHILD_TBL_NO
 			inner join DTL_TBL C on A.PRODUCT_UNIT = C.CHILD_TBL_NO
 			inner join DTL_TBL D on A.PRODUCT_MATERIAL = D.CHILD_TBL_NO
@@ -159,7 +159,7 @@
 			inner join DTL_TBL H on A.PRODUCT_ITEM_STTS = H.CHILD_TBL_NO
 			inner join DTL_TBL I on A.PRODUCT_BASIC_WAREHOUSE = I.CHILD_TBL_NO
 			left outer join DTL_TBL J on A.PRODUCT_SAVE_AREA = J.CHILD_TBL_NO
-			inner join USER_INFO_TBL K on A.PRODUCT_MODIFIER = K.USER_CODE
+			inner join User_Info_tbl K on A.PRODUCT_MODIFIER = K.USER_CODE
 			where A.PRODUCT_MTRL_CLSFC = #{materialClsfc}
 	</select>
 </mapper>

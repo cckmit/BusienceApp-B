@@ -25,7 +25,7 @@
 			inner join (
 				select * from DTL_TBL where NEW_TBL_CODE=15
 			) D on A.Cus_Status = D.CHILD_TBL_NO
-			left outer join USER_INFO_TBL E on A.Cus_Modifier = E.USER_CODE
+			left outer join User_Info_tbl E on A.Cus_Modifier = E.USER_CODE
 	</select>
 
 	<insert id="insertCustomerDao">
@@ -90,6 +90,6 @@
 			inner join (
 				select * from DTL_TBL where NEW_TBL_CODE=15
 			) D on A.Cus_Status = D.CHILD_TBL_NO
-			left outer join USER_INFO_TBL E on A.Cus_Modifier = E.USER_CODE
+			left outer join User_Info_tbl E on A.Cus_Modifier = E.USER_CODE
 	</select>
 </mapper>

@@ -52,7 +52,7 @@ public class matInputLXRestController {
 				+ " A.Order_mModifier,\r\n"
 				+ " date_format(A.Order_mModify_Date,'%Y-%m-%d %T') Order_mModify_Date,\r\n"
 				+ " A.Order_mCheck\r\n"
-				+ " FROM OrderMasterLX_tbl A\r\n"
+				+ " FROM OrderMaster_tbl A\r\n"
 				+ " inner join Customer_tbl B on A.Order_mCode = B.Cus_Code\r\n";
 		
 		String where = " where A.Order_mDlvry_Date between '" + obj.get("startDate") + " 00:00:00' and '" + obj.get("endDate") + " 23:59:59' ";
@@ -117,7 +117,7 @@ public class matInputLXRestController {
 				+ " B.PRODUCT_SAVE_AREA,\r\n"
 				+ " A.Order_Rcv_Clsfc,\r\n"
 				+ " A.Order_lInfo_Remark\r\n"
-				+ " FROM OrderListLX_tbl A\r\n"
+				+ " FROM OrderList_tbl A\r\n"
 				+ " inner join PRODUCT_INFO_TBL B on A.Order_lCode = B.PRODUCT_ITEM_CODE\r\n";
 		
 		String where = " where Order_lCus_No = '"+order_lCus_No+"'"
@@ -262,7 +262,7 @@ public class matInputLXRestController {
 						+ " '"+modifier+"')\r\n";
 				
 				//orderlist테이블에 수량 update
-				OrderList_sql = " UPDATE OrderListLX_tbl SET\r\n"
+				OrderList_sql = " UPDATE OrderList_tbl SET\r\n"
 						+ " Order_lSum = Order_lSum + "+obj.get("inMat_Qty")+",\r\n"
 						+ " Order_lUnit_Price = "+obj.get("inMat_Unit_Price")+",\r\n"
 						+ " Order_lPrice = "+obj.get("inMat_Qty")+"*"+obj.get("inMat_Unit_Price")+",\r\n"
@@ -281,7 +281,7 @@ public class matInputLXRestController {
 						+ " SM_In_Qty = SM_In_Qty+"+obj.get("inMat_Qty");
 				
 				//OrderMaster 테이블에 입고상태 update
-				OrderMaster_sql = " update OrderMasterLX_tbl\r\n"
+				OrderMaster_sql = " update OrderMaster_tbl\r\n"
 						+ " set Order_mCheck = \r\n"
 						+ " (select \r\n"
 						+ "	(case \r\n"
@@ -289,7 +289,7 @@ public class matInputLXRestController {
 							+ "	when sum(Order_lSum) = 0 then 'N' \r\n"
 							+ "	else 'I'\r\n"
 						+ "	end)\r\n"
-						+ "	from OrderListLX_tbl \r\n"
+						+ "	from OrderList_tbl \r\n"
 						+ "	where Order_lCus_No = '"+obj.get("inMat_Order_No")+"'\r\n"
 						+ " )\r\n"
 						+ " where Order_mCus_No = '"+obj.get("inMat_Order_No")+"'";
@@ -309,7 +309,6 @@ public class matInputLXRestController {
 				System.out.println("OrderMaster_sql = " + OrderMaster_sql);
 				pstmt = conn.prepareStatement(OrderMaster_sql);
 				pstmt.executeUpdate();
-
 			}
 			
 			conn.commit();
