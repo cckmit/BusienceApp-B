@@ -6,7 +6,18 @@
 	
 <mapper namespace="com.busience.standard.dao.UserDao">
 	<select id="selectUser" resultType="com.busience.standard.dto.UserDto">
-		select * from User_Info_tbl where USER_CODE = #{USER_CODE}
+		SELECT 
+			A.User_Code, A.User_Password, A.User_Name,
+			A.User_Type, B.CHILD_TBL_TYPE USER_Type_Name,
+			A.Company, C.CHILD_TBL_TYPE Company_Name,
+			A.Dept_Code, D.CHILD_TBL_TYPE Dept_Name,
+			A.User_Modifier, A.User_Modify_D,
+			A.User_Use_Status, A.User_Regdate
+		FROM User_Info_tbl A
+		left outer join DTL_TBL B on A.User_Type = B.CHILD_TBL_NO
+		left outer join DTL_TBL C on A.Company = C.CHILD_TBL_NO
+		left outer join DTL_TBL D on A.Dept_Code = D.CHILD_TBL_NO
+		where User_Code = #{User_Code}
 	</select>
 	
 	<select id="selectUserList" resultType="com.busience.standard.dto.UserDto">
@@ -35,8 +46,8 @@
 	
 	<insert id="insertMenuNewUser">
 		insert into Menu_MGMT_tbl
-			select #{userCode}, Rights_Program_Code, Rights_MGMT_Use_Status, Rights_MGMT_Use_Status, Rights_MGMT_Use_Status, Rights_MGMT_Use_Status
-			from Rights_MGMT_tbl where Rights_User_Type = #{userType}
+			select #{User_Code}, Rights_Program_Code, Rights_MGMT_Use_Status, Rights_MGMT_Use_Status, Rights_MGMT_Use_Status, Rights_MGMT_Use_Status
+			from Rights_MGMT_tbl where Rights_User_Type = #{User_Type}
 	</insert>
 	
 	<update id="updateUser">

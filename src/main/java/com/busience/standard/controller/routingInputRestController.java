@@ -43,7 +43,7 @@ public class routingInputRestController {
 				+ "			B.CHILD_TBL_TYPE PRODUCT_MTRL_CLSFC_NAME,\r\n"
 				+ " 			A.PRODUCT_INFO_STND_1,\r\n"
 				+ " 			IFNULL((SELECT BOM_Parent_ItemCode FROM BOM_tbl WHERE BOM_Parent_ItemCode=A.PRODUCT_ITEM_CODE LIMIT 1),'FALSE') BOM_Registered\r\n"
-				+ "FROM PRODUCT_INFO_TBL A\r\n"
+				+ "from Product_Info_tbl A\r\n"
 				+ "inner join DTL_TBL B on A.PRODUCT_MTRL_CLSFC = B.CHILD_TBL_NO";
 		
 		if(!request.getParameter("PRODUCT_ITEM_CODE").equals(""))

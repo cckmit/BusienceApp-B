@@ -15,8 +15,8 @@
 		</ul>
 	</nav>
 	<div class="account-settings">
-		<span id="principal_userCode" style="display: none"><sec:authentication property="principal.member.USER_CODE" /></span>
-		<span style="font-size: 15px;">사용자 : <sec:authentication property="principal.member.USER_NAME" /></span>
+		<span id="principal_userCode" style="display: none"><sec:authentication property="principal.member.User_Code" /></span>
+		<span style="font-size: 15px;">사용자 : <sec:authentication property="principal.member.User_Name" /></span>
 		<div>
 			
 		</div>

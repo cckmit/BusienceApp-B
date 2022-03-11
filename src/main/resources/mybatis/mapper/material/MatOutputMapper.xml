@@ -4,8 +4,8 @@
 	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	 
-<mapper namespace="com.busience.materialLX.dao.MatOutputDao">
-	<select id="outMatListDao" resultType="com.busience.materialLX.dto.StockMat_tbl">
+<mapper namespace="com.busience.material.dao.MatOutputDao">
+	<select id="outMatListDao" resultType="com.busience.material.dto.StockMat_tbl">
 		SELECT A.SM_Code, B.PRODUCT_ITEM_NAME SM_Name, A.SM_Qty,
 			B.PRODUCT_INFO_STND_1 SM_STND_1, C.CHILD_TBL_TYPE SM_CLSFC_1_Name
 			FROM (

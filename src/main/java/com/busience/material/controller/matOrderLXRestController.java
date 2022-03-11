@@ -1,4 +1,4 @@
-package com.busience.materialLX.controller;
+package com.busience.material.controller;
 import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,10 +22,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
-import com.busience.materialLX.dto.OrderListDto;
-import com.busience.materialLX.dto.OrderMasterDto;
-import com.busience.materialLX.dto.StockMatDto;
-import com.busience.materialLX.service.MatOrderService;
+import com.busience.material.dto.OrderListDto;
+import com.busience.material.dto.OrderMasterDto;
+import com.busience.material.dto.StockMatDto;
+import com.busience.material.service.MatOrderService;
 
 @RestController("matOrderLXRestController")
 @RequestMapping("matOrderLXRest")

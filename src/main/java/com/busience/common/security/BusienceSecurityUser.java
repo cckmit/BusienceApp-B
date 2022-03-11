@@ -24,7 +24,7 @@ public class BusienceSecurityUser extends User{
 	
 	public BusienceSecurityUser(UserDto member) {
 		
-		super(member.getUSER_CODE(), member.getUSER_PASSWORD(), makeGrantedAuthority(member.getUSER_TYPE()));
+		super(member.getUser_Code(), member.getUser_Password(), makeGrantedAuthority(member.getUser_Type()));
 
 		this.member = member;
 	}

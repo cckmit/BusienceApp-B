@@ -1,4 +1,4 @@
-package com.busience.materialLX.controller;
+package com.busience.material.controller;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -47,14 +47,14 @@ public class matInoutLXReportRestController {
 				+ "dt.CHILD_TBL_TYPE,\r\n"
 				+ "mat.Mat_Date\r\n"
 				+ "FROM(SELECT InMat_Code Mat_Code, sum(InMat_Qty) Mat_Qty, InMat_Rcv_Clsfc Mat_Clsfc, InMat_Date Mat_Date\r\n"
-				+ "FROM InMatLX_tbl\r\n"
+				+ "FROM InMat_tbl\r\n"
 				+ "group by InMat_Code, InMat_Rcv_Clsfc\r\n"
 				+ "union all\r\n"
 				+ "SELECT OutMat_Code Mat_Code, sum(OutMat_Qty) Mat_Qty, OutMat_Send_Clsfc Mat_Clsfc, OutMat_Date Mat_Date\r\n"
-				+ "FROM OutMatLX_tbl\r\n"
+				+ "FROM OutMat_tbl\r\n"
 				+ "group by OutMat_Code, OutMat_Send_Clsfc\r\n"
 				+ "order by Mat_Code) mat \r\n"
-				+ "INNER JOIN PRODUCT_INFO_TBL pit ON mat.Mat_Code = pit.PRODUCT_ITEM_CODE\r\n"
+				+ "INNER JOIN Product_Info_tbl pit ON mat.Mat_Code = pit.PRODUCT_ITEM_CODE\r\n"
 				+ "INNER JOIN DTL_TBL dt ON mat.Mat_Clsfc = dt.CHILD_TBL_NO"
 				+ " where Mat_Date between '" + obj.get("startDate") + " 00:00:00' and '" + obj.get("endDate") + " 23:59:59'";
 		

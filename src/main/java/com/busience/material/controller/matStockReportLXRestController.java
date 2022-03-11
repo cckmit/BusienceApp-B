@@ -1,4 +1,4 @@
-package com.busience.materialLX.controller;
+package com.busience.material.controller;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,8 +41,8 @@ public class matStockReportLXRestController {
 				+ "pit.PRODUCT_INFO_STND_1 SM_ItemSTND_1, \r\n"
 				+ "dt2.CHILD_TBL_TYPE SM_ItemUNIT, \r\n"
 				+ "SM_Last_Qty+SM_In_Qty-SM_Out_Qty SM_Qty\r\n"
-				+ "FROM StockMatLX_tbl smt\r\n"
-				+ "INNER JOIN PRODUCT_INFO_TBL pit ON smt.SM_Code = pit.PRODUCT_ITEM_CODE\r\n"
+				+ "FROM StockMat_tbl smt\r\n"
+				+ "INNER JOIN Product_Info_tbl pit ON smt.SM_Code = pit.PRODUCT_ITEM_CODE\r\n"
 				+ "LEFT OUTER JOIN DTL_TBL dt ON pit.PRODUCT_ITEM_CLSFC_1 = dt.CHILD_TBL_NO\r\n"
 				+ "LEFT OUTER JOIN DTL_TBL dt2 ON pit.PRODUCT_UNIT = dt2.CHILD_TBL_NO ";
 

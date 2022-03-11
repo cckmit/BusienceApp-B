@@ -21,8 +21,8 @@ public class UserService {
 	TransactionTemplate transactionTemplate;
 
 	// 코드 조건으로 조회
-	public UserDto selectUser(String string) {
-        return userDao.selectUser(string);
+	public UserDto selectUser(String User_Code) {
+        return userDao.selectUser(User_Code);
 	}
 	
 	// 유저 목록
@@ -41,7 +41,7 @@ public class UserService {
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
 					userDao.insertUser(userDto);
 				
-					userDao.insertMenuNewUser(userDto.getUSER_CODE(), userDto.getUSER_TYPE());
+					userDao.insertMenuNewUser(userDto.getUser_Code(), userDto.getUser_Type());
 				}
 			});
 			

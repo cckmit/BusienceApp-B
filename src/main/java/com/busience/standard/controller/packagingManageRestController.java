@@ -52,7 +52,7 @@ public class packagingManageRestController {
 				+ "A.Packaging_Modifier\r\n"
 				+ "FROM Packaging_Standard_tbl A\r\n"
 				+ "inner join DTL_TBL B on A.Packaging_Cus_Status = B.CHILD_TBL_NO\r\n"
-				+ "inner join PRODUCT_INFO_TBL C on A.Packaging_ItemCode = C.PRODUCT_ITEM_CODE\r\n"
+				+ "inner join Product_Info_tbl C on A.Packaging_ItemCode = C.PRODUCT_ITEM_CODE\r\n"
 				+ "inner join Customer_tbl D on A.Packaging_Cus_Code = D.Cus_Code\r\n";
 		
 		System.out.println("PM_Search_sql =" + PM_Search_sql);

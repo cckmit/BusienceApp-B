@@ -1,4 +1,4 @@
-package com.busience.materialLX.dto;
+package com.busience.material.dto;
 
 import lombok.Getter;
 import lombok.Setter;

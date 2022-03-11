@@ -69,7 +69,7 @@ public class popupRestController {
 				+ " A.PRODUCT_INFO_STND_1,\r\n"
 				+ " B.CHILD_TBL_TYPE PRODUCT_MTRL_CLSFC,\r\n"
 				+ " A.PRODUCT_UNIT_PRICE\r\n"
-				+ " from PRODUCT_INFO_TBL A\r\n"
+				+ " from Product_Info_tbl A\r\n"
 				+ " inner join DTL_TBL B on A.PRODUCT_MTRL_CLSFC = B.CHILD_TBL_NO\r\n"
 				+ " where (A.PRODUCT_ITEM_CODE like '%"+item_Word+"%' or A.PRODUCT_ITEM_NAME like '%"+item_Word+"%')\r\n"
 				+ " and A.PRODUCT_MTRL_CLSFC like '%" + search_value + "%'\r\n"
@@ -131,7 +131,7 @@ public class popupRestController {
 					+ " PRODUCT_ITEM_NAME,\r\n"
 					+ " PRODUCT_INFO_STND_1,\r\n"
 					+ " PRODUCT_UNIT_PRICE\r\n"
-					+ " from PRODUCT_INFO_TBL\r\n"
+					+ " from Product_Info_tbl\r\n"
 					+ " where (PRODUCT_ITEM_CODE like '%" + item_Word + "%' or PRODUCT_ITEM_NAME like '%" + item_Word + "%')\r\n"
 					+ " and PRODUCT_USE_STATUS='true'"
 					+ " and PRODUCT_MTRL_CLSFC in ("+search_value+")";
@@ -191,7 +191,7 @@ public class popupRestController {
 					+ " PRODUCT_ITEM_NAME,\r\n"
 					+ " PRODUCT_INFO_STND_1,\r\n"
 					+ " PRODUCT_UNIT_PRICE\r\n"
-					+ " from PRODUCT_INFO_TBL\r\n"
+					+ " from Product_Info_tbl\r\n"
 					+ " where PRODUCT_INFO_STND_1 like '%" + item_Word.trim() + "%'\r\n"
 					+ " and PRODUCT_USE_STATUS='true'"
 					+ " and PRODUCT_MTRL_CLSFC in ("+terms+")";
@@ -251,7 +251,7 @@ public class popupRestController {
 						+ " PRODUCT_ITEM_NAME,\r\n"
 						+ " PRODUCT_INFO_STND_1,\r\n"
 						+ " PRODUCT_UNIT_PRICE\r\n"
-						+ " from PRODUCT_INFO_TBL\r\n"
+						+ " from Product_Info_tbl\r\n"
 						+ " where PRODUCT_INFO_STND_1 like '%" + item_Word + "%'\r\n"
 						+ " and PRODUCT_USE_STATUS='true'"
 						+ " and PRODUCT_MTRL_CLSFC in ("+terms+")";
@@ -393,15 +393,15 @@ public class popupRestController {
 		
 		//첫 select 결과가 없으면 두번쨰 select로 대체함
 		sql = "select PRODUCT_ITEM_CODE, PRODUCT_ITEM_NAME, PRODUCT_INFO_STND_1, PRODUCT_UNIT_PRICE \r\n"
-				+ "from PRODUCT_INFO_TBL \r\n"
+				+ "from Product_Info_tbl \r\n"
 				+ " where (PRODUCT_ITEM_NAME = '" + PRODUCT_ITEM_CODE + "' or PRODUCT_ITEM_CODE = '" + PRODUCT_ITEM_CODE + "')\r\n"
 				+ "union\r\n"
 				+ "select PRODUCT_ITEM_CODE, PRODUCT_ITEM_NAME, PRODUCT_INFO_STND_1, PRODUCT_UNIT_PRICE \r\n"
-				+ "from PRODUCT_INFO_TBL \r\n"
+				+ "from Product_Info_tbl \r\n"
 				+ " where (PRODUCT_ITEM_NAME like '%" + PRODUCT_ITEM_CODE + "%' or PRODUCT_ITEM_CODE like '%" + PRODUCT_ITEM_CODE + "%')\r\n"
 				+ "and not exists (\r\n"
 				+ "	select PRODUCT_ITEM_CODE, PRODUCT_ITEM_NAME, PRODUCT_INFO_STND_1, PRODUCT_UNIT_PRICE \r\n"
-					+ " from PRODUCT_INFO_TBL \r\n"
+					+ " from Product_Info_tbl \r\n"
 					+ " where (PRODUCT_ITEM_NAME = '" + PRODUCT_ITEM_CODE + "' or PRODUCT_ITEM_CODE = '" + PRODUCT_ITEM_CODE + "'));";		
 
 		Connection conn = dataSource.getConnection();

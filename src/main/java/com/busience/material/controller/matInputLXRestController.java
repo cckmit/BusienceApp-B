@@ -1,4 +1,4 @@
-package com.busience.materialLX.controller;
+package com.busience.material.controller;
 
 import java.security.Principal;
 import java.sql.Connection;
@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.materialLX.dto.InMat_tbl;
-import com.busience.materialLX.dto.OrderList_tbl;
-import com.busience.materialLX.dto.OrderMaster_tbl;
+import com.busience.material.dto.InMat_tbl;
+import com.busience.material.dto.OrderList_tbl;
+import com.busience.material.dto.OrderMaster_tbl;
 
 @RestController("matInputLXRestController")
 @RequestMapping("matInputLXRest")
@@ -118,7 +118,7 @@ public class matInputLXRestController {
 				+ " A.Order_Rcv_Clsfc,\r\n"
 				+ " A.Order_lInfo_Remark\r\n"
 				+ " FROM OrderList_tbl A\r\n"
-				+ " inner join PRODUCT_INFO_TBL B on A.Order_lCode = B.PRODUCT_ITEM_CODE\r\n";
+				+ " inner join Product_Info_tbl B on A.Order_lCode = B.PRODUCT_ITEM_CODE\r\n";
 		
 		String where = " where Order_lCus_No = '"+order_lCus_No+"'"
 				+ " order by A.Order_lNo";
@@ -173,7 +173,7 @@ public class matInputLXRestController {
 				+ " A.InMat_Rcv_Clsfc,\r\n"
 				+ " date_format(A.InMat_Date,'%Y-%m-%d %T') InMat_Date\r\n"
 				+ " FROM InMatLX_tbl A\r\n"
-				+ " inner join PRODUCT_INFO_TBL B on A.InMat_Code = B.PRODUCT_ITEM_CODE\r\n";
+				+ " inner join Product_Info_tbl B on A.InMat_Code = B.PRODUCT_ITEM_CODE\r\n";
 		
 		String where = " where A.InMat_Order_No = '"+inMat_Order_No+"' and A.InMat_Rcv_Clsfc like '17%' and A.InMat_Date >= curdate()"
 				+ "	order by A.inMat_No;";

@@ -11,30 +11,30 @@ import lombok.ToString;
 @ToString
 public class UserDto {
 	
-	private String USER_CODE;
+	private String User_Code;
 	
-	private String USER_PASSWORD;
+	private String User_Password;
 	
-	private String USER_NAME;
+	private String User_Name;
 	
-	private String USER_TYPE;
+	private String User_Type;
 	
-	private String USER_TYPE_NAME;
+	private String User_Type_Name;
 	
-	private String COMPANY;
+	private String Company;
 	
-	private String COMPANY_NAME;
+	private String Company_Name;
 	
-	private String DEPT_CODE;
+	private String Dept_Code;
 	
-	private String DEPT_NAME;
+	private String Dept_Name;
 	
-	private String USER_MODIFIER;
+	private String User_Modifier;
 	
-	private LocalDateTime USER_REGDTATE;
+	private LocalDateTime User_Regdate;
 	
-	private LocalDateTime USER_MODIFY_D;
+	private LocalDateTime User_Modify_D;
 	
-	private String USER_USE_STATUS;
+	private String User_Use_Status;
 
 }

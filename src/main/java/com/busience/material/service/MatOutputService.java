@@ -1,4 +1,4 @@
-package com.busience.materialLX.service;
+package com.busience.material.service;
 
 import java.util.List;
 
@@ -10,9 +10,9 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import com.busience.common.dao.DtlDao;
 import com.busience.common.dto.DtlDto;
-import com.busience.materialLX.dao.MatOutputDao;
-import com.busience.materialLX.dto.OutMat_tbl;
-import com.busience.materialLX.dto.StockMat_tbl;
+import com.busience.material.dao.MatOutputDao;
+import com.busience.material.dto.OutMat_tbl;
+import com.busience.material.dto.StockMat_tbl;
 import com.busience.salesLX.dao.SalesInputLXDao;
 import com.busience.salesLX.dto.Sales_InMat_tbl;
 

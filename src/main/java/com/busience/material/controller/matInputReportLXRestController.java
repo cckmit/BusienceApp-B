@@ -1,4 +1,4 @@
-package com.busience.materialLX.controller;
+package com.busience.material.controller;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
-import com.busience.materialLX.dto.InMat_tbl;
-import com.busience.materialLX.dto.StockMat_tbl;
+import com.busience.material.dto.InMat_tbl;
+import com.busience.material.dto.StockMat_tbl;
 
 @RestController("matInputReportLXRestController")
 @RequestMapping("matInputReportLXRest")
@@ -45,8 +45,8 @@ public class matInputReportLXRestController {
 				+ "E.CHILD_TBL_TYPE InMat_UNIT, \r\n" + "A.InMat_Qty, \r\n" + "A.InMat_Unit_Price, \r\n"
 				+ "A.InMat_Price, \r\n" + "A.InMat_No, \r\n" + "D.Order_lInfo_Remark InMat_Info_Remark, \r\n"
 				+ "A.InMat_Order_No, \r\n" + "A.InMat_Modifier, \r\n" + "A.InMat_dInsert_Time  \r\n"
-				+ "from InMatLX_tbl A \r\n" + "inner join Customer_tbl B \r\n"
-				+ "on A.InMat_Client_Code = B.Cus_Code \r\n" + "inner join PRODUCT_INFO_TBL C \r\n"
+				+ "from InMat_tbl A \r\n" + "inner join Customer_tbl B \r\n"
+				+ "on A.InMat_Client_Code = B.Cus_Code \r\n" + "inner join Product_Info_tbl C \r\n"
 				+ "on A.InMat_Code = C.PRODUCT_ITEM_CODE \r\n" + "inner join OrderList_tbl D\r\n"
 				+ "on A.InMat_Order_No = D.Order_lCus_No and A.InMat_Code = D.Order_lCode \r\n"
 				+ "left outer join DTL_TBL E\r\n" + "on C.PRODUCT_UNIT = E.CHILD_TBL_NO\r\n"
@@ -124,9 +124,9 @@ public class matInputReportLXRestController {
 				+ "C.PRODUCT_ITEM_NAME InMat_Name, \r\n" + "C.PRODUCT_INFO_STND_1 InMat_STND_1, \r\n"
 				+ "E.CHILD_TBL_TYPE InMat_UNIT, \r\n" + "sum(A.InMat_Qty) InMat_Qty, \r\n"
 				+ "sum(A.InMat_Unit_Price) InMat_Unit_Price, \r\n" + "sum(A.InMat_Price) InMat_Price, \r\n"
-				+ "A.InMat_No, \r\n" + "A.InMat_Order_No\r\n" + "from InMatLX_tbl A \r\n"
+				+ "A.InMat_No, \r\n" + "A.InMat_Order_No\r\n" + "from InMat_tbl A \r\n"
 				+ "inner join Customer_tbl B \r\n" + "on A.InMat_Client_Code = B.Cus_Code \r\n"
-				+ "inner join PRODUCT_INFO_TBL C \r\n" + "on A.InMat_Code = C.PRODUCT_ITEM_CODE \r\n"
+				+ "inner join Product_Info_tbl C \r\n" + "on A.InMat_Code = C.PRODUCT_ITEM_CODE \r\n"
 				+ "inner join OrderList_tbl D\r\n" + "on A.InMat_Order_No = D.Order_lCus_No \r\n"
 				+ "left outer join DTL_TBL E\r\n" + "on C.PRODUCT_UNIT = E.CHILD_TBL_NO\r\n"
 				+ "left outer join DTL_TBL F\r\n" + "on A.InMat_Rcv_Clsfc = F.CHILD_TBL_NO";
@@ -225,9 +225,9 @@ public class matInputReportLXRestController {
 				+ "C.PRODUCT_ITEM_NAME InMat_Name, \r\n" + "C.PRODUCT_INFO_STND_1 InMat_STND_1, \r\n"
 				+ "E.CHILD_TBL_TYPE InMat_UNIT, \r\n" + "sum(A.InMat_Qty) InMat_Qty, \r\n"
 				+ "sum(A.InMat_Unit_Price) InMat_Unit_Price, \r\n" + "sum(A.InMat_Price) InMat_Price, \r\n"
-				+ "A.InMat_No, \r\n" + "A.InMat_Order_No\r\n" + "from InMatLX_tbl A \r\n"
+				+ "A.InMat_No, \r\n" + "A.InMat_Order_No\r\n" + "from InMat_tbl A \r\n"
 				+ "inner join Customer_tbl B \r\n" + "on A.InMat_Client_Code = B.Cus_Code \r\n"
-				+ "inner join PRODUCT_INFO_TBL C \r\n" + "on A.InMat_Code = C.PRODUCT_ITEM_CODE \r\n"
+				+ "inner join Product_Info_tbl C \r\n" + "on A.InMat_Code = C.PRODUCT_ITEM_CODE \r\n"
 				+ "inner join OrderList_tbl D\r\n" + "on A.InMat_Order_No = D.Order_lCus_No \r\n"
 				+ "left outer join DTL_TBL E\r\n" + "on C.PRODUCT_UNIT = E.CHILD_TBL_NO\r\n"
 				+ "left outer join DTL_TBL F\r\n" + "on A.InMat_Rcv_Clsfc = F.CHILD_TBL_NO";
@@ -322,7 +322,7 @@ public class matInputReportLXRestController {
 
 		String sql = "select \r\n" + "A.InMat_No,\r\n" + "A.InMat_Client_Code,\r\n"
 				+ "B.Cus_Name InMat_Client_Name,\r\n" + "A.InMat_Qty,\r\n" + "sum(A.InMat_Price) InMat_Price \r\n"
-				+ "from InMatLX_tbl A\r\n" + "inner join Customer_tbl B\r\n" + "on A.InMat_Client_Code = B.Cus_Code \r\n";
+				+ "from InMat_tbl A\r\n" + "inner join Customer_tbl B\r\n" + "on A.InMat_Client_Code = B.Cus_Code \r\n";
 
 		String where = " where A.InMat_Date >= '" + searchDto.getStartDate() + "'and A.InMat_Date < '"
 				+ searchDto.getEndDate() + "'";
@@ -383,7 +383,7 @@ public class matInputReportLXRestController {
 				+ "A.InMat_Code,\r\n" + "A.InMat_Client_Code,\r\n" + "C.PRODUCT_ITEM_NAME InMat_Name,\r\n"
 				+ "C.PRODUCT_INFO_STND_1 InMat_STND_1,\r\n" + "D.CHILD_TBL_TYPE InMat_UNIT,\r\n"
 				+ "sum(A.InMat_Qty) InMat_Qty,\r\n" + "sum(A.InMat_Unit_Price) InMat_Unit_Price, \r\n"
-				+ "sum(A.InMat_Price) InMat_Price \r\n" + "from InMatLX_tbl A\r\n" + "inner join PRODUCT_INFO_TBL C\r\n"
+				+ "sum(A.InMat_Price) InMat_Price \r\n" + "from InMat_tbl A\r\n" + "inner join Product_Info_tbl C\r\n"
 				+ "on A.InMat_Code = C.PRODUCT_ITEM_CODE \r\n" + "left outer join DTL_TBL D\r\n"
 				+ "on C.PRODUCT_UNIT = D.CHILD_TBL_NO\r\n" + "left outer join DTL_TBL E\r\n"
 				+ "on A.InMat_Rcv_Clsfc = E.CHILD_TBL_NO";

@@ -8,12 +8,12 @@
 	<select id="TestCheckListDao" resultType="com.busience.common.dto.TestCheckDto">
 		select
 			iid, iequip, ivalue, idatetime
-		from insert_test_tbl
+		from Insert_Test_tbl
 		order by iid desc
 		limit 100
 	</select>
 	
 	<insert id="TestInsertDao">
-		insert into insert_test_tbl (iequip, ivalue, idatetime) values( #{iequip}, #{ivalue}, now())
+		insert into Insert_Test_tbl (iequip, ivalue, idatetime) values( #{iequip}, #{ivalue}, now())
 	</insert>
 </mapper>

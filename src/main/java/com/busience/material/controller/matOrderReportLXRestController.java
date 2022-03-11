@@ -1,4 +1,4 @@
-package com.busience.materialLX.controller;
+package com.busience.material.controller;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.materialLX.dto.OrderList_tbl;
-import com.busience.materialLX.dto.OrderMaster_tbl;
-import com.busience.materialLX.dto.StockMat_tbl;
+import com.busience.material.dto.OrderList_tbl;
+import com.busience.material.dto.OrderMaster_tbl;
+import com.busience.material.dto.StockMat_tbl;
 
 @RestController("matOrderLXReportRestController")
 @RequestMapping("matOrderLXReportRest")
@@ -114,7 +114,7 @@ public class matOrderReportLXRestController {
 				+ " A.Order_lNot_Stocked,\r\n"
 				+ " A.Order_lInfo_Remark\r\n"
 				+ " FROM OrderList_tbl A\r\n"
-				+ " inner join PRODUCT_INFO_TBL B on A.Order_lCode = B.PRODUCT_ITEM_CODE";
+				+ " inner join Product_Info_tbl B on A.Order_lCode = B.PRODUCT_ITEM_CODE";
 
 		String where = "  where Order_lCus_No = '" + order_lCus_No + "'";
 
@@ -159,7 +159,7 @@ public class matOrderReportLXRestController {
 				+ " B.PRODUCT_INFO_STND_1 SM_STND_1,\r\n"
 				+ " A.SM_Out_Qty-A.SM_In_Qty SM_Qty\r\n"
 				+ " FROM StockMatLX_tbl A\r\n"
-				+ " inner join PRODUCT_INFO_TBL B ON A.SM_Code = B.PRODUCT_ITEM_CODE";
+				+ " inner join Product_Info_tbl B ON A.SM_Code = B.PRODUCT_ITEM_CODE";
 		
 		String where = " where A.SM_Code = '"+order_lCode+"'";
 		

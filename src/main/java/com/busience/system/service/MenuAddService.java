@@ -50,7 +50,7 @@ public class MenuAddService {
 					//유저코드별로 Menu_MGMT_tbl에 추가
 					userDtoList = userDao.selectUserList();
 					for(int i=0;i<userDtoList.size();i++) {
-						menuDto.setUser_Code(userDtoList.get(i).getUSER_CODE());
+						menuDto.setUser_Code(userDtoList.get(i).getUser_Code());
 						menuAddDao.menuMgmtInsertDao(menuDto);
 					}
 					

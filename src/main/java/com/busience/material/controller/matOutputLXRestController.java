@@ -1,4 +1,4 @@
-package com.busience.materialLX.controller;
+package com.busience.material.controller;
 
 import java.security.Principal;
 import java.util.List;
@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.materialLX.dto.OutMat_tbl;
-import com.busience.materialLX.dto.StockMat_tbl;
-import com.busience.materialLX.service.MatOutputService;
+import com.busience.material.dto.OutMat_tbl;
+import com.busience.material.dto.StockMat_tbl;
+import com.busience.material.service.MatOutputService;
 
 @RestController("matOutputLXRestController")
 @RequestMapping("matOutputLXRest")

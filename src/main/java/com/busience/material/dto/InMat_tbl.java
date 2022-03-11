@@ -1,4 +1,4 @@
-package com.busience.materialLX.dto;
+package com.busience.material.dto;
 
 public class InMat_tbl {
 	private Integer ID;

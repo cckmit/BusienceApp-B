@@ -1,5 +1,6 @@
-package com.busience.materialLX.controller;
+package com.busience.material.controller;
 
+import java.security.Principal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -14,12 +15,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.busience.common.dto.DtlDto;
 import com.busience.common.service.DtlService;
 import com.busience.standard.dto.DTL_TBL;
+import com.busience.standard.service.UserService;
 
 @Controller
 public class materialLXController {
 	
 	@Autowired
 	DtlService dtlService;
+	
+	@Autowired
+	UserService userService;
 	
 	@Autowired
 	JdbcTemplate jdbctemplate;
@@ -36,6 +41,21 @@ public class materialLXController {
 	public String matOrderListLX(Model model) {
 		model.addAttribute("pageName", "발주 조회");
 		return "materialLX/matOrderListLX";
+	}
+	
+	//OrderMaster
+	@GetMapping("matRequest")
+	public String matRequest(Model model, Principal principal) {
+		model.addAttribute(userService.selectUser(principal.getName()));
+		model.addAttribute("pageName", "자재 요청");
+		return "materialLX/matRequest";
+	}
+	
+	//OrderMaster
+	@GetMapping("matRequestList")
+	public String matRequestList(Model model) {
+		model.addAttribute("pageName", "자재 요청 조회");
+		return "materialLX/matRequestList";
 	}
 	
 	// MatInputLX

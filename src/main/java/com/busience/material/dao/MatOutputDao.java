@@ -1,11 +1,11 @@
-package com.busience.materialLX.dao;
+package com.busience.material.dao;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.busience.materialLX.dto.OutMat_tbl;
-import com.busience.materialLX.dto.StockMat_tbl;
+import com.busience.material.dto.OutMat_tbl;
+import com.busience.material.dto.StockMat_tbl;
 
 @Mapper
 public interface MatOutputDao {

@@ -49,7 +49,7 @@ public class spareTypeRestController {
 				+ "Component_Latest_Unit_Price,\r\n" + "Component_Use_Date,\r\n" + "Component_Use_Status,\r\n"
 				+ "Component_Latest_InMat_Date,\r\n" + "Component_Latest_OutMat_Date,\r\n" + "Component_Picture,\r\n"
 				+ "Component_Info_Remark\r\n" + "FROM Spare_Part_tbl AS spt\r\n"
-				+ "LEFT JOIN PRODUCT_INFO_TBL AS pit ON spt.Component_Code = pit.PRODUCT_ITEM_CODE\r\n"
+				+ "LEFT JOIN Product_Info_tbl AS pit ON spt.Component_Code = pit.PRODUCT_ITEM_CODE\r\n"
 				+ "LEFT JOIN Customer_tbl AS cut ON spt.Component_Cus_Code = cut.Cus_Code";
 
 		if (obj.get("spareType_itemCode") != null && !obj.get("spareType_itemCode").equals("")) {

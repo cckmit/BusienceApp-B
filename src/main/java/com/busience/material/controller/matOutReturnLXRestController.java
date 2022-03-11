@@ -1,4 +1,4 @@
-package com.busience.materialLX.controller;
+package com.busience.material.controller;
 
 import java.security.Principal;
 import java.sql.Connection;
@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.materialLX.dto.InMat_tbl;
-import com.busience.materialLX.dto.OutMat_tbl;
+import com.busience.material.dto.InMat_tbl;
+import com.busience.material.dto.OutMat_tbl;
 
 @RestController("matOutReturnLXRestController")
 @RequestMapping("matOutReturnLXRest")

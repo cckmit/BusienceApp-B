@@ -46,7 +46,7 @@ public class BOMRestController {
 				+ " B.CHILD_TBL_TYPE PRODUCT_MTRL_CLSFC_NAME,\r\n"
 				+ " A.PRODUCT_INFO_STND_1,\r\n"
 				+ " C.CHILD_TBL_TYPE PRODUCT_UNIT_NAME\r\n"
-				+ " FROM PRODUCT_INFO_TBL A\r\n"
+				+ " from Product_Info_tbl A\r\n"
 				+ " inner join DTL_TBL B on A.PRODUCT_MTRL_CLSFC = B.CHILD_TBL_NO\r\n"
 				+ " inner join DTL_TBL C on A.PRODUCT_UNIT = C.CHILD_TBL_NO";
 		
@@ -110,7 +110,7 @@ public class BOMRestController {
 				+ " A.BOM_Modifier,\r\n"
 				+ " A.BOM_Modify_Date\r\n"
 				+ " FROM BOM_tbl A\r\n"
-				+ " inner join PRODUCT_INFO_TBL B on A.BOM_ItemCode = B.PRODUCT_ITEM_CODE\r\n"
+				+ " inner join Product_Info_tbl B on A.BOM_ItemCode = B.PRODUCT_ITEM_CODE\r\n"
 				+ " inner join DTL_TBL C on B.PRODUCT_MTRL_CLSFC = C.CHILD_TBL_NO\r\n"
 				+ " inner join DTL_TBL D on B.PRODUCT_UNIT = D.CHILD_TBL_NO\r\n"
 				+ " where BOM_Parent_ItemCode = '"+BOM_ItemCode+"'";
@@ -162,7 +162,7 @@ public class BOMRestController {
 				+ " A.BOM_Modifier,\r\n"
 				+ " A.BOM_Modify_Date\r\n"
 				+ " FROM BOM_tbl A\r\n"
-				+ " inner join PRODUCT_INFO_TBL B on A.BOM_Parent_ItemCode = B.PRODUCT_ITEM_CODE\r\n"
+				+ " inner join Product_Info_tbl B on A.BOM_Parent_ItemCode = B.PRODUCT_ITEM_CODE\r\n"
 				+ " inner join DTL_TBL D on B.PRODUCT_MTRL_CLSFC = D.CHILD_TBL_NO\r\n"
 				+ " where A.BOM_ItemCode = '"+BOM_ItemCode+"'";
 		
@@ -202,7 +202,7 @@ public class BOMRestController {
 				+ "A.PRODUCT_INFO_STND_1, \r\n"
 				+ "B.CHILD_TBL_TYPE BOM_Unit_Name,\r\n"
 				+ "C.CHILD_TBL_TYPE BOM_State\r\n"
-				+ "FROM PRODUCT_INFO_TBL A\r\n"
+				+ "from Product_Info_tbl A\r\n"
 				+ "inner join DTL_TBL B on A.PRODUCT_UNIT = B.CHILD_TBL_NO\r\n"
 				+ "inner join DTL_TBL C on A.PRODUCT_MTRL_CLSFC = C.CHILD_TBL_NO\r\n"
 				+ "where A.PRODUCT_ITEM_CODE = '"+BOM_ItemCode+"'";

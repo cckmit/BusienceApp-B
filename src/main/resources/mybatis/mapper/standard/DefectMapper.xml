@@ -9,11 +9,11 @@
 		SELECT
 			DEFECT_CODE, DEFECT_NAME, DEFECT_ABR, DEFECT_RMRKS,
 			DEFECT_MODIFY_D, DEFECT_MODIFIER, DEFECT_USE_STATUS
-			FROM DEFECT_INFO_TBL
+			FROM Defect_Info_tbl
 	</select>
 
 	<insert id="insertDefectDao">
-		insert into DEFECT_INFO_TBL (
+		insert into Defect_Info_tbl (
 			DEFECT_CODE, DEFECT_NAME, DEFECT_ABR, DEFECT_RMRKS,
 			DEFECT_MODIFY_D, DEFECT_MODIFIER, DEFECT_USE_STATUS
 			) values (
@@ -23,7 +23,7 @@
 	</insert>
 		
 	<update id="updateDefectDao">
-		update DEFECT_INFO_TBL
+		update Defect_Info_tbl
 			set
 			DEFECT_NAME = #{Defect_Name},
 			DEFECT_ABR = #{Defect_Abr},
@@ -35,14 +35,14 @@
 	</update>
 	
 	<delete id="deleteDefectDao">
-		delete from DEFECT_INFO_TBL where DEFECT_CODE = #{Defect_Code}
+		delete from Defect_Info_tbl where DEFECT_CODE = #{Defect_Code}
 	</delete>
 	
 	<select id="selectDefectDao" resultType="com.busience.standard.dto.DefectInfoDto">
 		SELECT
 			DEFECT_CODE, DEFECT_NAME, DEFECT_ABR, DEFECT_RMRKS,
 			DEFECT_MODIFY_D, DEFECT_MODIFIER, DEFECT_USE_STATUS
-			FROM DEFECT_INFO_TBL
+			FROM Defect_Info_tbl
 			where DEFECT_CODE = #{Defect_Code}
 	</select>
 </mapper>

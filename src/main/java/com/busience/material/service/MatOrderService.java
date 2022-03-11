@@ -1,4 +1,4 @@
-package com.busience.materialLX.service;
+package com.busience.material.service;
 
 import java.util.List;
 
@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import com.busience.common.dto.SearchDto;
-import com.busience.materialLX.dao.MatOrderDao;
-import com.busience.materialLX.dto.OrderListDto;
-import com.busience.materialLX.dto.OrderMasterDto;
-import com.busience.materialLX.dto.StockMatDto;
+import com.busience.material.dao.MatOrderDao;
+import com.busience.material.dto.OrderListDto;
+import com.busience.material.dto.OrderMasterDto;
+import com.busience.material.dto.StockMatDto;
 
 @Service
 public class MatOrderService {

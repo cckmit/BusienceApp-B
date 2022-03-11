@@ -18,9 +18,10 @@ public class BusienceUsersService implements UserDetailsService{
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		
+		System.out.println("확인");
+		System.out.println(username);
 		UserDto userDto = userService.selectUser(username);
-		
+		System.out.println(username);
 		if(userDto == null) {
         	throw new UsernameNotFoundException("User "+username+" Not Found!");
         }

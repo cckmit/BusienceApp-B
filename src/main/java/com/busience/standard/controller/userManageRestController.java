@@ -33,10 +33,10 @@ public class userManageRestController {
 	@PostMapping("/userManageInsert")
 	public int userManageInsert(UserDto UserDto, Principal principal) {
 
-		String encryptPw = pwEncoder.encode(UserDto.getUSER_PASSWORD());
+		String encryptPw = pwEncoder.encode(UserDto.getUser_Password());
 		
-		UserDto.setUSER_PASSWORD(encryptPw);
-		UserDto.setUSER_MODIFIER(principal.getName());
+		UserDto.setUser_Password(encryptPw);
+		UserDto.setUser_Modifier(principal.getName());
 
 		return userService.userRegister(UserDto);
 	}
@@ -45,7 +45,7 @@ public class userManageRestController {
 	@PutMapping("/userManageUpdate")
 	public int userManageUpdate(UserDto UserDto, Principal principal) {
 
-		UserDto.setUSER_MODIFIER(principal.getName());
+		UserDto.setUser_Modifier(principal.getName());
 
 		return userService.userModify(UserDto);
 	}
@@ -53,10 +53,10 @@ public class userManageRestController {
 	@PutMapping("/userManagePW")
 	public int userManagePW(UserDto UserDto, Principal principal) {
 		
-		String encryptPw = pwEncoder.encode(UserDto.getUSER_PASSWORD());
+		String encryptPw = pwEncoder.encode(UserDto.getUser_Password());
 		
-		UserDto.setUSER_PASSWORD(encryptPw);
-		UserDto.setUSER_MODIFIER(principal.getName());
+		UserDto.setUser_Password(encryptPw);
+		UserDto.setUser_Modifier(principal.getName());
 
 		return userService.passwordModify(UserDto);
 	}
