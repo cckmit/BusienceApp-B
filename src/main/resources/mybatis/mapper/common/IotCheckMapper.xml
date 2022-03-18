@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.busience.common.dao.IotCheckDao">
+	<select id="IotCheckListDao" resultType="com.busience.common.dto.IotCheckDto">
+		SELECT * FROM Iot_Check_tbl;
+	</select>
+	
+	<insert id="IotInsertDao">
+		insert into Iot_Check_tbl(
+			Iot_EquipCode, Iot_Value, Iot_Datetime
+		)values(
+			#{Iot_EquipCode}, #{Iot_Value}, now()
+		) on duplicate key update
+		Iot_Value = #{Iot_Value},
+		Iot_Datetime = now()
+	</insert>
+</mapper>

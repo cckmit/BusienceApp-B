@@ -12,12 +12,13 @@ import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import com.busience.common.dao.DtlDao;
+import com.busience.common.dao.IotCheckDao;
 import com.busience.common.dao.ProductionDao;
 import com.busience.common.dao.TestCheckDao;
 import com.busience.common.dto.DtlDto;
+import com.busience.common.dto.IotCheckDto;
 import com.busience.common.dto.ProductionDto;
 import com.busience.common.dto.SearchDto;
-import com.busience.common.dto.TestCheckDto;
 import com.busience.monitoring.dao.TemperatureMonitoringDao;
 import com.busience.monitoring.dto.EquipMonitoringDto;
 import com.busience.monitoring.dto.EquipTemperatureHistoryDto;
@@ -28,6 +29,9 @@ import com.busience.standard.dto.ItemDto;
 @Service
 public class ProductionService {
 
+	@Autowired
+	IotCheckDao iotCheckDao;
+	
 	@Autowired
 	ProductionDao productionDao;
 	
@@ -61,6 +65,11 @@ public class ProductionService {
 		if(!pause) {
 			return 0;
 		}
+		//iot 접속 체크용
+		IotCheckDto iotCheckDto = new IotCheckDto();
+		iotCheckDto.setIot_EquipCode(equip);
+		iotCheckDto.setIot_Value(value);
+		iotCheckDao.IotInsertDao(iotCheckDto);
 		
 		try {
 			
@@ -70,11 +79,6 @@ public class ProductionService {
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
 					//작업지시 옵션 검색
 					List<DtlDto> dtlDtoList = dtlDao.findAllByCode(38);
-					//테스트 체크용
-					TestCheckDto testCheckDto = new TestCheckDto();
-					testCheckDto.setIequip(equip);
-					testCheckDto.setIvalue(value);
-					testCheckDao.TestInsertDao(testCheckDto);
 					
 					List<WorkOrderDto> workOrderDtoList = productionDao.selectWorkOrderDao(equip);	
 					

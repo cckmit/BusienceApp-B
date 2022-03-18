@@ -10,32 +10,32 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.material.Dto.RequestList_tbl;
-import com.material.Dto.RequestMaster_tbl;
-import com.material.Dto.StockMat_tbl;
+import com.busience.material.dto.RequestListDto;
+import com.busience.material.dto.RequestMasterDto;
+import com.busience.material.dto.StockMat_tbl;
 
 @RestController("matRequestRestController")
 @RequestMapping("matRequestRest")
 public class matRequestRestController {
 
 	@Autowired
-	SimpleDriverDataSource dataSource;
+	DataSource dataSource;
 	
 	@RequestMapping(value = "/MR_Search",method = RequestMethod.GET)
-	public List<RequestMaster_tbl> MR_Search(HttpServletRequest request) throws ParseException, SQLException
+	public List<RequestMasterDto> MR_Search(HttpServletRequest request) throws ParseException, SQLException
 	{
 		String originData = request.getParameter("data");
 		JSONParser parser = new JSONParser();
@@ -68,12 +68,11 @@ public class matRequestRestController {
 		ResultSet rs = pstmt.executeQuery();
 		
 		int i = 0;
-		List<RequestMaster_tbl> list = new ArrayList<RequestMaster_tbl>();		
+		List<RequestMasterDto> list = new ArrayList<RequestMasterDto>();		
 		
 		while (rs.next()) {
-			RequestMaster_tbl data = new RequestMaster_tbl();
-			i++;
-			data.setID(i);
+			RequestMasterDto data = new RequestMasterDto();
+
 			data.setRequest_mReqNo(rs.getString("request_mReqNo"));
 			data.setRequest_mUser(rs.getString("request_mUser"));
 			data.setRequest_mDate(rs.getString("request_mDate"));
@@ -95,7 +94,7 @@ public class matRequestRestController {
 	}
 	
 	@RequestMapping(value = "/MRL_Search", method = RequestMethod.GET)
-	public List<RequestList_tbl> MRL_Search(HttpServletRequest request) throws SQLException
+	public List<RequestListDto> MRL_Search(HttpServletRequest request) throws SQLException
 	{
 		String sql = " select A.*,B.PRODUCT_ITEM_NAME Request_lName \r\n"
 				+ " from RequestList_tbl A\r\n"
@@ -106,17 +105,15 @@ public class matRequestRestController {
 		System.out.println("MRL_Search ="+sql);
 		
 		int i = 0;
-		List<RequestList_tbl> list = new ArrayList<RequestList_tbl>();
+		List<RequestListDto> list = new ArrayList<RequestListDto>();
 		
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
 		
 		while (rs.next()) {
-			RequestList_tbl data = new RequestList_tbl();
-			
-			i++;
-			data.setID(i);
+			RequestListDto data = new RequestListDto();
+
 			data.setRequest_lNo(rs.getInt("request_lNo"));
 			data.setRequest_lReqNo(rs.getString("request_lReqNo"));
 			data.setRequest_lCode(rs.getString("request_lCode"));

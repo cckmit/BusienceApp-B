@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.DtlDto;
+import com.busience.common.dto.IotCheckDto;
 import com.busience.common.dto.MenuDto;
-import com.busience.common.dto.TestCheckDto;
 import com.busience.common.service.DtlService;
+import com.busience.common.service.IotCheckService;
 import com.busience.common.service.MenuService;
 import com.busience.common.service.ProductionService;
-import com.busience.common.service.TestCheckService;
 
 @RestController
 public class CommonRestController {
@@ -27,7 +27,7 @@ public class CommonRestController {
 	DtlService dtlService;
 	
 	@Autowired
-	TestCheckService testCheckService;
+	IotCheckService iotCheckService;
 	
 	@Autowired
 	ProductionService productionService;
@@ -69,7 +69,7 @@ public class CommonRestController {
 	}
 
 	@GetMapping("tablet/testCheck")
-	public List<TestCheckDto> testCheck() {
-		return testCheckService.TestCheckList();
+	public List<IotCheckDto> testCheck() {
+		return iotCheckService.IotCheckList();
 	}
 }

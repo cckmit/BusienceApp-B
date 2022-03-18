@@ -19,14 +19,14 @@
 			ajaxConfig : "get",
 			ajaxContentType:"json",
 			ajaxURL : "tablet/testCheck",
-		 	columns:[ 
-		 		{title:"순번", field:"iid", headerHozAlign:"center", hozAlign:"right"},
-		 		{title:"설비코드", field:"iequip", headerHozAlign:"center"},
-				{title:"값", field:"ivalue", headerHozAlign:"center"},
-		 		{title:"삽입날짜", field:"idatetime", headerHozAlign:"center", hozAlign:"right"}
+		 	columns:[
+		 		{title:"설비코드", field:"iot_EquipCode", headerHozAlign:"center"},
+				{title:"값", field:"iot_Value", headerHozAlign:"center"},
+		 		{title:"삽입날짜", field:"iot_Datetime", headerHozAlign:"center", hozAlign:"right"}
 		 	]
 		});
 		$("#reset_table").click(function(){
+			testCheckTable.getData();
 			testCheckTable.replaceData();
 		})
 	</script>
