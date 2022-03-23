@@ -10,15 +10,15 @@ var menuManageMasterTable = new Tabulator("#menuManageMasterTable",{
 		row.select();
 	},
 	rowSelected:function(row){
-		MMS_Search(row.getData().user_CODE)
+		MMS_Search(row.getData().user_Code)
 		$('#MM_UpdateBtn').removeClass('unUseBtn');
     },
 	columns: [
-		{ title: "사용자 코드", field: "user_CODE", headerHozAlign: "center", headerFilter:"input"},
-		{ title: "사용자 명",	field: "user_NAME",	headerHozAlign: "center", headerFilter:"input"},
-		{ title: "부서", field: "dept_NAME",	headerHozAlign: "center", headerFilter:"input"},
-		{ title: "타입", field: "user_TYPE_NAME", hozAlign: "right",	headerHozAlign: "center", headerFilter:"input"},
-		{ title: "사용유무", field: "user_USE_STATUS", headerHozAlign: "center", headerHozAlign: "center", hozAlign: "center",
+		{ title: "사용자 코드", field: "user_Code", headerHozAlign: "center", headerFilter:"input"},
+		{ title: "사용자 명",	field: "user_Name",	headerHozAlign: "center", headerFilter:"input"},
+		{ title: "부서", field: "dept_Name",	headerHozAlign: "center", headerFilter:"input"},
+		{ title: "타입", field: "user_Type_Name", hozAlign: "right",	headerHozAlign: "center", headerFilter:"input"},
+		{ title: "사용유무", field: "user_Use_Status", headerHozAlign: "center", headerHozAlign: "center", hozAlign: "center",
 			formatter: "tickCross",	sorter:"boolean"}
 	]
 });

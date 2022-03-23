@@ -15,8 +15,8 @@
 					<div class="form-group row">
 						<label class="col-sm-3 control-label" style="color: red;">사&nbsp;용&nbsp;자&nbsp;&nbsp;코&nbsp;드</label>
 						<div class="col-sm-9">
-							<input style="width: 50%;" type="text" OnKeyDown="nextFocus('user_NAME')"
-								class="form-control-plaintext nextFocus" id="user_CODE">
+							<input style="width: 50%;" type="text" OnKeyDown="nextFocus('user_Name')"
+								class="form-control-plaintext nextFocus" id="user_Code">
 						</div>
 					</div>
 					<div class="form-group row">
@@ -24,14 +24,14 @@
 						<div class="col-sm-9">
 							<input class="insert" value="기본값 '1234'" style="width: 50%" disabled/>
 							
-							<input type="button" id="user_PASSWORD" class="modify" style="width: 50%" value="초기화"/>
+							<input type="button" id="user_Password" class="modify" style="width: 50%" value="초기화"/>
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="col-sm-3 control-label">사&nbsp;&nbsp;&nbsp;용&nbsp;&nbsp;&nbsp;자&nbsp;&nbsp;&nbsp;명</label>
 						<div class="col-sm-9">
 							<input type="text" style="width: 50%;" 
-								class="form-control-plaintext nextFocus" id="user_NAME"
+								class="form-control-plaintext nextFocus" id="user_Name"
 								OnKeyDown="nextFocus('company')">
 						</div>
 					</div>
@@ -40,7 +40,7 @@
 						<label class="col-sm-3 control-label">사&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;업&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;장</label>
 						<div class="col-sm-9">
 							<select id="company" class="nextFocus"
-								OnKeyDown="nextFocus('user_USE_STATUS')"
+								OnKeyDown="nextFocus('user_Use_Status')"
 								style="width: 50%; height: 27px;">
 								<c:forEach var="data" items="${companyList}">
 									<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>
@@ -52,16 +52,16 @@
 						<label class="col-sm-3 control-label">사&nbsp;&nbsp;&nbsp;용&nbsp;&nbsp;&nbsp;유&nbsp;&nbsp;&nbsp;무</label>
 						<div class="col-sm-9">
 							<input type="checkbox" class="form-control-plaintext"
-								OnKeyDown="nextFocus('user_TYPE')"
-								id="user_USE_STATUS" checked>
+								OnKeyDown="nextFocus('user_Type')"
+								id="user_Use_Status" checked>
 						</div>
 					</div>
 					
 					<div class="form-group row">
 						<label for="user_TYPE" class="col-sm-3 control-label">사&nbsp;용&nbsp;자&nbsp;&nbsp;타&nbsp;입</label>
 						<div class="col-sm-9">
-							<select id="user_TYPE" style="width: 50%; height: 27px;"
-								OnKeyDown="nextFocus('dept_CODE')">
+							<select id="user_Type" style="width: 50%; height: 27px;"
+								OnKeyDown="nextFocus('dept_Code')">
 								<c:forEach var="data" items="${userTypeList}">
 									<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>
 								</c:forEach>
@@ -71,7 +71,7 @@
 					<div class="form-group row">
 						<label for="user_DEPT" class="col-sm-3 control-label">부&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서</label>
 						<div class="col-sm-9">
-							<select id="dept_CODE" style="width: 50%; height: 27px;"
+							<select id="dept_Code" style="width: 50%; height: 27px;"
 								OnKeyDown="javascript:if(event.keyCode==13) {$('.focusBtn').focus()}">
 								<c:forEach var="data" items="${deptList}">
 									<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>

@@ -5,7 +5,7 @@ function nextFocus(next) {
 }
 
 //입력 및 업데이트 할 리스트
-var pickValue = ["user_CODE", "user_NAME", "company", "user_USE_STATUS", "user_TYPE", "dept_CODE"];
+var pickValue = ["user_Code", "user_Name", "company", "user_Use_Status", "user_Type", "dept_Code"];
 
 var userManageTable = new Tabulator("#userManageTable", {
 	//페이징
@@ -31,16 +31,14 @@ var userManageTable = new Tabulator("#userManageTable", {
     },
 	columns: [
 		{title: "순번", field: "rownum", hozAlign: "center", headerHozAlign: "center", formatter:"rownum"},
-		{title: "사용자코드", field: "user_CODE", headerHozAlign: "center", headerFilter: "input"},
-		{title: "사용자명", field: "user_NAME", headerHozAlign: "center", headerFilter: "input"},
-		{title: "사용자타입", field: "user_TYPE_NAME", headerHozAlign: "center", headerFilter: "input"},
-		{title: "사업장", field: "company_NAME", headerHozAlign: "center", headerFilter: "input"},
-		{title: "부서", field: "dept_NAME", headerHozAlign: "center", headerFilter: "input"},
-		{title: "사용유무", field: "user_USE_STATUS", headerHozAlign: "center", hozAlign: "center",
+		{title: "사용자코드", field: "user_Code", headerHozAlign: "center", headerFilter: "input"},
+		{title: "사용자명", field: "user_Name", headerHozAlign: "center", headerFilter: "input"},
+		{title: "사용자타입", field: "user_Type_Name", headerHozAlign: "center", headerFilter: "input"},
+		{title: "사업장", field: "company_Name", headerHozAlign: "center", headerFilter: "input"},
+		{title: "부서", field: "dept_Name", headerHozAlign: "center", headerFilter: "input"},
+		{title: "사용유무", field: "user_Use_Status", headerHozAlign: "center", hozAlign: "center",
 			formatter: "tickCross", editorParams: {values: {"true": "사용", "false": "미사용"}},
-			headerFilter: true,	headerFilterParams: {values: {"true": "true", "false": "false"}}},
-		{title: "수정일자", field: "user_MODIFY_D", headerHozAlign: "center", headerFilter: "input", hozAlign: "right"},
-		{title: "수정자", field: "user_MODIFIER", headerHozAlign: "center", headerFilter: "input"}
+			headerFilter: true,	headerFilterParams: {values: {"true": "true", "false": "false"}}}
 	]
 });
 
@@ -58,10 +56,10 @@ function registerModalShow(){
 		$('.insert').removeClass('none');
 	}	
 	$("#userManageModal").find('form')[0].reset();
-	$("#user_CODE").removeAttr('readonly');
+	$("#user_Code").removeAttr('readonly');
 	
 	$("#userManageModal").modal("show").on("shown.bs.modal", function () {
-		$("#user_CODE").focus();
+		$("#user_Code").focus();
 	});
 }
 
@@ -74,18 +72,17 @@ $("#userRegisterBtn").click(function(){
 
 function userRegister() {
 	
-	var datas = {USER_CODE : $("#user_CODE").val(),
-			USER_PASSWORD : '1234',
-			USER_NAME : $("#user_NAME").val(),
-			COMPANY : $("#company").val(),
-			USER_USE_STATUS : "true",
-			USER_TYPE : $("#user_TYPE").val(),
-			DEPT_CODE : $("#dept_CODE").val(),
-			USER_MODIFIER : $("#loginUser").val()}
+	var datas = {user_Code : $("#user_Code").val(),
+			user_Password : '1234',
+			user_Name : $("#user_Name").val(),
+			company : $("#company").val(),
+			user_Use_Status : "true",
+			user_Type : $("#user_Type").val(),
+			dept_Code : $("#dept_Code").val()}
 	
-	if (datas.USER_CODE.length < 4 || datas.USER_CODE.length > 10) {
+	if (datas.user_Code.length < 4 || datas.user_Code.length > 10) {
 		alert("아이디는 4글자 이상 10글자 이하만 입력할 수 있습니다.");
-		return $("#user_CODE").focus();
+		return $("#user_Code").focus();
 	}
 	
 	$.ajax({
@@ -129,10 +126,10 @@ function modifyModalShow(){
 	if ($('.modify').hasClass('none')) {
 		$('.modify').removeClass('none');
 	}
-	$("#user_CODE").attr('readonly', 'readonly');
+	$("#user_Code").attr('readonly', 'readonly');
 	
 	$("#userManageModal").modal("show").on("shown.bs.modal", function () {
-		$("#user_NAME").focus();
+		$("#user_Name").focus();
 	});
 }
 
@@ -145,12 +142,12 @@ $("#userModifyBtn").click(function(){
 
 function userModify() {
 		
-	var datas = {USER_CODE : $("#user_CODE").val(),
-			USER_NAME : $("#user_NAME").val(),
-			COMPANY : $("#company").val(),
-			USER_USE_STATUS : $("#user_USE_STATUS").is(":checked"),
-			USER_TYPE : $("#user_TYPE").val(),
-			DEPT_CODE : $("#dept_CODE").val()}
+	var datas = {user_Code : $("#user_Code").val(),
+			user_Name : $("#user_Name").val(),
+			company : $("#company").val(),
+			user_Use_Status : $("#user_Use_Status").is(":checked"),
+			user_Type : $("#user_Type").val(),
+			dept_Code : $("#dept_Code").val()}
 
 	$.ajax({
 		method : "put",
@@ -184,8 +181,8 @@ $("#user_PASSWORD").click(function(){
 // 비번 초기화
 function pwReset() {
 	
-	var datas = {USER_CODE : $("#user_CODE").val(),
-				USER_PASSWORD : "1234"}
+	var datas = {user_Code : $("#user_Code").val(),
+				user_Password : "1234"}
 
 	$.ajax({
 		method: "put",
