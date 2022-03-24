@@ -1,20 +1,14 @@
 package com.busience.material.controller;
 
 import java.security.Principal;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.busience.common.dto.DtlDto;
 import com.busience.common.service.DtlService;
-import com.busience.standard.dto.DTL_TBL;
+import com.busience.standard.dto.UserDto;
 import com.busience.standard.service.UserService;
 
 @Controller
@@ -25,9 +19,6 @@ public class materialLXController {
 	
 	@Autowired
 	UserService userService;
-	
-	@Autowired
-	JdbcTemplate jdbctemplate;
 	
 	//OrderMaster
 	@GetMapping("matOrderLX")
@@ -46,7 +37,9 @@ public class materialLXController {
 	//OrderMaster
 	@GetMapping("matRequest")
 	public String matRequest(Model model, Principal principal) {
-		model.addAttribute(userService.selectUser(principal.getName()));
+		UserDto userDto = userService.selectUser(principal.getName());
+		System.out.println(userDto);
+		model.addAttribute("userInfo" ,userDto);
 		model.addAttribute("pageName", "자재 요청");
 		return "materialLX/matRequest";
 	}
@@ -158,64 +151,6 @@ public class materialLXController {
 	public String matStockMasterLX(Model model) {
 		model.addAttribute("pageName", "현재고 현황");
 		return "materialLX/matStockMasterLX";
-	}
-	
-	@GetMapping("tablet/matOutputLXTablet2")
-	public String matOutputLXTablet2(Model model)
-	{
-		model.addAttribute("b1", jdbctemplate.queryForObject("SELECT NEW_TBL_CODE FROM CMN_TBL WHERE NEW_TBL_NAME = '품목분류1'", new RowMapper<String>() {
-			@Override
-			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return rs.getString("NEW_TBL_CODE");
-			}
-		}));
-		
-		model.addAttribute("b2", jdbctemplate.queryForObject("SELECT NEW_TBL_CODE FROM CMN_TBL WHERE NEW_TBL_NAME = '품목분류2'", new RowMapper<String>() {
-			@Override
-			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return rs.getString("NEW_TBL_CODE");
-			}
-		}));
-		
-		String sql = "SELECT * FROM DTL_TBL WHERE NEW_TBL_CODE = (SELECT NEW_TBL_CODE FROM CMN_TBL WHERE NEW_TBL_NAME = '품목분류1') Order BY CHILD_TBL_NUM + 0";
-
-		model.addAttribute("list1",jdbctemplate.query(sql, new RowMapper() {
-
-			@Override
-			public DTL_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
-				DTL_TBL data = new DTL_TBL();
-				data.setNEW_TBL_CODE(rs.getString("NEW_TBL_CODE"));
-				data.setCHILD_TBL_NO(rs.getString("CHILD_TBL_NO"));
-				data.setCHILD_TBL_NUM(rs.getString("CHILD_TBL_NUM"));
-				data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
-				data.setCHILD_TBL_RMARK(rs.getString("CHILD_TBL_RMARK"));
-				data.setCHILD_TBL_USE_STATUS(rs.getString("CHILD_TBL_USE_STATUS"));
-				return data;
-			}
-		}));
-		
-		sql = "SELECT * FROM DTL_TBL WHERE NEW_TBL_CODE = (SELECT NEW_TBL_CODE FROM CMN_TBL WHERE NEW_TBL_NAME = '품목분류2') Order BY CHILD_TBL_NUM + 0";
-
-		model.addAttribute("list2",jdbctemplate.query(sql, new RowMapper() {
-
-			@Override
-			public DTL_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
-				DTL_TBL data = new DTL_TBL();
-				data.setNEW_TBL_CODE(rs.getString("NEW_TBL_CODE"));
-				data.setCHILD_TBL_NO(rs.getString("CHILD_TBL_NO"));
-				data.setCHILD_TBL_NUM(rs.getString("CHILD_TBL_NUM"));
-				data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
-				data.setCHILD_TBL_RMARK(rs.getString("CHILD_TBL_RMARK"));
-				data.setCHILD_TBL_USE_STATUS(rs.getString("CHILD_TBL_USE_STATUS"));
-				return data;
-			}
-		}));
-		
-		List<DtlDto> list3 = dtlService.getDtl(3);
-		model.addAttribute("list3",list3);
-		model.addAttribute("list3_flag",(list3.size() == 1)?"off":"on");
-		
-		return "normal/materialLX/matOutputLXTablet2";
 	}
 	
 	//matOutputLXBoard

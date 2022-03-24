@@ -21,11 +21,11 @@
 					</div>
 					<div>
 						<span><strong>부서코드</strong></span>
-						<input id="Dept_Code" type="text" value="${DEPT_CODE}" disabled>
+						<input id="Dept_Code" type="text" value="${userInfo.dept_Code}" disabled>
 						<span><strong>부서명</strong></span>
-						<input id="Dept_Name" type="text" value="${DEPT_NAME}" disabled>
-						<input id="User_Code" type="hidden" value="${User_ID}">
-						<input id="User_Name" type="hidden" value="${User_Name}">
+						<input id="Dept_Name" type="text" value="${userInfo.dept_Name}" disabled>
+						<input id="User_Code" type="hidden" value="${userInfo.user_Code}">
+						<input id="User_Name" type="hidden" value="${userInfo.user_Name}">
 					</div>
 				</div>
 			</div>

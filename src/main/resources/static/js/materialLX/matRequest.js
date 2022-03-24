@@ -63,8 +63,6 @@ var matRequestTable = new Tabulator("#matRequestTable", {
     height:"calc(100% - 175px)",
 	headerFilterPlaceholder: null,
 	layoutColumnsOnNewData : true,
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
 	//커스텀 키 설정
 	keybindings:{
         "navNext" : "13"
@@ -137,8 +135,6 @@ var matRequestTable = new Tabulator("#matRequestTable", {
 		{title:"부서", field:"dept_NAME", headerHozAlign:"center", headerFilter:true},
  		{title:"요청일", field:"request_mDate", headerHozAlign:"center", hozAlign:"right", headerFilter:true},
  		{title:"특이사항", field:"request_mRemarks", headerHozAlign:"center", editor: MR_inputEditor, headerFilter:true},
- 		{title:"수정자", field:"request_mModifier", headerHozAlign:"center", headerFilter:true},
- 		{title:"수정일자", field:"request_mModify_Date", headerHozAlign:"center",  headerFilter:true},
  		{title:"목록확인", field:"request_mCheck", visible:false},
  	],
 });
@@ -235,7 +231,6 @@ var MRL_InputEditor = function(cell, onRendered, success, cancel, editorParams){
 				url : "product_check?PRODUCT_ITEM_CODE=" + MRL_input.value,
 				dataType : "json",
 				success : function(data) {
-					console.log(data);
 					if(data.length == 1){
 						//검색어와 일치하는값이 있는경우
 						cell.getRow().update({
@@ -270,18 +265,7 @@ var MRL_InputEditor = function(cell, onRendered, success, cancel, editorParams){
 };
 
 // 출고구분 select를 구성하기위한 ajax
-var dtl_arr = new Object();
-
-$.ajax({
-	method : "GET",
-	async: false,
-	url : "dtl_tbl_select?NEW_TBL_CODE=18",
-	success : function(datas) {
-		for(i=0;i<datas.length;i++){
-			dtl_arr[datas[i].child_TBL_NO] = datas[i].child_TBL_TYPE;
-		}
-	}
-});
+var output_dtl = dtlSelectList(18);
 
 //salesOrderSubTable 이미 저장되있는 데이터는 편집 불가능 하게 하는 확인 기능
 var editCheck = function(cell){
@@ -316,7 +300,7 @@ var matRequestSubTable = new Tabulator("#matRequestSubTable", {
 	row.update({"request_lNo": matRequestSubTable.getDataCount("active"),
 				"request_lReqNo": '',
 				"request_lQty": 0,
-				"request_Send_Clsfc": "181"});
+				"request_Send_Clsfc": "208"});
 				
 	//행이 추가되면 첫셀에 포커스
 	do{
@@ -351,14 +335,14 @@ var matRequestSubTable = new Tabulator("#matRequestSubTable", {
 	{title:"구분", field:"request_Send_Clsfc", headerHozAlign:"center", editor:"select", width:64,
 		formatter:function(cell, formatterParams){
 		    var value = cell.getValue();
-			if(dtl_arr[value] != null){
-					value = dtl_arr[value];	
+			if(output_dtl[value] != null){
+					value = output_dtl[value];	
 				}else{
 					value = "";
 				}
 		    return value;
 		},
-		editorParams:{values:dtl_arr}
+		editorParams:{values: output_dtl}
 	}]
 });
 

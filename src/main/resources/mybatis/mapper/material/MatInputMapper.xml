@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	 
+<mapper namespace="com.busience.material.dao.MatInputDao">
+
+	<select id="LotNoSelectDao" resultType="String">
+		select concat(DATE_FORMAT(curdate(),"%y%m%d"), #{InMat_Code}, lpad(matarial_No,'4',0))
+		from LotNo_tbl
+	</select>
+
+	<insert id="LotMasterInsertDao">
+		insert into LotMaster_tbl(
+			LMaster_LotNo, LMaster_ItemCode,
+			LMaster_InQty, LMaster_Create_Date
+		)values(
+			#{InMat_Lot_No}, #{InMat_Code},
+			#{InMat_Qty}, now()
+		)
+	</insert>
+	
+	<select id="LotTransNoSelectDao" resultType="int">
+		select ifnull(max(LTrans_No)+1,1)
+		from LotTrans_tbl
+		where LTrans_LotNo = #{InMat_Lot_No}
+	</select>
+	
+	<insert id="LotTransInsertDao">
+		insert into LotTrans_tbl (
+			LTrans_No, LTrans_LotNo, LTrans_ItemCode,
+			LTrans_Qty, LTrans_dCreate_Time
+		) values(
+			#{InMat_No}, #{InMat_Lot_No}, #{InMat_Code},
+			#{InMat_Qty}, now()
+		)
+	</insert>
+
+	<insert id="inMatInsertDao">
+		insert into InMat_tbl(
+			InMat_Lot_No, InMat_No, InMat_Order_No,  
+		    InMat_Code, InMat_Qty, InMat_Unit_Price,
+		    InMat_Price, InMat_Client_Code, InMat_Date,
+		    InMat_Rcv_Clsfc, InMat_dInsert_Time, InMat_Modifier
+		) values (
+			#{InMat_Lot_No}, #{InMat_No}, #{InMat_Order_No},
+		    #{InMat_Code}, #{InMat_Qty}, #{InMat_Unit_Price},
+		    #{InMat_Price}, #{InMat_Client_Code}, #{InMat_Date},
+		    #{InMat_Rcv_Clsfc}, now(), #{InMat_Modifier}
+		)
+	</insert>
+	
+	<update id="orderListUpdateDao">
+			update OrderList_tbl
+			set
+			Order_lSum = Order_lSum + #{InMat_Qty},
+			Order_lUnit_Price = #{InMat_Unit_Price},
+			Order_lPrice = Order_lQty * Order_lUnit_Price,
+			Order_lNot_Stocked = Order_lNot_Stocked - #{InMat_Qty},
+			Order_Rcv_Clsfc = #{InMat_Rcv_Clsfc}
+			where Order_lCus_No = #{InMat_Order_No}
+			and Order_lCode = #{InMat_Code}
+	</update>
+	
+	<update id="stockMatUpdateDao">
+		insert into StockMat_tbl(
+			SM_Code, SM_In_Qty, SM_Prcs_Date
+		) values(
+			#{InMat_Code}, #{InMat_Qty}, DATE_FORMAT(curdate(),"%y%m")
+		)on duplicate key update
+			SM_In_Qty = SM_In_Qty + #{InMat_Qty},
+	</update>
+	
+	<update id="matOrderMasterUpdateDao">
+			update OrderMaster_tbl
+			set Order_mCheck = 
+				(select 
+					(case
+						when sum(Order_lQty) = sum(Order_lSum) then 'Y'
+						when sum(Order_lSum) = 0 then 'N'
+						else 'I'
+					end)
+					from OrderList_tbl
+					where Order_lCus_No = #{inMat_Order_No}
+				)
+			where Order_mCus_No = #{inMat_Order_No}
+	</update>
+	
+	<update id="matLotNoUpdateDao">
+		update LotNo_tbl
+		set
+		pre_matarial_No = (case when matarial_No = 9999 then matarial_No else pre_matarial_No end),
+		matarial_No = (case when matarial_No = 9999 then 1 else matarial_No+1 end)
+	</update>
+</mapper>

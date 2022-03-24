@@ -24,8 +24,6 @@ var matInputTable = new Tabulator("#matInputTable", {
     	MIS_Search(row.getData().order_mCus_No);
 		ResetBtn();
     },
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,	
  	columns:[ 
  		{title:"발주번호", field:"order_mCus_No", headerHozAlign:"center", hozAlign:"right", headerFilter:true},
  		{title:"코드", field:"order_mCode", headerHozAlign:"center", headerFilter:true},
@@ -33,7 +31,8 @@ var matInputTable = new Tabulator("#matInputTable", {
  		{title:"발주일", field:"order_mDate", headerHozAlign:"center", hozAlign:"right", headerFilter:true},
  		{title:"납기일자", field:"order_mDlvry_Date", headerHozAlign:"center", hozAlign:"right", headerFilter:true},
  		{title:"특이사항", field:"order_mRemarks", headerHozAlign:"center", headerFilter:true},
- 		{title:"합계금액", field:"order_mTotal", headerHozAlign:"center", hozAlign:"right", headerFilter:true, formatter : "money", formatterParams:{ precision:false}},
+ 		{title:"합계금액", field:"order_mTotal", headerHozAlign:"center", hozAlign:"right", headerFilter:true,
+			formatter : "money", formatterParams:{ precision:false}},
  		{title:"수정자", field:"order_mModifier", headerHozAlign:"center", headerFilter:true},
  		{title:"수정일자", field:"order_mModify_Date", headerHozAlign:"center",  headerFilter:true},
  		{title:"목록확인", field:"order_mCheck", visible:false}
@@ -42,25 +41,18 @@ var matInputTable = new Tabulator("#matInputTable", {
 
 //orderMaster 목록검색 matOrder와 동일하지만 테이브이름이 다르고, 미입고 컬럼이 추가됨
 function MI_Search(){
-	data = {
+	var data = {
 		startDate : $("#startDate").val(),
 		endDate : $("#endDate").val(),
-		order_mCode : $("#InMat_Client_Code").val(),
-		order_mCus_No : $("#InMat_Order_No").val()
+		itemCode : $("#InMat_Client_Code").val(),
+		OrderNo : $("#InMat_Order_No").val()
 	}
-	$.ajax({
-		method : "GET",
-		dataType : "json",
-		async: false,
-		url : "matInputLXRest/MI_Search?data="+ encodeURI(JSON.stringify(data)),
-		success : function(data) {
-			console.log(data);
-			matInputTable.setData(data);
-			matInputSubTable.clearData();
-			inMatTable.clearData();
-			ResetBtn();
-		}
-	});
+	matInputTable.setData("matOrderLXRest/MOM_Search", data)
+	.then(function(){
+		matInputSubTable.clearData();
+		inMatTable.clearData();
+		ResetBtn();
+	})
 }
 
 $('#MI_SearchBtn').click(function(){
@@ -71,8 +63,6 @@ var matInputSubTable = new Tabulator("#matInputSubTable", {
 	height:"calc(50% - 124.1px)",
 	layoutColumnsOnNewData : true,
 	selectable: true,
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
 	rowFormatter:function(row){
 		//입고수량이 수량이상이면 글자색을 빨간색으로 바꿔준다
         if(row.getData().order_lQty <= row.getData().order_lSum){
@@ -126,9 +116,11 @@ var matInputSubTable = new Tabulator("#matInputSubTable", {
  	{title:"품목명", field:"order_lName", headerHozAlign:"center"},
  	{title:"수량", field:"order_lQty", headerHozAlign:"center", hozAlign:"right"},
 	{title:"입고수량", field:"order_lSum", headerHozAlign:"center", hozAlign:"right"},
- 	{title:"단가", field:"order_lUnit_Price", headerHozAlign:"center", hozAlign:"right", formatter : "money", formatterParams:{ precision:false},
-		topCalc:function(){return "합계금액"}, width:75},
- 	{title:"금액", field:"order_lPrice", headerHozAlign:"center", hozAlign:"right", formatter : "money", formatterParams:{ precision:false}, width:75,
+ 	{title:"단가", field:"order_lUnit_Price", headerHozAlign:"center", hozAlign:"right",
+		formatter : "money", formatterParams:{ precision:false},
+		topCalc:function(){return "합계금액"}},
+ 	{title:"금액", field:"order_lPrice", headerHozAlign:"center", hozAlign:"right",
+		formatter : "money", formatterParams:{ precision:false},
 		topCalc:"sum", topCalcFormatter : "money", topCalcFormatterParams: {precision: false}},
 	{title:"미입고", field:"order_lNot_Stocked", headerHozAlign:"center", hozAlign:"right"},
  	{title:"비고", field:"order_lInfo_Remark", headerHozAlign:"center"},
@@ -147,15 +139,12 @@ var matInputSubTable = new Tabulator("#matInputSubTable", {
 //InputSub 목록검색
 function MIS_Search(order_lCus_No){
 	$("#Order_lCus_No").val(order_lCus_No);
-	//발주넘버
-	$.ajax({
-		method : "GET",
-		url : "matInputLXRest/MIS_Search?order_lCus_No="+ order_lCus_No,
-		success : function(datas) {
-			matInputSubTable.setData(datas);
-			MIM_Search(order_lCus_No);
-		}
-	});
+	
+	var datas = {
+		OrderNo : order_lCus_No
+	}
+	
+	matInputSubTable.setData("matOrderLXRest/MOL_Search", datas)
 }
 
 //matInputSub 커스텀 기능설정
@@ -221,14 +210,6 @@ var MIM_InputEditor = function(cell, onRendered, success, cancel, editorParams){
 // 입고구분 select를 구성하는 리스트
 var input_dtl = dtlSelectList(17);
 
-//inMatTable 이미 저장되있는 데이터는 편집 불가능 하게 하는 확인 기능
-var editCheck = function(cell){
-    //cell - the cell component for the editable cell
-    //get row data
-    var data = cell.getRow().getData();
-    return data.inMat_Order_No != null;
-}
-
 var inMatTable = new Tabulator("#inMatTable", {
 	height:"calc(50% - 124.1px)",
 	layoutColumnsOnNewData : true,
@@ -252,14 +233,12 @@ var inMatTable = new Tabulator("#inMatTable", {
 		inMatTable.deselectRow();
 		row.select();
     },
-	//order_lNo를 인덱스로 설정
-	index:"inMat_No",
  	columns:[
 	{title:"순번", field:"inMat_No", headerHozAlign:"center", hozAlign:"center"},
 	{title:"발주번호", field:"inMat_Order_No", visible:false},
  	{title:"코드", field:"inMat_Code", headerHozAlign:"center"},
  	{title:"품목명", field:"inMat_Name", headerHozAlign:"center", width : 120},
- 	{title:"수량", field:"inMat_Qty", headerHozAlign:"center", hozAlign:"right", editor:MIM_InputEditor, editable:editCheck,
+ 	{title:"수량", field:"inMat_Qty", headerHozAlign:"center", hozAlign:"right", editor:MIM_InputEditor,
 		cellEdited:function(cell){
 			//수량이 변경될때 금액값이 계산되어 입력
 			temQty = cell.getValue();
@@ -273,7 +252,8 @@ var inMatTable = new Tabulator("#inMatTable", {
 			cell.getRow().update({"inMat_Price": iPrice});
 		}
 	},
-	{title:"단가", field:"inMat_Unit_Price", headerHozAlign:"center", hozAlign:"right", formatter : "money", formatterParams:{ precision:false}, width:75, editor:MIM_InputEditor, editable:editCheck,
+	{title:"단가", field:"inMat_Unit_Price", headerHozAlign:"center", hozAlign:"right",
+		formatter : "money", formatterParams:{ precision:false}, editor:MIM_InputEditor,
 		cellEdited:function(cell){
 			//단가가 변경될때 금액값이 계산되어 입력
 			temQty = cell.getRow().getData().inMat_Qty;
@@ -288,8 +268,9 @@ var inMatTable = new Tabulator("#inMatTable", {
 			cell.getRow().update({"inMat_Price": iPrice});
 		}
 	},
-	{title:"금액", field:"inMat_Price", headerHozAlign:"center", hozAlign:"right", formatter : "money", formatterParams:{ precision:false}, width:75},
-	{title:"구분", field:"inMat_Rcv_Clsfc", headerHozAlign:"center", editor:"select", editable:editCheck, width : 65,
+	{title:"금액", field:"inMat_Price", headerHozAlign:"center", hozAlign:"right",
+		formatter : "money", formatterParams:{ precision:false}},
+	{title:"구분", field:"inMat_Rcv_Clsfc", headerHozAlign:"center", editor:"select",
 		formatter:function(cell, formatterParams){
 		    var value = cell.getValue();
 			if(input_dtl[value] != null){
@@ -302,59 +283,47 @@ var inMatTable = new Tabulator("#inMatTable", {
 		editorParams:{values:input_dtl}
 	},
 	{title:"거래처코드", field:"inMat_Client_Code", visible:false},
-	{title:"입고일자", field:"inMat_Date", headerHozAlign:"center", hozAlign:"right", width : 125}
+	{title:"입고일자", field:"inMat_Date", headerHozAlign:"center", hozAlign:"right", visible:false}
  		
  	]
 });
 
-//inMatTable에 있던 데이터의 갯수
-var MIM_preData = 0;
-
-//inMat 목록검색
-function MIM_Search(inMat_Order_No){
-	$.ajax({
-		method : "GET",
-		url : "matInputLXRest/MIM_Search?inMat_Order_No="+ inMat_Order_No,
-		success : function(MIM_datas) {
-			inMatTable.setData(MIM_datas);
-		}
-	});
-}
-
 //inMatTable 저장
 function MIM_Save(){
-	rowData = inMatTable.getData();
-	realData = []
+	var rowData = inMatTable.getData();
 	//금액이 0 이거나 입고날짜 컬럼을 확인하여 빈칸일경우 저장안됨
 	for(i=0;i<rowData.length;i++){
-		if(rowData[i].inMat_Price == 0){
+		if(rowData[i].inMat_Qty == 0){
 			alert("작성중인 행이 있습니다.")
 			return false;
 		}
-		//발주번호가 있는 행만 저장하게끔 한다.
-		if(rowData[i].inMat_Order_No != null){
-			realData.push(rowData[i]);
-		}
 	}
 	
 	
-	if(realData.length == 0){
+	if(rowData.length == 0){
 		alert("저장할 목록이 없습니다.");
 		return false;
 	}
-
+	console.log(rowData);
 	//InputSub 저장부분
 	$.ajax({
-		method : "get",
+		method : "Post",
+		url: "matInputLXRest/MIM_Save",
+		data: JSON.stringify(rowData),
 		contentType:'application/json',
-		url : "matInputLXRest/MIM_Save?data="+ encodeURI(JSON.stringify(realData)),
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success : function(result) {
-			if(result == "error"){
-				alert("중복된 값이 있습니다..");
-			}else if(result == "success"){
+			console.log(result)
+			if(result){
 				MI_Search();
 				Cus_No_select();
 				alert("저장되었습니다.");
+			}else{
+				alert("오류가 발생하였습니다.")
 			}
 		}				
 	});	
