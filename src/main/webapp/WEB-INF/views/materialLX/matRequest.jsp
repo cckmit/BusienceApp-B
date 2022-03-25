@@ -7,8 +7,8 @@
 			<div class="top-var">
 				<!-- 버튼 -->
 				<div class="input-button">
-					<img src="/images/button/Search.png" id="MR_SearchBtn"/>
-					<img src="/images/button/ADD.png" id="MR_AddBtn"/>
+					<img src="/images/button/Search.png" id="MRM_SearchBtn"/>
+					<img src="/images/button/ADD.png" id="MRM_AddBtn"/>
 					<img src="/images/button/print.png" id="MR_PrintBtn"/>
 				</div>
 				<!-- 버튼 -->
@@ -39,13 +39,13 @@
 				<!-- 버튼 -->
 				<div class="input-button">
 					<img src="/images/button/ADD.png" id="MRL_AddBtn" class="unUseBtn BtnStatus"/>
-					<img src="/images/button/Delete.png" id="MRL_DeleteBtn" class="unUseBtn BtnStatus"/>
-					<img src="/images/button/Save.png" id="MRL_SaveBtn" class="unUseBtn BtnStatus"/>
+					<img src="/images/button/Delete.png" id="MR_DeleteBtn" class="unUseBtn BtnStatus"/>
+					<img src="/images/button/Save.png" id="MR_SaveBtn" class="unUseBtn BtnStatus"/>
 				</div>
 				<!-- 버튼 -->
 				<div class="input-box">
 					<span><strong>요청번호</strong></span>
-					<input id="request_lReqNo" type="text" disabled>
+					<input id="RS_RequestNo" type="text" disabled>
 				</div>
 			</div>
 			<!-- 그리드 생성 장소 -->

@@ -38,7 +38,7 @@ public class materialLXController {
 	@GetMapping("matRequest")
 	public String matRequest(Model model, Principal principal) {
 		UserDto userDto = userService.selectUser(principal.getName());
-		System.out.println(userDto);
+		
 		model.addAttribute("userInfo" ,userDto);
 		model.addAttribute("pageName", "자재 요청");
 		return "materialLX/matRequest";
@@ -46,7 +46,10 @@ public class materialLXController {
 	
 	//OrderMaster
 	@GetMapping("matRequestList")
-	public String matRequestList(Model model) {
+	public String matRequestList(Model model, Principal principal) {
+		UserDto userDto = userService.selectUser(principal.getName());
+		
+		model.addAttribute("userInfo" ,userDto);
 		model.addAttribute("pageName", "자재 요청 조회");
 		return "materialLX/matRequestList";
 	}

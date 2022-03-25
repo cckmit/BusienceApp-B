@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	 
+<mapper namespace="com.busience.material.dao.MatRequestDao">
+
+	<select id="RequestMasterSelectDao" resultType="com.busience.material.dto.RequestMasterDto">
+		SELECT
+			A.RM_RequestNo, A.RM_UserCode, B.user_name RM_UserName,
+		    C.CHILD_TBL_NO RM_DeptCode, C.child_tbl_type RM_DeptName,
+		    A.RM_Date, A.RM_Remark, A.RM_Check, A.RM_Modifier,
+		    date_format(A.RM_ModifyDate,'%Y-%m-%d %T') RM_ModifyDate
+	    FROM RequestMaster_tbl A
+	    INNER JOIN User_Info_tbl B ON A.RM_UserCode = B.user_code
+	    INNER JOIN DTL_TBL C ON B.dept_code = C.child_tbl_no
+    <![CDATA[
+		where A.RM_Date  >= #{startDate} and A.RM_Date < #{endDate}
+	]]>
+	    and not A.RM_Check = 'Y'
+	    order by RM_Date
+	</select>
+	
+	<select id="RequestSubSelectDao" resultType="com.busience.material.dto.RequestSubDto">
+		select 
+			A.RS_RequestNo,
+			A.RS_ItemCode, B.Product_Item_Name RS_ItemName,
+			A.RS_Qty, A.RS_Sum, A.RS_Not_Stocked,
+			A.RS_Send_Clsfc, A.RS_Remark
+		from RequestSub_tbl A
+		inner join Product_Info_tbl B on A.RS_ItemCode = B.Product_Item_Code
+		WHERE A.RS_RequestNo = #{OrderNo}
+		order by RS_ItemCode
+	</select>
+	
+	<select id="RequestNoSelectDao" resultType="String">
+		select
+			lpad(ifnull(max(substring_index(RM_RequestNo, '-', -1))+1,1),2,0)
+		from RequestMaster_tbl
+		where substring_index(RM_RequestNo, '-', 2) = #{RequestNo}
+	</select>
+
+	<insert id="RequestMasterInsertDao">
+		insert into RequestMaster_tbl(
+			RM_RequestNo, RM_UserCode,
+			RM_Date, RM_Remark,
+		    RM_Check, RM_Modifier, RM_ModifyDate
+		)values(
+			#{RM_RequestNo}, #{RM_UserCode},
+			#{RM_Date}, #{RM_Remark},
+		    #{RM_Check}, #{RM_Modifier}, now()
+		)on duplicate key update
+		RM_Date = #{RM_Date},
+		RM_Remark = #{RM_Remark},
+		RM_Check = #{RM_Check},
+		RM_Modifier = #{RM_Modifier},
+		RM_ModifyDate = now()
+	</insert>
+	
+	<insert id="RequestSubInsertDao">
+		insert into RequestSub_tbl(
+			RS_RequestNo, RS_ItemCode,
+			RS_Qty, RS_Sum, RS_Not_Stocked,
+			RS_Send_Clsfc, RS_Remark
+		)values		
+		<foreach collection="list" item="item" index="index" separator=",">
+		(
+			#{requestNo}, #{item.RS_ItemCode},
+			#{item.RS_Qty}, #{item.RS_Sum}, #{item.RS_Not_Stocked},
+			#{item.RS_Send_Clsfc}, #{item.RS_Remark}
+		)
+		</foreach>
+		on duplicate key update
+		RS_Qty = values(RS_Qty),
+		RS_Sum = values(RS_Sum),
+		RS_Not_Stocked = values(RS_Not_Stocked),
+		RS_Send_Clsfc = values(RS_Send_Clsfc),
+		RS_Remark = values(RS_Remark)
+	</insert>
+	
+	<delete id="RequestMasterDeleteDao">
+		delete from RequestMaster_tbl
+		where RM_RequestNo = #{requestNo}
+		and not exists (
+			SELECT * FROM RequestSub_tbl
+			WHERE RS_RequestNo = #{requestNo}
+		)
+	</delete>
+	
+	<delete id="RequestSubDeleteDao" parameterType="java.util.List">
+		delete from RequestSub_tbl
+		where RS_RequestNo = #{requestNo}
+		and RS_ItemCode in ( 
+		<foreach collection="list" item="item" index="index" separator=",">
+			#{item.RS_ItemCode}
+		</foreach>
+		)
+	</delete>
+	
+	<update id="RequestSubNoUpdateDao">
+		UPDATE Sales_OrderListLX_tbl A, (SELECT @rank:=0) B
+		SET A.Sales_Order_lNo = @rank:=@rank+1
+		where A.Sales_Order_lCus_No = #{Sales_Order_lCus_No}
+	</update>
+</mapper>

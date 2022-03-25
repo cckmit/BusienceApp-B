@@ -22,7 +22,6 @@ public class matInputLXRestController {
 	// MIM_Save
 	@PostMapping("/MIM_Save")
 	public int MIM_Save(@RequestBody List<InMatDto> InMatDtoList, Principal principal) {
-		System.out.println(InMatDtoList);
 		return matInputService.matInputRegister(InMatDtoList, principal.getName());
 	}
 }
