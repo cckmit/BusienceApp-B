@@ -12,6 +12,9 @@ public interface MachineDao {
 	//조회
 	public List<MachineDto> selectMachineListDao();
 	
+	//설비 종류에 따라 조회
+	public List<MachineDto> dtlMachineListDao(MachineDto machineDto);
+	
 	//등록
 	public int insertMachineDao(MachineDto machineDto);
 	

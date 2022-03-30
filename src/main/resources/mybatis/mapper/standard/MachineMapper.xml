@@ -11,7 +11,7 @@
 			A.EQUIPMENT_INFO_CODE, A.EQUIPMENT_INFO_NAME,
 			A.EQUIPMENT_INFO_ABR, A.EQUIPMENT_HEIGHT,
 			A.EQUIPMENT_WIDTH, A.EQUIPMENT_DEPTH,
-			A.EQUIPMENT_SERIAL_NUM, A.EQUIPMENT_WEIGHT,
+			A.EQUIPMENT_SERIAL_NUM, A.EQUIPMENT_TYPE, E.CHILD_TBL_TYPE AS EQUIPMENT_TYPE_NAME,
 			A.EQUIPMENT_RECEIVED_D, A.EQUIPMENT_MODEL_YEAR,
 			A.EQUIPMENT_MANUFACTURER, A.EQUIPMENT_STATUS,
 			C.CHILD_TBL_TYPE AS EQUIPMENT_STATUS_NAME, A.EQUIPMENT_INFO_RMARK,
@@ -25,8 +25,20 @@
 				select * from DTL_TBL where NEW_TBL_CODE=12
 			) C ON A.EQUIPMENT_STATUS = C.CHILD_TBL_NO
 			INNER JOIN User_Info_tbl D ON A.EQUIPMENT_MODIFIER = D.USER_CODE
+			INNER JOIN (
+			   select * from DTL_TBL where NEW_TBL_CODE=43
+			) E ON A.Equipment_Type = E.CHILD_TBL_NO
 	</select>
-
+<!-- 	<select id="dtlMachineListDao" resultType="com.busience.standard.dto.MachineDto">
+			select Equipment_info_Code, Equipment_info_Name, Equipment_info_ABR, Equipment_info_Rmark
+			from Equipment_Info_tbl
+			<if test="EQUIPMENT_INFO_RMARK == 1">
+			where Equipment_info_Rmark = 1
+			</if>
+			<if test="EQUIPMENT_INFO_RMARK == 2">
+			where Equipment_info_Rmark = 2
+			</if>		
+	</select> -->
 	<insert id="insertMachineDao">
 		insert into Equipment_Info_tbl values(
 			#{EQUIPMENT_BUSINESS_PLACE}, #{EQUIPMENT_INFO_CODE},

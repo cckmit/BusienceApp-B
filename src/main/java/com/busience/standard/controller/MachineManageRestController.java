@@ -30,6 +30,11 @@ public class MachineManageRestController {
 		return machineService.selectMachineList();
 	}
 	
+	@GetMapping("/dtlMachineList")
+	public List<MachineDto> dtlMachineListDao(MachineDto machineDto) {
+		return machineService.dtlMachineListDao(machineDto);
+	}
+	
 	@PostMapping("/machineManageInsert")
 	public int machineManageInsert(MachineDto machineDto){
 		return machineService.insertMachine(machineDto);

@@ -21,6 +21,11 @@ public class MachineService {
 		return machineDao.selectMachineListDao();
 	}
 	
+	//설비 종류에 따라 조회
+	public List<MachineDto> dtlMachineListDao(MachineDto machineDto) {
+		return machineDao.dtlMachineListDao(machineDto);
+	}
+	
 	//등록
 	public int insertMachine(MachineDto machineDto) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

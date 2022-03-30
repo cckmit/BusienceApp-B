@@ -29,6 +29,10 @@ public class MachineDto {
 	
 	private Long EQUIPMENT_WEIGHT;
 	
+	private String EQUIPMENT_TYPE;
+	
+	private String EQUIPMENT_TYPE_NAME;
+	
 	private String EQUIPMENT_RECEIVED_D;
 	
 	private String EQUIPMENT_MODEL_YEAR;

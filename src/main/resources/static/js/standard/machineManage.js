@@ -46,7 +46,7 @@ var machineManageTable = new Tabulator("#machineManageTable", {
 		{ title: "설비(폭)", field: "equipment_WIDTH", headerHozAlign: "center", headerFilter: "input"},
 		{ title: "설비(깊이)", field: "equipment_DEPTH", headerHozAlign: "center", headerFilter: "input"},
 		{ title: "설비(S/N)", field: "equipment_SERIAL_NUM", headerHozAlign: "center", headerFilter: "input"},
-		{ title: "설비(무게)", field: "equipment_WEIGHT", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "설비종류", field: "equipment_TYPE_NAME", headerHozAlign: "center", headerFilter: "input"},
 		{ title: "구입일자", field: "equipment_RECEIVED_D", headerHozAlign: "center",	headerFilter: "input"},
 		{ title: "설비연식", field: "equipment_MODEL_YEAR", headerHozAlign: "center",	headerFilter: "input"},
 		{ title: "제작업체", field: "equipment_MANUFACTURER", headerHozAlign: "center", headerFilter: "input"},
