@@ -64,6 +64,11 @@ public class materialLXController {
 	// MatOutputLX
 	@GetMapping("matOutputLX")
 	public String matOutputLX(Model model) {
+		
+		// 부서명
+		int deptList = 3;
+		model.addAttribute("deptList", dtlService.getDtl(deptList));
+		
 		model.addAttribute("pageName", "출고 관리");
 		return "materialLX/matOutputLX";
 	}

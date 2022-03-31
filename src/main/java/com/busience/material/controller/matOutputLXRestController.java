@@ -1,18 +1,22 @@
 package com.busience.material.controller;
 
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.material.dto.OutMat_tbl;
-import com.busience.material.dto.StockMat_tbl;
+import com.busience.common.dto.SearchDto;
+import com.busience.material.dto.LotMasterDto;
+import com.busience.material.dto.OutMatDto;
+import com.busience.material.dto.RequestSubDto;
 import com.busience.material.service.MatOutputService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController("matOutputLXRestController")
 @RequestMapping("matOutputLXRest")
@@ -20,15 +24,28 @@ public class matOutputLXRestController {
 
 	@Autowired
 	MatOutputService matOutputService;
-
-	@GetMapping("/MOS_Search")
-	public List<StockMat_tbl> MOS_Search() {
-		return matOutputService.outMatList();
+	
+	@GetMapping("/LM_Search")
+	public List<LotMasterDto> LM_Search(SearchDto searchDto) {
+		return matOutputService.LotMasterSelect(searchDto);
 	}
-
+	
 	// orderList save
 	@PostMapping("/MOM_Save")
-	public int MOM_Save(@RequestBody List<OutMat_tbl> outMat_tbl_List, Principal principal) {
-		return matOutputService.matOutputRegister(outMat_tbl_List, principal.getName());
+	public int MOM_Save(@RequestParam("masterData") String masterData,
+						@RequestParam("subData") String subData,
+						Principal principal) {
+		ObjectMapper mapper = new ObjectMapper();
+		
+		try {
+			RequestSubDto requestSubDto = mapper.readValue(masterData, RequestSubDto.class);
+			
+			List<OutMatDto> OutMatDtoList = Arrays.asList(mapper.readValue(subData, OutMatDto[].class));
+			
+			return matOutputService.outMatInsert(requestSubDto, OutMatDtoList, principal.getName());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
 	}
 }

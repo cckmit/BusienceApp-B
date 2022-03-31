@@ -5,31 +5,39 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	 
 <mapper namespace="com.busience.material.dao.MatOutputDao">
-	<select id="outMatListDao" resultType="com.busience.material.dto.StockMat_tbl">
-		SELECT A.SM_Code, B.PRODUCT_ITEM_NAME SM_Name, A.SM_Qty,
-			B.PRODUCT_INFO_STND_1 SM_STND_1, C.CHILD_TBL_TYPE SM_CLSFC_1_Name
-			FROM (
-				select SM_Code, (SM_Last_Qty+SM_In_Qty-SM_Out_Qty) SM_Qty from StockMatLX_tbl
-				where SM_Last_Qty+SM_In_Qty-SM_Out_Qty > 0
-				) A
-			INNER JOIN PRODUCT_INFO_TBL B ON A.SM_Code = B.PRODUCT_ITEM_CODE
-			inner join DTL_TBL C on B.PRODUCT_ITEM_CLSFC_1 = C.CHILD_TBL_NO;
+	<select id="LotMasterSelectDao" resultType="com.busience.material.dto.LotMasterDto">
+		SELECT
+			A.LM_LotNo, A.LM_ItemCode, A.LM_Qty,
+		    A.LM_Create_Date, B.InMat_Client_Code LM_ClientCode,
+		    C.Cus_Name LM_ClientName
+		FROM LotMaster_tbl A
+		INNER JOIN InMat_tbl B ON A.LM_LotNo = B.InMat_Lot_No 
+		INNER JOIN Customer_tbl C ON B.InMat_Client_Code = C.Cus_Code
+		INNER JOIN DTL_TBL D ON B.InMat_Rcv_Clsfc = D.Child_TBL_No and D.New_TBL_Code = '17'
+		where A.LM_Qty != 0
+		and A.LM_ItemCode = #{ItemCode};
 	</select>
+
+	<insert id="outMatInsertDao">
+		insert into OutMat_tbl(
+			OM_No,
+			OM_RequestNo, OM_LotNo,
+			OM_ItemCode, OM_Qty, OM_DeptCode,
+			OM_Send_Clsfc, OM_OutDate, OM_Modifier
+		) values (
+			(select ifnull(max(AA.OM_No)+1,1) from OutMat_tbl AS AA where AA.OM_RequestNo = #{OM_RequestNo}),
+			#{OM_RequestNo}, #{OM_LotNo},
+			#{OM_ItemCode}, #{OM_Qty}, #{OM_DeptCode},
+			#{OM_Send_Clsfc}, #{OM_OutDate}, #{OM_Modifier}
+		)
+	</insert>
 	
-	<update id="outMatInsertDao">
-		insert into OutMatLX_tbl(
-			OutMat_Code, OutMat_Qty, OutMat_Consignee, OutMat_Dept_Code,
-			OutMat_Send_Clsfc, OutMat_Date, OutMat_dInsert_Time, OutMat_Modifier
-			) values (
-			#{OutMat_Code}, #{OutMat_Qty}, #{OutMat_Consignee}, '13',
-			#{OutMat_Send_Clsfc}, now(), now(), #{OutMat_Modifier}
-			)
-	</update>
-	
-	<update id="stockMatUpdateDao">
-		update StockMatLX_tbl
-		set
-		SM_Out_Qty = SM_Out_Qty+#{OutMat_Qty}
-		where SM_Code = #{OutMat_Code}
-	</update>
+	<insert id="stockUpdateDao">
+		insert into Stock_tbl (
+			S_itemCode, S_Qty, S_WareHouse
+		)values(
+			#{OM_ItemCode}, S_Qty, #{OM_WareHouse}
+		)on duplicate key update
+		S_Qty = S_Qty+#{OM_Qty}
+	</insert>
 </mapper>

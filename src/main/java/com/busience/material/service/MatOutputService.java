@@ -10,9 +10,11 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import com.busience.common.dao.DtlDao;
 import com.busience.common.dto.DtlDto;
+import com.busience.common.dto.SearchDto;
 import com.busience.material.dao.MatOutputDao;
-import com.busience.material.dto.OutMat_tbl;
-import com.busience.material.dto.StockMat_tbl;
+import com.busience.material.dto.LotMasterDto;
+import com.busience.material.dto.OutMatDto;
+import com.busience.material.dto.RequestSubDto;
 import com.busience.salesLX.dao.SalesInputLXDao;
 import com.busience.salesLX.dto.Sales_InMat_tbl;
 
@@ -31,34 +33,40 @@ public class MatOutputService {
 	@Autowired
 	TransactionTemplate transactionTemplate;
 	
-	//조회	
-	public List<StockMat_tbl> outMatList() {
-		return matOutputDao.outMatListDao();
+	//LotMaster조회
+	public List<LotMasterDto> LotMasterSelect(SearchDto searchDto){
+		return matOutputDao.LotMasterSelectDao(searchDto);
 	}
 	
 	//등록
-	public int matOutputRegister(List<OutMat_tbl> outMat_tbl_List, String userCode){
+	public int outMatInsert(RequestSubDto requestSubDto,List<OutMatDto> outMatDtoList, String userCode){
 		try {
+			System.out.println(requestSubDto);
+			System.out.println(outMatDtoList);
 			//판매구분
 			List<DtlDto> dtlDto = dtlDao.findByCode(18);
+			List<DtlDto> wareHouseList = dtlDao.findByCode(10);
 			Sales_InMat_tbl sales_InMat_tbl = new Sales_InMat_tbl();
 			
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 				
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
-					for(int i=0;i<outMat_tbl_List.size();i++) {
-						outMat_tbl_List.get(i).setOutMat_Modifier(userCode);
+					for(int i=0;i<outMatDtoList.size();i++) {
+						outMatDtoList.get(i).setOM_RequestNo(requestSubDto.getRS_RequestNo());
+						outMatDtoList.get(i).setOM_WareHouse(wareHouseList.get(0).getCHILD_TBL_NO());
+						outMatDtoList.get(i).setOM_Send_Clsfc(requestSubDto.getRS_Send_Clsfc());
+						outMatDtoList.get(i).setOM_Modifier(requestSubDto.getRS_RequestNo());
 						
-						matOutputDao.outMatInsertDao(outMat_tbl_List.get(i));
+						matOutputDao.outMatInsertDao(outMatDtoList.get(i));
 						
-						matOutputDao.stockMatUpdateDao(outMat_tbl_List.get(i));
-						
-						if(dtlDto.get(3).getCHILD_TBL_NO().equals(outMat_tbl_List.get(i).getOutMat_Send_Clsfc())) {
+						matOutputDao.stockUpdateDao(outMatDtoList.get(i));
+						/*
+						if(dtlDto.get(3).getCHILD_TBL_NO().equals(outMatDtoList.get(i).getOM_Send_Clsfc())) {
 							//품목코드
-							sales_InMat_tbl.setSales_InMat_Code(outMat_tbl_List.get(i).getOutMat_Code());
+							sales_InMat_tbl.setSales_InMat_Code(outMatDtoList.get(i).getOM_ItemCode());
 							//수량
-							sales_InMat_tbl.setSales_InMat_Qty(outMat_tbl_List.get(i).getOutMat_Qty());
+							sales_InMat_tbl.setSales_InMat_Qty(outMatDtoList.get(i).getOM_Qty());
 							//구분
 							sales_InMat_tbl.setSales_InMat_Rcv_Clsfc(dtlDao.findByCode(19).get(0).getCHILD_TBL_NO());
 							//사용자
@@ -68,7 +76,7 @@ public class MatOutputService {
 							salesInputLXDao.salesInMatInsertDao(sales_InMat_tbl);
 							
 							salesInputLXDao.salesStockMatUpdateDao(sales_InMat_tbl);
-						}
+						}*/
 					}
 					
 				}

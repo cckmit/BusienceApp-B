@@ -18,4 +18,7 @@ public class RequestSubDto {
 	private double RS_Not_Stocked;
 	private String RS_Send_Clsfc;
 	private String RS_Remark;
+	
+	private double RS_Stock_Qty;
+	private String RS_Send_Clsfc_Name;
 }

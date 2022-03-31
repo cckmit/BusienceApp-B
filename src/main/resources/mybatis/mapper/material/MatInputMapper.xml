@@ -13,8 +13,8 @@
 
 	<insert id="LotMasterInsertDao">
 		insert into LotMaster_tbl(
-			LMaster_LotNo, LMaster_ItemCode,
-			LMaster_InQty, LMaster_Create_Date
+			LM_LotNo, LM_ItemCode,
+			LM_Qty, LM_Create_Date
 		)values(
 			#{InMat_Lot_No}, #{InMat_Code},
 			#{InMat_Qty}, now()
@@ -22,15 +22,15 @@
 	</insert>
 	
 	<select id="LotTransNoSelectDao" resultType="int">
-		select ifnull(max(LTrans_No)+1,1)
+		select ifnull(max(LT_No)+1,1)
 		from LotTrans_tbl
-		where LTrans_LotNo = #{InMat_Lot_No}
+		where LT_LotNo = #{InMat_Lot_No}
 	</select>
 	
 	<insert id="LotTransInsertDao">
 		insert into LotTrans_tbl (
-			LTrans_No, LTrans_LotNo, LTrans_ItemCode,
-			LTrans_Qty, LTrans_dCreate_Time
+			LT_No, LT_LotNo, LT_ItemCode,
+			LT_Qty, LT_Create_Date
 		) values(
 			#{InMat_No}, #{InMat_Lot_No}, #{InMat_Code},
 			#{InMat_Qty}, now()
@@ -64,12 +64,14 @@
 	</update>
 	
 	<update id="stockMatUpdateDao">
-		insert into StockMat_tbl(
-			SM_Code, SM_In_Qty, SM_Prcs_Date
+		insert into Stock_tbl(
+			S_itemCode, S_Qty,
+			S_WareHouse
 		) values(
-			#{InMat_Code}, #{InMat_Qty}, DATE_FORMAT(curdate(),"%y%m")
+			#{InMat_Code}, #{InMat_Qty},
+			(select Child_TBL_No from DTL_TBL where New_TBL_Code = '10' and Child_TBL_Num = '1')
 		)on duplicate key update
-			SM_In_Qty = SM_In_Qty + #{InMat_Qty},
+			S_Qty = S_Qty + #{InMat_Qty}
 	</update>
 	
 	<update id="matOrderMasterUpdateDao">
