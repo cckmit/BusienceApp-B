@@ -29,16 +29,20 @@
 			   select * from DTL_TBL where NEW_TBL_CODE=43
 			) E ON A.Equipment_Type = E.CHILD_TBL_NO
 	</select>
-<!-- 	<select id="dtlMachineListDao" resultType="com.busience.standard.dto.MachineDto">
-			select Equipment_info_Code, Equipment_info_Name, Equipment_info_ABR, Equipment_info_Rmark
-			from Equipment_Info_tbl
-			<if test="EQUIPMENT_INFO_RMARK == 1">
-			where Equipment_info_Rmark = 1
+ 	<select id="dtlMachineListDao" resultType="com.busience.standard.dto.MachineDto">
+		select eit.Equipment_info_Code, eit.Equipment_info_Name, eit.Equipment_info_ABR, eit.Equipment_Type,
+			dt.CHILD_TBL_TYPE as EQUIPMENT_TYPE_NAME
+		from Equipment_Info_tbl eit
+			inner join (
+				select * from DTL_TBL where NEW_TBL_CODE=43
+			) dt on eit.Equipment_Type = dt.CHILD_TBL_NO
+			<if test="EQUIPMENT_TYPE == 1">
+		where Equipment_Type = 324
 			</if>
-			<if test="EQUIPMENT_INFO_RMARK == 2">
-			where Equipment_info_Rmark = 2
+			<if test="EQUIPMENT_TYPE == 2">
+		where Equipment_Type = 325
 			</if>		
-	</select> -->
+	</select> 
 	<insert id="insertMachineDao">
 		insert into Equipment_Info_tbl values(
 			#{EQUIPMENT_BUSINESS_PLACE}, #{EQUIPMENT_INFO_CODE},

@@ -134,7 +134,7 @@ public class productionLXController {
 	// workorder
 	@GetMapping("workorder")
 	public String workorder(Model model) {
-		model.addAttribute("pageName", "작업지시");
+		model.addAttribute("pageName", "작업지시 등록");
 		return "productionLX/workorder";
 	}
 	

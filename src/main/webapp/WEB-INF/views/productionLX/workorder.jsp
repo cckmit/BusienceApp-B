@@ -1,30 +1,37 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-	<div class="soloView">
-		<!-- MAIN -->
-		<div class="main">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<div class="soloView">
+	<!-- MAIN -->
+	<div class="main">
+		<!-- matOutput -->
+		<div class="master">
 			<div class="top-var">
 				<!-- 버튼 -->
 				<div class="input-button">
-					<img id="FI_NewBtn" class=""src="images/button/New.png"/>				
-					<img id="FI_SearchBtn" src="images/button/Search.png"/>
-					<img id="FI_SaveBtn" src="images/button/Save.png"/>
-				</div>
-				<!-- 버튼 -->
-				<div class="input-box">
-					<div>
-						<span><strong>등록일</strong></span> 
-						<input id="startDate" class="today" type="date"> 
-						<span style="text-align: center"><strong>~</strong></span> 
-						<input id="endDate" class="tomorrow" type="date">
-					</div>
+					<img src="/images/button/ADD.png" id="WO_AddBtn" /> <img
+						src="/images/button/Save.png" id="WO_SaveBtn" /> <img
+						src="/images/button/Delete.png" id="WO_DeleteBtn" />
 				</div>
 			</div>
 			<!-- 그리드 생성 장소 -->
-			<div id="WorkOrderTable"></div>
-			<div id="SalesOrderMasterTable"></div>
+			<div id="workOrderTable"></div>
 		</div>
-		<!-- END MAIN -->
+		<div class="sub">
+			<div class="top-var">
+				<!-- 버튼 -->
+				<div class="input-button"></div>
+				<!-- 버튼 -->
+			</div>
+			<!-- 그리드 생성 장소 -->
+			<div id="maskEquipTable" style="float: left; width: 49%;"></div>
+			<div id="packEquipTable" style="float: right; width: 50%;"></div>
+		</div>
+		<!-- matOutput -->
+		<!-- matOutputSub -->
+
+		<!-- matOutputSub -->
 	</div>
-<!-- END WRAPPER -->
+	<!-- END MAIN -->
+</div>
 <!-- Javascript -->
 <script src="/js/productionLX/workOrder.js?v=<%=System.currentTimeMillis() %>"></script>
