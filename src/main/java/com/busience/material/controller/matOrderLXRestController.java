@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
@@ -26,6 +28,7 @@ import com.busience.material.dto.OrderListDto;
 import com.busience.material.dto.OrderMasterDto;
 import com.busience.material.dto.StockMatDto;
 import com.busience.material.service.MatOrderService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController("matOrderLXRestController")
 @RequestMapping("matOrderLXRest")
@@ -52,9 +55,22 @@ public class matOrderLXRestController {
 		return matOrderService.stockMatSelect(searchDto);
 	}
 	
-	@PostMapping("MOM_Insert")
-	public int MOM_Insert(OrderMasterDto orderMasterDto, Principal principal) {
-		return matOrderService.matOrderMasterInsert(orderMasterDto, principal.getName());
+	@PostMapping("MO_Save")
+	public int MO_Save(@RequestParam("masterData") String masterData,
+						@RequestParam("subData") String subData,
+						Principal principal) {
+		ObjectMapper mapper = new ObjectMapper();
+		
+		try {
+			OrderMasterDto orderMasterDto = mapper.readValue(masterData, OrderMasterDto.class);
+			
+			List<OrderListDto> orderListDto = Arrays.asList(mapper.readValue(subData, OrderListDto[].class));
+			
+			return matOrderService.matOrderInsertUpdate(orderMasterDto, orderListDto, principal.getName());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
 	}
 	
 	// orderMaster delete

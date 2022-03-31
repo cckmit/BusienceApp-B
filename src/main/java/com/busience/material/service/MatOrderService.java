@@ -26,18 +26,21 @@ public class MatOrderService {
 		return matOrderDao.matOrderMasterSelectDao(searchDto);
 	}
 	
-	//matOrderMaster조회	
+	//matOrderList조회	
 	public List<OrderListDto> matOrderListSelect(SearchDto searchDto) {
 		return matOrderDao.matOrderListSelectDao(searchDto);
 	}
 	
-	//matOrderMaster조회	
+	//stockMat조회	
 	public List<StockMatDto> stockMatSelect(SearchDto searchDto) {
 		return matOrderDao.stockMatSelectDao(searchDto);
 	}
 	
-	//matOrderMaster조회	
-	public int matOrderMasterInsert(OrderMasterDto orderMasterDto, String Modifier) {
-		return matOrderDao.matOrderMasterInsertDao(orderMasterDto);
+	//matOrderMasterInsertUpdate
+	public int matOrderInsertUpdate(OrderMasterDto orderMasterDto, List<OrderListDto> orderListDto, String Modifier) {
+		System.out.println(orderMasterDto);
+		System.out.println(orderListDto);
+		System.out.println(Modifier);
+		return 0;
 	}
 }

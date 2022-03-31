@@ -45,7 +45,7 @@
 		where A.SM_Code = #{ItemCode}
 	</select>
 	
-	<insert id="matOrderMasterInsertDao">
+	<insert id="matOrderMasterInsertUpdateDao">
 		insert into OrderMaster_tbl(
 			Order_mCus_No, Order_mCode, Order_mDate,
 		    Order_mTotal, Order_mDlvry_Date, Order_mRemarks,
@@ -60,5 +60,25 @@
 		    Order_mRemarks = #{Order_mRemarks},
 		    Order_mModifier = #{Order_mModifier},
 		    Order_mModify_Date = now()
+	</insert>
+	
+	<insert id="matOrderListInsertDao">
+		insert into OrderList_tbl(
+			Order_lNo, Order_lCus_No, Order_lCode,
+		    Order_lQty, Order_lSum, Order_lUnit_Price,
+		    Order_lPrice, Order_lNot_Stocked,
+		    Order_Rcv_Clsfc, Order_lInfo_Remark
+		)values(
+			#{Order_lNo}, #{Order_lCus_No}, #{Order_lCode},
+		    #{Order_lQty}, #{Order_lSum}, #{Order_lUnit_Price},
+		    #{Order_lPrice}, #{Order_lQty},
+		    #{Order_Rcv_Clsfc}, #{Order_lInfo_Remark}
+		)on duplicate key update
+		Order_lQty = #{Order_lQty},
+		Order_lUnit_Price = #{Order_lUnit_Price},
+		Order_lPrice = #{Order_lPrice},
+		Order_lNot_Stocked = #{Order_lQty},
+		Order_Rcv_Clsfc = #{Order_Rcv_Clsfc},
+		Order_lInfo_Remark = #{Order_lInfo_Remark}
 	</insert>
 </mapper>

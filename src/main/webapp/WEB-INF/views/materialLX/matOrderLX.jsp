@@ -4,7 +4,7 @@
 	<!-- MAIN -->
 	<div class="main">
 		<!-- matOrder -->
-		<div class="master">
+		<div class="master-in">
 			<div class="top-var">
 				<!-- 버튼 -->
 				<div class="input-button">
@@ -33,7 +33,7 @@
 		</div>
 		<!-- matOrder -->
 		<!-- matOrderSub -->
-		<div class="sub">
+		<div class="sub-in">
 			<div class="top-var">
 				<!-- 버튼 -->
 				<div class="input-button">

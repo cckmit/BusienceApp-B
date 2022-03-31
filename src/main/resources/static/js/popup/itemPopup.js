@@ -52,8 +52,6 @@ function list_select(row){
 		window.opener.item_gridInit(row.getData().product_ITEM_CODE,
 									row.getData().product_ITEM_NAME, 
 									row.getData().product_INFO_STND_1,
-									row.getData().product_ITEM_CLSFC_1_NAME,
-									row.getData().product_ITEM_CLSFC_2_NAME,
 									row.getData().product_UNIT_PRICE,
 									urlParams.get('save_value'));
 	}	

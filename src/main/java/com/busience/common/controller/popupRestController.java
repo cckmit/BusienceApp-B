@@ -427,7 +427,6 @@ public class popupRestController {
 			data.setPRODUCT_UNIT_PRICE(rs.getInt("PRODUCT_UNIT_PRICE"));
 			list.add(data);
 		}
-
 		rs.close();
 		pstmt.close();
 		conn.close();

@@ -22,5 +22,8 @@ public interface MatOrderDao {
 	public List<StockMatDto> stockMatSelectDao(SearchDto searchDto);
 	
 	//matOrderMaster 등록
-	public int matOrderMasterInsertDao(OrderMasterDto orderMasterDto);	
+	public int matOrderMasterInsertUpdateDao(OrderMasterDto orderMasterDto);	
+	
+	//matOrderList 등록
+	public int matOrderListInsertDao(OrderListDto orderListDto);
 }
