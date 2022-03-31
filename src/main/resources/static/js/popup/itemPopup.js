@@ -36,7 +36,7 @@ var itemPopupTable = new Tabulator("#itemPopupTable", {
 	{title:"품목코드", field:"product_ITEM_CODE", headerHozAlign:"center"},
 	{title:"품목이름", field:"product_ITEM_NAME", headerHozAlign:"center"},
 	{title:"규격1", field:"product_INFO_STND_1", headerHozAlign:"center"},
-	{title:"품목분류", field:"product_MTRL_CLSFC", headerHozAlign:"center"}
+	{title:"자재분류", field:"product_MTRL_CLSFC", headerHozAlign:"center"}
 	]
 	
 })
@@ -52,6 +52,8 @@ function list_select(row){
 		window.opener.item_gridInit(row.getData().product_ITEM_CODE,
 									row.getData().product_ITEM_NAME, 
 									row.getData().product_INFO_STND_1,
+									row.getData().product_ITEM_CLSFC_1_NAME,
+									row.getData().product_ITEM_CLSFC_2_NAME,
 									row.getData().product_UNIT_PRICE,
 									urlParams.get('save_value'));
 	}	
@@ -64,6 +66,7 @@ function search(){
 		{item_Word:$('#Item_Word').val(),search_value:$("#item_Type").val()})
 	.then(function(){
 		if(itemPopupTable.getDataCount()>0){
+			console.log(itemPopupTable.getRows()[0]);
 			itemPopupTable.getRows()[0].select();
 			$("#itemPopupTable").focus();
 		}

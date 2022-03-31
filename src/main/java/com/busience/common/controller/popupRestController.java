@@ -68,9 +68,13 @@ public class popupRestController {
 				+ " A.PRODUCT_ITEM_NAME,\r\n"
 				+ " A.PRODUCT_INFO_STND_1,\r\n"
 				+ " B.CHILD_TBL_TYPE PRODUCT_MTRL_CLSFC,\r\n"
+				+ " C.CHILD_TBL_TYPE PRODUCT_ITEM_CLSFC_1_NAME,\r\n"
+				+ " D.CHILD_TBL_TYPE PRODUCT_ITEM_CLSFC_2_NAME,\r\n"
 				+ " A.PRODUCT_UNIT_PRICE\r\n"
 				+ " from Product_Info_tbl A\r\n"
 				+ " inner join DTL_TBL B on A.PRODUCT_MTRL_CLSFC = B.CHILD_TBL_NO\r\n"
+				+ " inner join DTL_TBL C on A.Product_Item_CLSFC_1 = C.CHILD_TBL_NO\r\n"
+				+ " inner join DTL_TBL D on A.Product_Item_CLSFC_2 = D.CHILD_TBL_NO\r\n"
 				+ " where (A.PRODUCT_ITEM_CODE like '%"+item_Word+"%' or A.PRODUCT_ITEM_NAME like '%"+item_Word+"%')\r\n"
 				+ " and A.PRODUCT_MTRL_CLSFC like '%" + search_value + "%'\r\n"
 				+ " and A.PRODUCT_USE_STATUS='true'";
@@ -89,6 +93,8 @@ public class popupRestController {
 			data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
 			data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
 			data.setPRODUCT_MTRL_CLSFC(rs.getString("PRODUCT_MTRL_CLSFC"));
+			data.setPRODUCT_ITEM_CLSFC_1_NAME(rs.getString("PRODUCT_ITEM_CLSFC_1_NAME"));
+			data.setPRODUCT_ITEM_CLSFC_2_NAME(rs.getString("PRODUCT_ITEM_CLSFC_2_NAME"));
 			data.setPRODUCT_UNIT_PRICE(rs.getInt("PRODUCT_UNIT_PRICE"));
 			list.add(data);
 		}	
