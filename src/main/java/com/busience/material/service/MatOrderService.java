@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import com.busience.common.dto.SearchDto;
@@ -37,10 +39,79 @@ public class MatOrderService {
 	}
 	
 	//matOrderMasterInsertUpdate
-	public int matOrderInsertUpdate(OrderMasterDto orderMasterDto, List<OrderListDto> orderListDto, String Modifier) {
-		System.out.println(orderMasterDto);
-		System.out.println(orderListDto);
-		System.out.println(Modifier);
-		return 0;
+	public int matOrderInsertUpdate(OrderMasterDto orderMasterDto, List<OrderListDto> orderListDtoList, String Modifier) {
+		
+		try {
+			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+				
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					//발주번호가 없을경우 발주번호 생성
+					if(orderMasterDto.getOrder_mCus_No().length() == 0) {
+						orderMasterDto.setOrder_mCus_No(matOrderDao.matOrderNoCreateDao(orderMasterDto));
+					}
+					
+					orderMasterDto.setOrder_mModifier(Modifier);
+					matOrderDao.matOrderMasterInsertUpdateDao(orderMasterDto);
+					
+					for(int i=0;i<orderListDtoList.size();i++) {
+						OrderListDto orderListDto = orderListDtoList.get(i);
+						orderListDto.setOrder_lCus_No(orderMasterDto.getOrder_mCus_No());
+						
+						matOrderDao.matOrderListInsertUpdateDao(orderListDto);			
+					}
+				}
+			});
+			
+			return 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	//OrderMaster 삭제
+	public int matOrderMasterDelete(OrderMasterDto orderMasterDto) {
+		try {
+			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+				
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					SearchDto searchDto = new SearchDto();
+					searchDto.setOrderNo(orderMasterDto.getOrder_mCus_No());
+					List<OrderListDto> orderListDtoList = matOrderListSelect(searchDto);
+					
+					matOrderListDelete(orderListDtoList);
+					
+					matOrderDao.matOrderMasterDeleteDao(orderMasterDto);
+				}
+			});
+			
+			return 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	//OrderMaster 삭제
+	public int matOrderListDelete(List<OrderListDto> orderListDtoList) {
+		try {
+			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+				
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					for(int i=0;i<orderListDtoList.size();i++) {
+						OrderListDto orderListDto = orderListDtoList.get(i);						
+						matOrderDao.matOrderListDeleteDao(orderListDto);			
+					}
+				}
+			});
+			
+			return 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
 	}
 }

@@ -101,6 +101,14 @@ function customer_gridInit(CCode, CName) {
 //셀위치저장
 var cellPos = null;
 
+//matOrderTable 이미 저장되있는 데이터는 편집 불가능 하게 하는 확인 기능
+var MO_EditCheck = function(cell){
+    //cell - the cell component for the editable cell
+    //get row data
+    var data = cell.getRow().getData();
+    return data.order_mCus_No.length == 0;
+}
+
 var matOrderTable = new Tabulator("#matOrderTable", {
 	//페이징
 	pagination:"local",
@@ -165,12 +173,12 @@ var matOrderTable = new Tabulator("#matOrderTable", {
     },
  	columns:[ 
  		{title:"발주번호", field:"order_mCus_No", headerHozAlign:"center", hozAlign:"right", headerFilter:true},
- 		{title:"코드", field:"order_mCode", headerHozAlign:"center", headerFilter:true, editor: MO_inputEditor},
+ 		{title:"코드", field:"order_mCode", headerHozAlign:"center", headerFilter:true, editor: MO_inputEditor, editable: MO_EditCheck},
 		{title:"거래처명", field:"order_mName", headerHozAlign:"center", headerFilter:true},
  		{title:"발주일", field:"order_mDate", headerHozAlign:"center", hozAlign:"right", headerFilter:true, width: 121,
 			formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
- 		{title:"납기일자", field:"order_mDlvry_Date", headerHozAlign:"center", hozAlign:"right", editor: MO_inputEditor, headerFilter:true},
- 		{title:"특이사항", field:"order_mRemarks", headerHozAlign:"center", editor: MO_inputEditor, headerFilter:true},
+ 		{title:"납기일자", field:"order_mDlvry_Date", headerHozAlign:"center", hozAlign:"right", headerFilter:true, editor: MO_inputEditor, editable: MO_EditCheck},
+ 		{title:"특이사항", field:"order_mRemarks", headerHozAlign:"center", headerFilter:true, editor: MO_inputEditor, editable: MO_EditCheck},
  		{title:"합계금액", field:"order_mTotal", headerHozAlign:"center", hozAlign:"right", headerFilter:true, 
 			formatter : "money", formatterParams: {precision: false}},
 		{title:"목록확인", field:"order_mCheck", visible:false}
@@ -218,32 +226,27 @@ $('#MO_SearchBtn').click(function(){
 })
 
 //삭제버튼
-function MO_Delete(){
+function MOM_Delete(){
 	selectedData = matOrderTable.getData("selected");
 	
 	if(selectedData.length == 0){
 		alert("선택된 행이 없습니다.");
 		return false;
 	}
-	if(selectedData[0].order_mCheck != "N"){
-		alert("입고내역이 있는 발주내역은 삭제할 수 없습니다.")
-		return false;
-	}
 	
 	// 기존 조회한 데이터는 수주번호가 있고, 새로 추가된데이터는 수주번호가 없다
 	if(confirm("선택한 행이 삭제됩니다. 삭제하시겠습니까?")){
 		$.ajax({
-			method: "post",
-			url: "matOrderLXRest/MO_Delete?data=" + encodeURI(JSON.stringify(selectedData[0])),
+			method: "delete",
+			url: "matOrderLXRest/MOM_Delete",
+			data: selectedData[0],
 			beforeSend: function (xhr) {
 	           var header = $("meta[name='_csrf_header']").attr("content");
 	           var token = $("meta[name='_csrf']").attr("content");
 	           xhr.setRequestHeader(header, token);
 			},
 			success: function(result) {
-				if (result == "error") {
-					alert("삭제 오류")
-				}else{
+				if(result){
 					// 행삭제
 					matOrderTable.deleteRow(matOrderTable.getRows("selected"));
 					//list와 stock의 데이터를 없에준다
@@ -251,15 +254,18 @@ function MO_Delete(){
 					matOrderStockTable.clearData();
 					
 					ResetBtn();
+					alert("삭제되었습니다.");
+				}else{
+					alert("입고내역이 있는 발주내역은 삭제할 수 없습니다.");
 				}
 			}
 		})
 	}
 }
 
-//MO_DeleteBtn
-$('#MO_DeleteBtn').click(function(){
-	MO_Delete();
+//MOM_DeleteBtn
+$('#MOM_DeleteBtn').click(function(){
+	MOM_Delete();
 })
 
 //orderprint
@@ -400,7 +406,7 @@ var editCheck = function(cell){
 var matOrderSubTable = new Tabulator("#matOrderSubTable", {
 	layoutColumnsOnNewData : true,
 	height:"calc(90% - 175px)",
-	selectable: 1,
+	selectable: true,
 	tabEndNewRow: true,
 	//커스텀 키 설정
 	keybindings:{
@@ -419,13 +425,13 @@ var matOrderSubTable = new Tabulator("#matOrderSubTable", {
 	
 	row.update({"order_lPrice": 0,
 				"order_lQty": 0,
-				"Order_lInfo_Remark": '',
+				"order_lInfo_Remark": '',
 				"order_Rcv_Clsfc": "203"});
 				
 	//행이 추가되면 첫셀에 포커스
 	do{
-	setTimeout(function(){
-		row.getCell("order_lCode").edit();
+		setTimeout(function(){
+			row.getCell("order_lCode").edit();
 		},100);
 	}
 	while(row.getData().order_lCode === "undefined");
@@ -444,30 +450,30 @@ var matOrderSubTable = new Tabulator("#matOrderSubTable", {
  	{title:"수량", field:"order_lQty", headerHozAlign:"center", hozAlign:"right", editor: MOL_InputEditor, editable:editCheck,
 		formatter : "money", formatterParams: {precision: false},
 		cellEdited:function(cell){
-		//수량이 변경될때 금액값이 계산되어 입력
-		temQty = cell.getValue();
-		temUP = cell.getRow().getData().order_lUnit_Price;
-		if(temQty*temUP>0){
-			iPrice = temQty*temUP	
-		}else{
-			iPrice = 0;	
-		}
-		cell.getRow().update({"order_lPrice": iPrice});
+			//수량이 변경될때 금액값이 계산되어 입력
+			temQty = cell.getValue();
+			temUP = cell.getRow().getData().order_lUnit_Price;
+			if(temQty*temUP>0){
+				iPrice = temQty*temUP	
+			}else{
+				iPrice = 0;	
+			}
+			cell.getRow().update({"order_lPrice": iPrice});
 		}
 	},
  	{title:"단가", field:"order_lUnit_Price", headerHozAlign:"center", hozAlign:"right", editor: MOL_InputEditor, editable:editCheck,
 		topCalc:function(){return "합계금액"}, formatter : "money", formatterParams: {precision: false},
 		cellEdited:function(cell){
-		//단가가 변경될때 금액값이 계산되어 입력
-		temQty = cell.getRow().getData().order_lQty;
-		temUP = cell.getValue();			
-
-		if(temQty*temUP>0){
-			iPrice = temQty*temUP	
-		}else{
-			iPrice = 0;	
-		}
-		cell.getRow().update({"order_lPrice": iPrice});
+			//단가가 변경될때 금액값이 계산되어 입력
+			temQty = cell.getRow().getData().order_lQty;
+			temUP = cell.getValue();			
+	
+			if(temQty*temUP>0){
+				iPrice = temQty*temUP	
+			}else{
+				iPrice = 0;	
+			}
+			cell.getRow().update({"order_lPrice": iPrice});
 		}
 	},
  	{title:"금액", field:"order_lPrice", headerHozAlign:"center", hozAlign:"right", formatter : "money", formatterParams: {precision: false}, width: 80,
@@ -577,32 +583,25 @@ function MOL_Delete(){
 		//배열에 담은 데이터가 있을경우 쿼리 실행
 		if(realData.length != 0){
 			$.ajax({
-				method: "post",
-				url: "matOrderLXRest/MOL_Delete?data=" + encodeURI(JSON.stringify(realData)),
+				method: "delete",
+				url: "matOrderLXRest/MOL_Delete",
+				data: JSON.stringify(realData),
+				contentType:'application/json',
 				beforeSend: function (xhr) {
 		           var header = $("meta[name='_csrf_header']").attr("content");
 		           var token = $("meta[name='_csrf']").attr("content");
 		           xhr.setRequestHeader(header, token);
 				},
 				success: function(result) {
-					console.log(result);
-					if (result == "error") {
-						alert("입고받은 발주목록은 삭제할 수 없습니다.")
-					}else{
+					if(result){
+						matOrderSubTable.deleteRow(matOrderSubTable.getSelectedRows())
 						alert("삭제되었습니다.")
+					}else{
+						alert("입고받은 발주목록은 삭제할 수 없습니다.")
 					}
 				}
 			})
-		}
-		// 행삭제
-		matOrderSubTable.deleteRow(matOrderSubTable.getSelectedRows())
-		.then(function(){
-			// 삭제후 순번 정리
-			rowCount = matOrderSubTable.getDataCount("active");
-			for(i=0;i<rowCount;i++){
-				matOrderSubTable.getRows()[i].update({order_lNo:i+1})
-			}
-		});
+		}		
 	}
 }
 
@@ -715,3 +714,7 @@ var matOrderStockTable = new Tabulator("#matOrderStockTable", {
 function MOS_Search(itemCode){
 	matOrderStockTable.setData("matOrderLXRest/MOS_Search", {ItemCode : itemCode});
 }
+
+$(document).ready(function(){
+	MOM_Search();
+})

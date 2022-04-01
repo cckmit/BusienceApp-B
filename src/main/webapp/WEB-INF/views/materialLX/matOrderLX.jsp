@@ -10,7 +10,7 @@
 				<div class="input-button">
 					<img src="/images/button/Search.png" id="MO_SearchBtn"/>
 					<img src="/images/button/ADD.png" id="MO_AddBtn"/>
-					<img src="/images/button/Delete.png" id="MO_DeleteBtn"/>
+					<img src="/images/button/Delete.png" id="MOM_DeleteBtn"/>
 				</div>
 				<!-- 버튼 -->
 				<div class="input-box">

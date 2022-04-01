@@ -30,21 +30,21 @@
 	<insert id="LotTransInsertDao">
 		insert into LotTrans_tbl (
 			LT_No, LT_LotNo, LT_ItemCode,
-			LT_Qty, LT_Create_Date
+			LT_Qty, LT_Before, LT_After, LT_Create_Date
 		) values(
 			#{InMat_No}, #{InMat_Lot_No}, #{InMat_Code},
-			#{InMat_Qty}, now()
+			#{InMat_Qty}, #{InMat_Before}, #{InMat_After}, now()
 		)
 	</insert>
 
 	<insert id="inMatInsertDao">
 		insert into InMat_tbl(
-			InMat_Lot_No, InMat_No, InMat_Order_No,  
+			InMat_Order_No, InMat_Lot_No, InMat_No, 
 		    InMat_Code, InMat_Qty, InMat_Unit_Price,
 		    InMat_Price, InMat_Client_Code, InMat_Date,
 		    InMat_Rcv_Clsfc, InMat_dInsert_Time, InMat_Modifier
 		) values (
-			#{InMat_Lot_No}, #{InMat_No}, #{InMat_Order_No},
+			#{InMat_Order_No}, #{InMat_Lot_No}, #{InMat_No},
 		    #{InMat_Code}, #{InMat_Qty}, #{InMat_Unit_Price},
 		    #{InMat_Price}, #{InMat_Client_Code}, #{InMat_Date},
 		    #{InMat_Rcv_Clsfc}, now(), #{InMat_Modifier}
@@ -69,7 +69,7 @@
 			S_WareHouse
 		) values(
 			#{InMat_Code}, #{InMat_Qty},
-			(select Child_TBL_No from DTL_TBL where New_TBL_Code = '10' and Child_TBL_Num = '1')
+			#(InMat_WareHouse)
 		)on duplicate key update
 			S_Qty = S_Qty + #{InMat_Qty}
 	</update>

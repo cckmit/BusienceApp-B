@@ -21,9 +21,18 @@ public interface MatOrderDao {
 	//matOrderList조회
 	public List<StockMatDto> stockMatSelectDao(SearchDto searchDto);
 	
+	//발주번호 생성
+	public String matOrderNoCreateDao(OrderMasterDto orderMasterDto);
+	
 	//matOrderMaster 등록
 	public int matOrderMasterInsertUpdateDao(OrderMasterDto orderMasterDto);	
 	
 	//matOrderList 등록
-	public int matOrderListInsertDao(OrderListDto orderListDto);
+	public int matOrderListInsertUpdateDao(OrderListDto orderListDto);
+	
+	//matOrderMaster 삭제
+	public int matOrderMasterDeleteDao(OrderMasterDto orderMasterDto);	
+	
+	//matOrderList 등록
+	public int matOrderListDeleteDao(OrderListDto orderListDto);
 }
