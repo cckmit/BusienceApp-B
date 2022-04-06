@@ -13,6 +13,8 @@ public interface WorkOrderDao {
 	
 	///workOrderSelectDao
 	public List<WorkOrderDto> workOrderSelectDao(SearchDto searchDto);
+	
+	public List<WorkOrderDto> workOrderSubSelectDao(SearchDto searchDto);
 
 	public int workOrderCountDao(WorkOrderDto workOrderDto);
 
@@ -24,7 +26,7 @@ public interface WorkOrderDao {
 	
 	public int workOrderSumQtyDao(SearchDto searchDto);
 	
-	public int workOrderInsertDao(WorkOrderDto workOrderDto);
+	public int workOrderRegisterDao(WorkOrderDto workOrderDto);
 	
 	public int workOrderUpdateDao(WorkOrderDto workOrderDto);
 	

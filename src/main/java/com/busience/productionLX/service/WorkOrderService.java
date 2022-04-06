@@ -1,5 +1,7 @@
 package com.busience.productionLX.service;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,10 @@ public class WorkOrderService {
 		return workOrderDao.workOrderSelectDao(searchDto);
 	}
 	
+	public List<WorkOrderDto> workOrderSubSelect(SearchDto searchDto) {
+		return workOrderDao.workOrderSubSelectDao(searchDto);
+	}
+	
 	//작업관리에서 작업지시 조회
 	public List<WorkOrderDto> workOrderCompleteSelect(SearchDto searchDto) {
 		return workOrderDao.workOrderCompleteSelectDao(searchDto);
@@ -50,6 +56,9 @@ public class WorkOrderService {
 		return workOrderDao.workOrderSumQtyDao(searchDto);
 	}
 	
+	//작업 현황
+	public List<WorkOrder_tbl>
+	
 	//작업지시 등록
 	public int workOrderRegister(List<WorkOrderDto> workOrderDtoList, String userCode) {
 		
@@ -60,20 +69,28 @@ public class WorkOrderService {
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
 					for(int i=0;i<workOrderDtoList.size();i++) {
 						
+						System.out.println(workOrderDtoList.get(i));
+						
 						if(workOrderDtoList.get(i).getWorkOrder_ONo() == null) {
 							//작업지시 번호가 없으면 인서트
 							
 							//작업지시 순번
 							int workOrderNo = workOrderDao.workOrderNoSelectDao()+1;
+							System.out.println();
 							workOrderDtoList.get(i).setWorkOrder_No(workOrderNo);
 							
-							String registerTime = workOrderDtoList.get(i).getWorkOrder_OrderTime().replace("-", "");
+							Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+							
+							SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+							
+							String registerTime = sdf.format(timestamp).replace("-", "");
 							
 							//작업지시번호
 							String workOrderONo = registerTime+"-"
 												+ workOrderDtoList.get(i).getWorkOrder_ItemCode()+"-"
 												+ String.format("%02d", workOrderNo);
 							
+							System.out.println(workOrderONo);
 							workOrderDtoList.get(i).setWorkOrder_ONo(workOrderONo);
 							
 							List<DtlDto> dtlList = dtlDao.findByCode(29);
@@ -82,11 +99,10 @@ public class WorkOrderService {
 							String WorkStatus = "";
 							for(int j=0;j<dtlList.size();j++) {
 								//기본적으로는 미접수 상태로 저장
-								if(dtlList.get(j).getCHILD_TBL_RMARK().equals("N")) {
+								if(dtlList.get(j).getCHILD_TBL_RMARK().equals("Y")) {
 									WorkStatus = dtlList.get(j).getCHILD_TBL_NO();
 								}
 								//태블릿은 작업시작인 상태로 저장
-								
 								if("AUTO".equals(workOrderDtoList.get(i).getWorkOrder_Remark())) {
 									if(dtlList.get(j).getCHILD_TBL_RMARK().equals("S")) {
 										WorkStatus = dtlList.get(j).getCHILD_TBL_NO();
@@ -97,12 +113,22 @@ public class WorkOrderService {
 								}
 							}
 							
+							if(workOrderDtoList.get(i).getEQUIPMENT_PACK_CODE() == null) {
+								workOrderDtoList.get(i).setWorkOrder_EquipCode(workOrderDtoList.get(i).getEQUIPMENT_INFO_CODE());
+								workOrderDtoList.get(i).setWorkOrder_EquipName(workOrderDtoList.get(i).getEQUIPMENT_INFO_NAME());
+							} else if(workOrderDtoList.get(i).getEQUIPMENT_INFO_CODE() == null) {
+								workOrderDtoList.get(i).setWorkOrder_EquipCode(workOrderDtoList.get(i).getEQUIPMENT_PACK_CODE());
+								workOrderDtoList.get(i).setWorkOrder_EquipName(workOrderDtoList.get(i).getEQUIPMENT_PACK_NAME());
+							}
+							
 							workOrderDtoList.get(i).setWorkOrder_WorkStatus(WorkStatus);
+							
+							workOrderDtoList.get(i).setWorkOrder_RegisterTime(timestamp.toString());
 							
 							//사용자
 							workOrderDtoList.get(i).setWorkOrder_Worker(userCode);
 
-							workOrderDao.workOrderInsertDao(workOrderDtoList.get(i));
+							workOrderDao.workOrderRegisterDao(workOrderDtoList.get(i));
 						}else {
 							//작업지시번호가 있으면 업데이트
 							String workOrderONo[] = workOrderDtoList.get(i).getWorkOrder_ONo().split("-");
@@ -136,7 +162,7 @@ public class WorkOrderService {
 							//사용자
 							workOrderDtoList.get(i).setWorkOrder_Worker(userCode);
 							
-							workOrderDao.workOrderInsertDao(workOrderDtoList.get(i));
+							workOrderDao.workOrderRegisterDao(workOrderDtoList.get(i));
 						}
 					}
 					

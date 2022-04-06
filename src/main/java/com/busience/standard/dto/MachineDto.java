@@ -17,6 +17,10 @@ public class MachineDto {
 	
 	private String EQUIPMENT_INFO_NAME;
 	
+	private String EQUIPMENT_PACK_CODE;
+	
+	private String EQUIPMENT_PACK_NAME;
+	
 	private String EQUIPMENT_INFO_ABR;
 	
 	private Long EQUIPMENT_HEIGHT;

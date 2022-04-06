@@ -25,6 +25,25 @@
 	]]>
 	</select>
 	
+	<select id="workOrderSubSelectDao" resultType="com.busience.productionLX.dto.WorkOrderDto">
+		select 
+			A.WorkOrder_No, A.WorkOrder_ONo,
+			A.WorkOrder_ItemCode, B.Product_Item_Name WorkOrder_ItemName, B.Product_Info_STND_1 WorkOrder_Item_STND_1,
+			A.WorkOrder_EquipCode, C.Equipment_Info_Name WorkOrder_EquipName,
+			D.SM_Last_Qty + D.SM_In_Qty - D.SM_Out_Qty WorkOrder_SQty, A.WorkOrder_PQty, A.WorkOrder_RQty,
+			A.WorkOrder_RegisterTime, A.WorkOrder_StartTime, A.WorkOrder_CompleteTime,
+			A.WorkOrder_WorkStatus, E.CHILD_TBL_TYPE WorkOrder_WorkStatusName, A.WorkOrder_Remark, 
+			F.User_Name WorkOrder_Worker, A.WorkOrder_Use_Status
+			from WorkOrder_tbl A
+			inner join Product_Info_tbl B on A.WorkOrder_ItemCode = B.PRODUCT_ITEM_CODE
+			inner join Equipment_Info_tbl C on A.WorkOrder_EquipCode = C.EQUIPMENT_INFO_CODE
+			left outer join StockMat_tbl D on A.WorkOrder_ItemCode = D.SM_Code
+			inner join (SELECT * FROM DTL_TBL where NEW_TBL_CODE = '29') E on A.WorkOrder_WorkStatus = E.CHILD_TBL_NO
+			inner join User_Info_tbl F on A.WorkOrder_Worker = F.User_Code
+			where A.WorkOrder_WorkStatus = '243'
+			order by A.WorkOrder_RegisterTime DESC
+	</select>
+	
 	<select id="workOrderCountDao" resultType="int">
 		SELECT count(*) FROM WorkOrder_tbl where WorkOrder_EquipCode = #{WorkOrder_EquipCode} and WorkOrder_WorkStatus = '244';
 	</select>
@@ -44,6 +63,39 @@
 	
 	<select id="workOrderNoSelectDao" resultType="int">
 		SELECT count(*) FROM WorkOrder_tbl where WorkOrder_RegisterTime >= curdate();
+	</select>
+	
+	<select id="workListSearch" resultType="com.busience.productionLX.dto.WorkOrder_tbl">
+	<![CDATA[
+	    SELECT
+			*,
+			t2.PRODUCT_ITEM_NAME,
+			t2.PRODUCT_INFO_STND_1,
+			t3.EQUIPMENT_INFO_NAME,
+			t4.CHILD_TBL_TYPE
+			,DATE_FORMAT(a1.WorkOrder_StartTime,'%Y-%m-%d %H:%i') WorkOrder_StartTime2
+			,DATE_FORMAT(a1.WorkOrder_CompleteTime,'%Y-%m-%d %H:%i') WorkOrder_CompleteTime2
+			,DATE_FORMAT(a1.WorkOrder_RegisterTime,'%Y-%m-%d %H:%i') WorkOrder_RegisterTime2
+		FROM
+			(
+				SELECT
+								*
+				FROM			WorkOrder_tbl t1
+				WHERE			t1.WorkOrder_WorkStatus = '244'
+				UNION ALL
+				SELECT
+								*
+				FROM			WorkOrder_tbl t1
+				WHERE		WorkOrder_WorkStatus <> '242' AND t1.WorkOrder_WorkStatus <> '244'
+ 				AND 		WorkOrder_RegisterTime >= #{startDate} and < #{endDate}	
+			)  a1
+		INNER JOIN	Product_Info_tbl t2 ON a1.WorkOrder_ItemCode = t2.PRODUCT_ITEM_CODE
+		INNER JOIN	Equipment_Info_tbl t3 ON a1.WorkOrder_EquipCode = t3.EQUIPMENT_INFO_CODE 
+		INNER JOIN  DTL_TBL t4 ON a1.WorkOrder_WorkStatus = t4.CHILD_TBL_NO 
+		WHERE		(WorkOrder_ItemCode = ((#{PRODUCT_ITEM_CODE} == null OR #{PRODUCT_ITEM_CODE} == "") ? '' OR 1=1 : #{PRODUCT_ITEM_CODE})))
+		AND		(WorkOrder_EquipCode = ((#{Machine_Code} == null OR #{Machine_Code} == "") ? ''  OR 1=1 : #{Machine_Code}))
+		ORDER BY WorkOrder_EquipCode,FIELD(a1.WorkOrder_WorkStatus,'244','243','245')
+	]]>
 	</select>
 	
 	<select id="workOrderCompleteSelectDao" resultType="com.busience.productionLX.dto.WorkOrderDto">
@@ -98,6 +150,20 @@
 			limit 1
 	</select>
 	
+	<insert id="workOrderRegisterDao">
+		insert into WorkOrder_tbl (
+			WorkOrder_No, WorkOrder_ONo, WorkOrder_ItemCode, WorkOrder_EquipCode,
+			WorkOrder_WorkStatus, WorkOrder_Worker 
+		) values (
+			#{WorkOrder_No},#{WorkOrder_ONo},#{WorkOrder_ItemCode},#{WorkOrder_EquipCode},
+			#{WorkOrder_WorkStatus},#{WorkOrder_Worker}
+		) on duplicate key update
+		WorkOrder_ONo = #{WorkOrder_ONo},
+		WorkOrder_ItemCode = #{WorkOrder_ItemCode},
+		WorkOrder_EquipCode = #{WorkOrder_EquipCode},
+		WorkOrder_Worker = #{WorkOrder_Worker}
+	</insert>
+	
 	<insert id="workOrderInsertDao">
 		insert into WorkOrder_tbl (
 			WorkOrder_No, WorkOrder_ONo, WorkOrder_ItemCode,
@@ -146,6 +212,10 @@
 			</if>
 			WorkOrder_WorkStatus = #{WorkOrder_WorkStatus}
 			where WorkOrder_ONo = #{WorkOrder_ONo} and WorkOrder_EquipCode = #{WorkOrder_EquipCode}
+	</update>
+	
+	<update id="">
+	
 	</update>
 	
 	<update id="workOrderStockUpdateDao">

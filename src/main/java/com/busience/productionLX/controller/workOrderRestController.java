@@ -159,6 +159,12 @@ public class workOrderRestController {
 		return workOrderService.workOrderSelect(searchDto);
 	}
 	
+	//작업지시 등록된 리스트
+	@GetMapping("/workOrderSubSelect")
+	public List<WorkOrderDto> workOrderSubSelect(SearchDto searchDto) {
+		return workOrderService.workOrderSubSelect(searchDto);
+	}
+	
 	//작업지시 등록
 	@PostMapping("/workOrderRegister")
 	public int workOrderRegister(@RequestBody List<WorkOrderDto> workOrderDtoList, Principal principal) {

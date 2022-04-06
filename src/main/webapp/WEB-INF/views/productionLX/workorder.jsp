@@ -4,28 +4,21 @@
 	<!-- MAIN -->
 	<div class="main">
 		<!-- matOutput -->
-		<div class="master">
-			<div class="top-var">
-				<!-- 버튼 -->
-				<div class="input-button">
-					<img src="/images/button/ADD.png" id="WO_AddBtn" /> <img
-						src="/images/button/Save.png" id="WO_SaveBtn" /> <img
-						src="/images/button/Delete.png" id="WO_DeleteBtn" />
-				</div>
+		<div class="top-var">
+			<!-- 버튼 -->
+			<div class="input-button">
+				<!-- 	<img src="/images/button/ADD.png" id="WO_AddBtn" />  -->
+				<img src="/images/button/Save.png" id="WO_SaveBtn" />
+				<!-- 	<img src="/images/button/Delete.png" id="WO_DeleteBtn" /> -->
 			</div>
-			<!-- 그리드 생성 장소 -->
-			<div id="workOrderTable"></div>
 		</div>
-		<div class="sub">
-			<div class="top-var">
-				<!-- 버튼 -->
-				<div class="input-button"></div>
-				<!-- 버튼 -->
-			</div>
-			<!-- 그리드 생성 장소 -->
-			<div id="maskEquipTable" style="float: left; width: 49%;"></div>
-			<div id="packEquipTable" style="float: right; width: 50%;"></div>
-		</div>
+		<!-- 그리드 생성 장소 -->
+		<div id="workOrderTable" style="float: left; width: 59%;"></div>
+		<div id="maskEquipTable" style="float: left; margin-left: 8px; width: 20%;"></div>
+		<div id="packEquipTable" style="float: right; margin-left: 8px; width: 20%;"></div>
+		<!-- 그리드 생성 장소 -->
+		
+		<div id="workOrderTableSub" style="width: 100%; margin-top: 8px;"></div> 
 		<!-- matOutput -->
 		<!-- matOutputSub -->
 
@@ -34,4 +27,5 @@
 	<!-- END MAIN -->
 </div>
 <!-- Javascript -->
-<script src="/js/productionLX/workOrder.js?v=<%=System.currentTimeMillis() %>"></script>
+<script
+	src="/js/productionLX/workOrder.js?v=<%=System.currentTimeMillis()%>"></script>

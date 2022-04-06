@@ -1,10 +1,10 @@
-
 var maskEquipTable = new Tabulator("#maskEquipTable", {
 	//페이징
-	height: "calc(100% - 175px)",
+	height: "calc(50% - 75px)",
 	layoutColumnsOnNewData: true,
 	movableRows: true,
 	movableColumns: true,
+	clipboard: false,
 	movableRowsConnectedTables: "#workOrderTable",
 	movableRowsSender: customReceiver,
 	movableRowsReceiver: customReceiver,
@@ -16,134 +16,102 @@ var maskEquipTable = new Tabulator("#maskEquipTable", {
 
 	},
 	columns: [
-		{ title: "설비코드", field: "equipment_INFO_CODE", headerHozAlign: "center", width: 100 },
+		{ title: "설비코드", field: "equipment_INFO_CODE", headerHozAlign: "center", width: 120 },
 		{ title: "설비명", field: "equipment_INFO_NAME", headerHozAlign: "center", hozAlign: "left", width: 170 }
 	]
 });
 
-var rowArr = new Array();
-var arrData = new Array();
-var equipNameRawArr = new Array();
-var equipCodeArr = [];
-var equipNameArr = [];
-
 // 전송하는 테이블과 전송받는 테이블의 field명이 일치하고, movable 설정이 동일해야 연동 가능
 var customReceiver = function(fromRow, toRow, fromTable) {
 
-    // 보내는 row
+	//console.log(fromRow);
+	// 보내는 row
 	if (fromRow) {
-		fromRow.delete();
+
+		console.log($(fromTable).attr('id'));
+
+		if (($(fromTable).attr('id') == 'workOrderTable') && (fromRow.getData().equipment_INFO_CODE == null || fromRow.getData().equipment_INFO_CODE == '')) {
+			packEquipTable.addRow();
+
+			packEquipTable.getRows()[packEquipTable.getDataCount("active") - 1].update({
+				"equipment_PACK_CODE": fromRow.getData().equipment_PACK_CODE,
+				"equipment_PACK_NAME": fromRow.getData().equipment_PACK_NAME
+			});
+
+			fromRow.delete();
+
+		}
+
+		if (($(fromTable).attr('id') == 'workOrderTable') && (fromRow.getData().equipment_PACK_CODE == null || fromRow.getData().equipment_PACK_CODE == '')) {
+			maskEquipTable.addRow();
+
+			maskEquipTable.getRows()[maskEquipTable.getDataCount("active") - 1].update({
+				"equipment_INFO_CODE": fromRow.getData().equipment_INFO_CODE,
+				"equipment_INFO_NAME": fromRow.getData().equipment_INFO_NAME
+			});
+
+			fromRow.delete();
+
+		}
+
+		if ($(fromTable).attr('id') != 'workOrderTable') {
+			workOrderTable.addRow();
+
+			workOrderTable.getRows()[workOrderTable.getDataCount("active") - 1].update({
+				"equipment_INFO_CODE": fromRow.getData().equipment_INFO_CODE,
+				"equipment_INFO_NAME": fromRow.getData().equipment_INFO_NAME
+			});
+
+			workOrderTable.getRows()[workOrderTable.getDataCount("active") - 1].update({
+				"equipment_PACK_CODE": fromRow.getData().equipment_PACK_CODE,
+				"equipment_PACK_NAME": fromRow.getData().equipment_PACK_NAME
+			});
+
+
+			fromRow.delete();
+
+		}
+
+
+
+		//return true;
+
+
 	}
 
 	//console.log(fromRow);
 
-	rowArr.push(fromRow);
+	/*
+		if (toRow) {
+			
+		}*/
 
-	//console.log(toRow);
-	
-	// 받은 row
-	if (toRow) {
-		
-		for (i = 0; i < rowArr.length; i++) {
-			console.log(rowArr[i]);
-			// 받은 row를 update 해줌
-			toRow.update({
-				"equipment_INFO_CODE":"," + equipCodeArr + "," + rowArr[i].getData().equipment_INFO_CODE,
-				"equipment_INFO_NAME":"," + equipNameArr + "," + rowArr[i].getData().equipment_INFO_NAME
-			});
-			
-			arrData.push(rowArr[i].getData().equipment_INFO_CODE);
-			equipNameRawArr.push(rowArr[i].getData().equipment_INFO_NAME);
-			
-			// 중복 데이터 검사 
-			arrData.forEach((element) => {
-				if(!equipCodeArr.includes(element)) {
-					equipCodeArr.push(element);
-				}
-			})
-			
-			equipNameRawArr.forEach((ENelement) => {
-				if(!equipNameArr.includes(ENelement)) {
-					equipNameArr.push(ENelement);
-				}
-			})
-			
-			//console.log(equipCodeArr);
-			//console.log(equipNameArr);
-			
-		}
-
-		return true;
-	}
 
 	return false;
 
 }
 
+
 var packEquipTable = new Tabulator("#packEquipTable", {
-	height: "calc(100% - 175px)",
+	height: "calc(50% - 75px)",
 	layoutColumnsOnNewData: true,
+	movableRows: true,
+	movableColumns: true,
+	movableRowsConnectedTables: "#workOrderTable",
+	movableRowsSender: customReceiver,
+	movableRowsReceiver: customReceiver,
+	clipboard: false,
+	placeholder: "All Rows Moved",
 	rowDblClick: function(e, row) {
 
 		matOutputTable.deselectRow();
 		row.select();
 
-		if (!inputDuplCheck(row)) {
-			matOutputSubTable.addRow({
-				"outMat_Code": row.getData().sm_Code,
-				"outMat_Name": row.getData().sm_Name,
-				"stock_Qty": row.getData().sm_Qty,
-				"outMat_Qty": 0,
-				"outMat_Consignee": '1',
-				"outMat_Send_Clsfc": '208'
-			});
-			UseBtn();
-		}
-
 	},
 	columns: [
-		{ title: "포장 설비코드", field: "equipment_INFO_CODE", headerHozAlign: "center", width: 100 },
-		{ title: "포장 설비명", field: "equipment_INFO_NAME", headerHozAlign: "center", hozAlign: "left", width: 170 }]
+		{ title: "포장 설비코드", field: "equipment_PACK_CODE", headerHozAlign: "center", width: 120 },
+		{ title: "포장 설비명", field: "equipment_PACK_NAME", headerHozAlign: "center", hozAlign: "left", width: 170 }]
 });
-
-
-
-//orderMaster 목록검색 matOrder와 동일하지만 테이브이름이 다르고, 미입고 컬럼이 추가됨
-function MOS_Search() {
-
-	data = {
-		SM_Code: matOutputTable.getData("selected").sm_Code,
-		SM_Name: matOutputTable.getData("selected").sm_Name,
-		itemCode: $("#outmatLX_itemCode").val()
-	}
-
-	$.ajax({
-		method: "GET",
-		dataType: "json",
-		async: false,
-		url: "matOutputLXRest/MOS_Search?data=" + encodeURI(JSON.stringify(data)),
-		success: function(data) {
-			//console.log(data);
-			matOutputTable.setData(data);
-			matOutputSubTable.clearData();
-		}
-	});
-}
-
-$('#MR_SearchBtn').click(function() {
-	MOS_Search();
-})
-
-// 출고구분 select를 구성하는 리스트
-var output_dtl = dtlSelectList(18);
-for (prop in output_dtl) {
-	if (output_dtl[prop] == "출고반품") {
-		delete output_dtl[prop]
-	}
-}
-
-// 매니저명 select를 구성하는 리스트
-var manager_dtl = dtlSelectList(1);
 
 //matInputSub 커스텀 기능설정
 var WO_InputEditor = function(cell, onRendered, success, cancel, editorParams) {
@@ -220,22 +188,22 @@ var WO_InputEditor = function(cell, onRendered, success, cancel, editorParams) {
 				}
 			})
 		}
+
 	});
 	//반환
 	return WO_input;
 };
 
 var workOrderTable = new Tabulator("#workOrderTable", {
-	height: "calc(100% - 175px)",
+	height: "calc(50% - 75px)",
+	layout: "fitData",
 	layoutColumnsOnNewData: true,
 	movableRows: true,
-	movableRowsConnectedTables: "#maskEquipTable",
+	movableRowsConnectedTables: ["#maskEquipTable", "#packEquipTable"],
 	movableRowsSender: customReceiver,
 	movableRowsReceiver: customReceiver,
-	data: [],
 	rowAdded: function(row, cell) {
 		row.select();
-		console.log(row.getData().workOrder_ItemCode);
 		//행이 추가되면 첫셀에 포커스
 		do {
 			setTimeout(function() {
@@ -247,36 +215,91 @@ var workOrderTable = new Tabulator("#workOrderTable", {
 		while (row.getData().workOrder_ItemCode === "undefined");
 
 	},
+	rowSelected: function(row) {
+
+		//버튼 설정
+		/*ResetBtn()
+		if(row.getData().order_mCheck != 'I'){
+			UseBtn();
+		}*/
+		UseBtn();
+	},
 	cellEditing: function(cell) {
 		//셀위치 저장하여 포커싱부여
 		cellPos = cell;
 	},
 	rowClick: function(e, row) {
-		matOutputSubTable.deselectRow();
+		workOrderTable.deselectRow();
 		row.select();
 	},
 	columns: [
+		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
 		{ title: "순번", field: "rownum", formatter: "rownum", headerHozAlign: "center", hozAlign: "center" },
 		{ title: "품목코드", field: "workOrder_ItemCode", headerHozAlign: "center", hozAlign: "left", editor: WO_InputEditor },
 		{ title: "품목명", field: "workOrder_ItemName", headerHozAlign: "center", width: 120 },
 		{ title: "규격1", field: "workOrder_INFO_STND_1", headerHozAlign: "center", width: 120 },
 		{ title: "품목분류1", field: "workOrder_Item_STND_1", headerHozAlign: "center", width: 120 },
 		{ title: "품목분류2", field: "workOrder_Item_STND_2", headerHozAlign: "center", width: 120 },
-		{ title: "설비코드", field: "equipment_INFO_CODE", headerHozAlign: "center" },
-		{ title: "설비명", field: "equipment_INFO_NAME", headerHozAlign: "center", width: 120 },
-		{ title: "포장 설비코드", field: "workOrder_PackEquipCode", headerHozAlign: "center", width: 120 },
-		{ title: "포장 설비명", field: "workOrder_PackEquipName", headerHozAlign: "center", hozAlign: "right" }
+		{ title: "설비코드", field: "equipment_INFO_CODE", headerHozAlign: "center", width: 120 },
+		{ title: "설비명", field: "equipment_INFO_NAME", headerHozAlign: "center", width: 180 },
+		{ title: "포장 설비코드", field: "equipment_PACK_CODE", headerHozAlign: "center", width: 120 },
+		{ title: "포장 설비명", field: "equipment_PACK_NAME", headerHozAlign: "center", width: 180 }
 	]
 });
 
-// 행추가
-$('#WO_AddBtn').click(function() {
-	WO_Add();
-})
+var workOrderTableSub = new Tabulator("#workOrderTableSub", {
+	height: "calc(47% - 70px)",
+	layout: "fitData",
+	layoutColumnsOnNewData: true,
+	movableRows: true,
+	movableRowsConnectedTables: ["#maskEquipTable", "#packEquipTable"],
+	movableRowsSender: customReceiver,
+	movableRowsReceiver: customReceiver,
+	rowAdded: function(row, cell) {
+		row.select();
+		//행이 추가되면 첫셀에 포커스
+		do {
+			setTimeout(function() {
+				row.getCell("workOrder_ItemCode").edit();
+				workOrderTable.deselectRow();
+				row.select();
+			}, 100);
+		}
+		while (row.getData().workOrder_ItemCode === "undefined");
 
-function WO_Add() {
-	workOrderTable.addRow();
-}
+	},
+	rowSelected: function(row) {
+
+		//버튼 설정
+		/*ResetBtn()
+		if(row.getData().order_mCheck != 'I'){
+			UseBtn();
+		}*/
+		UseBtn();
+	},
+	cellEditing: function(cell) {
+		//셀위치 저장하여 포커싱부여
+		cellPos = cell;
+	},
+	rowClick: function(e, row) {
+		workOrderTable.deselectRow();
+		row.select();
+	},
+	columns: [
+		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
+		{ title: "순번", field: "rownum", formatter: "rownum", headerHozAlign: "center", hozAlign: "center" },
+		{ title: "작업지시No", field: "workOrder_ONo", headerHozAlign: "center", width: 150 },
+		{ title: "품목코드", field: "workOrder_ItemCode", headerHozAlign: "center", hozAlign: "left", editor: WO_InputEditor },
+		{ title: "품목명", field: "workOrder_ItemName", headerHozAlign: "center", width: 120 },
+		{ title: "규격1", field: "workOrder_INFO_STND_1", headerHozAlign: "center", width: 120 },
+		{ title: "품목분류1", field: "workOrder_Item_STND_1", headerHozAlign: "center", width: 120 },
+		{ title: "품목분류2", field: "workOrder_Item_STND_2", headerHozAlign: "center", width: 120 },
+		{ title: "설비코드", field: "workOrder_EquipCode", headerHozAlign: "center", width: 120 },
+		{ title: "설비명", field: "workOrder_EquipName", headerHozAlign: "center", width: 180 },
+		{ title: "등록자", field: "workOrder_Worker", headerHozAlign: "center", width: 180 },
+		{ title: "등록시간", field: "workOrder_RegisterTime", headerHozAlign: "center", width: 180 }
+	]
+});
 
 //셀위치저장
 var cellPos = null;
@@ -294,52 +317,82 @@ function item_gridInit(PCode, PName, PSTND_1, PItemClsfc_1, PItemClsfc_2) {
 	cellPos.getElement().focus();
 }
 
-//inMatTable 저장
-function MOM_Save() {
+//workOrderTable 저장
+function WO_Save() {
 
-	var realData = [];
+	var equipData;
+	var itemData;
 
-	var rowData = matOutputSubTable.getData();
+	$.when(saveChkFunc())
+		.then(function(data) {
+			console.log(data);
+			if (data != false) {
 
-	//realData.push(rowData[i]);
+				for (i = 0; i < data.length; i++) {
+					console.log(data[i].equipment_INFO_CODE);
 
-	for (var i = 0; i < rowData.length; i++) {
-		if (rowData[i].stock_Qty < rowData[i].outMat_Qty) {
-			alert("재고 수량보다 출고 수량이 더 많습니다.");
+					if (data[i].equipment_PACK_CODE == undefined) {
+						console.log("포장설비없음");
+						equipData = data[i].equipment_INFO_CODE
+						console.log(equipData);
+						
+					} else if (data[i].equipment_INFO_CODE == undefined) {
+						equipData = data[i].equipment_PACK_CODE
+					}
+					
+					itemData = data[i].workOrder_ItemCode;
+				}
+
+
+				datas = {
+					WorkOrder_ItemCode: itemData,
+					WorkOrder_EquipCode: equipData,
+					WorkOrder_WorkStatus: "243"
+				}
+
+				console.log(datas);
+
+				//InputSub 저장부분
+				$.ajax({
+					method: "post",
+					url: "workOrderRest/workOrderRegister",
+					data: JSON.stringify(data),
+					contentType: 'application/json',
+					beforeSend: function(xhr) {
+						var header = $("meta[name='_csrf_header']").attr("content");
+						var token = $("meta[name='_csrf']").attr("content");
+						xhr.setRequestHeader(header, token);
+					},
+					success: function(result) {
+						console.log(result);
+						if (result == 0) {
+							alert("중복된 값이 있습니다..");
+						} else if (result == 1) {
+							MOS_Search();
+							alert("저장되었습니다.");
+						}
+					}
+				});
+			}
+
+		})
+}
+
+function saveChkFunc() {
+	var selectedRow = workOrderTable.getData("selected");
+	for (i = 0; i  < selectedRow.length; i++) {
+		console.log();
+		if (selectedRow[i].workOrder_ItemCode == '') {
+			alert("공백이 존재합니다.");
 			return false;
-		}
-
-		if (rowData[i].outMat_Qty != 0) {
-			realData.push(rowData[i]);
 		}
 	}
 
-	//InputSub 저장부분
-	$.ajax({
-		method: "post",
-		url: "matOutputLXRest/MOM_Save",
-		data: JSON.stringify(realData),
-		contentType: 'application/json',
-		beforeSend: function(xhr) {
-			var header = $("meta[name='_csrf_header']").attr("content");
-			var token = $("meta[name='_csrf']").attr("content");
-			xhr.setRequestHeader(header, token);
-		},
-		success: function(result) {
-			//console.log(result);
-			if (result == 0) {
-				alert("중복된 값이 있습니다..");
-			} else if (result == 1) {
-				MOS_Search();
-				alert("저장되었습니다.");
-			}
-		}
-	});
-
+	return selectedRow;
 }
 
-$('#MOM_SaveBtn').click(function() {
-	MOM_Save();
+$('#WO_SaveBtn').click(function() {
+	WO_Save();
 })
 
 // 설비 정보 리스트 조회
@@ -361,11 +414,15 @@ function machineListSelect(value) {
 	return resultData;
 }
 
+
 $(document).ready(function() {
+	
 	var maskEquipList = machineListSelect(1);
 	var packEquipList = machineListSelect(2);
 	//console.log(maskEquipList);
-	//console.log(packEquipList);
+	console.log(packEquipList);
 	maskEquipTable.setData(maskEquipList);
 	packEquipTable.setData(packEquipList);
+	workOrderTableSub.setData("workOrderRest/workOrderSubSelect");
+	console.log(workOrderTableSub);
 })
