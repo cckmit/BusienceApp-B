@@ -32,21 +32,23 @@
  	<select id="dtlMachineListDao" resultType="com.busience.standard.dto.MachineDto">
 			<if test="EQUIPMENT_TYPE == 1">
 			select eit.Equipment_info_Code, eit.Equipment_info_Name, eit.Equipment_info_ABR, eit.Equipment_Type,
-				dt.CHILD_TBL_TYPE as EQUIPMENT_TYPE_NAME
+				wot.WorkOrder_ONo, dt.CHILD_TBL_TYPE as EQUIPMENT_TYPE_NAME
 			from Equipment_Info_tbl eit
 			inner join (
 				select * from DTL_TBL where NEW_TBL_CODE=43
 			) dt on eit.Equipment_Type = dt.CHILD_TBL_NO
-			where Equipment_Type = 324
+			left outer join WorkOrder_tbl wot ON eit.Equipment_Info_Code = wot.WorkOrder_EquipCode
+			where Equipment_Type = 324 and wot.WorkOrder_ONo IS null
 			</if>
 			<if test="EQUIPMENT_TYPE == 2">
 			select eit.Equipment_info_Code EQUIPMENT_PACK_CODE, eit.Equipment_info_Name EQUIPMENT_PACK_NAME, eit.Equipment_info_ABR, eit.Equipment_Type,
-				dt.CHILD_TBL_TYPE as EQUIPMENT_TYPE_NAME
+				wot.WorkOrder_ONo, dt.CHILD_TBL_TYPE as EQUIPMENT_TYPE_NAME
 			from Equipment_Info_tbl eit
 			inner join (
 				select * from DTL_TBL where NEW_TBL_CODE=43
 			) dt on eit.Equipment_Type = dt.CHILD_TBL_NO
-			where Equipment_Type = 325
+			left outer join WorkOrder_tbl wot ON eit.Equipment_Info_Code = wot.WorkOrder_EquipCode
+			where Equipment_Type = 325 and wot.WorkOrder_ONo IS null
 			</if>		
 	</select> 
 	<insert id="insertMachineDao">

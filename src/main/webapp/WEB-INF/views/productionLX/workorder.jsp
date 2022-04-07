@@ -17,8 +17,6 @@
 		<div id="maskEquipTable" style="float: left; margin-left: 8px; width: 20%;"></div>
 		<div id="packEquipTable" style="float: right; margin-left: 8px; width: 20%;"></div>
 		<!-- 그리드 생성 장소 -->
-		
-		<div id="workOrderTableSub" style="width: 100%; margin-top: 8px;"></div> 
 		<!-- matOutput -->
 		<!-- matOutputSub -->
 

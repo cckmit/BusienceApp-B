@@ -170,4 +170,16 @@ public class workOrderRestController {
 	public int workOrderRegister(@RequestBody List<WorkOrderDto> workOrderDtoList, Principal principal) {
 		return workOrderService.workOrderRegister(workOrderDtoList, principal.getName());
 	}
+	
+	//작업지시 테이블 설비 검색
+	@GetMapping("/workOrderChoice")
+	public List<WorkOrderDto> workOrderChoiceSelect(SearchDto searchDto) {
+		return workOrderService.workOrderChoiceSelectDao(searchDto);
+	}
+	
+	//작업지시 삭제
+	@PostMapping("/workOrderDelete")
+	public int workOrderDelete(WorkOrderDto workOrderDto) {
+		return workOrderService.workOrderDelete(workOrderDto);
+	}
 }

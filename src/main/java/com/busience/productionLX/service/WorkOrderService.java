@@ -240,4 +240,8 @@ public class WorkOrderService {
 	public int lastProductModify(ProductionMgmtDto productionMgmtDto) {
 		return workOrderDao.lastProductModifyDao(productionMgmtDto);
 	}
+	
+	public int workOrderDelete(WorkOrderDto workOrderDto) {
+		return workOrderDao.workOrderDeleteDao(workOrderDto);
+	}
 }
