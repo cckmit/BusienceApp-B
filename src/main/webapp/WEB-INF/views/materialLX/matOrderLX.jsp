@@ -24,7 +24,8 @@
 						<span><strong>거래처코드</strong></span>
 						<input id="InMat_Client_Code" class="Client_Code" type="text" disabled>
 						<span><strong>거래처명</strong></span>
-						<input id="InMat_Client_Name" class="clearInput Client_Name" type="text" autofocus onkeypress="javascript:if(event.keyCode==13) {customerPopup($(this).val(),'input','','in')}">
+						<input id="InMat_Client_Name" class="clearInput Client_Name" type="text" autofocus
+							onkeypress="javascript:if(event.keyCode==13) {customerPopup($(this).val(),'input','','in')}">
 					</div>
 				</div>
 			</div>

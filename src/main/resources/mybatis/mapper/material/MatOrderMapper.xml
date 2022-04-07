@@ -16,9 +16,11 @@
 	<![CDATA[
 		 where A.Order_mDate >= #{startDate} and Order_mDate < #{endDate}
 	]]>
-		 and not Order_mCheck = 'Y'
-		 and Order_mCode like concat('%',#{ItemCode},'%')
-		 order by Order_mDate
+		 and Order_mCode like concat('%',#{ClientCode},'%')		
+	<if test="condition != null">
+		 and not Order_mCheck = #{condition}
+	</if>
+		 order by Order_mDate desc
 	</select>
 	
 	<select id="matOrderListSelectDao" resultType="com.busience.material.dto.OrderListDto">

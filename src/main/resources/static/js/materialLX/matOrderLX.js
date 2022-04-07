@@ -203,7 +203,8 @@ function MOM_Search(){
 	var datas = {
 		startDate : $("#startDate").val(),
 		endDate : $("#endDate").val(),
-		ItemCode : $("#InMat_Client_Code").val()
+		ClientCode : $("#InMat_Client_Code").val(),
+		condition : "Y"
 	}
 	
 	matOrderTable.setData("matOrderLXRest/MOM_Search",datas)
@@ -271,7 +272,6 @@ $('#MOM_DeleteBtn').click(function(){
 //orderprint
 function MO_printBtn(){
 	selectedData = matOrderTable.getData("selected");
-	console.log(selectedData)
 	//선택한 행이 있을경우 프린트가능
 	if(selectedData.length == 1){
 		//팝업창으로 파라미터를 전달하기위해 form태그 input 안에 저장
