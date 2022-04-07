@@ -10,7 +10,7 @@
 			<!-- 버튼 -->
 			<div class="input-box">
 				<div class="col-sm-12 col-md-12">
-					<span><strong>접수일</strong></span> 
+					<span><strong>등록일</strong></span> 
 					<input id="startDate1" class="today" type="date"> 
 					<span style="text-align: center"><strong>~</strong></span> 
 					<input id="endDate1" class="tomorrow" type="date">

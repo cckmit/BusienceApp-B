@@ -289,12 +289,14 @@ public class popupRestController {
 	// machinePopup
 	@GetMapping("/machinePopupSelect")
 	public List<EQUIPMENT_INFO_TBL> machinePopupSelect(
-			@RequestParam(value = "machine_Word", required = false) String machine_Word) throws SQLException {
+			@RequestParam(value = "machine_Word", required = false) String machine_Word,
+			@RequestParam(value = "search_value", required = false) String search_value) throws SQLException {
 		
 		String sql = "";
 		
-		sql = " select EQUIPMENT_INFO_CODE, EQUIPMENT_INFO_NAME from EQUIPMENT_INFO_TBL\r\n"
-			+ " where (EQUIPMENT_INFO_CODE like '%" + machine_Word + "%' or EQUIPMENT_INFO_NAME like '%" + machine_Word + "%')";
+		sql = " select Equipment_Info_Code, Equipment_Info_Name from Equipment_Info_tbl eit\r\n"
+			+ " inner join DTL_TBL dt on eit.Equipment_Type = dt.Child_TBL_No\r\n"
+			+ " where (Equipment_Info_Code like '%" + machine_Word + "%' or Equipment_Info_Name like '%" + machine_Word + "%') and dt.Child_TBL_No='"+ search_value +"'";
 
 		System.out.println(sql);
 
@@ -307,8 +309,8 @@ public class popupRestController {
 		while (rs.next()) {
 			EQUIPMENT_INFO_TBL data = new EQUIPMENT_INFO_TBL();
 
-			data.setEQUIPMENT_INFO_CODE(rs.getString("EQUIPMENT_INFO_CODE"));
-			data.setEQUIPMENT_INFO_NAME(rs.getString("EQUIPMENT_INFO_NAME"));
+			data.setEQUIPMENT_INFO_CODE(rs.getString("Equipment_Info_Code"));
+			data.setEQUIPMENT_INFO_NAME(rs.getString("Equipment_Info_Name"));
 			list.add(data);
 		}
 

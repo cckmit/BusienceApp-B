@@ -16,11 +16,11 @@ public class WorkOrder_tbl {
 	private String WorkOrder_PQty;
 	private String WorkOrder_RQty;
 	private String WorkOrder_StartTime;
+	private String WorkOrder_StartTime2;
 	private String WorkOrder_RegisterTime;
-	private String WorkOrder_ReceiptTime;
-	private String WorkOrder_OrderTime;
-	private String WorkOrder_CompleteOrderTime;
+	private String WorkOrder_RegisterTime2;
 	private String WorkOrder_CompleteTime;
+	private String WorkOrder_CompleteTime2;
 	private String WorkOrder_WorkStatus;
 	private String WorkOrder_Worker;
 	private String WorkOrder_Remark;

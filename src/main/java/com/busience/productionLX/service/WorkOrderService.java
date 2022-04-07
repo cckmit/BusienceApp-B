@@ -16,6 +16,7 @@ import com.busience.common.dto.SearchDto;
 import com.busience.productionLX.dao.WorkOrderDao;
 import com.busience.productionLX.dto.ProductionMgmtDto;
 import com.busience.productionLX.dto.WorkOrderDto;
+import com.busience.productionLX.dto.WorkOrder_tbl;
 import com.busience.salesLX.dao.SalesInputLXDao;
 import com.busience.salesLX.dto.Sales_InMat_tbl;
 
@@ -57,7 +58,9 @@ public class WorkOrderService {
 	}
 	
 	//작업 현황
-	public List<WorkOrder_tbl>
+	public List<WorkOrder_tbl> workListSearch(SearchDto searchDto) {
+		return workOrderDao.workListSearch(searchDto);
+	}
 	
 	//작업지시 등록
 	public int workOrderRegister(List<WorkOrderDto> workOrderDtoList, String userCode) {

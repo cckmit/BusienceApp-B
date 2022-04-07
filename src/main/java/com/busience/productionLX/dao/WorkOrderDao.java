@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.busience.common.dto.SearchDto;
 import com.busience.productionLX.dto.ProductionMgmtDto;
 import com.busience.productionLX.dto.WorkOrderDto;
+import com.busience.productionLX.dto.WorkOrder_tbl;
 
 @Mapper
 public interface WorkOrderDao {
@@ -23,6 +24,9 @@ public interface WorkOrderDao {
 	public int workOrderNoSelectDao();
 	
 	public List<WorkOrderDto> workOrderCompleteSelectDao(SearchDto searchDto);
+	
+	//작업 현황
+	public List<WorkOrder_tbl> workListSearch(SearchDto searchDto);
 	
 	public int workOrderSumQtyDao(SearchDto searchDto);
 	

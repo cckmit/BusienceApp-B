@@ -54,7 +54,7 @@ function list_select(row){
 //검색
 function search() {
 	machinePopupTable.setData("machinePopupSelect",
-		{machine_Word:$('#Machine_Word').val(),search_value:urlParams.get('search_value')})
+		{machine_Word:$('#Machine_Word').val(),search_value:$("#machine_Type").val()})
 	.then(function(){
 		if(machinePopupTable.getDataCount()>0){
 			machinePopupTable.getRows()[0].select();
@@ -75,10 +75,14 @@ $("#Cus_Word").keypress(function(e){
 	}
 })
 
+$("#machine_Type").change(function(){
+	search();
+})
+
 $(document).ready(function(){
 	// 팝업창이 뜨면 데이터 받음
 	$('#Machine_Word').val(urlParams.get('input_value'));
-	
+	$("#machine_Type").val('324');
 	// 팝업이 뜨자마자 바로 검색
 	search();
 })

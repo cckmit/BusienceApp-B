@@ -24,7 +24,8 @@ public class popupController {
 	
 	//machinePopup
 	@GetMapping("/machinePopup")
-	public String machinePopup() {
+	public String machinePopup(Model model) {
+		model.addAttribute("machineTypeList", dtlService.getDtl(43));
 		return "normal/popup/machinePopup";
 	}
 	
