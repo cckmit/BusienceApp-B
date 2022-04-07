@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div class="soloView">
 	<!-- MAIN -->
@@ -9,7 +8,7 @@
 			<div class="top-var">
 				<!-- 버튼 -->
 				<div class="input-button">
-					<img src="/images/button/Search.png" onclick="MRL_searchBtn()" /> 
+					<img src="/images/button/Search.png" id="MRM_SearchBtn"/>
 				</div>
 				<!-- 버튼 -->
 				<div class="input-box">
@@ -30,7 +29,7 @@
 				</div>
 			</div>
 			<!-- 그리드 생성 장소 -->
-			<div id="matRequestListTable"></div>
+			<div id="matRequestTable"></div>
 			<!-- matRequest -->
 		</div>
 		<!-- matRequestSub -->
@@ -47,8 +46,8 @@
 				</div>
 			</div>
 			<!-- 그리드 생성 장소 -->
-			<div id="matRequestListSubTable"></div>
-			<div id="matRequestListStockTable"></div>
+			<div id="matRequestSubTable"></div>
+			<div id="matRequestStockTable"></div>
 		</div>
 		<!-- matRequestSub -->
 	</div>
@@ -56,4 +55,4 @@
 </div>
 <!-- END WRAPPER -->
 <!-- Javascript -->
-<script src="/js/materialLX/matRequestList.js"></script>
+<script src="/js/materialLX/matRequestList.js?v=<%=System.currentTimeMillis() %>"></script>

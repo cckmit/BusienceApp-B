@@ -1,7 +1,4 @@
-//셀위치저장
-var cellPos = null;
-
-var matRequestListTable = new Tabulator("#matRequestListTable", {
+var matRequestTable = new Tabulator("#matRequestTable", {
 	//페이징
 	pagination:"local",
 	paginationSize:20,
@@ -9,12 +6,6 @@ var matRequestListTable = new Tabulator("#matRequestListTable", {
     height:"calc(100% - 175px)",
 	headerFilterPlaceholder: null,
 	layoutColumnsOnNewData : true,
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
-	//커스텀 키 설정
-	keybindings:{
-        "navNext" : "13"
-    },
 	rowFormatter:function(row){
 		//request_mCheck가 Y면 빨간색 I면 파란색으로 바꿔준다
         if(row.getData().rm_Check == "Y"){
@@ -25,10 +16,10 @@ var matRequestListTable = new Tabulator("#matRequestListTable", {
     },
 	//행클릭 이벤트
 	rowClick:function(e, row){
-		matRequestListTable.deselectRow();
+		matRequestTable.deselectRow();
 		row.select();
-		MRLS_Search(row.getData().rm_RequestNo);
-		matRequestListStockTable.clearData();
+		MRS_Search(row.getData().rm_RequestNo);
+		matRequestStockTable.clearData();
     },
  	columns:[ 
  		{title:"요청No", field:"rm_RequestNo", headerHozAlign:"center", hozAlign:"right", headerFilter:true},
@@ -41,17 +32,13 @@ var matRequestListTable = new Tabulator("#matRequestListTable", {
  	],
 });
 
-//orderMaster 검색버튼
-function MRL_searchBtn(){
-	MRL_select()
-}
-//orderMaster 목록검색
-function MRL_select(){
+//requestMaster 목록검색
+function MRM_Search(){
 	var data = {
 		startDate : $("#startDate").val(),
 		endDate : $("#endDate").val()
 	}
-	matRequestListTable.setData("matRequestRest/MRM_Search", data)
+	matRequestTable.setData("matRequestRest/MRM_Search", data)
 	.then(function(){
 		//list와 stock의 데이터를 없에준다
 		matRequestSubTable.clearData();
@@ -59,23 +46,18 @@ function MRL_select(){
 	})
 }
 
-// 출고구분 select를 구성하기위한 ajax
-var output_dtl = dtlSelectList(18);
+//MRM_SearchBtn
+$('#MRM_SearchBtn').click(function(){
+	MRM_Search();
+})
 
-var matRequestListSubTable = new Tabulator("#matRequestListSubTable", {
+var matRequestSubTable = new Tabulator("#matRequestSubTable", {
 	height:"calc(90% - 175px)",
 	layoutColumnsOnNewData : true,
-	tabEndNewRow: true,
-	//커스텀 키 설정
-	keybindings:{
-        "navNext" : "13"
-    },
+	selectable: true,
 	//행을 클릭하면 matRequestStockTable에 리스트가 나타남
 	rowClick:function(e, row){
 		MRLSS_Search(row.getData().rs_ItemCode);
-    },
-	rowDblClick:function(e, row){
-		row.toggleSelect();		
     },
 	//행이 추가될때마다 인덱스 부여
  	columns:[
@@ -85,39 +67,32 @@ var matRequestListSubTable = new Tabulator("#matRequestListSubTable", {
  	{title:"제품명", field:"rs_ItemName", headerHozAlign:"center"},
  	{title:"수량", field:"rs_Qty", headerHozAlign:"center", hozAlign:"right"},
 	{title:"비고", field:"rs_Remark", headerHozAlign:"center"},
-	{title:"구분", field:"rs_Send_Clsfc", headerHozAlign:"center",
-		formatter:function(cell, formatterParams){
-		    var value = cell.getValue();
-			if(output_dtl[value] != null){
-					value = output_dtl[value];	
-				}else{
-					value = "";
-				}
-		    return value;}}
+	{title:"구분", field:"rs_Send_Clsfc_Name", headerHozAlign:"center"}
  	]
 });
 
 
 //OrderSub 목록검색
-function MRLS_Search(RequestNo){
+function MRS_Search(RequestNo){
 	$("#RS_RequestNo").val(RequestNo)
 	
 	var data = {
 		OrderNo : RequestNo
 	}
 	//발주넘버
-	matRequestListSubTable.setData("matRequestRest/MRS_Search", data);
+	matRequestSubTable.setData("matRequestRest/MRS_Search", data);
 }
 
-var matRequestListStockTable = new Tabulator("#matRequestListStockTable", {
+var matRequestStockTable = new Tabulator("#matRequestStockTable", {
 	selectable:1,
 	height:"10%",
 	layoutColumnsOnNewData : true,
  	columns:[
- 	{title:"제품코드", field:"sm_Code", headerHozAlign:"center"},
- 	{title:"제품명", field:"sm_Name", headerHozAlign:"center"},
-	{title:"규격1", field:"sm_STND_1", headerHozAlign:"center"},
- 	{title:"수량", field:"sm_Qty", headerHozAlign:"center", hozAlign:"right", formatter:"money", formatterParams: {precision: false}}
+ 	{title:"품목코드", field:"s_ItemCode", headerHozAlign:"center"},
+ 	{title:"품목명", field:"s_ItemName", headerHozAlign:"center"},
+	{title:"규격1", field:"s_Item_Standard_1", headerHozAlign:"center"},
+	{title:"규격1", field:"s_Item_Standard_2", headerHozAlign:"center"},
+ 	{title:"수량", field:"s_Qty", headerHozAlign:"center", hozAlign:"right", formatter:"money", formatterParams: {precision: false}}
  	]
 });
 
@@ -126,5 +101,5 @@ function MRLSS_Search(ItemCode){
 	var datas = {
 		ItemCode : ItemCode
 	}
-	matRequestListStockTable.setData("matOrderLXRest/MOS_Search", datas);
+	matRequestStockTable.setData("matOrderLXRest/MOS_Search", datas);
 }

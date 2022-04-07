@@ -162,7 +162,7 @@ function MRM_Search(){
 	})
 }
 
-//SO_SearchBtn
+//MRM_SearchBtn
 $('#MRM_SearchBtn').click(function(){
 	MRM_Search();
 })
@@ -510,8 +510,6 @@ var matRequestStockTable = new Tabulator("#matRequestStockTable", {
 	selectable:1,
 	height:"10%",
 	layoutColumnsOnNewData : true,
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
  	columns:[
  	{title:"품목코드", field:"s_ItemCode", headerHozAlign:"center"},
  	{title:"품목명", field:"s_ItemName", headerHozAlign:"center"},
