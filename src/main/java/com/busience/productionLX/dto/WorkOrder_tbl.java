@@ -30,7 +30,7 @@ public class WorkOrder_tbl {
 	private int WorkOrder_InputRQty; // 투입대비 생산실적 생산량
 
 	private String WorkOrder_ItemName, WorkOrder_EquipName, WorkOrder_WorkStatusName, PRODUCT_INFO_STND_1,
-			PRODUCT_UNIT_PRICE, Qty, percent, OQCInspect_DQty;
+	        Product_Item_CLSFC_1,  Product_Item_CLSFC_2, Product_Item_CLSFC_NAME_1, Product_Item_CLSFC_NAME_2, PRODUCT_UNIT_PRICE, Qty, percent, OQCInspect_DQty;
 
 	private String dbdata_flag;
 }

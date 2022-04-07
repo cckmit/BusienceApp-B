@@ -62,6 +62,11 @@ public class WorkOrderService {
 		return workOrderDao.workListSearch(searchDto);
 	}
 	
+	//세부 작업 현황
+	public List<WorkOrder_tbl> workdListSearch(SearchDto searchDto) {
+		return workOrderDao.workdListSearch(searchDto);
+	}
+	
 	//작업지시 등록
 	public int workOrderRegister(List<WorkOrderDto> workOrderDtoList, String userCode) {
 		

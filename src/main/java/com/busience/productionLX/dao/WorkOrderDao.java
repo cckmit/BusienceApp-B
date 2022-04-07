@@ -28,6 +28,9 @@ public interface WorkOrderDao {
 	//작업 현황
 	public List<WorkOrder_tbl> workListSearch(SearchDto searchDto);
 	
+	//세부 작업 현황
+	public List<WorkOrder_tbl> workdListSearch(SearchDto searchDto);
+	
 	public int workOrderSumQtyDao(SearchDto searchDto);
 	
 	public int workOrderRegisterDao(WorkOrderDto workOrderDto);
