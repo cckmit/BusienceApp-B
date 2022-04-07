@@ -151,11 +151,6 @@ public class workOrderListRestController {
 				// data.setWorkOrder_RQty(rs.getString("WorkOrder_RQty2"));
 				data.setWorkOrder_RQty(rs.getString("WorkOrder_RQty"));
 				data.setWorkOrder_RegisterTime(rs.getString("WorkOrder_RegisterTime"));
-				data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime"));
-
-				data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime"));
-
-				data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime"));
 				data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime"));
 				data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime"));
 				data.setWorkOrder_WorkStatus(rs.getString("WorkOrder_WorkStatus"));
@@ -186,11 +181,6 @@ public class workOrderListRestController {
 			// data.setWorkOrder_RQty(rs.getString("WorkOrder_RQty2"));
 			data.setWorkOrder_RQty(rs.getString("WorkOrder_RQty"));
 			data.setWorkOrder_RegisterTime(rs.getString("WorkOrder_RegisterTime"));
-			data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime"));
-
-			data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime"));
-
-			data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime"));
 			data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime"));
 			data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime"));
 			data.setWorkOrder_WorkStatus(rs.getString("WorkOrder_WorkStatus"));
@@ -280,10 +270,6 @@ public class workOrderListRestController {
 				data.setWorkOrder_PQty(rs.getString("WorkOrder_PQty"));
 				data.setWorkOrder_RQty(rs.getString("WorkOrder_RQty"));
 				data.setWorkOrder_RegisterTime(rs.getString("WorkOrder_RegisterTime"));
-				data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime"));
-
-				data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime"));
-				data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime"));
 				data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime"));
 				data.setWorkOrder_WorkStatus(rs.getString("WorkOrder_WorkStatus"));
 				data.setWorkOrder_WorkStatusName(rs.getString("WorkOrder_WorkStatusName"));
@@ -353,10 +339,6 @@ public class workOrderListRestController {
 				data.setWorkOrder_PQty(rs.getString("WorkOrder_PQty"));
 				data.setWorkOrder_RQty(rs.getString("WorkOrder_RQty"));
 				data.setWorkOrder_RegisterTime(rs.getString("WorkOrder_RegisterTime"));
-				data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime"));
-
-				data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime"));
-				data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime"));
 				data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime"));
 				data.setWorkOrder_WorkStatus(rs.getString("WorkOrder_WorkStatus"));
 				data.setWorkOrder_WorkStatusName(rs.getString("WorkOrder_WorkStatusName"));
@@ -404,11 +386,8 @@ public class workOrderListRestController {
 					public WorkOrder_tbl mapRow(ResultSet rs, int rowNum) throws SQLException {
 						WorkOrder_tbl data = new WorkOrder_tbl();
 						data.setWorkOrder_ONo(rs.getString("WorkOrder_ONo"));
-						data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime"));
 						data.setWorkOrder_ItemCode(rs.getString("WorkOrder_ItemCode"));
 						data.setWorkOrder_ItemName(rs.getString("WorkOrder_ItemName"));
-						data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime"));
-						data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime"));
 						data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime"));
 						data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime"));
 						data.setWorkOrder_WorkStatus(rs.getString("WorkOrder_WorkStatus"));
@@ -451,11 +430,8 @@ public class workOrderListRestController {
 					public WorkOrder_tbl mapRow(ResultSet rs, int rowNum) throws SQLException {
 						WorkOrder_tbl data = new WorkOrder_tbl();
 						data.setWorkOrder_ONo(rs.getString("WorkOrder_ONo"));
-						data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime"));
 						data.setWorkOrder_ItemCode(rs.getString("WorkOrder_ItemCode"));
 						data.setWorkOrder_ItemName(rs.getString("WorkOrder_ItemName"));
-						data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime"));
-						data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime"));
 						data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime"));
 						data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime"));
 						data.setWorkOrder_WorkStatus(rs.getString("WorkOrder_WorkStatus"));

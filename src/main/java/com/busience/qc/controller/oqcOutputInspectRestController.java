@@ -88,9 +88,6 @@ public class oqcOutputInspectRestController {
 			data.setWorkOrder_PQty(rs.getString("WorkOrder_PQty"));
 			data.setWorkOrder_RQty(rs.getString("WorkOrder_RQty"));
 			data.setWorkOrder_RegisterTime(rs.getString("WorkOrder_RegisterTime").substring(0, 10));
-			data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime"));
-			data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime"));
-			data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime").substring(0, 10));
 			data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime"));
 			data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime"));
 			data.setWorkOrder_WorkStatus(rs.getString("WorkOrder_WorkStatus"));

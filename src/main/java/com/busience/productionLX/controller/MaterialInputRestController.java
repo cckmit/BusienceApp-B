@@ -40,10 +40,6 @@ public class MaterialInputRestController {
 				data.setWorkOrder_PQty(rs.getString("WorkOrder_PQty"));
 				data.setWorkOrder_RQty((rs.getString("WorkOrder_RQty") == null)? "0" : rs.getString("WorkOrder_RQty"));
 				
-				data.setWorkOrder_ReceiptTime(rs.getString("WorkOrder_ReceiptTime"));
-				data.setWorkOrder_OrderTime(rs.getString("WorkOrder_OrderTime"));
-				data.setWorkOrder_CompleteOrderTime(rs.getString("WorkOrder_CompleteOrderTime"));
-				
 				data.setWorkOrder_StartTime(rs.getString("WorkOrder_StartTime"));
 				data.setWorkOrder_CompleteTime(rs.getString("WorkOrder_CompleteTime"));
 				
