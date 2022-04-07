@@ -13,7 +13,7 @@
 			<!-- 버튼 -->
 			<div class="input-box">
 				<div class="col-sm-14 col-md-14">
-					<span><strong>작업지시일</strong></span> 
+					<span><strong>작업등록일</strong></span> 
 					<input id="startDate" class="today" type="date"> 
 					<span style="text-align: center"><strong>~</strong></span>
 					<input id="endDate" class="tomorrow" type="date">
