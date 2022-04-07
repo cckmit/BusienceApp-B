@@ -137,6 +137,9 @@ function MIS_Search(order_lCus_No){
 	}
 	
 	matInputSubTable.setData("matOrderLXRest/MOL_Search", datas)
+	.then(function(){
+		inMatTable.clearData();
+	})
 }
 
 //matInputSub 커스텀 기능설정
@@ -286,7 +289,7 @@ function MIM_Save(){
 		alert("저장할 목록이 없습니다.");
 		return false;
 	}
-	console.log(rowData);
+	
 	//InputSub 저장부분
 	$.ajax({
 		method : "Post",
@@ -299,7 +302,6 @@ function MIM_Save(){
            xhr.setRequestHeader(header, token);
 		},
 		success : function(result) {
-			console.log(result)
 			if(result){
 				MI_Search();
 				Cus_No_select();

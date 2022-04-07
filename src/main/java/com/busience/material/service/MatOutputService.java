@@ -53,14 +53,39 @@ public class MatOutputService {
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
 					for(int i=0;i<outMatDtoList.size();i++) {
-						outMatDtoList.get(i).setOM_RequestNo(requestSubDto.getRS_RequestNo());
-						outMatDtoList.get(i).setOM_WareHouse(wareHouseList.get(0).getCHILD_TBL_NO());
-						outMatDtoList.get(i).setOM_Send_Clsfc(requestSubDto.getRS_Send_Clsfc());
-						outMatDtoList.get(i).setOM_Modifier(requestSubDto.getRS_RequestNo());
+						OutMatDto outMatDto = outMatDtoList.get(i);
+						outMatDto.setOM_RequestNo(requestSubDto.getRS_RequestNo());
+						outMatDto.setOM_WareHouse(wareHouseList.get(0).getCHILD_TBL_NO());
+						outMatDto.setOM_Send_Clsfc(requestSubDto.getRS_Send_Clsfc());
+						outMatDto.setOM_Modifier(requestSubDto.getRS_RequestNo());
 						
-						matOutputDao.outMatInsertDao(outMatDtoList.get(i));
+						//랏마스터
+						matOutputDao.LotMasterUpdateDao(outMatDtoList.get(i));
 						
-						matOutputDao.stockUpdateDao(outMatDtoList.get(i));
+						//랏트랜스번호 가져오기
+						int LotTransNo = matOutputDao.LotTransNoSelectDao(outMatDtoList.get(i));
+						outMatDto.setOM_No(LotTransNo);
+						
+						//이동 설정하기
+						outMatDto.setOM_Before(wareHouseList.get(0).getCHILD_TBL_NO());
+						outMatDto.setOM_After(wareHouseList.get(1).getCHILD_TBL_NO());
+						
+						outMatDto.setOM_WareHouse(wareHouseList.get(0).getCHILD_TBL_NO());
+						
+						//랏트랜스
+						matOutputDao.LotTransInsertDao(outMatDtoList.get(i));
+						
+						//출고
+						matOutputDao.OutMatInsertDao(outMatDtoList.get(i));
+						
+						//요청sub
+						matOutputDao.RequestSubUpdateDao(outMatDtoList.get(i));
+						
+						//재고
+						matOutputDao.StockUpdateDao(outMatDtoList.get(i));
+
+						//요청master
+						matOutputDao.RequestMasterUpdateDao(outMatDtoList.get(i));
 						/*
 						if(dtlDto.get(3).getCHILD_TBL_NO().equals(outMatDtoList.get(i).getOM_Send_Clsfc())) {
 							//품목코드

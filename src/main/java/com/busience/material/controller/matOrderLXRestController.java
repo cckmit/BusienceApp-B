@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.busience.common.dto.SearchDto;
 import com.busience.material.dto.OrderListDto;
 import com.busience.material.dto.OrderMasterDto;
-import com.busience.material.dto.StockMatDto;
+import com.busience.material.dto.StockDto;
 import com.busience.material.service.MatOrderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -42,8 +42,8 @@ public class matOrderLXRestController {
 	}
 	
 	@GetMapping("MOS_Search")
-	public List<StockMatDto> MOS_Search(SearchDto searchDto){
-		return matOrderService.stockMatSelect(searchDto);
+	public List<StockDto> MOS_Search(SearchDto searchDto){
+		return matOrderService.stockSelect(searchDto);
 	}
 	
 	@PostMapping("MO_Save")

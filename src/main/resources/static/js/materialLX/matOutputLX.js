@@ -36,7 +36,7 @@ function MR_Search(){
 	var data = {
 		startDate : $("#startDate").val(),
 		endDate : $("#endDate").val(),
-		outMat_Dept_Code : $("#Dept_Name option:selected").text()
+		om_Dept_Code : $("#Dept_Name option:selected").text()
 	}
 	
 	matOutputTable.setData("matRequestRest/MRM_Search", data)
@@ -86,8 +86,7 @@ var matOutputSubTable = new Tabulator("#matOutputSubTable", {
 		
 		//LotMaster 품목코드로 검색
 		LM_Search(row.getData().rs_ItemCode);
-		//OutMat 요청No와 품목코드로 검색
-		//MOM_Search(row.getData().rs_RequestNo, row.getData().rs_ItemCode)
+		matOutMatTable.clearData();
 		
 		ResetBtn();
 	},
@@ -161,21 +160,22 @@ var LotMasterTable = new Tabulator("#LotMasterTable", {
 			OP_QTY = row.getData().lm_Qty
 		}
 		//salesOutMatTable 반영
-		matOutMatTable.addRow(
-				{"om_LotNo": row.getData().lm_LotNo,
-						"om_ItemCode": row.getData().lm_ItemCode,
-						"om_Qty": OP_QTY,
-						"om_DeptCode": $("#Dept_Code").val(),
-						"om_DeptName": $("#Dept_Name option:checked").text(),
-						"om_OutDate" : moment(new Date()).format('YYYY-MM-DD HH:mm:ss')});
+		matOutMatTable.addRow({
+			"om_LotNo": row.getData().lm_LotNo,
+			"om_ItemCode": row.getData().lm_ItemCode,
+			"om_Qty": OP_QTY,
+			"om_DeptCode": $("#Dept_Code").val(),
+			"om_DeptName": $("#Dept_Name option:checked").text(),
+			"om_OutDate" : moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+		});
 		MOM_total = MOM_total + OP_QTY;
 		LotMasterTable.redraw();
     },
 	rowDeselected:function(row){
 		//클릭한 행과 같은 랏번호를 찾아서 삭제해줌
 		for(i=0;i<matOutMatTable.getDataCount();i++){
-			if(matOutMatTable.getData()[i].outMat_Lot_No == row.getData().lm_LotNo){
-				MOM_total = MOM_total - matOutMatTable.getData()[i].outMat_Qty;
+			if(matOutMatTable.getData()[i].om_LotNo == row.getData().lm_LotNo){
+				MOM_total = MOM_total - matOutMatTable.getData()[i].om_Qty;
 				matOutMatTable.getRows()[i].delete();
 				LotMasterTable.redraw();
 			}
@@ -258,12 +258,11 @@ function MOM_Save() {
            xhr.setRequestHeader(header, token);
 		},
 		success: function(result) {
-			if (result == "error") {
-				alert("오류")
-			} else {
+			if (result) {
 				alert("저장되었습니다.");
-				MR_Search()
 				lCode_select(selectedRow.rs_RequestNo)
+			} else {
+				alert("오류")
 			}
 		}
 	});

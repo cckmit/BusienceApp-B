@@ -37,7 +37,7 @@
 		)
 	</insert>
 
-	<insert id="inMatInsertDao">
+	<insert id="InMatInsertDao">
 		insert into InMat_tbl(
 			InMat_Order_No, InMat_Lot_No, InMat_No, 
 		    InMat_Code, InMat_Qty, InMat_Unit_Price,
@@ -51,7 +51,7 @@
 		)
 	</insert>
 	
-	<update id="orderListUpdateDao">
+	<update id="OrderListUpdateDao">
 			update OrderList_tbl
 			set
 			Order_lSum = Order_lSum + #{InMat_Qty},
@@ -63,18 +63,18 @@
 			and Order_lCode = #{InMat_Code}
 	</update>
 	
-	<update id="stockMatUpdateDao">
+	<update id="StockMatUpdateDao">
 		insert into Stock_tbl(
 			S_itemCode, S_Qty,
 			S_WareHouse
 		) values(
 			#{InMat_Code}, #{InMat_Qty},
-			#(InMat_WareHouse)
+			#{InMat_WareHouse}
 		)on duplicate key update
 			S_Qty = S_Qty + #{InMat_Qty}
 	</update>
 	
-	<update id="matOrderMasterUpdateDao">
+	<update id="MatOrderMasterUpdateDao">
 			update OrderMaster_tbl
 			set Order_mCheck = 
 				(select 
@@ -89,7 +89,7 @@
 			where Order_mCus_No = #{inMat_Order_No}
 	</update>
 	
-	<update id="matLotNoUpdateDao">
+	<update id="MatLotNoUpdateDao">
 		update LotNo_tbl
 		set
 		pre_matarial_No = (case when matarial_No = 9999 then matarial_No else pre_matarial_No end),

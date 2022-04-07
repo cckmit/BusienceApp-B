@@ -17,8 +17,31 @@
 		where A.LM_Qty != 0
 		and A.LM_ItemCode = #{ItemCode};
 	</select>
-
-	<insert id="outMatInsertDao">
+	
+	<update id="LotMasterUpdateDao">
+		update LotMaster_tbl
+		set
+		LM_Qty = LM_Qty - #{OM_Qty}
+		where LM_LotNo = #{OM_LotNo}
+	</update>
+	
+	<select id="LotTransNoSelectDao" resultType="int">
+		select ifnull(max(LT_No)+1,1)
+		from LotTrans_tbl
+		where LT_LotNo = #{OM_LotNo}
+	</select>
+	
+	<insert id="LotTransInsertDao">
+		insert into LotTrans_tbl (
+			LT_No, LT_LotNo, LT_ItemCode,
+			LT_Qty, LT_Before, LT_After, LT_Create_Date
+		) values(
+			#{OM_No}, #{OM_LotNo}, #{OM_ItemCode},
+			#{OM_Qty}, #{OM_Before}, #{OM_After}, now()
+		)
+	</insert>
+		
+	<insert id="OutMatInsertDao">
 		insert into OutMat_tbl(
 			OM_No,
 			OM_RequestNo, OM_LotNo,
@@ -28,16 +51,39 @@
 			(select ifnull(max(AA.OM_No)+1,1) from OutMat_tbl AS AA where AA.OM_RequestNo = #{OM_RequestNo}),
 			#{OM_RequestNo}, #{OM_LotNo},
 			#{OM_ItemCode}, #{OM_Qty}, #{OM_DeptCode},
-			#{OM_Send_Clsfc}, #{OM_OutDate}, #{OM_Modifier}
+			#{OM_Send_Clsfc}, now(), #{OM_Modifier}
 		)
 	</insert>
 	
-	<insert id="stockUpdateDao">
-		insert into Stock_tbl (
-			S_itemCode, S_Qty, S_WareHouse
-		)values(
-			#{OM_ItemCode}, S_Qty, #{OM_WareHouse}
-		)on duplicate key update
-		S_Qty = S_Qty+#{OM_Qty}
+	<update id="RequestSubUpdateDao">
+		update RequestSub_tbl
+		set
+		RS_Sum = RS_Sum + #{OM_Qty},
+		RS_Not_Stocked = RS_Not_Stocked - #{OM_Qty}
+		where RS_RequestNo = #{OM_RequestNo}
+		and RS_ItemCode = #{OM_ItemCode}
+	</update>
+	
+	<insert id="StockUpdateDao">
+		update Stock_tbl
+		set
+		S_Qty = S_Qty - #{OM_Qty}
+		where S_itemCode = #{OM_ItemCode}
+		and S_WareHouse = #{OM_WareHouse}
 	</insert>
+	
+	<update id="RequestMasterUpdateDao">
+		update RequestMaster_tbl
+		set RM_Check = 
+			(select 
+				(case
+					when sum(RS_Qty) = sum(RS_Sum) then 'Y'
+					when sum(RS_Sum) = 0 then 'N'
+					else 'I'
+				end)
+				from RequestSub_tbl
+				where RS_RequestNo = #{OM_RequestNo}
+			)
+		where RM_RequestNo = #{OM_RequestNo}
+	</update>
 </mapper>

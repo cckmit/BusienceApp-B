@@ -104,7 +104,6 @@ var matRequestTable = new Tabulator("#matRequestTable", {
 
 	UseBtn();
 	//list와 stock의 데이터를 없에준다
-	matRequestSubTable.clearData();
 	matRequestStockTable.clearData();
 	
 	//행이 추가되면 첫셀에 포커스
@@ -514,10 +513,11 @@ var matRequestStockTable = new Tabulator("#matRequestStockTable", {
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
  	columns:[
- 	{title:"품목코드", field:"sm_Code", headerHozAlign:"center"},
- 	{title:"품목명", field:"sm_Name", headerHozAlign:"center"},
-	{title:"규격1", field:"sm_STND_1", headerHozAlign:"center"},
- 	{title:"수량", field:"sm_Qty", headerHozAlign:"center", hozAlign:"right", formatter:"money", formatterParams: {precision: false}}
+ 	{title:"품목코드", field:"s_ItemCode", headerHozAlign:"center"},
+ 	{title:"품목명", field:"s_ItemName", headerHozAlign:"center"},
+	{title:"규격1", field:"s_Item_Standard_1", headerHozAlign:"center"},
+	{title:"규격1", field:"s_Item_Standard_2", headerHozAlign:"center"},
+ 	{title:"수량", field:"s_Qty", headerHozAlign:"center", hozAlign:"right", formatter:"money", formatterParams: {precision: false}}
  	]
 });
 

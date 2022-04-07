@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.busience.common.dto.SearchDto;
 import com.busience.material.dto.OrderListDto;
 import com.busience.material.dto.OrderMasterDto;
-import com.busience.material.dto.StockMatDto;
+import com.busience.material.dto.StockDto;
 
 @Mapper
 public interface MatOrderDao {
@@ -19,7 +19,7 @@ public interface MatOrderDao {
 	public List<OrderListDto> matOrderListSelectDao(SearchDto searchDto);
 	
 	//matOrderList조회
-	public List<StockMatDto> stockMatSelectDao(SearchDto searchDto);
+	public List<StockDto> stockSelectDao(SearchDto searchDto);
 	
 	//발주번호 생성
 	public String matOrderNoCreateDao(OrderMasterDto orderMasterDto);

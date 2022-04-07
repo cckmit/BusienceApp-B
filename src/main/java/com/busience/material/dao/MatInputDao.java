@@ -20,17 +20,17 @@ public interface MatInputDao {
 	public int LotTransInsertDao(InMatDto inMatDto);
 	
 	//자재 입고 등록
-	public int inMatInsertDao(InMatDto inMatDto);
+	public int InMatInsertDao(InMatDto inMatDto);
 	
 	//자재 발주list 수정
-	public int orderListUpdateDao(InMatDto inMatDto);
+	public int OrderListUpdateDao(InMatDto inMatDto);
 	
 	//자재 재고 수정
-	public int stockMatUpdateDao(InMatDto inMatDto);
+	public int StockMatUpdateDao(InMatDto inMatDto);
 	
 	//자재 발주master 수정
-	public int matOrderMasterUpdateDao(InMatDto inMatDto);
+	public int MatOrderMasterUpdateDao(InMatDto inMatDto);
 	
 	//Lot번호 업데이트
-	public int matLotNoUpdateDao();
+	public int MatLotNoUpdateDao();
 }

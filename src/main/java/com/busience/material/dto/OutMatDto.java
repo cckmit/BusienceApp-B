@@ -23,5 +23,7 @@ public class OutMatDto {
 	private String OM_DeptName;
 	private String OM_ItemName;
 	private String OM_Send_Clsfc_Name;
+	private String OM_Before;
+	private String OM_After;
 	private String OM_WareHouse;
 }

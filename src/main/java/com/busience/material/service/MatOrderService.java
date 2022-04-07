@@ -12,7 +12,7 @@ import com.busience.common.dto.SearchDto;
 import com.busience.material.dao.MatOrderDao;
 import com.busience.material.dto.OrderListDto;
 import com.busience.material.dto.OrderMasterDto;
-import com.busience.material.dto.StockMatDto;
+import com.busience.material.dto.StockDto;
 
 @Service
 public class MatOrderService {
@@ -34,8 +34,8 @@ public class MatOrderService {
 	}
 	
 	//stockMat조회	
-	public List<StockMatDto> stockMatSelect(SearchDto searchDto) {
-		return matOrderDao.stockMatSelectDao(searchDto);
+	public List<StockDto> stockSelect(SearchDto searchDto) {
+		return matOrderDao.stockSelectDao(searchDto);
 	}
 	
 	//matOrderMasterInsertUpdate

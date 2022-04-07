@@ -40,7 +40,7 @@ public class MatInputService {
 						inMatDto.setInMat_Modifier(userCode);
 						
 						//랏번호가 없을경우 랏번호 생성
-						if(inMatDto.getInMat_Lot_No().length() == 0) {
+						if(inMatDto.getInMat_Lot_No() == null || inMatDto.getInMat_Lot_No().isBlank()) {
 							String LotNo = matInputDao.LotNoSelectDao(inMatDto);
 							inMatDto.setInMat_Lot_No(LotNo);							
 						}
@@ -62,19 +62,19 @@ public class MatInputService {
 						matInputDao.LotTransInsertDao(inMatDto);
 						
 						//자재입고
-						matInputDao.inMatInsertDao(inMatDto);
-						
-						//발주리스트
-						matInputDao.orderListUpdateDao(inMatDto);
+						matInputDao.InMatInsertDao(inMatDto);
 						
 						//재고
-						matInputDao.stockMatUpdateDao(inMatDto);
+						matInputDao.StockMatUpdateDao(inMatDto);
+						
+						//발주리스트
+						matInputDao.OrderListUpdateDao(inMatDto);
 						
 						//발주마스터
-						matInputDao.matOrderMasterUpdateDao(inMatDto);
+						matInputDao.MatOrderMasterUpdateDao(inMatDto);
 						
 						//랏번호
-						matInputDao.matLotNoUpdateDao();
+						matInputDao.MatLotNoUpdateDao();
 					}
 				}
 			});
