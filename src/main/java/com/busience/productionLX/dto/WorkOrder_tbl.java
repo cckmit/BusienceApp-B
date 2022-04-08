@@ -13,8 +13,8 @@ public class WorkOrder_tbl {
 	private String WorkOrder_ONo;
 	private String WorkOrder_ItemCode;
 	private String WorkOrder_EquipCode;
-	private String WorkOrder_PQty;
-	private String WorkOrder_RQty;
+	private String WorkOrder_PQty; // 구 목료수량
+	private String WorkOrder_RQty; // 구 생산수량
 	private String WorkOrder_ProductionQty; // 생산수량
 	private String WorkOrder_AllottedQty; // 목표수량
 	private String WorkOrder_StartTime;
