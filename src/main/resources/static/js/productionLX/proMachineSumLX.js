@@ -13,12 +13,12 @@ function Search() {
 		startDate : $('#startDate').val(),
 		endDate : $('#endDate').val(),
 		MachineCode : $('#EQUIPMENT_INFO_CODE').val(),
-		MachineName : $('#EQUIPMENT_INFO_NAME').val(),
-		EQUIPMENT_INFO_CODE : $('#EQUIPMENT_INFO_CODE').val(),
-		EQUIPMENT_INFO_NAME : $('#EQUIPMENT_INFO_NAME').val()
+		MachineName : $('#EQUIPMENT_INFO_NAME').val()
 	}
 
 	proMachineTable.setData('proSumLXRest/proMachineSumSelect2', jsonData);
+	
+	console.log(proMachineTable);
 }
 
 
@@ -63,11 +63,16 @@ var proMachineTable = new Tabulator("#proMachineTable", {
  	columns:[ //Define Table Columns
 	{title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
 	{title:"작업지시번호", field:"production_WorkOrder_ONo", headerHozAlign:"center"},
- 	{title:"설비 코드", field:"production_EQUIPMENT_CODE", headerHozAlign:"center"},
- 	{title:"설비 명", field:"production_EQUIPMENT_INFO_NAME", headerHozAlign:"center"},
- 	{title:"생산 수량", field:"production_P_Qty", headerHozAlign:"center",hozAlign:"right"},
- 	{title:"품목 코드", field:"production_PRODUCT_CODE", headerHozAlign:"center"},
- 	{title:"품목명", field:"product_ITEM_NAME", headerHozAlign:"center"},
- 	{title:"시간", field:"production_Date", headerHozAlign:"center"}
+ 	{title:"설비 코드", field:"production_Equipment_Code", headerHozAlign:"center"},
+ 	{title:"설비 명", field:"production_Equipment_Name", headerHozAlign:"center"},
+ 	{title:"생산 수량", field:"production_Qty", headerHozAlign:"center",hozAlign:"right"},
+ 	{title:"품목 코드", field:"production_Product_Code", headerHozAlign:"center"},
+ 	{title:"품목명", field:"production_Product_Name", headerHozAlign:"center"},
+	{title:"규격 1", field:"production_Info_STND_1", headerHozAlign:"center"},
+ 	{title:"품목분류 1", field:"production_Item_CLSFC_NAME_1", headerHozAlign:"center"},
+ 	{title:"품목분류 2", field:"production_Item_CLSFC_NAME_2", headerHozAlign:"center"},
+ 	{title:"작업시작시간", field:"production_Start_Date", headerHozAlign:"center"},
+ 	{title:"작업완료시간", field:"production_Date", headerHozAlign:"center"},
+ 	{title:"작업시간", field:"production_Total_Work_Time", headerHozAlign:"center"}
  	],
 });

@@ -25,5 +25,15 @@ public class ProductionMgmtDto {
 	
 	private int PRODUCTION_Qty;
 	
+	private String PRODUCTION_Info_STND_1;
+	
+	private String PRODUCTION_Item_CLSFC_NAME_1;
+	
+	private String PRODUCTION_Item_CLSFC_NAME_2;
+	
 	private String PRODUCTION_Date;
+	
+	private String PRODUCTION_Start_Date;
+	
+	private String PRODUCTION_Total_Work_Time;
 }

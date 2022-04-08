@@ -13,11 +13,13 @@ function Search() {
 	var jsonData = {
 		startDate : $('#startDate').val(),
 		endDate : $('#endDate').val(),
-		PRODUCT_ITEM_CODE : $('#PRODUCT_ITEM_CODE').val(),
-		PRODUCT_ITEM_NAME : $('#PRODUCT_ITEM_NAME').val()
+		itemCode : $('#PRODUCT_ITEM_CODE').val(),
+		itemName : $('#PRODUCT_ITEM_NAME').val()
 	}
 
 	proItemTable.setData('proSumLXRest/proItemSumSelect2', jsonData);
+	
+	console.log(proItemTable);
 }
 
 $('#SearchBtn').click(function(){
@@ -61,11 +63,16 @@ var proItemTable = new Tabulator("#proItemTable", {
  	columns:[ //Define Table Columns
 	{title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
 	{title:"작업지시번호", field:"production_WorkOrder_ONo", headerHozAlign:"center"},
- 	{title:"제품 코드", field:"production_PRODUCT_CODE", headerHozAlign:"center"},
- 	{title:"제품 명", field:"product_ITEM_NAME", headerHozAlign:"center"},
- 	{title:"생산 수량", field:"production_P_Qty", headerHozAlign:"center",hozAlign:"right"},
- 	{title:"설비 코드", field:"production_EQUIPMENT_CODE", headerHozAlign:"center"},
- 	{title:"설비 명", field:"production_EQUIPMENT_INFO_NAME", headerHozAlign:"center"},
- 	{title:"시간", field:"production_Date", headerHozAlign:"center"}
+ 	{title:"제품 코드", field:"production_Product_Code", headerHozAlign:"center"},
+ 	{title:"제품 명", field:"production_Product_Name", headerHozAlign:"center"},
+ 	{title:"생산 수량", field:"production_Qty", headerHozAlign:"center",hozAlign:"right"},
+ 	{title:"설비 코드", field:"production_Equipment_Code", headerHozAlign:"center"},
+ 	{title:"설비 명", field:"production_Equipment_Name", headerHozAlign:"center"},
+ 	{title:"규격 1", field:"production_Info_STND_1", headerHozAlign:"center"},
+ 	{title:"품목분류 1", field:"production_Item_CLSFC_NAME_1", headerHozAlign:"center"},
+ 	{title:"품목분류 2", field:"production_Item_CLSFC_NAME_2", headerHozAlign:"center"},
+ 	{title:"작업시작시간", field:"production_Start_Date", headerHozAlign:"center"},
+ 	{title:"작업완료시간", field:"production_Date", headerHozAlign:"center"},
+ 	{title:"작업시간", field:"production_Total_Work_Time", headerHozAlign:"center"}
  	],
 });
