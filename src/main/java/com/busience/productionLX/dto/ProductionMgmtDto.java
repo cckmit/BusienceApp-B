@@ -23,5 +23,7 @@ public class ProductionMgmtDto {
 	
 	private int PRODUCTION_Volume;
 	
+	private int PRODUCTION_Qty;
+	
 	private String PRODUCTION_Date;
 }

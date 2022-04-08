@@ -4,28 +4,28 @@ function Search() {
 		alert("시작일은 반드시 입력하여 주십시오.");
 		return;
 	}
-3
+	3
 	if ($('#endDate').val().length < 10) {
 		alert("끝일은 반드시 입력하여 주십시오.");
 		return;
 	}
 	var jsonData = {
-		startDate : $('#startDate').val(),
-		endDate : $('#endDate').val(),
-		itemCode : $('#itemCode').val(),
-		itemName : $('#itemName').val(),
-		machineCode : $('#machineCode').val(),
-		machineName : $('#machineName').val()
+		startDate: $('#startDate').val(),
+		endDate: $('#endDate').val(),
+		itemCode: $('#itemCode').val(),
+		itemName: $('#itemName').val(),
+		machineCode: $('#machineCode').val(),
+		machineName: $('#machineName').val()
 	}
 	proResultTable.setData('proResultLXRest/proResultSelect', jsonData)
 }
 
-$('#SearchBtn').click(function(){
+$('#SearchBtn').click(function() {
 	Search();
 })
 
-$('#itemName').keypress(function(e){
-	if(e.keyCode==13) {
+$('#itemName').keypress(function(e) {
+	if (e.keyCode == 13) {
 		var value = $(this).val()
 		//내용이 있을경우 검색해서 값이 하나일경우 생략, 아닐경우 팝업창
 		$.ajax({
@@ -39,15 +39,15 @@ $('#itemName').keypress(function(e){
 					$('#itemName').val(data[0].production_Product_Name);
 				} else {
 					//검색어와 일치하는값이 없는경우, 팝업창
-					itemPopup(value,'input','','sales');
+					itemPopup(value, 'input', '', 'material');
 				}
 			}
 		})
 	}
 })
 
-$('#machineName').keypress(function(e){
-	if(e.keyCode==13) {
+$('#machineName').keypress(function(e) {
+	if (e.keyCode == 13) {
 		var value = $(this).val()
 		//내용이 있을경우 검색해서 값이 하나일경우 생략, 아닐경우 팝업창
 		$.ajax({
@@ -61,7 +61,7 @@ $('#machineName').keypress(function(e){
 					$('#machineName').val(data[0].equipment_INFO_NAME)
 				} else {
 					//검색어와 일치하는값이 없는경우, 팝업창
-					machinePopup(value,'input','');
+					machinePopup(value, 'input', '');
 				}
 			}
 		})
@@ -113,8 +113,26 @@ var PR_InputEditor = function(cell, onRendered, success, cancel, editorParams) {
 	PR_input.addEventListener("keydown", function(e) {
 		if (e.keyCode == 13) {
 			//수량셀
-			if (cell.getField() == "production_WorkOrder_ONo") {
-				cell.nav().down();
+			if (cell.getField() == "production_Product_Code") {
+				//내용이 있을경우 검색해서 값이 하나일경우 생략, 아닐경우 팝업창
+				//쿼리실행
+				$.ajax({
+					method: "GET",
+					url: "product_check?PRODUCT_ITEM_CODE=" + PR_input.value,
+					dataType: "json",
+					success: function(data) {
+						itemPopup(PR_input.value, 'grid', '', 'material');
+					}
+				})
+				//cell.nav().next();
+			}
+
+			if (cell.getField() == "production_Qty") {
+				cell.nav().next();
+			}
+
+			if (cell.getField() == "production_Equipment_Code") {
+				cell.nav().next();
 			}
 		}
 	});
@@ -122,68 +140,82 @@ var PR_InputEditor = function(cell, onRendered, success, cancel, editorParams) {
 	return PR_input;
 };
 
+//셀위치저장
+var cellPos = null;
+
 var proResultTable = new Tabulator("#proResultTable", {
 	//페이징
-	pagination:"local",
-	paginationSize:20,
-	layoutColumnsOnNewData : true,
-	clipboard : true,
+	pagination: "local",
+	paginationSize: 20,
+	layoutColumnsOnNewData: true,
+	clipboard: true,
 	selectable: true,
-	height:"calc(100% - 175px)",
- 	columns:[ //Define Table Columns
-	{title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
-	{title:"고유번호", field:"production_WorkOrder_No", hozAlign:"center"},
-	{title:"작업지시번호", field:"production_WorkOrder_ONo", headerHozAlign:"center", editor: PR_InputEditor,
-		cellEdited : function ( cell ){
-			$.ajax({
-				method: "GET",
-				url: "proResultLXRest/workOrderDetail",
-				data: {WorkOrder_ONo: cell.getValue()},
-				dataType: "json",
-				success: function(data) {
-					cell.getRow().update({
-						production_Product_Code : data.workOrder_ItemCode,
-						production_Product_Name : data.workOrder_ItemName,
-						production_Equipment_Code : data.workOrder_EquipCode,
-						production_Equipment_Name : data.workOrder_EquipName
-					})
-					cell.getRow().select();
-				}
-			})
-		}},
- 	{title:"제품 코드", field:"production_Product_Code", headerHozAlign:"center"},
- 	{title:"제품명", field:"production_Product_Name", headerHozAlign:"center"},
- 	{title:"생산 수량", field:"production_Volume", headerHozAlign:"center", hozAlign:"right"},
- 	{title:"설비 코드", field:"production_Equipment_Code", headerHozAlign:"center"},
- 	{title:"설비 명", field:"production_Equipment_Name", headerHozAlign:"center"},
- 	{title:"시간", field:"production_Date", headerHozAlign:"center"}
- 	]
+	height: "calc(100% - 175px)",
+	cellEdited: function(cell) {
+		//셀위치 저장하여 포커싱부여
+		cellPos = cell;
+
+/*		$.ajax({
+			method: "GET",
+			url: "proResultLXRest/workOrderDetail",
+			data: { WorkOrder_ONo: cell.getValue() },
+			dataType: "json",
+			success: function(data) {
+				cell.getRow().update({
+					production_Product_Code: data.workOrder_ItemCode,
+					production_Product_Name: data.workOrder_ItemName,
+					production_Equipment_Code: data.workOrder_EquipCode,
+					production_Equipment_Name: data.workOrder_EquipName
+				})
+				cell.getRow().select();
+			}
+		})*/
+	},
+	columns: [ //Define Table Columns
+		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center" },
+		{ title: "작업지시번호", field: "production_WorkOrder_ONo", headerHozAlign: "center" },
+		{ title: "제품 코드", field: "production_Product_Code", headerHozAlign: "center", editor: PR_InputEditor },
+		{ title: "제품명", field: "production_Product_Name", headerHozAlign: "center" },
+		{ title: "생산 수량", field: "production_Qty", headerHozAlign: "center", hozAlign: "right", editor: PR_InputEditor },
+		{ title: "설비 코드", field: "production_Equipment_Code", headerHozAlign: "center", editor: PR_InputEditor },
+		{ title: "설비 명", field: "production_Equipment_Name", headerHozAlign: "center" },
+		{ title: "시간", field: "production_Date", headerHozAlign: "center" }
+	]
 });
 
-$('#SaveBtn').click(function(){
-	if(confirm("선택한 행을 수정하시겠습니까?")){
-		save();	
+//팝업창으로부터 특정 파라미터 값으로 데이터를 받는다 
+function item_gridInit(PCode, PName) {
+	cellPos.getRow().update({
+		"production_Product_Code": PCode,
+		"production_Product_Name": PName
+	})
+	cellPos.getElement().focus();
+}
+
+$('#SaveBtn').click(function() {
+	if (confirm("선택한 행을 수정하시겠습니까?")) {
+		save();
 	}
 })
 
-function save(){
+function save() {
 	selectedData = proResultTable.getData("selected");
-	
+
 	$.ajax({
 		method: "put",
 		url: "proResultLXRest/proResultUpdate",
 		data: JSON.stringify(selectedData),
-		contentType:'application/json',
-		beforeSend: function (xhr) {
-           var header = $("meta[name='_csrf_header']").attr("content");
-           var token = $("meta[name='_csrf']").attr("content");
-           xhr.setRequestHeader(header, token);
+		contentType: 'application/json',
+		beforeSend: function(xhr) {
+			var header = $("meta[name='_csrf_header']").attr("content");
+			var token = $("meta[name='_csrf']").attr("content");
+			xhr.setRequestHeader(header, token);
 		},
 		success: function(data) {
-			if(data){
+			if (data) {
 				Search()
 				alert("수정되었습니다.")
-			}else{
+			} else {
 				alert("작업지시번호를 잘못 입력하셨습니다.")
 			}
 		}

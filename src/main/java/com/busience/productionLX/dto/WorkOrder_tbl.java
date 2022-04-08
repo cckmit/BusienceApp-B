@@ -15,6 +15,8 @@ public class WorkOrder_tbl {
 	private String WorkOrder_EquipCode;
 	private String WorkOrder_PQty;
 	private String WorkOrder_RQty;
+	private String WorkOrder_ProductionQty; // 생산수량
+	private String WorkOrder_AllottedQty; // 목표수량
 	private String WorkOrder_StartTime;
 	private String WorkOrder_StartTime2;
 	private String WorkOrder_RegisterTime;

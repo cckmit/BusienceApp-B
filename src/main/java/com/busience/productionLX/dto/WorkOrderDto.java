@@ -26,8 +26,10 @@ public class WorkOrderDto {
 	private String WorkOrder_WorkStatus;
 	private String WorkOrder_WorkStatus_Name;
 	private int WorkOrder_SQty;
-	private int WorkOrder_PQty;
-	private int WorkOrder_RQty;
+	private int WorkOrder_PQty; //지시수량
+	private int WorkOrder_RQty; //생산수량
+	private int WorkOrder_ProductionQty; // 생산수량
+	private int WorkOrder_AllottedQty; // 목표수량
 	private int WorkOrder_DQty;
 	private String WorkOrder_RegisterTime;
 	private String WorkOrder_OrderTime;

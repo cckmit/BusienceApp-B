@@ -487,17 +487,17 @@ public class popupRestController {
 			@RequestParam(value = "EQUIPMENT_INFO_CODE", required = false) String EQUIPMENT_INFO_CODE){
 		
 		//첫 select 결과가 없으면 두번쨰 select로 대체함
-		String sql = "SELECT EQUIPMENT_INFO_CODE, EQUIPMENT_INFO_NAME \r\n"
-				+ "FROM EQUIPMENT_INFO_TBL \r\n"
-				+ "where (EQUIPMENT_INFO_NAME = ? or EQUIPMENT_INFO_CODE = ?)\r\n"
+		String sql = "SELECT Equipment_Info_Code, Equipment_Info_Name \r\n"
+				+ "FROM Equipment_Info_tbl \r\n"
+				+ "where (Equipment_Info_Name = ? or Equipment_Info_Code = ?)\r\n"
 				+ "union\r\n"
-				+ "SELECT EQUIPMENT_INFO_CODE, EQUIPMENT_INFO_NAME \r\n"
-				+ "FROM EQUIPMENT_INFO_TBL \r\n"
-				+ "where (EQUIPMENT_INFO_NAME like ? or EQUIPMENT_INFO_CODE like ?)\r\n"
+				+ "SELECT Equipment_Info_Code, Equipment_Info_Name \r\n"
+				+ "FROM Equipment_Info_tbl \r\n"
+				+ "where (Equipment_Info_Name like ? or Equipment_Info_Code like ?)\r\n"
 				+ "and not exists(\r\n"
-				+ "SELECT EQUIPMENT_INFO_CODE, EQUIPMENT_INFO_NAME \r\n"
-				+ "FROM EQUIPMENT_INFO_TBL \r\n"
-				+ "where (EQUIPMENT_INFO_NAME = ? or EQUIPMENT_INFO_CODE = ?));";
+				+ "SELECT Equipment_Info_Code, Equipment_Info_Name \r\n"
+				+ "FROM Equipment_Info_tbl \r\n"
+				+ "where (Equipment_Info_Name = ? or Equipment_Info_Code = ?));";
 		
 		System.out.println(sql);
 		return jdbctemplate.query(sql, new RowMapper<EQUIPMENT_INFO_TBL>(){

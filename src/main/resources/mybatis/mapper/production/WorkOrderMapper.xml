@@ -11,7 +11,7 @@
 			A.WorkOrder_No, A.WorkOrder_ONo,
 			A.WorkOrder_ItemCode, B.PRODUCT_ITEM_NAME WorkOrder_ItemName, B.PRODUCT_INFO_STND_1 WorkOrder_Item_STND_1,
 			A.WorkOrder_EquipCode, C.EQUIPMENT_INFO_NAME WorkOrder_EquipName,
-			D.Sales_SM_Last_Qty + D.Sales_SM_In_Qty - D.Sales_SM_Out_Qty WorkOrder_SQty, A.WorkOrder_PQty, A.WorkOrder_RQty,
+			D.Sales_SM_Last_Qty + D.Sales_SM_In_Qty - D.Sales_SM_Out_Qty WorkOrder_SQty, A.WorkOrder_AllottedQty, A.WorkOrder_ProductionQty,
 			A.WorkOrder_RegisterTime, A.WorkOrder_ReceiptTime, A.WorkOrder_OrderTime,
 			A.WorkOrder_StartTime, A.WorkOrder_CompleteOrderTime, A.WorkOrder_CompleteTime,
 			A.WorkOrder_WorkStatus, E.CHILD_TBL_TYPE WorkOrder_WorkStatusName, A.WorkOrder_Remark, A.WorkOrder_Use_Status
@@ -56,7 +56,7 @@
 		SELECT
 			A.WorkOrder_ONo, A.WorkOrder_ItemCode, B.PRODUCT_ITEM_NAME WorkOrder_ItemName,
             B.PRODUCT_INFO_STND_1 WorkOrder_Item_STND_1, B.PRODUCT_MULTIPLE WorkOrder_Item_Multiple,
-			A.WorkOrder_EquipCode, A.WorkOrder_PQty, A.WorkOrder_RQty,
+			A.WorkOrder_EquipCode, A.WorkOrder_AllottedQty, A.WorkOrder_ProductionQty,
 			A.WorkOrder_RegisterTime, A.WorkOrder_Remark
 			FROM WorkOrder_tbl A
 			inner join Product_Info_tbl B on A.WorkOrder_ItemCode = B.Product_Item_Code
@@ -146,7 +146,7 @@
 	
 		select 
 			A.WorkOrder_ONo, A.WorkOrder_EquipCode, A.WorkOrder_ItemCode, B.PRODUCT_ITEM_NAME WorkOrder_ItemName,
-			B.PRODUCT_INFO_STND_1 WorkOrder_Item_STND_1, A.WorkOrder_RQty,
+			B.PRODUCT_INFO_STND_1 WorkOrder_Item_STND_1, A.WorkOrder_ProductionQty,
 			A.WorkOrder_OrderTime, A.WorkOrder_ReceiptTime, A.WorkOrder_StartTime, A.WorkOrder_CompleteTime,
 			A.WorkOrder_WorkStatus
 			from WorkOrder_tbl A
@@ -211,13 +211,13 @@
 	<insert id="workOrderInsertDao">
 		insert into WorkOrder_tbl (
 			WorkOrder_No, WorkOrder_ONo, WorkOrder_ItemCode,
-		    WorkOrder_EquipCode, WorkOrder_PQty,
+		    WorkOrder_EquipCode, WorkOrder_AllottedQty,
 		    WorkOrder_RegisterTime, WorkOrder_ReceiptTime,
 		    WorkOrder_OrderTime, WorkOrder_StartTime, WorkOrder_CompleteOrderTime,
 		    WorkOrder_WorkStatus, WorkOrder_Worker, WorkOrder_Remark
 		) values (
 			#{WorkOrder_No}, #{WorkOrder_ONo}, #{WorkOrder_ItemCode},
-		    #{WorkOrder_EquipCode}, #{WorkOrder_PQty},
+		    #{WorkOrder_EquipCode}, #{WorkOrder_AllottedQty},
 		    now(), #{WorkOrder_ReceiptTime},
 		    #{WorkOrder_OrderTime}, #{WorkOrder_StartTime}, #{WorkOrder_CompleteOrderTime},
 		    #{WorkOrder_WorkStatus}, #{WorkOrder_Worker}, #{WorkOrder_Remark}
@@ -225,7 +225,7 @@
 		WorkOrder_ONo = #{NewWorkOrder_ONo},
 		WorkOrder_ItemCode = #{WorkOrder_ItemCode},
 		WorkOrder_EquipCode = #{WorkOrder_EquipCode},
-		WorkOrder_PQty = #{WorkOrder_PQty},
+		WorkOrder_AllottedQty = #{WorkOrder_AllottedQty},
 		WorkOrder_OrderTime = #{WorkOrder_OrderTime},
 		WorkOrder_CompleteOrderTime = #{WorkOrder_CompleteOrderTime},
 		WorkOrder_Worker = #{WorkOrder_Worker},
@@ -244,12 +244,12 @@
 			<if test='WorkOrder_WorkStatus_Name == "E"'>
 				<choose>
 					<when test="WorkOrder_PQty == 0">
-						WorkOrder_PQty = #{WorkOrder_RQty},
-						WorkOrder_RQty = #{WorkOrder_RQty},
+						WorkOrder_AllottedQty = #{WorkOrder_ProductionQty},
+						WorkOrder_ProductionQty = #{WorkOrder_ProductionQty},
 					</when>
 					<otherwise>
-						WorkOrder_PQty = #{WorkOrder_PQty},
-						WorkOrder_RQty = #{WorkOrder_RQty},
+						WorkOrder_AllottedQty = #{WorkOrder_AllottedQty},
+						WorkOrder_ProductionQty = #{WorkOrder_ProductionQty},
 					</otherwise>
 				</choose>	
 				WorkOrder_CompleteTime = now(),
@@ -262,7 +262,7 @@
 		insert into Sales_StockMatLX_tbl (
 			SM_Code, SM_Last_Qty, SM_In_Qty, SM_Out_Qty, SM_Prcs_Date
 			) values (
-			#{WorkOrder_ItemCode}, 0, #{WorkOrder_RQty}, 0, '2201'
+			#{WorkOrder_ItemCode}, 0, #{WorkOrder_ProductionQty}, 0, '2201'
 			)
 			on duplicate key update
 			SM_In_Qty = SM_In_Qty + #{WorkOrder_RQty}
@@ -282,9 +282,9 @@
 		update WorkOrder_tbl
 			set
 			<if test="workOrder_Remark == 'AUTO'">
-				WorkOrder_PQty = #{WorkOrder_RQty},
+				WorkOrder_AllottedQty = #{WorkOrder_ProductionQty},
 			</if>
-			WorkOrder_RQty = #{WorkOrder_RQty}
+			WorkOrder_ProductionQty = #{WorkOrder_ProductionQty}
 			where WorkOrder_ONo = #{WorkOrder_ONo} and WorkOrder_EquipCode = #{WorkOrder_EquipCode}
 	</update>
 	
