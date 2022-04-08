@@ -113,26 +113,8 @@ var PR_InputEditor = function(cell, onRendered, success, cancel, editorParams) {
 	PR_input.addEventListener("keydown", function(e) {
 		if (e.keyCode == 13) {
 			//수량셀
-			if (cell.getField() == "production_Product_Code") {
-				//내용이 있을경우 검색해서 값이 하나일경우 생략, 아닐경우 팝업창
-				//쿼리실행
-				$.ajax({
-					method: "GET",
-					url: "product_check?PRODUCT_ITEM_CODE=" + PR_input.value,
-					dataType: "json",
-					success: function(data) {
-						itemPopup(PR_input.value, 'grid', '', 'material');
-					}
-				})
-				//cell.nav().next();
-			}
-
 			if (cell.getField() == "production_Qty") {
-				cell.nav().next();
-			}
-
-			if (cell.getField() == "production_Equipment_Code") {
-				cell.nav().next();
+				cell.nav().down();
 			}
 		}
 	});
@@ -174,10 +156,10 @@ var proResultTable = new Tabulator("#proResultTable", {
 	columns: [ //Define Table Columns
 		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center" },
 		{ title: "작업지시번호", field: "production_WorkOrder_ONo", headerHozAlign: "center" },
-		{ title: "제품 코드", field: "production_Product_Code", headerHozAlign: "center", editor: PR_InputEditor },
+		{ title: "제품 코드", field: "production_Product_Code", headerHozAlign: "center"},
 		{ title: "제품명", field: "production_Product_Name", headerHozAlign: "center" },
 		{ title: "생산 수량", field: "production_Qty", headerHozAlign: "center", hozAlign: "right", editor: PR_InputEditor },
-		{ title: "설비 코드", field: "production_Equipment_Code", headerHozAlign: "center", editor: PR_InputEditor },
+		{ title: "설비 코드", field: "production_Equipment_Code", headerHozAlign: "center"},
 		{ title: "설비 명", field: "production_Equipment_Name", headerHozAlign: "center" },
 		{ title: "시간", field: "production_Date", headerHozAlign: "center" }
 	]

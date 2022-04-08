@@ -33,9 +33,7 @@
 	<update id="proResultUpdateDao">
 		update WorkOrder_tbl
 			set
-			WorkOrder_ItemCode = #{PRODUCTION_Product_Code},
-			WorkOrder_EquipCode = #{PRODUCTION_Equipment_Code},
 			WorkOrder_ProductionQty = #{PRODUCTION_Qty}
-			where WorkOrder_ONo = #{PRODUCTION_WorkOrder_No}
+			where WorkOrder_ONo = #{PRODUCTION_WorkOrder_ONo}
 	</update>
 </mapper>
