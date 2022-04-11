@@ -15,28 +15,32 @@ html, body {
 }
 .tabulator{ background-color:red; }
 
-#header { padding-top: 2px; border: solid; font-size: 2vw; text-align: center; background-color: rgb(82, 153, 217); border-radius: 15px; }
+#header { padding-top: 2px; border: solid; font-size: 2vw; text-align: center; background-color: rgb(0, 128, 0); border-radius: 15px; }
 #barcode { width: 65%; font-size: 2.5vw; color:white; text-align: left; }
 #barcodeInput { width: 70%; background-color:white; color:black; height: 7vh; text-align: right; margin-top: 1%; border-radius: 10px; }
-#start { border-style: solid; border-color: rgb(0, 150, 0); border-width: 1%; border-radius: 15px; height: 100%; color: rgb(0, 150, 0); text-align: center; font-size: 3vw; margin-left: 8%; }
-#wait { border-style: solid; border-color: rgb(0, 0, 200); border-width: 1%; border-radius: 15px; height: 100%; color: rgb(0, 0, 200); text-align: center; font-size: 3vw; }
-#success { border-style: solid; border-color: rgb(220, 0, 0); border-width: 1%; border-radius: 15px; height: 100%; color: rgb(220, 0, 0); text-align: center; font-size: 3vw; }
+#start { border-style: solid; border-color: gray; border-width: 1%; border-radius: 15px; height: 100%; color: gray; text-align: center; font-size: 3vw; margin-left: 8%; }
+#wait { border-style: solid; border-color: gray; border-width: 1%; border-radius: 15px; height: 100%; color: gray; text-align: center; font-size: 3vw; }
+#success { border-style: solid; border-color: gray; border-width: 1%; border-radius: 15px; height: 100%; color: gray; text-align: center; font-size: 3vw; }
 
-#main { border: solid; font-size: 2vw; height: 50vh; text-align: center; background-color: rgb(82, 153, 217); border-radius: 15px; }
+#main { border: solid; font-size: 2vw; height: 50vh; text-align: center; background-color: rgb(0, 128, 0); border-radius: 15px; }
 #mainTable { width: 100%; height: 25%; }
 #mainInfo { color: white; text-align: center; width: 30%; }
 #mainTd { color: black; text-align: center; width: 70%; }
 #mainInput{ width: 90%; height: 60%; color: black; border: groove; border-color: black; border-width: 1px; text-align: right; font-size: 1.5vw; }
 
-#main2 { border: solid; font-size: 2vw; text-align: center; background-color: rgb(82, 153, 217); border-radius: 15px; padding-bottom: 1%; }
+#main2 { border: solid; font-size: 2vw; text-align: center; background-color: rgb(0, 128, 0); border-radius: 15px; padding-bottom: 1%; }
 #mainInfo2 { width: 100%; height: 17%; }
 #mainInfo2Td { color: white; text-align: center; width: 33%; }
 #mainTable2 { width: 100%; height: 17%; margin-left: 2%; font-size: 2vw; }
 #mainTd2 { text-align: center; width: 33%; }
-#mainLotInput { font-size: 1.8vw; width: 90%; height: 80%; background-color: black; color: white; border: groove; border-color: black; border-width: 1px; text-align: right; }
+#mainLotInput1 { font-size: 1.8vw; width: 90%; height: 80%; border-color: rgb(0, 128, 0); background-color: black; color: white; border: groove; border-color: black; border-width: 1px; text-align: right; }
+#mainLotInput2 { font-size: 1.8vw; width: 90%; height: 80%; border-color: rgb(0, 128, 0); background-color: black; color: white; border: groove; border-color: black; border-width: 1px; text-align: right; }
+#mainLotInput3 { font-size: 1.8vw; width: 90%; height: 80%; border-color: rgb(0, 128, 0); background-color: black; color: white; border: groove; border-color: black; border-width: 1px; text-align: right; }
+#mainLotInput4 { font-size: 1.8vw; width: 90%; height: 80%; border-color: rgb(0, 128, 0); background-color: black; color: white; border: groove; border-color: black; border-width: 1px; text-align: right; }
+#mainLotInput5 { font-size: 1.8vw; width: 90%; height: 80%; border-color: rgb(0, 128, 0); background-color: black; color: white; border: groove; border-color: black; border-width: 1px; text-align: right; }
 #mainInput2 { width: 90%; height: 80%; color: white; border: groove; border-color: black; border-width: 1px; text-align: right; }
 
-#end { border:solid; background: rgb(90, 155, 213); border-radius: 15px; height: 39vh; font-size: 3vw; text-align: center; }
+#end { border:solid; background: rgb(0, 128, 0); border-radius: 15px; height: 39vh; font-size: 3vw; text-align: center; }
 </style>
 <title>비지언스 MES</title>
 </head>
@@ -45,7 +49,7 @@ html, body {
 			<div class="row" id="header">
 				<div id="barcode" class="col-sm-6 col-md-8">
 					&nbsp;바코드 입력 &nbsp;
-					<input type="text" id="barcodeInput">
+					<input type="text" id="barcodeInput" onkeyup="if(window.event.keyCode==13){printName()}">
 				</div>
 				<div id="start" class="col-sm-1 col-md-1">시작</div>
 				<div id="wait" class="col-sm-1 col-md-1">대기</div>
@@ -117,7 +121,7 @@ html, body {
 					<table id="mainTable2">
 						<tr>
 							<td id="mainTd2">
-								<input id="mainLotInput" readonly="readonly" class="form-control form-control-lg" code="one" type="text">
+								<input id="mainLotInput1" class="form-control form-control-lg" type="text">
 							</td>
 							<td id="mainTd2">
 								<input id="mainInput2" readonly="readonly" class="form-control form-control-lg" type="text">
@@ -131,7 +135,7 @@ html, body {
 					<table id="mainTable2">
 						<tr>
 							<td id="mainTd2">
-								<input id="mainLotInput" readonly="readonly" class="form-control form-control-lg" code="one" type="text">
+								<input id="mainLotInput2" class="form-control form-control-lg" type="text">
 							</td>
 							<td id="mainTd2">
 								<input id="mainInput2" readonly="readonly" class="form-control form-control-lg" type="text">
@@ -145,7 +149,8 @@ html, body {
 					<table id="mainTable2">
 						<tr>
 							<td id="mainTd2">
-								<input id="mainLotInput" readonly="readonly" class="form-control form-control-lg" code="one" type="text">							</td>
+								<input id="mainLotInput3" class="form-control form-control-lg" type="text">							
+							</td>
 							<td id="mainTd2">
 								<input id="mainInput2" readonly="readonly" class="form-control form-control-lg" type="text">
 							</td>
@@ -158,7 +163,7 @@ html, body {
 					<table id="mainTable2">
 						<tr>
 							<td id="mainTd2">
-								<input id="mainLotInput" readonly="readonly" class="form-control form-control-lg" code="one" type="text">
+								<input id="mainLotInput4" class="form-control form-control-lg" type="text">
 							</td>
 							<td id="mainTd2">
 								<input id="mainInput2" readonly="readonly" class="form-control form-control-lg" type="text">
@@ -172,7 +177,7 @@ html, body {
 					<table id="mainTable2">
 						<tr>
 							<td id="mainTd2">
-								<input id="mainLotInput" readonly="readonly" class="form-control form-control-lg" code="one" type="text">
+								<input id="mainLotInput5" class="form-control form-control-lg" type="text">
 							</td>
 							<td id="mainTd2">
 								<input id="mainInput2" readonly="readonly" class="form-control form-control-lg" type="text">
@@ -185,6 +190,18 @@ html, body {
 				</div>
 			</div>
 		<div class="row" id="end">
+		<div style="color: white;" class="col-md-4">
+			현재 생산량
+			<hr>
+		</div>
+		<div style="color: white;" class="col-md-4">
+			누적 생산량
+			<hr>
+		</div>
+		<div style="color: white;" class="col-md-4">
+			투입 원자재
+			<hr>
+		</div>
 		</div>
 	</div>
 	<script src="/js/tablet/maskProductionTablet.js"></script>
