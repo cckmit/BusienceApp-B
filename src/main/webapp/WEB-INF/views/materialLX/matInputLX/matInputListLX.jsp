@@ -1,13 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!-- MAIN -->
 <div class="main">
 	<div class="top-var">
 		<!-- 버튼 -->
 		<div class="input-button">
-			<img src="/images/button/Search.png" onclick="MI_ListViewSearchBtn()"/>
+			<img src="/images/button/Search.png" id="MIL_SearchBtn"/>
 			<img src="/images/button/Excel.png" onclick="excel_download(matInputListTable)"/>
 		</div>
 		<!-- 버튼 -->

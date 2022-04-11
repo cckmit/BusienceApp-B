@@ -10,6 +10,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import com.busience.common.dao.DtlDao;
 import com.busience.common.dto.DtlDto;
+import com.busience.common.dto.SearchDto;
 import com.busience.material.dao.MatInputDao;
 import com.busience.material.dto.InMatDto;
 
@@ -84,5 +85,50 @@ public class MatInputService {
 			e.printStackTrace();
 			return 0;
 		}
+	}
+	
+	//입고조회
+	public List<InMatDto> matInputList(SearchDto searchDto) {
+		return matInputDao.matInputListDao(searchDto);
+	}
+	
+	//입고 조건별 조회
+	public List<InMatDto> matInputOtherList(SearchDto searchDto) {
+		List<InMatDto> InMatDtoList = matInputDao.matInputOtherListDao(searchDto);
+		for(int i=0;i<InMatDtoList.size();i++) {
+			String itemCode = InMatDtoList.get(i).getInMat_Code();
+			String clientCode = InMatDtoList.get(i).getInMat_Client_Code();
+			
+			if(itemCode == null || clientCode == null) {
+				InMatDtoList.get(i).setInMat_Order_No("");
+				InMatDtoList.get(i).setInMat_Lot_No("Sub Total");
+				InMatDtoList.get(i).setInMat_Date("");
+				InMatDtoList.get(i).setInMat_Rcv_Clsfc_Name("");
+			}
+			if(itemCode == null) {
+				InMatDtoList.get(i).setInMat_STND_1("");
+				InMatDtoList.get(i).setInMat_STND_2("");
+				InMatDtoList.get(i).setInMat_UNIT("");
+				InMatDtoList.get(i).setInMat_Unit_Price(0);
+				InMatDtoList.get(i).setInMat_Name("");
+				
+			}else if(clientCode == null) {
+				InMatDtoList.get(i).setInMat_Client_Name("");
+			}
+			if(itemCode == null && clientCode == null) {
+				InMatDtoList.get(i).setInMat_Lot_No("Grand Total");
+			}
+		}
+		return InMatDtoList;
+	}
+	
+	//납품 명세서 거래처 리스트
+	public List<InMatDto> matInputDeliveryMaster(SearchDto searchDto) {
+		return matInputDao.matInputDeliveryMasterDao(searchDto);
+	}
+	
+	//납품 명세서 거래처 리스트
+	public List<InMatDto> matInputDeliverySub(SearchDto searchDto) {
+		return matInputDao.matInputDeliverySubDao(searchDto);
 	}
 }

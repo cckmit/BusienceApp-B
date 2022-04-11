@@ -95,4 +95,89 @@
 		pre_matarial_No = (case when matarial_No = 9999 then matarial_No else pre_matarial_No end),
 		matarial_No = (case when matarial_No = 9999 then 1 else matarial_No+1 end)
 	</update>
+	
+	<select id="matInputListDao" resultType="com.busience.material.dto.InMatDto">
+		select 
+			A.InMat_Order_No, A.InMat_Lot_No, A.InMat_No,
+			A.InMat_Code, C.Product_Item_Name InMat_Name,
+			C.Product_Info_STND_1 InMat_STND_1, C.Product_Info_STND_2 InMat_STND_2,
+			A.InMat_Qty, A.InMat_Unit_Price, D.Child_TBL_Type InMat_Unit,
+			A.InMat_Price, A.InMat_Client_Code, B.Cus_Name InMat_Client_Name,
+			A.InMat_Date, A.InMat_Rcv_Clsfc,  E.Child_TBL_Type InMat_Rcv_Clsfc_Name,
+			F.Order_lInfo_Remark InMat_Info_Remark
+		from InMat_tbl A 
+		inner join Customer_tbl B on A.InMat_Client_Code = B.Cus_Code 
+		inner join Product_Info_tbl C on A.InMat_Code = C.PRODUCT_ITEM_CODE 
+		inner join DTL_TBL D on C.PRODUCT_UNIT = D.CHILD_TBL_NO
+		inner join DTL_TBL E on A.InMat_Rcv_Clsfc = E.CHILD_TBL_NO
+		inner join OrderList_tbl F on A.InMat_Order_No = F.Order_lCus_No and A.InMat_Code = F.Order_lCode
+		<![CDATA[
+			where A.InMat_Date >= #{startDate} and A.InMat_Date < #{endDate}
+		]]>
+		and A.InMat_Code like concat('%',#{ItemCode},'%') and A.InMat_Client_Code like concat('%',#{ClientCode},'%')
+		<if test="ItemSendClsfc != 'all'">
+			and A.InMat_Rcv_Clsfc = #{ItemSendClsfc}
+		</if>
+		order by A.InMat_Date
+	</select>
+	
+	<select id="matInputOtherListDao" resultType="com.busience.material.dto.InMatDto">
+		select 
+			A.InMat_Order_No, A.InMat_Lot_No, A.InMat_No,
+			A.InMat_Code, C.Product_Item_Name InMat_Name,
+			C.Product_Info_STND_1 InMat_STND_1, C.Product_Info_STND_2 InMat_STND_2,
+			sum(A.InMat_Qty) InMat_Qty, A.InMat_Unit_Price, D.Child_TBL_Type InMat_Unit,
+			sum(A.InMat_Price) InMat_Price, A.InMat_Client_Code, B.Cus_Name InMat_Client_Name,
+			A.InMat_Date, A.InMat_Rcv_Clsfc,  E.Child_TBL_Type InMat_Rcv_Clsfc_Name,
+			F.Order_lInfo_Remark InMat_Info_Remark
+		from InMat_tbl A 
+		inner join Customer_tbl B on A.InMat_Client_Code = B.Cus_Code 
+		inner join Product_Info_tbl C on A.InMat_Code = C.PRODUCT_ITEM_CODE 
+		inner join DTL_TBL D on C.PRODUCT_UNIT = D.CHILD_TBL_NO
+		inner join DTL_TBL E on A.InMat_Rcv_Clsfc = E.CHILD_TBL_NO
+		inner join OrderList_tbl F on A.InMat_Order_No = F.Order_lCus_No
+		<![CDATA[
+			where A.InMat_Date >= #{startDate} and A.InMat_Date < #{endDate}
+		]]>
+		<if test="ItemSendClsfc != 'all'">
+			and A.InMat_Rcv_Clsfc = #{ItemSendClsfc}
+		</if>
+		<if test="ItemCode != null">
+			and A.InMat_Code like concat('%',#{ItemCode},'%')
+			group by A.InMat_Code, A.InMat_Client_Code with rollup
+		</if>
+		<if test="ClientCode != null">
+			and A.InMat_Client_Code like concat('%',#{ClientCode},'%')
+			group by A.InMat_Client_Code, A.InMat_Code with rollup
+		</if>
+	</select>
+	
+	<select id="matInputDeliveryMasterDao" resultType="com.busience.material.dto.InMatDto">
+		select 
+			A.InMat_Order_No, A.InMat_Lot_No, A.InMat_No, A.InMat_Code,
+			sum(A.InMat_Qty) InMat_Qty, A.InMat_Unit_Price, sum(A.InMat_Price) InMat_Price,
+			A.InMat_Client_Code, B.Cus_Name InMat_Client_Name, A.InMat_Date, A.InMat_Rcv_Clsfc
+		from InMat_tbl A 
+		inner join Customer_tbl B on A.InMat_Client_Code = B.Cus_Code 
+		<![CDATA[
+			where A.InMat_Date >= #{startDate} and A.InMat_Date < #{endDate}
+		]]>
+			group by A.InMat_Client_Code
+	</select>
+	
+	<select id="matInputDeliverySubDao" resultType="com.busience.material.dto.InMatDto">
+		select 
+			A.InMat_No, A.InMat_Date, E.CHILD_TBL_TYPE InMat_Rcv_Clsfc,
+			A.InMat_Code, A.InMat_Client_Code, C.PRODUCT_ITEM_NAME InMat_Name,
+			C.PRODUCT_INFO_STND_1 InMat_STND_1, C.PRODUCT_INFO_STND_2 InMat_STND_2,
+			D.CHILD_TBL_TYPE InMat_UNIT, A.InMat_Qty, A.InMat_Unit_Price, A.InMat_Price
+		from InMat_tbl A
+		inner join Product_Info_tbl C on A.InMat_Code = C.PRODUCT_ITEM_CODE 
+		left outer join DTL_TBL D on C.PRODUCT_UNIT = D.CHILD_TBL_NO
+		left outer join DTL_TBL E on A.InMat_Rcv_Clsfc = E.CHILD_TBL_NO
+		<![CDATA[
+			where A.InMat_Date >= #{startDate} and A.InMat_Date < #{endDate}
+		]]>
+		and A.InMat_Client_Code = #{clientCode}
+	</select>
 </mapper>

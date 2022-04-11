@@ -23,6 +23,7 @@ public class InMatDto {
 
 	private String InMat_Name; // 제품명
 	private String InMat_STND_1; // 규격
+	private String InMat_STND_2; // 규격
 	private int InReturn_Qty; // 반품수량
 	private int InMat_Stock_Qty; // 재고수량
 	private String InMat_UNIT; // 단위

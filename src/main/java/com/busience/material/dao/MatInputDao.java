@@ -1,7 +1,10 @@
 package com.busience.material.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
+import com.busience.common.dto.SearchDto;
 import com.busience.material.dto.InMatDto;
 
 @Mapper
@@ -33,4 +36,16 @@ public interface MatInputDao {
 	
 	//Lot번호 업데이트
 	public int MatLotNoUpdateDao();
+	
+	//입고 리스트 조회
+	public List<InMatDto> matInputListDao(SearchDto searchDto);
+	
+	//입고 리스트 조건별 조회
+	public List<InMatDto> matInputOtherListDao(SearchDto searchDto);
+	
+	//납품 명세서 거래처 리스트
+	public List<InMatDto> matInputDeliveryMasterDao(SearchDto searchDto);
+	
+	//납품 명세서 세부 리스트
+	public List<InMatDto> matInputDeliverySubDao(SearchDto searchDto);
 }

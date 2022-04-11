@@ -5,8 +5,6 @@ var matInputTable = new Tabulator("#matInputTable", {
     height:"calc(100% - 175px)",
 	layoutColumnsOnNewData : true,
 	headerFilterPlaceholder: null,
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
 	rowFormatter:function(row){
 		//order_mCheck가 Y면 빨간색 I면 파란색으로 바꿔준다
         if(row.getData().order_mCheck == "Y"){
