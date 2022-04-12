@@ -2,13 +2,17 @@ package com.busience.material.controller;
 
 import java.security.Principal;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.busience.common.service.DtlService;
+import com.busience.standard.dto.CustomerDto;
 import com.busience.standard.dto.UserDto;
+import com.busience.standard.service.CustomerService;
 import com.busience.standard.service.UserService;
 
 @Controller
@@ -19,6 +23,9 @@ public class materialLXController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	CustomerService customerService;
 	
 	//OrderMaster
 	@GetMapping("matOrderLX")
@@ -32,6 +39,11 @@ public class materialLXController {
 	public String matOrderListLX(Model model) {
 		model.addAttribute("pageName", "발주 조회");
 		return "materialLX/matOrderListLX";
+	}
+	
+	@GetMapping("matOrderPrint")
+	public String orderPrint(HttpServletRequest request) {
+		return "materialLX/matOrderPrint";
 	}
 	
 	//OrderMaster

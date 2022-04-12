@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
 <div class="soloView">
 	<!-- MAIN -->
 	<div class="main">
@@ -11,6 +10,7 @@
 					<img src="/images/button/Search.png" id="MO_SearchBtn"/>
 					<img src="/images/button/ADD.png" id="MO_AddBtn"/>
 					<img src="/images/button/Delete.png" id="MOM_DeleteBtn"/>
+					<img src="/images/button/Print.png" id="MO_PrintBtn"/>
 				</div>
 				<!-- 버튼 -->
 				<div class="input-box">
@@ -56,6 +56,23 @@
 	</div>
 	<!-- END MAIN -->
 </div>
+<!-- 프린트페이지에 보낼 데이터 -->
+<form id="cus_frm" name="cus_frm" method="get" action="matOrderPrint" target="orderprint">
+	<input type="hidden" id="mCus_No" name="mCus_No" value="">
+	<input type="hidden" id="mCode" name="mCode" value="">
+	<input type="hidden" id="mName" name="mName" value="">
+	<input type="hidden" id="mDate" name="mDate" value="">
+	<input type="hidden" id="mDlvry_Date" name="mDlvry_Date" value="">
+	<input type="hidden" id="MyCom_Rgstr_Nr" name="MyCom_Rgstr_Nr" value="">
+	<input type="text" id="mCusCo" name="mCusCo" value="">
+	<input type="text" id="mCusMng" name="mCusMng" value="">
+	<input type="text" id="mCusRprsn" name="mCusRprsn" value="">
+	<input type="text" id="mCusRprsnPhNr" name="mCusRprsnPhNr" value="">
+	<input type="text" id="mCusAdr" name="mCusAdr" value="">
+	<input type="text" id="mCusAdr" name="mCusAdr" value="">
+	<input type="text" id="mCusMngPhNr" name="mCusMngPhNr" value="">
+	<input type="text" id="mTotal" name="mTotal" value="">
+</form>
 <!-- END WRAPPER -->
 
 <!-- Javascript -->
