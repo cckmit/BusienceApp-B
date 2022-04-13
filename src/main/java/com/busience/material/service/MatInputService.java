@@ -43,7 +43,10 @@ public class MatInputService {
 						//랏번호가 없을경우 랏번호 생성
 						if(inMatDto.getInMat_Lot_No() == null || inMatDto.getInMat_Lot_No().isBlank()) {
 							String LotNo = matInputDao.LotNoSelectDao(inMatDto);
-							inMatDto.setInMat_Lot_No(LotNo);							
+							inMatDto.setInMat_Lot_No(LotNo);
+
+							//랏번호
+							matInputDao.MatLotNoUpdateDao();
 						}
 						
 						//랏트랜스번호 가져오기
@@ -73,9 +76,6 @@ public class MatInputService {
 						
 						//발주마스터
 						matInputDao.MatOrderMasterUpdateDao(inMatDto);
-						
-						//랏번호
-						matInputDao.MatLotNoUpdateDao();
 					}
 				}
 			});
@@ -94,32 +94,32 @@ public class MatInputService {
 	
 	//입고 조건별 조회
 	public List<InMatDto> matInputOtherList(SearchDto searchDto) {
-		List<InMatDto> InMatDtoList = matInputDao.matInputOtherListDao(searchDto);
-		for(int i=0;i<InMatDtoList.size();i++) {
-			String itemCode = InMatDtoList.get(i).getInMat_Code();
-			String clientCode = InMatDtoList.get(i).getInMat_Client_Code();
+		List<InMatDto> inMatDtoList = matInputDao.matInputOtherListDao(searchDto);
+		for(int i=0;i<inMatDtoList.size();i++) {
+			String itemCode = inMatDtoList.get(i).getInMat_Code();
+			String clientCode = inMatDtoList.get(i).getInMat_Client_Code();
 			
 			if(itemCode == null || clientCode == null) {
-				InMatDtoList.get(i).setInMat_Order_No("");
-				InMatDtoList.get(i).setInMat_Lot_No("Sub Total");
-				InMatDtoList.get(i).setInMat_Date("");
-				InMatDtoList.get(i).setInMat_Rcv_Clsfc_Name("");
+				inMatDtoList.get(i).setInMat_Order_No("");
+				inMatDtoList.get(i).setInMat_Lot_No("Sub Total");
+				inMatDtoList.get(i).setInMat_Date("");
+				inMatDtoList.get(i).setInMat_Rcv_Clsfc_Name("");
 			}
 			if(itemCode == null) {
-				InMatDtoList.get(i).setInMat_STND_1("");
-				InMatDtoList.get(i).setInMat_STND_2("");
-				InMatDtoList.get(i).setInMat_UNIT("");
-				InMatDtoList.get(i).setInMat_Unit_Price(0);
-				InMatDtoList.get(i).setInMat_Name("");
+				inMatDtoList.get(i).setInMat_STND_1("");
+				inMatDtoList.get(i).setInMat_STND_2("");
+				inMatDtoList.get(i).setInMat_UNIT("");
+				inMatDtoList.get(i).setInMat_Unit_Price(0);
+				inMatDtoList.get(i).setInMat_Name("");
 				
 			}else if(clientCode == null) {
-				InMatDtoList.get(i).setInMat_Client_Name("");
+				inMatDtoList.get(i).setInMat_Client_Name("");
 			}
 			if(itemCode == null && clientCode == null) {
-				InMatDtoList.get(i).setInMat_Lot_No("Grand Total");
+				inMatDtoList.get(i).setInMat_Lot_No("Grand Total");
 			}
 		}
-		return InMatDtoList;
+		return inMatDtoList;
 	}
 	
 	//납품 명세서 거래처 리스트

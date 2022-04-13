@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <link href="/css/tabMenu.css" rel="stylesheet" />
 
@@ -32,5 +31,5 @@
 </div>
 
 <!-- Javascript -->
-<script src="/js/materialLX/matInReturnLXMaster.js"></script>
-<script src="/js/tabMenu.js"></script>	
+<script src="/js/materialLX/matInReturnLXMaster.js?v=<%=System.currentTimeMillis() %>"></script>
+<script src="/js/tabMenu.js?v=<%=System.currentTimeMillis() %>"></script>	

@@ -45,7 +45,6 @@ var MIRI_InputEditor = function(cell, onRendered, success, cancel, editorParams)
 		if (e.keyCode == 13) {
 			//반품수량셀 채크
 			if (cell.getField() == "inReturn_Qty") {
-				console.log(cell.getValue());
 				//입력값이 양의 정수가 아니거나 입고수량보다 높으면 안내문
 				if (!(input.value >= 0) || cell.getRow().getData().InMat_Qty < input.value) {
 					alert("반품 수량을 잘못입력하였습니다.");
@@ -64,8 +63,6 @@ var MIRI_InputEditor = function(cell, onRendered, success, cancel, editorParams)
 	return input;
 };
 
-var selectedData = null;
-var InMat_Order_No = null;
 var matInReturnInsertTable = new Tabulator("#matInReturnInsertTable", {
 	//페이징
 	pagination: "local",
@@ -73,73 +70,49 @@ var matInReturnInsertTable = new Tabulator("#matInReturnInsertTable", {
 	paginationAddRow: "table",
 	layoutColumnsOnNewData: true,
 	height: "calc(100% - 175px)",
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
 	rowDblClick: function(e, row) {
 		row.toggleSelect();
 	},
-
 	columns: [
 		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
-		{ title: "순번", field: "id", headerHozAlign: "center", align: "center" },
+		{ title: "순번", field: "rownum", headerHozAlign: "center", align: "center", formatter: "rownum"},
 		{ title: "발주No", field: "inMat_Order_No", headerHozAlign: "center" },
 		{ title: "품목코드", field: "inMat_Code", headerHozAlign: "center" },
 		{ title: "품목명", field: "inMat_Name", headerHozAlign: "center" },
 		{ title: "입고수량", field: "inMat_Qty", align: "right", headerHozAlign: "center"},
-		{ title: "반품수량", field: "inReturn_Qty", align: "right", editor: MIRI_InputEditor, headerHozAlign: "center"},
 		{ title: "단가", field: "inMat_Unit_Price", align: "right", headerHozAlign: "center", formatter : "money", formatterParams: { precision: false }},
-		{ title: "금액", field: "inMat_Price", align: "right", headerHozAlign: "center", formatter : "money", formatterParams: { precision: false } },
-		{ title: "재고수량", field: "inMat_Stock_Qty", visible: false },
+		{ title: "반품수량", field: "inReturn_Qty", align: "right", editor: MIRI_InputEditor, headerHozAlign: "center"},
 		{ title: "거래처코드", field: "inMat_Client_Code", visible: false },
-		{ title: "입고거래처", field: "inMat_Client_Name", headerHozAlign: "center" },
+		{ title: "거래처명", field: "inMat_Client_Name", headerHozAlign: "center" },
 		{ title: "입고구분", field: "inMat_Rcv_Clsfc_Name", headerHozAlign: "center" },
-		{ title: "입고일", field: "inMat_Date", headerHozAlign: "center" },
-		{ title: "데이터삽입시간", field: "inMat_dInsert_Time", headerHozAlign: "center" },
-		{ title: "작업자명", field: "inMat_Modifier", headerHozAlign: "center" }
+		{ title: "입고일", field: "inMat_Date", headerHozAlign: "center" }
 	]
 });
+
+$("#MIRI_SearchBtn").click(function(){
+	MIRI_Search()
+})
 
 // matInReturn 목록 검색
 function MIRI_Search() {
 	
-	var stockQty = null;
-		
 	var data = {
-		inMat_Code: $('#PRODUCT_ITEM_CODE1').val(),
-		inMat_Client_Code: $("#Client_Code1").val(),
+		itemCode: $('#PRODUCT_ITEM_CODE1').val(),
+		ClientCode: $("#Client_Code1").val(),
 	}
 	
-	if(data.inMat_Code == null || data.inMat_Code == ''){
-		alert("제품코드를 입력해 주세요.");
-		return false;
-	}
-	if(data.inMat_Client_Code == null || data.inMat_Client_Code == ''){
-		alert("거래처코드를 입력해 주세요.");
-		return false;
-	}
-	
-	$.ajax({
-		method: "GET",
-		dataType: "json",
-		async: false,
-		url: "matInReturnLXRest/MIRI_Search?data=" + encodeURI(JSON.stringify(data)),
-		success: function(datas) {
-			console.log(datas);
-			matInReturnInsertTable.setData(datas);
-			for(i=0; i<datas.length;i++) {
-				stockQty = datas[i].inMat_Stock_Qty;
-				//console.log(datas[i].inMat_Stock_Qty);
-			}
-			$('#MIRI_stockQty').val(stockQty);
-		}
-	});
+	matInReturnInsertTable.setData("matInReturnLXRest/MIRI_Search", data);
 }
 
+$("#MIRI_SaveBtn").click(function(){
+	MIRI_Save()
+})
+
 //MIRI_Save
-function MIRI_Save(selectedData) {
+function MIRI_Save() {
 	//선택된 행만 저장
 	//만약 선택된행에서 반품수량이 0 이면 저장 안함
-	selectedData = matInReturnInsertTable.getData("selected");
+	var selectedData = matInReturnInsertTable.getData("selected");
 
 	// 선택한 행이 있을경우에 저장이 가능하다.
 	if (selectedData.length == 0) {
@@ -157,21 +130,28 @@ function MIRI_Save(selectedData) {
 	
 	//반품수량이 재고수량보다 클 경우
 	for (var i = 0; i < selectedData.length; i++) {
-		if (selectedData[i].inReturn_Qty > selectedData[i].inMat_Stock_Qty) {
+		if (selectedData[i].inReturn_Qty > selectedData[i].inMat_Qty) {
 			alert("반품수량이 재고수량보다 많습니다.");
 			return;
 		}
 	}
 
 	$.ajax({
-		method: "get",
-		url: "matInReturnLXRest/MIRI_Save?data=" + encodeURI(JSON.stringify(selectedData)),
+		method: "post",
+		url: "matInReturnLXRest/MIRI_Save",
+		data: JSON.stringify(selectedData),
+		contentType:'application/json',
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success: function(result) {
-			if (result == "error") {
-				alert("중복된 값이 있습니다.");
-			} else if (result == "success") {
+			if (result) {
 				MIRI_Search();
 				alert("반품 처리 되었습니다.");
+			} else {
+				alert("중복된 값이 있습니다.");
 			}
 		}
 	});
@@ -184,49 +164,37 @@ var matInReturnSearchTable = new Tabulator("#matInReturnSearchTable", {
 	paginationAddRow: "table",
 	height: "calc(100% - 175px)",
 	layoutColumnsOnNewData: true,
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
 	rowDblClick: function(e, row) {
 		row.toggleSelect();
 	},
 	columns: [
-		{ title: "순번", field: "id", headerHozAlign: "center", align: "center" },
-		{ title: "발주No", field: "inMat_Order_No", headerHozAlign: "center" },
+		{ title: "순번", field: "rownum", headerHozAlign: "center", align: "center", formatter: "rownum"},
+		{ title: "발주번호", field: "inMat_Order_No", headerHozAlign: "center" },
+		{ title: "Lot번호", field: "inMat_Lot_No", headerHozAlign: "center", hozAlign: "left"},
 		{ title: "품목코드", field: "inMat_Code", headerHozAlign: "center" },
 		{ title: "품목명", field: "inMat_Name", headerHozAlign: "center"},
-		{ title: "반품수량", field: "inReturn_Qty", align: "right", headerHozAlign: "center"},
+		{ title: "규격1", field: "inMat_STND_1", headerHozAlign: "center", hozAlign: "left"},
+		{ title: "규격2", field: "inMat_STND_2", headerHozAlign: "center", hozAlign: "left"},
+		{ title: "단위", field: "inMat_UNIT", headerHozAlign: "center", hozAlign: "left" },
+		{ title: "반품수량", field: "inMat_Qty", align: "right", headerHozAlign: "center"},
 		{ title: "단가", field: "inMat_Unit_Price", align: "right", headerHozAlign: "center", formatter : "money", formatterParams: { precision: false } },
 		{ title: "금액", field: "inMat_Price", align: "right", headerHozAlign: "center", formatter : "money", formatterParams: { precision: false } },
-		{ title: "입고거래처", field: "inMat_Client_Name", headerHozAlign: "center"},
+		{ title: "거래처명", field: "inMat_Client_Name", headerHozAlign: "center"},
 		{ title: "입고구분", field: "inMat_Rcv_Clsfc_Name", headerHozAlign: "center" },
 		{ title: "입고일", field: "inMat_Date", headerHozAlign: "center" },
 		{ title: "반품일", field: "inMat_dInsert_Time", headerHozAlign: "center" },
-		{ title: "작업자명", field: "inMat_Modifier", headerHozAlign: "center" }
+		{ title: "작업자명", field: "inMat_Modifier", headerHozAlign: "center" }	
 	]
 });
 
 
 function MIRS_Search() {
-	data = {
+	var datas = {
 		startDate: $("#MIRS_startDate").val(),
 		endDate: $("#MIRS_endDate").val(),
-		inMat_Code: $('#PRODUCT_ITEM_CODE2').val(),
-		inMat_Client_Code: $("#Client_Code2").val()
+		itemCode: $("#PRODUCT_ITEM_CODE2").val(),
+		clientCode: $("#Client_Code2").val(),
+		ItemSendClsfc: "207"
 	}
-
-	$.ajax({
-		method: "GET",
-		dataType: "json",
-		url: "matInReturnLXRest/MIRS_Search?data=" + encodeURI(JSON.stringify(data)),
-		success: function(data) {
-			console.log(data)
-			matInReturnSearchTable.setData(data);
-		}
-	});
+	matInReturnSearchTable.setData("matInputLXRest/MIL_Search", datas)
 }
-
-function MIRS_STOCK() {
-	
-}
-
-

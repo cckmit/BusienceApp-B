@@ -48,4 +48,10 @@ public interface MatInputDao {
 	
 	//납품 명세서 세부 리스트
 	public List<InMatDto> matInputDeliverySubDao(SearchDto searchDto);
+	
+	//입고 반품 리스트
+	public List<InMatDto> matInReturnSelectDao(SearchDto searchDto);
+	
+	//입고 반품 저장
+	public List<InMatDto> matInReturnDao(SearchDto searchDto);
 }
