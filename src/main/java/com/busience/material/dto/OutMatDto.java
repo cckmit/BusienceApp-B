@@ -26,4 +26,12 @@ public class OutMatDto {
 	private String OM_Before;
 	private String OM_After;
 	private String OM_WareHouse;
+	
+	private String OM_Item_Stnd_1;
+	private String OM_Item_Stnd_2;
+	private String OM_Item_CLSFC_1;
+	private String OM_Item_CLSFC_1_Name;
+	private String OM_Item_CLSFC_2;
+	private String OM_Item_CLSFC_2_Name;
+	private String OM_Unit;
 }

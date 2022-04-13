@@ -7,16 +7,12 @@ import org.apache.ibatis.annotations.Mapper;
 import com.busience.common.dto.SearchDto;
 import com.busience.material.dto.LotMasterDto;
 import com.busience.material.dto.OutMatDto;
-import com.busience.material.dto.StockMat_tbl;
 
 @Mapper
 public interface MatOutputDao {
 	
 	//LotMaster 조회
 	public List<LotMasterDto> LotMasterSelectDao(SearchDto searchDto);
-	
-	//조회
-	public List<StockMat_tbl> OutMatListDao();
 	
 	//LotMaster 업데이트
 	public int LotMasterUpdateDao(OutMatDto outMatDto);
@@ -38,4 +34,16 @@ public interface MatOutputDao {
 	
 	//요청master
 	public int RequestMasterUpdateDao(OutMatDto outMatDto);
+	
+	//출고조회
+	public List<OutMatDto> matOutputListDao(SearchDto searchDto);
+	
+	//출고 조건별 조회
+	public List<OutMatDto> matOutputOtherListDao(SearchDto searchDto);
+	
+	//부서별 명세서 master
+	public List<OutMatDto> matOutputDeliveryMasterDao(SearchDto SearchDto);
+	
+	//부서별 명세서 sub
+	public List<OutMatDto> matOutputDeliverySubDao(SearchDto SearchDto);
 }

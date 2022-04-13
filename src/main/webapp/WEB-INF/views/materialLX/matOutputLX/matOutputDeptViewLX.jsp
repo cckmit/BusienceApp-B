@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!-- MAIN -->
 <div class="main">
 	<div class="top-var">
 		<!-- 버튼 -->
 		<div class="input-button">
-			<img src="/images/button/Search.png" onclick="MO_DeptViewSearchBtn()"/>
+			<img src="/images/button/Search.png" id="MODL_SearchBtn"/>
 			<img src="/images/button/Excel.png" onclick="excel_download(matOutputDeptViewTable)"/>
 		</div>
 		<!-- 버튼 -->
@@ -27,7 +26,7 @@
 			<div>
 				<span><strong>부서명</strong></span>
 				<select id="outMatDeptViewSelectBox">
-					<option value="all">all</option>
+					<option value="">all</option>
 					<c:forEach var="data" items="${OutMatDept}">
 						<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>
 					</c:forEach>

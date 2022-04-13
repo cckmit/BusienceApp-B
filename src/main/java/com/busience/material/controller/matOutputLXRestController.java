@@ -48,4 +48,24 @@ public class matOutputLXRestController {
 			return 0;
 		}
 	}
+	
+	@GetMapping("/MOL_Search")
+	public List<OutMatDto> MOL_Search(SearchDto searchDto){
+		return matOutputService.matOutputList(searchDto);
+	}
+	
+	@GetMapping("/MOOL_Search")
+	public List<OutMatDto> MOOL_Search(SearchDto searchDto){
+		return matOutputService.matOutputOtherList(searchDto);
+	}
+	
+	@GetMapping("/MODM_Search")
+	public List<OutMatDto> MODM_Search(SearchDto searchDto){
+		return matOutputService.matOutputDeliveryMaster(searchDto);
+	}
+	
+	@GetMapping("/MODS_Search")
+	public List<OutMatDto> MODS_Search(SearchDto searchDto){
+		return matOutputService.matOutputDeliverySub(searchDto);
+	}
 }

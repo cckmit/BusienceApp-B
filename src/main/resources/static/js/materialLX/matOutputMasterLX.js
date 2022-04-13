@@ -3,161 +3,156 @@ var matOutputListTable = new Tabulator("#matOutputListTable", {
 	pagination:"local",
 	paginationSize:20,
 	headerFilterPlaceholder: null,
+	layoutColumnsOnNewData : true,
 	height:"calc(100% - 175px)",
- 	columns:[ //Define Table Columns
- 	{title:"순번", field:"id", headerHozAlign: "center", headerFilter:true, hozAlign: "center"},
-	{title:"출고일자", field:"outMat_Date", headerHozAlign:"center", headerFilter:true, hozAlign:"left", width:150, formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
- 	{title:"출고구분", field:"outMat_Send_Clsfc_Name", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
- 	{title:"부서명", field:"outMat_Dept_Name", headerHozAlign:"center", headerFilter:true, hozAlign:"left", width:100},
-	{title:"수취인", field:"outMat_Consignee_Name", headerHozAlign:"center", headerFilter:true, hozAlign:"left", width:100},
- 	{title:"품목코드", field:"outMat_Code", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
- 	{title:"품명", field:"outMat_Name", headerHozAlign:"center", headerFilter:true, hozAlign:"left", width:170},
- 	{title:"규격", field:"outMat_STND_1", headerHozAlign:"center", headerFilter:true, hozAlign:"left", width:120},
- 	{title:"단위", field:"outMat_UNIT", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
- 	{title:"수량", field:"outMat_Qty", headerHozAlign:"center", headerFilter:true, hozAlign:"right"},
- 	{title:"등록자", field:"outMat_Modifier", headerHozAlign:"center", headerFilter:true, hozAlign:"left", width:80},
- 	{title:"등록일자", field:"outMat_dInsert_Time", headerHozAlign:"center", headerFilter:true, hozAlign:"left", width:140, formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}}
+ 	columns:[
+ 	{title:"순번", field:"rownum", headerHozAlign: "center", headerFilter:true, hozAlign: "center", formatter:"rownum"},
+	{title:"출고일자", field:"om_OutDate", headerHozAlign:"center", headerFilter:true, hozAlign:"left", 
+		formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
+ 	{title:"출고구분", field:"om_Send_Clsfc_Name", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
+ 	{title:"부서명", field:"om_DeptName", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
+ 	{title:"Lot번호", field:"om_LotNo", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
+ 	{title:"품목코드", field:"om_ItemCode", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
+ 	{title:"품명", field:"om_ItemName", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
+ 	{title:"규격1", field:"om_Item_Stnd_1", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
+	{title:"규격2", field:"om_Item_Stnd_2", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
+	{title:"분류1", field:"om_Item_CLSFC_1_Name", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
+	{title:"분류2", field:"om_Item_CLSFC_2_Name", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
+ 	{title:"단위", field:"om_UNIT", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
+ 	{title:"수량", field:"om_Qty", headerHozAlign:"center", headerFilter:true, hozAlign:"right"}
 	]
 });
 
-function MO_ListViewSearchBtn(){
-	data = {
+$("#MOL_SearchBtn").click(function(){
+	MOL_Search();
+})
+
+function MOL_Search(){
+	var data = {
 		startDate : $("#matOutputList_startDate").val(),
 		endDate : $("#matOutputList_endDate").val(),
-		outMat_Code : $("#PRODUCT_ITEM_CODE1").val(),
-		outMat_Send_Clsfc_Name : $("#outMatTypeListSelectBox option:selected").val(),
-		outMat_Dept_Name : $("#outMatDeptListSelectBox option:selected").val()
+		itemCode : $("#PRODUCT_ITEM_CODE1").val(),
+		ItemSendClsfc : $("#outMatTypeListSelectBox option:selected").val(),
+		DeptCode : $("#outMatDeptListSelectBox option:selected").val()
 	}
-
-	$.ajax({
-		method : "GET",
-		dataType : "json",
-		url : "matOutputReportLXRest/MO_ListView?data="+ encodeURI(JSON.stringify(data)),
-		success : function(data) {
-			console.log(data);
-			TableSetData(matOutputListTable,data);
-		}
-	});
+	matOutputListTable.setData("matOutputLXRest/MOL_Search", data);
 }
 
 var matOutputItemViewTable = new Tabulator("#matOutputItemViewTable", { 
 	//페이징
 	pagination:"local",
 	paginationSize:20,
+	layoutColumnsOnNewData : true,
     //Sub Total 색상
 	rowFormatter: function(row){
-		if(row.getData().outMat_Send_Clsfc_Name == "Sub Total"){
+		if(row.getData().om_Send_Clsfc_Name == "Sub Total"){
             row.getElement().style.backgroundColor = "#c0c0c0";
-            }
+    	}
     },
 	height:"calc(100% - 175px)",
- 	columns:[ //Define Table Columns
-	{title:"출고일자", field:"outMat_Date", headerHozAlign:"center",hozAlign:"left", formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
- 	{title:"출고구분", field:"outMat_Send_Clsfc_Name", headerHozAlign:"center" ,hozAlign:"center"},
- 	{title:"부서명", field:"outMat_Dept_Name", headerHozAlign:"center", hozAlign:"left", width:100},
-	{title:"수취인", field:"outMat_Consignee_Name", headerHozAlign:"center", hozAlign:"left", width:100},
- 	{title:"품목코드", field:"outMat_Code", headerHozAlign:"center",hozAlign:"left"},
- 	{title:"품명", field:"outMat_Name", headerHozAlign:"center",hozAlign:"left", width:170},
- 	{title:"규격", field:"outMat_STND_1", headerHozAlign:"center",hozAlign:"left", width:120},
- 	{title:"단위", field:"outMat_UNIT", headerHozAlign:"center",hozAlign:"left", width:60},
- 	{title:"수량", field:"outMat_Qty", headerHozAlign:"center",hozAlign:"right"}
- 	],
+ 	columns:[
+	{title:"순번", field:"rownum", headerHozAlign: "center", hozAlign: "center", formatter:"rownum"},
+	{title:"출고일자", field:"om_OutDate", headerHozAlign:"center", hozAlign:"left", 
+		formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
+ 	{title:"출고구분", field:"om_Send_Clsfc_Name", headerHozAlign:"center", hozAlign:"left"},
+ 	{title:"부서명", field:"om_DeptName", headerHozAlign:"center", hozAlign:"left"},
+	{title:"Lot번호", field:"om_LotNo", headerHozAlign:"center", hozAlign:"left"},
+ 	{title:"품목코드", field:"om_ItemCode", headerHozAlign:"center", hozAlign:"left"},
+ 	{title:"품명", field:"om_ItemName", headerHozAlign:"center", hozAlign:"left"},
+ 	{title:"규격1", field:"om_Item_Stnd_1", headerHozAlign:"center", hozAlign:"left"},
+	{title:"규격2", field:"om_Item_Stnd_2", headerHozAlign:"center", hozAlign:"left"},
+	{title:"분류1", field:"om_Item_CLSFC_1_Name", headerHozAlign:"center", hozAlign:"left"},
+	{title:"분류2", field:"om_Item_CLSFC_2_Name", headerHozAlign:"center", hozAlign:"left"},
+ 	{title:"단위", field:"om_UNIT", headerHozAlign:"center", hozAlign:"left"},
+ 	{title:"수량", field:"om_Qty", headerHozAlign:"center", hozAlign:"right"}
+ 	]
 });
 
-function MO_ItemViewSearchBtn() {
-	data = {
+$("#MOIL_SearchBtn").click(function(){
+	MOIL_Search();
+})
+
+function MOIL_Search(){
+	var data = {
 		startDate : $("#matOutputItemView_startDate").val(),
 		endDate : $("#matOutputItemView_endDate").val(),
-		outMat_Code : $("#PRODUCT_ITEM_CODE2").val(),
-		outMat_Send_Clsfc : $("#outMatTypeItemViewSelectBox option:selected").val()
+		itemCode : $("#PRODUCT_ITEM_CODE2").val(),
+		ItemSendClsfc : $("#outMatTypeItemViewSelectBox option:selected").val()
 	}
-
-	$.ajax({
-		method : "GET",
-		dataType : "json",
-		url : "matOutputReportLXRest/MO_ItemView?data="+ encodeURI(JSON.stringify(data)),
-		success : function(data) {
-			console.log(data);
-			TableSetData(matOutputItemViewTable,data);
-		}
-	});
+	matOutputItemViewTable.setData("matOutputLXRest/MOOL_Search", data);
 }
 
 var matOutputDeptViewTable = new Tabulator("#matOutputDeptViewTable", { 
 	//페이징
 	pagination:"local",
 	paginationSize:20,
+	layoutColumnsOnNewData : true,
     //Sub Total 색상
 	rowFormatter: function(row){
-		if(row.getData().outMat_Send_Clsfc_Name == "Sub Total"){
+		if(row.getData().om_Send_Clsfc_Name == "Sub Total"){
             row.getElement().style.backgroundColor = "#c0c0c0";
             }
     },
 	height:"calc(100% - 175px)",
- 	columns:[ //Define Table Columns
-	{title:"출고일자", field:"outMat_Date", headerHozAlign:"center",hozAlign:"left", formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
- 	{title:"출고구분", field:"outMat_Send_Clsfc_Name", headerHozAlign:"center" ,hozAlign:"center"},
-	{title:"부서코드", field:"outMat_Dept_Code", headerHozAlign:"center",hozAlign:"left"},
- 	{title:"부서명", field:"outMat_Dept_Name", headerHozAlign:"center", hozAlign:"left", width:100},
-	{title:"수취인", field:"outMat_Consignee_Name", headerHozAlign:"center", hozAlign:"left", width:100},
- 	{title:"품명", field:"outMat_Name", headerHozAlign:"center",hozAlign:"left", width:170},
- 	{title:"규격", field:"outMat_STND_1", headerHozAlign:"center",hozAlign:"left", width:120},
- 	{title:"단위", field:"outMat_UNIT", headerHozAlign:"center",hozAlign:"left", width:60},
- 	{title:"수량", field:"outMat_Qty", headerHozAlign:"center",hozAlign:"right"}
- 	],
+ 	columns:[
+	{title:"순번", field:"rownum", headerHozAlign: "center", hozAlign: "center", formatter:"rownum"},
+	{title:"출고일자", field:"om_OutDate", headerHozAlign:"center", hozAlign:"left", 
+		formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
+ 	{title:"출고구분", field:"om_Send_Clsfc_Name", headerHozAlign:"center", hozAlign:"left"},
+ 	{title:"부서명", field:"om_DeptName", headerHozAlign:"center", hozAlign:"left"},
+	{title:"Lot번호", field:"om_LotNo", headerHozAlign:"center", hozAlign:"left"},
+ 	{title:"품목코드", field:"om_ItemCode", headerHozAlign:"center", hozAlign:"left"},
+ 	{title:"품명", field:"om_ItemName", headerHozAlign:"center", hozAlign:"left"},
+ 	{title:"규격1", field:"om_Item_Stnd_1", headerHozAlign:"center", hozAlign:"left"},
+	{title:"규격2", field:"om_Item_Stnd_2", headerHozAlign:"center", hozAlign:"left"},
+	{title:"분류1", field:"om_Item_CLSFC_1_Name", headerHozAlign:"center", hozAlign:"left"},
+	{title:"분류2", field:"om_Item_CLSFC_2_Name", headerHozAlign:"center", hozAlign:"left"},
+ 	{title:"단위", field:"om_UNIT", headerHozAlign:"center", hozAlign:"left"},
+ 	{title:"수량", field:"om_Qty", headerHozAlign:"center", hozAlign:"right"}
+ 	]
 });
 
-function MO_DeptViewSearchBtn() {
-	data = {
+$("#MODL_SearchBtn").click(function(){
+	MODL_Search();
+})
+
+function MODL_Search(){
+	var data = {
 		startDate : $("#matOutputDeptView_startDate").val(),
 		endDate : $("#matOutputDeptView_endDate").val(),
-		outMat_Send_Clsfc : $("#outMatTypeDeptViewSelectBox option:selected").val(),
-		outMat_Dept_Name : $("#outMatDeptViewSelectBox option:selected").val()
+		DeptCode : $("#outMatDeptViewSelectBox option:selected").val(),
+		ItemSendClsfc : $("#outMatTypeDeptViewSelectBox option:selected").val()
 	}
-
-	$.ajax({
-		method : "GET",
-		dataType : "json",
-		url : "matOutputReportLXRest/MO_DeptView?data="+ encodeURI(JSON.stringify(data)),
-		success : function(data) {
-			console.log(data);
-			TableSetData(matOutputDeptViewTable,data);
-		}
-	});
+	matOutputDeptViewTable.setData("matOutputLXRest/MOOL_Search", data);
 }
-
 
 var matOutputDeliveryListTable = new Tabulator("#matOutputDeliveryListTable", { 
 	//페이징
 	pagination:"local",
 	paginationSize:20,
-	 //Sub Total 색상
-	rowFormatter: function(row){
-		if(row.getData().outMat_Dept_Code == "Sub Total"){
-            row.getElement().style.backgroundColor = "#c0c0c0";
-            }
-    },
+	layoutColumnsOnNewData : true,
 	height:"calc(100% - 175px)",
 	//행클릭 이벤트
 	rowClick: function(e, row) {
 		matOutputDeliveryListTable.deselectRow();
 		row.select();
-		MO_DeliveryItem(row.getData().outMat_Dept_Code);
+		MODS_Search(row.getData().om_DeptCode);
 	},
- 	columns:[ //Define Table Columns
- 	{title:"순번", field:"id", headerHozAlign: "center", hozAlign: "center"},
-	{title:"부서코드", field:"outMat_Dept_Code", headerHozAlign:"center",hozAlign:"center"},
-	{title:"부서명", field:"outMat_Dept_Name", headerHozAlign:"center",hozAlign:"left", width:100},
- 	{title:"수량", field:"outMat_Qty", headerHozAlign:"center" ,hozAlign:"right", formatter : "money", formatterParams: {precision: false}}
+ 	columns:[
+ 	{title:"순번", field:"rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum"},
+	{title:"부서코드", field:"om_DeptCode", headerHozAlign:"center",hozAlign:"center"},
+	{title:"부서명", field:"om_DeptName", headerHozAlign:"center",hozAlign:"left"},
+ 	{title:"수량", field:"om_Qty", headerHozAlign:"center" ,hozAlign:"right",
+		formatter : "money", formatterParams: {precision: false}}
  	],
 });
 
-$("#MO_DeliveryListSearchBtn").click(function() {
+$("#MODM_SearchBtn").click(function(){
 	matOutputDeliveryItemTable.clearData();
-	MO_DeliveryListSearchBtn();
+	MODM_Search();
 })
 
-function MO_DeliveryListSearchBtn() {
+function MODM_Search() {
 
 	var thisMonth = $("#selectedMonth").val() + "-01";
 	var nextMontth = new Date($("#selectedMonth").val() + "-01");
@@ -167,43 +162,41 @@ function MO_DeliveryListSearchBtn() {
 		startDate: thisMonth,
 		endDate: nextMontth
 	}
-	matOutputDeliveryListTable.setData("matOutputReportLXRest/MO_DeliverySearch", datas);
+	matOutputDeliveryListTable.setData("matOutputLXRest/MODM_Search", datas);
 }
-
 
 var matOutputDeliveryItemTable = new Tabulator("#matOutputDeliveryItemTable", { 
 	//페이징
 	pagination:"local",
 	paginationSize:20,
-	 //Sub Total 색상
-	rowFormatter: function(row){
-		if(row.getData().outMat_Code == "Sub Total"){
-            row.getElement().style.backgroundColor = "#c0c0c0";
-         }
-    },
+	layoutColumnsOnNewData : true,
 	height:"calc(100% - 175px)",
- 	columns:[ //Define Table Columns
- 	{title:"순번", field:"outMat_No", headerHozAlign: "center", hozAlign: "center"},
- 	{title:"출고일자", field:"outMat_Date", headerHozAlign:"center",hozAlign:"center", formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
- 	{title:"출고구분", field:"outMat_Send_Clsfc_Name", headerHozAlign:"center" ,hozAlign:"left"},
-	{title:"품목코드", field:"outMat_Code", headerHozAlign:"center",hozAlign:"left"},
-	{title:"품명", field:"outMat_Name", headerHozAlign:"center",hozAlign:"left", width:155},
-	{title:"규격", field:"outMat_STND_1", headerHozAlign:"center",hozAlign:"left", width:120},
- 	{title:"단위", field:"outMat_UNIT", headerHozAlign:"center",hozAlign:"left"},
- 	{title:"수량", field:"outMat_Qty", headerHozAlign:"center" ,hozAlign:"right"}
- 	],
+ 	columns:[
+ 	{title:"순번", field:"rownum", headerHozAlign: "center", hozAlign: "center", formatter:"rownum"},
+	{title:"출고일자", field:"om_OutDate", headerHozAlign:"center", hozAlign:"left", 
+		formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
+ 	{title:"출고구분", field:"om_Send_Clsfc_Name", headerHozAlign:"center", hozAlign:"left"},
+ 	{title:"품목코드", field:"om_ItemCode", headerHozAlign:"center", hozAlign:"left"},
+ 	{title:"품명", field:"om_ItemName", headerHozAlign:"center", hozAlign:"left"},
+ 	{title:"규격1", field:"om_Item_Stnd_1", headerHozAlign:"center", hozAlign:"left"},
+	{title:"규격2", field:"om_Item_Stnd_2", headerHozAlign:"center", hozAlign:"left"},
+	{title:"분류1", field:"om_Item_CLSFC_1_Name", headerHozAlign:"center", hozAlign:"left"},
+	{title:"분류2", field:"om_Item_CLSFC_2_Name", headerHozAlign:"center", hozAlign:"left"},
+ 	{title:"단위", field:"om_UNIT", headerHozAlign:"center", hozAlign:"left"},
+ 	{title:"수량", field:"om_Qty", headerHozAlign:"center", hozAlign:"right"}
+ 	]
 });
 
-function MO_DeliveryItem(deptCode) {
+function MODS_Search(deptCode) {
 
-    var thisMonth = $("#selectedMonth").val() + "-01";
+	var thisMonth = $("#selectedMonth").val() + "-01";
 	var nextMontth = new Date($("#selectedMonth").val() + "-01");
 	nextMontth = new Date(nextMontth.setMonth(nextMontth.getMonth() + 1)).toISOString().substring(0, 10);
 
 	var datas = {
 		startDate: thisMonth,
 		endDate: nextMontth,
-		deptCode: deptCode
+		DeptCode: deptCode
 	}
-	matOutputDeliveryItemTable.setData("matOutputReportLXRest/MO_DeliveryItem", datas);
+	matOutputDeliveryItemTable.setData("matOutputLXRest/MODS_Search", datas);
 }

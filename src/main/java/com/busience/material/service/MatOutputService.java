@@ -41,8 +41,6 @@ public class MatOutputService {
 	//등록
 	public int outMatInsert(RequestSubDto requestSubDto,List<OutMatDto> outMatDtoList, String userCode){
 		try {
-			System.out.println(requestSubDto);
-			System.out.println(outMatDtoList);
 			//판매구분
 			List<DtlDto> dtlDto = dtlDao.findByCode(18);
 			List<DtlDto> wareHouseList = dtlDao.findByCode(10);
@@ -57,7 +55,7 @@ public class MatOutputService {
 						outMatDto.setOM_RequestNo(requestSubDto.getRS_RequestNo());
 						outMatDto.setOM_WareHouse(wareHouseList.get(0).getCHILD_TBL_NO());
 						outMatDto.setOM_Send_Clsfc(requestSubDto.getRS_Send_Clsfc());
-						outMatDto.setOM_Modifier(requestSubDto.getRS_RequestNo());
+						outMatDto.setOM_Modifier(userCode);
 						
 						//랏마스터
 						matOutputDao.LotMasterUpdateDao(outMatDtoList.get(i));
@@ -112,5 +110,51 @@ public class MatOutputService {
 			e.printStackTrace();
 			return 0;
 		}
+	}
+	
+	//출고조회
+	public List<OutMatDto> matOutputList(SearchDto searchDto){
+		return matOutputDao.matOutputListDao(searchDto);
+	}
+	
+	//출고 조건별 조회
+	public List<OutMatDto> matOutputOtherList(SearchDto searchDto){
+		List<OutMatDto> outMatDtoList = matOutputDao.matOutputOtherListDao(searchDto);
+		for(int i=0;i<outMatDtoList.size();i++) {
+			String itemCode = outMatDtoList.get(i).getOM_ItemCode();
+			String deptCode = outMatDtoList.get(i).getOM_DeptCode();
+			
+			if(itemCode == null || deptCode == null) {
+				outMatDtoList.get(i).setOM_RequestNo("");
+				outMatDtoList.get(i).setOM_LotNo("");
+				outMatDtoList.get(i).setOM_OutDate("");
+				outMatDtoList.get(i).setOM_Send_Clsfc_Name("Sub Total");
+			}
+			if(itemCode == null) {
+				outMatDtoList.get(i).setOM_Item_Stnd_1("");
+				outMatDtoList.get(i).setOM_Item_Stnd_2("");
+				outMatDtoList.get(i).setOM_Item_CLSFC_1_Name("");
+				outMatDtoList.get(i).setOM_Item_CLSFC_2_Name("");
+				outMatDtoList.get(i).setOM_Unit("");
+				outMatDtoList.get(i).setOM_ItemName("");
+				
+			}else if(deptCode == null) {
+				outMatDtoList.get(i).setOM_DeptName("");
+			}
+			if(itemCode == null && deptCode == null) {
+				outMatDtoList.get(i).setOM_Send_Clsfc_Name("Grand Total");
+			}
+		}
+		return outMatDtoList;
+	}
+	
+	//부서별 명세서 master
+	public List<OutMatDto> matOutputDeliveryMaster(SearchDto searchDto){
+		return matOutputDao.matOutputDeliveryMasterDao(searchDto);
+	}
+	
+	//부서별 명세서 sub
+	public List<OutMatDto> matOutputDeliverySub(SearchDto searchDto){
+		return matOutputDao.matOutputDeliverySubDao(searchDto);
 	}
 }

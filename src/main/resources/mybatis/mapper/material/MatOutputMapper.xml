@@ -86,4 +86,95 @@
 			)
 		where RM_RequestNo = #{OM_RequestNo}
 	</update>
+	
+	<select id="matOutputListDao" resultType="com.busience.material.dto.OutMatDto">
+		select 
+			A.OM_No, A.OM_RequestNo, A.OM_LotNo,
+		    A.OM_ItemCode, B.Product_Item_Name OM_ItemName,
+		    B.Product_Info_STND_1 OM_Item_Stnd_1, B.Product_Info_STND_2 OM_Item_Stnd_2,
+		    B.Product_Item_CLSFC_1 OM_Item_CLSFC_1, E.Child_TBL_Type OM_Item_CLSFC_1_Name,
+		    B.Product_Item_CLSFC_2 OM_Item_CLSFC_2, F.Child_TBL_Type OM_Item_CLSFC_2_Name,
+		    A.OM_Qty, A.OM_DeptCode, C.Child_TBL_Type OM_DeptName,
+		    A.OM_Send_Clsfc, D.Child_TBL_Type OM_Send_Clsfc_Name,
+		    A.OM_OutDate, A.OM_Create_Date, A.OM_Modifier
+		from OutMat_tbl A
+		inner join Product_Info_tbl B on A.OM_ItemCode = B.Product_Item_Code
+		inner join DTL_TBL C on A.OM_DeptCode = C.Child_TBL_No
+		inner join DTL_TBL D on A.OM_Send_Clsfc = D.Child_TBL_No
+		inner join DTL_TBL E on B.Product_Item_CLSFC_1 = E.Child_TBL_No
+		inner join DTL_TBL F on B.Product_Item_CLSFC_2 = F.Child_TBL_No
+		<![CDATA[
+			where A.OM_OutDate >= #{startDate} and A.OM_OutDate < #{endDate}
+		]]>
+		and A.OM_ItemCode like concat('%',#{ItemCode},'%') and A.OM_DeptCode like concat('%',#{DeptCode},'%')
+		<if test="ItemSendClsfc != 'all'">
+			and A.OM_Send_Clsfc = #{ItemSendClsfc}
+		</if>
+		order by A.OM_OutDate
+	</select>
+	
+	<select id="matOutputOtherListDao" resultType="com.busience.material.dto.OutMatDto">
+		select 
+			A.OM_No, A.OM_RequestNo, A.OM_LotNo,
+		    A.OM_ItemCode, B.Product_Item_Name OM_ItemName,
+		    B.Product_Info_STND_1 OM_Item_Stnd_1, B.Product_Info_STND_2 OM_Item_Stnd_2,
+		    B.Product_Item_CLSFC_1 OM_Item_CLSFC_1, E.Child_TBL_Type OM_Item_CLSFC_1_Name,
+		    B.Product_Item_CLSFC_2 OM_Item_CLSFC_2, F.Child_TBL_Type OM_Item_CLSFC_2_Name,
+		    sum(A.OM_Qty) OM_Qty, A.OM_DeptCode, C.Child_TBL_Type OM_DeptName,
+		    A.OM_Send_Clsfc, D.Child_TBL_Type OM_Send_Clsfc_Name,
+		    A.OM_OutDate, A.OM_Create_Date, A.OM_Modifier
+		from OutMat_tbl A
+		inner join Product_Info_tbl B on A.OM_ItemCode = B.Product_Item_Code
+		inner join DTL_TBL C on A.OM_DeptCode = C.Child_TBL_No
+		inner join DTL_TBL D on A.OM_Send_Clsfc = D.Child_TBL_No
+		inner join DTL_TBL E on B.Product_Item_CLSFC_1 = E.Child_TBL_No
+		inner join DTL_TBL F on B.Product_Item_CLSFC_2 = F.Child_TBL_No
+		<![CDATA[
+			where A.OM_OutDate >= #{startDate} and A.OM_OutDate < #{endDate}
+		]]>
+		<if test="ItemSendClsfc != 'all'">
+			and A.OM_Send_Clsfc = #{ItemSendClsfc}
+		</if>
+		<if test="ItemCode != null">
+			and A.OM_ItemCode like concat('%',#{ItemCode},'%')
+			group by A.OM_ItemCode, A.OM_DeptCode with rollup
+		</if>
+		<if test="DeptCode != null">
+			and A.OM_DeptCode like concat('%',#{DeptCode},'%')
+			group by A.OM_DeptCode, A.OM_ItemCode with rollup
+		</if>
+	</select>
+	
+	<select id="matOutputDeliveryMasterDao" resultType="com.busience.material.dto.OutMatDto">
+		select 
+			A.OM_RequestNo, A.OM_LotNo, A.OM_No, A.OM_ItemCode,
+			sum(A.OM_Qty) OM_Qty, A.OM_DeptCode, B.Child_TBL_Type OM_DeptName,
+            A.OM_OutDate, A.OM_Send_Clsfc
+		from OutMat_tbl A 
+		inner join DTL_TBL B on A.OM_DeptCode = B.Child_TBL_No 
+		<![CDATA[
+			where A.OM_OutDate >= #{startDate} and A.OM_OutDate < #{endDate}
+		]]>
+			group by A.OM_DeptCode
+	</select>
+	
+	<select id="matOutputDeliverySubDao" resultType="com.busience.material.dto.OutMatDto">
+		select 
+			A.OM_No, A.OM_OutDate, E.CHILD_TBL_TYPE OM_Send_Clsfc_Name,
+            A.OM_DeptCode, A.OM_ItemCode, B.PRODUCT_ITEM_NAME OM_ItemName,
+			B.PRODUCT_INFO_STND_1 OM_Item_Stnd_1, B.PRODUCT_INFO_STND_2 OM_Item_Stnd_2,
+			B.Product_Item_CLSFC_1 OM_Item_CLSFC_1, E.Child_TBL_Type OM_Item_CLSFC_1_Name,
+		    B.Product_Item_CLSFC_2 OM_Item_CLSFC_2, F.Child_TBL_Type OM_Item_CLSFC_2_Name,
+			D.CHILD_TBL_TYPE OM_UNIT, A.OM_Qty
+		from OutMat_tbl A
+		inner join Product_Info_tbl B on A.OM_ItemCode = B.PRODUCT_ITEM_CODE 
+		left outer join DTL_TBL C on B.PRODUCT_UNIT = C.CHILD_TBL_NO
+		left outer join DTL_TBL D on A.OM_Send_Clsfc = D.CHILD_TBL_NO
+		inner join DTL_TBL E on B.Product_Item_CLSFC_1 = E.Child_TBL_No
+		inner join DTL_TBL F on B.Product_Item_CLSFC_2 = F.Child_TBL_No
+		<![CDATA[
+			where A.OM_OutDate >= #{startDate} and A.OM_OutDate < #{endDate}
+		]]>
+		and A.OM_DeptCode = #{deptCode}
+	</select>
 </mapper>

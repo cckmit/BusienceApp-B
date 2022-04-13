@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- css -->
 <link href="/css/tabMenu.css" rel="stylesheet" />
 
@@ -15,14 +14,18 @@
 
 		<div id="content">
 			<ol>
-				<li><div id="div1"><jsp:include
-							page="matOutputListLX.jsp" /></div></li>
-				<li><div id="div2"><jsp:include
-							page="matOutputItemViewLX.jsp" /></div></li>
-				<li><div id="div3"><jsp:include
-							page="matOutputDeptViewLX.jsp" /></div></li>
-				<li><div id="div4"><jsp:include
-							page="matOutputDeliveryListLX.jsp" /></div></li>
+				<li>
+					<div id="div1"><jsp:include page="matOutputListLX.jsp" /></div>
+				</li>
+				<li>
+					<div id="div2"><jsp:include page="matOutputItemViewLX.jsp" /></div>
+				</li>
+				<li>
+					<div id="div3"><jsp:include	page="matOutputDeptViewLX.jsp" /></div>
+				</li>
+				<li>
+					<div id="div4"><jsp:include page="matOutputDeliveryListLX.jsp" /></div>
+				</li>
 			</ol>
 		</div>
 	</div>
