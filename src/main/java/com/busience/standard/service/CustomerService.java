@@ -21,6 +21,11 @@ public class CustomerService {
 		return customerDao.selectCustomerListDao();
 	}
 	
+	//선택 조회
+	public CustomerDto selectCustomerDao(String Cus_Code) {
+		return customerDao.selectCustomerDao(Cus_Code);
+	}
+	
 	//등록
 	public int insertCustomer(CustomerDto customerDto) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

@@ -59,4 +59,10 @@ public class popupController {
 		
 		return "normal/popup/hometaxApiPopup";
 	}
+	
+	// 발주서 인쇄
+	@GetMapping("/orderprint")
+	public String MO_print() {
+		return "normal/materialLX/matOrderPrint";
+	}
 }
