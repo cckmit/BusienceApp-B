@@ -64,14 +64,32 @@
 	<input type="hidden" id="mDate" name="mDate" value="">
 	<input type="hidden" id="mDlvry_Date" name="mDlvry_Date" value="">
 	<input type="hidden" id="MyCom_Rgstr_Nr" name="MyCom_Rgstr_Nr" value="">
-	<input type="text" id="mCusCo" name="mCusCo" value="">
-	<input type="text" id="mCusMng" name="mCusMng" value="">
-	<input type="text" id="mCusRprsn" name="mCusRprsn" value="">
-	<input type="text" id="mCusRprsnPhNr" name="mCusRprsnPhNr" value="">
-	<input type="text" id="mCusAdr" name="mCusAdr" value="">
-	<input type="text" id="mCusAdr" name="mCusAdr" value="">
-	<input type="text" id="mCusMngPhNr" name="mCusMngPhNr" value="">
-	<input type="text" id="mTotal" name="mTotal" value="">
+	<input type="hidden" id="mCusCo" name="mCusCo" value="">
+	<input type="hidden" id="mCusMng" name="mCusMng" value="">
+	<input type="hidden" id="mCusRprsn" name="mCusRprsn" value="">
+	<input type="hidden" id="mCusRprsnPhNr" name="mCusRprsnPhNr" value="">
+	<input type="hidden" id="mCusAdr" name="mCusAdr" value="">
+	<input type="hidden" id="mCusMngPhNr" name="mCusMngPhNr" value="">
+	<input type="hidden" id="mTotal" name="mTotal" value="">
+	<!-- 우리 회사 정보 -->
+	<input type="hidden" id="mOurCoName" name="mOurCoName" value="">
+	<input type="hidden" id="mOurCoAdr" name="mOurCoAdr" value="">
+	<input type="hidden" id="mOurCoRprsn" name="mOurCoRprsn" value="">
+	<input type="hidden" id="mOurCoRprsnPhNr" name="mOurCoRprsnPhNr" value="">
+	<input type="hidden" id="mOurCoMng" name="mOurCoMng" value="">
+	<input type="hidden" id="mOurCoMngPhNr" name="mOurCoMngPhNr" value="">
+	<input type="hidden" id="mOurCoEmail" name="mOurCoEmail" value="">
+	<!-- Sub 테이블 정보 -->
+	<input type="text" id="mSubNo" name="mSubNo[]" value="">
+	<input type="hidden" id="mSubCode" name="mSub" value="">
+	<input type="hidden" id="mSubName" name="mSub" value="">
+	<input type="hidden" id="mSubSTND" name="mSub" value="">
+	<input type="hidden" id="mSubQty" name="mSub" value="">
+	<input type="hidden" id="mSubUnitPrice" name="mSub" value="">
+	<input type="hidden" id="mSubPrice" name="mSub" value="">
+	<input type="hidden" id="mSubRemark" name="mSub" value="">
+	
+	
 </form>
 <!-- END WRAPPER -->
 

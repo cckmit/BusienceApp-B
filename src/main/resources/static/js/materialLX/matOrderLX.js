@@ -309,50 +309,57 @@ function MO_CusCodeSelect() {
 
 //orderprint
 function MO_print(data) {
-	console.log(ourCompany);
-	
-	response.json().then(data => {
-  // do something with your data
-});
+	$.when(MO_OurCompany())
+		.then(function(result) {
+			console.log(result);
+			ourCompany = result;
+			// 우리 회사 정보
+			console.log(ourCompany.cus_Name);
+			$('#mOurCoName').val(ourCompany.cus_Name);
+			$('#mOurCoAdr').val(ourCompany.cus_Adr);
+			$('#mOurCoRprsn').val(ourCompany.cus_Rprsn);
+			$('#mOurCoRprsnPhNr').val(ourCompany.cus_Rprsn_PhNr);
+			$('#mOurCoMng').val(ourCompany.cus_Mng);
+			$('#mOurCoMngPhNr').val(ourCompany.cus_Mng_PhNr);
+			$('#mOurCoEmail').val(ourCompany.cus_Mng_Email);
+			
+			console.log(data);
+			selectedData = matOrderTable.getData("selected");
+			console.log(selectedData);
+			//선택한 행이 있을경우 프린트가능
+			if (selectedData.length == 1) {
+				console.log(data.cus_Rgstr_Nr);
+				//팝업창으로 파라미터를 전달하기위해 form태그 input 안에 저장
+				$('#mCus_No').val(selectedData[0].order_mCus_No);
+				$('#mCode').val(selectedData[0].order_mCode);
+				$('#mName').val(selectedData[0].order_mName);
+				$('#mDate').val(selectedData[0].order_mDate);
+				$('#mDlvry_Date').val(selectedData[0].order_mDlvry_Date);
+				$('#MyCom_Rgstr_Nr').val(data.cus_Rgstr_Nr);
+				$('#mCusCo').val(data.cus_Co);
+				$('#mCusMng').val(data.cus_Mng);
+				$('#mCusAdr').val(data.cus_Adr);
+				$('#mCusRprsn').val(data.cus_Rprsn);
+				$('#mCusRprsnPhNr').val(data.cus_Rgstr_Nr);
+				$('#mCusMngPhNr').val(data.cus_Mng_PhNr);
+				$('#mTotal').val(selectedData[0].order_mTotal);
 
-	console.log(data);
-	selectedData = matOrderTable.getData("selected");
-	console.log(selectedData);
-	//선택한 행이 있을경우 프린트가능
-	if (selectedData.length == 1) {
-		console.log(data.cus_Rgstr_Nr);
-		//팝업창으로 파라미터를 전달하기위해 form태그 input 안에 저장
-		$('#mCus_No').val(selectedData[0].order_mCus_No);
-		$('#mCode').val(selectedData[0].order_mCode);
-		$('#mName').val(selectedData[0].order_mName);
-		$('#mDate').val(selectedData[0].order_mDate);
-		$('#mDlvry_Date').val(selectedData[0].order_mDlvry_Date);
-		$('#MyCom_Rgstr_Nr').val(data.cus_Rgstr_Nr);
-		$('#mCusCo').val(data.cus_Co);
-		$('#mCusMng').val(data.cus_Mng);
-		$('#mCusAdr').val(data.cus_Adr);
-		$('#mCusRprsn').val(data.cus_Rprsn);
-		$('#mCusRprsnPhNr').val(data.cus_Rgstr_Nr);
-		$('#mCusMngPhNr').val(data.cus_Mng_PhNr);
-		$('#mTotal').val(selectedData[0].order_mTotal);
-		//창의 주소
-		var url = "orderprint";
-		//창의 이름
-		var name = "orderprint";
-		//창의 css
-		var option = "width = 800, height = 800, top = 50, left = 300, location = no";
+				//창의 주소
+				var url = "orderprint";
+				//창의 이름
+				var name = "orderprint";
+				//창의 css
+				var option = "width = 800, height = 800, top = 50, left = 300, location = no";
 
-		openWin = window.open(url, name, option);
-		$("#cus_frm").submit();
-	} else {
-		alert("행을 선택해주세요. 선택한 행의 데이터를 인쇄 할 수 있습니다.")
-	}
+				openWin = window.open(url, name, option);
+				$("#cus_frm").submit();
+			} else {
+				alert("행을 선택해주세요. 선택한 행의 데이터를 인쇄 할 수 있습니다.")
+			}
+		})
+
+
 }
-
-
-$('.printBtn').on('click', function() {
-	window.print();
-});
 
 //matOrderSub커스텀 기능설정
 var MOL_InputEditor = function(cell, onRendered, success, cancel, editorParams) {
@@ -798,6 +805,7 @@ function MO_OurCompany() {
 		async: false,
 		url: "customerManageRest/selectOneCustomer",
 		data: datas,
+		contentType: 'application/json',
 		success: function(result) {
 			console.log(result);
 			resultData = result;

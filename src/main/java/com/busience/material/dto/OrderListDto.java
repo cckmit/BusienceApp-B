@@ -20,6 +20,7 @@ public class OrderListDto {
 	private int Order_lNot_Stocked;
 	private String Order_Rcv_Clsfc;
 	private String Order_lInfo_Remark;
-	
+	private String Order_Dlvry_Date;
+	private String Order_Product_Unit;
 	private String Order_Rcv_Clsfc_Name;
 }
