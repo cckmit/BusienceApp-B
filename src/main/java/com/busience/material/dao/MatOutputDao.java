@@ -14,6 +14,9 @@ public interface MatOutputDao {
 	//LotMaster 조회
 	public List<LotMasterDto> LotMasterSelectDao(SearchDto searchDto);
 	
+	//LotMaster 등록
+	public int LotMasterInsertDao(OutMatDto outMatDto);
+	
 	//LotMaster 업데이트
 	public int LotMasterUpdateDao(OutMatDto outMatDto);
 	
@@ -28,6 +31,9 @@ public interface MatOutputDao {
 	
 	//요청sub 업데이트
 	public int RequestSubUpdateDao(OutMatDto outMatDto);
+	
+	//재고테이블 수정
+	public int StockInsertDao(OutMatDto outMatDto);
 	
 	//재고테이블 수정
 	public int StockUpdateDao(OutMatDto outMatDto);
@@ -46,4 +52,7 @@ public interface MatOutputDao {
 	
 	//부서별 명세서 sub
 	public List<OutMatDto> matOutputDeliverySubDao(SearchDto SearchDto);
+	
+	//출고 반품 리스트
+	public List<OutMatDto> matOutReturnSelectDao(SearchDto searchDto);
 }

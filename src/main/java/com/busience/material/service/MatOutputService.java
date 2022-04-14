@@ -16,7 +16,6 @@ import com.busience.material.dto.LotMasterDto;
 import com.busience.material.dto.OutMatDto;
 import com.busience.material.dto.RequestSubDto;
 import com.busience.salesLX.dao.SalesInputLXDao;
-import com.busience.salesLX.dto.Sales_InMat_tbl;
 
 @Service
 public class MatOutputService {
@@ -39,12 +38,12 @@ public class MatOutputService {
 	}
 	
 	//등록
-	public int outMatInsert(RequestSubDto requestSubDto,List<OutMatDto> outMatDtoList, String userCode){
+	public int outMatInsert(RequestSubDto requestSubDto, List<OutMatDto> outMatDtoList, String userCode){
 		try {
 			//판매구분
-			List<DtlDto> dtlDto = dtlDao.findByCode(18);
+			//List<DtlDto> dtlDto = dtlDao.findByCode(18);
 			List<DtlDto> wareHouseList = dtlDao.findByCode(10);
-			Sales_InMat_tbl sales_InMat_tbl = new Sales_InMat_tbl();
+			//Sales_InMat_tbl sales_InMat_tbl = new Sales_InMat_tbl();
 			
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 				
@@ -57,18 +56,23 @@ public class MatOutputService {
 						outMatDto.setOM_Send_Clsfc(requestSubDto.getRS_Send_Clsfc());
 						outMatDto.setOM_Modifier(userCode);
 						
-						//랏마스터
+						//자재 창고 관련 업데이트 후에 생산 창고 관련 인서트 or 업데이트
+						outMatDto.setOM_WareHouse(wareHouseList.get(0).getCHILD_TBL_NO());
+						
+						//랏마스터 업데이트
 						matOutputDao.LotMasterUpdateDao(outMatDtoList.get(i));
+						//재고 업데이트
+						matOutputDao.StockUpdateDao(outMatDtoList.get(i));
 						
 						//랏트랜스번호 가져오기
 						int LotTransNo = matOutputDao.LotTransNoSelectDao(outMatDtoList.get(i));
 						outMatDto.setOM_No(LotTransNo);
 						
-						//이동 설정하기
+						//이동 설정하기 자재창고 -> 생산창고
 						outMatDto.setOM_Before(wareHouseList.get(0).getCHILD_TBL_NO());
 						outMatDto.setOM_After(wareHouseList.get(1).getCHILD_TBL_NO());
 						
-						outMatDto.setOM_WareHouse(wareHouseList.get(0).getCHILD_TBL_NO());
+						outMatDto.setOM_WareHouse(wareHouseList.get(1).getCHILD_TBL_NO());
 						
 						//랏트랜스
 						matOutputDao.LotTransInsertDao(outMatDtoList.get(i));
@@ -80,10 +84,13 @@ public class MatOutputService {
 						matOutputDao.RequestSubUpdateDao(outMatDtoList.get(i));
 						
 						//재고
-						matOutputDao.StockUpdateDao(outMatDtoList.get(i));
+						matOutputDao.StockInsertDao(outMatDtoList.get(i));
 
 						//요청master
 						matOutputDao.RequestMasterUpdateDao(outMatDtoList.get(i));
+						
+						//랏마스터 등록
+						matOutputDao.LotMasterInsertDao(outMatDtoList.get(i));
 						/*
 						if(dtlDto.get(3).getCHILD_TBL_NO().equals(outMatDtoList.get(i).getOM_Send_Clsfc())) {
 							//품목코드

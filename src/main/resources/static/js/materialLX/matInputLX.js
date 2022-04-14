@@ -40,8 +40,8 @@ function MI_Search(){
 	var data = {
 		startDate : $("#startDate").val(),
 		endDate : $("#endDate").val(),
-		itemCode : $("#InMat_Client_Code").val(),
-		OrderNo : $("#InMat_Order_No").val()
+		clientCode : $("#InMat_Client_Code").val(),
+		orderNo : $("#InMat_Order_No").val()
 	}
 	matInputTable.setData("matOrderLXRest/MOM_Search", data)
 	.then(function(){

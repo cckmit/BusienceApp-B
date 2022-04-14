@@ -53,7 +53,7 @@ public class MatInputService {
 						int LotTransNo = matInputDao.LotTransNoSelectDao(inMatDto);
 						inMatDto.setInMat_No(LotTransNo);
 						
-						//이동 설정하기
+						//이동 설정하기 외부 -> 자재창고
 						inMatDto.setInMat_Before("");
 						inMatDto.setInMat_After(wareHouseList.get(0).getCHILD_TBL_NO());
 						

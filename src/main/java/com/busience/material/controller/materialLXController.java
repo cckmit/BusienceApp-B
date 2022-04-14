@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.busience.common.service.DtlService;
-import com.busience.standard.dto.CustomerDto;
 import com.busience.standard.dto.UserDto;
 import com.busience.standard.service.CustomerService;
 import com.busience.standard.service.UserService;

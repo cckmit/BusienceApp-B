@@ -11,12 +11,23 @@
 		    A.LM_Create_Date, B.InMat_Client_Code LM_ClientCode,
 		    C.Cus_Name LM_ClientName
 		FROM LotMaster_tbl A
-		INNER JOIN InMat_tbl B ON A.LM_LotNo = B.InMat_Lot_No 
+		INNER JOIN InMat_tbl B ON A.LM_LotNo = B.InMat_Lot_No and InMat_No = '1'
 		INNER JOIN Customer_tbl C ON B.InMat_Client_Code = C.Cus_Code
 		INNER JOIN DTL_TBL D ON B.InMat_Rcv_Clsfc = D.Child_TBL_No and D.New_TBL_Code = '17'
 		where A.LM_Qty != 0
 		and A.LM_ItemCode = #{ItemCode};
 	</select>
+	
+	<insert id="LotMasterInsertDao">
+		insert into LotMaster_tbl(
+			LM_LotNo, LM_ItemCode,
+			LM_Qty, LM_Create_Date, LM_WareHouse
+		)values(
+			#{OM_LotNo}, #{OM_ItemCode},
+			#{OM_Qty}, now(), #{OM_WareHouse}
+		)on duplicate key update
+		LM_Qty = LM_Qty + #{OM_Qty}
+	</insert>
 	
 	<update id="LotMasterUpdateDao">
 		update LotMaster_tbl
@@ -34,10 +45,12 @@
 	<insert id="LotTransInsertDao">
 		insert into LotTrans_tbl (
 			LT_No, LT_LotNo, LT_ItemCode,
-			LT_Qty, LT_Before, LT_After, LT_Create_Date
+			LT_Qty, LT_Before, LT_After, LT_Create_Date,
+			LT_Classify
 		) values(
 			#{OM_No}, #{OM_LotNo}, #{OM_ItemCode},
-			#{OM_Qty}, #{OM_Before}, #{OM_After}, now()
+			#{OM_Qty}, #{OM_Before}, #{OM_After}, now(),
+			#{OM_Send_Clsfc}
 		)
 	</insert>
 		
@@ -64,13 +77,22 @@
 		and RS_ItemCode = #{OM_ItemCode}
 	</update>
 	
-	<insert id="StockUpdateDao">
+	<insert id="StockInsertDao">
+		insert into Stock_tbl(
+			S_itemCode, S_Qty, S_WareHouse
+		)values(
+			#{OM_ItemCode}, #{OM_Qty}, #{OM_WareHouse}
+		)on duplicate key update
+		S_Qty = S_Qty + #{OM_Qty}
+	</insert>
+	
+	<update id="StockUpdateDao">
 		update Stock_tbl
 		set
 		S_Qty = S_Qty - #{OM_Qty}
 		where S_itemCode = #{OM_ItemCode}
 		and S_WareHouse = #{OM_WareHouse}
-	</insert>
+	</update>
 	
 	<update id="RequestMasterUpdateDao">
 		update RequestMaster_tbl
@@ -176,5 +198,23 @@
 			where A.OM_OutDate >= #{startDate} and A.OM_OutDate < #{endDate}
 		]]>
 		and A.OM_DeptCode = #{deptCode}
+	</select>
+	
+	<select id="matOutReturnSelectDao" resultType="com.busience.material.dto.OutMatDto">
+		select
+			A.OM_RequestNo, A.OM_LotNo, A.OM_No,
+			B.LM_WareHouse OM_WareHouse, F.Child_TBL_Type OM_WareHouse_Name,
+		    A.OM_ItemCode, C.Product_Item_Name OM_ItemName, B.LM_Qty OM_Qty,
+		    C.Product_Info_STND_1 OM_Item_Stnd_1, C.Product_Info_STND_2 OM_Item_Stnd_2,
+		    A.OM_DeptCode, D.Child_TBL_Type OM_DeptName, A.OM_OutDate,
+			A.OM_Send_Clsfc, E.Child_TBL_Type OM_Send_Clsfc_Name    
+		FROM OutMat_tbl A
+		inner join LotMaster_tbl B on A.OM_LotNo = B.LM_LotNo
+		inner join Product_Info_tbl C on A.OM_ItemCode = C.Product_Item_Code
+        inner join DTL_TBL D on A.OM_DeptCode = D.Child_TBL_No
+        inner join DTL_TBL E on A.OM_Send_Clsfc = E.Child_TBL_No
+        inner join DTL_TBL F on B.LM_WareHouse = F.Child_TBL_No and F.Child_TBL_Type != '자재창고'
+		where B.LM_Qty > 0
+		and A.OM_Send_Clsfc != (select Child_TBL_No from DTL_TBL where New_TBL_Code = 18 and Child_TBL_Type = '출고반품')
 	</select>
 </mapper>
