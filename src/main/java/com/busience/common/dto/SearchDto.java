@@ -42,4 +42,6 @@ public class SearchDto {
 	private int WipStatus;
 	
 	private String condition;
+	
+	private boolean Check;
 }
