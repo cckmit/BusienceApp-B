@@ -33,11 +33,7 @@ public class MatInReturnService {
 	
 	//저장
 	public int matInReturnSave(List<InMatDto> inMatDtoList, String userCode){
-		//랏마스터 저장
-		//랏트랜스 저장
-		//입고저장
-		//자재입고
-		//재고
+
 		try {
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 				
