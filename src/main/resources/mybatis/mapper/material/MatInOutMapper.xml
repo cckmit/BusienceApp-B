@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	 
+<mapper namespace="com.busience.material.dao.MatInOutDao">
+	<select id="MatInOutSelectDao" resultType="com.busience.material.dto.LotTransDto">
+		select 
+			A.LT_ItemCode, B.Product_Item_Name LT_ItemName,
+			B.Product_Info_STND_1 LT_Item_Stnd_1, 
+			B.Product_Info_STND_2 LT_Item_Stnd_2,
+			D.CHILD_TBL_TYPE LT_ITEM_CLSFC_1, 
+			E.CHILD_TBL_TYPE LT_ITEM_CLSFC_2, 
+		    case when A.LT_Classify='203' then A.LT_Qty ELSE 0 END AS LT_InQty,
+			case when A.LT_Classify='207' then A.LT_Qty ELSE 0 END AS LT_InReturn_Qty,
+			case when A.LT_Classify IN (204, 205, 206) then A.LT_Qty ELSE 0 END AS LT_InOther_Qty,
+			case when A.LT_Classify='208' then A.LT_Qty ELSE 0 END AS LT_OutQty,
+			case when A.LT_Classify='210' then A.LT_Qty ELSE 0 END AS LT_OutReturn_Qty,
+			case when A.LT_Classify IN (209, 213) then A.LT_Qty ELSE 0 END AS LT_OutOther_Qty,
+		    A.LT_Classify, C.Child_TBL_Type LT_Classify_Name
+		from LotTrans_tbl A
+		inner join Product_Info_tbl B on A.LT_ItemCode = B.Product_Item_Code
+		INNER JOIN DTL_TBL C ON A.LT_Classify = C.CHILD_TBL_NO
+		INNER JOIN DTL_TBL D ON B.PRODUCT_ITEM_CLSFC_1 = D.CHILD_TBL_NO
+		INNER JOIN DTL_TBL E ON B.PRODUCT_ITEM_CLSFC_2 = E.CHILD_TBL_NO
+		<![CDATA[
+			where A.LT_Create_Date >= #{startDate} and A.LT_Create_Date < #{endDate}
+		]]>
+		order by A.LT_ItemCode, A.LT_Classify;
+	</select>
+</mapper>
