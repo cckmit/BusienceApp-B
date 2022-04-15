@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	 
+<mapper namespace="com.busience.material.dao.MatInputDao">
+
+	<select id="lotNoSelectDao" resultType="String">
+		select concat(DATE_FORMAT(curdate(),"%y%m%d"), #{InMat_Code}, lpad(matarial_No,'4',0))
+		from LotNo_tbl
+	</select>
+
+	<update id="lotNoMatUpdateDao">
+		update LotNo_tbl
+		set
+		pre_matarial_No = (case when matarial_No = 9999 then matarial_No else pre_matarial_No end),
+		matarial_No = (case when matarial_No = 9999 then 1 else matarial_No+1 end)
+	</update>
+	
+</mapper>

@@ -11,7 +11,10 @@ import org.springframework.transaction.support.TransactionTemplate;
 import com.busience.common.dao.DtlDao;
 import com.busience.common.dto.DtlDto;
 import com.busience.common.dto.SearchDto;
-import com.busience.material.dao.MatOutputDao;
+import com.busience.material.dao.LotMasterDao;
+import com.busience.material.dao.LotTransDao;
+import com.busience.material.dao.OutMatDao;
+import com.busience.material.dao.StockDao;
 import com.busience.material.dto.OutMatDto;
 
 @Service
@@ -21,14 +24,23 @@ public class MatOutReturnService {
 	DtlDao dtlDao;
 	
 	@Autowired
-	MatOutputDao matOutputDao;
+	LotMasterDao lotMasterDao;
+	
+	@Autowired
+	LotTransDao lotTransDao;
+	
+	@Autowired
+	OutMatDao outMatDao;
+	
+	@Autowired
+	StockDao stockDao;
 	
 	@Autowired
 	TransactionTemplate transactionTemplate;
 	
 	//등록
 	public List<OutMatDto> matOutReturnSelect(SearchDto searchDto){
-		return matOutputDao.matOutReturnSelectDao(searchDto);
+		return outMatDao.outMatReturnSelectDao(searchDto);
 	}
 	
 	//저장
@@ -49,12 +61,12 @@ public class MatOutReturnService {
 						//외부 창고 관련 업데이트 후에 생산 창고 관련 인서트 or 업데이트
 						
 						//랏마스터 업데이트
-						matOutputDao.LotMasterUpdateDao(outMatDtoList.get(i));
+						lotMasterDao.lotMasterUpdateDao(outMatDtoList.get(i));
 						//재고 업데이트
-						matOutputDao.StockUpdateDao(outMatDtoList.get(i));
+						stockDao.stockUpdateDao(outMatDtoList.get(i));
 						
 						//랏트랜스번호 가져오기
-						int LotTransNo = matOutputDao.LotTransNoSelectDao(outMatDtoList.get(i));
+						int LotTransNo = lotTransDao.lotTransNoSelectDao2(outMatDtoList.get(i));
 						outMatDto.setOM_No(LotTransNo);
 						
 						//이동 설정하기 외부창고 -> 자재창고
@@ -64,15 +76,15 @@ public class MatOutReturnService {
 						outMatDto.setOM_WareHouse(wareHouseList.get(0).getCHILD_TBL_NO());
 						
 						//랏트랜스
-						matOutputDao.LotTransInsertDao(outMatDtoList.get(i));
+						lotTransDao.lotTransInsertDao2(outMatDtoList.get(i));
 						
 						//입고
 												
 						//재고
-						matOutputDao.StockInsertDao(outMatDtoList.get(i));
+						stockDao.stockInsertDao(outMatDtoList.get(i));
 						
 						//랏마스터 등록
-						matOutputDao.LotMasterInsertDao(outMatDtoList.get(i));
+						lotMasterDao.lotMasterInsertDao(outMatDtoList.get(i));
 						
 					}
 				}

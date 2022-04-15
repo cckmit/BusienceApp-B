@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	 
+<mapper namespace="com.busience.material.dao.RequestMasterDao">
+
+	<select id="requestMasterSelectDao" resultType="com.busience.material.dto.RequestMasterDto">
+		SELECT
+			A.RM_RequestNo, A.RM_UserCode, B.user_name RM_UserName,
+		    C.CHILD_TBL_NO RM_DeptCode, C.child_tbl_type RM_DeptName,
+		    A.RM_Date, A.RM_Remark, A.RM_Check, A.RM_Modifier,
+		    date_format(A.RM_ModifyDate,'%Y-%m-%d %T') RM_ModifyDate
+	    FROM RequestMaster_tbl A
+	    INNER JOIN User_Info_tbl B ON A.RM_UserCode = B.user_code
+	    INNER JOIN DTL_TBL C ON B.dept_code = C.child_tbl_no
+    <![CDATA[
+		where A.RM_Date  >= #{startDate} and A.RM_Date < #{endDate}
+	]]>
+	    and not A.RM_Check = 'Y'
+	    order by RM_Date
+	</select>
+		
+	<select id="requestNoSelectDao" resultType="String">
+		select
+			lpad(ifnull(max(substring_index(RM_RequestNo, '-', -1))+1,1),2,0)
+		from RequestMaster_tbl
+		where substring_index(RM_RequestNo, '-', 2) = #{RequestNo}
+	</select>
+
+	<insert id="requestMasterInsertDao">
+		insert into RequestMaster_tbl(
+			RM_RequestNo, RM_UserCode,
+			RM_Date, RM_Remark,
+		    RM_Modifier, RM_ModifyDate
+		)values(
+			#{RM_RequestNo}, #{RM_UserCode},
+			#{RM_Date}, #{RM_Remark},
+		    #{RM_Modifier}, now()
+		)on duplicate key update
+		RM_Date = #{RM_Date},
+		RM_Remark = #{RM_Remark},
+		RM_Modifier = #{RM_Modifier},
+		RM_ModifyDate = now()
+	</insert>
+	
+	<delete id="requestMasterDeleteDao">
+		delete from RequestMaster_tbl
+		where RM_RequestNo = #{requestNo}
+		and not exists (
+			SELECT * FROM RequestSub_tbl
+			WHERE RS_RequestNo = #{requestNo}
+		)
+	</delete>
+	
+	<update id="requestMasterUpdateDao">
+		update RequestMaster_tbl
+		set RM_Check = 
+			(select 
+				(case
+					when sum(RS_Qty) = sum(RS_Sum) then 'Y'
+					when sum(RS_Sum) = 0 then 'N'
+					else 'I'
+				end)
+				from RequestSub_tbl
+				where RS_RequestNo = #{OM_RequestNo}
+			)
+		where RM_RequestNo = #{OM_RequestNo}
+	</update>
+	
+</mapper>

@@ -5,12 +5,22 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.busience.common.dto.SearchDto;
+import com.busience.material.dto.InMatDto;
+import com.busience.material.dto.OutMatDto;
 import com.busience.material.dto.StockDto;
 
 @Mapper
 public interface StockDao {
 	
-	//랏번호 가져오기
-	public List<StockDto> StockSelectDao(SearchDto searchDto);
+	//재고테이블 조회
+	public List<StockDto> stockSelectDao(SearchDto searchDto);
 	
+	//재고테이블 저장
+	public int stockInsertUpdateDao(InMatDto inMatDto);
+	
+	//재고테이블 업데이트
+	public int stockUpdateDao(OutMatDto outMatDto);
+	
+	//재고테이블 저장
+	public int stockInsertDao(OutMatDto outMatDto);
 }

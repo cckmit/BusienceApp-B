@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	 
+<mapper namespace="com.busience.material.dao.LotMasterDao">
+
+	<insert id="lotMasterInsertDao">
+		insert into LotMaster_tbl(
+			LM_LotNo, LM_ItemCode,
+			LM_Qty, LM_Create_Date, LM_WareHouse
+		)values(
+			#{InMat_Lot_No}, #{InMat_Code},
+			#{InMat_Qty}, now(), #{InMat_WareHouse}
+		)on duplicate key update
+		LM_Qty = LM_Qty + #{InMat_Qty}
+	</insert>
+	
+	<select id="lotMasterSelectDao" resultType="com.busience.material.dto.LotMasterDto">
+		SELECT
+			A.LM_LotNo, A.LM_ItemCode, A.LM_Qty,
+		    A.LM_Create_Date, B.InMat_Client_Code LM_ClientCode,
+		    C.Cus_Name LM_ClientName
+		FROM LotMaster_tbl A
+		INNER JOIN InMat_tbl B ON A.LM_LotNo = B.InMat_Lot_No and InMat_No = '1'
+		INNER JOIN Customer_tbl C ON B.InMat_Client_Code = C.Cus_Code
+		INNER JOIN DTL_TBL D ON B.InMat_Rcv_Clsfc = D.Child_TBL_No and D.New_TBL_Code = '17'
+		where A.LM_Qty != 0
+		and A.LM_ItemCode = #{ItemCode};
+	</select>
+	
+	<insert id="lotMasterInsertDao">
+		insert into LotMaster_tbl(
+			LM_LotNo, LM_ItemCode,
+			LM_Qty, LM_Create_Date, LM_WareHouse
+		)values(
+			#{OM_LotNo}, #{OM_ItemCode},
+			#{OM_Qty}, now(), #{OM_WareHouse}
+		)on duplicate key update
+		LM_Qty = LM_Qty + #{OM_Qty}
+	</insert>
+	
+	<update id="lotMasterUpdateDao">
+		update LotMaster_tbl
+		set
+		LM_Qty = LM_Qty - #{OM_Qty}
+		where LM_LotNo = #{OM_LotNo}
+	</update>
+</mapper>

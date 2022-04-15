@@ -7,18 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.busience.common.dto.SearchDto;
-import com.busience.material.dao.MatInOutDao;
+import com.busience.material.dao.LotTransDao;
 import com.busience.material.dto.LotTransDto;
 
 @Service
 public class MatInOutService {
 	
 	@Autowired
-	MatInOutDao matInOutDao;
+	LotTransDao lotTransDao;
 
 	//입출고 현황
 	public List<LotTransDto> MatInOutSelect(SearchDto searchDto){
-		List<LotTransDto> LotTransDtoListStandard = matInOutDao.MatInOutSelectDao(searchDto);
+		List<LotTransDto> LotTransDtoListStandard = lotTransDao.inOutMatSelectDao(searchDto);
 		List<LotTransDto> LotTransDtoListMaster = new ArrayList<LotTransDto>();
 		
 		String itemCode = null;		

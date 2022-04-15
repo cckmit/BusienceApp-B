@@ -17,6 +17,6 @@ public class StockService {
 
 	//재고테이블 조회
 	public List<StockDto> StockSelect(SearchDto searchDto){
-		return stockDao.StockSelectDao(searchDto);
+		return stockDao.stockSelectDao(searchDto);
 	}
 }

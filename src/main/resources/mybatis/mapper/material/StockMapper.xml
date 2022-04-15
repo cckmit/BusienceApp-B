@@ -5,7 +5,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	 
 <mapper namespace="com.busience.material.dao.StockDao">
-	<select id="StockSelectDao" resultType="com.busience.material.dto.StockDto">
+	<select id="stockSelectDao" resultType="com.busience.material.dto.StockDto">
 		SELECT 
 			A.S_itemCode, B.Product_Item_Name S_itemName,
 		    B.Product_Info_STND_1 S_Item_Standard_1, B.Product_Info_STND_2 s_Item_Standard_2,
@@ -21,4 +21,33 @@
 			and A.S_Qty > 0
 		</if>
 	</select>
+	
+	
+	<update id="stockInsertUpdateDao">
+		insert into Stock_tbl(
+			S_itemCode, S_Qty,
+			S_WareHouse
+		) values(
+			#{InMat_Code}, #{InMat_Qty},
+			#{InMat_WareHouse}
+		)on duplicate key update
+			S_Qty = S_Qty + #{InMat_Qty}
+	</update>
+	
+	<insert id="stockInsertDao">
+		insert into Stock_tbl(
+			S_itemCode, S_Qty, S_WareHouse
+		)values(
+			#{OM_ItemCode}, #{OM_Qty}, #{OM_WareHouse}
+		)on duplicate key update
+		S_Qty = S_Qty + #{OM_Qty}
+	</insert>
+	
+	<update id="stockUpdateDao">
+		update Stock_tbl
+		set
+		S_Qty = S_Qty - #{OM_Qty}
+		where S_itemCode = #{OM_ItemCode}
+		and S_WareHouse = #{OM_WareHouse}
+	</update>
 </mapper>

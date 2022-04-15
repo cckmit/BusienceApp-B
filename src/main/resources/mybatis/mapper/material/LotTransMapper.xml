@@ -4,8 +4,27 @@
 	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	 
-<mapper namespace="com.busience.material.dao.MatInOutDao">
-	<select id="MatInOutSelectDao" resultType="com.busience.material.dto.LotTransDto">
+<mapper namespace="com.busience.material.dao.lotTransDao">
+
+	<select id="lotTransNoSelectDao" resultType="int">
+		select ifnull(max(LT_No)+1,1)
+		from LotTrans_tbl
+		where LT_LotNo = #{InMat_Lot_No}
+	</select>
+	
+	<insert id="lotTransInsertDao">
+		insert into LotTrans_tbl (
+			LT_No, LT_LotNo, LT_ItemCode,
+			LT_Qty, LT_Before, LT_After,
+			LT_Create_Date, LT_Classify
+		) values(
+			#{InMat_No}, #{InMat_Lot_No}, #{InMat_Code},
+			#{InMat_Qty}, #{InMat_Before}, #{InMat_After},
+			now(), #{InMat_Rcv_Clsfc}
+		)
+	</insert>
+	
+	<select id="inOutMatSelectDao" resultType="com.busience.material.dto.LotTransDto">
 		select 
 			A.LT_ItemCode, B.Product_Item_Name LT_ItemName,
 			B.Product_Info_STND_1 LT_Item_Stnd_1, 
@@ -29,4 +48,22 @@
 		]]>
 		order by A.LT_ItemCode, A.LT_Classify;
 	</select>
+	
+	<select id="lotTransNoSelectDao2" resultType="int">
+		select ifnull(max(LT_No)+1,1)
+		from LotTrans_tbl
+		where LT_LotNo = #{OM_LotNo}
+	</select>
+	
+	<insert id="lotTransInsertDao2">
+		insert into LotTrans_tbl (
+			LT_No, LT_LotNo, LT_ItemCode,
+			LT_Qty, LT_Before, LT_After, LT_Create_Date,
+			LT_Classify
+		) values(
+			#{OM_No}, #{OM_LotNo}, #{OM_ItemCode},
+			#{OM_Qty}, #{OM_Before}, #{OM_After}, now(),
+			#{OM_Send_Clsfc}
+		)
+	</insert>
 </mapper>

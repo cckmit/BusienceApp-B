@@ -11,7 +11,12 @@ import org.springframework.transaction.support.TransactionTemplate;
 import com.busience.common.dao.DtlDao;
 import com.busience.common.dto.DtlDto;
 import com.busience.common.dto.SearchDto;
-import com.busience.material.dao.MatOutputDao;
+import com.busience.material.dao.LotMasterDao;
+import com.busience.material.dao.LotTransDao;
+import com.busience.material.dao.OutMatDao;
+import com.busience.material.dao.RequestMasterDao;
+import com.busience.material.dao.RequestSubDao;
+import com.busience.material.dao.StockDao;
 import com.busience.material.dto.LotMasterDto;
 import com.busience.material.dto.OutMatDto;
 import com.busience.material.dto.RequestSubDto;
@@ -21,10 +26,25 @@ import com.busience.salesLX.dao.SalesInputLXDao;
 public class MatOutputService {
 
 	@Autowired
-	MatOutputDao matOutputDao;
+	DtlDao dtlDao;
 	
 	@Autowired
-	DtlDao dtlDao;
+	StockDao stockDao;
+
+	@Autowired
+	LotMasterDao lotMasterDao;
+	
+	@Autowired
+	LotTransDao lotTransDao;
+	
+	@Autowired
+	OutMatDao outMatDao;
+	
+	@Autowired
+	RequestMasterDao requestMasterDao;
+	
+	@Autowired
+	RequestSubDao requestSubDao;
 	
 	@Autowired
 	SalesInputLXDao salesInputLXDao;
@@ -34,7 +54,7 @@ public class MatOutputService {
 	
 	//LotMaster조회
 	public List<LotMasterDto> LotMasterSelect(SearchDto searchDto){
-		return matOutputDao.LotMasterSelectDao(searchDto);
+		return lotMasterDao.lotMasterSelectDao(searchDto);
 	}
 	
 	//등록
@@ -60,12 +80,12 @@ public class MatOutputService {
 						outMatDto.setOM_WareHouse(wareHouseList.get(0).getCHILD_TBL_NO());
 						
 						//랏마스터 업데이트
-						matOutputDao.LotMasterUpdateDao(outMatDtoList.get(i));
+						lotMasterDao.lotMasterUpdateDao(outMatDtoList.get(i));
 						//재고 업데이트
-						matOutputDao.StockUpdateDao(outMatDtoList.get(i));
+						stockDao.stockUpdateDao(outMatDtoList.get(i));
 						
 						//랏트랜스번호 가져오기
-						int LotTransNo = matOutputDao.LotTransNoSelectDao(outMatDtoList.get(i));
+						int LotTransNo = lotTransDao.lotTransNoSelectDao2(outMatDtoList.get(i));
 						outMatDto.setOM_No(LotTransNo);
 						
 						//이동 설정하기 자재창고 -> 생산창고
@@ -75,22 +95,22 @@ public class MatOutputService {
 						outMatDto.setOM_WareHouse(wareHouseList.get(1).getCHILD_TBL_NO());
 						
 						//랏트랜스
-						matOutputDao.LotTransInsertDao(outMatDtoList.get(i));
+						lotTransDao.lotTransInsertDao2(outMatDtoList.get(i));
 						
 						//출고
-						matOutputDao.OutMatInsertDao(outMatDtoList.get(i));
+						outMatDao.outMatInsertDao(outMatDtoList.get(i));
 						
 						//요청sub
-						matOutputDao.RequestSubUpdateDao(outMatDtoList.get(i));
+						requestSubDao.RequestSubUpdateDao(outMatDtoList.get(i));
 						
 						//재고
-						matOutputDao.StockInsertDao(outMatDtoList.get(i));
+						stockDao.stockInsertDao(outMatDtoList.get(i));
 
 						//요청master
-						matOutputDao.RequestMasterUpdateDao(outMatDtoList.get(i));
+						requestMasterDao.requestMasterUpdateDao(outMatDtoList.get(i));
 						
 						//랏마스터 등록
-						matOutputDao.LotMasterInsertDao(outMatDtoList.get(i));
+						lotMasterDao.lotMasterInsertDao(outMatDtoList.get(i));
 						/*
 						if(dtlDto.get(3).getCHILD_TBL_NO().equals(outMatDtoList.get(i).getOM_Send_Clsfc())) {
 							//품목코드
@@ -121,12 +141,12 @@ public class MatOutputService {
 	
 	//출고조회
 	public List<OutMatDto> matOutputList(SearchDto searchDto){
-		return matOutputDao.matOutputListDao(searchDto);
+		return outMatDao.outMatListDao(searchDto);
 	}
 	
 	//출고 조건별 조회
 	public List<OutMatDto> matOutputOtherList(SearchDto searchDto){
-		List<OutMatDto> outMatDtoList = matOutputDao.matOutputOtherListDao(searchDto);
+		List<OutMatDto> outMatDtoList = outMatDao.outMatOtherListDao(searchDto);
 		for(int i=0;i<outMatDtoList.size();i++) {
 			String itemCode = outMatDtoList.get(i).getOM_ItemCode();
 			String deptCode = outMatDtoList.get(i).getOM_DeptCode();
@@ -157,11 +177,11 @@ public class MatOutputService {
 	
 	//부서별 명세서 master
 	public List<OutMatDto> matOutputDeliveryMaster(SearchDto searchDto){
-		return matOutputDao.matOutputDeliveryMasterDao(searchDto);
+		return outMatDao.outMatDeliveryMasterDao(searchDto);
 	}
 	
 	//부서별 명세서 sub
 	public List<OutMatDto> matOutputDeliverySub(SearchDto searchDto){
-		return matOutputDao.matOutputDeliverySubDao(searchDto);
+		return outMatDao.outMatDeliverySubDao(searchDto);
 	}
 }

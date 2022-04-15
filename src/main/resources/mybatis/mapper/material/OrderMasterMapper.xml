@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	 
+<mapper namespace="com.busience.material.dao.OrderMasterDao">
+
+	<select id="orderMasterSelectDao" resultType="com.busience.material.dto.OrderMasterDto">
+		SELECT 
+		 A.Order_mCus_No, A.Order_mCode, B.Cus_Name Order_mName,
+		 A.Order_mDate, A.Order_mTotal, A.Order_mDlvry_Date,
+		 A.Order_mRemarks, A.Order_mModifier, A.Order_mModify_Date,
+		 A.Order_mCheck
+		 FROM OrderMaster_tbl A
+		 inner join Customer_tbl B on A.Order_mCode = B.Cus_Code
+	<![CDATA[
+		 where A.Order_mDate >= #{startDate} and Order_mDate < #{endDate}
+	]]>
+		 and Order_mCode like concat('%',#{ClientCode},'%')
+		<if test="condition != null">
+			 and not Order_mCheck = #{condition}
+		</if>
+		 order by Order_mDate desc
+	</select>
+	
+	<select id="orderNoCreateDao" resultType="String">
+		select
+			concat(
+				#{Order_mCode},'-',
+				date_format(#{Order_mDate},'%y%m%d'),'-',
+				lpad(
+					1+(
+						select IFNULL(
+							(
+								select max(SUBSTRING_INDEX(Order_mCus_No,'-',-1))
+								FROM OrderMaster_tbl
+								where SUBSTRING_INDEX(Order_mCus_No, '-', 2) 
+								= concat(#{Order_mCode},'-',date_format(#{Order_mDate},'%y%m%d'))
+							)
+						,0)
+					),
+			 	2,'0')
+			 )
+	</select>
+	
+	<insert id="orderMasterInsertUpdateDao">
+		insert into OrderMaster_tbl(
+			Order_mCus_No, Order_mCode, Order_mDate,
+		    Order_mTotal, Order_mDlvry_Date, Order_mRemarks,
+		    Order_mModifier, Order_mModify_Date
+		) values (
+		    #{Order_mCus_No}, #{Order_mCode}, #{Order_mDate},
+		    #{Order_mTotal}, #{Order_mDlvry_Date}, #{Order_mRemarks},
+		    #{Order_mModifier}, now()
+		) on duplicate key update
+		    Order_mTotal = #{Order_mTotal},
+		    Order_mDlvry_Date = #{Order_mDlvry_Date},
+		    Order_mRemarks = #{Order_mRemarks},
+		    Order_mModifier = #{Order_mModifier},
+		    Order_mModify_Date = now()
+	</insert>
+	
+	<update id="orderMasterUpdateDao">
+			update OrderMaster_tbl
+			set Order_mCheck = 
+				(select 
+					(case
+						when sum(Order_lQty) = sum(Order_lSum) then 'Y'
+						when sum(Order_lSum) = 0 then 'N'
+						else 'I'
+					end)
+					from OrderList_tbl
+					where Order_lCus_No = #{inMat_Order_No}
+				)
+			where Order_mCus_No = #{inMat_Order_No}
+	</update>
+	
+	<delete id="orderMasterDeleteDao">
+		delete from OrderMaster_tbl
+		where Order_mCus_No = #{Order_mCus_No}
+	</delete>
+</mapper>

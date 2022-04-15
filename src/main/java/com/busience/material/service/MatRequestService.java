@@ -11,7 +11,8 @@ import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import com.busience.common.dto.SearchDto;
-import com.busience.material.dao.MatRequestDao;
+import com.busience.material.dao.RequestMasterDao;
+import com.busience.material.dao.RequestSubDao;
 import com.busience.material.dto.RequestMasterDto;
 import com.busience.material.dto.RequestSubDto;
 
@@ -19,19 +20,22 @@ import com.busience.material.dto.RequestSubDto;
 public class MatRequestService {
 
 	@Autowired
-	MatRequestDao matRequestDao;
+	RequestMasterDao requestMasterDao;
+	
+	@Autowired
+	RequestSubDao requestSubDao;
 	
 	@Autowired
 	TransactionTemplate transactionTemplate;
 	
 	//요청Master조회
 	public List<RequestMasterDto> RequestMasterSelect(SearchDto searchDto){
-		return matRequestDao.RequestMasterSelectDao(searchDto);
+		return requestMasterDao.requestMasterSelectDao(searchDto);
 	}
 	
 	//요청List조회
 	public List<RequestSubDto> RequestSubSelect(SearchDto searchDto){
-		return matRequestDao.RequestSubSelectDao(searchDto);
+		return requestSubDao.requestSubSelectDao(searchDto);
 	}
 	
 	//요청저장
@@ -49,13 +53,13 @@ public class MatRequestService {
 					String RequestNo = requestMasterDto.getRM_RequestNo();
 					if(RequestNo.length()==0) {
 						RequestNo = requestMasterDto.getRM_DeptCode()+"-"+LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
-						RequestNo = RequestNo+"-"+matRequestDao.RequestNoSelectDao(RequestNo);
+						RequestNo = RequestNo+"-"+requestMasterDao.requestNoSelectDao(RequestNo);
 						requestMasterDto.setRM_RequestNo(RequestNo);
 					}
 					
-					matRequestDao.RequestMasterInsertDao(requestMasterDto);
+					requestMasterDao.requestMasterInsertDao(requestMasterDto);
 					
-					matRequestDao.RequestSubInsertDao(requestSubDtoList, RequestNo);
+					requestSubDao.requestSubInsertDao(requestSubDtoList, RequestNo);
 				}
 			});
 			
@@ -75,9 +79,9 @@ public class MatRequestService {
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
 					String requestNo = requestSubDtoList.get(0).getRS_RequestNo();
-					matRequestDao.RequestSubDeleteDao(requestSubDtoList, requestNo);
+					requestSubDao.requestSubDeleteDao(requestSubDtoList, requestNo);
 					
-					matRequestDao.RequestMasterDeleteDao(requestNo);
+					requestMasterDao.requestMasterDeleteDao(requestNo);
 					
 				}
 			});

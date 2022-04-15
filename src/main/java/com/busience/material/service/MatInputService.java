@@ -11,7 +11,13 @@ import org.springframework.transaction.support.TransactionTemplate;
 import com.busience.common.dao.DtlDao;
 import com.busience.common.dto.DtlDto;
 import com.busience.common.dto.SearchDto;
-import com.busience.material.dao.MatInputDao;
+import com.busience.material.dao.InMatDao;
+import com.busience.material.dao.LotMasterDao;
+import com.busience.material.dao.LotNoDao;
+import com.busience.material.dao.LotTransDao;
+import com.busience.material.dao.OrderListDao;
+import com.busience.material.dao.OrderMasterDao;
+import com.busience.material.dao.StockDao;
 import com.busience.material.dto.InMatDto;
 
 @Service
@@ -21,7 +27,25 @@ public class MatInputService {
 	DtlDao dtlDao;
 	
 	@Autowired
-	MatInputDao matInputDao;
+	LotMasterDao lotMasterDao;
+	
+	@Autowired
+	LotTransDao lotTransDao;
+	
+	@Autowired
+	LotNoDao lotNoDao;
+	
+	@Autowired
+	InMatDao inMatDao;
+	
+	@Autowired
+	StockDao stockDao;
+	
+	@Autowired
+	OrderMasterDao orderMasterDao;
+	
+	@Autowired
+	OrderListDao orderListDao;
 	
 	@Autowired
 	TransactionTemplate transactionTemplate;
@@ -42,15 +66,15 @@ public class MatInputService {
 						
 						//랏번호가 없을경우 랏번호 생성
 						if(inMatDto.getInMat_Lot_No() == null || inMatDto.getInMat_Lot_No().isBlank()) {
-							String LotNo = matInputDao.LotNoSelectDao(inMatDto);
+							String LotNo = lotNoDao.lotNoSelectDao(inMatDto);
 							inMatDto.setInMat_Lot_No(LotNo);
 
 							//랏번호
-							matInputDao.MatLotNoUpdateDao();
+							lotNoDao.lotNoMatUpdateDao();
 						}
 						
 						//랏트랜스번호 가져오기
-						int LotTransNo = matInputDao.LotTransNoSelectDao(inMatDto);
+						int LotTransNo = lotTransDao.lotTransNoSelectDao(inMatDto);
 						inMatDto.setInMat_No(LotTransNo);
 						
 						//이동 설정하기 외부 -> 자재창고
@@ -60,22 +84,22 @@ public class MatInputService {
 						inMatDto.setInMat_WareHouse(wareHouseList.get(0).getCHILD_TBL_NO());
 
 						//랏마스터
-						matInputDao.LotMasterInsertDao(inMatDto);
+						lotMasterDao.lotMasterInsertUpdateDao(inMatDto);
 						
 						//랏트랜스
-						matInputDao.LotTransInsertDao(inMatDto);
+						lotTransDao.lotTransInsertDao(inMatDto);
 						
 						//자재입고
-						matInputDao.InMatInsertDao(inMatDto);
+						inMatDao.inMatInsertDao(inMatDto);
 						
 						//재고
-						matInputDao.StockMatUpdateDao(inMatDto);
+						stockDao.stockInsertUpdateDao(inMatDto);
 						
 						//발주리스트
-						matInputDao.OrderListUpdateDao(inMatDto);
+						orderListDao.orderListUpdateDao(inMatDto);
 						
 						//발주마스터
-						matInputDao.MatOrderMasterUpdateDao(inMatDto);
+						orderMasterDao.orderMasterUpdateDao(inMatDto);
 					}
 				}
 			});
@@ -89,12 +113,12 @@ public class MatInputService {
 	
 	//입고조회
 	public List<InMatDto> matInputList(SearchDto searchDto) {
-		return matInputDao.matInputListDao(searchDto);
+		return inMatDao.inMatListDao(searchDto);
 	}
 	
 	//입고 조건별 조회
 	public List<InMatDto> matInputOtherList(SearchDto searchDto) {
-		List<InMatDto> inMatDtoList = matInputDao.matInputOtherListDao(searchDto);
+		List<InMatDto> inMatDtoList = inMatDao.inMatOtherListDao(searchDto);
 		for(int i=0;i<inMatDtoList.size();i++) {
 			String itemCode = inMatDtoList.get(i).getInMat_Code();
 			String clientCode = inMatDtoList.get(i).getInMat_Client_Code();
@@ -124,11 +148,11 @@ public class MatInputService {
 	
 	//납품 명세서 거래처 리스트
 	public List<InMatDto> matInputDeliveryMaster(SearchDto searchDto) {
-		return matInputDao.matInputDeliveryMasterDao(searchDto);
+		return inMatDao.inMatDeliveryMasterDao(searchDto);
 	}
 	
 	//납품 명세서 거래처 리스트
 	public List<InMatDto> matInputDeliverySub(SearchDto searchDto) {
-		return matInputDao.matInputDeliverySubDao(searchDto);
+		return inMatDao.inMatDeliverySubDao(searchDto);
 	}
 }

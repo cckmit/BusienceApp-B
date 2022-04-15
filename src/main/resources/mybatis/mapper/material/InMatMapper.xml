@@ -4,43 +4,9 @@
 	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	 
-<mapper namespace="com.busience.material.dao.MatInputDao">
+<mapper namespace="com.busience.material.dao.InMatDao">
 
-	<select id="LotNoSelectDao" resultType="String">
-		select concat(DATE_FORMAT(curdate(),"%y%m%d"), #{InMat_Code}, lpad(matarial_No,'4',0))
-		from LotNo_tbl
-	</select>
-
-	<insert id="LotMasterInsertDao">
-		insert into LotMaster_tbl(
-			LM_LotNo, LM_ItemCode,
-			LM_Qty, LM_Create_Date, LM_WareHouse
-		)values(
-			#{InMat_Lot_No}, #{InMat_Code},
-			#{InMat_Qty}, now(), #{InMat_WareHouse}
-		)on duplicate key update
-		LM_Qty = LM_Qty + #{InMat_Qty}
-	</insert>
-	
-	<select id="LotTransNoSelectDao" resultType="int">
-		select ifnull(max(LT_No)+1,1)
-		from LotTrans_tbl
-		where LT_LotNo = #{InMat_Lot_No}
-	</select>
-	
-	<insert id="LotTransInsertDao">
-		insert into LotTrans_tbl (
-			LT_No, LT_LotNo, LT_ItemCode,
-			LT_Qty, LT_Before, LT_After,
-			LT_Create_Date, LT_Classify
-		) values(
-			#{InMat_No}, #{InMat_Lot_No}, #{InMat_Code},
-			#{InMat_Qty}, #{InMat_Before}, #{InMat_After},
-			now(), #{InMat_Rcv_Clsfc}
-		)
-	</insert>
-
-	<insert id="InMatInsertDao">
+	<insert id="inMatInsertDao">
 		insert into InMat_tbl(
 			InMat_Order_No, InMat_Lot_No, InMat_No, 
 		    InMat_Code, InMat_Qty, InMat_Unit_Price,
@@ -54,52 +20,7 @@
 		)
 	</insert>
 	
-	<update id="OrderListUpdateDao">
-			update OrderList_tbl
-			set
-			Order_lSum = Order_lSum + #{InMat_Qty},
-			Order_lUnit_Price = #{InMat_Unit_Price},
-			Order_lPrice = Order_lQty * Order_lUnit_Price,
-			Order_lNot_Stocked = Order_lNot_Stocked - #{InMat_Qty},
-			Order_Rcv_Clsfc = #{InMat_Rcv_Clsfc}
-			where Order_lCus_No = #{InMat_Order_No}
-			and Order_lCode = #{InMat_Code}
-	</update>
-	
-	<update id="StockMatUpdateDao">
-		insert into Stock_tbl(
-			S_itemCode, S_Qty,
-			S_WareHouse
-		) values(
-			#{InMat_Code}, #{InMat_Qty},
-			#{InMat_WareHouse}
-		)on duplicate key update
-			S_Qty = S_Qty + #{InMat_Qty}
-	</update>
-	
-	<update id="MatOrderMasterUpdateDao">
-			update OrderMaster_tbl
-			set Order_mCheck = 
-				(select 
-					(case
-						when sum(Order_lQty) = sum(Order_lSum) then 'Y'
-						when sum(Order_lSum) = 0 then 'N'
-						else 'I'
-					end)
-					from OrderList_tbl
-					where Order_lCus_No = #{inMat_Order_No}
-				)
-			where Order_mCus_No = #{inMat_Order_No}
-	</update>
-	
-	<update id="MatLotNoUpdateDao">
-		update LotNo_tbl
-		set
-		pre_matarial_No = (case when matarial_No = 9999 then matarial_No else pre_matarial_No end),
-		matarial_No = (case when matarial_No = 9999 then 1 else matarial_No+1 end)
-	</update>
-	
-	<select id="matInputListDao" resultType="com.busience.material.dto.InMatDto">
+	<select id="inMatListDao" resultType="com.busience.material.dto.InMatDto">
 		select 
 			A.InMat_Order_No, A.InMat_Lot_No, A.InMat_No,
 			A.InMat_Code, C.Product_Item_Name InMat_Name,
@@ -124,7 +45,7 @@
 		order by A.InMat_Date
 	</select>
 	
-	<select id="matInputOtherListDao" resultType="com.busience.material.dto.InMatDto">
+	<select id="inMatOtherListDao" resultType="com.busience.material.dto.InMatDto">
 		select 
 			A.InMat_Order_No, A.InMat_Lot_No, A.InMat_No,
 			A.InMat_Code, C.Product_Item_Name InMat_Name,
@@ -155,7 +76,7 @@
 		</if>
 	</select>
 	
-	<select id="matInputDeliveryMasterDao" resultType="com.busience.material.dto.InMatDto">
+	<select id="inMatDeliveryMasterDao" resultType="com.busience.material.dto.InMatDto">
 		select 
 			A.InMat_Order_No, A.InMat_Lot_No, A.InMat_No, A.InMat_Code,
 			sum(A.InMat_Qty) InMat_Qty, A.InMat_Unit_Price, sum(A.InMat_Price) InMat_Price,
@@ -168,7 +89,7 @@
 			group by A.InMat_Client_Code
 	</select>
 	
-	<select id="matInputDeliverySubDao" resultType="com.busience.material.dto.InMatDto">
+	<select id="inMatDeliverySubDao" resultType="com.busience.material.dto.InMatDto">
 		select 
 			A.InMat_No, A.InMat_Date, E.CHILD_TBL_TYPE InMat_Rcv_Clsfc,
 			A.InMat_Code, A.InMat_Client_Code, C.PRODUCT_ITEM_NAME InMat_Name,
@@ -184,7 +105,7 @@
 		and A.InMat_Client_Code = #{clientCode}
 	</select>
 	
-	<select id="matInReturnSelectDao" resultType="com.busience.material.dto.InMatDto">
+	<select id="inMatReturnSelectDao" resultType="com.busience.material.dto.InMatDto">
 		SELECT
 			A.InMat_Order_No, A.InMat_Lot_No, A.InMat_No,
 		    A.InMat_Code, C.Product_Item_Name InMat_Name, B.LM_Qty InMat_Qty, A.InMat_Unit_Price,

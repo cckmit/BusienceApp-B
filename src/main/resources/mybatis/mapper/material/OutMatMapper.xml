@@ -4,57 +4,9 @@
 	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	 
-<mapper namespace="com.busience.material.dao.MatOutputDao">
-	<select id="LotMasterSelectDao" resultType="com.busience.material.dto.LotMasterDto">
-		SELECT
-			A.LM_LotNo, A.LM_ItemCode, A.LM_Qty,
-		    A.LM_Create_Date, B.InMat_Client_Code LM_ClientCode,
-		    C.Cus_Name LM_ClientName
-		FROM LotMaster_tbl A
-		INNER JOIN InMat_tbl B ON A.LM_LotNo = B.InMat_Lot_No and InMat_No = '1'
-		INNER JOIN Customer_tbl C ON B.InMat_Client_Code = C.Cus_Code
-		INNER JOIN DTL_TBL D ON B.InMat_Rcv_Clsfc = D.Child_TBL_No and D.New_TBL_Code = '17'
-		where A.LM_Qty != 0
-		and A.LM_ItemCode = #{ItemCode};
-	</select>
+<mapper namespace="com.busience.material.dao.OutMatDao">
 	
-	<insert id="LotMasterInsertDao">
-		insert into LotMaster_tbl(
-			LM_LotNo, LM_ItemCode,
-			LM_Qty, LM_Create_Date, LM_WareHouse
-		)values(
-			#{OM_LotNo}, #{OM_ItemCode},
-			#{OM_Qty}, now(), #{OM_WareHouse}
-		)on duplicate key update
-		LM_Qty = LM_Qty + #{OM_Qty}
-	</insert>
-	
-	<update id="LotMasterUpdateDao">
-		update LotMaster_tbl
-		set
-		LM_Qty = LM_Qty - #{OM_Qty}
-		where LM_LotNo = #{OM_LotNo}
-	</update>
-	
-	<select id="LotTransNoSelectDao" resultType="int">
-		select ifnull(max(LT_No)+1,1)
-		from LotTrans_tbl
-		where LT_LotNo = #{OM_LotNo}
-	</select>
-	
-	<insert id="LotTransInsertDao">
-		insert into LotTrans_tbl (
-			LT_No, LT_LotNo, LT_ItemCode,
-			LT_Qty, LT_Before, LT_After, LT_Create_Date,
-			LT_Classify
-		) values(
-			#{OM_No}, #{OM_LotNo}, #{OM_ItemCode},
-			#{OM_Qty}, #{OM_Before}, #{OM_After}, now(),
-			#{OM_Send_Clsfc}
-		)
-	</insert>
-		
-	<insert id="OutMatInsertDao">
+	<insert id="outMatInsertDao">
 		insert into OutMat_tbl(
 			OM_No,
 			OM_RequestNo, OM_LotNo,
@@ -68,48 +20,7 @@
 		)
 	</insert>
 	
-	<update id="RequestSubUpdateDao">
-		update RequestSub_tbl
-		set
-		RS_Sum = RS_Sum + #{OM_Qty},
-		RS_Not_Stocked = RS_Not_Stocked - #{OM_Qty}
-		where RS_RequestNo = #{OM_RequestNo}
-		and RS_ItemCode = #{OM_ItemCode}
-	</update>
-	
-	<insert id="StockInsertDao">
-		insert into Stock_tbl(
-			S_itemCode, S_Qty, S_WareHouse
-		)values(
-			#{OM_ItemCode}, #{OM_Qty}, #{OM_WareHouse}
-		)on duplicate key update
-		S_Qty = S_Qty + #{OM_Qty}
-	</insert>
-	
-	<update id="StockUpdateDao">
-		update Stock_tbl
-		set
-		S_Qty = S_Qty - #{OM_Qty}
-		where S_itemCode = #{OM_ItemCode}
-		and S_WareHouse = #{OM_WareHouse}
-	</update>
-	
-	<update id="RequestMasterUpdateDao">
-		update RequestMaster_tbl
-		set RM_Check = 
-			(select 
-				(case
-					when sum(RS_Qty) = sum(RS_Sum) then 'Y'
-					when sum(RS_Sum) = 0 then 'N'
-					else 'I'
-				end)
-				from RequestSub_tbl
-				where RS_RequestNo = #{OM_RequestNo}
-			)
-		where RM_RequestNo = #{OM_RequestNo}
-	</update>
-	
-	<select id="matOutputListDao" resultType="com.busience.material.dto.OutMatDto">
+	<select id="outMatListDao" resultType="com.busience.material.dto.OutMatDto">
 		select 
 			A.OM_No, A.OM_RequestNo, A.OM_LotNo,
 		    A.OM_ItemCode, B.Product_Item_Name OM_ItemName,
@@ -135,7 +46,7 @@
 		order by A.OM_OutDate
 	</select>
 	
-	<select id="matOutputOtherListDao" resultType="com.busience.material.dto.OutMatDto">
+	<select id="outMatOtherListDao" resultType="com.busience.material.dto.OutMatDto">
 		select 
 			A.OM_No, A.OM_RequestNo, A.OM_LotNo,
 		    A.OM_ItemCode, B.Product_Item_Name OM_ItemName,
@@ -167,7 +78,7 @@
 		</if>
 	</select>
 	
-	<select id="matOutputDeliveryMasterDao" resultType="com.busience.material.dto.OutMatDto">
+	<select id="outMatDeliveryMasterDao" resultType="com.busience.material.dto.OutMatDto">
 		select 
 			A.OM_RequestNo, A.OM_LotNo, A.OM_No, A.OM_ItemCode,
 			sum(A.OM_Qty) OM_Qty, A.OM_DeptCode, B.Child_TBL_Type OM_DeptName,
@@ -180,7 +91,7 @@
 			group by A.OM_DeptCode
 	</select>
 	
-	<select id="matOutputDeliverySubDao" resultType="com.busience.material.dto.OutMatDto">
+	<select id="outMatDeliverySubDao" resultType="com.busience.material.dto.OutMatDto">
 		select 
 			A.OM_No, A.OM_OutDate, E.CHILD_TBL_TYPE OM_Send_Clsfc_Name,
             A.OM_DeptCode, A.OM_ItemCode, B.PRODUCT_ITEM_NAME OM_ItemName,
@@ -200,7 +111,7 @@
 		and A.OM_DeptCode = #{deptCode}
 	</select>
 	
-	<select id="matOutReturnSelectDao" resultType="com.busience.material.dto.OutMatDto">
+	<select id="outMatReturnSelectDao" resultType="com.busience.material.dto.OutMatDto">
 		select
 			A.OM_RequestNo, A.OM_LotNo, A.OM_No,
 			B.LM_WareHouse OM_WareHouse, F.Child_TBL_Type OM_WareHouse_Name,

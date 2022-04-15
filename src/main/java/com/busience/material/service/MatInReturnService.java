@@ -11,7 +11,11 @@ import org.springframework.transaction.support.TransactionTemplate;
 import com.busience.common.dao.DtlDao;
 import com.busience.common.dto.DtlDto;
 import com.busience.common.dto.SearchDto;
-import com.busience.material.dao.MatInputDao;
+import com.busience.material.dao.InMatDao;
+import com.busience.material.dao.LotMasterDao;
+import com.busience.material.dao.LotNoDao;
+import com.busience.material.dao.LotTransDao;
+import com.busience.material.dao.StockDao;
 import com.busience.material.dto.InMatDto;
 
 @Service
@@ -21,14 +25,26 @@ public class MatInReturnService {
 	DtlDao dtlDao;
 	
 	@Autowired
-	MatInputDao matInputDao;
+	LotMasterDao lotMasterDao;
+	
+	@Autowired
+	LotTransDao lotTransDao;
+	
+	@Autowired
+	LotNoDao lotNoDao;
+	
+	@Autowired
+	InMatDao inMatDao;
+	
+	@Autowired
+	StockDao stockDao;
 	
 	@Autowired
 	TransactionTemplate transactionTemplate;
 	
 	//등록
 	public List<InMatDto> matInReturnSelect(SearchDto searchDto){
-		return matInputDao.matInReturnSelectDao(searchDto);
+		return inMatDao.inMatReturnSelectDao(searchDto);
 	}
 	
 	//저장
@@ -48,15 +64,15 @@ public class MatInReturnService {
 						
 						//랏번호가 없을경우 랏번호 생성
 						if(inMatDto.getInMat_Lot_No() == null || inMatDto.getInMat_Lot_No().isBlank()) {
-							String LotNo = matInputDao.LotNoSelectDao(inMatDto);
+							String LotNo = lotNoDao.lotNoSelectDao(inMatDto);
 							inMatDto.setInMat_Lot_No(LotNo);
 
 							//랏번호 증가
-							matInputDao.MatLotNoUpdateDao();
+							lotNoDao.lotNoMatUpdateDao();
 						}
 						
 						//랏트랜스번호 가져오기
-						int LotTransNo = matInputDao.LotTransNoSelectDao(inMatDto);
+						int LotTransNo = lotTransDao.lotTransNoSelectDao(inMatDto);
 						inMatDto.setInMat_No(LotTransNo);
 						
 						//이동 설정하기
@@ -69,19 +85,19 @@ public class MatInReturnService {
 						inMatDto.setInMat_Rcv_Clsfc("207");
 
 						//랏트랜스
-						matInputDao.LotTransInsertDao(inMatDto);
+						lotTransDao.lotTransInsertDao(inMatDto);
 
 						//반품은 수량에 -를 붙인다
 						inMatDto.setInMat_Qty(-1*inMatDto.getInReturn_Qty());
 						
 						//랏마스터
-						matInputDao.LotMasterInsertDao(inMatDto);						
+						lotMasterDao.lotMasterInsertUpdateDao(inMatDto);						
 						
 						//자재입고
-						matInputDao.InMatInsertDao(inMatDto);
+						inMatDao.inMatInsertDao(inMatDto);
 						
 						//재고
-						matInputDao.StockMatUpdateDao(inMatDto);
+						stockDao.stockInsertUpdateDao(inMatDto);
 					}
 				}
 			});
