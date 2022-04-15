@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.material.dto.OutMat_tbl;
 import com.busience.productionLX.dto.ProComparedInput;
 
 @RestController("proComparedInputRestController")
@@ -166,8 +165,6 @@ public class proComparedInputRestController {
 		rs.close();
 		pstmt.close();
 		conn.close();
-
-		List<OutMat_tbl> outMatlist = new ArrayList<OutMat_tbl>();
 
 		// 자재 출고 조회(기준일 ~ 전 달 1일)
 		String outMatsql = "SELECT omlt.OutMat_Code, pit.PRODUCT_ITEM_NAME OutMat_Name, SUM(omlt.OutMat_Qty) OutMat_Qty, omlt.OutMat_Consignee, dt2.CHILD_TBL_TYPE OutMat_Consignee_Name, date(OutMat_Date) AS OutMat_Date, LAST_DAY(OutMat_Date - interval 2 month) + interval 1 DAY AS Last_Month\r\n"

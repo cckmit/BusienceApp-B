@@ -20,6 +20,5 @@
 		<if test="Check == true">
 			and A.S_Qty > 0
 		</if>
-				
 	</select>
 </mapper>

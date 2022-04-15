@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.material.dto.StockMat_tbl;
 import com.busience.productionLX.dto.WorkOrder_tbl;
 
 @RestController("workOrderListRestController")
@@ -438,31 +437,6 @@ public class workOrderListRestController {
 						return data;
 					}
 				});
-	}
-
-	@RequestMapping(value = "/MI_Search2", method = RequestMethod.GET)
-	public List<StockMat_tbl> MI_Search2(HttpServletRequest request) throws SQLException {
-		String workOrder_ItemCode = request.getParameter("workOrder_ItemCode");
-		String sql = "select t1.*,t2.* from StockMatLX_tbl t1 inner join PRODUCT_INFO_TBL t2 on t1.SM_Code = t2.PRODUCT_ITEM_CODE where SM_Code='"
-				+ workOrder_ItemCode + "'";
-
-		Connection conn = dataSource.getConnection();
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		ResultSet rs = pstmt.executeQuery();
-
-		List<StockMat_tbl> list = new ArrayList<StockMat_tbl>();
-		while (rs.next()) {
-			StockMat_tbl data = new StockMat_tbl();
-			data.setSM_Code(rs.getString("SM_Code"));
-			data.setSM_Name(rs.getString("PRODUCT_ITEM_NAME"));
-			data.setSM_Last_Qty(rs.getInt("SM_Last_Qty"));
-			data.setSM_In_Qty(rs.getInt("SM_In_Qty"));
-			data.setSM_Out_Qty(rs.getInt("SM_Out_Qty"));
-			data.setSM_Prcs_Date(rs.getInt("SM_Prcs_Date"));
-			list.add(data);
-		}
-
-		return list;
 	}
 
 }
