@@ -6,7 +6,7 @@
 	 
 <mapper namespace="com.busience.material.dao.LotMasterDao">
 
-	<insert id="lotMasterInsertDao">
+	<insert id="lotMasterInsertUpdateDao">
 		insert into LotMaster_tbl(
 			LM_LotNo, LM_ItemCode,
 			LM_Qty, LM_Create_Date, LM_WareHouse
