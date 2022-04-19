@@ -29,4 +29,5 @@ public class SalesOrderListDto {
 	private String Sales_Order_mName; // 거래처명
 	private String Sales_Order_mDate; // ordermaster에서의 수주일자
 	private String Sales_Order_mDlvry_Date; // ordermaster에서의 납기일자
+	private String Sales_Order_CLSFC_1; // 품목분류 name
 }

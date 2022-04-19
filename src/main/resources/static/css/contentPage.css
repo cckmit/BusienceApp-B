@@ -36,6 +36,20 @@ body {
 	float: left;
 	height: 100%;
 }
+
+.outputOrder-Top {
+	width: calc(46% - 14px);
+	float: left;
+	height: 100%;
+}
+
+.outputOrder-Down {
+	width: calc(54% + 4px);
+	margin-left: 10px;
+	float: left;
+	height: 100%;
+}
+
 .sub-in{
 	width: calc(48% + 4px);
 	margin-left: 10px;

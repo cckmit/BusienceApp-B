@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.busience.salesLX.dao.SalesOutputOrderListDao">
+<select id="salesOutputOrderListSelectDao" resultType="com.busience.salesLX.dto.SalesOutputOrderListDto">
+	select solt.Sales_Output_Order_lNo,
+		solt.Sales_Output_Order_lOrder_No,
+		pit.PRODUCT_ITEM_NAME Sales_Output_Order_lName,
+		solt.Sales_Output_Order_lCode,
+		pit.PRODUCT_INFO_STND_1 Sales_Output_Order_STND_1,
+		solt.Sales_Output_Order_lQty,
+		solt.Sales_Output_Order_lSum,
+		solt.Sales_Output_Order_lUnit_Price,
+		solt.Sales_Output_Order_lPrice,
+		solt.Sales_Output_Order_lNot_Stocked,
+		solt.Sales_Output_Order_Send_Clsfc,
+		solt.Sales_Output_Order_lInfo_Remark
+	from Sales_Output_OrderListWO_tbl solt 
+	inner join PRODUCT_INFO_TBL pit on solt.Sales_Output_Order_lCode = pit.PRODUCT_ITEM_CODE
+	where Sales_Output_Order_lOrder_No = #{SalesOrderNo}
+	Order by Sales_Output_Order_lNo
+</select>
+
+</mapper>

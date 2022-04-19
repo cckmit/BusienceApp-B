@@ -21,7 +21,21 @@
 			and A.S_Qty > 0
 		</if>
 	</select>
-	
+		
+	<select id="salesOutputStockDao" resultType="com.busience.material.dto.StockDto">
+		select
+			A.S_itemCode,
+			D.Product_Item_Name S_itemName,
+			D.Product_Info_STND_1 S_Item_Standard_1,
+			A.S_Qty, 
+			sum(C.Sales_Output_Order_lNot_Stocked) Sales_Output_Order_Qty
+		from Stock_tbl A
+		inner join Sales_OrderList_tbl B on A.S_itemCode = B.Sales_Order_lCode and B.Sales_Order_lNot_Stocked >0
+		left join Sales_Output_OrderList_tbl C on A.S_itemCode = C.Sales_Output_Order_lCode
+		inner join Product_Info_tbl D on A.S_itemCode = D.Product_Item_Code
+		where B.Sales_Order_lCus_No = #{SalesOrderNo}
+		group by A.S_itemCode
+	</select>
 	
 	<update id="stockInsertUpdateDao">
 		insert into Stock_tbl(

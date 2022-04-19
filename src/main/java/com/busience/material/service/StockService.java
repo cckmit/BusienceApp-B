@@ -19,4 +19,9 @@ public class StockService {
 	public List<StockDto> StockSelect(SearchDto searchDto){
 		return stockDao.stockSelectDao(searchDto);
 	}
+	
+	//지시수량 재고 확인
+	public List<StockDto> salesOutputStockDao(SearchDto searchDto) {
+		return stockDao.salesOutputStockDao(searchDto);
+	}
 }

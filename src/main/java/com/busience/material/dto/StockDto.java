@@ -18,4 +18,5 @@ public class StockDto {
 	private String S_Item_Classfy_2_Name; //분류2
 	private double S_Qty; // 재고
 	private String S_WareHouse; //창고
+	private double S_Sales_Output_Order_Qty; // 현재지시수량
 }

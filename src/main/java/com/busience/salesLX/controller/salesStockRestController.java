@@ -23,4 +23,10 @@ public class salesStockRestController {
 	public List<StockDto> salesStockSelect(SearchDto searchDto) {
 		return stockService.StockSelect(searchDto);
 	}
+	
+	// salesOutputStock select
+	@GetMapping("salesOutputStockSelect")
+	public List<StockDto> salesOutputStockDao(SearchDto searchDto) {
+		return stockService.StockSelect(searchDto);
+	}
 }

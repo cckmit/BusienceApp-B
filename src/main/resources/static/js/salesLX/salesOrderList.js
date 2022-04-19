@@ -43,24 +43,19 @@ var salesOrderListTable = new Tabulator("#salesOrderListTable", {
 
 // salesMaster 목록 검색
 function SOL_Search() {
-	data = {
+	datas = {
 		startDate: $("#startDate").val(),
 		endDate: $("#endDate").val(),
-		sales_Order_mCode: $("#Sales_InMat_Client_Code").val(),
-		sales_Order_mCheck : $("#saleOrderTypeListSelectBox option:selected").val()
+		ClientCode: $("#Sales_InMat_Client_Code").val(),
+		condition : $("#saleOrderTypeListSelectBox option:selected").val()
 	}
-	$.ajax({
-		method: "GET",
-		dataType: "json",
-		async: false,
-		url: "salesOrderReportLXRest/SOL_Search?data=" + encodeURI(JSON.stringify(data)),
-		success: function(datas) {
-			console.log(datas);
-			salesOrderListTable.setData(datas);
-			salesOrderListSubTable.clearData();
-			salesOrderListStockTable.clearData();
-		}
-	});
+	
+	salesOrderListTable.setData("salesOrderRest/SO_Search", datas)
+	.then(function() {
+		// list와 stock 데이터를 없애준다.
+		salesOrderListSubTable.clearData();
+		salesOrderListStockTable.clearData();
+	})
 }
 
 $("#SOL_SearchBtn").click(function(){
@@ -99,7 +94,7 @@ var salesOrderListSubTable = new Tabulator("#salesOrderListSubTable", {
 		{ title: "수주No", field: "sales_Order_lCus_No", visible: false },
 		{ title: "코드", field: "sales_Order_lCode", headerHozAlign: "center", width: 60 },
 		{ title: "제품명", field: "sales_Order_lName", headerHozAlign: "center", width: 200 },
-		{ title: "규격1", field: "sales_Order_STND1", headerHozAlign: "center", width: 70 },
+		{ title: "규격1", field: "sales_Order_STND_1", headerHozAlign: "center", width: 70 },
 		{
 			title: "수량", field: "sales_Order_lQty", headerHozAlign: "center", hozAlign: "right",
 			formatter: "money", formatterParams: { precision: false }, width: 60},
@@ -141,15 +136,15 @@ var salesOrderListSubTable = new Tabulator("#salesOrderListSubTable", {
 //SALESorderList 목록검색
 function SOLS_Search(sales_Order_lCus_No) {
 	$("#sales_Order_lCus_No").val(sales_Order_lCus_No);
-	//발주넘버
-	$.ajax({
-		method: "GET",
-		async: false,
-		url: "salesOrderReportLXRest/SOLS_Search?sales_Order_lCus_No=" + sales_Order_lCus_No,
-		success: function(SOL_data) {
-			TableSetData(salesOrderListSubTable, SOL_data);
-		}
-	});
+	
+	var datas = {
+		SalesOrderNo : sales_Order_lCus_No
+	}
+	
+	salesOrderListSubTable.setData("salesOrderRest/SOL_Search" , datas)
+	.then(function() {
+		console.log(salesOrderListSubTable);
+	})
 }
 
 var salesOrderListStockTable = new Tabulator("#salesOrderListStockTable", {
@@ -167,15 +162,6 @@ var salesOrderListStockTable = new Tabulator("#salesOrderListStockTable", {
 
 // salesOrderStock 목록검색
 function SOSS_Search(sales_Order_lCode) {
-	//수주넘버
-	$.ajax({
-		method: "GET",
-		url: "salesOrderReportLXRest/SOSS_Search?sales_Order_lCode=" + sales_Order_lCode,
-		async: false,
-		success: function(datas) {
-			console.log(datas);
-			salesOrderListStockTable.setData(datas);
-		}
-	});
+	salesOrderListStockTable.setData("salesStockRest/salesStockSelect", {ItemCode : sales_Order_lCode})
 }
 

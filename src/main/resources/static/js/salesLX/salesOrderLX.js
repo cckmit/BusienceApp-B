@@ -229,7 +229,7 @@ function SO_Search() {
 		method: "GET",
 		dataType: "json",
 		async: false,
-		url: "salesOrderLXRest/SO_Search",
+		url: "salesOrderRest/SO_Search",
 		data: datas,
 		success: function(result) {
 			salesOrderTable.setData(result);
@@ -516,7 +516,7 @@ function SOL_Search(sales_Order_lCus_No) {
 	//발주넘버
 	$.ajax({
 		method: "GET",
-		url: "salesOrderLXRest/SOL_Search",
+		url: "salesOrderRest/SOL_Search",
 		data: datas,
 		success: function(result) {
 			TableSetData(salesOrderSubTable, result);
@@ -632,7 +632,7 @@ function SOL_Save() {
 	//OrderSub 저장부분
 	$.ajax({
 		method: "post",
-		url: "salesOrderLXRest/SOL_Save",
+		url: "salesOrderRest/SOL_Save",
 		data: { masterData: JSON.stringify(selectedRow), subData: JSON.stringify(salesOrderSubTable.getData()) },
 		beforeSend: function(xhr) {
 			var header = $("meta[name='_csrf_header']").attr("content");

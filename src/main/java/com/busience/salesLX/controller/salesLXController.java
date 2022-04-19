@@ -37,6 +37,24 @@ public class salesLXController {
 		return "salesLX/salesOrderList";
 	}
 	
+	// salesOutputOrder
+	@GetMapping("salesOutputOrder")
+	public String salesOutputOrder(Model model) {
+		
+		model.addAttribute("pageName", "출하 지시 관리");
+		
+		return "salesLX/salesOutputOrder";
+	}
+	
+	// salesOutputOrderList
+	@GetMapping("salesOutputOrderList")
+	public String salesOutputOrderList(Model model) {
+		
+		model.addAttribute("pageName", "출하 지시 조회");
+		
+		return "salesLX/salesOutputOrderList";
+	}
+	
 	//salesInputLX
 	@GetMapping("salesInputLX")
 	public String salesInputLX(Model model) {

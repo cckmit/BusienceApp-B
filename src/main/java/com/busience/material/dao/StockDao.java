@@ -15,6 +15,9 @@ public interface StockDao {
 	//재고테이블 조회
 	public List<StockDto> stockSelectDao(SearchDto searchDto);
 	
+	//지시수량 재고 확인
+	public List<StockDto> salesOutputStockDao(SearchDto searchDto);
+	
 	//재고테이블 저장
 	public int stockInsertUpdateDao(InMatDto inMatDto);
 	
