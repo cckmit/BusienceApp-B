@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.busience.salesLX.dao.SalesOrderListDao">
+	<select id="salesOrderListSelectDao"
+		resultType="com.busience.salesLX.dto.SalesOrderListDto">
+		SELECT solt.Sales_Order_lNo, solt.Sales_Order_lCus_No,
+		pit.Product_Item_Name
+		Sales_Order_lName, solt.Sales_Order_lCode,
+		pit.Product_Info_STND_1
+		Sales_Order_STND_1, solt.Sales_Order_lQty,
+		solt.Sales_Order_lSum,
+		solt.Sales_Order_lUnit_Price, solt.Sales_Order_lPrice,
+		solt.Sales_Order_lNot_Stocked, solt.Sales_Order_Send_Clsfc,
+		solt.Sales_Order_lInfo_Remark
+		FROM Sales_OrderList_tbl solt
+		INNER JOIN Product_Info_tbl pit ON solt.Sales_Order_lCode =
+		pit.Product_Item_Code
+		WHERE Sales_Order_lCus_No = #{SalesOrderNo}
+		ORDER BY Sales_Order_lNo
+	</select>
+	<select id="stockSelectDao"
+		resultType="com.busience.material.dto.StockDto">
+		SELECT
+		S_ItemCode, B.PRODUCT_ITEM_NAME S_ItemName,
+		S_Qty, S_WareHouse,
+		B.Product_Info_STND_1 S_Item_Standard_1,
+		B.Product_Info_STND_1
+		S_Item_Standard_2
+		FROM Stock_tbl A
+		inner join Product_Info_tbl B ON A.S_itemCode = B.PRODUCT_ITEM_CODE
+		where A.S_itemCode = #{ItemCode}
+	</select>
+	<insert id="salesOrderListInsertUpdateDao">
+		insert into Sales_OrderList_tbl
+		( Sales_Order_lNo, Sales_Order_lCus_No, Sales_Order_lCode,
+		Sales_Order_lQty, Sales_Order_lSum, Sales_Order_lUnit_Price,
+		Sales_Order_lPrice, Sales_Order_lNot_Stocked, Sales_Order_Send_Clsfc,
+		Sales_Order_lInfo_Remark
+		) values (
+		(select ifnull(max(SubList.Sales_Order_lNo)+1,1) from Sales_OrderList_tbl AS
+		SubList
+		where Sales_Order_lCus_No = #{Sales_Order_lCus_No}),
+		#{Sales_Order_lCus_No}, #{Sales_Order_lCode},
+		#{Sales_Order_lQty}, #{Sales_Order_lSum},
+		#{Sales_Order_lUnit_Price}, #{Sales_Order_lPrice},
+		#{Sales_Order_lQty}, #{Sales_Order_Send_Clsfc}, #{Sales_Order_lInfo_Remark}
+		) on duplicate key update
+		Sales_Order_lQty = #{Sales_Order_lQty},
+		Sales_Order_lUnit_Price = #{Sales_Order_lUnit_Price},
+		Sales_Order_lPrice = #{Sales_Order_lPrice},
+		Sales_Order_lNot_Stocked = #{Sales_Order_lQty},
+		Sales_Order_Send_Clsfc = #{Sales_Order_Send_Clsfc},
+		Sales_Order_lInfo_Remark = #{Sales_Order_lInfo_Remark}
+	</insert>
+	<delete id="salesOrderListDeleteDao">
+		delete from Sales_OrderList_tbl
+		where Sales_Order_lCus_No = #{Sales_Order_lCus_No}
+		and Sales_Order_lNo in ( 
+		<foreach collection="list" item="item" index="index" separator=",">
+			#{item.Sales_Order_lNo}
+		</foreach>
+		)
+	</delete>
+	<update id="salesOrderListNoUpdateDao">
+		UPDATE Sales_OrderList_tbl A, (SELECT @rank:=0) B
+		SET A.Sales_Order_lNo = @rank:=@rank+1
+		where A.Sales_Order_lCus_No =
+		#{Sales_Order_lCus_No}
+	</update>
+</mapper>

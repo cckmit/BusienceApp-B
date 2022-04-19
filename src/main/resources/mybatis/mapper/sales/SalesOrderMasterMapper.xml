@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.busience.salesLX.dao.SalesOrderMasterDao">
+<select id="salesOrderMasterSelectDao" resultType="com.busience.salesLX.dto.SalesOrderMasterDto">
+	SELECT 
+		somt.Sales_Order_mCus_No,
+		somt.Sales_Order_mCode,
+		sct.Cus_Name Sales_Order_mName,
+		somt.Sales_Order_mDate,
+		somt.Sales_Order_mTotal,
+		somt.Sales_Order_mDlvry_Date,
+		somt.Sales_Order_mRemarks,
+		somt.Sales_Order_mModifier,
+		somt.Sales_Order_mModify_Date,
+		somt.Sales_Order_mCheck
+	FROM Sales_OrderMaster_tbl somt
+	INNER JOIN Customer_tbl sct ON somt.Sales_Order_mCode = sct.Cus_Code
+<![CDATA[
+	WHERE somt.Sales_Order_mDate >= #{startDate} AND somt.Sales_Order_mDate < #{endDate}
+]]>
+	AND Sales_Order_mCode like concat('%',#{ClientCode},'%')
+<if test="condition != null">
+	AND NOT Sales_Order_mCheck = #{condition}
+</if>
+	ORDER BY Sales_Order_mDate DESC
+</select>
+<select id="salesOrderNoCreateDao" resultType="String">
+	select 
+		concat(
+				#{Sales_Order_mCode},'-',date_format(#{Sales_Order_mDate},'%y%m%d'),'-',
+				lpad(
+					1+(select IFNULL(
+								(select max(SUBSTRING_INDEX(#{Sales_Order_mCus_No},'-',-1))
+								FROM Sales_OrderMaster_tbl
+								where SUBSTRING_INDEX(#{Sales_Order_mCus_No}, '-', 2) 
+								= CONCAT(#{Sales_Order_mCode},'-',DATE_FORMAT(#{Sales_Order_mDate},'%y%m%d'))),0)
+						),2,'0')
+			   )
+</select>
+<insert id="salesOrderMasterInsertUpdateDao">
+	insert into Sales_OrderMaster_tbl
+		(	Sales_Order_mCus_No, Sales_Order_mCode, Sales_Order_mDate,
+		 	Sales_Order_mTotal, Sales_Order_mDlvry_Date, Sales_Order_mRemarks,
+		 	Sales_Order_mModifier, Sales_Order_mModify_Date
+		) values (
+		 	#{Sales_Order_mCus_No}, #{Sales_Order_mCode}, #{Sales_Order_mDate},
+			#{Sales_Order_mTotal}, #{Sales_Order_mDlvry_Date}, #{Sales_Order_mRemarks},
+			#{Sales_Order_mModifier}, now()
+		) on duplicate key update
+			Sales_Order_mTotal = #{Sales_Order_mTotal},
+		    Sales_Order_mDlvry_Date = #{Sales_Order_mDlvry_Date},
+		    Sales_Order_mRemarks = #{Sales_Order_mRemarks},
+		    Sales_Order_mModifier = #{Sales_Order_mModifier},
+		    Sales_Order_mModify_Date = now()
+</insert>
+<delete id="salesOrderMasterDeleteDao">
+	delete from Sales_OrderMaster_tbl
+	where Sales_Order_mCus_No = #{Sales_Order_lCus_No}
+	and not exists (
+			SELECT * FROM Sales_OrderList_tbl
+			WHERE sales_Order_lCus_No = #{Sales_Order_lCus_No}
+		)
+</delete>
+</mapper>
+	
+	

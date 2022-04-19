@@ -70,7 +70,7 @@ var SO_inputEditor = function(cell, onRendered, success, cancel, editorParams) {
 					}
 				})
 			}
-			
+
 			//납기일 자동 입력
 			if (cell.getField() == "sales_Order_mDate") {
 				if (cell.getRow().getData().sales_Order_mDate.length != "0") {
@@ -81,7 +81,7 @@ var SO_inputEditor = function(cell, onRendered, success, cancel, editorParams) {
 					});
 				}
 			}
-			
+
 			//특이사항셀 체크
 			if (cell.getField() == "sales_Order_mRemarks") {
 				//납기일자를 체크해서 잘못되었으면 반응 안함
@@ -191,17 +191,19 @@ var salesOrderTable = new Tabulator("#salesOrderTable", {
 		cellPos = cell;
 	},
 	columns: [
-		{ title: "수주번호", field: "sales_Order_mCus_No", headerHozAlign: "center", hozAlign: "right", headerFilter: true},
-		{ title: "코드", field: "sales_Order_mCode", headerHozAlign: "center", headerFilter: true, editor: SO_inputEditor},
+		{ title: "수주번호", field: "sales_Order_mCus_No", headerHozAlign: "center", hozAlign: "right", headerFilter: true },
+		{ title: "코드", field: "sales_Order_mCode", headerHozAlign: "center", headerFilter: true, editor: SO_inputEditor },
 		{ title: "거래처명", field: "sales_Order_mName", headerHozAlign: "center", headerFilter: true },
-		{ title: "수주일", field: "sales_Order_mDate", headerHozAlign: "center", hozAlign: "right", editor: SO_inputEditor, headerFilter: true, width: 135,
+		{
+			title: "수주일", field: "sales_Order_mDate", headerHozAlign: "center", hozAlign: "right", editor: SO_inputEditor, headerFilter: true, width: 135,
 			formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss", color: "red" }
 		},
-		{ title: "납기일자", field: "sales_Order_mDlvry_Date", headerHozAlign: "center", hozAlign: "right", editor: SO_inputEditor, headerFilter: true},
-		{ title: "특이사항", field: "sales_Order_mRemarks", headerHozAlign: "center", editor: SO_inputEditor, headerFilter: true},
-		{ title: "합계금액", field: "sales_Order_mTotal", headerHozAlign: "center", hozAlign: "right", headerFilter: true, formatter: "money", formatterParams: { precision: false }},
-		{ title: "수정자", field: "sales_Order_mModifier", headerHozAlign: "center", headerFilter: true},
-		{ title: "수정일자", field: "sales_Order_mModify_Date", headerHozAlign: "center", headerFilter: true,
+		{ title: "납기일자", field: "sales_Order_mDlvry_Date", headerHozAlign: "center", hozAlign: "right", editor: SO_inputEditor, headerFilter: true },
+		{ title: "특이사항", field: "sales_Order_mRemarks", headerHozAlign: "center", editor: SO_inputEditor, headerFilter: true },
+		{ title: "합계금액", field: "sales_Order_mTotal", headerHozAlign: "center", hozAlign: "right", headerFilter: true, formatter: "money", formatterParams: { precision: false } },
+		{ title: "수정자", field: "sales_Order_mModifier", headerHozAlign: "center", headerFilter: true },
+		{
+			title: "수정일자", field: "sales_Order_mModify_Date", headerHozAlign: "center", headerFilter: true,
 			formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" }
 		},
 		{ title: "목록확인", field: "sales_Order_mCheck", visible: false },
@@ -216,19 +218,21 @@ $('#SO_AddBtn').click(function() {
 
 // salesMaster 검색
 function SO_Search() {
-	data = {
+	datas = {
 		startDate: $("#startDate").val(),
 		endDate: $("#endDate").val(),
-		sales_Order_mCode: $("#Sales_InMat_Client_Code").val()
+		ClientCode: $("#Sales_InMat_Client_Code").val(),
+		condition: "Y"
 	}
 
 	$.ajax({
 		method: "GET",
 		dataType: "json",
 		async: false,
-		url: "salesOrderLXRest/SO_Search?data=" + encodeURI(JSON.stringify(data)),
-		success: function(datas) {
-			salesOrderTable.setData(datas);
+		url: "salesOrderLXRest/SO_Search",
+		data: datas,
+		success: function(result) {
+			salesOrderTable.setData(result);
 
 			// list와 Stock의 데이터를 없애준다
 			salesOrderSubTable.clearData();
@@ -382,18 +386,8 @@ var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
 	},
 	//행이 추가될때마다 인덱스 부여
 	rowAdded: function(row) {
-		//순번을 정하는 코드 마지막행의 순번+1
-		if (salesOrderSubTable.getDataCount("active") > 1) {
-			//행이 생성된후의 마지막행의 -1행의 순번값을 찾아서 
-			//salesOrderSubTable.getDataCount("active")는 행갯수 즉 1부터 시작, [] 안의 값은 0부터 시작하기때문에 2를 빼줘야 마지막행의 바로 전행이 된다.
-			// 마지막행에다가 순번값+1을 넣는다
-			next_order_lNo = salesOrderSubTable.getData()[salesOrderSubTable.getDataCount("active") - 2].sales_Order_lNo + 1;
-		} else {
-			next_order_lNo = 1;
-		}
 
 		row.update({
-			"sales_Order_lNo": next_order_lNo,
 			"sales_Order_lPrice": 0,
 			"sales_Order_lInfo_Remark": '',
 			"sales_Order_Send_Clsfc": "211"
@@ -423,13 +417,14 @@ var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
 
 	},
 	columns: [
-		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false},
-		{ title: "순번", field: "sales_Order_lNo", headerHozAlign: "center", hozAlign: "center"},
+		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
+		{ title: "순번", field: "sales_Order_lNo", headerHozAlign: "center", hozAlign: "center" },
 		{ title: "수주No", field: "sales_Order_lCus_No", visible: false },
-		{ title: "코드", field: "sales_Order_lCode", headerHozAlign: "center", editor: SOL_InputEditor, editable: editCheck},
-		{ title: "제품명", field: "sales_Order_lName", headerHozAlign: "center"},
-		{ title: "규격1", field: "sales_Order_STND_1", headerHozAlign: "center"},
-		{ title: "수량", field: "sales_Order_lQty", headerHozAlign: "center", hozAlign: "right", editor: SOL_InputEditor,
+		{ title: "코드", field: "sales_Order_lCode", headerHozAlign: "center", editor: SOL_InputEditor, editable: editCheck },
+		{ title: "제품명", field: "sales_Order_lName", headerHozAlign: "center" },
+		{ title: "규격1", field: "sales_Order_STND_1", headerHozAlign: "center" },
+		{
+			title: "수량", field: "sales_Order_lQty", headerHozAlign: "center", hozAlign: "right", editor: SOL_InputEditor,
 			formatter: "money", formatterParams: { precision: false },
 			cellEdited: function(cell) {
 				//수량이 변경될때 금액값이 계산되어 입력
@@ -459,7 +454,8 @@ var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
 				cell.getRow().update({ "sales_Order_lPrice": iPrice });
 			}
 		},
-		{ title: "금액", field: "sales_Order_lPrice", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false },
+		{
+			title: "금액", field: "sales_Order_lPrice", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false },
 			//금액이 변경될때 합계금액을 계산하여 mastertable에 입력
 			topCalc: function(values, data, calcParams) {
 				//values - array of column values
@@ -481,8 +477,9 @@ var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
 			}, topCalcFormatter: "money", topCalcFormatterParams: { precision: false }
 		},
 		{ title: "미입고재고", field: "sales_Order_lNot_Stocked", visible: false },
-		{ title: "비고", field: "sales_Order_lInfo_Remark", headerHozAlign: "center", editor: SOL_InputEditor},
-		{ title: "구분", field: "sales_Order_Send_Clsfc", headerHozAlign: "center", editor: "select",
+		{ title: "비고", field: "sales_Order_lInfo_Remark", headerHozAlign: "center", editor: SOL_InputEditor },
+		{
+			title: "구분", field: "sales_Order_Send_Clsfc", headerHozAlign: "center", editor: "select",
 			formatter: function(cell, formatterParams) {
 				var value = cell.getValue();
 				if (output_dtl[value] != null) {
@@ -512,10 +509,15 @@ function item_gridInit(PCode, PName, PSTND_1, PPrice) {
 //salesorderList 목록검색
 function SOL_Search(sales_Order_lCus_No) {
 	$("#sales_Order_lCus_No").val(sales_Order_lCus_No);
+
+	datas = {
+		SalesOrderNo: sales_Order_lCus_No
+	}
 	//발주넘버
 	$.ajax({
 		method: "GET",
-		url: "salesOrderLXRest/SOL_Search?sales_Order_lCus_No=" + sales_Order_lCus_No,
+		url: "salesOrderLXRest/SOL_Search",
+		data: datas,
 		success: function(result) {
 			TableSetData(salesOrderSubTable, result);
 		}
@@ -564,29 +566,40 @@ function SOL_Delete() {
 		//배열에 담은 데이터가 있을경우 쿼리 실행
 		if (realData.length != 0) {
 			$.ajax({
-				method: "get",
-				url: "salesOrderLXRest/SOL_Delete?data=" + encodeURI(JSON.stringify(realData)),
+				method: "delete",
+				url: "salesOrderLXRest/SOL_Delete",
+				data: JSON.stringify(realData),
+				contentType: 'application/json',
+				beforeSend: function(xhr) {
+					var header = $("meta[name='_csrf_header']").attr("content");
+					var token = $("meta[name='_csrf']").attr("content");
+					xhr.setRequestHeader(header, token);
+				},
 				success: function(result) {
-					if (result == "error") {
-						alert("삭제 오류")
+					if (result) {
+						salesOrderSubTable.deleteRow(salesOrderSubTable.getSelectedRows())
+							.then(function() {
+								// 삭제후 순번 정리
+								rowCount = salesOrderSubTable.getDataCount("active");
+								for (i = 0; i < rowCount; i++) {
+									salesOrderSubTable.getRows()[i].update({ sales_Order_lNo: i + 1 })
+								}
+								//sub에 행이 없을경우 master도 삭제함
+								if (!rowCount) {
+									salesOrderTable.deleteRow(salesOrderTable.getSelectedRows())
+									ResetBtn()
+								}
+								
+								alert("삭제되었습니다.");
+							});
+					} else {
+						alert("출고 처리된 수주목록은 삭제할 수 없습니다.");
 					}
 				}
 			})
 		}
 		// 행삭제
-		salesOrderSubTable.deleteRow(salesOrderSubTable.getSelectedRows())
-			.then(function() {
-				// 삭제후 순번 정리
-				rowCount = salesOrderSubTable.getDataCount("active");
-				for (i = 0; i < rowCount; i++) {
-					salesOrderSubTable.getRows()[i].update({ sales_Order_lNo: i + 1 })
-				}
-				//sub에 행이 없을경우 master도 삭제함
-				if (!rowCount) {
-					salesOrderTable.deleteRow(salesOrderTable.getSelectedRows())
-					ResetBtn()
-				}
-			});
+
 	}
 }
 
@@ -618,9 +631,14 @@ function SOL_Save() {
 
 	//OrderSub 저장부분
 	$.ajax({
-		method: "get",
-		url: "salesOrderLXRest/SOL_Save?masterData=" + encodeURI(JSON.stringify(selectedRow))
-			+ "&listData=" + encodeURI(JSON.stringify(salesOrderSubTable.getData())),
+		method: "post",
+		url: "salesOrderLXRest/SOL_Save",
+		data: { masterData: JSON.stringify(selectedRow), subData: JSON.stringify(salesOrderSubTable.getData()) },
+		beforeSend: function(xhr) {
+			var header = $("meta[name='_csrf_header']").attr("content");
+			var token = $("meta[name='_csrf']").attr("content");
+			xhr.setRequestHeader(header, token);
+		},
 		success: function(result) {
 			if (result == "error") {
 				alert("빈칸이 있어서 저장할 수 없습니다.")
@@ -687,19 +705,24 @@ var salesOrderStockTable = new Tabulator("#salesOrderStockTable", {
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
 	columns: [
-		{ title: "제품코드", field: "sales_SM_Code", headerHozAlign: "center" },
-		{ title: "제품명", field: "sales_SM_Name", headerHozAlign: "center" },
-		{ title: "규격1", field: "sales_SM_STND_1", headerHozAlign: "center" },
-		{ title: "수량", field: "sales_SM_Qty", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false }, }
+		{ title: "제품코드", field: "sm_Code", headerHozAlign: "center" },
+		{ title: "제품명", field: "sm_Name", headerHozAlign: "center" },
+		{ title: "규격1", field: "sm_STND_1", headerHozAlign: "center" },
+		{ title: "수량", field: "sm_Qty", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false }, }
 	]
 });
 
 // salesOrderStock 목록검색
 function SOS_Search(sales_Order_lCode) {
+
+	datas = {
+		ItemCode: sales_Order_lCode
+	}
 	//수주넘버
 	$.ajax({
 		method: "GET",
-		url: "salesOrderLXRest/SOS_Search?sales_Order_lCode=" + sales_Order_lCode,
+		url: "salesStockRest/salesStockSelect",
+		data: datas,
 		success: function(datas) {
 			salesOrderStockTable.setData(datas);
 		}
