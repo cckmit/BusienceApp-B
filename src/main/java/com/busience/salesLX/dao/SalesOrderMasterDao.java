@@ -21,4 +21,7 @@ public interface SalesOrderMasterDao {
 	
 	// SalesOrderMaster delete
 	public int salesOrderMasterDeleteDao(String Sales_Order_lCus_No);
+	
+	// salesOrderMaster update
+	public int salesOrderMasterUpdateDao(String Sales_Order_mCus_No);
 }

@@ -46,4 +46,6 @@ public class SearchDto {
 	private String condition;
 	
 	private boolean Check;
+	
+	private String SalesCusNo;
 }

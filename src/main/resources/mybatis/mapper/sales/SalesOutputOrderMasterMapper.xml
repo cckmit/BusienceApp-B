@@ -21,7 +21,17 @@
 	where A.Sales_Output_Order_mDate >= curdate()
 </select>
 <select id="salesOutputOrderNoCreateDao" resultType="String">
-	select 
+	select concat(
+					#{Sales_Output_Order_mCode},'-',date_format(#{Sales_Output_Order_mDate},'%y%m%d'),'-',
+					lpad(
+						(select * from (
+								<![CDATA[
+								select count(*)+1 from Sales_Output_OrderMaster_tbl
+								where Sales_Output_Order_mCode = #{Sales_Output_Order_mCode} and Sales_Output_Order_mDate >= curdate()) AA),
+								]]>
+						2,'0'))
+</select>
+<!-- select 
 		concat(
 				#{Sales_Output_Order_mCode},'-',date_format(#{Sales_Output_Order_mDate},'%y%m%d'),'-',
 				lpad(
@@ -31,10 +41,9 @@
 								where SUBSTRING_INDEX(#{Sales_Output_Order_mCus_No}, '-', 2) 
 								= CONCAT(#{Sales_Output_Order_mCode},'-',DATE_FORMAT(#{Sales_Output_Order_mDate},'%y%m%d'))),0)
 						),2,'0')
-			   )
-</select>
+			   ) -->
 <insert id="salesOutputOrderMasterInsertDao">
-	INSERT INTO Sales_Output_OrderMasterWO_tbl (
+	INSERT INTO Sales_Output_OrderMaster_tbl (
  		Sales_Output_Order_mOrder_No, Sales_Output_Order_mCus_No, Sales_Output_Order_mCode,
  		Sales_Output_Order_mDate, Sales_Output_Order_mTotal, Sales_Output_Order_mDlvry_Date,
  		Sales_Output_Order_mRemarks, Sales_Output_Order_mModifier, Sales_Output_Order_mModify_Date
@@ -52,36 +61,5 @@
  		Sales_Output_Order_mRemarks = #{Sales_Output_Order_mRemarks},
  		Sales_Output_Order_mModifier =  #{Sales_Output_Order_mModifier},
  		Sales_Output_Order_mModify_Date = now()
-</insert>
-<insert id="salesOutputOrderListInsertDao">
-	insert into Sales_Output_OrderList_tbl(
- 		Sales_Output_Order_lNo,
- 		Sales_Output_Order_lOrder_No,
- 		Sales_Output_Order_lCode,
- 		Sales_Output_Order_lQty,
- 		Sales_Output_Order_lSum,
- 		Sales_Output_Order_lUnit_Price,
- 		Sales_Output_Order_lPrice,
- 		Sales_Output_Order_lNot_Stocked,
- 		Sales_Output_Order_Send_Clsfc,
- 		Sales_Output_Order_lInfo_Remark
- 		
- 	) values (
- 	
- 		#{Sales_Output_Order_lNo},
- 		#{Sales_Output_Order_mOrder_No},
-		#{Sales_Output_Order_lCode},
-		#{Sales_Output_Order_lQty},
-		'0',
-		#{Sales_Output_Order_lUnit_Price},
-		#{Sales_Output_Order_lPrice},
-		#{Sales_Output_Order_lQty},
-		#{Sales_Output_Order_Send_Clsfc},
-		#{Sales_Output_Order_lInfo_Remark}
-		
- 	) on duplicate key update 
- 	Sales_Output_Order_lNo = #{Sales_Output_Order_lNo}, Sales_Output_Order_lQty = #{Sales_Output_Order_lQty}, 
- 	Sales_Output_Order_lPrice = #{Sales_Output_Order_lPrice}, Sales_Output_Order_lNot_Stocked = #{Sales_Output_Order_lQty}, 
- 	Sales_Output_Order_lInfo_Remark = #{Sales_Output_Order_lInfo_Remark}
 </insert>
 </mapper>

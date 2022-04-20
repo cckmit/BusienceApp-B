@@ -21,5 +21,35 @@
 	where Sales_Output_Order_lOrder_No = #{SalesOrderNo}
 	Order by Sales_Output_Order_lNo
 </select>
-
+<insert id="salesOutputOrderListInsertDao">
+	insert into Sales_Output_OrderList_tbl(
+ 		Sales_Output_Order_lNo,
+ 		Sales_Output_Order_lOrder_No,
+ 		Sales_Output_Order_lCode,
+ 		Sales_Output_Order_lQty,
+ 		Sales_Output_Order_lSum,
+ 		Sales_Output_Order_lUnit_Price,
+ 		Sales_Output_Order_lPrice,
+ 		Sales_Output_Order_lNot_Stocked,
+ 		Sales_Output_Order_Send_Clsfc,
+ 		Sales_Output_Order_lInfo_Remark
+ 		
+ 	) values (
+ 	
+ 		#{Sales_Output_Order_lNo},
+ 		#{Sales_Output_Order_lOrder_No},
+		#{Sales_Output_Order_lCode},
+		#{Sales_Output_Order_lQty},
+		'0',
+		#{Sales_Output_Order_lUnit_Price},
+		#{Sales_Output_Order_lPrice},
+		#{Sales_Output_Order_lQty},
+		#{Sales_Output_Order_Send_Clsfc},
+		#{Sales_Output_Order_lInfo_Remark}
+		
+ 	) on duplicate key update 
+ 	Sales_Output_Order_lNo = #{Sales_Output_Order_lNo}, Sales_Output_Order_lQty = #{Sales_Output_Order_lQty}, 
+ 	Sales_Output_Order_lPrice = #{Sales_Output_Order_lPrice}, Sales_Output_Order_lNot_Stocked = #{Sales_Output_Order_lQty}, 
+ 	Sales_Output_Order_lInfo_Remark = #{Sales_Output_Order_lInfo_Remark}
+</insert>
 </mapper>

@@ -24,7 +24,8 @@ var salesOrderTable = new Tabulator("#salesOrderTable", {
 			}
 		}
 		//salesOutputOrderTable에 행추가
-		salesOutputOrderTable.addRow({sales_Output_Order_mCus_No : row.getData().sales_Order_mCus_No,
+		salesOutputOrderTable.addRow({
+									sales_Output_Order_mCus_No : row.getData().sales_Order_mCus_No,
 									sales_Output_Order_mCode : row.getData().sales_Order_mCode,
 									sales_Output_Order_mName : row.getData().sales_Order_mName,
 									sales_Output_Order_mDate : moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
@@ -42,6 +43,7 @@ var salesOrderTable = new Tabulator("#salesOrderTable", {
 		SOS_Search(row.getData().sales_Order_mCus_No);
 		SOSM_Search(row.getData().sales_Order_mCus_No);
 		salesOrderSubTable.selectRow();
+		$("#sales_Order_lCus_No").val(row.getData().sales_Order_mCus_No);
 		
 		//저장버튼 사용가능
 		UseBtn()
@@ -66,7 +68,8 @@ function SO_Search(){
 		startDate : $("#startDate").val(),
 		endDate : $("#endDate").val(),
 		ClientCode : $("#Sales_InMat_Client_Code").val(),
-		condition: "Y"
+		condition: "Y",
+		SalesCusNo: $("#Sales_Order_mCus_No").val()
 	}
 	$.ajax({
 		method : "GET",
@@ -102,7 +105,6 @@ $.ajax({
 		}
 	}
 });
-
 // salesOrderList
 var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
 	height:"calc(50% - 124px)",
@@ -370,6 +372,7 @@ function SOO_Save() {
 		return;
 	}
 	selectedRow = salesOutputOrderTable.getData("selected")[0];
+	console.log(selectedRow);
 
 	//OrderSub 저장부분
 	$.ajax({
@@ -383,15 +386,15 @@ function SOO_Save() {
 			xhr.setRequestHeader(header, token);
 		},
 		success: function(result) {
-			if (result == "error") {
-				alert("빈칸이 있어서 저장할 수 없습니다.")
-			} else {
+			if (result) {
 				alert("저장되었습니다.");
 				SO_Search()
 				salesOutputOrderTable.replaceData()
 				.then(function(){
 					Order_No_select(result)
 				})
+			} else {
+				alert("빈칸이 있어서 저장할 수 없습니다.")
 			}
 		}
 	});
@@ -438,12 +441,12 @@ var salesOutputStockTable = new Tabulator("#salesOutputStockTable", {
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
 	columns: [
-		{ title: "제품코드", field: "sm_Code", headerHozAlign: "center" },
-		{ title: "제품명", field: "sm_Name", headerHozAlign: "center" },
-		{ title: "규격1", field: "sm_STND_1", headerHozAlign: "center" },
-		{ title: "분류1", field: "S_Item_Classfy_1", headerHozAlign: "center", hozAlign: "right"},
-		{ title: "재고수량", field: "sm_Qty", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false }},
-		{ title: "현재지시수량", field: "sales_Output_Order_Qty", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false }}
+		{ title: "제품코드", field: "s_ItemCode", headerHozAlign: "center" },
+		{ title: "제품명", field: "s_ItemName", headerHozAlign: "center" },
+		{ title: "규격1", field: "s_Item_Standard_1", headerHozAlign: "center" },
+		{ title: "분류1", field: "s_Item_Classfy_1_Name", headerHozAlign: "center", hozAlign: "right"},
+		{ title: "재고수량", field: "s_Qty", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false }},
+		{ title: "현재지시수량", field: "s_Sales_Output_Order_Qty", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false }}
 	]
 });
 

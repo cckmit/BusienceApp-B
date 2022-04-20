@@ -15,4 +15,7 @@ public interface SalesOutputOrderMasterDao {
 
 	// salesOutputOrderNo create
 	public String salesOutputOrderNoCreateDao(SalesOutputOrderMasterDto salesOutputOrderMasterDto);
+	
+	// salesOutputOrderMaster insert
+	public int salesOutputOrderMasterInsertDao(SalesOutputOrderMasterDto salesOutputOrderMasterDto);
 }

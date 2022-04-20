@@ -19,4 +19,9 @@ public class SalesOutputOrderListDto {
 	private int Sales_Output_Order_lNot_Stocked;
 	private String Sales_Output_Order_Send_Clsfc;
 	private String Sales_Output_Order_lInfo_Remark;
+	// 추가
+	private String Sales_Output_Order_lName;
+	private String Sales_Order_STND_1;
+	private String Sales_Order_CLSFC_1;
+	private String Sales_Output_Order_mCus_No;
 }

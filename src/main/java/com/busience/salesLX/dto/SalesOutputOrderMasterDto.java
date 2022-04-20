@@ -12,6 +12,7 @@ public class SalesOutputOrderMasterDto {
 	private String Sales_Output_Order_mOrder_No;
 	private String Sales_Output_Order_mCus_No;
 	private String Sales_Output_Order_mCode;
+	private String Sales_Output_Order_mName;
 	private String Sales_Output_Order_mDate;
 	private int Sales_Output_Order_mTotal;
 	private String Sales_Output_Order_mDlvry_Date;

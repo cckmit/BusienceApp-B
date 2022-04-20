@@ -6,9 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.busience.common.dto.SearchDto;
-import com.busience.material.dto.StockDto;
 import com.busience.salesLX.dto.SalesOrderListDto;
-import com.busience.salesLX.dto.SalesOrderMasterDto;
+import com.busience.salesLX.dto.SalesOutputOrderListDto;
 
 @Mapper
 public interface SalesOrderListDao {
@@ -22,7 +21,9 @@ public interface SalesOrderListDao {
 	// SalesOrderList delete
 	public int salesOrderListDeleteDao(@Param("list") List<SalesOrderListDto> salesOrderListDto,
 									   @Param("Sales_Order_lCus_No") String Sales_Order_lCus_No);
-
 	// salesOrderNoUpdate
 	public int salesOrderListNoUpdateDao(String Sales_Order_lCus_No);
+	
+	// salesOrderList update
+	public int salesOrderListUpdateDao(SalesOutputOrderListDto salesOutputOrderListDto);
 }
