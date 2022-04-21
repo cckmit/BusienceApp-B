@@ -84,4 +84,9 @@ public class SalesOutputOrderMasterService {
 			return 0;
 		}
 	}
+	
+	// salesOutputOrderMaster report
+	public List<SalesOutputOrderMasterDto> salesOutputOrderListDao(SearchDto searchDto) {
+		return salesOutputOrderMasterDao.salesOutputOrderListDao(searchDto);
+	}
 }

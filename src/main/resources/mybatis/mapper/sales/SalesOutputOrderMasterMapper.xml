@@ -31,6 +31,38 @@
 								]]>
 						2,'0'))
 </select>
+<select id="salesOutputOrderListDao" resultType="com.busience.salesLX.dto.SalesOutputOrderMasterDto">
+	SELECT
+		somt.Sales_Output_Order_mOrder_No,
+		somt.Sales_Output_Order_mCus_No,
+		somt.Sales_Output_Order_mCode,
+		ct.Cus_Name Sales_Output_Order_mName,
+		somt.Sales_Output_Order_mDate,
+		somt.Sales_Output_Order_mTotal,
+		somt.Sales_Output_Order_mDlvry_Date,
+		somt.Sales_Output_Order_mCheck,
+		somt.Sales_Output_Order_mRemarks,
+		somt.Sales_Output_Order_mModifier,
+		somt.Sales_Output_Order_mModify_Date
+	FROM Sales_Output_OrderMaster_tbl somt
+	INNER JOIN Customer_tbl ct ON somt.Sales_Output_Order_mCode = ct.Cus_Code
+<![CDATA[	
+	WHERE somt.Sales_Output_Order_mDlvry_Date >= #{startDate} AND somt.Sales_Output_Order_mDlvry_Date < #{endDate}
+]]>	
+	<if test="ClientCode != null">
+		and Sales_Output_Order_mCode like concat('%',#{ClientCode},'%')
+	</if>
+	<if test='condition == "Y"'>
+		and Sales_Output_Order_mCheck = 'Y'
+	</if>
+	<if test='condition == "N"'>
+		and Sales_Output_Order_mCheck in ('I','N')
+	</if>
+	<if test='condition == "all"'>
+	
+	</if>
+	GROUP BY somt.Sales_Output_Order_mCode, somt.Sales_Output_Order_mDlvry_Date, somt.Sales_Output_Order_mCus_No, somt.Sales_Output_Order_mDate	
+</select>
 <!-- select 
 		concat(
 				#{Sales_Output_Order_mCode},'-',date_format(#{Sales_Output_Order_mDate},'%y%m%d'),'-',

@@ -29,4 +29,10 @@ public class salesStockRestController {
 	public List<StockDto> salesOutputStockDao(SearchDto searchDto) {
 		return stockService.salesOutputStockDao(searchDto);
 	}
+	
+	// salesOutputOrderStock select
+	@GetMapping("/SOSS_Search")
+	public List<StockDto> salesOutputOrderStockDao(SearchDto searchDto) {
+		return stockService.salesOutputOrderStockDao(searchDto);
+	}
 }

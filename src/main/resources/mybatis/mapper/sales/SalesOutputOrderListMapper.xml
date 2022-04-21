@@ -8,7 +8,7 @@
 		solt.Sales_Output_Order_lOrder_No,
 		pit.PRODUCT_ITEM_NAME Sales_Output_Order_lName,
 		solt.Sales_Output_Order_lCode,
-		pit.PRODUCT_INFO_STND_1 Sales_Output_Order_STND_1,
+		pit.PRODUCT_INFO_STND_1 Sales_Order_STND_1,
 		solt.Sales_Output_Order_lQty,
 		solt.Sales_Output_Order_lSum,
 		solt.Sales_Output_Order_lUnit_Price,
@@ -16,10 +16,10 @@
 		solt.Sales_Output_Order_lNot_Stocked,
 		solt.Sales_Output_Order_Send_Clsfc,
 		solt.Sales_Output_Order_lInfo_Remark
-	from Sales_Output_OrderListWO_tbl solt 
-	inner join PRODUCT_INFO_TBL pit on solt.Sales_Output_Order_lCode = pit.PRODUCT_ITEM_CODE
+	from Sales_Output_OrderList_tbl solt 
+	inner join Product_Info_tbl pit on solt.Sales_Output_Order_lCode = pit.PRODUCT_ITEM_CODE
 	where Sales_Output_Order_lOrder_No = #{SalesOrderNo}
-	Order by Sales_Output_Order_lNo
+	Order by Sales_Output_Order_lNo ASC
 </select>
 <insert id="salesOutputOrderListInsertDao">
 	insert into Sales_Output_OrderList_tbl(

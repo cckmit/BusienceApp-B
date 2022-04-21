@@ -20,8 +20,13 @@ public class StockService {
 		return stockDao.stockSelectDao(searchDto);
 	}
 	
-	//지시수량 재고 확인
+	//출고지시수량 재고 확인
 	public List<StockDto> salesOutputStockDao(SearchDto searchDto) {
 		return stockDao.salesOutputStockDao(searchDto);
+	}
+	
+	//출고지시조회 재고 확인
+	public List<StockDto> salesOutputOrderStockDao(SearchDto searchDto) {
+		return stockDao.salesOutputOrderStockDao(searchDto);
 	}
 }

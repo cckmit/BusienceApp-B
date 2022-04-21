@@ -18,4 +18,7 @@ public interface SalesOutputOrderMasterDao {
 	
 	// salesOutputOrderMaster insert
 	public int salesOutputOrderMasterInsertDao(SalesOutputOrderMasterDto salesOutputOrderMasterDto);
+	
+	// salesOutputOrderMaster report
+	public List<SalesOutputOrderMasterDto> salesOutputOrderListDao(SearchDto searchDto);
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.busience.common.dto.SearchDto;
 import com.busience.salesLX.dto.SalesOutputOrderListDto;
 import com.busience.salesLX.dto.SalesOutputOrderMasterDto;
+import com.busience.salesLX.service.SalesOutputOrderListService;
 import com.busience.salesLX.service.SalesOutputOrderMasterService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -23,6 +24,9 @@ public class salesOutputOrderRestController {
 
 	@Autowired
 	SalesOutputOrderMasterService salesOutputOrderMasterService;
+	
+	@Autowired
+	SalesOutputOrderListService salesOutputOrderListService;
 	
 	@GetMapping("/SOO_Search")
 	public List<SalesOutputOrderMasterDto> salesOutputOrderMasterSelectDao(SearchDto searchDto) {
@@ -49,6 +53,19 @@ public class salesOutputOrderRestController {
 			return 0;
 		}
 	
+	}
+	
+	// salesOutputOrderMaster report
+	@GetMapping("/SOR_Search")
+	public List<SalesOutputOrderMasterDto> salesOutputOrderListDao(SearchDto searchDto) {
+		System.out.println(searchDto);
+		return salesOutputOrderMasterService.salesOutputOrderListDao(searchDto);
+	}
+	
+	// salesOutputOrderList report
+	@GetMapping("/SORS_Search")
+	public List<SalesOutputOrderListDto> salesOutputOrderListSelectDao(SearchDto searchDto) {
+		return salesOutputOrderListService.salesOutputOrderListSelectDao(searchDto);
 	}
 	
 }
