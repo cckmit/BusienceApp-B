@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.busience.common.dto.SearchDto;
 import com.busience.standard.dao.MachineDao;
 import com.busience.standard.dto.MachineDto;
 
@@ -21,8 +22,13 @@ public class MachineService {
 		return machineDao.selectMachineListDao();
 	}
 	
+	//조회
+	public MachineDto selectMachineInfo(SearchDto searchDto) {
+		return machineDao.selectMachineInfoDao(searchDto);
+	}
+	
 	//설비 종류에 따라 조회
-	public List<MachineDto> dtlMachineListDao(MachineDto machineDto) {
+	public List<MachineDto> dtlMachineList(MachineDto machineDto) {
 		return machineDao.dtlMachineListDao(machineDto);
 	}
 	

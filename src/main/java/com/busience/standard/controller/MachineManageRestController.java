@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.busience.common.dto.SearchDto;
 import com.busience.standard.dto.MachineDto;
 import com.busience.standard.service.MachineService;
 
@@ -30,9 +31,14 @@ public class MachineManageRestController {
 		return machineService.selectMachineList();
 	}
 	
+	@GetMapping("/selectMachineInfo")
+	public MachineDto selectMachineInfo(SearchDto searchDto) {
+		return machineService.selectMachineInfo(searchDto);
+	}
+	
 	@GetMapping("/dtlMachineList")
-	public List<MachineDto> dtlMachineListDao(MachineDto machineDto) {
-		return machineService.dtlMachineListDao(machineDto);
+	public List<MachineDto> dtlMachineList(MachineDto machineDto) {
+		return machineService.dtlMachineList(machineDto);
 	}
 	
 	@PostMapping("/machineManageInsert")

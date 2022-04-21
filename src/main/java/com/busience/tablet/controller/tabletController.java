@@ -12,14 +12,13 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.busience.common.dto.DtlDto;
 import com.busience.common.dto.SearchDto;
 import com.busience.common.service.DtlService;
-import com.busience.productionLX.dto.PRODUCTION_INFO_TBL;
 import com.busience.standard.dto.DTL_TBL;
 import com.busience.standard.dto.EQUIPMENT_INFO_TBL;
+import com.busience.standard.dto.MachineDto;
 import com.busience.standard.dto.PRODUCT_INFO_TBL;
 import com.busience.standard.service.MachineService;
 
@@ -92,36 +91,7 @@ public class tabletController {
 		
 		return "normal/tablet/matOutputLXTablet";
 	}
-	
-	@GetMapping("tablet/matOutputLXTabletA")
-	public String matOutputLXTabletA(Model model) {
 		
-		model.addAttribute("product_list",jdbctemplate.query("SELECT * FROM PRODUCT_INFO_TBL WHERE PRODUCT_ITEM_CLSFC_1 = '32' ORDER BY PRODUCT_ITEM_NAME DESC", new RowMapper() {
-
-	         @Override
-	         public PRODUCTION_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
-	            PRODUCTION_INFO_TBL data = new PRODUCTION_INFO_TBL();
-	            data.setPRODUCTION_PRODUCT_CODE(rs.getString("PRODUCT_ITEM_CODE"));
-	            data.setPRODUCTION_EQUIPMENT_INFO_NAME(rs.getString("PRODUCT_ITEM_NAME"));
-	            data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
-	            return data;
-	         }
-	      }));
-
-		model.addAttribute("dtl_list",jdbctemplate.query("SELECT * FROM DTL_TBL WHERE NEW_TBL_CODE='3' AND CHILD_TBL_RMARK='실'", new RowMapper() {
-
-	         @Override
-	         public DTL_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
-	        	 DTL_TBL data = new DTL_TBL();
-	            data.setCHILD_TBL_NO(rs.getString("CHILD_TBL_NO"));
-	            data.setCHILD_TBL_TYPE(rs.getString("CHILD_TBL_TYPE"));
-	            return data;
-	         }
-	      }));
-		
-		return "normal/tablet/matOutputLXTabletA";
-	}
-	
 	//workOrderTablet
 	@GetMapping("/tablet/workOrderTablet")
 	public String workOrderTablet(Model model, SearchDto searchDto) {
@@ -136,7 +106,7 @@ public class tabletController {
 	
 	// WorkOrderInsertB
 		@GetMapping("/tablet/workOrderInsertB")
-		public String WorkOrderInsertB(Model model, SearchDto searchDto, HttpServletRequest request) throws SQLException {
+		public String WorkOrderInsertB(Model model, SearchDto searchDto) {
 			if(searchDto.getMachineCode() == null) {
 				searchDto.setMachineCode("M001");
 			}
@@ -309,5 +279,17 @@ public class tabletController {
 				}));
 		
 		return "normal/tablet/workOrderTabletMaster";
+	}
+	
+	@GetMapping("/tablet/maskProductionTablet")
+	public String maskProductionTablet(Model model, SearchDto searchDto) {
+		if(searchDto.getMachineCode() == null) {
+			searchDto.setMachineCode("M001");
+		}
+		MachineDto machineDto = machineService.selectMachineInfo(searchDto);
+		System.out.println(machineDto);
+		model.addAttribute("machineInfo", machineDto);
+		
+		return "normal/tablet/maskProductionTablet";
 	}
 }

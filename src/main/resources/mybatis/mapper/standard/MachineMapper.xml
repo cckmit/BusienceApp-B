@@ -29,6 +29,33 @@
 			   select * from DTL_TBL where NEW_TBL_CODE=43
 			) E ON A.Equipment_Type = E.CHILD_TBL_NO
 	</select>
+	
+	<select id="selectMachineInfoDao" resultType="com.busience.standard.dto.MachineDto">
+		SELECT 
+			A.EQUIPMENT_BUSINESS_PLACE, B.CHILD_TBL_TYPE AS EQUIPMENT_BUSINESS_PLACE_NAME,
+			A.EQUIPMENT_INFO_CODE, A.EQUIPMENT_INFO_NAME,
+			A.EQUIPMENT_INFO_ABR, A.EQUIPMENT_HEIGHT,
+			A.EQUIPMENT_WIDTH, A.EQUIPMENT_DEPTH,
+			A.EQUIPMENT_SERIAL_NUM, A.EQUIPMENT_TYPE, E.CHILD_TBL_TYPE AS EQUIPMENT_TYPE_NAME,
+			A.EQUIPMENT_RECEIVED_D, A.EQUIPMENT_MODEL_YEAR,
+			A.EQUIPMENT_MANUFACTURER, A.EQUIPMENT_STATUS,
+			C.CHILD_TBL_TYPE AS EQUIPMENT_STATUS_NAME, A.EQUIPMENT_INFO_RMARK,
+			A.EQUIPMENT_USE_STATUS, A.EQUIPMENT_MODIFY_D,
+			D.USER_NAME EQUIPMENT_MODIFIER
+			FROM Equipment_Info_tbl A
+			INNER JOIN (
+				select * from DTL_TBL where NEW_TBL_CODE=2
+			) B ON A.EQUIPMENT_BUSINESS_PLACE = B.CHILD_TBL_NO
+			INNER JOIN (
+				select * from DTL_TBL where NEW_TBL_CODE=12
+			) C ON A.EQUIPMENT_STATUS = C.CHILD_TBL_NO
+			INNER JOIN User_Info_tbl D ON A.EQUIPMENT_MODIFIER = D.USER_CODE
+			INNER JOIN (
+			   select * from DTL_TBL where NEW_TBL_CODE=43
+			) E ON A.Equipment_Type = E.CHILD_TBL_NO
+			where A.EQUIPMENT_INFO_CODE = #{machineCode}
+	</select>
+	
  	<select id="dtlMachineListDao" resultType="com.busience.standard.dto.MachineDto">
 			<if test="EQUIPMENT_TYPE == 1">
 			select eit.Equipment_info_Code, eit.Equipment_info_Name, eit.Equipment_info_ABR, eit.Equipment_Type,

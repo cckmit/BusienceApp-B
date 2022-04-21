@@ -66,8 +66,6 @@ function MI_searchBtn2()
 var WorkOrder_tbl = new Tabulator("#WorkOrder_tbl", {
 	height: "calc(100% - 175px)",
 	layout:"fitDataStretch",
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
 	groupBy:"workOrder_EquipName",
 	rowFormatter:function(row){
 		console.log(row.getData().workOrder_WorkStatus);

@@ -88,18 +88,17 @@ var matRequestStockTable = new Tabulator("#matRequestStockTable", {
 	height:"10%",
 	layoutColumnsOnNewData : true,
  	columns:[
- 	{title:"품목코드", field:"s_ItemCode", headerHozAlign:"center"},
- 	{title:"품목명", field:"s_ItemName", headerHozAlign:"center"},
-	{title:"규격1", field:"s_Item_Standard_1", headerHozAlign:"center"},
-	{title:"규격1", field:"s_Item_Standard_2", headerHozAlign:"center"},
- 	{title:"수량", field:"s_Qty", headerHozAlign:"center", hozAlign:"right", formatter:"money", formatterParams: {precision: false}}
+ 	{ title: "제품코드", field: "s_ItemCode", headerHozAlign: "center" },
+		{ title: "제품명", field: "s_ItemName", headerHozAlign: "center" },
+		{ title: "규격1", field: "s_Item_Standard_1", headerHozAlign: "center" },
+		{ title: "규격2", field: "s_Item_Standard_2", headerHozAlign: "center" },
+		{ title: "분류1", field: "s_Item_Classfy_1_Name", headerHozAlign: "center" },
+		{ title: "분류2", field: "s_Item_Classfy_2_Name", headerHozAlign: "center" },
+		{ title: "수량", field: "s_Qty", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false } }
  	]
 });
 
 //orderStock 목록검색
-function MRLSS_Search(ItemCode){
-	var datas = {
-		ItemCode : ItemCode
-	}
-	matRequestStockTable.setData("matOrderRest/MOS_Search", datas);
+function MRLSS_Search(itemCode){
+	matRequestStockTable.setData("matStockRest/matStockSelect", { ItemCode: itemCode });
 }
