@@ -24,4 +24,7 @@ public interface LotMasterDao {
 	//랏마스터 update
 	public int lotMasterUpdateDao(OutMatDto outMatDto);
 	
+	//영업 LotMaster 조회
+	public List<LotMasterDto> salesOutputLotMasterDao(SearchDto searchDto);
+	
 }

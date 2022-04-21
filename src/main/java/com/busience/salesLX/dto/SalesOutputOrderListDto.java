@@ -24,4 +24,5 @@ public class SalesOutputOrderListDto {
 	private String Sales_Order_STND_1;
 	private String Sales_Order_CLSFC_1;
 	private String Sales_Output_Order_mCus_No;
+	private int Sales_Output_Order_SQty; // 재고수량
 }

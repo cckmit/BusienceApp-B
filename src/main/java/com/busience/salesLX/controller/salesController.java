@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.busience.common.service.DtlService;
 
 @Controller
-public class salesLXController {
+public class salesController {
 
 	@Autowired
 	DtlService dtlService;
@@ -84,12 +84,12 @@ public class salesLXController {
 	}
 
 	// salesOutputLX
-	@GetMapping("salesOutputLX")
-	public String salesOutputLX(Model model) {
+	@GetMapping("salesOutput")
+	public String salesOutput(Model model) {
 		
 		model.addAttribute("pageName", "제품 출고 관리");
 		
-		return "salesLX/salesOutputLX";
+		return "salesLX/salesOutput";
 	}
 	
 	// salesInReturn

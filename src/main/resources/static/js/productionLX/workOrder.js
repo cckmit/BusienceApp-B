@@ -398,6 +398,11 @@ function WO_Delete(equipData) {
 
 function saveChkFunc() {
 	var selectedRow = workOrderTable.getData("selected");
+	
+	if(selectedRow.length == 0) {
+		alert("등록할 행이 없습니다.");	
+	}
+	
 	for (i = 0; i < selectedRow.length; i++) {
 		if (selectedRow[i].workOrder_ItemCode == '') {
 			alert("품목을 선택하세요.");

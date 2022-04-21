@@ -14,10 +14,12 @@
 		solt.Sales_Output_Order_lUnit_Price,
 		solt.Sales_Output_Order_lPrice,
 		solt.Sales_Output_Order_lNot_Stocked,
+		st.S_Qty Sales_Output_Order_SQty,
 		solt.Sales_Output_Order_Send_Clsfc,
 		solt.Sales_Output_Order_lInfo_Remark
 	from Sales_Output_OrderList_tbl solt 
 	inner join Product_Info_tbl pit on solt.Sales_Output_Order_lCode = pit.PRODUCT_ITEM_CODE
+	left outer join Stock_tbl st on solt.Sales_Output_Order_lCode = st.S_ItemCode
 	where Sales_Output_Order_lOrder_No = #{SalesOrderNo}
 	Order by Sales_Output_Order_lNo ASC
 </select>

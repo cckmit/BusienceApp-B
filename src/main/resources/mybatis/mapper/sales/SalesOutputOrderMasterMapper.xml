@@ -52,6 +52,9 @@
 	<if test="ClientCode != null">
 		and Sales_Output_Order_mCode like concat('%',#{ClientCode},'%')
 	</if>
+	<if test="SalesOrderNo != null">
+		and Sales_Output_Order_mOrder_No like concat('%',#{SalesOrderNo},'%')
+	</if>
 	<if test='condition == "Y"'>
 		and Sales_Output_Order_mCheck = 'Y'
 	</if>
@@ -61,7 +64,6 @@
 	<if test='condition == "all"'>
 	
 	</if>
-	GROUP BY somt.Sales_Output_Order_mCode, somt.Sales_Output_Order_mDlvry_Date, somt.Sales_Output_Order_mCus_No, somt.Sales_Output_Order_mDate	
 </select>
 <!-- select 
 		concat(

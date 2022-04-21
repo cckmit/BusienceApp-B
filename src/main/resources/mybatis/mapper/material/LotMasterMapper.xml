@@ -30,6 +30,18 @@
 		and A.LM_ItemCode = #{ItemCode};
 	</select>
 	
+	<select id="salesOutputLotMasterDao" resultType="com.busience.material.dto.LotMasterDto">
+		select 
+			LM_LotNo, LM_ItemCode, pit.Product_Item_Name LM_ItemName,
+			pit.Product_Info_STND_1 LM_STND_1, 
+			dt.Child_TBL_Type LM_Item_CLSFC_1,
+			LM_Qty
+		from LotMaster_tbl lmt 
+		inner join Product_Info_tbl pit on lmt.LM_ItemCode = pit.Product_Item_Code 
+		inner join DTL_TBL dt on pit.Product_Item_CLSFC_1 = dt.Child_TBL_No
+		where LM_ItemCode = #{ItemCode} and LM_Qty > 0
+	</select>
+	
 	<insert id="lotMasterInsertDao">
 		insert into LotMaster_tbl(
 			LM_LotNo, LM_ItemCode,

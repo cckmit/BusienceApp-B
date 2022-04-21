@@ -16,4 +16,9 @@ public class LotMasterDto {
 	
 	private String LM_ClientCode;
 	private String LM_ClientName;
+	
+	// 영업 
+	private String LM_ItemName;
+	private String LM_STND_1;
+	private String LM_Item_CLSFC_1;
 }
