@@ -1,7 +1,7 @@
 var returnData = new Array();
 
 // salesOrderMaster
-var salesOutputTable = new Tabulator("#salesOutputTable", {
+var salesOutputOrderTable = new Tabulator("#salesOutputOrderTable", {
 	//페이징
 	pagination: "local",
 	paginationSize: 20,
@@ -19,7 +19,7 @@ var salesOutputTable = new Tabulator("#salesOutputTable", {
 	},
 	//행클릭 이벤트
 	rowClick: function(e, row) {
-		salesOutputTable.deselectRow();
+		salesOutputOrderTable.deselectRow();
 		row.select();
 	},
 	rowSelected: function(row) {
@@ -66,8 +66,8 @@ function SO_Search() {
 		data: datas,
 		success: function(data) {
 			console.log(data);
-			salesOutputTable.setData(data);
-			salesOutputSubTable.clearData();
+			salesOutputOrderTable.setData(data);
+			salesOutputOrderSubTable.clearData();
 			salesLotMasterTable.clearData();
 			salesOutMatTable.clearData();
 
@@ -97,7 +97,7 @@ $.ajax({
 });
 
 // salesOrderList
-var salesOutputSubTable = new Tabulator("#salesOutputSubTable", {
+var salesOutputOrderSubTable = new Tabulator("#salesOutputOrderSubTable", {
 	height: "calc(50% - 90px)",
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
@@ -112,7 +112,7 @@ var salesOutputSubTable = new Tabulator("#salesOutputSubTable", {
 		//행을 추가하면서 해당행의 데이터값을 넘겨줌
 		//미출고재고가 있다면
 		if (row.getData().sales_Output_Order_lNot_Stocked != 0) {
-			salesOutputSubTable.deselectRow();
+			salesOutputOrderSubTable.deselectRow();
 			row.select();
 			add_mode = false;
 		}
@@ -126,9 +126,8 @@ var salesOutputSubTable = new Tabulator("#salesOutputSubTable", {
 		SLM_Search(row.getData().sales_Output_Order_lCode);
 
 		// OutMat 지시번호와 품목코드로 검색
-		//SSM_Search(row.getData().sales_Output_Order_lOrder_No, row.getData().sales_Output_Order_lCode)
+		SSM_Search(row.getData().sales_Output_Order_lOrder_No, row.getData().sales_Output_Order_lCode)
 
-		ResetBtn();
 	},
 	columns: [
 		{ title: "순번", field: "sales_Output_Order_lNo", headerHozAlign: "center", hozAlign: "center", width: 60 },
@@ -188,7 +187,7 @@ function SOS_Search(sales_Output_Order_lOrder_No) {
 		data: datas,
 		success: function(datas) {
 			console.log(datas);
-			salesOutputSubTable.setData(datas);
+			salesOutputOrderSubTable.setData(datas);
 			salesLotMasterTable.clearData();
 			salesOutMatTable.clearData();
 		}
@@ -205,8 +204,8 @@ var salesLotMasterTable = new Tabulator("#salesLotMasterTable", {
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
 	rowClick: function(e, row) {
-		//salesOutputSubTable에서 선택된 행
-		FOS_selectedRow = salesOutputSubTable.getData("selected")[0]
+		//salesOutputOrderSubTable에서 선택된 행
+		FOS_selectedRow = salesOutputOrderSubTable.getData("selected")[0]
 
 		//미출고재고 - 현재 출고 합계수량이 0보다 크면 선택함
 		if (FOS_selectedRow.sales_Output_Order_lNot_Stocked - SSM_total > 0) {
@@ -219,10 +218,9 @@ var salesLotMasterTable = new Tabulator("#salesLotMasterTable", {
 		if (!add_mode) {
 			salesOutMatTable.clearData();
 			add_mode = true;
-			UseBtn();
 		}
-		//salesOutputSubTable에서 선택된 행
-		FOS_selectedRow = salesOutputSubTable.getData("selected")[0]
+		//salesOutputOrderSubTable에서 선택된 행
+		FOS_selectedRow = salesOutputOrderSubTable.getData("selected")[0]
 		//출고수량 정하기
 
 		//미출고재고 - 현재 출고합계수량 < LotMaster 수량
@@ -245,11 +243,12 @@ var salesLotMasterTable = new Tabulator("#salesLotMasterTable", {
 			});
 		SSM_total = SSM_total + FO_QTY;
 		salesLotMasterTable.redraw();
+		UseBtn();
 	},
 	rowDeselected: function(row) {
 		//클릭한 행과 같은 랏번호를 찾아서 삭제해줌
 		for (i = 0; i < salesOutMatTable.getDataCount(); i++) {
-			if (salesOutMatTable.getData()[i].sales_OutMat_Lot_No == row.getData().sales_LMaster_LotNo) {
+			if (salesOutMatTable.getData()[i].sales_OutMat_Lot_No == row.getData().lm_LotNo) {
 				SSM_total = SSM_total - salesOutMatTable.getData()[i].sales_OutMat_Qty;
 				salesOutMatTable.getRows()[i].delete();
 				salesLotMasterTable.redraw();
@@ -287,11 +286,11 @@ function SLM_Search(ItemCode) {
 			if (FLM_datas.length == 0) {
 				alert("해당 품목은 재고량이 없습니다.")
 			}
-				
+
 			// 전체 출고일 경우 => lot 데이터 순차적 추가
 			// 선택 출고일 경우 => lot 그리드 초기화 후 추가	
-			var rows = salesOutputSubTable.getRows("selected");
-			
+			var rows = salesOutputOrderSubTable.getRows("selected");
+
 			for (i = 0; i < FLM_datas.length; i++) {
 
 				if (rows.length > 1) {
@@ -305,6 +304,12 @@ function SLM_Search(ItemCode) {
 							"lm_Item_CLSFC_1": FLM_datas[i].lm_Item_CLSFC_1,
 							"lm_Qty": FLM_datas[i].lm_Qty
 						});
+					// lotMaster 선택
+					var rows = salesLotMasterTable.getRows();
+					for (var i = 0; i < salesLotMasterTable.getDataCount(); i++) {
+						salesLotMasterTable.selectRow(rows[i]);
+					}
+
 				} else {
 					salesLotMasterTable.redraw();
 					salesLotMasterTable.setData(FLM_datas);
@@ -315,6 +320,55 @@ function SLM_Search(ItemCode) {
 
 }
 
+//matInputSub 커스텀 기능설정
+var SOM_InputEditor = function(cell, onRendered, success, cancel, editorParams){
+    //cell - 편집 가능한 셀의 셀 구성 요소
+    //onRendered - 에디터가 렌더링 되었을 때 호출 할 함수
+    //success - 성공적을 업데이트 된 값을 tabulator에 전달하기 위해 호출되는 함수
+    //cancel - 편집을 중단하고 일반 셀로 돌아 가기 위해 호출하는 함수
+    //editorParams - editorParams 열 정의 속성에 전달 된 params 객체
+
+    //create 및 style editor
+    var SOM_input = document.createElement("input");
+
+    SOM_input.setAttribute("type", "text");
+
+    //입력 생성 및 스타일 지정
+    SOM_input.style.padding = "3px";
+    SOM_input.style.width = "100%";
+    SOM_input.style.boxSizing = "border-box";
+
+    //편집기의 값을 셀의 현재 값으로 설정
+	if(cell.getValue() == undefined){
+		SOM_input.value = "";
+	}else{
+		SOM_input.value = cell.getValue();
+	}
+
+    //에디터가 선택되면 선택 상자에 포커스 설정 (타임 아웃은 편집기를 DOM에 추가 할 수 있음)
+    onRendered(function(){
+        SOM_input.focus();
+		SOM_input.select();
+        SOM_input.style.css = "100%";
+    });
+
+    //값이 설정되면 업데이트 할 셀 트리거
+    function onChange(){
+        success(SOM_input.value);
+    }
+    
+	//바꼈을때 블러됫을때 함수 발동
+    SOM_input.addEventListener("change", onChange);
+    SOM_input.addEventListener("blur", onChange);
+
+    //키버튼 이벤트
+    SOM_input.addEventListener("keydown", function (e) {
+		
+    });
+    //반환
+    return SOM_input;
+};
+
 var salesOutMatTable = new Tabulator("#salesOutMatTable", {
 	height: "calc(50% - 124.1px)",
 	//복사하여 엑셀 붙여넣기 가능
@@ -322,8 +376,16 @@ var salesOutMatTable = new Tabulator("#salesOutMatTable", {
 	selectable: true,
 	//커스텀 키 설정
 	rowAdded: function(row) {
-		row.getTable().deselectRow();
-		row.select();
+		//행이 추가되면 첫셀에 포커스
+		do{
+		setTimeout(function(){
+			row.getCell("sales_OutMat_Qty").edit();
+			salesOutMatTable.deselectRow();
+			row.select();
+			},100);
+		}
+		while(row.getData().sales_OutMat_Qty === "undefined");
+
 	},
 	columns: [
 		{ title: "순번", field: "Number", headerHozAlign: "center", hozAlign: "center", formatter: "rownum", width: 60 },
@@ -331,8 +393,23 @@ var salesOutMatTable = new Tabulator("#salesOutMatTable", {
 		{ title: "코드", field: "sales_OutMat_Code", headerHozAlign: "center", width: 60 },
 		{ title: "품목명", field: "sales_OutMat_Name", headerHozAlign: "center", width: 150 },
 		{
-			title: "수량", field: "sales_OutMat_Qty", headerHozAlign: "center", hozAlign: "right", width: 60,
-			formatter: "money", formatterParams: { precision: false }
+			title: "수량", field: "sales_OutMat_Qty", headerHozAlign: "center", hozAlign: "right", editor: SOM_InputEditor, width: 60,
+			formatter: "money", formatterParams: { precision: false },
+			cellEdited: function(cell) {
+				//수량이 변경될때 금액값이 계산되어 입력
+				temQty = qtyCheck(cell.getRow().getData().sales_OutMat_Code, cell.getValue())
+				temUP = cell.getRow().getData().sales_OutMat_Unit_Price;
+
+				if (temQty * temUP > 0) {
+					iPrice = temQty * temUP
+				} else {
+					iPrice = 0;
+				}
+				cell.getRow().update({
+					"sales_OutMat_Qty": temQty,
+					"sales_OutMat_Price": iPrice
+				});
+			}
 		},
 		{
 			title: "단가", field: "sales_OutMat_Unit_Price", headerHozAlign: "center", hozAlign: "right", width: 60,
@@ -361,6 +438,20 @@ var salesOutMatTable = new Tabulator("#salesOutMatTable", {
 	]
 });
 
+function qtyCheck(itemCode,itemQty){
+	var subTableData = salesOutputOrderSubTable.getData();
+	var forResult = itemQty;
+	for(let i=0;i<subTableData.length;i++){
+		if(subTableData[i].sales_Order_lCode == itemCode){
+			if(subTableData[i].sales_Order_lNot_Stocked < itemQty){
+				alert("미출고 수량을 초과할 수 없습니다.")
+				forResult = subTableData[i].sales_Order_lNot_Stocked
+			}
+		}
+	}
+	return forResult;
+}
+
 //Sales_OutMat 목록검색
 function SSM_Search(CusNo, Code) {
 
@@ -384,21 +475,28 @@ function SOM_Save() {
 		alert("저장할 데이터가 없습니다.")
 		return;
 	}
-	selectedRow = salesOutputTable.getData("selected")[0];
+	
+	selectedRow = salesOutputOrderTable.getData("selected")[0];
 
 	//OrderSub 저장부분
 	$.ajax({
 		method: "post",
 		async: false,
-		url: "salesOutputWORest/SOM_Save?masterData=" + encodeURI(JSON.stringify(selectedRow))
-			+ "&listData=" + encodeURI(JSON.stringify(salesOutMatTable.getData())),
+		url: "salesOutputRest/SOM_Save",
+		data: { masterData : JSON.stringify(selectedRow), subData : JSON.stringify(salesOutMatTable.getData())},
+		beforeSend: function(xhr) {
+			var header = $("meta[name='_csrf_header']").attr("content");
+			var token = $("meta[name='_csrf']").attr("content");
+			xhr.setRequestHeader(header, token);
+		},
 		success: function(result) {
-			if (result == "error") {
-				alert("오류")
-			} else {
+			if(result) {
 				alert("저장되었습니다.");
 				SO_Search()
 				Order_mCode_select(selectedRow.sales_Output_Order_mOrder_No);
+			} else {
+				alert("오류가 발생했습니다. 다시 시도해주십시오.");
+				SO_Search();
 			}
 		}
 	});
@@ -409,17 +507,17 @@ $('#SOM_SaveBtn').click(function() {
 	SOM_Save();
 })
 
-//품목코드로 salesOutputTable 선택하는 코드
+//품목코드로 salesOutputOrderTable 선택하는 코드
 function Order_mCode_select(value) {
-	rowCount = salesOutputTable.getDataCount();
+	rowCount = salesOutputOrderTable.getDataCount();
 	//컬럼값을 검색해서 입력값을 포함하는 값이 있으면 선택한다. 
 	for (i = 0; i < rowCount; i++) {
-		Output_Order_mOrder_No = salesOutputTable.getData()[i].sales_Output_Order_mOrder_No;
+		Output_Order_mOrder_No = salesOutputOrderTable.getData()[i].sales_Output_Order_mOrder_No;
 		//지시번호가 입력내용을 포함하면 코드 실행
 		if (Output_Order_mOrder_No == value) {
 			//발주번호가 같은 행 선택
-			salesOutputTable.deselectRow();
-			salesOutputTable.getRows()[i].select();
+			salesOutputOrderTable.deselectRow();
+			salesOutputOrderTable.getRows()[i].select();
 			break;
 		}
 	}
@@ -427,10 +525,10 @@ function Order_mCode_select(value) {
 
 // 전체 출고
 $("#allOutput").click(function() {
-	var rows = salesOutputSubTable.getRows();
-	for (var i = 0; i < salesOutputSubTable.getDataCount(); i++) {
+	var rows = salesOutputOrderSubTable.getRows();
+	for (var i = 0; i < salesOutputOrderSubTable.getDataCount(); i++) {
 		if (rows[i].getData().sales_Output_Order_lSum == 0) {
-			salesOutputSubTable.selectRow(rows[i]);
+			salesOutputOrderSubTable.selectRow(rows[i]);
 		}
 	}
 })

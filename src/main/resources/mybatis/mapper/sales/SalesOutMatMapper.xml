@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.busience.salesLX.dao.SalesOutputDao">
+<select id="salesOutMatNoCreateDao">
+	select count(*)+1 from Sales_OutMat_tbl
+	where Sales_OutMat_Cus_No = #{Sales_OutMat_Cus_No} 
+		and Sales_OutMat_Lot_No = #{Sales_OutMat_Lot_No}
+</select>
+<insert id="salesOutMatInsertDao">
+	insert into Sales_OutMat_tbl( 
+		Sales_OutMat_No, Sales_OutMat_Cus_No, Sales_OutMat_Lot_No, 
+		Sales_OutMat_Code, Sales_OutMat_Qty, Sales_OutMat_Unit_Price, 
+		Sales_OutMat_Price, Sales_OutMat_Client_Code, 
+		Sales_OutMat_Send_Clsfc, Sales_OutMat_Date,
+		Sales_OutMat_dInsert_Time, Sales_OutMat_Modifier
+		
+		) values ( 
+		
+		#{Sales_OutMat_No}, #{Sales_OutMat_Cus_No}, 
+		#{Sales_OutMat_Lot_No}, #{Sales_OutMat_Code}, 
+		#{Sales_OutMat_Qty}, #{Sales_OutMat_Unit_Price}, 
+		#{Sales_OutMat_Price}, #{Sales_Output_Order_mCode}, 
+		#{Sales_OutMat_Send_Clsfc}, #{Sales_OutMat_Date}, 
+		now(), #{Sales_OutMat_Modifier}
+		
+		)	
+</insert>
+
+</mapper>

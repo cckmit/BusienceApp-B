@@ -96,4 +96,19 @@
  		Sales_Output_Order_mModifier =  #{Sales_Output_Order_mModifier},
  		Sales_Output_Order_mModify_Date = now()
 </insert>
+
+<update id="salesOutputOrderMasterUpdateDao">
+	update Sales_Output_OrderMaster_tbl 
+	set Sales_Output_Order_mCheck = 
+		(select 
+				(case 
+						when sum(Sales_Output_Order_lNot_Stocked) = 0 then 'Y'
+						when sum(Sales_Output_Order_lSum) = 0 then 'N' else 'I' end
+				) 
+		 from Sales_Output_OrderList_tbl 
+		 where Sales_Output_Order_lOrder_No = #{Sales_Output_Order_mOrder_No}
+		) 
+	 where Sales_Output_Order_mOrder_No = #{Sales_Output_Order_mOrder_No};
+
+</update>
 </mapper>
