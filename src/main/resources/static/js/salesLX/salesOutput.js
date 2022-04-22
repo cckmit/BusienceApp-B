@@ -235,7 +235,7 @@ var salesLotMasterTable = new Tabulator("#salesLotMasterTable", {
 				"sales_OutMat_Lot_No": row.getData().lm_LotNo,
 				"sales_OutMat_Code": row.getData().lm_ItemCode,
 				"sales_OutMat_Name": row.getData().lm_ItemName,
-				"sales_OutMat_Qty": row.getData().lm_Qty,
+				"sales_OutMat_Qty": parseInt(row.getData().lm_Qty),
 				"sales_OutMat_Unit_Price": FOS_selectedRow.sales_Output_Order_lUnit_Price,
 				"sales_OutMat_Price": FO_QTY * FOS_selectedRow.sales_Output_Order_lUnit_Price,
 				"sales_OutMat_Send_Clsfc": FOS_selectedRow.sales_Output_Order_Send_Clsfc,
@@ -393,7 +393,7 @@ var salesOutMatTable = new Tabulator("#salesOutMatTable", {
 		{ title: "코드", field: "sales_OutMat_Code", headerHozAlign: "center", width: 60 },
 		{ title: "품목명", field: "sales_OutMat_Name", headerHozAlign: "center", width: 150 },
 		{
-			title: "수량", field: "sales_OutMat_Qty", headerHozAlign: "center", hozAlign: "right", editor: SOM_InputEditor, width: 60,
+			title: "수량", field: "sales_OutMat_Qty", headerHozAlign: "center", hozAlign: "right", formatter: "money", editor: SOM_InputEditor, width: 60,
 			formatter: "money", formatterParams: { precision: false },
 			cellEdited: function(cell) {
 				//수량이 변경될때 금액값이 계산되어 입력

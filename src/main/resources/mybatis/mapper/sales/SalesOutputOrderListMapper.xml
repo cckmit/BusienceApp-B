@@ -59,7 +59,7 @@
 	set Sales_Output_Order_lSum = Sales_Output_Order_lSum + #{Sales_OutMat_Qty},
 		Sales_Output_Order_lNot_Stocked = Sales_Output_Order_lNot_Stocked - #{Sales_OutMat_Qty},  
 		Sales_Output_Order_Send_Clsfc = #{Sales_OutMat_Send_Clsfc}
-	where Sales_Output_Order_lOrder_No = #{Sales_Output_Order_mOrder_No}
+	where Sales_Output_Order_lOrder_No = #{Sales_OutMat_Order_No}
 		and Sales_Output_Order_lCode = #{Sales_OutMat_Code}
 </update>
 

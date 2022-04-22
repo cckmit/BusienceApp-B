@@ -3,7 +3,7 @@
 	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.busience.salesLX.dao.SalesOutputDao">
-<select id="salesOutMatNoCreateDao">
+<select id="salesOutMatNoCreateDao" resultType="com.busience.salesLX.dto.Sales_OutMat_tbl">
 	select count(*)+1 from Sales_OutMat_tbl
 	where Sales_OutMat_Cus_No = #{Sales_OutMat_Cus_No} 
 		and Sales_OutMat_Lot_No = #{Sales_OutMat_Lot_No}

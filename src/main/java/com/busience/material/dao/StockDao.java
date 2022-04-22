@@ -22,7 +22,7 @@ public interface StockDao {
 	public int stockInsertUpdateDao(InMatDto inMatDto);
 	
 	//재고테이블 업데이트
-	public int stockUpdateDao(OutMatDto outMatDto);
+	public int stockUpdateDao(Double LM_Qty, String LM_ItemCode, String LM_WareHouse);
 	
 	//재고테이블 저장
 	public int stockInsertDao(OutMatDto outMatDto);

@@ -75,8 +75,8 @@
 	<update id="stockUpdateDao">
 		update Stock_tbl
 		set
-		S_Qty = S_Qty - #{OM_Qty}
-		where S_itemCode = #{OM_ItemCode}
-		and S_WareHouse = #{OM_WareHouse}
+		S_Qty = S_Qty - #{LM_Qty}
+		where S_itemCode = #{LM_ItemCode}
+		and S_WareHouse = #{LM_WareHouse}
 	</update>
 </mapper>

@@ -21,4 +21,7 @@ public interface SalesOutputOrderMasterDao {
 	
 	// salesOutputOrderMaster report
 	public List<SalesOutputOrderMasterDto> salesOutputOrderListDao(SearchDto searchDto);
+	
+	// salesOutputOrderMaster update
+	public int salesOutputOrderMasterUpdateDao(String Sales_Output_Order_mOrder_No);
 }

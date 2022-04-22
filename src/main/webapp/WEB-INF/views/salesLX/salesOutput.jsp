@@ -68,4 +68,4 @@
 	<!-- END MAIN -->
 </div>
 <!-- Javascript -->
-<script src="/js/salesLX/salesOutput.js"></script>
+<script src="/js/salesLX/salesOutput.js?v=<%=System.currentTimeMillis() %>"></script>

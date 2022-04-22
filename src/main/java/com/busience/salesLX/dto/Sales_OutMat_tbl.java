@@ -29,4 +29,8 @@ public class Sales_OutMat_tbl {
 	private String Sales_OutMat_Name; // 제품명
 	private int Sales_OutReturn_Qty; // 판매 반품
 	private String Sales_OutMat_Send_Clsfc_Name; // 출고 구분
+	private String Sales_OutMat_Before;
+	private String Sales_OutMat_After;
+	private String Sales_OutMat_WareHouse;
+	private String Sales_OutMat_Order_No;
 }

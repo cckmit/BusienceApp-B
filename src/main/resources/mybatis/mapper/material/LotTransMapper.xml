@@ -61,9 +61,9 @@
 			LT_Qty, LT_Before, LT_After, LT_Create_Date,
 			LT_Classify
 		) values(
-			#{OM_No}, #{OM_LotNo}, #{OM_ItemCode},
-			#{OM_Qty}, #{OM_Before}, #{OM_After}, now(),
-			#{OM_Send_Clsfc}
+			#{LT_No}, #{LT_LotNo}, #{LT_ItemCode},
+			#{LT_Qty}, #{LT_Before}, #{LT_After}, now(),
+			#{LT_Send_Clsfc}
 		)
 	</insert>
 </mapper>

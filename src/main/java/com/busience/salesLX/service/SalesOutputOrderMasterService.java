@@ -67,7 +67,7 @@ public class SalesOutputOrderMasterService {
 						salesOrderListDao.salesOrderListUpdateDao(salesOutputOrderListDto);
 						// salesOutputOrderList insert
 						salesOutputOrderListDto.setSales_Output_Order_lOrder_No(salesOutputOrderMasterDto.getSales_Output_Order_mOrder_No());
-						System.out.println("지시번호 = " + salesOutputOrderListDto.getSales_Output_Order_lOrder_No());
+						//System.out.println("지시번호 = " + salesOutputOrderListDto.getSales_Output_Order_lOrder_No());
 						salesOutputOrderListDao.salesOutputOrderListInsertDao(salesOutputOrderListDto);
 					}
 					// salesOrderMaster update

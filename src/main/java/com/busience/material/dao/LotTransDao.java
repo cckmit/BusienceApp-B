@@ -25,5 +25,5 @@ public interface LotTransDao {
 	public int lotTransNoSelectDao2(OutMatDto outMatDto);
 	
 	//랏트랜스 저장
-	public int lotTransInsertDao2(OutMatDto outMatDto);
+	public int lotTransInsertDao2(int LT_No, String LT_LotNo, String LT_ItemCode, Double LT_Qty, String LT_Before, String LT_After, String LT_Send_Clsfc);
 }

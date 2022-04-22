@@ -40,11 +40,11 @@ public class SalesOutputRestController {
 		
 		try {
 			
-			Sales_OutMat_tbl sales_OutMat_tbl = mapper.readValue(masterData, Sales_OutMat_tbl.class);
+			SalesOutputOrderMasterDto salesOutputOrderMasterDto = mapper.readValue(masterData, SalesOutputOrderMasterDto.class);
 			
-			List<SalesOutputOrderMasterDto> salesOutputOrderMasterDtoList = Arrays.asList(mapper.readValue(subData, SalesOutputOrderMasterDto[].class));
+			List<Sales_OutMat_tbl> sales_OutMat_List = Arrays.asList(mapper.readValue(subData, Sales_OutMat_tbl[].class));
 			
-			return salesOutputService.salesOutMatInsert(sales_OutMat_tbl, salesOutputOrderMasterDtoList, principal.getName());
+			return salesOutputService.salesOutMatInsert(salesOutputOrderMasterDto, sales_OutMat_List, principal.getName());
 			
 		} catch(Exception e) {
 			
