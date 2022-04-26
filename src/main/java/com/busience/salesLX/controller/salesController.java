@@ -19,13 +19,13 @@ public class salesController {
 		
 		model.addAttribute("pageName", "수주 관리");
 		
-		return "salesLX/salesOrderLX";
+		return "sales/salesOrderLX";
 	}
 
 	// salesOrderLXPrint
 	@GetMapping("salesOrderLXPrint")
 	public String salesOrderLXPrint() {
-		return "salesLX/salesPrintLX";
+		return "sales/salesPrintLX";
 	}
 	
 	// salesOrderListLX
@@ -34,7 +34,7 @@ public class salesController {
 		
 		model.addAttribute("pageName", "수주 조회");
 		
-		return "salesLX/salesOrderList";
+		return "sales/salesOrderList";
 	}
 	
 	// salesOutputOrder
@@ -43,7 +43,7 @@ public class salesController {
 		
 		model.addAttribute("pageName", "출하 지시 관리");
 		
-		return "salesLX/salesOutputOrder";
+		return "sales/salesOutputOrder";
 	}
 	
 	// salesOutputOrderList
@@ -52,21 +52,21 @@ public class salesController {
 		
 		model.addAttribute("pageName", "출하 지시 조회");
 		
-		return "salesLX/salesOutputOrderList";
+		return "sales/salesOutputOrderList";
 	}
 	
 	//salesInputLX
-	@GetMapping("salesInputLX")
-	public String salesInputLX(Model model) {
+	@GetMapping("salesInput")
+	public String salesInput(Model model) {
 
 		// 입고구분
 		int salesInputLX = 17;
-		model.addAttribute("salesInputLX", dtlService.getDtl(salesInputLX));
+		model.addAttribute("salesInput", dtlService.getDtl(salesInputLX));
 		
 		// 메뉴명
 		model.addAttribute("pageName", "제품 입고 관리");
 
-		return "salesLX/salesInputLX";
+		return "sales/salesInput";
 	}
 	
 	//salesInputLX_another
@@ -89,7 +89,7 @@ public class salesController {
 		
 		model.addAttribute("pageName", "제품 출고 관리");
 		
-		return "salesLX/salesOutput";
+		return "sales/salesOutput";
 	}
 	
 	// salesInReturn
@@ -134,7 +134,7 @@ public class salesController {
 		// 메뉴명
 		model.addAttribute("pageName", "제품 출하 조회");
 		
-		return "salesLX/salesOutput/salesOutputMaster";
+		return "sales/salesOutput/salesOutputMaster";
 	}
 	
 	// salesInoutListLX

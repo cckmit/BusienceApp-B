@@ -28,4 +28,7 @@ public interface LotMasterDao {
 	//영업 LotMaster 조회
 	public List<LotMasterDto> salesOutputLotMasterDao(SearchDto searchDto);
 	
+	//영업 입고 LotMaster 조회
+	public List<LotMasterDto> salesInputLotMasterSelectDao(LotMasterDto lotMasterDto);
+	
 }

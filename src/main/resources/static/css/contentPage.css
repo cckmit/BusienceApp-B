@@ -20,6 +20,12 @@ body {
 	position: relative;
 }
 
+.allView{
+	width: calc(100% - 5px);
+	float: left;
+	height: 100%;
+}
+
 .master{
 	width: calc(57% - 5px);
 	float: left;

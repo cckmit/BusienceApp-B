@@ -69,6 +69,6 @@
 			<!-- END MAIN -->
 		</div>
 	<!-- Javascript -->
-	<script src="/js/salesLX/salesOrderList.js"></script>
+	<script src="/js/sales/salesOrderList.js"></script>
 </body>
 </html>

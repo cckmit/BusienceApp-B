@@ -64,4 +64,4 @@
 	<!-- END MAIN -->
 </div>
 <!-- Javascript -->
-<script src="/js/salesLX/salesOutputOrder.js"></script>
+<script src="/js/sales/salesOutputOrder.js"></script>
