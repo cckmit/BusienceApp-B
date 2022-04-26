@@ -126,7 +126,7 @@ var salesOutputOrderSubTable = new Tabulator("#salesOutputOrderSubTable", {
 		SLM_Search(row.getData().sales_Output_Order_lCode);
 
 		// OutMat 지시번호와 품목코드로 검색
-		SSM_Search(row.getData().sales_Output_Order_lOrder_No, row.getData().sales_Output_Order_lCode)
+		//SSM_Search(row.getData().sales_Output_Order_lOrder_No, row.getData().sales_Output_Order_lCode)
 
 	},
 	columns: [
@@ -220,9 +220,9 @@ var salesLotMasterTable = new Tabulator("#salesLotMasterTable", {
 			add_mode = true;
 		}
 		//salesOutputOrderSubTable에서 선택된 행
-		FOS_selectedRow = salesOutputOrderSubTable.getData("selected")[0]
-		//출고수량 정하기
+		FOS_selectedRow = salesOutputOrderSubTable.getData("selected")[0];
 
+		//출고수량 정하기
 		//미출고재고 - 현재 출고합계수량 < LotMaster 수량
 		if (FOS_selectedRow.sales_Output_Order_lNot_Stocked - SSM_total < row.getData().lm_Qty) {
 			FO_QTY = FOS_selectedRow.sales_Output_Order_lNot_Stocked - SSM_total
@@ -235,13 +235,16 @@ var salesLotMasterTable = new Tabulator("#salesLotMasterTable", {
 				"sales_OutMat_Lot_No": row.getData().lm_LotNo,
 				"sales_OutMat_Code": row.getData().lm_ItemCode,
 				"sales_OutMat_Name": row.getData().lm_ItemName,
-				"sales_OutMat_Qty": parseInt(row.getData().lm_Qty),
+				"sales_OutMat_Qty": FO_QTY,
 				"sales_OutMat_Unit_Price": FOS_selectedRow.sales_Output_Order_lUnit_Price,
 				"sales_OutMat_Price": FO_QTY * FOS_selectedRow.sales_Output_Order_lUnit_Price,
 				"sales_OutMat_Send_Clsfc": FOS_selectedRow.sales_Output_Order_Send_Clsfc,
 				"sales_OutMat_Date": moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
 			});
+
+
 		SSM_total = SSM_total + FO_QTY;
+
 		salesLotMasterTable.redraw();
 		UseBtn();
 	},
@@ -321,52 +324,52 @@ function SLM_Search(ItemCode) {
 }
 
 //matInputSub 커스텀 기능설정
-var SOM_InputEditor = function(cell, onRendered, success, cancel, editorParams){
-    //cell - 편집 가능한 셀의 셀 구성 요소
-    //onRendered - 에디터가 렌더링 되었을 때 호출 할 함수
-    //success - 성공적을 업데이트 된 값을 tabulator에 전달하기 위해 호출되는 함수
-    //cancel - 편집을 중단하고 일반 셀로 돌아 가기 위해 호출하는 함수
-    //editorParams - editorParams 열 정의 속성에 전달 된 params 객체
+var SOM_InputEditor = function(cell, onRendered, success, cancel, editorParams) {
+	//cell - 편집 가능한 셀의 셀 구성 요소
+	//onRendered - 에디터가 렌더링 되었을 때 호출 할 함수
+	//success - 성공적을 업데이트 된 값을 tabulator에 전달하기 위해 호출되는 함수
+	//cancel - 편집을 중단하고 일반 셀로 돌아 가기 위해 호출하는 함수
+	//editorParams - editorParams 열 정의 속성에 전달 된 params 객체
 
-    //create 및 style editor
-    var SOM_input = document.createElement("input");
+	//create 및 style editor
+	var SOM_input = document.createElement("input");
 
-    SOM_input.setAttribute("type", "text");
+	SOM_input.setAttribute("type", "text");
 
-    //입력 생성 및 스타일 지정
-    SOM_input.style.padding = "3px";
-    SOM_input.style.width = "100%";
-    SOM_input.style.boxSizing = "border-box";
+	//입력 생성 및 스타일 지정
+	SOM_input.style.padding = "3px";
+	SOM_input.style.width = "100%";
+	SOM_input.style.boxSizing = "border-box";
 
-    //편집기의 값을 셀의 현재 값으로 설정
-	if(cell.getValue() == undefined){
+	//편집기의 값을 셀의 현재 값으로 설정
+	if (cell.getValue() == undefined) {
 		SOM_input.value = "";
-	}else{
+	} else {
 		SOM_input.value = cell.getValue();
 	}
 
-    //에디터가 선택되면 선택 상자에 포커스 설정 (타임 아웃은 편집기를 DOM에 추가 할 수 있음)
-    onRendered(function(){
-        SOM_input.focus();
+	//에디터가 선택되면 선택 상자에 포커스 설정 (타임 아웃은 편집기를 DOM에 추가 할 수 있음)
+	onRendered(function() {
+		SOM_input.focus();
 		SOM_input.select();
-        SOM_input.style.css = "100%";
-    });
+		SOM_input.style.css = "100%";
+	});
 
-    //값이 설정되면 업데이트 할 셀 트리거
-    function onChange(){
-        success(SOM_input.value);
-    }
-    
+	//값이 설정되면 업데이트 할 셀 트리거
+	function onChange() {
+		uccess(SOM_input.value);
+	}
+
 	//바꼈을때 블러됫을때 함수 발동
-    SOM_input.addEventListener("change", onChange);
-    SOM_input.addEventListener("blur", onChange);
+	SOM_input.addEventListener("change", onChange);
+	SOM_input.addEventListener("blur", onChange);
 
-    //키버튼 이벤트
-    SOM_input.addEventListener("keydown", function (e) {
-		
-    });
-    //반환
-    return SOM_input;
+	//키버튼 이벤트
+	SOM_input.addEventListener("keydown", function(e) {
+
+	});
+	//반환
+	return SOM_input;
 };
 
 var salesOutMatTable = new Tabulator("#salesOutMatTable", {
@@ -377,18 +380,12 @@ var salesOutMatTable = new Tabulator("#salesOutMatTable", {
 	//커스텀 키 설정
 	rowAdded: function(row) {
 		//행이 추가되면 첫셀에 포커스
-		do{
-		setTimeout(function(){
-			row.getCell("sales_OutMat_Qty").edit();
-			salesOutMatTable.deselectRow();
-			row.select();
-			},100);
-		}
-		while(row.getData().sales_OutMat_Qty === "undefined");
+		salesOutMatTable.deselectRow();
+		row.select();
 
 	},
 	columns: [
-		{ title: "순번", field: "Number", headerHozAlign: "center", hozAlign: "center", formatter: "rownum", width: 60 },
+		{ title: "순번", field: "sales_OutMat_No", headerHozAlign: "center", hozAlign: "center", formatter: "rownum", width: 60 },
 		{ title: "LotNo", field: "sales_OutMat_Lot_No", headerHozAlign: "center", width: 145 },
 		{ title: "코드", field: "sales_OutMat_Code", headerHozAlign: "center", width: 60 },
 		{ title: "품목명", field: "sales_OutMat_Name", headerHozAlign: "center", width: 150 },
@@ -438,14 +435,14 @@ var salesOutMatTable = new Tabulator("#salesOutMatTable", {
 	]
 });
 
-function qtyCheck(itemCode,itemQty){
+function qtyCheck(itemCode, itemQty) {
 	var subTableData = salesOutputOrderSubTable.getData();
 	var forResult = itemQty;
-	for(let i=0;i<subTableData.length;i++){
-		if(subTableData[i].sales_Order_lCode == itemCode){
-			if(subTableData[i].sales_Order_lNot_Stocked < itemQty){
+	for (let i = 0; i < subTableData.length; i++) {
+		if (subTableData[i].sales_Output_Order_lCode == itemCode) {
+			if (subTableData[i].sales_Output_Order_lNot_Stocked < itemQty) {
 				alert("미출고 수량을 초과할 수 없습니다.")
-				forResult = subTableData[i].sales_Order_lNot_Stocked
+				forResult = subTableData[i].sales_Output_Order_lNot_Stocked
 			}
 		}
 	}
@@ -455,13 +452,15 @@ function qtyCheck(itemCode,itemQty){
 //Sales_OutMat 목록검색
 function SSM_Search(CusNo, Code) {
 
-	data = {
-		sales_OutMat_Order_No: CusNo,
-		sales_OutMat_Code: Code
+	datas = {
+		Sales_OutMat_Cus_No: CusNo,
+		Sales_OutMat_Code: Code
 	}
+
 	$.ajax({
 		method: "GET",
-		url: "salesOutputWORest/SSM_Search?data=" + encodeURI(JSON.stringify(data)),
+		url: "salesOutputRest/SSM_Search",
+		data: datas,
 		success: function(SSM_datas) {
 			console.log(SSM_datas);
 			salesOutMatTable.setData(SSM_datas);
@@ -475,8 +474,9 @@ function SOM_Save() {
 		alert("저장할 데이터가 없습니다.")
 		return;
 	}
-	
-	selectedRow = salesOutputOrderTable.getData("selected")[0];
+
+	//salesOutMatTable.getData().sales_OutMat_Qty > )
+	var selectedRow = salesOutputOrderTable.getData("selected")[0];
 
 	//OrderSub 저장부분
 	$.ajax({
@@ -525,10 +525,24 @@ function Order_mCode_select(value) {
 
 // 전체 출고
 $("#allOutput").click(function() {
-	var rows = salesOutputOrderSubTable.getRows();
-	for (var i = 0; i < salesOutputOrderSubTable.getDataCount(); i++) {
-		if (rows[i].getData().sales_Output_Order_lSum == 0) {
-			salesOutputOrderSubTable.selectRow(rows[i]);
+
+	LMQty_total = 0;
+
+	var rows = salesLotMasterTable.getRows();
+
+	for (var i = 0; i < salesLotMasterTable.getDataCount(); i++) {
+
+		salesLotMasterTable.selectRow(rows[i]);
+
+		for (var j = 0; j < salesOutMatTable.getDataCount(); j++) {
+
+			if (salesOutMatTable.getData()[j].sales_OutMat_Qty == 0) {
+				salesLotMasterTable.getRows()[i].deselect();
+			}
+			
+			salesOutMatTable.getRows()[j].select();
+
 		}
+
 	}
 })

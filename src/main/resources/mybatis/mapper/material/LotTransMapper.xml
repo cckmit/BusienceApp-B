@@ -52,7 +52,7 @@
 	<select id="lotTransNoSelectDao2" resultType="int">
 		select ifnull(max(LT_No)+1,1)
 		from LotTrans_tbl
-		where LT_LotNo = #{OM_LotNo}
+		where LT_LotNo = #{LT_LotNo}
 	</select>
 	
 	<insert id="lotTransInsertDao2">

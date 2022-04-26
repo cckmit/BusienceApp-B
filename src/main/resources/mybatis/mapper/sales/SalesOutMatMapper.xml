@@ -8,6 +8,28 @@
 	where Sales_OutMat_Cus_No = #{Sales_OutMat_Cus_No} 
 		and Sales_OutMat_Lot_No = #{Sales_OutMat_Lot_No}
 </select>
+<select id="salesOutMatSelectDao" resultType="com.busience.salesLX.dto.Sales_OutMat_tbl">
+	select 
+		somt.Sales_OutMat_No,
+		somt.Sales_OutMat_Cus_No,
+		somt.Sales_OutMat_Lot_No,
+		somt.Sales_OutMat_Code,
+		pit.Product_Item_Name Sales_OutMat_Name,
+		somt.Sales_OutMat_Qty,
+		somt.Sales_OutMat_Unit_Price,
+		somt.Sales_OutMat_Price,
+		somt.Sales_OutMat_Client_Code, 
+		cut.Cus_Name Sales_OutMat_Client_Name,
+		somt.Sales_OutMat_Send_Clsfc,
+		somt.Sales_OutMat_Date 
+		from Sales_OutMat_tbl somt 
+		inner join Product_Info_tbl pit on somt.Sales_OutMat_Code = pit.Product_Item_Code
+		inner join Customer_tbl cut on somt.Sales_OutMat_Client_Code = cut.Cus_Code
+		where somt.Sales_OutMat_Cus_No = #{Sales_OutMat_Cus_No} 
+		and somt.Sales_OutMat_Code = #{Sales_OutMat_Code}
+		and somt.Sales_OutMat_Date >= curdate()
+		order by somt.Sales_OutMat_No
+</select>
 <insert id="salesOutMatInsertDao">
 	insert into Sales_OutMat_tbl( 
 		Sales_OutMat_No, Sales_OutMat_Cus_No, Sales_OutMat_Lot_No, 
@@ -18,10 +40,10 @@
 		
 		) values ( 
 		
-		#{Sales_OutMat_No}, #{Sales_OutMat_Cus_No}, 
-		#{Sales_OutMat_Lot_No}, #{Sales_OutMat_Code}, 
+		(SELECT ifnull(max(AA.Sales_OutMat_No)+1,1) FROM Sales_OutMat_tbl AA WHERE AA.Sales_OutMat_Cus_No = #{Sales_OutMat_Cus_No}), 
+		#{Sales_OutMat_Cus_No}, #{Sales_OutMat_Lot_No}, #{Sales_OutMat_Code}, 
 		#{Sales_OutMat_Qty}, #{Sales_OutMat_Unit_Price}, 
-		#{Sales_OutMat_Price}, #{Sales_Output_Order_mCode}, 
+		#{Sales_OutMat_Price}, #{Sales_OutMat_Client_Code}, 
 		#{Sales_OutMat_Send_Clsfc}, #{Sales_OutMat_Date}, 
 		now(), #{Sales_OutMat_Modifier}
 		

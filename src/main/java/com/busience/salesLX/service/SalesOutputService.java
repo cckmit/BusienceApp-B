@@ -8,6 +8,8 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import com.busience.common.dao.DtlDao;
+import com.busience.common.dto.DtlDto;
 import com.busience.common.dto.SearchDto;
 import com.busience.material.dao.LotMasterDao;
 import com.busience.material.dao.LotTransDao;
@@ -21,6 +23,9 @@ import com.busience.salesLX.dto.Sales_OutMat_tbl;
 
 @Service
 public class SalesOutputService {
+	
+	@Autowired
+	DtlDao dtlDao;
 
 	@Autowired
 	LotMasterDao lotMasterDao;
@@ -48,11 +53,19 @@ public class SalesOutputService {
 		return lotMasterDao.salesOutputLotMasterDao(searchDto);
 	}
 	
+	// salesOutMat 조회
+	public List<Sales_OutMat_tbl> salesOutMatSelectDao(Sales_OutMat_tbl sales_OutMat_tbl) {
+		return salesOutputDao.salesOutMatSelectDao(sales_OutMat_tbl);
+	}
+	
 	// salesOutMat insert
 	public int salesOutMatInsert(SalesOutputOrderMasterDto salesOutputOrderMasterDto, List<Sales_OutMat_tbl> sales_OutMat_List,
 			String Modifier) {
 		
 		try {
+			
+			// 창고 정보
+			List<DtlDto> wareHouseList = dtlDao.findByCode(10);
 			
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 
@@ -61,18 +74,27 @@ public class SalesOutputService {
 					// TODO Auto-generated method stub
 					Sales_OutMat_tbl sales_OutMat_tbl = new Sales_OutMat_tbl();
 					String Sales_OutMat_Cus_No = salesOutputOrderMasterDto.getSales_Output_Order_mCus_No();
+					String Sales_OutMat_Order_No = salesOutputOrderMasterDto.getSales_Output_Order_mOrder_No();
+					int LT_No = 0;
 					Double LM_Qty = 0.0; 
 					String LM_LotNo = null; 
+					String LT_LotNo = null;
+					String LT_ItemCode = null;
+					String LT_Before = null;
+					String LT_After = null;
+					String LT_Send_Clsfc = null;
+					String LM_ItemCode = null;
+					String LM_WareHouse = null;
+					
+				
 					
 					for(int i=0; i < sales_OutMat_List.size(); i++) {
-						System.out.println(sales_OutMat_List.get(i));
 						// sales_OutMatNo_create
 						sales_OutMat_tbl = sales_OutMat_List.get(i);
 						sales_OutMat_tbl.setSales_OutMat_Cus_No(Sales_OutMat_Cus_No);
 						sales_OutMat_tbl.setSales_OutMat_Modifier(Modifier);
-						sales_OutMat_tbl.setSales_OutMat_Order_No(Sales_OutMat_Cus_No);
+						sales_OutMat_tbl.setSales_OutMat_Order_No(Sales_OutMat_Order_No);
 						salesOutputDao.salesOutMatNoCreateDao(sales_OutMat_tbl);
-						System.out.println("sales_OutMat_tbl = " + sales_OutMat_tbl);
 						
 						// sales_Output_OrderList_update
 						salesOutputOrderListDao.salesOutputOrderListUpdateDao(sales_OutMat_tbl);
@@ -80,16 +102,38 @@ public class SalesOutputService {
 						// LotMaster_update
 						LM_Qty = (double) sales_OutMat_tbl.getSales_OutMat_Qty();
 						LM_LotNo = sales_OutMat_tbl.getSales_OutMat_Lot_No();
+						
+						sales_OutMat_tbl.getSales_OutMat_No();
 						lotMasterDao.lotMasterUpdateDao(LM_Qty, LM_LotNo);
 						
 						// LotTrans_insert
-						lotTransDao.lotTransInsertDao2(sales_OutMat_tbl.getSales_OutMat_No(), sales_OutMat_tbl.getSales_OutMat_Lot_No(), sales_OutMat_tbl.getSales_OutMat_Code(), (double) sales_OutMat_tbl.getSales_OutMat_Qty(), sales_OutMat_tbl.getSales_OutMat_Before(), sales_OutMat_tbl.getSales_OutMat_After(), sales_OutMat_tbl.getSales_OutMat_Send_Clsfc());
+						LT_LotNo = sales_OutMat_tbl.getSales_OutMat_Lot_No();
+						// 랏트랜스 번호 가져오기
+						int LotTransNo = lotTransDao.lotTransNoSelectDao2(LT_LotNo);
+						sales_OutMat_tbl.setLT_No(LotTransNo);
+						LT_No = sales_OutMat_tbl.getLT_No();
+						
+						// LT_ItemCode
+						LT_ItemCode = sales_OutMat_tbl.getSales_OutMat_Code();
+						
+						// LT_Before, After  Before -> 52, After -> 공백(없음)
+						// 생산창고 -> 제품창고
+						LT_Before = wareHouseList.get(2).getCHILD_TBL_NO();
+					    LT_After = "";
+					    // warehouse Send_Clsfc
+					    LT_Send_Clsfc = sales_OutMat_tbl.getSales_OutMat_Send_Clsfc();
+						
+						lotTransDao.lotTransInsertDao2(LT_No, LT_LotNo, LT_ItemCode, LM_Qty, LT_Before, LT_After, LT_Send_Clsfc);
+						
+						sales_OutMat_tbl.setSales_OutMat_Client_Code(salesOutputOrderMasterDto.getSales_Output_Order_mCode());
 						
 						// sales_OutMat_insert
 						salesOutputDao.salesOutMatInsertDao(sales_OutMat_tbl);
 						
 						// stockMat_update
-						stockDao.stockUpdateDao((double) sales_OutMat_tbl.getSales_OutMat_Qty(), sales_OutMat_tbl.getSales_OutMat_Code(), sales_OutMat_tbl.getSales_OutMat_WareHouse());
+						LM_ItemCode = sales_OutMat_tbl.getSales_OutMat_Code();
+						LM_WareHouse = wareHouseList.get(2).getCHILD_TBL_NO();
+						stockDao.stockUpdateDao(LM_Qty, LM_ItemCode, LM_WareHouse);
 						
 						// sales_Output_OrderMaster_update
 						salesOutputOrderMasterDao.salesOutputOrderMasterUpdateDao(salesOutputOrderMasterDto.getSales_Output_Order_mOrder_No());

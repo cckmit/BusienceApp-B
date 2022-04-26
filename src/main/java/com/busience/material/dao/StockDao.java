@@ -3,6 +3,7 @@ package com.busience.material.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.busience.common.dto.SearchDto;
 import com.busience.material.dto.InMatDto;
@@ -22,7 +23,7 @@ public interface StockDao {
 	public int stockInsertUpdateDao(InMatDto inMatDto);
 	
 	//재고테이블 업데이트
-	public int stockUpdateDao(Double LM_Qty, String LM_ItemCode, String LM_WareHouse);
+	public int stockUpdateDao(@Param("LM_Qty") Double LM_Qty, @Param("LM_ItemCode") String LM_ItemCode, @Param("LM_WareHouse") String LM_WareHouse);
 	
 	//재고테이블 저장
 	public int stockInsertDao(OutMatDto outMatDto);

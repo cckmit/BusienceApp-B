@@ -31,6 +31,12 @@ public class SalesOutputRestController {
 		return salesOutputService.salesOutputLotMasterDao(searchDto);
 	}
 	
+	// salesOutMat 조회
+	@GetMapping("/SSM_Search")
+	public List<Sales_OutMat_tbl> salesOutMatSelectDao(Sales_OutMat_tbl sales_OutMat_tbl) {
+		return salesOutputService.salesOutMatSelectDao(sales_OutMat_tbl);
+	}
+	
 	// sales_Output_insert
 	@PostMapping("/SOM_Save")
 	public int salesOutMatInsert(@RequestParam("masterData") String masterData, @RequestParam("subData") String subData, Principal principal) {

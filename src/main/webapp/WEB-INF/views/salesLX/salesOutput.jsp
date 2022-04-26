@@ -50,7 +50,7 @@
 				</div>
 				<!-- 버튼 -->
 				<div class="input-button" style="margin-left:5%">
-					<button id="allOutput" class="btn btn-primary">전체출고</button>
+					<button id="allOutput" class="btn btn-primary">자동선택</button>
 				</div>
 				<!-- 버튼 -->
 			</div>
