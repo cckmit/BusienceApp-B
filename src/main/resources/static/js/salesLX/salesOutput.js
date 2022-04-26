@@ -56,7 +56,7 @@ function SO_Search() {
 		startDate: $("#startDate").val(),
 		endDate: $("#endDate").val(),
 		ClientCode: $("#Sales_InMat_Client_Code").val(),
-		SalesOrderNo: $("#sales_Output_Order_mOrder_No").val()
+		SalesOrderNo: $("#Sales_Order_mOrder_No").val()
 	}
 	$.ajax({
 		method: "GET",
@@ -483,14 +483,14 @@ function SOM_Save() {
 		method: "post",
 		async: false,
 		url: "salesOutputRest/SOM_Save",
-		data: { masterData : JSON.stringify(selectedRow), subData : JSON.stringify(salesOutMatTable.getData())},
+		data: { masterData: JSON.stringify(selectedRow), subData: JSON.stringify(salesOutMatTable.getData()) },
 		beforeSend: function(xhr) {
 			var header = $("meta[name='_csrf_header']").attr("content");
 			var token = $("meta[name='_csrf']").attr("content");
 			xhr.setRequestHeader(header, token);
 		},
 		success: function(result) {
-			if(result) {
+			if (result) {
 				alert("저장되었습니다.");
 				SO_Search()
 				Order_mCode_select(selectedRow.sales_Output_Order_mOrder_No);
@@ -539,10 +539,17 @@ $("#allOutput").click(function() {
 			if (salesOutMatTable.getData()[j].sales_OutMat_Qty == 0) {
 				salesLotMasterTable.getRows()[i].deselect();
 			}
-			
+
 			salesOutMatTable.getRows()[j].select();
 
 		}
 
 	}
 })
+
+
+$(document).ready(function() {
+	
+	$('#Sales_Order_mOrder_No').focus();
+
+});

@@ -21,7 +21,7 @@
 					</div>
 					<div>
 						<span><strong>지시번호</strong></span> <input
-							id="Sales_Order_mOrder_No" type="text"> <span><strong>거래처코드</strong></span>
+							id="Sales_Order_mOrder_No" type="text" onkeypress="javascript:if(event.keyCode==13) {SO_Search()}" autofocus> <span><strong>거래처코드</strong></span>
 						<input id="Sales_InMat_Client_Code" class="Client_Code"
 							type="text" disabled> <span><strong>거래처명</strong></span>
 						<input id="Sales_InMat_Client_Name" class="Client_Name clearInput"
