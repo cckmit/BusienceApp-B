@@ -60,5 +60,17 @@ public class SalesOutputRestController {
 		}
 		
 	}
+	
+	// selecOutMat List select
+	@GetMapping("/SOL_Search")
+	public List<Sales_OutMat_tbl> salesOutMatSelectListDao(Sales_OutMat_tbl sales_OutMat_tbl, SearchDto searchDto) {
+		return salesOutputService.salesOutMatSelectListDao(sales_OutMat_tbl, searchDto);
+	}
+	
+	// salesOutMat Item View
+	@GetMapping("/SOIV_Search")
+	public List<Sales_OutMat_tbl> salesOutMatItemViewDao(Sales_OutMat_tbl sales_OutMat_tbl, SearchDto searchDto) {
+		return salesOutputService.salesOutMatItemViewDao(sales_OutMat_tbl, searchDto);
+	}
 
 }

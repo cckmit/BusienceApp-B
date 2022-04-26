@@ -37,7 +37,7 @@
 	</div>
 <!-- Javascript -->
 <script src="/js/tabMenu.js"></script>
-<script src="/js/salesLX/salesOutputLXMaster.js"></script>
+<script src="/js/salesLX/salesOutputMaster.js"></script>
 
 </body>
 </html>

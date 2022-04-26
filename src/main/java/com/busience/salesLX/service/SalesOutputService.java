@@ -151,5 +151,51 @@ public class SalesOutputService {
 		}
 	}
 	
+	// selecOutMat List select
+	public List<Sales_OutMat_tbl> salesOutMatSelectListDao(Sales_OutMat_tbl sales_OutMat_tbl, SearchDto searchDto) {
+		
+		String Sales_OutMat_Code = sales_OutMat_tbl.getSales_OutMat_Code();
+		String Sales_OutMat_Client_Code = sales_OutMat_tbl.getSales_OutMat_Client_Code();
+		String Sales_OutMat_Send_Clsfc = sales_OutMat_tbl.getSales_OutMat_Send_Clsfc();
+		String Sales_OutMat_Lot_No = sales_OutMat_tbl.getSales_OutMat_Lot_No();
+		String startDate = searchDto.getStartDate();
+		String endDate = searchDto.getEndDate();
+		
+		return salesOutputDao.salesOutMatSelectListDao(Sales_OutMat_Code, Sales_OutMat_Client_Code, Sales_OutMat_Send_Clsfc, Sales_OutMat_Lot_No, startDate, endDate);
+	}
+	
+	// salesOutMat Item View
+	public List<Sales_OutMat_tbl> salesOutMatItemViewDao(Sales_OutMat_tbl sales_OutMat_tbl, SearchDto searchDto) {
+		
+		String Sales_OutMat_Code = sales_OutMat_tbl.getSales_OutMat_Code();
+		String Sales_OutMat_Send_Clsfc = sales_OutMat_tbl.getSales_OutMat_Send_Clsfc();
+		String startDate = searchDto.getStartDate();
+		String endDate = searchDto.getEndDate();
+		
+		List<Sales_OutMat_tbl> salesOutMatList = salesOutputDao.salesOutMatItemViewDao(Sales_OutMat_Code, Sales_OutMat_Send_Clsfc, startDate, endDate);
+		
+		for(int i=0; i < salesOutMatList.size(); i++) {
+			String itemCode = salesOutMatList.get(i).getSales_OutMat_Code();
+			String salesOutMatDate = salesOutMatList.get(i).getSales_OutMat_Date();
+			
+			if(itemCode == null || salesOutMatDate == null) {
+				salesOutMatList.get(i).setSales_OutMat_Lot_No("Sub Total");
+				salesOutMatList.get(i).setSales_OutMat_Date("");
+				salesOutMatList.get(i).setSales_OutMat_Send_Clsfc("");
+				salesOutMatList.get(i).setSales_OutMat_STND_1("");
+				salesOutMatList.get(i).setSales_OutMat_UNIT("");
+				salesOutMatList.get(i).setSales_OutMat_Item_Clsfc_Name_1("");
+			} 
+			
+			if(itemCode == null && salesOutMatDate == null) {
+				salesOutMatList.get(i).setSales_OutMat_Lot_No("Grand Total");
+				salesOutMatList.get(i).setSales_OutMat_Send_Clsfc("");
+				salesOutMatList.get(i).setSales_OutMat_Name("");
+			}
+		}
+		
+		return salesOutMatList;
+	}
+	
 	
 }

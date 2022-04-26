@@ -15,6 +15,8 @@
 				<input id="salesOutputList_startDate" class="today" type="date"> 
 				<span style="text-align: center"><strong>~</strong></span> 
 				<input id="salesOutputList_endDate" class="tomorrow" type="date">
+				<span><strong>LotNo</strong></span> 
+				<input id="Sales_OutMat_Lot_No" type="text">
 				<span><strong>출고구분</strong></span>
 				<select id="outMatTypeListSelectBox">
 					<option value="all">all</option>

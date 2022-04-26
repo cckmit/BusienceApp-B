@@ -125,7 +125,7 @@ public class salesController {
 	}
 	
 	// salesOutputMaster
-	@GetMapping("salesOutputLXMaster")
+	@GetMapping("salesOutputMaster")
 	public String salesOutputMaster(Model model) {
 		
 		// 출하구분
