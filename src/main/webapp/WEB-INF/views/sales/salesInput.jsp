@@ -6,16 +6,16 @@
 		<div class="top-var">
 			<!-- 버튼 -->
 			<div class="input-button">
-				<img src="images/button/New.png" onclick="FI_New()"/>
-				<img src="images/button/Save.png" onclick="FI_Save()"/>
-				<img src="images/button/Delete.png" onclick="FI_Delete()">
+				<img src="images/button/New.png" onclick="SI_New()"/>
+				<img src="images/button/Save.png" onclick="SI_Save()"/>
+				<img src="images/button/Delete.png" onclick="SI_Delete()">
 			</div>
 			
 			<!-- 버튼 -->				
 			<div class="input-box">
 				<div>
 					<span><strong>LotNo</strong></span>
-					<input id="fgoodsLotNo" class="fgoodsLotNo" type="text" onclick="$(this).val('')" onkeypress="javascript:if(event.keyCode==13) {InspectionWorkONo()}" autofocus>
+					<input id="fgoodsLotNo" class="fgoodsLotNo" type="text" style="width: 230px;" onclick="$(this).val('')" onkeypress="javascript:if(event.keyCode==13) {InspectionWorkONo()}" autofocus>
 					<span style="width:100px;"><strong>총 수량</strong></span>
 					<input id="fgoodsTotal" class="fgoodsTotal" style="width: 80px;" type="text" readonly>
 				</div>

@@ -11,15 +11,15 @@
 		where PRODUCT_MTRL_CLSFC = 28
 	</select>
 	
-	<update id="salesInMatInsertDao">
-		insert into Sales_InMatLX_tbl(
-			Sales_InMat_Code, Sales_InMat_Qty, Sales_InMat_Date,
+	<insert id="salesInMatInsertDao">
+		insert into Sales_InMat_tbl(
+			Sales_InMat_No, Sales_InMat_Lot_No, Sales_InMat_Code, Sales_InMat_Qty, Sales_InMat_Date,
 			Sales_InMat_Rcv_Clsfc, Sales_InMat_dInsert_Time, Sales_InMat_Modifier
-			)values(
-			#{Sales_InMat_Code}, #{Sales_InMat_Qty}, now(),
+		)values(
+			#{Sales_InMat_No}, #{Sales_InMat_Lot_No}, #{Sales_InMat_Code}, #{Sales_InMat_Qty}, now(),
 			#{Sales_InMat_Rcv_Clsfc}, now(), #{Sales_InMat_Modifier}
-			)
-	</update>
+		)
+	</insert>
 	
 	<update id="salesStockMatUpdateDao">
 		insert into Sales_StockMatLX_tbl (

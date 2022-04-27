@@ -10,14 +10,14 @@ var salesInputTable = new Tabulator("#salesInputTable", {
 	clipboard: true,
 	/*ajaxConfig : "get",
 	ajaxContentType:"json",
-	ajaxURL : "salesInputRest/FI_Search",*/
+	ajaxURL : "salesInputRest/SI_Search",*/
 	columns: [
 		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false, width: 40 },
 		{ title: "순번", field: "sales_InMat_No", headerHozAlign: "center", hozAlign: "right", width: 65 },
 		{ title: "LotNo", field: "sales_InMat_Lot_No", headerHozAlign: "center", width: 150 },
 		{ title: "제품코드", field: "sales_InMat_Code", headerHozAlign: "center" },
 		{ title: "제품명", field: "sales_InMat_Name", headerHozAlign: "center", width: 130 },
-		{ title: "규격", field: "sales_InMat_STND", headerHozAlign: "center", width: 85 },
+		{ title: "규격", field: "sales_InMat_STND_1", headerHozAlign: "center", width: 85 },
 		{ title: "분류1", field: "sales_InMat_Item_Clsfc_1", headerHozAlign: "center", width: 85 },
 		{ title: "수량", field: "sales_InMat_Qty", headerHozAlign: "center", hozAlign: "right", width: 85 },
 		{
@@ -93,47 +93,63 @@ function product_check(value) {
 }
 
 //add버튼
-$('#FI_NewBtn').click(function() {
+$('#SI_NewBtn').click(function() {
 	salesInputTable.clearData();
-	FI_buttonUse();
+	SI_buttonUse();
 	trans_input_use()
 	$('#fgoodsName').focus();
 })
 
 var ajaxResult = null;
 //save버튼
-$('#FI_SaveBtn').click(function() {
+$('#SI_SaveBtn').click(function() {
 	//저장하는기능
-	FI_Save();
+	SI_Save();
 })
 
 //저장하는기능
-function FI_Save() {
+function SI_Save() {
 	rowCount = salesInputTable.getDataCount("active");
+	console.log(rowCount);
+
+	var totalQty = $('#fgoodsTotal').val();
+
 	for (i = 0; i < rowCount; i++) {
+
+		var smallPackDatas = {
+			sales_Packing_Qty: salesInputTable.getData()[i].sales_InMat_Qty,
+			sales_Small_Packing_LotNo: salesInputTable.getData()[i].sales_InMat_Lot_No
+		}
+		
 		//쿼리실행
 		$.ajax({
 			method: "post",
 			async: false,
-			url: "salesInputRest/FI_Save?data=" + encodeURI(JSON.stringify(salesInputTable.getData()[i])),
+			url: "salesInputRest/SI_Save",
+			data: { salesinmatData: JSON.stringify(salesInputTable.getData()[0]), packData: JSON.stringify(smallPackDatas), totalQty : parseInt(totalQty) },
+			beforeSend: function(xhr) {
+				var header = $("meta[name='_csrf_header']").attr("content");
+				var token = $("meta[name='_csrf']").attr("content");
+				xhr.setRequestHeader(header, token);
+			},
 			success: function(save_data) {
 				console.log(save_data);
 				ajaxResult = save_data;
 			}
 		})
 	}
-	if (ajaxResult == "error") {
+	/*if (ajaxResult == "error") {
 		alert("중복된 값이 있습니다..");
 	} else if (ajaxResult == "success") {
 		alert("저장되었습니다.");
-		FI_buttonReset();
-		trans_input_unuse();
-		salesInputTable.replaceData()
-	}
+		SI_buttonReset();
+		//trans_input_unuse();
+		//salesInputTable.replaceData()
+	}*/
 }
 
 
-
+// 총 수량
 var fgoodsQty = 0;
 //랏번호 입력시 (바코드 리드) 작동하는 쿼리예시
 //LotNo Input에 Lot번호가 입력되면 자동으로 LotMaster에있는 값을 찾아서 그 데이터를 기반으로 행을 추가한다. 
@@ -155,86 +171,93 @@ $('#fgoodsLotNo').keydown(function(e) {
 			success: function(sim_data) {
 				console.log(sim_data);
 				if (sim_data.length == 1) {
-					//검색어와 일치하는값이 있는경우
+					//검색어와 일치하는값이 있는 경우
+					var rows = new Array();
 
-					var rows = salesInputTable.getRows("selected");
+					rows = salesInputTable.getRows("selected");
+					console.log(rows);
 
-					for (i = 0; i < sim_data.length; i++) {
+					if (salesInputTable.getDataCount() == 0) {
 
-						if (salesInputTable.getDataCount() == 0) {
+						salesInputTable.addRow(
+							{
+								"sales_InMat_No": salesInputTable.getDataCount('active') + 1,
+								"sales_InMat_Lot_No": sim_data[0].lm_LotNo,
+								"sales_InMat_Code": sim_data[0].lm_ItemCode,
+								"sales_InMat_Name": sim_data[0].lm_ItemName,
+								"sales_InMat_STND_1": sim_data[0].lm_STND_1,
+								"sales_InMat_Item_Clsfc_1": sim_data[0].lm_Item_CLSFC_1,
+								"sales_InMat_Qty": sim_data[0].lm_Qty,
+								"sales_InMat_Date": moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+								"sales_InMat_Rcv_Clsfc": '203',
+								"sales_InMat_Rcv_Clsfc_Name": "정상입고"
+							}
+						);
+
+						fgoodsQty = fgoodsQty + sim_data[0].lm_Qty;
+
+						salesInputTable.selectRow();
+
+						$('#fgoodsTotal').val(fgoodsQty);
+
+					} else if (salesInputTable.getDataCount() > 0) {
+
+						var result = rows.some(item => {
+							//console.log(sim_data[i].lm_LotNo);
+							//console.log(item.getData().sales_InMat_Lot_No);
+							return item.getData().sales_InMat_Lot_No == sim_data[0].lm_LotNo
+						})
+
+						//console.log(result);
+
+						if (result == false) {
+
 							salesInputTable.addRow(
 								{
 									"sales_InMat_No": salesInputTable.getDataCount('active') + 1,
-									"sales_InMat_Lot_No": sim_data[i].lm_LotNo,
-									"sales_InMat_Code": sim_data[i].lm_ItemCode,
-									"sales_InMat_Name": sim_data[i].lm_ItemName,
-									"sales_InMat_STND": sim_data[i].lm_STND_1,
-									"sales_InMat_Item_Clsfc_1": sim_data[i].lm_Item_CLSFC_1,
-									"sales_InMat_Qty": sim_data[i].lm_Qty,
+									"sales_InMat_Lot_No": sim_data[0].lm_LotNo,
+									"sales_InMat_Code": sim_data[0].lm_ItemCode,
+									"sales_InMat_Name": sim_data[0].lm_ItemName,
+									"sales_InMat_STND_1": sim_data[0].lm_STND_1,
+									"sales_InMat_Item_Clsfc_1": sim_data[0].lm_Item_CLSFC_1,
+									"sales_InMat_Qty": sim_data[0].lm_Qty,
 									"sales_InMat_Date": moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
 									"sales_InMat_Rcv_Clsfc": '203',
 									"sales_InMat_Rcv_Clsfc_Name": "정상입고"
 								}
 							);
-							
-						} else if (salesInputTable.getDataCount() > 0) {
-							
-							for (j = 0; j < salesInputTable.getDataCount(); j++) {
-								
-								console.log(salesInputTable.getDataCount());
 
-								if (salesInputTable.getData()[j].sales_InMat_Lot_No == sim_data[i].lm_LotNo) {
-									alert("동일한 제품이 이미 선택되었습니다.");
-									return false;
-									
-								} else {
-									
-									salesInputTable.addRow(
-										{
-											"sales_InMat_No": salesInputTable.getDataCount('active') + 1,
-											"sales_InMat_Lot_No": sim_data[i].lm_LotNo,
-											"sales_InMat_Code": sim_data[i].lm_ItemCode,
-											"sales_InMat_Name": sim_data[i].lm_ItemName,
-											"sales_InMat_STND": sim_data[i].lm_STND_1,
-											"sales_InMat_Item_Clsfc_1": sim_data[i].lm_Item_CLSFC_1,
-											"sales_InMat_Qty": sim_data[i].lm_Qty,
-											"sales_InMat_Date": moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-											"sales_InMat_Rcv_Clsfc": '203',
-											"sales_InMat_Rcv_Clsfc_Name": "정상입고"
-										}
-									);
+							fgoodsQty = fgoodsQty + sim_data[0].lm_Qty;
 
-									fgoodsQty = fgoodsQty + sim_data[i].lm_Qty;
+							salesInputTable.selectRow();
 
-									salesInputTable.selectRow();
+							$('#fgoodsTotal').val(fgoodsQty);
 
-									$('#fgoodsTotal').val(fgoodsQty);
-								}
-							}
+						} else if (result == true) {
+							alert("동일한 제품이 이미 선택되었습니다.");
+							return;
 						}
+
+						if (salesInputTable.getDataCount() > 9) {
+							alert("라벨 출력");
+							SI_Save();
+						}
+
 					}
+				} else {
+					alert("일치하는 데이터가 없습니다.");
+					$('#fgoodsLotNo').val("");
+					return;
 				}
 			}
 		})
 
-		/*		salesInputTable.addRow(
-					{
-						"sales_InMat_No": salesInputTable.getDataCount('active') + 1,
-						"sales_InMat_Lot_No": $(this).val(),
-						"sales_InMat_Code": '',
-						"sales_InMat_Name": '테스트',
-						"sales_InMat_Qty": 10,
-						"sales_InMat_Date": moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-						"sales_InMat_Rcv_Clsfc": '171'
-					}
-				);*/
-		//$(this).val('')
 	}
 })
 
 
 //delete버튼
-$('#FI_DeleteBtn').click(function() {
+$('#SI_DeleteBtn').click(function() {
 	rowCount = salesInputTable.getDataCount("active");
 	selectedData = salesInputTable.getSelectedData();
 	//여러행 삭제할경우 위에서부터 하나씩 반복하여 삭제함
@@ -251,25 +274,25 @@ $('#FI_DeleteBtn').click(function() {
 	}
 })
 
-function FI_buttonUse() {
-	//FI_DeleteBtn 활성화
-	if ($('#FI_DeleteBtn').hasClass('unusebtn')) {
-		$('#FI_DeleteBtn').removeClass('unusebtn');
+function SI_buttonUse() {
+	//SI_DeleteBtn 활성화
+	if ($('#SI_DeleteBtn').hasClass('unusebtn')) {
+		$('#SI_DeleteBtn').removeClass('unusebtn');
 	}
-	//FI_SaveBtn 활성화
-	if ($('#FI_SaveBtn').hasClass('unusebtn')) {
-		$('#FI_SaveBtn').removeClass('unusebtn');
+	//SI_SaveBtn 활성화
+	if ($('#SI_SaveBtn').hasClass('unusebtn')) {
+		$('#SI_SaveBtn').removeClass('unusebtn');
 	}
 }
 
-function FI_buttonReset() {
-	//FI_DeleteBtn 비활성화
-	if (!$('#FI_DeleteBtn').hasClass('unusebtn')) {
-		$('#FI_DeleteBtn').addClass('unusebtn');
+function SI_buttonReset() {
+	//SI_DeleteBtn 비활성화
+	if (!$('#SI_DeleteBtn').hasClass('unusebtn')) {
+		$('#SI_DeleteBtn').addClass('unusebtn');
 	}
-	//FI_SaveBtn 비활성화
-	if (!$('#FI_SaveBtn').hasClass('unusebtn')) {
-		$('#FI_SaveBtn').addClass('unusebtn');
+	//SI_SaveBtn 비활성화
+	if (!$('#SI_SaveBtn').hasClass('unusebtn')) {
+		$('#SI_SaveBtn').addClass('unusebtn');
 	}
 }
 
@@ -291,7 +314,7 @@ var salesInputInfoTable = new Tabulator("#salesInputInfoTable", {
 	clipboard: true,
 	/*ajaxConfig : "get",
 	ajaxContentType:"json",
-	ajaxURL : "salesInputRest/FI_Search",*/
+	ajaxURL : "salesInputRest/SI_Search",*/
 	columns: [
 		{ title: "순번", field: "sales_InMat_No", headerHozAlign: "center", hozAlign: "right", width: 65 },
 		{ title: "LotNo", field: "sales_InMat_Lot_No", headerHozAlign: "center", width: 130 },
@@ -317,7 +340,7 @@ var salesInputInfoSubTable = new Tabulator("#salesInputInfoSubTable", {
 	clipboard: true,
 	/*ajaxConfig : "get",
 	ajaxContentType:"json",
-	ajaxURL : "salesInputRest/FI_Search",*/
+	ajaxURL : "salesInputRest/SI_Search",*/
 	columns: [
 		{ title: "순번", field: "sales_InMat_No", headerHozAlign: "center", hozAlign: "right", width: 65 },
 		{ title: "LotNo", field: "sales_InMat_Lot_No", headerHozAlign: "center", width: 130 },

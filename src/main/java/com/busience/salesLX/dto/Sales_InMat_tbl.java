@@ -27,4 +27,5 @@ public class Sales_InMat_tbl {
 	private int Sales_InReturn_Qty; //반품수량
 	private String Sales_InMat_UNIT; //단위
 	private String Sales_InMat_Rcv_Clsfc_Name;
+	private String Sales_InMat_Item_Clsfc_1;
 }
