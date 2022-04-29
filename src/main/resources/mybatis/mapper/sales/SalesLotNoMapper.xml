@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.busience.salesLX.dao.SalesInputDao">
+		
+	<select id="salesLotNoSelectDao" resultType="String">
+		select concat('L',DATE_FORMAT(curdate(),"%y%m%d"), #{Sales_InMat_Code}, lpad(sales_No,'4',0))
+		from LotNo_tbl
+	</select>
+	
+	<update id="salesLotNoSalesUpdateDao">
+		update LotNo_tbl
+		set 
+		Pre_Sales_No = (case when Sales_No = 9999 then Sales_No else Pre_Sales_No end),
+		Sales_No = (case when Sales_No = 9999 then 1 else Sales_No+1 end)
+	</update>
+
+</mapper>

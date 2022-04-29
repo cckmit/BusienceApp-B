@@ -62,6 +62,17 @@
 		LM_Qty = LM_Qty + #{OM_Qty}
 	</insert>
 	
+	<insert id="salesLotMasterInsertDao">
+		insert into LotMaster_tbl(
+			LM_LotNo, LM_ItemCode,
+			LM_Qty, LM_Create_Date, LM_WareHouse
+		)values(
+			#{Sales_InMat_Lot_No}, #{Sales_InMat_Code},
+			#{Sales_InMat_Qty}, now(), #{Sales_InMat_WareHouse}
+		)on duplicate key update
+		LM_Qty = LM_Qty + #{Sales_InMat_Qty}
+	</insert>
+	
 	<update id="lotMasterUpdateDao">
 		update LotMaster_tbl
 		set

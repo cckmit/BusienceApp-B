@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.busience.salesLX.dao.SalesPackingDao">
+	<select id="salesPackingNoCreateDao" resultType="com.busience.salesLX.dto.SalesPackingDto">
+		SELECT COUNT(*)+1 Sales_Packing_No FROM Sales_Packing_tbl
+		WHERE Sales_Large_Packing_LotNo = #{Sales_Large_Packing_LotNo} 
+	</select>
+	
+	<insert id="salesPackingInsertDao">
+		INSERT INTO Sales_Packing_tbl (
+			Sales_Packing_No, Sales_Large_Packing_LotNo,
+			Sales_Small_Packing_LotNo, Sales_Packing_Qty, Sales_Large_Packing_Time
+		) VALUES (
+			#{Sales_Packing_No}, #{Sales_Large_Packing_LotNo},
+			#{Sales_Small_Packing_LotNo}, #{Sales_Packing_Qty}, now()
+		)
+	</insert>
+	
+
+</mapper>

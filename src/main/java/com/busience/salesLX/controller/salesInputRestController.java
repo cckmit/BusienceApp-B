@@ -42,9 +42,9 @@ public class salesInputRestController {
 			
 			Sales_InMat_tbl sales_InMat_tbl = mapper.readValue(salesinmatData, Sales_InMat_tbl.class);
 			
-			List<SalesPackingDto> SalesPackingDtoList = Arrays.asList(mapper.readValue(packData, SalesPackingDto[].class));
+			List<SalesPackingDto> salesPackingDtoList = Arrays.asList(mapper.readValue(packData, SalesPackingDto[].class));
 			
-			return salesInputService.salesInputInsert(sales_InMat_tbl, SalesPackingDtoList, totalQty, principal.getName());
+			return salesInputService.salesInputInsert(sales_InMat_tbl, salesPackingDtoList, totalQty, principal.getName());
 			
 		} catch(Exception e) {
 			

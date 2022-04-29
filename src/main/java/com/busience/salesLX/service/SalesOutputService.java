@@ -133,7 +133,7 @@ public class SalesOutputService {
 						// stockMat_update
 						LM_ItemCode = sales_OutMat_tbl.getSales_OutMat_Code();
 						LM_WareHouse = wareHouseList.get(2).getCHILD_TBL_NO();
-						stockDao.stockUpdateDao(LM_Qty, LM_ItemCode, LM_WareHouse);
+						stockDao.stockUpdateDao(LM_Qty, LM_ItemCode, LT_Before);
 						
 						// sales_Output_OrderMaster_update
 						salesOutputOrderMasterDao.salesOutputOrderMasterUpdateDao(salesOutputOrderMasterDto.getSales_Output_Order_mOrder_No());

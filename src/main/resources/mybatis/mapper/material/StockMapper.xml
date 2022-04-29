@@ -67,9 +67,9 @@
 		insert into Stock_tbl(
 			S_itemCode, S_Qty, S_WareHouse
 		)values(
-			#{OM_ItemCode}, #{OM_Qty}, #{OM_WareHouse}
+			#{LM_ItemCode}, #{LM_Qty}, #{LM_WareHouse}
 		)on duplicate key update
-		S_Qty = S_Qty + #{OM_Qty}
+		S_Qty = S_Qty + #{LM_Qty}
 	</insert>
 	
 	<update id="stockUpdateDao">
@@ -77,6 +77,6 @@
 		set
 		S_Qty = S_Qty - #{LM_Qty}
 		where S_itemCode = #{LM_ItemCode}
-		and S_WareHouse = #{LM_WareHouse}
+		and S_WareHouse = #{LT_Before}
 	</update>
 </mapper>

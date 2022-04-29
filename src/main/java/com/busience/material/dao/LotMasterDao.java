@@ -9,6 +9,7 @@ import com.busience.common.dto.SearchDto;
 import com.busience.material.dto.InMatDto;
 import com.busience.material.dto.LotMasterDto;
 import com.busience.material.dto.OutMatDto;
+import com.busience.salesLX.dto.Sales_InMat_tbl;
 
 @Mapper
 public interface LotMasterDao {
@@ -24,6 +25,9 @@ public interface LotMasterDao {
 	
 	//랏마스터 update
 	public int lotMasterUpdateDao(@Param("LM_Qty") Double LM_Qty, @Param("LM_LotNo") String LM_LotNo);
+	
+	//영업 LotMaster insert
+	public int salesLotMasterInsertDao(Sales_InMat_tbl sales_InMat_tbl);
 	
 	//영업 LotMaster 조회
 	public List<LotMasterDto> salesOutputLotMasterDao(SearchDto searchDto);

@@ -110,42 +110,42 @@ $('#SI_SaveBtn').click(function() {
 //저장하는기능
 function SI_Save() {
 	rowCount = salesInputTable.getDataCount("active");
-	console.log(rowCount);
+	var sales_Packing_Qty = 0;
+	var sales_Small_Packing_LotNo = null;
+	
 
 	var totalQty = $('#fgoodsTotal').val();
 
+	var rowArray = new Array();
+
 	for (i = 0; i < rowCount; i++) {
 
-		var smallPackDatas = {
-			sales_Packing_Qty: salesInputTable.getData()[i].sales_InMat_Qty,
-			sales_Small_Packing_LotNo: salesInputTable.getData()[i].sales_InMat_Lot_No
-		}
-		
-		//쿼리실행
-		$.ajax({
-			method: "post",
-			async: false,
-			url: "salesInputRest/SI_Save",
-			data: { salesinmatData: JSON.stringify(salesInputTable.getData()[0]), packData: JSON.stringify(smallPackDatas), totalQty : parseInt(totalQty) },
-			beforeSend: function(xhr) {
-				var header = $("meta[name='_csrf_header']").attr("content");
-				var token = $("meta[name='_csrf']").attr("content");
-				xhr.setRequestHeader(header, token);
-			},
-			success: function(save_data) {
-				console.log(save_data);
-				ajaxResult = save_data;
-			}
+		rowArray.push({
+			sales_Packing_Qty : salesInputTable.getData()[i].sales_InMat_Qty,
+		    sales_Small_Packing_LotNo : salesInputTable.getData()[i].sales_InMat_Lot_No
 		})
 	}
-	/*if (ajaxResult == "error") {
-		alert("중복된 값이 있습니다..");
-	} else if (ajaxResult == "success") {
-		alert("저장되었습니다.");
-		SI_buttonReset();
-		//trans_input_unuse();
-		//salesInputTable.replaceData()
-	}*/
+
+	//쿼리실행
+	$.ajax({
+		method: "post",
+		async: false,
+		url: "salesInputRest/SI_Save",
+		data: { salesinmatData: JSON.stringify(salesInputTable.getData()[0]), packData: JSON.stringify(rowArray), totalQty: parseInt(totalQty) },
+		beforeSend: function(xhr) {
+			var header = $("meta[name='_csrf_header']").attr("content");
+			var token = $("meta[name='_csrf']").attr("content");
+			xhr.setRequestHeader(header, token);
+		},
+		success: function(save_data) {
+			console.log(save_data);
+			if(save_data) {
+				alert("저장되었습니다.");
+			} else {
+				alert("오류가 발생했습니다. 다시 시도해주십시오.");
+			}
+		}
+	})
 }
 
 

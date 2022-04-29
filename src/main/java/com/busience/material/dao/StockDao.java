@@ -23,10 +23,10 @@ public interface StockDao {
 	public int stockInsertUpdateDao(InMatDto inMatDto);
 	
 	//재고테이블 업데이트
-	public int stockUpdateDao(@Param("LM_Qty") Double LM_Qty, @Param("LM_ItemCode") String LM_ItemCode, @Param("LM_WareHouse") String LM_WareHouse);
+	public int stockUpdateDao(@Param("LM_Qty") Double LM_Qty, @Param("LM_ItemCode") String LM_ItemCode, @Param("LT_Before") String LT_Before);
 	
 	//재고테이블 저장
-	public int stockInsertDao(OutMatDto outMatDto);
+	public int stockInsertDao(@Param("LM_ItemCode") String LM_ItemCode, @Param("LM_Qty") Double LM_Qty, @Param("LM_WareHouse") String LM_Warehouse);
 	
 	//출고지시 조회 재고 확인
 	public List<StockDto> salesOutputOrderStockDao(SearchDto searchDto);
