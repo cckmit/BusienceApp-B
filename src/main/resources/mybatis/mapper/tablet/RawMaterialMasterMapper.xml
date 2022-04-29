@@ -39,6 +39,13 @@
 		)		
 	</insert>
 	
+	<update id="rawMaterialMasterQtyUpdateDao">
+		update Raw_MaterialMaster_tbl
+		set
+		RMM_Qty = RMM_Qty + #{RMM_Qty}
+		where RMM_Production_ID = #{RMM_Production_ID}
+	</update>
+	
 	<update id="rawMaterialMasterUpdateDao">
 		update Raw_MaterialMaster_tbl
 		set

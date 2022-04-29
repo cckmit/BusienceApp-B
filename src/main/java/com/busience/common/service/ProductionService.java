@@ -25,6 +25,7 @@ import com.busience.monitoring.dto.EquipTemperatureHistoryDto;
 import com.busience.productionLX.dto.WorkOrderDto;
 import com.busience.standard.dao.ItemDao;
 import com.busience.standard.dto.ItemDto;
+import com.busience.tablet.service.MaskProductionService;
 
 @Service
 public class ProductionService {
@@ -46,6 +47,9 @@ public class ProductionService {
 	
 	@Autowired
 	TemperatureMonitoringDao temperatureMonitoringDao;
+	
+	@Autowired
+	MaskProductionService maskProductionService;
 	
 	@Autowired
 	TransactionTemplate transactionTemplate;
@@ -98,13 +102,14 @@ public class ProductionService {
 						}else {
 							productionDto.setPRODUCTION_Volume(value);
 						}
-						//PRODUCTION_MGMT_TBL2에 인서트
-						productionDao.insertProductionDao(productionDto);
 						
 						//작업지시 옵션
 						productionDto.setWorkOrder_Status(dtlDtoList.get(2).getCHILD_TBL_USE_STATUS());
 						//작업지시테이블 업데이트
 						productionDao.updateWorkOrderDao(productionDto);
+						
+						//자재식별코드, crate 수량 저장
+						maskProductionService.wholeQtyUpdate(productionDto.getPRODUCTION_Equipment_Code(), productionDto.getPRODUCTION_Volume());
 					}
 				}
 			});

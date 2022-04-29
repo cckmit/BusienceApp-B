@@ -120,6 +120,11 @@
     justify-content: space-around;
 }
 
+.table-container{
+	margin: 10px;
+	border: solid 1px gray;
+}
+
 .tablet-border{
 	border-radius: 20px;
 	border: solid #333;
@@ -209,10 +214,10 @@
 	</div>
 	<footer class="global-footer">
 		<div class="footer-box tablet-border">
-			<div>
+			<div class="table-container">
 				<div id="crateTable" class="tablet-Table"></div>
 			</div>
-			<div>
+			<div class="table-container">
 				<div id="rawMaterialTable" class="tablet-Table"></div>
 			</div>
 		</div>

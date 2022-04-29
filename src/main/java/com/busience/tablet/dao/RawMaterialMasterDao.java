@@ -24,4 +24,7 @@ public interface RawMaterialMasterDao {
 	
 	//상태 업데이트
 	public int rawMaterialMasterUpdateDao(RawMaterialMasterDto rawMaterialMasterDto);
+	
+	//수량 업데이트
+	public int rawMaterialQtyUpdateDao(RawMaterialMasterDto rawMaterialMasterDto);
 }

@@ -12,34 +12,20 @@
 			where A.WorkOrder_EquipCode = #{equip} and B.CHILD_TBL_NO = '244'
 	</select>
 	
-	<insert id="insertProductionDao">
-		INSERT INTO PRODUCTION_MGMT_TBL2 (
-			PRODUCTION_WorkOrder_ONo,
-			PRODUCTION_Product_Code,
-			PRODUCTION_Equipment_Code,
-			PRODUCTION_Volume
-			) VALUES (
-			#{PRODUCTION_WorkOrder_ONo},
-			#{PRODUCTION_Product_Code},
-			#{PRODUCTION_Equipment_Code},
-			#{PRODUCTION_Volume}
-			)
-	</insert>
-	
 	<update id="updateWorkOrderDao">
 		update WorkOrder_tbl
 			set
-			WorkOrder_RQty = WorkOrder_RQty + #{PRODUCTION_Volume}
+			WorkOrder_ProductionQty = WorkOrder_ProductionQty + #{PRODUCTION_Volume}
 			<if test="WorkOrder_Status == 'true'">
 			<![CDATA[
 				,
 				WorkOrder_CompleteTime = 
 					case
-						when WorkOrder_RQty >= WorkOrder_PQty then now() else null
+						when WorkOrder_ProductionQty >= WorkOrder_AllottedQty then now() else null
 					end,
 				WorkOrder_WorkStatus = 
 					case
-						when WorkOrder_RQty >= WorkOrder_PQty then '245' else WorkOrder_WorkStatus
+						when WorkOrder_ProductionQty >= WorkOrder_AllottedQty then '245' else WorkOrder_WorkStatus
 					end
 			]]>
 			</if>

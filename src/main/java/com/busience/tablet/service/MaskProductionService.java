@@ -57,6 +57,11 @@ public class MaskProductionService {
 		return rawMaterialSubDao.rawMaterialSubSelectDao(searchDto);
 	}
 	
+	//수량 업데이트
+	public int rawMaterialQtyUpdate(RawMaterialMasterDto rawMaterialMasterDto) {
+		return rawMaterialMasterDao.rawMaterialQtyUpdateDao(rawMaterialMasterDto);
+	}
+	
 	// 코드 조건으로 조회
 	public List<WorkOrderDto> workingSelectByMachine(SearchDto searchDto) {
         return workOrderDao.workingSelectByMachineDao(searchDto);
@@ -129,6 +134,27 @@ public class MaskProductionService {
 					crateProductionDto.setCP_LotNo(LotNo);
 					crateProductionDto.setCP_Production_ID(crateLotDto.getCL_Production_ID());
 					crateProductionDao.crateProductionSaveDao(crateProductionDto);
+				}				
+			});
+			
+			return 1;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	public int wholeQtyUpdate(String equip, double value) {
+		//설비로 작업지시 검색
+		//작업지시로 crate 검색
+		//작업지시로 자재식별코드 검색
+		try {
+			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					
 				}				
 			});
 			
