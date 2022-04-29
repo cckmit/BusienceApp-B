@@ -234,16 +234,6 @@ public class tabletController {
 			return "normal/productionLX/workOrderStartBBB";
 		}
 	
-	@GetMapping("/tablet/workOrderTabletP")
-	public String workOrderTabletP(Model model) {
-		return "normal/tablet/workOrderTabletP";
-	}	
-	
-	@GetMapping("/tablet/workOrderTabletP2")
-	public String workOrderTabletP2(Model model) {
-		return "normal/tablet/workOrderTabletP2";
-	}
-	
 	@GetMapping("/tablet/workOrderTabletSeiyon")
 	public String workOrderTabletSeiyon()
 	{

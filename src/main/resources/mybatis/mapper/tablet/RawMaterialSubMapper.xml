@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.busience.tablet.dao.RawMaterialSubDao">
+	<select id="rawMaterialSubSelectDao" resultType="com.busience.tablet.dto.RawMaterialSubDto">
+		SELECT
+			A.RMS_Production_ID, A.RMS_LotNo,
+            A.RMS_ItemCode, B.Product_Item_Name RMS_ItemName
+		FROM Raw_MaterialSub_tbl A
+		inner join Product_Info_tbl B on A.RMS_ItemCode = B.Product_Item_Code 
+		where RMS_Production_ID = #{lotNo}
+	</select>
+
+	<insert id="rawMaterialSubSaveDao">
+		insert into Raw_MaterialSub_tbl (
+			RMS_Production_ID,
+			RMS_LotNo, RMS_ItemCode
+		)values(
+			#{RMS_Production_ID},
+			#{RMS_LotNo}, #{RMS_ItemCode}
+		)
+	</insert>
+</mapper>

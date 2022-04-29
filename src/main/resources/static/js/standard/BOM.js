@@ -258,6 +258,11 @@ function BBL_Save(){
 		method : "post",
 		async : false,
 		url : "BOMRest/BBL_Save?data=" + encodeURI(JSON.stringify(BOMBOMListTable.getData()[0]._children)),
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
 		success : function(data) {
 			if(data == "success"){
 				alert("저장되었습니다.");
@@ -286,6 +291,11 @@ function BBL_Delete(){
 		$.ajax({
 			method : "post",
 			url : "BOMRest/BBL_Delete?data=" + encodeURI(JSON.stringify(selectedData)),
+			beforeSend: function (xhr) {
+	           var header = $("meta[name='_csrf_header']").attr("content");
+	           var token = $("meta[name='_csrf']").attr("content");
+	           xhr.setRequestHeader(header, token);
+			},
 			success : function(data) {
 				//기본 배열 임시 저장
 				origin = BOMBOMListTable.getData()[0]._children

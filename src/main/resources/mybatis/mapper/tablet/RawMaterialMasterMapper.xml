@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.busience.tablet.dao.RawMaterialMasterDao">
+	<select id="rawMaterialMasterSelectDao" resultType="com.busience.tablet.dto.RawMaterialMasterDto">
+		SELECT
+			RMM_OrderNo, RMM_Production_ID, RMM_ItemCode, RMM_Qty, RMM_Create_Date, RMM_Use_Status
+		FROM Raw_MaterialMaster_tbl
+		where RMM_OrderNo = #{OrderNo}
+		and RMM_Use_Status = 1
+	</select>
+	
+	<select id="rawMaterialRecordSelectDao" resultType="com.busience.tablet.dto.RawMaterialMasterDto">
+		SELECT
+			RMM_OrderNo, RMM_Production_ID, RMM_ItemCode, RMM_Qty, RMM_Create_Date, RMM_Use_Status
+		FROM Raw_MaterialMaster_tbl
+		where RMM_OrderNo = #{OrderNo}
+		and RMM_Use_Status = 0
+		order by RMM_Create_Date desc
+	</select>
+
+	<select id="rawMaterialLotNoSelectDao" resultType="String">
+		SELECT
+			concat('P', DATE_FORMAT(NOW(),'%y%m%d'), #{RMM_ItemCode}, lpad(count(*)+1, 4, 0))
+		FROM Raw_MaterialMaster_tbl
+		where RMM_Create_Date > current_date();
+	</select>
+
+	<insert id="rawMaterialMasterSaveDao">
+		insert into Raw_MaterialMaster_tbl (
+			RMM_OrderNo, RMM_Production_ID,
+			RMM_ItemCode, RMM_Qty, RMM_Create_Date, RMM_Use_Status
+		)values(
+			#{RMM_OrderNo}, #{RMM_Production_ID},
+			#{RMM_ItemCode}, #{RMM_Qty}, now(), 1
+		)		
+	</insert>
+	
+	<update id="rawMaterialMasterUpdateDao">
+		update Raw_MaterialMaster_tbl
+		set
+		RMM_Use_Status = 0
+		where RMM_Production_ID = #{RMM_Before_Production_ID}
+	</update>
+</mapper>

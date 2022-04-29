@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.busience.tablet.dao.CrateLotDao">
+	<select id="crateLotSelectDao" resultType="com.busience.tablet.dto.CrateLotDto">
+		SELECT
+			CL_LotNo, CL_OrderNo, CL_ItemCode,
+		    CL_CrateCode, CL_Qty, CL_Create_Date,
+		    CL_Use_Status
+		FROM Crate_Lot_tbl
+		where CL_OrderNo = #{OrderNo}
+		and CL_Use_Status = 1
+	</select>
+	
+	<select id="crateLotNoCreateDao" resultType="String">
+		SELECT
+			concat('C', DATE_FORMAT(NOW(),'%y%m%d'), #{CL_ItemCode}, lpad(count(*)+1, 4, 0))
+		FROM Crate_Lot_tbl
+		where CL_Create_Date > current_date();
+	</select>
+	
+	<select id="crateLotRecordSelectDao" resultType="com.busience.tablet.dto.CrateLotDto">
+		SELECT
+			CL_LotNo, CL_OrderNo, CL_ItemCode,
+		    CL_CrateCode, CL_Qty, CL_Create_Date, CL_Use_Status
+		FROM Crate_Lot_tbl
+		where CL_OrderNo = #{OrderNo}
+		and CL_Use_Status = 0
+		order by CL_Create_Date desc
+	</select>
+	
+	<insert id="crateLotSaveDao">
+		insert into Crate_Lot_tbl(
+			CL_LotNo, CL_OrderNo, CL_ItemCode,
+			CL_CrateCode, CL_Qty, CL_Create_Date,
+			CL_Use_Status
+		)values(
+			#{CL_LotNo}, #{CL_OrderNo}, #{CL_ItemCode},
+			#{CL_CrateCode}, 0, now(),
+			1
+		)
+	</insert>
+	
+	<update id="crateLotUpdateDao">
+		update Crate_Lot_tbl
+		set
+		CL_Use_Status = false
+		where CL_LotNo = #{CL_Before_LotNo}
+	</update>
+</mapper>

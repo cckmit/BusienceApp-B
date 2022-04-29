@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.busience.tablet.dao.CrateProductionDao">
+	<select id="crateProductionSelectDao" resultType="com.busience.tablet.dto.CrateProductionDto">
+		SELECT
+			CP_LotNo, CP_Production_LotNo, CP_Qty
+		FROM Crate_Production_tbl
+		where CP_LotNo = #{CP_LotNo}
+		and CP_Production_ID = #{CP_Production_ID}
+	</select>
+	
+	<insert id="crateProductionSaveDao">
+		insert into Crate_Production_tbl(
+			CP_LotNo, CP_Production_ID, CP_Create_Date
+		)values(
+			#{CP_LotNo}, #{CP_Production_ID}, now()
+		)
+	</insert>
+</mapper>

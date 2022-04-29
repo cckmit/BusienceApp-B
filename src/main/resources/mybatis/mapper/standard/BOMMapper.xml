@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.busience.standard.dao.BOMDao">
+	<select id="BOMBOMListDao" resultType="com.busience.standard.dto.BOMDto">
+		SELECT
+			A.BOM_ID,
+			A.BOM_Parent_ItemCode,
+			A.BOM_ItemCode,
+			B.PRODUCT_ITEM_NAME BOM_ItemName,
+			B.PRODUCT_INFO_STND_1 BOM_STND_1,
+			C.CHILD_TBL_TYPE BOM_State,
+			A.BOM_Qty,
+			D.CHILD_TBL_TYPE BOM_Unit_Name,
+			A.BOM_ChildExist,
+			A.BOM_Modifier,
+			A.BOM_Modify_Date
+		FROM BOM_tbl A
+		inner join Product_Info_tbl B on A.BOM_ItemCode = B.PRODUCT_ITEM_CODE
+		inner join DTL_TBL C on B.PRODUCT_MTRL_CLSFC = C.CHILD_TBL_NO
+		inner join DTL_TBL D on B.PRODUCT_UNIT = D.CHILD_TBL_NO
+		where BOM_Parent_ItemCode = #{itemCode}
+	</select>
+</mapper>

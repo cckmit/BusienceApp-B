@@ -7,6 +7,8 @@
     <meta charset="UTF-8">
     <title>비지언스 MES</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="_csrf" content="${_csrf.token}">
+	<meta name="_csrf_header" content="${_csrf.headerName}">
     <jsp:include page="common_css.jsp"></jsp:include>
     <jsp:include page="common_js.jsp"></jsp:include>
   </head>

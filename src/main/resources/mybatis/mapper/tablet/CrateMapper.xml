@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.busience.tablet.dao.CrateDao">
+	<select id="crateSelectDao" resultType="com.busience.tablet.dto.CrateDto">
+		SELECT
+			C_LotNo, C_OrderNo,
+		    C_Qty, C_Use_Status
+		FROM Crate_tbl
+		where C_OrderNo = #{OrderNo}
+		and C_Use_Status = 1
+	</select>
+	
+	<select id="crateLotNoSelectDao" resultType="String">
+		SELECT
+			concat('C', DATE_FORMAT(NOW(),'%y%m%d'), #{C_LotNo}, lpad(count(*)+1, 4, 0))
+		FROM Crate_tbl
+		where C_Create_Date > current_date();
+	</select>
+	
+	<insert id="crateSaveDao">
+		insert into Crate_tbl(
+			C_LotNo, C_OrderNo,
+		    C_Qty, C_Use_Status
+		)values(
+			#{C_LotNo}, #{C_OrderNo},
+		    0, 1
+		)
+	</insert>
+	
+	<update id="CrateUpdateDao">
+		update Crate_tbl
+		set
+		C_Use_Status = #{C_Use_Status}
+		where C_LotNo = #{C_LotNo}
+	</update>
+</mapper>

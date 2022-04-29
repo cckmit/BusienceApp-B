@@ -52,7 +52,7 @@ public class MatOutReturnService {
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
 					List<DtlDto> wareHouseList = dtlDao.findByCode(10);
-					
+					/*
 					for(int i=0;i<outMatDtoList.size();i++) {
 						OutMatDto outMatDto = outMatDtoList.get(i);
 						//작업자
@@ -86,7 +86,7 @@ public class MatOutReturnService {
 						//랏마스터 등록
 						lotMasterDao.lotMasterInsertDao(outMatDtoList.get(i));
 						
-					}
+					}*/
 				}
 			});
 			

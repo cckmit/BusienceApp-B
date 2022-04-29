@@ -69,6 +69,7 @@ public class MatOutputService {
 				
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					/*
 					for(int i=0;i<outMatDtoList.size();i++) {
 						OutMatDto outMatDto = outMatDtoList.get(i);
 						outMatDto.setOM_RequestNo(requestSubDto.getRS_RequestNo());
@@ -111,7 +112,7 @@ public class MatOutputService {
 						
 						//랏마스터 등록
 						lotMasterDao.lotMasterInsertDao(outMatDtoList.get(i));
-						/*
+						
 						if(dtlDto.get(3).getCHILD_TBL_NO().equals(outMatDtoList.get(i).getOM_Send_Clsfc())) {
 							//품목코드
 							sales_InMat_tbl.setSales_InMat_Code(outMatDtoList.get(i).getOM_ItemCode());
@@ -126,9 +127,9 @@ public class MatOutputService {
 							salesInputLXDao.salesInMatInsertDao(sales_InMat_tbl);
 							
 							salesInputLXDao.salesStockMatUpdateDao(sales_InMat_tbl);
-						}*/
+						}
 					}
-					
+					*/
 				}
 			});
 			
