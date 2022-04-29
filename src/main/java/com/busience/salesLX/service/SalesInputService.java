@@ -48,6 +48,11 @@ public class SalesInputService {
 		return lotMasterDao.salesInputLotMasterSelectDao(lotMasterDto);
 	}
 	
+	// salesInput select
+	public List<Sales_InMat_tbl> salesInMatSelectDao() {
+		return salesInputDao.salesInMatSelectDao();
+	}
+	
     // salesInput insert
 	public int salesInputInsert(Sales_InMat_tbl sales_InMat_tbl, List<SalesPackingDto> salesPackingDtoList, int totalQty, String Modifier) {
 		

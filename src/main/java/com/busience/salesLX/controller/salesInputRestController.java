@@ -30,6 +30,12 @@ public class salesInputRestController {
 		return salesInputService.salesInputLotMasterSelectDao(lotMasterDto);
 	}
 	
+	// salesInput select
+	@GetMapping("/SI_Search")
+	public List<Sales_InMat_tbl> salesInMatSelectDao() {
+		return salesInputService.salesInMatSelectDao();
+	}
+	
 	// salesInput insert
 	@PostMapping("/SI_Save")
 	public int salesInputInsert(@RequestParam("salesinmatData") String salesinmatData, @RequestParam("packData") String packData, @RequestParam("totalQty") int totalQty, Principal principal) {

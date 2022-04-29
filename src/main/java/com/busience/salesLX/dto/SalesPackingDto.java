@@ -14,4 +14,7 @@ public class SalesPackingDto {
 	private String Sales_Small_Packing_LotNo;
 	private int Sales_Packing_Qty;
 	private String Sales_Large_Packing_Time;
+	private String Sales_Packing_Code;
+	private String Sales_Packing_Name;
+	private String Sales_Small_Create_Date;
 }

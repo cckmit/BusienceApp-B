@@ -112,7 +112,7 @@ function SI_Save() {
 	rowCount = salesInputTable.getDataCount("active");
 	var sales_Packing_Qty = 0;
 	var sales_Small_Packing_LotNo = null;
-	
+
 
 	var totalQty = $('#fgoodsTotal').val();
 
@@ -121,8 +121,8 @@ function SI_Save() {
 	for (i = 0; i < rowCount; i++) {
 
 		rowArray.push({
-			sales_Packing_Qty : salesInputTable.getData()[i].sales_InMat_Qty,
-		    sales_Small_Packing_LotNo : salesInputTable.getData()[i].sales_InMat_Lot_No
+			sales_Packing_Qty: salesInputTable.getData()[i].sales_InMat_Qty,
+			sales_Small_Packing_LotNo: salesInputTable.getData()[i].sales_InMat_Lot_No
 		})
 	}
 
@@ -139,7 +139,7 @@ function SI_Save() {
 		},
 		success: function(save_data) {
 			console.log(save_data);
-			if(save_data) {
+			if (save_data) {
 				alert("저장되었습니다.");
 			} else {
 				alert("오류가 발생했습니다. 다시 시도해주십시오.");
@@ -188,7 +188,6 @@ $('#fgoodsLotNo').keydown(function(e) {
 								"sales_InMat_STND_1": sim_data[0].lm_STND_1,
 								"sales_InMat_Item_Clsfc_1": sim_data[0].lm_Item_CLSFC_1,
 								"sales_InMat_Qty": sim_data[0].lm_Qty,
-								"sales_InMat_Date": moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
 								"sales_InMat_Rcv_Clsfc": '203',
 								"sales_InMat_Rcv_Clsfc_Name": "정상입고"
 							}
@@ -221,7 +220,6 @@ $('#fgoodsLotNo').keydown(function(e) {
 									"sales_InMat_STND_1": sim_data[0].lm_STND_1,
 									"sales_InMat_Item_Clsfc_1": sim_data[0].lm_Item_CLSFC_1,
 									"sales_InMat_Qty": sim_data[0].lm_Qty,
-									"sales_InMat_Date": moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
 									"sales_InMat_Rcv_Clsfc": '203',
 									"sales_InMat_Rcv_Clsfc_Name": "정상입고"
 								}
@@ -312,21 +310,27 @@ var salesInputInfoTable = new Tabulator("#salesInputInfoTable", {
 	index: "sales_InMat_No",
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
-	/*ajaxConfig : "get",
-	ajaxContentType:"json",
-	ajaxURL : "salesInputRest/SI_Search",*/
+	rowClick: function(e, row) {
+		row.getTable().deselectRow();
+		salesInputInfoSubTable.clearData();
+		row.select();
+	},
+	rowSelected: function(row) {
+		SI_InfoSubSearch(row.getData().sales_InMat_Lot_No);
+	},
 	columns: [
 		{ title: "순번", field: "sales_InMat_No", headerHozAlign: "center", hozAlign: "right", width: 65 },
-		{ title: "LotNo", field: "sales_InMat_Lot_No", headerHozAlign: "center", width: 130 },
+		{ title: "LotNo", field: "sales_InMat_Lot_No", headerHozAlign: "center", width: 150 },
 		{ title: "제품코드", field: "sales_InMat_Code", headerHozAlign: "center" },
 		{ title: "제품명", field: "sales_InMat_Name", headerHozAlign: "center", width: 130 },
+		{ title: "규격", field: "sales_InMat_STND_1", headerHozAlign: "center", width: 85 },
+		{ title: "분류1", field: "sales_InMat_Item_Clsfc_1", headerHozAlign: "center", width: 85 },
 		{ title: "수량", field: "sales_InMat_Qty", headerHozAlign: "center", hozAlign: "right", width: 85 },
 		{
 			title: "입고일자", field: "sales_InMat_Date", headerHozAlign: "center", hozAlign: "right", width: 130,
 			formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" }
 		},
-		{ title: "구분", field: "sales_InMat_Rcv_Clsfc", visible: false },
-		{ title: "구분", field: "sales_InMat_Rcv_Clsfc_Name", width: 80 },
+		{ title: "구분", field: "sales_InMat_Rcv_Clsfc_Name", width: 80 }
 	]
 });
 
@@ -342,16 +346,34 @@ var salesInputInfoSubTable = new Tabulator("#salesInputInfoSubTable", {
 	ajaxContentType:"json",
 	ajaxURL : "salesInputRest/SI_Search",*/
 	columns: [
-		{ title: "순번", field: "sales_InMat_No", headerHozAlign: "center", hozAlign: "right", width: 65 },
-		{ title: "LotNo", field: "sales_InMat_Lot_No", headerHozAlign: "center", width: 130 },
-		{ title: "제품코드", field: "sales_InMat_Code", headerHozAlign: "center" },
-		{ title: "제품명", field: "sales_InMat_Name", headerHozAlign: "center", width: 130 },
-		{ title: "수량", field: "sales_InMat_Qty", headerHozAlign: "center", hozAlign: "right", width: 85 },
+		{ title: "순번", field: "sales_Packing_No", headerHozAlign: "center", hozAlign: "right", width: 65 },
+		{ title: "LotNo", field: "sales_Small_Packing_LotNo", headerHozAlign: "center", width: 150 },
+		{ title: "제품코드", field: "sales_Packing_Code", headerHozAlign: "center" },
+		{ title: "제품명", field: "sales_Packing_Name", headerHozAlign: "center", width: 130 },
+		{ title: "수량", field: "sales_Packing_Qty", headerHozAlign: "center", hozAlign: "right", width: 85 },
 		{
-			title: "입고일자", field: "sales_InMat_Date", headerHozAlign: "center", hozAlign: "right", width: 130,
+			title: "등록일자", field: "sales_Small_Create_Date", headerHozAlign: "center", hozAlign: "right", width: 130,
 			formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" }
-		},
-		{ title: "구분", field: "sales_InMat_Rcv_Clsfc", visible: false },
-		{ title: "구분", field: "sales_InMat_Rcv_Clsfc_Name", width: 80 }
+		}
 	]
 });
+
+function SI_InfoSearch() {
+	salesInputInfoTable.setData("salesInputRest/SI_Search");
+	salesInputInfoTable.selectRow();
+}
+
+function SI_InfoSubSearch(LotNo) {
+	console.log(LotNo);
+	
+	datas = {
+		LotNo : LotNo
+	}
+	salesInputInfoSubTable.setData("salesPackingRest/SP_Search", datas);
+	console.log(salesInputInfoSubTable);
+}
+
+$(document).ready(function() {
+	SI_InfoSearch();
+});
+

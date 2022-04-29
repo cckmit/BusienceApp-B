@@ -10,6 +10,14 @@
 		WHERE Sales_Large_Packing_LotNo = #{Sales_Large_Packing_LotNo} 
 	</select>
 	
+	<select id="salesPackingListSelectDao" resultType="com.busience.salesLX.dto.SalesPackingDto">
+		SELECT spt.Sales_Packing_No, spt.Sales_Small_Packing_LotNo, spt.Sales_Packing_Qty, lmt.LM_ItemCode as Sales_Packing_Code, pit.Product_Item_Name as Sales_Packing_Name, lmt.LM_Create_Date as Sales_Small_Create_Date
+		FROM Sales_Packing_tbl spt
+		INNER JOIN LotMaster_tbl lmt ON spt.Sales_Small_Packing_LotNo = lmt.LM_LotNo
+		INNER JOIN Product_Info_tbl pit ON lmt.LM_ItemCode = pit.Product_Item_Code
+		WHERE spt.Sales_Large_Packing_LotNo = #{LotNo}
+	</select>
+	
 	<insert id="salesPackingInsertDao">
 		INSERT INTO Sales_Packing_tbl (
 			Sales_Packing_No, Sales_Large_Packing_LotNo,
@@ -19,6 +27,7 @@
 			#{Sales_Small_Packing_LotNo}, #{Sales_Packing_Qty}, now()
 		)
 	</insert>
-	
+
+
 
 </mapper>
