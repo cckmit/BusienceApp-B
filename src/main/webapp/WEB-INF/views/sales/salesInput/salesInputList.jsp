@@ -5,16 +5,18 @@
 	<div class="top-var">
 		<!-- 버튼 -->
 		<div class="input-button">
-			<img src="images/button/Search.png" onclick="FIL_SearchBtn()"/>
-			<img src="/images/button/Excel.png" onclick="excel_download(salesInputListTable)"/>
+			<img src="images/button/Search.png" onclick="SIL_SearchBtn()"/>
+			<img src="images/button/Excel.png" onclick="excel_download(salesInputListTable)"/>
 		</div>
 		<!-- 버튼 -->
 		<div class="input-box">
 			<div>
 				<span><strong>입고일</strong></span> 
-				<input id="matInputList_startDate" class="today" type="date"> 
+				<input id="salesInputList_startDate" class="today" type="date"> 
 				<span style="text-align: center"><strong>~</strong></span> 
-				<input id="matInputList_endDate" class="tomorrow" type="date">			
+				<input id="salesInputList_endDate" class="tomorrow" type="date">			
+				<span><strong>LotNo</strong></span> 
+				<input id="Sales_InMat_Lot_No" type="text">			
 			</div>
 			<div>
 				<span><strong>품목코드</strong></span>

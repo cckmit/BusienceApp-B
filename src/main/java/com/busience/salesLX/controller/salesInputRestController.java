@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.busience.common.dto.SearchDto;
 import com.busience.material.dto.LotMasterDto;
 import com.busience.salesLX.dto.SalesPackingDto;
 import com.busience.salesLX.dto.Sales_InMat_tbl;
@@ -58,4 +59,16 @@ public class salesInputRestController {
 			return 0;
 		}
 	}
+	
+	// salesInput List select
+	@GetMapping("/SIL_Search")
+	public List<Sales_InMat_tbl> salesInputListDao(Sales_InMat_tbl sales_InMat_tbl, SearchDto searchDto) {
+		return salesInputService.salesInputListDao(sales_InMat_tbl, searchDto);
+	}
+	// salesInput Item View
+	@GetMapping("/SIIL_Search")
+	public List<Sales_InMat_tbl> salesInputItemViewDao(Sales_InMat_tbl sales_InMat_tbl, SearchDto searchDto) {
+		return salesInputService.salesInputItemViewDao(sales_InMat_tbl, searchDto);
+	}
+	
 }

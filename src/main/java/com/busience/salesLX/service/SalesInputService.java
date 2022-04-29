@@ -10,6 +10,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import com.busience.common.dao.DtlDao;
 import com.busience.common.dto.DtlDto;
+import com.busience.common.dto.SearchDto;
 import com.busience.material.dao.LotMasterDao;
 import com.busience.material.dao.LotTransDao;
 import com.busience.material.dao.StockDao;
@@ -139,4 +140,50 @@ public class SalesInputService {
 			return 0;
 		}
 	}
+	
+	//salesInMat List select
+	public List<Sales_InMat_tbl> salesInputListDao(Sales_InMat_tbl sales_InMat_tbl, SearchDto searchDto) {
+		
+		String Sales_InMat_Code = sales_InMat_tbl.getSales_InMat_Code();
+		String Sales_InMat_Lot_No = sales_InMat_tbl.getSales_InMat_Lot_No();
+		String Sales_InMat_Rcv_Clsfc = sales_InMat_tbl.getSales_InMat_Rcv_Clsfc();
+		String startDate = searchDto.getStartDate();
+		String endDate = searchDto.getEndDate();
+		
+		return salesInputDao.salesInputListDao(Sales_InMat_Code, Sales_InMat_Lot_No, Sales_InMat_Rcv_Clsfc, startDate, endDate);
+	}
+	
+	//salesInMat Item View
+	public List<Sales_InMat_tbl> salesInputItemViewDao(Sales_InMat_tbl sales_InMat_tbl, SearchDto searchDto) {
+		
+		String Sales_InMat_Code = sales_InMat_tbl.getSales_InMat_Code();
+		String Sales_InMat_Rcv_Clsfc = sales_InMat_tbl.getSales_InMat_Rcv_Clsfc();
+		String startDate = searchDto.getStartDate();
+		String endDate = searchDto.getEndDate();
+		
+		List<Sales_InMat_tbl> salesInMatList = salesInputDao.salesInputItemViewDao(Sales_InMat_Code, Sales_InMat_Rcv_Clsfc, startDate, endDate);
+		
+		for(int i=0; i < salesInMatList.size(); i++) {
+			String itemCode = salesInMatList.get(i).getSales_InMat_Code();
+			String salesInMatDate = salesInMatList.get(i).getSales_InMat_Date();
+			
+			if(itemCode == null || salesInMatDate == null) {
+				salesInMatList.get(i).setSales_InMat_Lot_No("Sub Total");
+				salesInMatList.get(i).setSales_InMat_Date("");
+				salesInMatList.get(i).setSales_InMat_Rcv_Clsfc("");
+				salesInMatList.get(i).setSales_InMat_STND_1("");
+				salesInMatList.get(i).setSales_InMat_UNIT("");
+				salesInMatList.get(i).setSales_InMat_Item_Clsfc_1("");
+			} 
+			
+			if(itemCode == null && salesInMatDate == null) {
+				salesInMatList.get(i).setSales_InMat_Lot_No("Grand Total");
+				salesInMatList.get(i).setSales_InMat_Rcv_Clsfc("");
+				salesInMatList.get(i).setSales_InMat_Name("");
+			}
+		}
+		
+		return salesInMatList;
+	}
+	
 }

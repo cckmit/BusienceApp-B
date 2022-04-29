@@ -8,6 +8,7 @@
 			<div class="input-button">
 				<img src="images/button/Save.png" onclick="SI_Save()"/>
 				<img src="images/button/Delete.png" onclick="SI_Delete()">
+				<img src="images/button/Print.png" id="MO_PrintBtn"/>
 			</div>
 			
 			<!-- 버튼 -->				

@@ -111,7 +111,7 @@ public class salesController {
 	}
 	
 	// salesInputMaster
-	@GetMapping("salesInputLXMaster")
+	@GetMapping("salesInputMaster")
 	public String salesInputMaster(Model model) {
 
 		// 입고구분
@@ -121,7 +121,7 @@ public class salesController {
 		// 메뉴명
 		model.addAttribute("pageName", "제품 입고 조회");
 
-		return "salesLX/salesInput/salesInputMaster";
+		return "sales/salesInput/salesInputMaster";
 	}
 	
 	// salesOutputMaster
