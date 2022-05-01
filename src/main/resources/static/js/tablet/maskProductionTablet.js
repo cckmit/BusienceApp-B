@@ -267,6 +267,7 @@ function workOrderStart(machineCode){
 
 var crateTable = new Tabulator("#crateTable", {
 	layoutColumnsOnNewData : true,
+	ajaxLoader:false,
 	height: "100%",
 	columns:[
 		{title:"상자 LotNo 이력", headerHozAlign:"center",
@@ -286,6 +287,7 @@ function crateTableSelect(value){
 
 var rawMaterialTable = new Tabulator("#rawMaterialTable", {
 	layoutColumnsOnNewData : true,
+	ajaxLoader:false,
 	height: "100%",
 	columns:[
 		{title:"자재 식별 코드 이력", headerHozAlign:"center",
@@ -301,4 +303,10 @@ var rawMaterialTable = new Tabulator("#rawMaterialTable", {
 
 function rawMaterialTableSelect(value){
 	rawMaterialTable.setData("maskProductionRest/rawMaterialRecordSelect", {orderNo : value})
+}
+
+window.onload = function(){
+	setInterval(function(){
+		itemTable.replaceData();
+	},2000);
 }

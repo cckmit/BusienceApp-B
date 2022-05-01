@@ -20,13 +20,14 @@
 		where RMM_OrderNo = #{OrderNo}
 		and RMM_Use_Status = 0
 		order by RMM_Create_Date desc
+		limit 3
 	</select>
 
 	<select id="rawMaterialLotNoSelectDao" resultType="String">
 		SELECT
 			concat('P', DATE_FORMAT(NOW(),'%y%m%d'), #{RMM_ItemCode}, lpad(count(*)+1, 4, 0))
 		FROM Raw_MaterialMaster_tbl
-		where RMM_Create_Date > current_date();
+		where RMM_Create_Date > current_date()
 	</select>
 
 	<insert id="rawMaterialMasterSaveDao">
@@ -39,7 +40,7 @@
 		)		
 	</insert>
 	
-	<update id="rawMaterialMasterQtyUpdateDao">
+	<update id="rawMaterialQtyUpdateDao">
 		update Raw_MaterialMaster_tbl
 		set
 		RMM_Qty = RMM_Qty + #{RMM_Qty}

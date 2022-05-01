@@ -120,7 +120,6 @@ public class MaskProductionService {
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
 					CrateProductionDto crateProductionDto = new CrateProductionDto();
 					
-					System.out.println(crateLotDto);
 					//기존 값이 있으면 상태값 변경
 					//그 후 새로운 상자 등록
 					if(crateLotDto.getCL_Before_LotNo().length()>0) {
@@ -146,20 +145,31 @@ public class MaskProductionService {
 	}
 	
 	public int wholeQtyUpdate(String equip, double value) {
-		//설비로 작업지시 검색
-		//작업지시로 crate 검색
-		//작업지시로 자재식별코드 검색
 		try {
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					SearchDto searchDto = new SearchDto();
+										
+					searchDto.setMachineCode(equip);
 					
+					//작업지시 가져오기
+					List<WorkOrderDto> workOrderDtoList = workOrderDao.workingSelectByMachineDao(searchDto);
+					searchDto.setOrderNo(workOrderDtoList.get(0).getWorkOrder_ONo());
+					
+					//crateLotNo 가져오기
+					CrateLotDto crateLotDto = crateLotDao.crateLotSelectDao(searchDto).get(0);
+					crateLotDto.setCL_Qty(value);
+					crateLotDao.crateLotQtyUpdateDao(crateLotDto);
+					
+					//자재식별코드 가져오기
+					RawMaterialMasterDto rawMaterialMasterDto = rawMaterialMasterDao.rawMaterialMasterSelectDao(searchDto).get(0);
+					rawMaterialMasterDto.setRMM_Qty(value);
+					rawMaterialMasterDao.rawMaterialQtyUpdateDao(rawMaterialMasterDto);
 				}				
-			});
-			
-			return 1;
-			
+			});			
+			return 1;			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;

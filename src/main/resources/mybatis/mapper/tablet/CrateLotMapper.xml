@@ -30,6 +30,7 @@
 		where CL_OrderNo = #{OrderNo}
 		and CL_Use_Status = 0
 		order by CL_Create_Date desc
+		limit 3
 	</select>
 	
 	<insert id="crateLotSaveDao">
@@ -49,5 +50,12 @@
 		set
 		CL_Use_Status = false
 		where CL_LotNo = #{CL_Before_LotNo}
+	</update>
+	
+	<update id="crateLotQtyUpdateDao">
+		update Crate_Lot_tbl
+		set
+		CL_Qty = CL_Qty + #{CL_Qty}
+		where CL_LotNo = #{CL_LotNo}
 	</update>
 </mapper>
