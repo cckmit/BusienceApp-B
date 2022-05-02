@@ -141,6 +141,7 @@ function SI_Save() {
 			console.log(save_data);
 			if (save_data) {
 				alert("저장되었습니다.");
+				location.reload();
 			} else {
 				alert("오류가 발생했습니다. 다시 시도해주십시오.");
 			}

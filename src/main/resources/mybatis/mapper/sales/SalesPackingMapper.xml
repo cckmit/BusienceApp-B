@@ -16,6 +16,7 @@
 		INNER JOIN LotMaster_tbl lmt ON spt.Sales_Small_Packing_LotNo = lmt.LM_LotNo
 		INNER JOIN Product_Info_tbl pit ON lmt.LM_ItemCode = pit.Product_Item_Code
 		WHERE spt.Sales_Large_Packing_LotNo = #{LotNo}
+		AND lmt.LM_WareHouse='52'
 	</select>
 	
 	<insert id="salesPackingInsertDao">

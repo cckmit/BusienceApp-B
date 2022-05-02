@@ -17,12 +17,12 @@
 			<ol>
 				<li>
 					<div id="div1">
-						<jsp:include page="salesInReturnLXInsert.jsp"/>
+						<jsp:include page="salesInReturnInsert.jsp"/>
 					</div>
 				</li>
 				<li>
 					<div id="div2">
-						<jsp:include page="salesInReturnLXSearch.jsp"/>
+						<jsp:include page="salesInReturnSearch.jsp"/>
 					</div>
 				</li>
 							
@@ -37,6 +37,6 @@
 	</div>
 <!-- Javascript -->
 <script src="/js/tabMenu.js"></script>
-<script src="/js/salesLX/salesInReturnLXMaster.js"></script>
+<script src="/js/sales/salesInReturnMaster.js"></script>
 </body>
 </html>

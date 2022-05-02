@@ -69,6 +69,7 @@ public class SalesInputService {
 					String LT_ItemCode = null;
 					String LM_ItemCode = null;
 					String LM_Warehouse = null;
+					String LM_LotNo = null;
 					Double LM_Qty = 0.0;
 					String LT_Before = null;
 					String LT_After = null;
@@ -89,11 +90,9 @@ public class SalesInputService {
 					LM_ItemCode = sales_InMat_tbl.getSales_InMat_Code();
 					LM_Warehouse = sales_InMat_tbl.getSales_InMat_WareHouse();
 					
-					// lotMaster tbl insert
-					lotMasterDao.salesLotMasterInsertDao(sales_InMat_tbl);
-					
 					// lotTrans tbl insert(순번 조회, 생산창고 51 -> 영업창고 52)
 					LT_LotNo = LargeLotNo;
+					LM_LotNo = LargeLotNo;
 					int LotTranseNo = lotTransDao.lotTransNoSelectDao2(LT_LotNo);
 					
 					sales_InMat_tbl.setSales_InMat_No(LotTranseNo);
@@ -102,6 +101,9 @@ public class SalesInputService {
 					LT_Before = sales_InMat_tbl.getSales_InMat_Before();
 					LT_After = sales_InMat_tbl.getSales_InMat_After();
 					LT_Send_Clsfc = sales_InMat_tbl.getSales_InMat_Rcv_Clsfc();
+					
+					// lotMaster tbl insert
+					lotMasterDao.salesLotMasterInsertUpdateDao(LM_LotNo, LM_ItemCode, LM_Qty, LM_Warehouse);
 					
 					lotTransDao.lotTransInsertDao2(LotTranseNo, LT_LotNo, LT_ItemCode, LM_Qty, LT_Before, LT_After, LT_Send_Clsfc);
 					
@@ -118,7 +120,21 @@ public class SalesInputService {
 						// sales_Packing_tbl insert
 						salesPackingDao.salesPackingInsertDao(salesPackingDto);
 						
+						LM_LotNo = salesPackingDto.getSales_Small_Packing_LotNo();
+						LT_LotNo = salesPackingDto.getSales_Small_Packing_LotNo();
+						
+						LM_Qty = (double) salesPackingDto.getSales_Packing_Qty();
+						
+						// lotMaster_tbl_insertupdate
+						lotMasterDao.salesLotMasterInsertUpdateDao(LM_LotNo, LM_ItemCode, LM_Qty, LM_Warehouse);
+						
+						int PackingLotTranseNo = lotTransDao.lotTransNoSelectDao2(LM_LotNo);
+						// lotTrans_tbl_insert
+						lotTransDao.lotTransInsertDao2(PackingLotTranseNo, LT_LotNo, LT_ItemCode, LM_Qty, LT_Before, LT_After, LT_Send_Clsfc);
+						
 					}
+					
+					LM_Qty = (double) sales_InMat_tbl.getSales_InMat_Qty();
 					
 					sales_InMat_tbl.setSales_InMat_Modifier(Modifier);
 					

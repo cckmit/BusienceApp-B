@@ -93,12 +93,12 @@ public class salesController {
 	}
 	
 	// salesInReturn
-	@GetMapping("salesInReturnLX")
+	@GetMapping("salesInReturn")
 	public String salesInReturn(Model model) {
 		
 		model.addAttribute("pageName", "입고 반품 관리");
 		
-		return "salesLX/salesInReturnLX/salesInReturnLXMaster";
+		return "sales/salesInReturn/salesInReturnMaster";
 	}
 	
 	// salesOutReturnLX
@@ -107,7 +107,7 @@ public class salesController {
 
 		model.addAttribute("pageName", "판매 반품 관리");
 
-		return "salesLX/salesOutReturnLX/salesOutReturnLXMaster";
+		return "sales/salesOutReturnLX/salesOutReturnLXMaster";
 	}
 	
 	// salesInputMaster
