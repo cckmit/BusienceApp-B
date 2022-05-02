@@ -112,6 +112,7 @@ function SI_Save() {
 	rowCount = salesInputTable.getDataCount("active");
 	var sales_Packing_Qty = 0;
 	var sales_Small_Packing_LotNo = null;
+	var sales_Packing_Status = null;
 
 
 	var totalQty = $('#fgoodsTotal').val();
@@ -122,7 +123,8 @@ function SI_Save() {
 
 		rowArray.push({
 			sales_Packing_Qty: salesInputTable.getData()[i].sales_InMat_Qty,
-			sales_Small_Packing_LotNo: salesInputTable.getData()[i].sales_InMat_Lot_No
+			sales_Small_Packing_LotNo: salesInputTable.getData()[i].sales_InMat_Lot_No,
+			sales_Packing_Status: '203'
 		})
 	}
 

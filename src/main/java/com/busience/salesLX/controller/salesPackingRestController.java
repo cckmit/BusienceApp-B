@@ -23,4 +23,10 @@ public class salesPackingRestController {
 	public List<SalesPackingDto> salesPackingListSelectDao(SearchDto searchDto) {
 		return salesPackingService.salesPackingListSelectDao(searchDto);
 	}
+	
+	// 입고 반품 조회
+	@GetMapping("/SIRI_Search")
+	public List<SalesPackingDto> salesInMatReturnSelectDao(SalesPackingDto salesPackingDto, SearchDto searchDto) {
+		return salesPackingService.salesInMatReturnSelectDao(salesPackingDto, searchDto);
+	}
 }

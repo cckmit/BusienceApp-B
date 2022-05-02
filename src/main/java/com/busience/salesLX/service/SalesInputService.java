@@ -126,11 +126,7 @@ public class SalesInputService {
 						LM_Qty = (double) salesPackingDto.getSales_Packing_Qty();
 						
 						// lotMaster_tbl_insertupdate
-						lotMasterDao.salesLotMasterInsertUpdateDao(LM_LotNo, LM_ItemCode, LM_Qty, LM_Warehouse);
-						
-						int PackingLotTranseNo = lotTransDao.lotTransNoSelectDao2(LM_LotNo);
-						// lotTrans_tbl_insert
-						lotTransDao.lotTransInsertDao2(PackingLotTranseNo, LT_LotNo, LT_ItemCode, LM_Qty, LT_Before, LT_After, LT_Send_Clsfc);
+						lotMasterDao.lotMasterUpdateDao(-1*LM_Qty, LM_LotNo);
 						
 					}
 					

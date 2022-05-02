@@ -72,7 +72,7 @@
 			#{LM_LotNo}, #{LM_ItemCode},
 			#{LM_Qty}, now(), #{LM_Warehouse}
 		)on duplicate key update
-		LM_Qty = LM_Qty - #{LM_Qty}
+		LM_Qty = LM_Qty + #{LM_Qty}
 	</insert>
 	
 	<update id="lotMasterUpdateDao">

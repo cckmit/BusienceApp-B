@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.busience.common.dto.SearchDto;
 import com.busience.salesLX.dto.Sales_InMat_tbl;
 
 @Mapper
@@ -28,5 +29,8 @@ public interface SalesInputDao {
 	
 	//salesInMat Item View
 	public List<Sales_InMat_tbl> salesInputItemViewDao(@Param("Sales_InMat_Code") String Sales_InMat_Code, @Param("Sales_InMat_Rcv_Clsfc") String Sales_InMat_Rcv_Clsfc, @Param("startDate") String startDate, @Param("endDate") String endDate);
+	
+	//영업 반품 조회
+	public List<Sales_InMat_tbl> salesInMatReturnSelectDao(SearchDto searchDto);
 	
 }
