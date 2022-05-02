@@ -306,4 +306,20 @@
 		where A.WorkOrder_WorkStatus != (select Child_TBL_No from DTL_TBL where New_TBL_Code ='29' and Child_TBL_Num = '4')
 		and A.WorkOrder_EquipCode = #{machineCode}
 	</select>
+	
+	<update id="workOrderStatusUpdateDao">
+		update WorkOrder_tbl
+			set
+			<if test='WorkOrder_WorkStatus_Name == "Y"'>
+				WorkOrder_ReceiptTime = now(),
+			</if>
+			<if test='WorkOrder_WorkStatus_Name == "S"'>
+				WorkOrder_StartTime = now(),
+			</if>
+			<if test='WorkOrder_WorkStatus_Name == "E"'>
+				WorkOrder_CompleteTime = now(),
+			</if>
+			WorkOrder_WorkStatus = #{WorkOrder_WorkStatus}
+			where WorkOrder_EquipCode = #{WorkOrder_EquipCode}
+	</update>
 </mapper>

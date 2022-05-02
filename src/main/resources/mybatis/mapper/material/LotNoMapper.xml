@@ -4,10 +4,11 @@
 	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	 
-<mapper namespace="com.busience.material.dao.MatInputDao">
+<mapper namespace="com.busience.material.dao.LotNoDao">
 
 	<select id="lotNoSelectDao" resultType="String">
-		select concat(DATE_FORMAT(curdate(),"%y%m%d"), #{InMat_Code}, lpad(matarial_No,'4',0))
+		select
+			concat(DATE_FORMAT(curdate(),"%y%m%d"), #{InMat_Code}, lpad(matarial_No,'4',0))
 		from LotNo_tbl
 	</select>
 

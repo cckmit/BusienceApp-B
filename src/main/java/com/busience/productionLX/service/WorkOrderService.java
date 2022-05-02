@@ -244,4 +244,22 @@ public class WorkOrderService {
 	public int workOrderDelete(WorkOrderDto workOrderDto) {
 		return workOrderDao.workOrderDeleteDao(workOrderDto);
 	}
+	
+	//상태 변경
+	public int workOrderStatusUpdate(WorkOrderDto workOrderDto) {
+		System.out.println("검증시작");
+		System.out.println(workOrderDto);
+		List<DtlDto> dtlList = dtlDao.findByCode(29);
+		
+		//작업지시 상태
+		//Y : 접수완료, S : 작업시작, E : 작업완료
+		for(int j=0;j<dtlList.size();j++) {
+			if(dtlList.get(j).getCHILD_TBL_RMARK().equals(workOrderDto.getWorkOrder_WorkStatus_Name())) {
+				workOrderDto.setWorkOrder_WorkStatus(dtlList.get(j).getCHILD_TBL_NO());
+			}
+		}
+		System.out.println(workOrderDto);
+		
+		return workOrderDao.workOrderStatusUpdateDao(workOrderDto);
+	}
 }

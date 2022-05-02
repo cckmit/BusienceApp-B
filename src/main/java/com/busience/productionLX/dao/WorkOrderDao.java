@@ -48,4 +48,7 @@ public interface WorkOrderDao {
 	public int lastProductModifyDao(ProductionMgmtDto productionMgmtDto);
 	
 	public List<WorkOrderDto> workingSelectByMachineDao(SearchDto searchDto);
+
+	//상태 변경
+	public int workOrderStatusUpdateDao(WorkOrderDto workOrderDto);
 }

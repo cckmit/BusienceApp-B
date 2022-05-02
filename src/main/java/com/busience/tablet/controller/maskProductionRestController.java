@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
 import com.busience.productionLX.dto.WorkOrderDto;
+import com.busience.productionLX.service.WorkOrderService;
 import com.busience.standard.dto.BOMDto;
 import com.busience.standard.service.BOMService;
 import com.busience.tablet.dto.CrateLotDto;
@@ -26,6 +27,9 @@ public class maskProductionRestController {
 
 	@Autowired
 	MaskProductionService maskProductionService;
+	
+	@Autowired
+	WorkOrderService workOrderService;
 	
 	@Autowired
 	BOMService bomService;
@@ -87,5 +91,10 @@ public class maskProductionRestController {
 	@PostMapping("/crateSave")
 	public int crateSave(CrateLotDto crateLotNoDto) {
 		return maskProductionService.crateSave(crateLotNoDto);
+	}
+	
+	@PostMapping("/workOrderStart")
+	public int workOrderStart(WorkOrderDto workOrderDto) {
+		return workOrderService.workOrderStatusUpdate(workOrderDto);
 	}
 }

@@ -57,6 +57,11 @@ public class MaskProductionService {
 		return rawMaterialSubDao.rawMaterialSubSelectDao(searchDto);
 	}
 	
+	//수량 업데이트
+	public int rawMaterialQtyUpdate(RawMaterialMasterDto rawMaterialMasterDto) {
+		return rawMaterialMasterDao.rawMaterialQtyUpdateDao(rawMaterialMasterDto);
+	}
+	
 	// 코드 조건으로 조회
 	public List<WorkOrderDto> workingSelectByMachine(SearchDto searchDto) {
         return workOrderDao.workingSelectByMachineDao(searchDto);
@@ -115,7 +120,6 @@ public class MaskProductionService {
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
 					CrateProductionDto crateProductionDto = new CrateProductionDto();
 					
-					System.out.println(crateLotDto);
 					//기존 값이 있으면 상태값 변경
 					//그 후 새로운 상자 등록
 					if(crateLotDto.getCL_Before_LotNo().length()>0) {
@@ -134,6 +138,38 @@ public class MaskProductionService {
 			
 			return 1;
 			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	public int wholeQtyUpdate(String equip, double value) {
+		try {
+			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					SearchDto searchDto = new SearchDto();
+										
+					searchDto.setMachineCode(equip);
+					
+					//작업지시 가져오기
+					List<WorkOrderDto> workOrderDtoList = workOrderDao.workingSelectByMachineDao(searchDto);
+					searchDto.setOrderNo(workOrderDtoList.get(0).getWorkOrder_ONo());
+					
+					//crateLotNo 가져오기
+					CrateLotDto crateLotDto = crateLotDao.crateLotSelectDao(searchDto).get(0);
+					crateLotDto.setCL_Qty(value);
+					crateLotDao.crateLotQtyUpdateDao(crateLotDto);
+					
+					//자재식별코드 가져오기
+					RawMaterialMasterDto rawMaterialMasterDto = rawMaterialMasterDao.rawMaterialMasterSelectDao(searchDto).get(0);
+					rawMaterialMasterDto.setRMM_Qty(value);
+					rawMaterialMasterDao.rawMaterialQtyUpdateDao(rawMaterialMasterDto);
+				}				
+			});			
+			return 1;			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;

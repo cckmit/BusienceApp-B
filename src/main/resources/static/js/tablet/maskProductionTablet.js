@@ -86,16 +86,23 @@ $("#barcodeInput").keypress(function(e){
 			//원자재 object 판단하여 다찼으면 저장 쿼리를 실행한다.
 			rawMaterialLotInput(barcode);
 		}else if(initial == 'C'){
-			//이미 작업중인 상자가 있을경우
-			//작업중인 상자와 같은 랏인경우 이무일도 일어나면 안됨
-			//다른 랏인경우
-			//기존 상자를 상태를 바꿔 준 뒤 새로 등록
-			//작업중인 상자가 없을경우
-			//새로 등록
-			if($("#crateCode").val() != barcode){
-				CrateSave($("#crate-LotNo").val(), barcode)
-				CrateSelect(itemTable.getData())
+			if($("#production-ID").val().length > 0){
+				//이미 작업중인 상자가 있을경우
+				//작업중인 상자와 같은 랏인경우 이무일도 일어나면 안됨
+				//다른 랏인경우
+				//기존 상자를 상태를 바꿔 준 뒤 새로 등록
+				//작업중인 상자가 없을경우
+				//새로 등록
+				if($("#crateCode").val() != barcode){
+					//상자를 등록했을때 해당 작업지시의 첫 상자면 작업지시를 작업시작으로 변경함
+					workOrderStart($("#machineCode").val())
+					CrateSave($("#crate-LotNo").val(), barcode)
+					CrateSelect(itemTable.getData())
+				}
+			}else{
+				alert("원자재를 등록해 주세요.")
 			}
+			
 		}
 		itemTable.redraw();
 		crateTable.redraw();
@@ -241,8 +248,26 @@ function CrateSave(before, after){
 	return ajaxResult;
 }
 
+function workOrderStart(machineCode){
+	var ajaxResult = $.ajax({
+		method : "post",
+		url : "maskProductionRest/workOrderStart",
+		data : {
+			workOrder_EquipCode : machineCode,
+			workOrder_WorkStatus_Name : "S"
+		},
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		}
+	});
+	return ajaxResult;
+}
+
 var crateTable = new Tabulator("#crateTable", {
 	layoutColumnsOnNewData : true,
+	ajaxLoader:false,
 	height: "100%",
 	columns:[
 		{title:"상자 LotNo 이력", headerHozAlign:"center",
@@ -262,6 +287,7 @@ function crateTableSelect(value){
 
 var rawMaterialTable = new Tabulator("#rawMaterialTable", {
 	layoutColumnsOnNewData : true,
+	ajaxLoader:false,
 	height: "100%",
 	columns:[
 		{title:"자재 식별 코드 이력", headerHozAlign:"center",
@@ -277,4 +303,10 @@ var rawMaterialTable = new Tabulator("#rawMaterialTable", {
 
 function rawMaterialTableSelect(value){
 	rawMaterialTable.setData("maskProductionRest/rawMaterialRecordSelect", {orderNo : value})
+}
+
+window.onload = function(){
+	setInterval(function(){
+		itemTable.replaceData();
+	},2000);
 }

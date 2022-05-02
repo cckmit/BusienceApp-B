@@ -277,7 +277,7 @@ public class tabletController {
 			searchDto.setMachineCode("M001");
 		}
 		MachineDto machineDto = machineService.selectMachineInfo(searchDto);
-		System.out.println(machineDto);
+		
 		model.addAttribute("machineInfo", machineDto);
 		
 		return "normal/tablet/maskProductionTablet";
