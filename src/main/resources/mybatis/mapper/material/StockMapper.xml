@@ -79,4 +79,12 @@
 		where S_itemCode = #{LM_ItemCode}
 		and S_WareHouse = #{LT_Before}
 	</update>
+	
+	<update id="stockReturnUpdateDao">
+		update Stock_tbl
+		set
+		S_Qty = S_Qty + #{LM_Qty}
+		where S_itemCode = #{LM_ItemCode}
+		and S_WareHouse = #{LT_Before}
+	</update>
 </mapper>

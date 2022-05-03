@@ -17,7 +17,10 @@ public interface SalesPackingDao {
 	public List<SalesPackingDto> salesPackingListSelectDao(SearchDto searchDto);
 	
 	// 입고 반품 조회
-	public List<SalesPackingDto> salesInMatReturnSelectDao(SalesPackingDto salesPackingDto, SearchDto searchDto);
+	public List<SalesPackingDto> salesInMatReturnSelectDao(SearchDto searchDto);
+	
+	// 입고 반품 리스트
+	public List<SalesPackingDto> salesInMatReturnListDao(SearchDto searchDto);
 	
 	// sales_packing_tbl insert
 	public int salesPackingInsertDao(SalesPackingDto salesPackingDto);

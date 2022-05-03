@@ -1,5 +1,6 @@
 package com.busience.salesLX.controller;
 
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class salesInReturnRestController {
 	
 	// 반품 저장
 	@PostMapping("/SIRI_Save")
-	public int salesInReturnInsert(@RequestParam("dataList") String dataList) {
+	public int salesInReturnInsert(@RequestParam("dataList") String dataList, Principal principal) {
 		
 		System.out.println("dataList = " + dataList);
 		ObjectMapper mapper = new ObjectMapper();
@@ -31,7 +32,7 @@ public class salesInReturnRestController {
 			
 			List<SalesPackingDto> salesInReturnDtoList = Arrays.asList(mapper.readValue(dataList, SalesPackingDto[].class));
 			
-			return salesInReturnService.salesInReturnInsert(salesInReturnDtoList);
+			return salesInReturnService.salesInReturnInsert(salesInReturnDtoList, principal.getName());
 			
 		} catch(Exception e) {
 			

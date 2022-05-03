@@ -83,5 +83,12 @@
 			#{Sales_InMat_Rcv_Clsfc}, now(), #{Sales_InMat_Modifier}
 		)
 	</insert>
+		
+	<update id="salesInMatUpdateDao">
+		update Sales_InMat_tbl 
+		set Sales_InMat_Qty = Sales_InMat_Qty-#{Sales_InMat_Qty}
+		where Sales_InMat_No = #{Sales_InMat_No}
+		and Sales_InMat_Lot_No = #{Sales_InMat_Lot_No}
+	</update>
 
 </mapper>

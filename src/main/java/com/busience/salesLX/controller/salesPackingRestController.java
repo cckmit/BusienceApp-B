@@ -26,7 +26,13 @@ public class salesPackingRestController {
 	
 	// 입고 반품 조회
 	@GetMapping("/SIRI_Search")
-	public List<SalesPackingDto> salesInMatReturnSelectDao(SalesPackingDto salesPackingDto, SearchDto searchDto) {
-		return salesPackingService.salesInMatReturnSelectDao(salesPackingDto, searchDto);
+	public List<SalesPackingDto> salesInMatReturnSelectDao(SearchDto searchDto) {
+		return salesPackingService.salesInMatReturnSelectDao(searchDto);
+	}
+	
+	// 입고 반품 리스트
+	@GetMapping("/SIL_Search")
+	public List<SalesPackingDto> salesInMatReturnListDao(SearchDto searchDto) {
+		return salesPackingService.salesInMatReturnListDao(searchDto);
 	}
 }

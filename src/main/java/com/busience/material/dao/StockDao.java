@@ -30,4 +30,7 @@ public interface StockDao {
 	
 	//출고지시 조회 재고 확인
 	public List<StockDto> salesOutputOrderStockDao(SearchDto searchDto);
+	
+	//영업 반품 업데이트
+	public int stockReturnUpdateDao(@Param("LM_Qty") Double LM_Qty, @Param("LM_ItemCode") String LM_ItemCode, @Param("LT_Before") String LT_Before);
 }

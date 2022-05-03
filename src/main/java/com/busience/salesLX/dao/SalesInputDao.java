@@ -33,4 +33,7 @@ public interface SalesInputDao {
 	//영업 반품 조회
 	public List<Sales_InMat_tbl> salesInMatReturnSelectDao(SearchDto searchDto);
 	
+	//salesInMat update
+	public int salesInMatUpdateDao(Sales_InMat_tbl sales_InMat_tbl);
+	
 }

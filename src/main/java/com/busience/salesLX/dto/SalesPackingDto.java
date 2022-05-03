@@ -21,4 +21,7 @@ public class SalesPackingDto {
 	private String Sales_Packing_STND_1;
 	private String Sales_Packing_Item_Clsfc_1;
 	private String Sales_Packing_Status_Name;
+	private String Sales_Packing_Unit;
+	private String Sales_Packing_Return_Date;
+	private String Sales_Packing_Modifier;
 }

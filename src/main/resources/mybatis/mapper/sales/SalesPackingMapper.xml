@@ -30,8 +30,32 @@
 		INNER JOIN DTL_TBL dt ON pit.Product_Item_CLSFC_1 = dt.Child_TBL_No
 		INNER JOIN DTL_TBL dt2 ON spt.Sales_Packing_Status = dt2.Child_TBL_No
 		WHERE lmt.LM_Qty = 0
+		<if test="ItemCode != null">
+		AND lmt.LM_ItemCode like concat('%',#{ItemCode},'%')
+		</if>
 		AND lmt.LM_WareHouse = (SELECT Child_TBL_No FROM DTL_TBL WHERE New_TBL_Code = 10 AND Child_TBL_Type='생산창고')
 		AND spt.Sales_Packing_Status != (SELECT Child_TBL_No FROM DTL_TBL WHERE New_TBL_Code = 17 AND Child_TBL_Type='입고반품');  
+	</select>
+	
+	<select id="salesInMatReturnListDao" resultType="com.busience.salesLX.dto.SalesPackingDto">
+		SELECT 
+			spt.Sales_Small_Packing_LotNo, -1*spt.Sales_Packing_Qty as Sales_Packing_Qty, sit.Sales_InMat_Code as Sales_Packing_Code, pit.Product_Item_Name as Sales_Packing_Name, 
+			pit.Product_Info_STND_1 as Sales_Packing_STND_1, dt.Child_TBL_Type as Sales_Packing_Item_Clsfc_1, dt2.Child_TBL_Type as Sales_Packing_Unit, 
+			dt3.Child_TBL_Type as Sales_Packing_Status_Name, spt.Sales_Large_Packing_Time, sit.Sales_InMat_Date as Sales_Packing_Return_Date, sit.Sales_InMat_Modifier as Sales_Packing_Modifier
+		FROM Sales_Packing_tbl spt
+		INNER JOIN Sales_InMat_tbl sit ON spt.Sales_Large_Packing_LotNo = sit.Sales_InMat_Lot_No
+		INNER JOIN Product_Info_tbl pit ON sit.Sales_InMat_Code = pit.Product_Item_Code
+		INNER JOIN DTL_TBL dt ON pit.Product_Item_CLSFC_1 = dt.Child_TBL_No
+		INNER JOIN DTL_TBL dt2 ON pit.Product_Unit = dt2.Child_TBL_No
+		INNER JOIN DTL_TBL dt3 ON spt.Sales_Packing_Status = dt3.Child_TBL_No
+		<![CDATA[
+		WHERE sit.Sales_InMat_Date >= #{startDate} and sit.Sales_InMat_Date < #{endDate}
+		AND sit.Sales_InMat_Qty < 0 AND spt.Sales_Packing_Status = '207'
+		]]>
+		<if test="ItemCode != null">
+		AND sit.Sales_InMat_Code LIKE CONCAT('%',#{ItemCode},'%')
+		</if>
+		ORDER BY spt.Sales_Large_Packing_Time
 	</select>
 	
 	<insert id="salesPackingInsertDao">

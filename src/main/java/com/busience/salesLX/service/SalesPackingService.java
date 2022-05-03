@@ -21,7 +21,12 @@ public class SalesPackingService {
 	}
 	
 	// 입고 반품 조회
-	public List<SalesPackingDto> salesInMatReturnSelectDao(SalesPackingDto salesPackingDto, SearchDto searchDto) {
-		return salesPackingDao.salesInMatReturnSelectDao(salesPackingDto, searchDto);
+	public List<SalesPackingDto> salesInMatReturnSelectDao(SearchDto searchDto) {
+		return salesPackingDao.salesInMatReturnSelectDao(searchDto);
+	}
+	
+	// 입고 반품 리스트
+	public List<SalesPackingDto> salesInMatReturnListDao(SearchDto searchDto) {
+		return salesPackingDao.salesInMatReturnListDao(searchDto);
 	}
 }

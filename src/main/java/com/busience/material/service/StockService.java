@@ -29,4 +29,5 @@ public class StockService {
 	public List<StockDto> salesOutputOrderStockDao(SearchDto searchDto) {
 		return stockDao.salesOutputOrderStockDao(searchDto);
 	}
+	
 }
