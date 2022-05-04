@@ -104,7 +104,7 @@ public class SalesOutputService {
 						LM_LotNo = sales_OutMat_tbl.getSales_OutMat_Lot_No();
 						
 						sales_OutMat_tbl.getSales_OutMat_No();
-						lotMasterDao.lotMasterUpdateDao(LM_Qty, LM_LotNo);
+						lotMasterDao.lotMasterUpdateDao(-1*LM_Qty, LM_LotNo);
 						
 						// LotTrans_insert
 						LT_LotNo = sales_OutMat_tbl.getSales_OutMat_Lot_No();

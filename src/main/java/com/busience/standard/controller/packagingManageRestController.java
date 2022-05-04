@@ -96,6 +96,7 @@ public class packagingManageRestController {
 
 		//data
 		String data = request.getParameter("data");
+		System.out.println(data);
 		JSONArray arr = (JSONArray) parser.parse(data);
 		
 		HttpSession session = request.getSession();

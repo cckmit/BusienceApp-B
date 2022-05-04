@@ -12,6 +12,7 @@ import com.busience.common.dao.DtlDao;
 import com.busience.common.dto.DtlDto;
 import com.busience.common.dto.SearchDto;
 import com.busience.material.dao.LotMasterDao;
+import com.busience.material.dao.LotNoDao;
 import com.busience.material.dao.LotTransDao;
 import com.busience.material.dao.StockDao;
 import com.busience.material.dto.LotMasterDto;
@@ -34,6 +35,9 @@ public class SalesInputService {
 	
 	@Autowired
 	LotTransDao lotTransDao;
+	
+	@Autowired
+	LotNoDao lotNoDao;
 	
 	@Autowired
 	SalesPackingDao salesPackingDao;
@@ -97,6 +101,9 @@ public class SalesInputService {
 					
 					sales_InMat_tbl.setSales_InMat_No(LotTranseNo);
 					
+					// 랏번호 update
+					salesInputDao.salesLotNoSalesUpdateDao();
+					
 					LM_Qty = (double) sales_InMat_tbl.getSales_InMat_Qty();
 					LT_Before = sales_InMat_tbl.getSales_InMat_Before();
 					LT_After = sales_InMat_tbl.getSales_InMat_After();
@@ -107,6 +114,7 @@ public class SalesInputService {
 					
 					lotTransDao.lotTransInsertDao2(LotTranseNo, LT_LotNo, LT_ItemCode, LM_Qty, LT_Before, LT_After, LT_Send_Clsfc);
 					
+					// no 하나 올려주기
 					for(int i=0; i<salesPackingDtoList.size(); i++) {
 						
 						// sales_Packing_tbl insert - 대포장 lot번호 생성, 순번 조회 및 생성

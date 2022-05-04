@@ -39,7 +39,13 @@
 		from LotMaster_tbl lmt 
 		inner join Product_Info_tbl pit on lmt.LM_ItemCode = pit.Product_Item_Code 
 		inner join DTL_TBL dt on pit.Product_Item_CLSFC_1 = dt.Child_TBL_No
-		where LM_ItemCode = #{ItemCode} and LM_Qty > 0
+		where lmt.LM_Qty > 0 and lmt.LM_WareHouse='52' and lmt.LM_LotNo like concat('L','%')
+		<if test="ItemCode != null">
+		and lmt.LM_ItemCode = #{ItemCode}
+		</if>
+		<if test="LotNo != null">
+		and lmt.LM_LotNo = #{LotNo}
+		</if>
 	</select>
 	
 	<select id="salesInputLotMasterSelectDao" resultType="com.busience.material.dto.LotMasterDto">

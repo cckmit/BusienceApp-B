@@ -455,7 +455,7 @@ var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
 			}
 		},
 		{
-			title: "금액", field: "sales_Order_lPrice", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false },
+			title: "금액", field: "sales_Order_lPrice", headerHozAlign: "center", hozAlign: "right", formatter: "money", width: 130, formatterParams: { precision: false },
 			//금액이 변경될때 합계금액을 계산하여 mastertable에 입력
 			topCalc: function(values, data, calcParams) {
 				//values - array of column values

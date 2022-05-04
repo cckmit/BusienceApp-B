@@ -44,13 +44,7 @@
 				</div>
 				<!-- 버튼 -->
 				<div class="input-box">
-					<span><strong>품목코드</strong></span> <input id="Sales_Order_lCode"
-						type="text" disabled> <span><strong>품목명</strong></span> <input
-						id="Sales_Order_lName" type="text" disabled>
-				</div>
-				<!-- 버튼 -->
-				<div class="input-button" style="margin-left:5%">
-					<button id="allOutput" class="btn btn-primary">자동선택</button>
+					<span><strong>LotNo</strong></span> <input id="Sales_OutputLotNo" type="text" style="width: 280px;" onclick="$(this).val('')" onkeypress="javascript:if(event.keyCode==13) {LotNoSearch()}" autofocus> 
 				</div>
 				<!-- 버튼 -->
 			</div>

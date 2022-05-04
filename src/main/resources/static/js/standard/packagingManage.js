@@ -292,7 +292,13 @@ function PM_Save(){
 		$.ajax({
 			method: "post",
 			url: "packagingManageRest/PM_Save?data=" + encodeURI(JSON.stringify(selectedRow)),
+			beforeSend: function(xhr) {
+			var header = $("meta[name='_csrf_header']").attr("content");
+			var token = $("meta[name='_csrf']").attr("content");
+			xhr.setRequestHeader(header, token);
+			},
 			success: function(result) {
+				console.log(result);
 				if (result == "error") {
 					alert("빈칸이 있어서 저장할 수 없습니다.")
 				} else {
