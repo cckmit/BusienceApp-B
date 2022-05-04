@@ -79,7 +79,6 @@ public class SalesInReturnService {
 						
 						LM_ItemCode = salesInReturnDtoList.get(i).getSales_Packing_Code();
 						LT_ItemCode = salesInReturnDtoList.get(i).getSales_Packing_Code();
-						LT_Send_Clsfc = salesInReturnDtoList.get(i).getSales_Packing_Status();
 						
 						// lotMaster 소포장 생산창고 +
 						lotMasterDao.lotMasterUpdateDao(LM_Qty, LM_LotNo);;
@@ -97,6 +96,7 @@ public class SalesInReturnService {
 					// 영업에는 소박스 제품 수량 합계가 들어가야하기 때문에 sum을 해준다.
 					LM_Qty = LM_SumQty;
 					LT_Qty = LT_SumQty;
+					LT_Send_Clsfc = "207";
 					
 					// lotMaster 대포장 영업창고 -
 					lotMasterDao.lotMasterUpdateDao(-1*LM_Qty, LM_LotNo);

@@ -37,6 +37,6 @@
 	</div>
 <!-- Javascript -->
 <script src="/js/tabMenu.js"></script>
-<script src="/js/salesLX/salesOutReturnLXMaster.js"></script>
+<script src="/js/sales/salesOutReturnMaster.js?v=<%=System.currentTimeMillis() %>"></script>
 </body>
 </html>

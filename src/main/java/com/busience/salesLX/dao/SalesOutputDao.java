@@ -27,4 +27,9 @@ public interface SalesOutputDao {
 	// salesOutMat Item View
 	public List<Sales_OutMat_tbl> salesOutMatItemViewDao(@Param("Sales_OutMat_Code") String Sales_OutMat_Code, @Param("Sales_OutMat_Send_Clsfc") String Sales_OutMat_Send_Clsfc, @Param("startDate") String startDate, @Param("endDate") String endDate);
 
+	// 반품할 목록 조회
+	public List<Sales_OutMat_tbl> salesOutMatReturnSelectDao(SearchDto searchDto);
+	
+	// 반품 조회
+	public List<Sales_OutMat_tbl> salesOutMatReturnListDao(SearchDto searchDto);
 }

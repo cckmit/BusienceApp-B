@@ -72,5 +72,17 @@ public class SalesOutputRestController {
 	public List<Sales_OutMat_tbl> salesOutMatItemViewDao(Sales_OutMat_tbl sales_OutMat_tbl, SearchDto searchDto) {
 		return salesOutputService.salesOutMatItemViewDao(sales_OutMat_tbl, searchDto);
 	}
+	
+	// 반품할 목록 조회
+	@GetMapping("/SORI_Search")
+	public List<Sales_OutMat_tbl> salesOutMatReturnSelectDao(SearchDto searchDto) {
+		return salesOutputService.salesOutMatReturnSelectDao(searchDto);
+	}
+	
+	// 반품 조회
+	@GetMapping("/SORS_Search")
+	public List<Sales_OutMat_tbl> salesOutMatReturnListDao(SearchDto searchDto) {
+		return salesOutputService.salesOutMatReturnListDao(searchDto);
+	}
 
 }

@@ -90,6 +90,55 @@
 	</if>
 	group by somt.Sales_OutMat_Code, somt.Sales_OutMat_Date with ROLLUP
 </select>
+<select id="salesOutMatReturnSelectDao" resultType="com.busience.salesLX.dto.Sales_OutMat_tbl">
+    SELECT
+ 		A.Sales_OutMat_No, A.Sales_OutMat_Cus_No, A.Sales_OutMat_Lot_No,
+ 		A.Sales_OutMat_Code, sum(A.Sales_OutMat_Qty) Sales_OutMat_Qty,
+ 		A.Sales_OutMat_Unit_Price, A.Sales_OutMat_Price, B.Product_Item_Name Sales_OutMat_Name,
+ 		A.Sales_OutMat_Client_Code, C.Cus_Name Sales_OutMat_Client_Name,
+ 		A.Sales_OutMat_Send_Clsfc, D.CHILD_TBL_TYPE Sales_OutMat_Send_Clsfc_Name,
+ 		A.Sales_OutMat_Date, A.Sales_OutMat_dInsert_Time,
+ 		A.Sales_OutMat_Modifier
+ 	FROM Sales_OutMat_tbl A
+ 	inner join Product_Info_tbl B on A.Sales_OutMat_Code = B.Product_Item_Code
+ 	inner join Customer_tbl C on A.Sales_OutMat_Client_Code = C.Cus_Code
+ 	inner join DTL_TBL D on A.Sales_OutMat_Send_Clsfc = D.CHILD_TBL_NO
+ 	<![CDATA[
+ 	where A.Sales_OutMat_Date >= #{startDate} and A.Sales_OutMat_Date < #{endDate}
+ 	]]>
+ 	<if test="ItemCode != null">
+ 	and A.Sales_OutMat_Code like concat('%',#{ItemCode},'%')
+ 	</if>
+ 	<if test="ClientCode != null">
+ 	and A.Sales_OutMat_Client_Code like concat('%',#{ClientCode},'%')
+ 	</if>
+ 	group by A.Sales_OutMat_Cus_No, A.Sales_OutMat_Lot_No
+ 	having Sales_OutMat_Qty>0
+</select>
+<select id="salesOutMatReturnListDao" resultType="com.busience.salesLX.dto.Sales_OutMat_tbl">
+	SELECT
+ 		A.Sales_OutMat_No, A.Sales_OutMat_Cus_No, A.Sales_OutMat_Lot_No,
+ 		A.Sales_OutMat_Code, A.Sales_OutMat_Qty sales_OutReturn_Qty,
+ 		A.Sales_OutMat_Unit_Price, A.Sales_OutMat_Price,
+ 		B.Product_Item_Name Sales_OutMat_Name, A.Sales_OutMat_Client_Code,
+ 		C.Cus_Name Sales_OutMat_Client_Name, A.Sales_OutMat_Send_Clsfc,
+ 		D.CHILD_TBL_TYPE Sales_OutMat_Send_Clsfc_Name, A.Sales_OutMat_Date,
+ 		A.Sales_OutMat_dInsert_Time, A.Sales_OutMat_Modifier
+ 	FROM Sales_OutMat_tbl A
+ 	inner join Product_Info_tbl B on A.Sales_OutMat_Code = B.Product_Item_Code
+ 	inner join Customer_tbl C on A.Sales_OutMat_Client_Code = C.Cus_Code
+ 	inner join DTL_TBL D on A.Sales_OutMat_Send_Clsfc = D.CHILD_TBL_NO
+ 	<![CDATA[
+ 	where A.Sales_OutMat_dInsert_Time >= #{startDate} and A.Sales_OutMat_dInsert_Time < #{endDate}
+ 	]]>
+ 	<if test="ItemCode != null">
+ 	and A.Sales_OutMat_Code like concat('%',#{ItemCode},'%')
+ 	</if>
+ 	<if test="ClientCode != null">
+ 	and A.Sales_OutMat_Client_Code like concat('%',#{ClientCode},'%')
+ 	</if>
+ 	and Sales_OutMat_Send_Clsfc = '213'
+</select>
 <insert id="salesOutMatInsertDao">
 	insert into Sales_OutMat_tbl( 
 		Sales_OutMat_No, Sales_OutMat_Cus_No, Sales_OutMat_Lot_No, 
@@ -103,7 +152,7 @@
 		(SELECT ifnull(max(AA.Sales_OutMat_No)+1,1) FROM Sales_OutMat_tbl AA WHERE AA.Sales_OutMat_Cus_No = #{Sales_OutMat_Cus_No}), 
 		#{Sales_OutMat_Cus_No}, #{Sales_OutMat_Lot_No}, #{Sales_OutMat_Code}, 
 		#{Sales_OutMat_Qty}, #{Sales_OutMat_Unit_Price}, 
-		#{Sales_OutMat_Price}, #{Sales_OutMat_Client_Code}, 
+		#{Sales_OutMat_Qty} * #{Sales_OutMat_Unit_Price}, #{Sales_OutMat_Client_Code}, 
 		#{Sales_OutMat_Send_Clsfc}, #{Sales_OutMat_Date}, 
 		now(), #{Sales_OutMat_Modifier}
 		
