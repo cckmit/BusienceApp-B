@@ -138,12 +138,12 @@ public class salesController {
 	}
 	
 	// salesInoutListLX
-	@GetMapping("salesInoutListLX")
+	@GetMapping("salesInoutList")
 	public String salesInoutList(Model model) {
 		
 		model.addAttribute("pageName", "제품 입출고 현황");
 		
-		return "salesLX/salesInoutListLX";
+		return "sales/salesInoutList";
 	}
 
 	// salesDeliveryMaster

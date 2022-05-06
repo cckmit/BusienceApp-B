@@ -1,4 +1,4 @@
-package com.busience.material.controller;
+package com.busience.salesLX.controller;
 
 import java.util.List;
 
@@ -11,16 +11,16 @@ import com.busience.common.dto.SearchDto;
 import com.busience.material.dto.LotTransDto;
 import com.busience.material.service.MatInOutService;
 
-@RestController("matInoutReportRestController")
-@RequestMapping("matInoutReportRest")
-public class matInoutReportRestController {
+@RestController("salesInoutReportRestController")
+@RequestMapping("salesInoutReportRest")
+public class salesInoutReportRestController {
 
 	@Autowired
 	MatInOutService matInOutService;
 	
-	@GetMapping("MIO_Select")
-	public List<LotTransDto> MIO_Select(SearchDto searchDto) {
-		return matInOutService.MatInOutSelect(searchDto);
+	@GetMapping("/FIO_Select")
+	public List<LotTransDto> inOutSalesSelectDao(SearchDto searchDto) {
+		return matInOutService.inOutSalesSelectDao(searchDto);
 	}
 	
 }

@@ -6,7 +6,7 @@
 			<!-- 버튼 -->
 			<div class="input-button">
 				<img src="images/button/Search.png" onclick="FIO_ListViewSearchBtn()"/>
-				<img src="/images/button/Excel.png" onclick="excel_download(salesInoutListTable)"/>
+				<img src="images/button/Excel.png" onclick="excel_download(salesInoutListTable)"/>
 			</div>
 			
 			<!-- 버튼 -->				
@@ -28,4 +28,4 @@
 	<!-- END MAIN -->
 </div>
 <!-- Javascript -->
-<script src="/js/salesLX/salesInoutListLX.js"></script>
+<script src="/js/sales/salesInoutList.js"></script>

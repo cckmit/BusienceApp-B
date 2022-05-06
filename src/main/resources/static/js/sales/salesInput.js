@@ -255,7 +255,19 @@ $('#fgoodsLotNo').keydown(function(e) {
 
 	}
 })
-
+// delete 버튼
+function SI_Delete() {
+   rowCount = salesInputTable.getDataCount("active");
+   selectedData = salesInputTable.getSelectedData();
+   
+   //여러행 삭제할경우 위에서부터 하나씩 반복하여 삭제함
+	if (selectedData.length < 1) {
+		alert("행을 선택하세요.")
+	} else {
+		//삭제
+		salesInputTable.deleteRow(salesInputTable.getSelectedRows());
+	}
+}
 
 //delete버튼
 $('#SI_DeleteBtn').click(function() {
