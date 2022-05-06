@@ -32,4 +32,13 @@ public interface SalesOutputDao {
 	
 	// 반품 조회
 	public List<Sales_OutMat_tbl> salesOutMatReturnListDao(SearchDto searchDto);
+	
+	// 납품 현황 조회(거래처 출고)
+	public List<Sales_OutMat_tbl> salesDeliveryCustomerViewDao(SearchDto searchDto);
+	
+	// 납품 현황 조회(거래처 리스트)
+	public List<Sales_OutMat_tbl> salesDeliveryList(SearchDto searchDto);
+	
+	// 납품 현황 (거래처별명세서)
+	public List<Sales_OutMat_tbl> salesDeliveryCustomerDao(SearchDto searchDto);
 }

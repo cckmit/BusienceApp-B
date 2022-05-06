@@ -204,10 +204,75 @@ public class SalesOutputService {
 	public List<Sales_OutMat_tbl> salesOutMatReturnSelectDao(SearchDto searchDto) {
 		return salesOutputDao.salesOutMatReturnSelectDao(searchDto);
 	}
-	
+
 	// 반품 조회
 	public List<Sales_OutMat_tbl> salesOutMatReturnListDao(SearchDto searchDto) {
 		return salesOutputDao.salesOutMatReturnListDao(searchDto);
+	}
+
+	// 납품 현황 조회(거래처 출고)
+	public List<Sales_OutMat_tbl> salesDeliveryCustomerViewDao(SearchDto searchDto) {
+
+		int j = 0;
+
+		List<Sales_OutMat_tbl> salesOutMatDtoList = salesOutputDao.salesDeliveryCustomerViewDao(searchDto);
+
+		for (int i = 0; i < salesOutMatDtoList.size(); i++) {
+			String itemCode = salesOutMatDtoList.get(i).getSales_OutMat_Code();
+			String clientCode = salesOutMatDtoList.get(i).getSales_OutMat_Client_Code();
+
+			if (itemCode == null && clientCode != null) {
+				salesOutMatDtoList.get(i).setSales_OutMat_Send_Clsfc("Sub Total");
+			}
+
+			else if (itemCode == null && clientCode == null) {
+				salesOutMatDtoList.get(i).setSales_OutMat_Send_Clsfc("Grand Total");
+			}
+
+			else {
+				j++;
+				salesOutMatDtoList.get(i).setID(j);
+
+				if (searchDto.getItemSendClsfc().equals("all")) {
+					salesOutMatDtoList.get(i).setSales_OutMat_Send_Clsfc("all");
+				}
+			}
+		}
+		return salesOutMatDtoList;
+	}
+
+	// 납품 현황 조회(거래처 리스트)
+	public List<Sales_OutMat_tbl> salesDeliveryList(SearchDto searchDto) {
+
+		int j = 0;
+
+		List<Sales_OutMat_tbl> salesOutMatDtoList = salesOutputDao.salesDeliveryList(searchDto);
+
+		for (int i = 0; i < salesOutMatDtoList.size(); i++) {
+			String clientCode = salesOutMatDtoList.get(i).getSales_OutMat_Client_Code();
+			if (clientCode == null) {
+				salesOutMatDtoList.get(i).setSales_OutMat_Client_Code("Sub Total");
+			} else {
+				j++;
+				salesOutMatDtoList.get(i).setID(j);
+			}
+		}
+		return salesOutMatDtoList;
+	}
+
+	// 납품 현황 (거래처별명세서)
+	public List<Sales_OutMat_tbl> salesDeliveryCustomerDao(SearchDto searchDto) {
+		
+		List<Sales_OutMat_tbl> salesOutMatDtoList = salesOutputDao.salesDeliveryCustomerDao(searchDto);
+		
+		for (int i = 0; i < salesOutMatDtoList.size(); i++) {
+			String itemCode = salesOutMatDtoList.get(i).getSales_OutMat_Code();
+			if(itemCode == null) {
+				salesOutMatDtoList.get(i).setSales_OutMat_Send_Clsfc_Name("Sub Total");
+			}
+		}
+		
+		return salesOutMatDtoList;
 	}
 
 }

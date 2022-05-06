@@ -157,7 +157,7 @@ public class salesController {
 		// 메뉴명
 		model.addAttribute("pageName", "납품 현황 조회");
 		
-		return "salesLX/salesDelivery/salesDeliveryMaster";
+		return "sales/salesDelivery/salesDeliveryMaster";
 	}
 	
 	// salesStockLXMaster

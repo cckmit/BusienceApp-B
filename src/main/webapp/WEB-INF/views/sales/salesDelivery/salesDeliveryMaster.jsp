@@ -30,6 +30,6 @@
 </div>
 <!-- Javascript -->
 <script src="/js/tabMenu.js"></script>
-<script src="/js/salesLX/salesDeliveryLXMaster.js"></script>
+<script src="/js/sales/salesDeliveryMaster.js"></script>
 </body>
 </html>

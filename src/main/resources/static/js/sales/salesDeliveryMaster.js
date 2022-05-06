@@ -11,7 +11,8 @@ var salesDeliveryCustomerViewTable = new Tabulator("#salesDeliveryCustomerViewTa
 	},
 	height: "calc(100% - 175px)",
 	columns: [
-		{ title: "순번", field: "id", headerHozAlign: "center", hozAlign: "center" },
+		{ title:"순번", field:"rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum"},
+		{ title: "LotNo", field: "sales_OutMat_Lot_No", headerHozAlign: "center",hozAlign: "center"},
 		{ title: "출고일자", field: "sales_OutMat_Date", headerHozAlign: "center", hozAlign: "left", formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" } },
 		{ title: "출고구분", field: "sales_OutMat_Send_Clsfc", headerHozAlign: "center", hozAlign: "left" },
 		{ title: "거래처코드", field: "sales_OutMat_Client_Code", headerHozAlign: "center", hozAlign: "left" },
@@ -33,11 +34,15 @@ function SOCL_Search() {
 	datas = {
 		startDate: $("#sgoodsOutputCustomerView_startDate").val(),
 		endDate: $("#sgoodsOutputCustomerView_endDate").val(),
-		clientCode: $(".Client_Code1").val(),
-		itemSendClsfc: $("#outMatTypeCustomerViewSelectBox option:selected").val()
+		ClientCode: $(".Client_Code1").val(),
+		ItemSendClsfc: $("#outMatTypeCustomerViewSelectBox option:selected").val()
 	}
+	
+	console.log(datas);
 
-	salesDeliveryCustomerViewTable.setData("salesDeliveryReportLXRest/SOCL_Search", datas)
+	salesDeliveryCustomerViewTable.setData("salesDeliveryReportRest/SOCL_Search", datas)
+	
+	console.log(salesDeliveryCustomerViewTable);
 }
 
 var salesDeliveryListTable = new Tabulator("#salesDeliveryListTable", {
@@ -56,7 +61,7 @@ var salesDeliveryListTable = new Tabulator("#salesDeliveryListTable", {
 	},
 	columns: [
 		{ formatter:"rowSelection", headerHozAlign: "center", titleFormatter:"rowSelection", align:"center", headerSort:false},
-		{ title: "순번", field: "id", headerHozAlign: "center", hozAlign: "center" },
+		{ title:"순번", field:"rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum"},
 		{ title: "거래처코드", field: "sales_OutMat_Client_Code", headerHozAlign: "center", hozAlign: "center" },
 		{ title: "거래처명", field: "sales_OutMat_Client_Name", headerHozAlign: "center" },
 		{ title: "수량", field: "sales_OutMat_Qty", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false } }
@@ -100,7 +105,7 @@ function SDL_Search() {
 		startDate: thisMonth,
 		endDate: nextMontth
 	}
-	salesDeliveryListTable.setData("salesDeliveryReportLXRest/SDL_Search", datas)
+	salesDeliveryListTable.setData("salesDeliveryReportRest/SDL_Search", datas)
 	.then(function(){
 		UseBtn();
 	})
@@ -115,9 +120,9 @@ function SDC_Search(clientCode) {
 	var datas = {
 		startDate: thisMonth,
 		endDate: nextMontth,
-		clientCode: clientCode
+		ClientCode: clientCode
 	}
-	salesDeliveryCustomerTable.setData("salesDeliveryReportLXRest/SDC_Search", datas);
+	salesDeliveryCustomerTable.setData("salesDeliveryReportRest/SDC_Search", datas);
 }
 
 $("#preView-xlsx").click(function(){

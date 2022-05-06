@@ -13,7 +13,7 @@
 			B.Cus_Name Sales_OutMat_Client_Name,
 			sum(A.Sales_OutMat_Qty) Sales_OutMat_Qty
 			from (
-				select * from Sales_OutMatLX_tbl
+				select * from Sales_OutMat_tbl
 			    where Sales_OutMat_Date >= #{startDate} and Sales_OutMat_Date < #{endDate}
 			) A 
 			inner join Customer_tbl B on A.Sales_OutMat_Client_Code = B.Cus_Code
@@ -37,19 +37,19 @@
 			sum(A.Sales_OutMat_Price) Sales_OutMat_Price,
 			A.Sales_OutMat_Unit_Price
 			from (
-				select * from Sales_OutMatLX_tbl
+				select * from Sales_OutMat_tbl
 			    where Sales_OutMat_Date >= #{startDate} and Sales_OutMat_Date < #{endDate}
 			    and Sales_OutMat_Client_Code = #{clientCode}
 			) A 
 			inner join DTL_TBL B on A.Sales_OutMat_Send_Clsfc = B.CHILD_TBL_NO
-			inner join PRODUCT_INFO_TBL C on A.Sales_OutMat_Code = C.PRODUCT_ITEM_CODE
+			inner join Product_Info_tbl C on A.Sales_OutMat_Code = C.PRODUCT_ITEM_CODE
 			inner join DTL_TBL D on C.PRODUCT_UNIT = D.CHILD_TBL_NO
 			group by A.Sales_OutMat_Code with rollup
 	]]>		
 	</select>
 	
 	<insert id="insertTaxInvoiceDao">
-		insert into hometax_api_tbl(
+		insert into Hometax_Api_tbl(
 			tax_Invoice_Type, tax_Invoice_Date,
 			supplier_Registration_No, supplier_Registration_No_2,
 			supplier_Company_Name, supplier_Name, supplier_Business_Address,
@@ -95,10 +95,10 @@
 			date_3, item_3, standard_3, quantity_3, unit_Price_3, supply_Value_3, tax_Amount_3, item_Remarks_3,
 			date_4, item_4, standard_4, quantity_4, unit_Price_4, supply_Value_4, tax_Amount_4, item_Remarks_4,
 			cash, accounts_Check, note, accounts_Receivable, classification
-			FROM hometax_api_tbl
+			FROM Hometax_Api_tbl
 	</select>
 	
 	<delete id="deleteHometaxApiDao">
-		delete from hometax_api_tbl
+		delete from Hometax_Api_tbl
 	</delete>
 </mapper>
