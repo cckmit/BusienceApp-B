@@ -1,4 +1,4 @@
-var matStockItemListTable = new Tabulator("#matStockItemListTable", { 
+var salesStockItemListTable = new Tabulator("#salesStockItemListTable", { 
 	//페이징
 	pagination:"local",
 	paginationSize:20,
@@ -17,11 +17,16 @@ var matStockItemListTable = new Tabulator("#matStockItemListTable", {
  	]
 });
 
-function MS_ItemListViewSearchBtn() {
+function FS_ItemListViewSearchBtn() {
 	var datas = {
 		itemCode : $("#PRODUCT_ITEM_CODE2").val(),
-		check : document.getElementById("Stock_Qty_Checked").checked
+		Check : document.getElementById("Sales_Stock_Qty_Checked").checked
 	}
-
-	matStockItemListTable.setData("matStockRest/matStockSelect", datas);
+	
+	console.log(datas);
+	
+	salesStockItemListTable.setData("salesStockRest/salesStockSelect",datas)
+	
+	console.log(salesStockItemListTable);
 }
+

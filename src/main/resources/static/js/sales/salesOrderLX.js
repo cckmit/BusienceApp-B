@@ -705,10 +705,10 @@ var salesOrderStockTable = new Tabulator("#salesOrderStockTable", {
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
 	columns: [
-		{ title: "제품코드", field: "sm_Code", headerHozAlign: "center" },
-		{ title: "제품명", field: "sm_Name", headerHozAlign: "center" },
-		{ title: "규격1", field: "sm_STND_1", headerHozAlign: "center" },
-		{ title: "수량", field: "sm_Qty", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false }, }
+		{ title: "제품코드", field: "s_ItemCode", headerHozAlign: "center" },
+		{ title: "제품명", field: "s_ItemName", headerHozAlign: "center" },
+		{ title: "규격1", field: "s_Item_Standard_1", headerHozAlign: "center" },
+		{ title: "수량", field: "s_Qty", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false }, }
 	]
 });
 

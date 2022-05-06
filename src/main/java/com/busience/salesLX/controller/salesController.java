@@ -166,7 +166,7 @@ public class salesController {
 		
 		model.addAttribute("pageName", "제품 재고 조회");
 		
-		return "salesLX/salesStock/salesStockMaster";
+		return "sales/salesStock/salesStockMaster";
 	}
 	
 	// salesLabelPrint

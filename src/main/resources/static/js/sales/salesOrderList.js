@@ -153,15 +153,16 @@ var salesOrderListStockTable = new Tabulator("#salesOrderListStockTable", {
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
 	columns: [
-		{ title: "제품코드", field: "sales_SM_Code", headerHozAlign: "center" },
-		{ title: "제품명", field: "sales_SM_Name", headerHozAlign: "center" },
-		{ title: "규격1", field: "sales_SM_STND_1", headerHozAlign: "center" },
-		{ title: "수량", field: "sales_SM_Qty", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false }, }
+		{ title: "제품코드", field: "s_ItemCode", headerHozAlign: "center" },
+		{ title: "제품명", field: "s_ItemName", headerHozAlign: "center" },
+		{ title: "규격1", field: "s_Item_Standard_1", headerHozAlign: "center" },
+		{ title: "수량", field: "s_Qty", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false }, }
 	]
 });
 
 // salesOrderStock 목록검색
 function SOSS_Search(sales_Order_lCode) {
 	salesOrderListStockTable.setData("salesStockRest/salesStockSelect", {ItemCode : sales_Order_lCode})
+	console.log(salesOrderListStockTable);
 }
 

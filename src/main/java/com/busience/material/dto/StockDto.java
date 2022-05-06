@@ -19,4 +19,5 @@ public class StockDto {
 	private double S_Qty; // 재고
 	private String S_WareHouse; //창고
 	private double S_Sales_Output_Order_Qty; // 현재지시수량
+	private String S_Item_Unit; // 단위
 }
