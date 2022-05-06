@@ -55,49 +55,62 @@ public class MatInReturnService {
 				
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
-					List<DtlDto> wareHouseList = dtlDao.findByCode(10);
+					List<DtlDto> WarehouseList = dtlDao.findByCode(10);
 					
 					for(int i=0;i<inMatDtoList.size();i++) {
 						InMatDto inMatDto = inMatDtoList.get(i);
+
+						String lotNo = inMatDto.getInMat_Lot_No();
+						int no = lotTransDao.lotTransNoSelectDao(lotNo);
+						String itemCode = inMatDto.getInMat_Code();
+						double qty = (double) inMatDto.getInReturn_Qty();
+						String Warehouse = WarehouseList.get(0).getCHILD_TBL_NO();
+						String before = WarehouseList.get(0).getCHILD_TBL_NO();
+						String after = "";
+						String classfy = "207";
+						
+						//자재창고에 저장
+						inMatDto.setInMat_Warehouse(Warehouse);						
+						//랏트랜스번호 가져오기
+						inMatDto.setInMat_No(no);
+						//이동 설정하기 외부 -> 자재창고
+						inMatDto.setInMat_Before(before);
+						inMatDto.setInMat_After(after);						
 						//작업자
 						inMatDto.setInMat_Modifier(userCode);
-						
-						//랏번호가 없을경우 랏번호 생성
-						if(inMatDto.getInMat_Lot_No() == null || inMatDto.getInMat_Lot_No().isBlank()) {
-							String LotNo = lotNoDao.lotNoSelectDao(inMatDto);
-							inMatDto.setInMat_Lot_No(LotNo);
-
-							//랏번호 증가
-							lotNoDao.lotNoMatUpdateDao();
-						}
-						
+																		
 						//랏트랜스번호 가져오기
-						int LotTransNo = lotTransDao.lotTransNoSelectDao(inMatDto);
-						inMatDto.setInMat_No(LotTransNo);
+						inMatDto.setInMat_No(lotTransDao.lotTransNoSelectDao(inMatDto.getInMat_Lot_No()));
 						
 						//이동 설정하기
-						inMatDto.setInMat_Before(wareHouseList.get(0).getCHILD_TBL_NO());
+						inMatDto.setInMat_Before(WarehouseList.get(0).getCHILD_TBL_NO());
 						inMatDto.setInMat_After("");
 						
-						inMatDto.setInMat_WareHouse(wareHouseList.get(0).getCHILD_TBL_NO());
+						inMatDto.setInMat_Warehouse(WarehouseList.get(0).getCHILD_TBL_NO());
 						
 						//입고 반품
-						inMatDto.setInMat_Rcv_Clsfc("207");
-
-						//랏트랜스
-						lotTransDao.lotTransInsertDao(inMatDto);
-
-						//반품은 수량에 -를 붙인다
-						inMatDto.setInMat_Qty(-1*inMatDto.getInReturn_Qty());
+						inMatDto.setInMat_Rcv_Clsfc(classfy);
 						
-						//랏마스터
-						lotMasterDao.lotMasterInsertUpdateDao(inMatDto);						
+						//랏마스터 저장
+						lotMasterDao.lotMasterInsertUpdateDao(
+								lotNo, itemCode, -1*qty, Warehouse
+								);
 						
-						//자재입고
+						//재고 저장
+						stockDao.stockInsertDao(
+								itemCode, -1*qty, Warehouse
+								);
+						
+						//입고 반품 처리는 -수량
+						inMatDto.setInMat_Qty((-1)*((int) qty)); 
+						
+						//자재입고 저장
 						inMatDao.inMatInsertDao(inMatDto);
 						
-						//재고
-						stockDao.stockInsertUpdateDao(inMatDto);
+						//랏트랜스 저장
+						lotTransDao.lotTransInsertDao(
+								no, lotNo, itemCode, qty, before, after, classfy
+								);
 					}
 				}
 			});

@@ -51,59 +51,71 @@ public class MatInputService {
 	TransactionTemplate transactionTemplate;
 	
 	//등록
-	public int matInputRegister(List<InMatDto> InMatDtoList, String userCode){
+	public int matInputRegister(List<InMatDto> inMatDtoList, String userCode){
 		try {
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 				
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
-					List<DtlDto> wareHouseList = dtlDao.findByCode(10);
+					List<DtlDto> WarehouseList = dtlDao.findByCode(10);
 					
-					for(int i=0;i<InMatDtoList.size();i++) {
-						InMatDto inMatDto = InMatDtoList.get(i);
-						//작업자
-						inMatDto.setInMat_Modifier(userCode);
+					for(int i=0;i<inMatDtoList.size();i++) {
+						InMatDto inMatDto = inMatDtoList.get(i);
+						
+						int no = inMatDto.getInMat_No();
+						String lotNo = inMatDto.getInMat_Lot_No();
+						String itemCode = inMatDto.getInMat_Code();
+						double qty = (double) inMatDto.getInMat_Qty();
+						String Warehouse = WarehouseList.get(0).getCHILD_TBL_NO();
+						String before = "";
+						String after = WarehouseList.get(0).getCHILD_TBL_NO();
+						String classfy = inMatDto.getInMat_Rcv_Clsfc();
 						
 						//랏번호가 없을경우 랏번호 생성
-						if(inMatDto.getInMat_Lot_No() == null || inMatDto.getInMat_Lot_No().isBlank()) {
-							String LotNo = lotNoDao.lotNoSelectDao(inMatDto);
-							inMatDto.setInMat_Lot_No(LotNo);
+						if(lotNo == null || lotNo.isBlank()) {
+							lotNo = lotNoDao.lotNoSelectDao(inMatDto);
+							inMatDto.setInMat_Lot_No(lotNo);
 
-							//랏번호
+							//랏번호 업데이트
 							lotNoDao.lotNoMatUpdateDao();
 						}
 						
+						//자재창고에 저장
+						inMatDto.setInMat_Warehouse(Warehouse);						
 						//랏트랜스번호 가져오기
-						int LotTransNo = lotTransDao.lotTransNoSelectDao(inMatDto);
-						inMatDto.setInMat_No(LotTransNo);
-						
+						inMatDto.setInMat_No(lotTransDao.lotTransNoSelectDao(lotNo));						
 						//이동 설정하기 외부 -> 자재창고
-						inMatDto.setInMat_Before("");
-						inMatDto.setInMat_After(wareHouseList.get(0).getCHILD_TBL_NO());
+						inMatDto.setInMat_Before(before);
+						inMatDto.setInMat_After(after);						
+						//작업자
+						inMatDto.setInMat_Modifier(userCode);
 						
-						inMatDto.setInMat_WareHouse(wareHouseList.get(0).getCHILD_TBL_NO());
-
-						//랏마스터
-						lotMasterDao.lotMasterInsertUpdateDao(inMatDto);
+						//랏마스터 저장
+						lotMasterDao.lotMasterInsertUpdateDao(
+								lotNo, itemCode, qty, Warehouse
+								);
 						
-						//랏트랜스
-						lotTransDao.lotTransInsertDao(inMatDto);
+						//재고 저장
+						stockDao.stockInsertUpdateDao(
+								itemCode, qty, Warehouse
+								);
 						
-						//자재입고
+						//자재입고 저장
 						inMatDao.inMatInsertDao(inMatDto);
 						
-						//재고
-						stockDao.stockInsertUpdateDao(inMatDto);
-						
-						//발주리스트
+						//랏트랜스 저장
+						lotTransDao.lotTransInsertDao(
+								no, lotNo, itemCode, qty, before, after, classfy
+								);
+												
+						//발주리스트 저장
 						orderListDao.orderListUpdateDao(inMatDto);
 						
-						//발주마스터
+						//발주마스터 저장
 						orderMasterDao.orderMasterUpdateDao(inMatDto);
 					}
 				}
 			});
-			
 			return 1;
 		} catch (Exception e) {
 			e.printStackTrace();

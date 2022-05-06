@@ -24,9 +24,13 @@ public class LotTransDto {
 	private int LT_OutQty;
 	private int LT_OutReturn_Qty;
 	private int LT_OutOther_Qty;
+	private String LT_Before; 
+	private String LT_After;
 	private String LT_Create_Date;
 	
 	private String LT_Classify;
 	private String LT_Classify_Name;
+	private String LT_Modifier;
+	private String LT_WareHouse;
 	
 }

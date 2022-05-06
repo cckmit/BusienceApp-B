@@ -3,7 +3,6 @@ package com.busience.material.dao;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.busience.material.dto.InMatDto;
-import com.busience.salesLX.dto.Sales_InMat_tbl;
 
 @Mapper
 public interface LotNoDao {

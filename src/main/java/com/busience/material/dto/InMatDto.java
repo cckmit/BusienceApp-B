@@ -32,7 +32,7 @@ public class InMatDto {
 	private String InMat_Info_Remark;
 	private String PRODUCT_INFO_STND_1;
 	private String PRODUCT_UNIT;
-	private String InMat_WareHouse;
+	private String InMat_Warehouse;
 	private String InMat_Save_Area;
 	
 	private String InMat_Before;

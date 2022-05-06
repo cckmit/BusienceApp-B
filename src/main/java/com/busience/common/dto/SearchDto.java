@@ -43,9 +43,11 @@ public class SearchDto {
 	
 	private int WipStatus;
 	
-	private String condition;
+	private String Condition;
 	
 	private boolean Check;
 	
 	private String SalesCusNo;
+	
+	private String Warehouse;
 }

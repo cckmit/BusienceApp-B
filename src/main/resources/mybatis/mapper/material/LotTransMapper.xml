@@ -9,7 +9,7 @@
 	<select id="lotTransNoSelectDao" resultType="int">
 		select ifnull(max(LT_No)+1,1)
 		from LotTrans_tbl
-		where LT_LotNo = #{InMat_Lot_No}
+		where LT_LotNo = #{LT_LotNo}
 	</select>
 	
 	<insert id="lotTransInsertDao">
@@ -18,9 +18,9 @@
 			LT_Qty, LT_Before, LT_After,
 			LT_Create_Date, LT_Classify
 		) values(
-			#{InMat_No}, #{InMat_Lot_No}, #{InMat_Code},
-			#{InMat_Qty}, #{InMat_Before}, #{InMat_After},
-			now(), #{InMat_Rcv_Clsfc}
+			#{LT_No}, #{LT_LotNo}, #{LT_ItemCode},
+			#{LT_Qty}, #{LT_Before}, #{LT_After},
+			now(), #{LT_Classify}
 		)
 	</insert>
 	
@@ -46,6 +46,7 @@
 		<![CDATA[
 			where A.LT_Create_Date >= #{startDate} and A.LT_Create_Date < #{endDate}
 		]]>
+		and (LT_Before = '50' or LT_After = '50')
 		order by A.LT_ItemCode, A.LT_Classify;
 	</select>
 	
