@@ -27,6 +27,7 @@ public class matOutputRestController {
 	
 	@GetMapping("/LM_Search")
 	public List<LotMasterDto> LM_Search(SearchDto searchDto) {
+		searchDto.setWarehouse("50");
 		return matOutputService.LotMasterSelect(searchDto);
 	}
 	

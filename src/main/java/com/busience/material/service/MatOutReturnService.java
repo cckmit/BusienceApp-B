@@ -52,41 +52,52 @@ public class MatOutReturnService {
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
 					List<DtlDto> wareHouseList = dtlDao.findByCode(10);
-					/*
+					
 					for(int i=0;i<outMatDtoList.size();i++) {
 						OutMatDto outMatDto = outMatDtoList.get(i);
-						//작업자
-						outMatDto.setOM_Modifier(userCode);
 						
-						//외부 창고 관련 업데이트 후에 생산 창고 관련 인서트 or 업데이트
+						String lotNo = outMatDto.getOM_LotNo();
+						int no = lotTransDao.lotTransNoSelectDao(lotNo);
+						String itemCode = outMatDto.getOM_ItemCode();
+						double qty = outMatDto.getOM_ReturnQty();
+						String wareHouse = wareHouseList.get(1).getCHILD_TBL_NO();
+						String before = wareHouseList.get(1).getCHILD_TBL_NO();
+						String after = wareHouseList.get(0).getCHILD_TBL_NO();
+						String classfy = "210";
+						
+						outMatDto.setOM_WareHouse(wareHouse);
+						outMatDto.setOM_Send_Clsfc(classfy);
+						outMatDto.setOM_Modifier(userCode);
+
+						//랏트랜스번호 가져오기
+						outMatDto.setOM_No(no);
 						
 						//랏마스터 업데이트
-						lotMasterDao.lotMasterUpdateDao(outMatDtoList.get(i));
+						lotMasterDao.salesLotMasterInsertUpdateDao(
+								lotNo, itemCode, (-1)*qty, wareHouse
+								);
 						//재고 업데이트
-						stockDao.stockUpdateDao(outMatDtoList.get(i));
-						
-						//랏트랜스번호 가져오기
-						int LotTransNo = lotTransDao.lotTransNoSelectDao2(outMatDtoList.get(i));
-						outMatDto.setOM_No(LotTransNo);
-						
-						//이동 설정하기 외부창고 -> 자재창고
-						outMatDto.setOM_Before(outMatDto.getOM_WareHouse());
-						outMatDto.setOM_After(wareHouseList.get(0).getCHILD_TBL_NO());
-						
-						outMatDto.setOM_WareHouse(wareHouseList.get(0).getCHILD_TBL_NO());
-						
+						stockDao.stockInsertUpdateDao(itemCode, (-1)*qty, before);
+
+						//수량 음수처리
+						outMatDto.setOM_Qty(-1*outMatDto.getOM_Qty());
+
+						//출고
+						outMatDao.outMatInsertDao(outMatDto);
+																					
 						//랏트랜스
-						lotTransDao.lotTransInsertDao2(outMatDtoList.get(i));
+						lotTransDao.lotTransInsertDao(
+								no, lotNo, itemCode, qty, before, after, classfy
+								);
+
+						//랏마스터
+						lotMasterDao.salesLotMasterInsertUpdateDao(
+								lotNo, itemCode, qty, wareHouse
+								);
 						
-						//입고
-												
 						//재고
-						stockDao.stockInsertDao(outMatDtoList.get(i));
-						
-						//랏마스터 등록
-						lotMasterDao.lotMasterInsertDao(outMatDtoList.get(i));
-						
-					}*/
+						stockDao.stockInsertUpdateDao( itemCode, qty, after);
+					}
 				}
 			});
 			

@@ -24,6 +24,6 @@ public interface RequestSubDao {
 									@Param("requestNo") String requestNo);
 	
 	//요청sub 업데이트
-	public int RequestSubUpdateDao(OutMatDto outMatDto);
+	public int requestSubUpdateDao(OutMatDto outMatDto);
 	
 }

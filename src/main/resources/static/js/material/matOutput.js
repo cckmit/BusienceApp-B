@@ -93,7 +93,7 @@ var matOutputSubTable = new Tabulator("#matOutputSubTable", {
 	columns:[
 	{formatter:"rowSelection", titleFormatter:"rowSelection", headerHozAlign:"center", hozAlign:"center", headerSort:false},
 	{title:"순번", field:"rownum", headerHozAlign:"center", hozAlign:"center", formatter: "rownum"},
-	{title:"요청No", field:"rs_RequestNo"/*, visible:false*/},
+	{title:"요청No", field:"rs_RequestNo", visible:false},
  	{title:"코드", field:"rs_ItemCode", headerHozAlign:"center"},
  	{title:"품목명", field:"rs_ItemName", headerHozAlign:"center"},
 	{title:"요청수량", field:"rs_Qty", headerHozAlign:"center", hozAlign:"right"},
@@ -101,7 +101,7 @@ var matOutputSubTable = new Tabulator("#matOutputSubTable", {
  	{title:"미출고재고", field:"rs_Not_Stocked", headerHozAlign:"center", hozAlign:"right"},
  	{title:"재고", field:"rs_Stock_Qty", headerHozAlign:"center", hozAlign:"right"},
 	{title:"비고", field:"rs_Remark", headerHozAlign:"center"},
-	{title:"구분", field:"rs_Send_Clsfc", headerHozAlign:"center"/*, visible:false*/},
+	{title:"구분", field:"rs_Send_Clsfc", headerHozAlign:"center", visible:false},
 	{title:"구분", field:"rs_Send_Clsfc_Name", headerHozAlign:"center"}]
 });
 

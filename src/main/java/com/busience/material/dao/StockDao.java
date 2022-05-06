@@ -6,8 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.busience.common.dto.SearchDto;
-import com.busience.material.dto.InMatDto;
-import com.busience.material.dto.OutMatDto;
 import com.busience.material.dto.StockDto;
 
 @Mapper
@@ -20,7 +18,9 @@ public interface StockDao {
 	public List<StockDto> salesOutputStockDao(SearchDto searchDto);
 	
 	//재고테이블 저장
-	public int stockInsertUpdateDao(InMatDto inMatDto);
+	public int stockInsertUpdateDao(
+			@Param("S_ItemCode") String S_ItemCode, @Param("S_Qty") Double S_Qty, @Param("S_WareHouse") String S_WareHouse
+			);
 	
 	//재고테이블 업데이트
 	public int stockUpdateDao(@Param("LM_Qty") Double LM_Qty, @Param("LM_ItemCode") String LM_ItemCode, @Param("LT_Before") String LT_Before);

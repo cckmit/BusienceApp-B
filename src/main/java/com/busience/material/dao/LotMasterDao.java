@@ -6,16 +6,17 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.busience.common.dto.SearchDto;
-import com.busience.material.dto.InMatDto;
 import com.busience.material.dto.LotMasterDto;
 import com.busience.material.dto.OutMatDto;
-import com.busience.salesLX.dto.Sales_InMat_tbl;
 
 @Mapper
 public interface LotMasterDao {
 	
 	//랏마스터 insert update
-	public int lotMasterInsertUpdateDao(InMatDto inMatDto);
+	public int lotMasterInsertUpdateDao(
+			@Param("LM_LotNo") String LM_LotNo, @Param("LM_ItemCode") String LM_ItemCode,
+			@Param("LM_Qty") Double LM_Qty, @Param("LM_Warehouse") String LM_Warehouse
+			);
 	
 	//랏마스터조회
 	public List<LotMasterDto> lotMasterSelectDao(SearchDto searchDto);
@@ -27,7 +28,10 @@ public interface LotMasterDao {
 	public int lotMasterUpdateDao(@Param("LM_Qty") Double LM_Qty, @Param("LM_LotNo") String LM_LotNo);
 	
 	//영업 LotMaster insert
-	public int salesLotMasterInsertUpdateDao(@Param("LM_LotNo") String LM_LotNo, @Param("LM_ItemCode") String LM_ItemCode, @Param("LM_Qty") Double LM_Qty, @Param("LM_Warehouse") String LM_Warehouse);
+	public int salesLotMasterInsertUpdateDao(
+			@Param("LM_LotNo") String LM_LotNo, @Param("LM_ItemCode") String LM_ItemCode,
+			@Param("LM_Qty") Double LM_Qty, @Param("LM_Warehouse") String LM_Warehouse
+			);
 	
 	//영업 LotMaster 조회
 	public List<LotMasterDto> salesOutputLotMasterDao(SearchDto searchDto);

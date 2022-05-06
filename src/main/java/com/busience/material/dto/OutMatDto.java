@@ -13,7 +13,8 @@ public class OutMatDto {
 	private String OM_RequestNo;
 	private String OM_LotNo;
 	private String OM_ItemCode;
-	private int OM_Qty;
+	private double OM_Qty;
+	private double OM_ReturnQty;
 	private String OM_DeptCode;
 	private String OM_Send_Clsfc;
 	private String OM_OutDate;

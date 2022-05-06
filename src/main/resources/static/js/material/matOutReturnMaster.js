@@ -103,7 +103,6 @@ function MORI_Search() {
 	}
 
 	matOutReturnInsertTable.setData("matOutReturnRest/MORI_Search", data);
-
 }
 
 function MORI_Save() {
@@ -182,7 +181,6 @@ function MORS_Search() {
 		outMat_Code: $("#PRODUCT_ITEM_CODE2").val()
 	}
 
-
 	$.ajax({
 		method: "GET",
 		dataType: "json",
@@ -193,50 +191,3 @@ function MORS_Search() {
 		}
 	});
 }
-
-var matOutReturnSalesListTable = new Tabulator("#matOutReturnSalesListTable", {
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
-	paginationAddRow: "table",
-	height: "calc(50% - 100px)",
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
-	rowDblClick: function(e, row) {
-		for(i=0;i<matOutReturnSalesDeliveryTable.getData().length;i++){
-			if(matOutReturnSalesDeliveryTable.getData()[i].sales_Lot_No == row.getData().inMat_Lot_No){
-				return false;
-			}
-		}
-		row.toggleSelect();
-		matOutReturnSalesDeliveryTable.addRow({sales_Lot_No : row.getData().inMat_Lot_No,
-												sales_Code : row.getData().inMat_Code,
-												sales_Name : row.getData().inMat_Name,
-												sales_Client_Code : row.getData().inMat_Client_Code,
-												sales_Client_Name : row.getData().inMat_Client_Name,
-												outMat_Consignee : 1,
-												outMat_Dept_Code : 12,
-												inMat_Qty : row.getData().inMat_Qty,
-												sales_Qty : 0,
-												sales_Unit_Price : row.getData().inMat_Unit_Price,
-												sales_Price : 0,
-												inMat_Date : row.getData().inMat_Date})
-	},
-	columns: [
-		{ title: "순번", field: "inMat_No", headerHozAlign: "center", align: "center" },
-		{ title: "발주No", field: "inMat_Order_No", headerHozAlign: "center" },
-		{ title: "품목코드", field: "inMat_Code", headerHozAlign: "center" },
-		{ title: "품목명", field: "inMat_Name", headerHozAlign: "center" },
-		{ title: "재고수량", field: "inMat_Qty", align: "right", headerHozAlign: "center" },
-		{ title: "단가", field: "inMat_Unit_Price", align: "right", headerHozAlign: "center", formatter: "money", formatterParams: { precision: false } },
-		{ title: "금액", field: "inMat_Price", align: "right", headerHozAlign: "center", formatter: "money", formatterParams: { precision: false } },
-		{ title: "입고거래처코드", field: "inMat_Client_Code", visible:false},
-		{ title: "입고거래처", field: "inMat_Client_Name", headerHozAlign: "center" },
-		{ title: "입고구분", field: "inMat_Rcv_Clsfc_Name", headerHozAlign: "center" },
-		{ title: "입고일", field: "inMat_Date", headerHozAlign: "center",	
-			formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
-		{ title: "데이터삽입시간", field: "inMat_dInsert_Time", headerHozAlign: "center",
-			formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
-		{ title: "작업자명", field: "inMat_Modifier", headerHozAlign: "center" }
-	]
-});

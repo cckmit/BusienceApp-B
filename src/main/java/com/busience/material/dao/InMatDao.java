@@ -10,6 +10,9 @@ import com.busience.material.dto.InMatDto;
 @Mapper
 public interface InMatDao {
 	
+	//lot 순번 가져오기
+	public int inMatNoSelectDao(String InMat_Lot_No);
+	
 	//자재 입고 등록
 	public int inMatInsertDao(InMatDto inMatDto);
 	

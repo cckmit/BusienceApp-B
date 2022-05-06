@@ -473,9 +473,9 @@ function ReqNo_select(){
 	rowCount = matRequestTable.getDataCount("active");
 	//컬럼값을 검색해서 입력값을 포함하는 값이 있으면 선택한다.
 	for(i=0;i<rowCount;i++){
-		Cus_No = matRequestTable.getColumn("rs_RequestNo").getCells();
+		Cus_No = matRequestTable.getColumn("rm_RequestNo").getCells();
 		//발주번호가 입력내용을 포함하면 코드 실행
-		if(Cus_No[i].getValue() == $('#rs_RequestNo').val()){
+		if(Cus_No[i].getValue() == $('#rm_RequestNo').val()){
 			//발주번호가 같은 행 선택
 			Cus_No[i].getRow().select();
 			break;
