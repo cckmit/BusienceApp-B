@@ -24,6 +24,9 @@ public interface LotTransDao {
 	//입출고 조회
 	public List<LotTransDto> inOutMatSelectDao(SearchDto searchDto);
 	
+	//영업 일출고 조회
+	public List<LotTransDto> inOutSalesSelectDao(SearchDto searchDto);
+	
 	//랏트랜스 번호
 	public int lotTransNoSelectDao2(String LT_LotNo);
 	
