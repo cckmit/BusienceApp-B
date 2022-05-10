@@ -37,6 +37,26 @@
 		AND spt.Sales_Packing_Status != (SELECT Child_TBL_No FROM DTL_TBL WHERE New_TBL_Code = 17 AND Child_TBL_Type='입고반품');  
 	</select>
 	
+	<select id="salesPackingSelectDao" resultType="com.busience.salesLX.dto.SalesPackingDto">
+		SELECT spt.Sales_Packing_No, spt.Sales_Large_Packing_LotNo, spt.Sales_Small_Packing_LotNo, spt.Sales_Packing_Qty, lmt.LM_ItemCode as Sales_Packing_Code, pit.Product_Item_Name as Sales_Packing_Name, lmt.LM_Create_Date as Sales_Small_Create_Date, 
+			pit.Product_Item_Name AS Sales_Packing_Name, pit.Product_Info_STND_1 AS Sales_Packing_STND_1, pit.Product_Info_STND_2 AS Sales_Packing_STND_2,
+			dt.Child_TBL_Type AS Sales_Packing_Item_Clsfc_1, 
+			spt.Sales_Packing_Status, dt2.Child_TBL_Type AS Sales_Packing_Status_Name 
+		FROM Sales_Packing_tbl spt
+		INNER JOIN LotMaster_tbl lmt ON spt.Sales_Small_Packing_LotNo = lmt.LM_LotNo
+		INNER JOIN Product_Info_tbl pit ON lmt.LM_ItemCode = pit.Product_Item_Code
+		INNER JOIN DTL_TBL dt ON pit.Product_Item_CLSFC_1 = dt.Child_TBL_No
+		INNER JOIN DTL_TBL dt2 ON spt.Sales_Packing_Status = dt2.Child_TBL_No
+		WHERE 
+		<if test="ItemCode != null">
+		lmt.LM_ItemCode like concat('%',#{ItemCode},'%')
+		</if>
+		<if test="ItemSendClsfc != 'all'">
+		and spt.Sales_Packing_Status = #{ItemSendClsfc}
+		</if>
+		ORDER BY spt.Sales_Large_Packing_Time
+	</select>
+	
 	<select id="salesInMatReturnListDao" resultType="com.busience.salesLX.dto.SalesPackingDto">
 		SELECT 
 			spt.Sales_Small_Packing_LotNo, -1*spt.Sales_Packing_Qty as Sales_Packing_Qty, sit.Sales_InMat_Code as Sales_Packing_Code, pit.Product_Item_Name as Sales_Packing_Name, 

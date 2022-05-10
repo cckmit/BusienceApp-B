@@ -44,7 +44,7 @@
 				</div>
 				<!-- 버튼 -->
 				<div class="input-box">
-					<span><strong>LotNo</strong></span> <input id="Sales_OutputLotNo" type="text" style="width: 280px;" onclick="$(this).val('')" onkeypress="javascript:if(event.keyCode==13) {LotNoSearch()}" autofocus> 
+					<span><strong>바코드 입력</strong></span> <input id="Sales_OutputLotNo" type="text" style="width: 280px;" onclick="$(this).val('')" onkeypress="javascript:if(event.keyCode==13) {LotNoSearch()}" autofocus> 
 				</div>
 				<!-- 버튼 -->
 			</div>

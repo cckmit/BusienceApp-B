@@ -35,4 +35,10 @@ public class salesPackingRestController {
 	public List<SalesPackingDto> salesInMatReturnListDao(SearchDto searchDto) {
 		return salesPackingService.salesInMatReturnListDao(searchDto);
 	}
+	
+	// 포장 관리 조회
+	@GetMapping("/SPS_Search")
+	public List<SalesPackingDto> salesPackingSelectDao(SearchDto searchDto) {
+		return salesPackingService.salesPackingSelectDao(searchDto);
+	}
 }

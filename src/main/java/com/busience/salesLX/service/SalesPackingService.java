@@ -29,4 +29,9 @@ public class SalesPackingService {
 	public List<SalesPackingDto> salesInMatReturnListDao(SearchDto searchDto) {
 		return salesPackingDao.salesInMatReturnListDao(searchDto);
 	}
+	
+	// 포장 관리 조회
+	public List<SalesPackingDto> salesPackingSelectDao(SearchDto searchDto) {
+		return salesPackingDao.salesPackingSelectDao(searchDto);
+	}
 }

@@ -177,4 +177,17 @@ public class salesController {
 		
 		return "salesLX/salesLabelPrint";
 	}
+	
+	// salesPackingList
+	@GetMapping("salesPackingList")
+	public String salesPackingList(Model model) {
+		
+		// 입고구분
+		int InputType = 17;
+		model.addAttribute("InputType", dtlService.getDtl(InputType));
+		
+		model.addAttribute("pageName", "포장 관리 조회");
+		
+		return "sales/salesPackingList";
+	}
 }
