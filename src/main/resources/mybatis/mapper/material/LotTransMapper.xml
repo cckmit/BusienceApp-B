@@ -50,7 +50,7 @@
 		AND A.LT_ItemCode = #{ItemCode}
 		</if>
 		and (LT_Before = '50' or LT_After = '50')
-		order by A.LT_ItemCode, A.LT_Classify;
+		order by A.LT_ItemCode, A.LT_Classify
 	</select>
 	
 	<select id="inOutSalesSelectDao" resultType="com.busience.material.dto.LotTransDto">
@@ -93,7 +93,7 @@
 			LT_No, LT_LotNo, LT_ItemCode,
 			LT_Qty, LT_Before, LT_After, LT_Create_Date,
 			LT_Classify
-		) values(
+		) values (
 			#{LT_No}, #{LT_LotNo}, #{LT_ItemCode},
 			#{LT_Qty}, #{LT_Before}, #{LT_After}, now(),
 			#{LT_Send_Clsfc}

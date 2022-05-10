@@ -54,13 +54,11 @@ public class MatOutputService {
 	
 	//LotMaster조회
 	public List<LotMasterDto> LotMasterSelect(SearchDto searchDto){
-		return lotMasterDao.lotMasterSelectDao(searchDto);
+		return lotMasterDao.lotMasterMatSelectDao(searchDto);
 	}
 	
 	//등록
 	public int outMatInsert(RequestSubDto requestSubDto, List<OutMatDto> outMatDtoList, String userCode){
-		System.out.println(requestSubDto);
-		System.out.println(outMatDtoList);
 		try {
 			//판매구분
 			//List<DtlDto> dtlDto = dtlDao.findByCode(18);

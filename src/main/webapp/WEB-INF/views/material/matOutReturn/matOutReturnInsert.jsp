@@ -5,16 +5,12 @@
 	<div class="top-var">
 		<!-- 버튼 -->
 		<div class="input-button">
-			<img src="/images/button/Search.png" id="MORI_SearchBtn"/>
 			<img src="/images/button/Save.png" onclick="MORI_Save()"/>
 		</div>
 		<!-- 버튼 -->
 		<div class="input-box">
-			<span><strong>품목코드</strong></span>
-			<input id="PRODUCT_ITEM_CODE1" class="Item_Code1" type="text" disabled>
-			<span><strong>품목명</strong></span>
-			<input id="PRODUCT_ITEM_NAME1" class="Item_Name1 clearInput" type="text" autofocus
-				onkeypress="javascript:if(event.keyCode==13) {itemPopup($(this).val(),'input','1','material')}">
+			<span><strong>바코드 입력</strong></span>
+			<input id="MORI_Search" class="lotNo" type="text">
 		</div>
 	</div>
 	<div id="matOutReturnInsertTable"></div>

@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
-import com.busience.material.dto.OutMatDto;
+import com.busience.material.dto.LotMasterDto;
+import com.busience.material.dto.TransDto;
 import com.busience.material.service.MatOutReturnService;
 
 @RestController("matOutReturnRestController")
@@ -26,15 +27,21 @@ public class matOutReturnRestController {
 	@Autowired
 	MatOutReturnService matOutReturnService;
 	
-	//MIRI_Search
+	//MORI_Search
 	@GetMapping("/MORI_Search")
-	public List<OutMatDto> MORI_Search(SearchDto searchDto) {
+	public List<LotMasterDto> MORI_Search(SearchDto searchDto) {
 		return matOutReturnService.matOutReturnSelect(searchDto);
 	}
 	
-	//MIRI_Save
+	//MORI_Save
 	@PostMapping("/MORI_Save")
-	public int MORI_Save(@RequestBody List<OutMatDto> outMatDtoList, Principal principal) {
-		return matOutReturnService.matOutReturnSave(outMatDtoList, principal.getName());
+	public int MORI_Save(@RequestBody List<LotMasterDto> lotMasterDtoList, Principal principal) {
+		return matOutReturnService.matOutReturnSave(lotMasterDtoList, principal.getName());
+	}
+	
+	//MORI_Search
+	@GetMapping("/MORS_Search")
+	public List<TransDto> MORS_Search(SearchDto searchDto) {
+		return matOutReturnService.transSelect(searchDto);
 	}
 }

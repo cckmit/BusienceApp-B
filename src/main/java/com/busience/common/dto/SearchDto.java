@@ -17,6 +17,8 @@ public class SearchDto {
 	
 	private String LotNo;
 	
+	private String RequestNo;
+	
 	private String OrderNo;
 	
 	private String SalesOrderNo;
@@ -50,4 +52,6 @@ public class SearchDto {
 	private String SalesCusNo;
 	
 	private String Warehouse;
+	
+	private String Modifier;
 }

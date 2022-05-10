@@ -10,7 +10,7 @@
 		<!-- 버튼 -->
 		<div class="input-box">
 			<div>
-				<span><strong>반품일</strong></span> 
+				<span><strong>이동일</strong></span>
 				<input id="MORS_startDate" class="today" type="date"> 
 				<span style="text-align: center"><strong>~</strong></span> 
 				<input id="MORS_endDate" class="tomorrow" type="date">		

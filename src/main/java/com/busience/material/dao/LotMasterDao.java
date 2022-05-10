@@ -19,6 +19,9 @@ public interface LotMasterDao {
 			);
 	
 	//랏마스터조회
+	public List<LotMasterDto> lotMasterMatSelectDao(SearchDto searchDto);
+	
+	//랏마스터조회
 	public List<LotMasterDto> lotMasterSelectDao(SearchDto searchDto);
 	
 	//랏마스터 insert

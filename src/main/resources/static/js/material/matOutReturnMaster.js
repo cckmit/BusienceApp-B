@@ -43,14 +43,14 @@ var MORI_InputEditor = function(cell, onRendered, success, cancel, editorParams)
     input.addEventListener("keydown", function (e) {
 		//엔터쳤을떄
 		if(e.keyCode == 13){
-			//반품수량셀 채크
-			if (cell.getField() == "om_ReturnQty") {
-				//입력값이 양의 정수가 아니거나 입고수량보다 높으면 안내문
-				if(!(input.value >= 0) || cell.getRow().getData().om_Qty < input.value){
-					alert("반품 수량을 잘못입력하였습니다.");
+			//이동수량셀 채크
+			if (cell.getField() == "lm_ReturnQty") {
+				//입력값이 음수이거나 입고수량보다 높으면 안내문
+				if(!(input.value >= 0) || cell.getRow().getData().lm_Qty < input.value){
+					alert("이동 수량을 잘못입력하였습니다.");
 					input.value = 0;
 				}
-				//입력값이 0이 아닌경우 (반품수량을 입력했을경우) 셀 선택
+				//입력값이 0이 아닌경우 (이동수량을 입력했을경우) 셀 선택
 				if(input.value != 0){
 					cell.getRow().select();
 				}
@@ -64,42 +64,34 @@ var MORI_InputEditor = function(cell, onRendered, success, cancel, editorParams)
 };
 
 var matOutReturnInsertTable = new Tabulator("#matOutReturnInsertTable", {
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
-	paginationAddRow: "table",
 	height: "calc(100% - 175px)",
 	rowDblClick: function(e, row) {
 		row.toggleSelect();
 	},
 	columns: [
 		{ formatter: "rowSelection", align: "center"},
-		{ title: "순번", field: "om_No", headerHozAlign: "center", align: "center" },
-		{ title: "요청번호", field: "om_RequestNo", headerHozAlign: "center" },
-		{ title: "Lot번호", field: "om_LotNo", headerHozAlign: "center" },
-		{ title: "보관창고", field: "om_WareHouse_Name", headerHozAlign: "center" },
-		{ title: "품목코드", field: "om_ItemCode", headerHozAlign: "center" },
-		{ title: "품목명", field: "om_ItemName", headerHozAlign: "center" },
-		{ title: "출고수량", field: "om_Qty", align: "right", headerHozAlign: "center" },
-		{ title: "반품수량", field: "om_ReturnQty", align: "right", editor: MORI_InputEditor, headerHozAlign: "center"},
-		{ title: "출고구분", field: "om_Send_Clsfc_Name", headerHozAlign: "center" },
-		{ title: "부서코드", field: "om_DeptCode", headerHozAlign: "center", visible:false},
-		{ title: "부서명", field: "om_DeptName", headerHozAlign: "center" },
-		{ title: "출고일", field: "om_OutDate", headerHozAlign: "center",
-			formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}}
+		{ title: "순번", field: "rownum", headerHozAlign: "center", align: "center", formatter: "rownum"},
+		{ title: "Lot번호", field: "lm_LotNo", headerHozAlign: "center" },
+		{ title: "품목코드", field: "lm_ItemCode", headerHozAlign: "center" },
+		{ title: "품목명", field: "lm_ItemName", headerHozAlign: "center" },
+		{ title: "출고수량", field: "lm_Qty", align: "right", headerHozAlign: "center" },
+		{ title: "보관창고", field: "lm_Warehouse_Name", headerHozAlign: "center"},
+		{ title: "이동수량", field: "lm_TransQty", align: "right", editor: MORI_InputEditor, headerHozAlign: "center"},
+		{ title: "이동장소", field: "lm_After", headerHozAlign: "center", formatter: function(cell){return "자재창고"}}
 	]
 });
 
-$("#MORI_SearchBtn").click(function(){
-	MORI_Search()
+$("#MORI_Search").keypress(function(e){
+	if(e.keyCode == '13'){
+		MORI_Search()	
+	}
 })
 
 // matOutReturn 목록 검색
 function MORI_Search() {
 	var data = {
-		startDate: $("#MORI_startDate").val(),
-		endDate: $("#MORI_endDate").val(),
-		outMat_Code: $("#PRODUCT_ITEM_CODE1").val()
+		lotNo: $(".lotNo").val(),
+		warehouse: '50' 
 	}
 
 	matOutReturnInsertTable.setData("matOutReturnRest/MORI_Search", data);
@@ -107,7 +99,7 @@ function MORI_Search() {
 
 function MORI_Save() {
 	//선택된 행만 저장
-	//만약 선택된행에서 반품수량이 0 이면 저장 안함
+	//만약 선택된행에서 이동수량이 0 이면 저장 안함
 	var selectedData = matOutReturnInsertTable.getData("selected");
 
 	if (selectedData.length == 0) {
@@ -117,7 +109,7 @@ function MORI_Save() {
 
 	for (var i = 0; i < selectedData.length; i++) {
 		if (selectedData[i].outReturn_Qty == "0") {
-			alert("반품수량이 입력되지 않은 행이 존재합니다.");
+			alert("이동수량이 입력되지 않은 행이 존재합니다.");
 			return;
 		}
 	}
@@ -134,7 +126,7 @@ function MORI_Save() {
 		success: function(result) {
 			if (result) {
 				MORI_Search();
-				alert("반품 처리 되었습니다.");
+				alert("이동 처리 되었습니다.");
 			} else {
 				alert("중복된 값이 있습니다.");
 			}
@@ -154,39 +146,36 @@ var matOutReturnSearchTable = new Tabulator("#matOutReturnSearchTable", {
 		row.toggleSelect();
 	},
 	columns: [
-		{ formatter: "rowSelection", align: "center"},
-		{ title: "순번", field: "om_No", headerHozAlign: "center", align: "center" },
-		{ title: "요청번호", field: "om_RequestNo", headerHozAlign: "center" },
-		{ title: "Lot번호", field: "om_LotNo", headerHozAlign: "center" },
-		{ title: "품목코드", field: "om_ItemCode", headerHozAlign: "center" },
-		{ title: "품목명", field: "om_ItemName", headerHozAlign: "center" },
-		{ title: "출고수량", field: "om_Qty", align: "right", headerHozAlign: "center" },
-		{ title: "반품수량", field: "om_ReturnQty", align: "right", headerHozAlign: "center"},
-		{ title: "출고구분", field: "om_Send_Clsfc_Name", headerHozAlign: "center" },
-		{ title: "부서코드", field: "om_DeptCode", headerHozAlign: "center", visible:false},
-		{ title: "부서명", field: "om_DeptName", headerHozAlign: "center" },
-		{ title: "출고일", field: "om_OutDate", headerHozAlign: "center",
-			formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
-		{ title: "반품일", field: "om_Create_Date", headerHozAlign: "center",
-			formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
-		{ title: "작업자명", field: "om_Modifier", headerHozAlign: "center" }
+		{ title: "순번", field: "rownum", headerHozAlign: "center", align: "center", formatter: "rownum"},
+		{ title: "Lot번호", field: "t_LotNo", headerHozAlign: "center" },
+		{ title: "품목코드", field: "t_ItemCode", headerHozAlign: "center" },
+		{ title: "품목명", field: "t_ItemName", headerHozAlign: "center" },
+		{ title: "규격1", field: "t_Item_Stnd_1", headerHozAlign: "center" },
+		{ title: "규격2", field: "t_Item_Stnd_2", headerHozAlign: "center" },
+		{ title: "분류1", field: "t_ITEM_CLSFC_1", headerHozAlign: "center" },
+		{ title: "분류2", field: "t_ITEM_CLSFC_2", headerHozAlign: "center" },
+		{ title: "이동수량", field: "t_Qty", align: "right", headerHozAlign: "center" },
+		{ title: "이동전", field: "t_Before_Name", align: "right", headerHozAlign: "center" },
+		{ title: "이동후", field: "t_After_Name", align: "right", headerHozAlign: "center" },
+		{ title: "이동일", field: "t_Create_Date", headerHozAlign: "center",
+			formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}}
 	]
 });
 
-// 출고반품조회 검색
+// 출고이동조회 검색
 function MORS_Search() {
-	data = {
+	var datas = {
 		startDate: $("#MORS_startDate").val(),
 		endDate: $("#MORS_endDate").val(),
-		outMat_Code: $("#PRODUCT_ITEM_CODE2").val()
+		itemCode: $("#PRODUCT_ITEM_CODE2").val()
 	}
 
 	$.ajax({
 		method: "GET",
 		dataType: "json",
-		url: "matOutReturnRest/MORS_Search?data=" + encodeURI(JSON.stringify(data)),
+		url: "matOutReturnRest/MORS_Search",
+		data: datas,
 		success: function(data) {
-			console.log(data)
 			matOutReturnSearchTable.setData(data);
 		}
 	});

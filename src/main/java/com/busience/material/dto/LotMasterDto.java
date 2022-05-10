@@ -13,9 +13,12 @@ public class LotMasterDto {
 	private String LM_ItemCode;
 	private int LM_Qty;
 	private String LM_Create_Date;
+	private String LM_Warehouse;
+	private String LM_Warehouse_Name;
 	
 	private String LM_ClientCode;
 	private String LM_ClientName;
+	private double LM_TransQty;
 	
 	// 영업 
 	private String LM_ItemName;

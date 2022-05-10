@@ -20,6 +20,20 @@
 		)
 	</insert>
 	
+	<insert id="outMatInsertDao2">
+		insert into OutMat_tbl(
+			OM_No,
+			OM_RequestNo, OM_LotNo,
+			OM_ItemCode, OM_Qty, OM_DeptCode,
+			OM_Send_Clsfc, OM_OutDate, OM_Modifier
+		) values (
+			(select ifnull(max(AA.OM_No)+1,1) from OutMat_tbl AS AA where AA.OM_RequestNo = #{RequestNo}),
+			#{RequestNo}, #{LotNo},
+			#{ItemCode}, #{Qty}, #{DeptCode},
+			#{classfy}, now(), #{Modifier}
+		)
+	</insert>
+	
 	<select id="outMatListDao" resultType="com.busience.material.dto.OutMatDto">
 		select 
 			A.OM_No, A.OM_RequestNo, A.OM_LotNo,

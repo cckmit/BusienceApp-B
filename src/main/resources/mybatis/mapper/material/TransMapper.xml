@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	 
+<mapper namespace="com.busience.material.dao.TransDao">
+
+	<select id="transNoSelectDao" resultType="int">
+		select ifnull(max(T_No)+1,1)
+		from Trans_tbl
+		where T_LotNo = #{T_LotNo}
+	</select>
+	
+	<insert id="transInsertDao">
+		insert into Trans_tbl (
+			T_No, T_LotNo, T_ItemCode,
+			T_Qty, T_Before, T_After,
+			T_Create_Date, T_Classify
+		) values(
+			#{T_No}, #{T_LotNo}, #{T_ItemCode},
+			#{T_Qty}, #{T_Before}, #{T_After},
+			now(), #{T_Classify}
+		)
+	</insert>
+	
+	<select id="transSelectDao" resultType="com.busience.material.dto.TransDto">
+		select 
+			A.T_LotNo, A.T_Qty,
+			A.T_ItemCode, B.Product_Item_Name T_ItemName,    
+			B.Product_Info_STND_1 T_Item_Stnd_1, 
+			B.Product_Info_STND_2 T_Item_Stnd_2,
+			D.CHILD_TBL_TYPE T_ITEM_CLSFC_1, 
+			E.CHILD_TBL_TYPE T_ITEM_CLSFC_2,
+		    A.T_Create_Date, A.T_Before, F.Child_TBL_Type T_Before_Name,
+		    A.T_After, G.Child_TBL_Type T_After_Name,
+			A.T_Classify, C.Child_TBL_Type T_Classify_Name
+		from Trans_tbl A
+		inner join Product_Info_tbl B on A.T_ItemCode = B.Product_Item_Code
+		INNER JOIN DTL_TBL C ON A.T_Classify = C.CHILD_TBL_NO
+		INNER JOIN DTL_TBL D ON B.PRODUCT_ITEM_CLSFC_1 = D.CHILD_TBL_NO
+		INNER JOIN DTL_TBL E ON B.PRODUCT_ITEM_CLSFC_2 = E.CHILD_TBL_NO
+		INNER JOIN DTL_TBL F ON A.T_Before = F.CHILD_TBL_NO
+		INNER JOIN DTL_TBL G ON A.T_After = G.CHILD_TBL_NO
+		<![CDATA[
+			where A.T_Create_Date >= #{startDate} and A.T_Create_Date < #{endDate}
+		]]>
+		and A.T_ItemCode like concat('%',#{itemCode},'%')
+	</select>
+</mapper>
