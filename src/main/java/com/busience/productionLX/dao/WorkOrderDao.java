@@ -8,6 +8,7 @@ import com.busience.common.dto.SearchDto;
 import com.busience.productionLX.dto.ProductionMgmtDto;
 import com.busience.productionLX.dto.WorkOrderDto;
 import com.busience.productionLX.dto.WorkOrder_tbl;
+import com.busience.salesLX.dto.SalesOrderMasterDto;
 
 @Mapper
 public interface WorkOrderDao {
@@ -46,6 +47,8 @@ public interface WorkOrderDao {
 	public int lastProductQtyDao(ProductionMgmtDto productionMgmtDto);
 	
 	public int lastProductModifyDao(ProductionMgmtDto productionMgmtDto);
+	
+	public List<SalesOrderMasterDto> workOrderSalesOrderSelectDao(SearchDto searchDto);
 	
 	public List<WorkOrderDto> workingSelectByMachineDao(SearchDto searchDto);
 

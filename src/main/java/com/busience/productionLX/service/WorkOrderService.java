@@ -18,6 +18,8 @@ import com.busience.productionLX.dto.ProductionMgmtDto;
 import com.busience.productionLX.dto.WorkOrderDto;
 import com.busience.productionLX.dto.WorkOrder_tbl;
 import com.busience.salesLX.dao.SalesInputLXDao;
+import com.busience.salesLX.dao.SalesOrderMasterDao;
+import com.busience.salesLX.dto.SalesOrderMasterDto;
 import com.busience.salesLX.dto.Sales_InMat_tbl;
 
 @Service
@@ -28,6 +30,9 @@ public class WorkOrderService {
 	
 	@Autowired
 	SalesInputLXDao salesInputLXDao;
+	
+	@Autowired
+	SalesOrderMasterDao SalesOrderMasterDao;
 	
 	@Autowired
 	DtlDao dtlDao;
@@ -42,6 +47,10 @@ public class WorkOrderService {
 	
 	public List<WorkOrderDto> workOrderSubSelect(SearchDto searchDto) {
 		return workOrderDao.workOrderSubSelectDao(searchDto);
+	}
+	
+	public List<SalesOrderMasterDto> workOrderSalesOrderSelect(SearchDto searchDto) {
+		return SalesOrderMasterDao.workOrderSalesOrderSelectDao(searchDto);
 	}
 	
 	//작업관리에서 작업지시 조회
@@ -107,7 +116,7 @@ public class WorkOrderService {
 							String WorkStatus = "";
 							for(int j=0;j<dtlList.size();j++) {
 								//기본적으로는 미접수 상태로 저장
-								if(dtlList.get(j).getCHILD_TBL_RMARK().equals("Y")) {
+								if(dtlList.get(j).getCHILD_TBL_RMARK().equals("N")) {
 									WorkStatus = dtlList.get(j).getCHILD_TBL_NO();
 								}
 								//태블릿은 작업시작인 상태로 저장
@@ -119,14 +128,6 @@ public class WorkOrderService {
 										workOrderDtoList.get(i).setWorkOrder_StartTime(workOrderDtoList.get(i).getWorkOrder_OrderTime());
 									}
 								}
-							}
-							
-							if(workOrderDtoList.get(i).getEQUIPMENT_PACK_CODE() == null) {
-								workOrderDtoList.get(i).setWorkOrder_EquipCode(workOrderDtoList.get(i).getEQUIPMENT_INFO_CODE());
-								workOrderDtoList.get(i).setWorkOrder_EquipName(workOrderDtoList.get(i).getEQUIPMENT_INFO_NAME());
-							} else if(workOrderDtoList.get(i).getEQUIPMENT_INFO_CODE() == null) {
-								workOrderDtoList.get(i).setWorkOrder_EquipCode(workOrderDtoList.get(i).getEQUIPMENT_PACK_CODE());
-								workOrderDtoList.get(i).setWorkOrder_EquipName(workOrderDtoList.get(i).getEQUIPMENT_PACK_NAME());
 							}
 							
 							workOrderDtoList.get(i).setWorkOrder_WorkStatus(WorkStatus);

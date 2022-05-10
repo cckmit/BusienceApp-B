@@ -29,6 +29,18 @@
 </if>
 	ORDER BY Sales_Order_mDate DESC
 </select>
+<select id="workOrderSalesOrderSelectDao" resultType="com.busience.salesLX.dto.SalesOrderMasterDto">
+		SELECT
+			A.Sales_Order_mCus_No, A.Sales_Order_mCode, C.Cus_Name Sales_Order_mName, A.Sales_Order_mDlvry_Date, A.Sales_Order_mCheck,
+		    B.Sales_Order_lCode Sales_Order_ItemCode, D.PRODUCT_ITEM_NAME Sales_Order_ItemName, B.Sales_Order_lQty Sales_Order_Qty
+		FROM Sales_OrderMaster_tbl A
+		inner join Sales_OrderList_tbl B on A.Sales_Order_mCus_No = B.Sales_Order_lCus_No
+		inner join Customer_tbl C on A.Sales_Order_mCode = C.Cus_Code
+		inner join Product_Info_tbl D on B.Sales_Order_lCode = D.PRODUCT_ITEM_CODE and B.Sales_Order_lCode = #{itemCode}
+		<![CDATA[
+		where Sales_Order_mDlvry_Date > #{endDate} 
+		]]>
+</select>
 <select id="salesOrderNoCreateDao" resultType="String">
 	select 
 		concat(

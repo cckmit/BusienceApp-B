@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.busience.common.dto.SearchDto;
 import com.busience.productionLX.dto.WorkOrderDto;
 import com.busience.productionLX.service.WorkOrderService;
+import com.busience.salesLX.dto.SalesOrderMasterDto;
 import com.busience.salesLX.dto.Sales_OrderMasterList_tbl;
 import com.busience.salesLX.dto.Sales_StockMat_tbl;
 
@@ -151,6 +152,12 @@ public class workOrderRestController {
 	@GetMapping("/workOrderSelect")
 	public List<WorkOrderDto> workOrderSelect(SearchDto searchDto) {
 		return workOrderService.workOrderSelect(searchDto);
+	}
+	
+	// 수주현황
+	@GetMapping("/workOrderSalesOrderSelect")
+	public List<SalesOrderMasterDto> workOrderSalesOrderSelect(SearchDto searchDto) {
+		return workOrderService.workOrderSalesOrderSelect(searchDto);
 	}
 	
 	//작업지시 등록된 리스트

@@ -9,16 +9,15 @@
 	<![CDATA[
 		select 
 			A.WorkOrder_No, A.WorkOrder_ONo,
-			A.WorkOrder_ItemCode, B.PRODUCT_ITEM_NAME WorkOrder_ItemName, B.PRODUCT_INFO_STND_1 WorkOrder_Item_STND_1,
+			A.WorkOrder_ItemCode, B.PRODUCT_ITEM_NAME WorkOrder_ItemName, B.PRODUCT_INFO_STND_1 WorkOrder_INFO_STND_1,
 			A.WorkOrder_EquipCode, C.EQUIPMENT_INFO_NAME WorkOrder_EquipName,
-			D.Sales_SM_Last_Qty + D.Sales_SM_In_Qty - D.Sales_SM_Out_Qty WorkOrder_SQty, A.WorkOrder_AllottedQty, A.WorkOrder_ProductionQty,
-			A.WorkOrder_RegisterTime, A.WorkOrder_ReceiptTime, A.WorkOrder_OrderTime,
-			A.WorkOrder_StartTime, A.WorkOrder_CompleteOrderTime, A.WorkOrder_CompleteTime,
+			A.WorkOrder_AllottedQty, A.WorkOrder_ProductionQty,
+			A.WorkOrder_RegisterTime, A.WorkOrder_ReceiptTime,
+			A.WorkOrder_StartTime, A.WorkOrder_CompleteTime,
 			A.WorkOrder_WorkStatus, E.CHILD_TBL_TYPE WorkOrder_WorkStatusName, A.WorkOrder_Remark, A.WorkOrder_Use_Status
 			from WorkOrder_tbl A
-			inner join PRODUCT_INFO_TBL B on A.WorkOrder_ItemCode = B.PRODUCT_ITEM_CODE
-			inner join EQUIPMENT_INFO_TBL C on A.WorkOrder_EquipCode = C.EQUIPMENT_INFO_CODE
-			left outer join Sales_StockMatLX_tbl D on A.WorkOrder_ItemCode = D.Sales_SM_Code
+			inner join Product_Info_tbl B on A.WorkOrder_ItemCode = B.PRODUCT_ITEM_CODE
+			inner join Equipment_Info_tbl C on A.WorkOrder_EquipCode = C.EQUIPMENT_INFO_CODE
 			inner join (SELECT * FROM DTL_TBL where NEW_TBL_CODE = '29') E on A.WorkOrder_WorkStatus = E.CHILD_TBL_NO
 			where A.WorkOrder_RegisterTime >= #{startDate} and A.WorkOrder_RegisterTime < #{endDate} and A.WorkOrder_WorkStatus = '242'
 			order by A.WorkOrder_RegisterTime DESC
@@ -197,10 +196,12 @@
 	<insert id="workOrderRegisterDao">
 		insert into WorkOrder_tbl (
 			WorkOrder_No, WorkOrder_ONo, WorkOrder_ItemCode, WorkOrder_EquipCode,
-			WorkOrder_WorkStatus, WorkOrder_Worker 
+		    WorkOrder_RegisterTime, WorkOrder_ReceiptTime,
+			WorkOrder_WorkStatus, WorkOrder_Worker, WorkOrder_Remark
 		) values (
 			#{WorkOrder_No},#{WorkOrder_ONo},#{WorkOrder_ItemCode},#{WorkOrder_EquipCode},
-			#{WorkOrder_WorkStatus},#{WorkOrder_Worker}
+			now(), #{WorkOrder_ReceiptTime},
+			#{WorkOrder_WorkStatus}, #{WorkOrder_Worker}, #{WorkOrder_Remark}
 		) on duplicate key update
 		WorkOrder_ONo = #{WorkOrder_ONo},
 		WorkOrder_ItemCode = #{WorkOrder_ItemCode},
@@ -213,21 +214,19 @@
 			WorkOrder_No, WorkOrder_ONo, WorkOrder_ItemCode,
 		    WorkOrder_EquipCode, WorkOrder_AllottedQty,
 		    WorkOrder_RegisterTime, WorkOrder_ReceiptTime,
-		    WorkOrder_OrderTime, WorkOrder_StartTime, WorkOrder_CompleteOrderTime,
+		    WorkOrder_StartTime, 
 		    WorkOrder_WorkStatus, WorkOrder_Worker, WorkOrder_Remark
 		) values (
 			#{WorkOrder_No}, #{WorkOrder_ONo}, #{WorkOrder_ItemCode},
 		    #{WorkOrder_EquipCode}, #{WorkOrder_AllottedQty},
 		    now(), #{WorkOrder_ReceiptTime},
-		    #{WorkOrder_OrderTime}, #{WorkOrder_StartTime}, #{WorkOrder_CompleteOrderTime},
+		  	#{WorkOrder_StartTime}, 
 		    #{WorkOrder_WorkStatus}, #{WorkOrder_Worker}, #{WorkOrder_Remark}
 		)on duplicate key update
 		WorkOrder_ONo = #{NewWorkOrder_ONo},
 		WorkOrder_ItemCode = #{WorkOrder_ItemCode},
 		WorkOrder_EquipCode = #{WorkOrder_EquipCode},
 		WorkOrder_AllottedQty = #{WorkOrder_AllottedQty},
-		WorkOrder_OrderTime = #{WorkOrder_OrderTime},
-		WorkOrder_CompleteOrderTime = #{WorkOrder_CompleteOrderTime},
 		WorkOrder_Worker = #{WorkOrder_Worker},
 		WorkOrder_Remark = #{WorkOrder_Remark}
 	</insert>
