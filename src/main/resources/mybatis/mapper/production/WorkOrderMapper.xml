@@ -217,9 +217,16 @@
 		LEFT JOIN	Equipment_Info_tbl t3 ON t1.WorkOrder_EquipCode = t3.EQUIPMENT_INFO_CODE
 		LEFT JOIN	DTL_TBL t4 ON t1.WorkOrder_WorkStatus = t4.Child_TBL_No	
 		LEFT JOIN   DTL_TBL t5 ON t2.Product_Item_CLSFC_1 = t5.Child_TBL_No	
+		<if test="Condition == '242'">
 		<![CDATA[
 		WHERE			t1.WorkOrder_RegisterTime >= #{startDate} AND t1.WorkOrder_RegisterTime < #{endDate}
 		]]>
+		</if>
+		<if test="Condition == '243'">
+		<![CDATA[
+		WHERE			t1.WorkOrder_ReceiptTime >= #{startDate} AND t1.WorkOrder_ReceiptTime < #{endDate}
+		]]>
+		</if>
 		AND 			t1.WorkOrder_WorkStatus = #{Condition}
 		AND			(t2.PRODUCT_ITEM_CODE like concat('%',#{ItemCode},'%'))
 		AND			(t3.EQUIPMENT_INFO_CODE like concat('%',#{MachineCode},'%'))
