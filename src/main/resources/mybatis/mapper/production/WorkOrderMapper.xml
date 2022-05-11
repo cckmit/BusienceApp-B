@@ -387,4 +387,23 @@
 			WorkOrder_WorkStatus = #{WorkOrder_WorkStatus}
 			where WorkOrder_EquipCode = #{WorkOrder_EquipCode}
 	</update>
+	
+	<select id="workOrderMonitoringSelectDao" resultType="com.busience.productionLX.dto.WorkOrderDto">
+		select 
+			A.WorkOrder_No, A.WorkOrder_ONo,
+			A.WorkOrder_ItemCode, B.PRODUCT_ITEM_NAME WorkOrder_ItemName, B.PRODUCT_INFO_STND_1 WorkOrder_INFO_STND_1,
+			A.WorkOrder_EquipCode, C.EQUIPMENT_INFO_NAME WorkOrder_EquipName,
+			A.WorkOrder_AllottedQty, A.WorkOrder_ProductionQty,
+			A.WorkOrder_RegisterTime, A.WorkOrder_ReceiptTime,
+			A.WorkOrder_StartTime, A.WorkOrder_CompleteTime,
+			A.WorkOrder_WorkStatus, E.CHILD_TBL_TYPE WorkOrder_WorkStatusName, A.WorkOrder_Remark, A.WorkOrder_Use_Status
+		from WorkOrder_tbl A
+		inner join Product_Info_tbl B on A.WorkOrder_ItemCode = B.PRODUCT_ITEM_CODE
+		inner join Equipment_Info_tbl C on A.WorkOrder_EquipCode = C.EQUIPMENT_INFO_CODE
+		inner join (SELECT * FROM DTL_TBL where NEW_TBL_CODE = '29') E on A.WorkOrder_WorkStatus = E.CHILD_TBL_NO
+		where A.WorkOrder_EquipCode = #{machineCode}
+		and A.WorkOrder_WorkStatus in (244, 245)
+		order by A.WorkOrder_CompleteTime is null desc, A.WorkOrder_CompleteTime desc
+		limit 5
+	</select>
 </mapper>

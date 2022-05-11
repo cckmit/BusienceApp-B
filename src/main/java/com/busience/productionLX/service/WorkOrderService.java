@@ -282,8 +282,6 @@ public class WorkOrderService {
 	
 	//상태 변경
 	public int workOrderStatusUpdate(WorkOrderDto workOrderDto) {
-		System.out.println("검증시작");
-		System.out.println(workOrderDto);
 		List<DtlDto> dtlList = dtlDao.findByCode(29);
 		
 		//작업지시 상태
@@ -293,7 +291,6 @@ public class WorkOrderService {
 				workOrderDto.setWorkOrder_WorkStatus(dtlList.get(j).getCHILD_TBL_NO());
 			}
 		}
-		System.out.println(workOrderDto);
 		
 		return workOrderDao.workOrderStatusUpdateDao(workOrderDto);
 	}

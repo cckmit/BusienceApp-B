@@ -2,19 +2,17 @@ function monitoring_status(machineCode){
 	var status = {
 		layoutColumnsOnNewData : true,
 	    ajaxLoader:false,
-	    ajaxURL:"workOrderTABRestXO/WOT_Search",
+	    ajaxURL:"proMonitoringRest/workOrderMonitoringSelect",
 	    ajaxConfig:"get",
 	    ajaxContentType:"json",
 	    ajaxParams:{
 	    	machineCode : machineCode,
-	    	startDate : today.toISOString().substring(0, 10),
-	    	endDate : tomorrow.toISOString().substring(0, 10),
 	    	statusCodeArr : "245"
 	    },
 	    columns:[
 	        { title:"작업지시번호", field:"workOrder_ONo", visible:false,},
 	        { title: "제품이름", field: "workOrder_ItemName", headerHozAlign: "center", headerSort:false},
-	        { title: "생산", field: "workOrder_RQty", headerHozAlign: "center", align: "right",
+	        { title: "생산량", field: "workOrder_RQty", headerHozAlign: "center", align: "right",
 				formatter:"money", formatterParams: {precision: false}, headerSort:false, bottomCalc:"sum"},
 			{ title: "작업시작일", field: "workOrder_StartTime", align: "right", headerHozAlign: "center", headerSort:false,
 				formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm" }},

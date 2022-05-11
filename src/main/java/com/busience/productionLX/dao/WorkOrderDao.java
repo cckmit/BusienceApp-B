@@ -64,4 +64,6 @@ public interface WorkOrderDao {
 
 	//상태 변경
 	public int workOrderStatusUpdateDao(WorkOrderDto workOrderDto);
+	
+	public List<WorkOrderDto> workOrderMonitoringSelectDao(SearchDto searchDto);
 }
