@@ -68,7 +68,7 @@ public class materialController {
 	// MatInput
 	@GetMapping("matInput")
 	public String matInput(Model model) {
-		model.addAttribute("pageName", "입고 관리");
+		model.addAttribute("pageName", "가입고 관리");
 		return "material/matInput";
 	}
 	
