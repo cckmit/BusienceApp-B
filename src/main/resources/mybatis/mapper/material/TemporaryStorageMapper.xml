@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	 
+<mapper namespace="com.busience.material.dao.TemporaryStorageDao">
+	
+	<insert id="temporaryStorageInsertDao">
+		insert into Temporary_Storage_tbl(
+			TS_OrderNo, TS_ItemCode, TS_Qty, TS_Unit_Price,
+		    TS_Price, TS_Client_Code, TS_Date,
+		    TS_Classfy, TS_Insert_Time, TS_Modifier
+		) values (
+			#{InMat_Order_No}, #{InMat_Code}, #{InMat_Qty}, #{InMat_Unit_Price},
+		    #{InMat_Qty} * #{InMat_Unit_Price}, #{InMat_Client_Code}, #{InMat_Date},
+		    #{InMat_Rcv_Clsfc}, now(), #{InMat_Modifier}
+		)
+	</insert>
+	
+	<select id="temporaryStorageSelectDao" resultType="com.busience.material.dto.TemporaryStorageDto">
+		select 
+			A.TS_OrderNo, A.TS_ItemCode, C.Product_Item_Name TS_ItemName,
+			C.Product_Info_STND_1 TS_Item_STND_1, C.Product_Info_STND_2 TS_Item_STND_2,
+			A.TS_Qty, A.TS_Unit_Price, D.Child_TBL_Type TS_Unit,
+			A.TS_Price, A.TS_Client_Code, B.Cus_Name TS_Client_Name,
+			A.TS_Date, A.TS_Classfy,  E.Child_TBL_Type TS_Classfy_Name,
+			F.Order_lInfo_Remark InMat_Info_Remark, A.TS_Insert_Time, A.TS_Modifier
+		from Temporary_Storage_tbl A 
+		inner join Customer_tbl B on A.TS_Client_Code = B.Cus_Code 
+		inner join Product_Info_tbl C on A.TS_ItemCode = C.PRODUCT_ITEM_CODE 
+		inner join DTL_TBL D on C.PRODUCT_UNIT = D.CHILD_TBL_NO
+		inner join DTL_TBL E on A.TS_Classfy = E.CHILD_TBL_NO
+		inner join OrderList_tbl F on A.TS_OrderNo = F.Order_lCus_No and A.TS_ItemCode = F.Order_lCode
+		<![CDATA[
+			where A.TS_Date >= #{startDate} and A.TS_Date < #{endDate}
+		]]>
+		and A.TS_ItemCode like concat('%',#{ItemCode},'%') and A.InMat_Client_Code like concat('%',#{ClientCode},'%')
+		<if test="ItemSendClsfc != 'all'">
+			and A.TS_Classfy = #{ItemSendClsfc}
+		</if>
+		order by A.TS_Date
+	</select>
+</mapper>

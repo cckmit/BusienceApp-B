@@ -10,8 +10,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import org.json.simple.JSONObject;
@@ -20,10 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
@@ -64,8 +60,6 @@ public class workListRestController {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		int CHILD_TBL_NO = 0;
-
-		String WorkOrder_Check = (String) obj.get("WorkOrder_Check");
 
 		sql = "select CHILD_TBL_NO from DTL_TBL where CHILD_TBL_RMARK='Y'";
 		pstmt = conn.prepareStatement(sql);
@@ -255,7 +249,6 @@ public class workListRestController {
 	@RequestMapping(value = "/OrderUpdate2", method = RequestMethod.GET)
 	public String OrderUpdate2(HttpServletRequest request, Principal principal) throws SQLException {
 		String workOrder_ONo = request.getParameter("workOrder_ONo");
-		String workOrder_EquipCode = request.getParameter("workOrder_EquipCode");
 		Connection con = dataSource.getConnection();
 		PreparedStatement pstmt = null;
 		

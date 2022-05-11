@@ -9,7 +9,6 @@ import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import com.busience.common.dao.DtlDao;
-import com.busience.common.dto.DtlDto;
 import com.busience.common.dto.SearchDto;
 import com.busience.material.dao.InMatDao;
 import com.busience.material.dao.LotMasterDao;
@@ -18,6 +17,7 @@ import com.busience.material.dao.LotTransDao;
 import com.busience.material.dao.OrderListDao;
 import com.busience.material.dao.OrderMasterDao;
 import com.busience.material.dao.StockDao;
+import com.busience.material.dao.TemporaryStorageDao;
 import com.busience.material.dto.InMatDto;
 
 @Service
@@ -39,6 +39,9 @@ public class MatInputService {
 	InMatDao inMatDao;
 	
 	@Autowired
+	TemporaryStorageDao temporaryStorageDao; 
+	
+	@Autowired
 	StockDao stockDao;
 	
 	@Autowired
@@ -57,13 +60,15 @@ public class MatInputService {
 				
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
-					List<DtlDto> WarehouseList = dtlDao.findByCode(10);
+					//List<DtlDto> WarehouseList = dtlDao.findByCode(10);
 					
 					for(int i=0;i<inMatDtoList.size();i++) {
 						InMatDto inMatDto = inMatDtoList.get(i);
-						
+						inMatDto.setInMat_Modifier(userCode);
+						/*
 						int no = inMatDto.getInMat_No();
 						String lotNo = inMatDto.getInMat_Lot_No();
+						String OrderNo = inMatDto.getInMat_Order_No();
 						String itemCode = inMatDto.getInMat_Code();
 						double qty = (double) inMatDto.getInMat_Qty();
 						String Warehouse = WarehouseList.get(0).getCHILD_TBL_NO();
@@ -107,7 +112,10 @@ public class MatInputService {
 						lotTransDao.lotTransInsertDao(
 								no, lotNo, itemCode, qty, before, after, classfy
 								);
-												
+						*/
+						//가입고 저장
+						temporaryStorageDao.temporaryStorageInsertDao(inMatDto);
+						
 						//발주리스트 저장
 						orderListDao.orderListUpdateDao(inMatDto);
 						

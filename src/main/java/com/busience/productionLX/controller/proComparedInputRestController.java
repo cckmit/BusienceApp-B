@@ -42,7 +42,6 @@ public class proComparedInputRestController {
 		Connection conn;
 		PreparedStatement pstmt;
 		ResultSet rs;
-		String days_ago;
 
 		String workOrdersql = "SELECT sum(WorkOrder_RQty) Total_RQty, date(WorkOrder_CompleteTime) WorkOrder_CompleteTime\r\n"
 				+ "FROM WorkOrder_tbl wt\r\n" + "WHERE WorkOrder_WorkStatus='245' ";
@@ -154,7 +153,6 @@ public class proComparedInputRestController {
 			start.add(Calendar.DATE, -1);
 		}
 
-		Calendar outmatStart = Calendar.getInstance();
 		// 날짜 형 변환
 		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -286,7 +284,6 @@ public class proComparedInputRestController {
 			start.add(Calendar.DATE, -1);
 		}
 
-		Calendar outmatStart = Calendar.getInstance();
 		// 날짜 형 변환
 		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
 
