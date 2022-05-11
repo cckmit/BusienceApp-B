@@ -66,6 +66,11 @@ public class WorkOrderService {
 		return workOrderDao.workOrderSumQtyDao(searchDto);
 	}
 	
+	//작업지시 접수 상단 그리드
+	public List<WorkOrderDto> workorderListSelect(SearchDto searchDto) {
+		return workOrderDao.workorderListSelect(searchDto);
+	}
+	
 	//작업 현황
 	public List<WorkOrder_tbl> workListSearch(SearchDto searchDto) {
 		return workOrderDao.workListSearch(searchDto);
@@ -228,6 +233,35 @@ public class WorkOrderService {
 			salesInputLXDao.salesStockMatUpdateDao(sales_InMat_tbl);
 		}
 		return workOrderDao.workOrderUpdateDao(workOrderDto);
+	}
+	
+	
+	//작업지시 접수 update 
+	public int workOrderListUpdate(WorkOrderDto workOrderDto, String modifier) {
+		try {
+			
+			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					// TODO Auto-generated method stub
+					String WorkOrder_ONo = workOrderDto.getWorkOrder_ONo();
+					String WorkStatus = workOrderDto.getWorkOrder_WorkStatus();
+					// update
+					workOrderDao.workorderlistUpdate(WorkOrder_ONo, WorkStatus, modifier);
+					
+					// select
+					workOrderDao.workorderUpdatedList(workOrderDto);
+				}
+				
+			});
+			
+			return 1;
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
 	}
 	
 	public int workOrderQtyUpdate(WorkOrderDto workOrderDto) {

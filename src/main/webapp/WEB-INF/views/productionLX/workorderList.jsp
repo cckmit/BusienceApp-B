@@ -64,12 +64,12 @@
 				</div>
 			</div>
 			
-			<div id="WorkOrder_tbl2"></div>
+			<div id="Sub_WorkOrder_tbl"></div>
 		</div>
 		<!-- END MAIN -->
 	</div>
 <script src="/js/today.js"></script>
-<script src="/js/productionLX/workOrderList.js"></script>
+<script src="/js/productionLX/workOrderList.js?v=<%=System.currentTimeMillis() %>"></script>
 <script src="/js/tabMenu.js"></script>
 
 </body>
