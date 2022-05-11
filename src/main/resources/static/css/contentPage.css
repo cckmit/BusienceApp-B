@@ -215,3 +215,28 @@ div.tabulator-tableHolder {
 	width: 100px;
 	text-align: center;
 }
+.monitor_main {
+	background: rgb(42,44,57);
+	color: white;
+}
+.monitor_topvar {
+	height: 150px;
+	text-align: center;
+}
+#monitor_content {
+	margin: 0px;
+	background-color: rgb(57,62,82);
+	width: 100%;
+	height: 740px;
+}
+.monitor_wrap {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.monitor_wrap .monitor {
+	max-width: 500px;
+	width: 100%;
+	height: 300px;
+	font-size: 16px;
+}

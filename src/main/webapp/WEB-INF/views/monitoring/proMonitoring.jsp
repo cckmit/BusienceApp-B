@@ -1,63 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-	
-<head>
-	<title>생산 모니터링</title>
-	
-	<style type="text/css">
-	body{ -ms-overflow-style: none; } ::-webkit-scrollbar { display: none; }
-	</style>
-</head>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<body style="background: rgb(42,44,57); color: white;">
-	
-	<%
-		String CHILD_TBL_TYPE = (String)request.getAttribute("CHILD_TBL_TYPE");
-	%>
-	
-	<%
-		if(CHILD_TBL_TYPE.equals("1"))
-		{
-	%>
-		<jsp:include page="proMonitoring1.jsp"></jsp:include>
-	<%
-		}
-	%>
-	
-	<%
-		if(CHILD_TBL_TYPE.equals("2"))
-		{
-	%>
-		<jsp:include page="proMonitoring2.jsp"></jsp:include>
-	<%
-		}
-	%>
-	
-	<%
-		if(CHILD_TBL_TYPE.equals("4"))
-		{
-	%>
-		<jsp:include page="proMonitoring4.jsp"></jsp:include>
-	<%
-		}
-	%>
-	
-	<%
-		if(CHILD_TBL_TYPE.equals("6"))
-		{
-	%>
-		<jsp:include page="proMonitoring6.jsp"></jsp:include>
-	<%
-		}
-	%>
-	
-	<%
-		if(CHILD_TBL_TYPE.equals("8"))
-		{
-	%>
-		<jsp:include page="proMonitoring8.jsp"></jsp:include>
-	<%
-		}
-	%>
-	
-</body>
+<div class="main monitor_main">
+	<div class="monitor_topvar">
+		<p style="font-size: 50px">생산 현황 <font style="color: rgb(88,221,178);">모니터링</font></p>
+		<p id="curentTime" style="font-size: 40px">0000-00-00 00:00:00</p>
+	</div>
+	<div id="monitor_content" class="row">
+	</div>
+</div>
+
+<script src="js/monitoring/proMonitoring.js?v=<%=System.currentTimeMillis() %>"></script>
+<script src="js/monitoring/monitoring.js?v=<%=System.currentTimeMillis() %>"></script>
