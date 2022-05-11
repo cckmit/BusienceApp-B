@@ -40,7 +40,6 @@ public class oqcOutputInspectRestController {
 
 		String startDate = (String) obj.get("startDate");
 		String endDate = (String) obj.get("endDate");
-		String PRODUCT_ITEM_CODE = (String) obj.get("PRODUCT_ITEM_CODE");
 
 		List<WorkOrder_tbl> list = new ArrayList<WorkOrder_tbl>();
 

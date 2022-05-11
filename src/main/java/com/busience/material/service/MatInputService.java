@@ -9,7 +9,6 @@ import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import com.busience.common.dao.DtlDao;
-import com.busience.common.dto.DtlDto;
 import com.busience.common.dto.SearchDto;
 import com.busience.material.dao.InMatDao;
 import com.busience.material.dao.LotMasterDao;
@@ -61,7 +60,7 @@ public class MatInputService {
 				
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
-					List<DtlDto> WarehouseList = dtlDao.findByCode(10);
+					//List<DtlDto> WarehouseList = dtlDao.findByCode(10);
 					
 					for(int i=0;i<inMatDtoList.size();i++) {
 						InMatDto inMatDto = inMatDtoList.get(i);
