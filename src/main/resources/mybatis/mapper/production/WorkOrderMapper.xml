@@ -4,8 +4,8 @@
 	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	 
-<mapper namespace="com.busience.productionLX.dao.WorkOrderDao">
-	<select id="workOrderSelectDao" resultType="com.busience.productionLX.dto.WorkOrderDto">
+<mapper namespace="com.busience.production.dao.WorkOrderDao">
+	<select id="workOrderSelectDao" resultType="com.busience.production.dto.WorkOrderDto">
 	<![CDATA[
 		select 
 			A.WorkOrder_No, A.WorkOrder_ONo,
@@ -24,7 +24,7 @@
 	]]>
 	</select>
 	
-	<select id="workOrderSubSelectDao" resultType="com.busience.productionLX.dto.WorkOrderDto">
+	<select id="workOrderSubSelectDao" resultType="com.busience.production.dto.WorkOrderDto">
 		select 
 			A.WorkOrder_No, A.WorkOrder_ONo,
 			A.WorkOrder_ItemCode, B.Product_Item_Name WorkOrder_ItemName, B.Product_Info_STND_1 WorkOrder_INFO_STND_1,
@@ -51,7 +51,7 @@
 		SELECT count(*) FROM WorkOrder_tbl where WorkOrder_EquipCode = #{WorkOrder_EquipCode} and WorkOrder_WorkStatus = '244';
 	</select>
 	
-	<select id="workOrderChoiceSelectDao" resultType="com.busience.productionLX.dto.WorkOrderDto">
+	<select id="workOrderChoiceSelectDao" resultType="com.busience.production.dto.WorkOrderDto">
 		SELECT
 			A.WorkOrder_ONo, A.WorkOrder_ItemCode, B.PRODUCT_ITEM_NAME WorkOrder_ItemName,
             B.PRODUCT_INFO_STND_1 WorkOrder_Item_STND_1, B.PRODUCT_MULTIPLE WorkOrder_Item_Multiple,
@@ -67,7 +67,7 @@
 		SELECT count(*) FROM WorkOrder_tbl where WorkOrder_RegisterTime >= curdate();
 	</select>
 	
-	<select id="workListSearch" resultType="com.busience.productionLX.dto.WorkOrder_tbl">
+	<select id="workListSearch" resultType="com.busience.production.dto.WorkOrder_tbl">
 	
 	    SELECT
 			*,
@@ -114,7 +114,7 @@
 
 	</select>
 	
-	<select id="workdListSearch" resultType="com.busience.productionLX.dto.WorkOrder_tbl">
+	<select id="workdListSearch" resultType="com.busience.production.dto.WorkOrder_tbl">
 		SELECT t1.*, t2.CHILD_TBL_Type WorkOrder_WorkStatusName, t4.Equipment_Info_Name WorkOrder_EquipName, t3.Product_Item_Name WorkOrder_ItemName, t3.Product_Info_STND_1 PRODUCT_INFO_STND_1,
 		t5.Child_TBL_Type Product_Item_CLSFC_NAME_1, t6.Child_TBL_Type Product_Item_CLSFC_NAME_2
 		FROM WorkOrder_tbl t1
@@ -141,7 +141,7 @@
 		ORDER BY t1.WorkOrder_ONo ASC, t1.WorkOrder_RegisterTime DESC
 	</select>
 	
-	<select id="workOrderCompleteSelectDao" resultType="com.busience.productionLX.dto.WorkOrderDto">
+	<select id="workOrderCompleteSelectDao" resultType="com.busience.production.dto.WorkOrderDto">
 	
 		select 
 			A.WorkOrder_ONo, A.WorkOrder_EquipCode, A.WorkOrder_ItemCode, B.PRODUCT_ITEM_NAME WorkOrder_ItemName,
@@ -193,7 +193,7 @@
 			limit 1
 	</select>
 	
-	<select id="workorderListSelect" resultType="com.busience.productionLX.dto.WorkOrderDto">
+	<select id="workorderListSelect" resultType="com.busience.production.dto.WorkOrderDto">
 		SELECT	
 			t1.WorkOrder_No,								
 			t1.WorkOrder_ONo,								
@@ -233,7 +233,7 @@
 		ORDER BY 	t1.WorkOrder_RegisterTime DESC, t1.WorkOrder_No DESC
 	</select>
 	
-	<select id="workorderUpdatedList" resultType="com.busience.productionLX.dto.WorkOrderDto">
+	<select id="workorderUpdatedList" resultType="com.busience.production.dto.WorkOrderDto">
 		SELECT 
 					*,
 					t2.PRODUCT_ITEM_NAME WorkOrder_ItemName
@@ -358,18 +358,31 @@
 		where WorkOrder_EquipCode = #{WorkOrder_EquipCode}
 	</delete>
 	
-	<select id="workingSelectByMachineDao" resultType="com.busience.productionLX.dto.WorkOrderDto">
+	<select id="workingSelectByMachineDao" resultType="com.busience.production.dto.WorkOrderDto">
 		SELECT
 			A.WorkOrder_No, A.WorkOrder_ONo, A.WorkOrder_ItemCode, B.Product_Item_Name WorkOrder_ItemName,
             B.Product_Info_STND_1 WorkOrder_Item_STND_1, B.Product_Info_STND_2 WorkOrder_Item_STND_2,
             B.Product_Item_CLSFC_1, B.Product_Item_CLSFC_2,
-			A.WorkOrder_EquipCode, A.WorkOrder_ProductionQty, A.WorkOrder_AllottedQty,
+			A.WorkOrder_EquipCode, C.Equipment_Info_Name WorkOrder_EquipName,
+            A.WorkOrder_ProductionQty, A.WorkOrder_AllottedQty,
 			A.WorkOrder_RegisterTime, A.WorkOrder_StartTime, A.WorkOrder_CompleteTime,
-			A.WorkOrder_WorkStatus, A.WorkOrder_Worker, A.WorkOrder_Remark, A.WorkOrder_Use_Status 
+			A.WorkOrder_WorkStatus, D.Child_TBL_Type WorkOrder_WorkStatus_Name, A.WorkOrder_Worker,
+            A.WorkOrder_Remark, A.WorkOrder_Use_Status 
 		FROM WorkOrder_tbl A
         inner join Product_Info_tbl B on A.WorkOrder_ItemCode = B.Product_Item_Code
-		where A.WorkOrder_WorkStatus != (select Child_TBL_No from DTL_TBL where New_TBL_Code ='29' and Child_TBL_Num = '4')
-		and A.WorkOrder_EquipCode = #{machineCode}
+        inner join Equipment_Info_tbl C on A.WorkOrder_EquipCode = C.Equipment_Info_Code
+        inner join DTL_TBL D on A.WorkOrder_WorkStatus = D.Child_TBL_No
+		where A.WorkOrder_WorkStatus in (select Child_TBL_No from DTL_TBL where New_TBL_Code ='29' and Child_TBL_Num in (0, 1, 2, 3))
+		<if test="machineCode != null">
+			and A.WorkOrder_EquipCode = #{machineCode}
+		</if>
+		<if test="itemCode != null and itemCode != ''">
+			and A.WorkOrder_ItemCode = #{itemCode}
+		</if>
+		order by A.WorkOrder_EquipCode, A.WorkOrder_RegisterTime
+		<if test="condition != null">
+			limit 1
+		</if>
 	</select>
 	
 	<update id="workOrderStatusUpdateDao">
@@ -388,7 +401,7 @@
 			where WorkOrder_EquipCode = #{WorkOrder_EquipCode}
 	</update>
 	
-	<select id="workOrderMonitoringSelectDao" resultType="com.busience.productionLX.dto.WorkOrderDto">
+	<select id="workOrderMonitoringSelectDao" resultType="com.busience.production.dto.WorkOrderDto">
 		select 
 			A.WorkOrder_No, A.WorkOrder_ONo,
 			A.WorkOrder_ItemCode, B.PRODUCT_ITEM_NAME WorkOrder_ItemName, B.PRODUCT_INFO_STND_1 WorkOrder_INFO_STND_1,
@@ -396,13 +409,13 @@
 			A.WorkOrder_AllottedQty, A.WorkOrder_ProductionQty,
 			A.WorkOrder_RegisterTime, A.WorkOrder_ReceiptTime,
 			A.WorkOrder_StartTime, A.WorkOrder_CompleteTime,
-			A.WorkOrder_WorkStatus, E.CHILD_TBL_TYPE WorkOrder_WorkStatusName, A.WorkOrder_Remark, A.WorkOrder_Use_Status
+			A.WorkOrder_WorkStatus, E.CHILD_TBL_TYPE WorkOrder_WorkStatus_Name, A.WorkOrder_Remark, A.WorkOrder_Use_Status
 		from WorkOrder_tbl A
 		inner join Product_Info_tbl B on A.WorkOrder_ItemCode = B.PRODUCT_ITEM_CODE
 		inner join Equipment_Info_tbl C on A.WorkOrder_EquipCode = C.EQUIPMENT_INFO_CODE
 		inner join (SELECT * FROM DTL_TBL where NEW_TBL_CODE = '29') E on A.WorkOrder_WorkStatus = E.CHILD_TBL_NO
-		where A.WorkOrder_EquipCode = #{machineCode}
-		and A.WorkOrder_WorkStatus in (244, 245)
+		where A.WorkOrder_WorkStatus in (244, 245)
+		and A.WorkOrder_EquipCode = #{machineCode}
 		order by A.WorkOrder_CompleteTime is null desc, A.WorkOrder_CompleteTime desc
 		limit 5
 	</select>

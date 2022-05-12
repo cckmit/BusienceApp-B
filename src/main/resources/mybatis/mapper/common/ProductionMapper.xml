@@ -5,7 +5,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="com.busience.common.dao.ProductionDao">
-	<select id="selectWorkOrderDao" resultType="com.busience.productionLX.dto.WorkOrderDto">
+	<select id="selectWorkOrderDao" resultType="com.busience.production.dto.WorkOrderDto">
 		SELECT A.WorkOrder_ONo, A.WorkOrder_itemCode, A.WorkOrder_EquipCode, B.CHILD_TBL_TYPE
 			FROM WorkOrder_tbl A
 			inner join DTL_TBL B on A.WorkOrder_WorkStatus = B.CHILD_TBL_NO

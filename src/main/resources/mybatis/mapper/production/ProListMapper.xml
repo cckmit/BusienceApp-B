@@ -4,8 +4,8 @@
 	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	 
-<mapper namespace="com.busience.productionLX.dao.ProductionMgmtDao">
-	<select id="proItemSumDao" resultType="com.busience.productionLX.dto.ProductionMgmtDto">
+<mapper namespace="com.busience.production.dao.ProductionMgmtDao">
+	<select id="proItemSumDao" resultType="com.busience.production.dto.ProductionMgmtDto">
 	<![CDATA[
 		SELECT WorkOrder_No as PRODUCTION_WorkOrder_No, WorkOrder_ONo as PRODUCTION_WorkOrder_ONo, WorkOrder_ItemCode as PRODUCTION_Product_Code, 
 		    WorkOrder_EquipCode as PRODUCTION_Equipment_Code, pit.Product_Item_Name as PRODUCTION_Product_Name, eit.Equipment_Info_Name as PRODUCTION_Equipment_Name,
@@ -23,7 +23,7 @@
 	]]>
 	</select>
 	
-	<select id="proMachineSumDao" resultType="com.busience.productionLX.dto.ProductionMgmtDto">
+	<select id="proMachineSumDao" resultType="com.busience.production.dto.ProductionMgmtDto">
 	<![CDATA[
 		SELECT WorkOrder_No as PRODUCTION_WorkOrder_No, WorkOrder_ONo as PRODUCTION_WorkOrder_ONo, WorkOrder_ItemCode as PRODUCTION_Product_Code, 
 		    WorkOrder_EquipCode as PRODUCTION_Equipment_Code, pit.Product_Item_Name as PRODUCTION_Product_Name, eit.Equipment_Info_Name as PRODUCTION_Equipment_Name,
@@ -41,7 +41,7 @@
 	]]>  
 	</select>
 
-	<select id="proItemListDao" resultType="com.busience.productionLX.dto.ProductionMgmtDto">
+	<select id="proItemListDao" resultType="com.busience.production.dto.ProductionMgmtDto">
 	<![CDATA[
 		SELECT
 		A.PRODUCTION_WorkOrder_No,
@@ -65,7 +65,7 @@
 	]]>
 	</select>
 	
-	<select id="proMachineListDao" resultType="com.busience.productionLX.dto.ProductionMgmtDto">
+	<select id="proMachineListDao" resultType="com.busience.production.dto.ProductionMgmtDto">
 	<![CDATA[
 		SELECT
 		A.PRODUCTION_WorkOrder_No,

@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.busience.common.dto.ProductionDto;
-import com.busience.productionLX.dto.WorkOrderDto;
+import com.busience.production.dto.WorkOrderDto;
 
 @Mapper
 public interface ProductionDao {

@@ -4,7 +4,7 @@
 	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	 
-<mapper namespace="com.busience.productionLX.dao.TempDailyDao">
+<mapper namespace="com.busience.production.dao.TempDailyDao">
 	<select id="TempDailyListDao" resultType="com.busience.monitoring.dto.EquipTemperatureHistoryDto">
 		select
 			A.Temp_Monthly, A.Temp_Daily, A.Temp_Hourly,

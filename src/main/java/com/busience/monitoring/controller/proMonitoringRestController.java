@@ -8,18 +8,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
-import com.busience.monitoring.service.ProMonitoringService;
-import com.busience.productionLX.dto.WorkOrderDto;
+import com.busience.production.dto.WorkOrderDto;
+import com.busience.production.service.WorkOrderService;
 
 @RestController
 @RequestMapping("proMonitoringRest")
 public class proMonitoringRestController {
 
 	@Autowired
-	ProMonitoringService proMonitoringService;
+	WorkOrderService workOrderService;
 	
 	@GetMapping("workOrderMonitoringSelect")
 	public List<WorkOrderDto> workOrderMonitoringSelect(SearchDto searchDto){
-		return proMonitoringService.workOrderMonitoringSelect(searchDto);
+		return workOrderService.workOrderMonitoringSelect(searchDto);
 	}
 }

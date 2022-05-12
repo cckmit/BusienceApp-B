@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
-import com.busience.productionLX.dto.WorkOrderDto;
-import com.busience.productionLX.service.WorkOrderService;
+import com.busience.production.dto.WorkOrderDto;
+import com.busience.production.service.WorkOrderService;
 import com.busience.standard.dto.BOMDto;
 import com.busience.standard.service.BOMService;
 import com.busience.tablet.dto.CrateLotDto;

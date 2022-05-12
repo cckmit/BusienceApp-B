@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
-import com.busience.productionLX.dto.WorkOrderDto;
+import com.busience.production.dto.WorkOrderDto;
 import com.busience.qc.dto.DefectDto;
 import com.busience.qc.service.DefectInsertService;
 

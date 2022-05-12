@@ -9,8 +9,8 @@ import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import com.busience.common.dto.SearchDto;
-import com.busience.productionLX.dao.WorkOrderDao;
-import com.busience.productionLX.dto.WorkOrderDto;
+import com.busience.production.dao.WorkOrderDao;
+import com.busience.production.dto.WorkOrderDto;
 import com.busience.tablet.dao.CrateDao;
 import com.busience.tablet.dao.CrateLotDao;
 import com.busience.tablet.dao.CrateProductionDao;

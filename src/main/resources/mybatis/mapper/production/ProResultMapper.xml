@@ -4,8 +4,8 @@
 	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	 
-<mapper namespace="com.busience.productionLX.dao.ProResultDao">
-	<select id="proResultSelectDao" resultType="com.busience.productionLX.dto.ProductionMgmtDto">
+<mapper namespace="com.busience.production.dao.ProResultDao">
+	<select id="proResultSelectDao" resultType="com.busience.production.dto.ProductionMgmtDto">
 	<![CDATA[
 		SELECT 
 			WorkOrder_No as PRODUCTION_WorkOrder_No, WorkOrder_ONo as PRODUCTION_WorkOrder_ONo, WorkOrder_ItemCode as PRODUCTION_Product_Code, 
@@ -20,7 +20,7 @@
 	]]>
 	</select>
 
-	<select id="workOrderDetailDao" resultType="com.busience.productionLX.dto.WorkOrderDto">
+	<select id="workOrderDetailDao" resultType="com.busience.production.dto.WorkOrderDto">
 		SELECT A.WorkOrder_ItemCode, B.PRODUCT_ITEM_NAME WorkOrder_ItemName, A.WorkOrder_EquipCode, C.EQUIPMENT_INFO_NAME WorkOrder_EquipName
 			FROM (
 				select WorkOrder_ItemCode, WorkOrder_EquipCode

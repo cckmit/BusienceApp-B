@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.productionLX.dto.WorkOrderDto;
-import com.busience.productionLX.service.WorkOrderSeiyonService;
+import com.busience.production.dto.WorkOrderDto;
+import com.busience.production.service.WorkOrderSeiyonService;
 
 @RestController("workOrderSeiyonRestController")
 @RequestMapping("workOrderSeiyonRest")

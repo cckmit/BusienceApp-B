@@ -9,7 +9,7 @@ import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import com.busience.common.dto.SearchDto;
-import com.busience.productionLX.dto.WorkOrderDto;
+import com.busience.production.dto.WorkOrderDto;
 import com.busience.qc.dao.DefectInsertDao;
 import com.busience.qc.dto.DefectDto;
 

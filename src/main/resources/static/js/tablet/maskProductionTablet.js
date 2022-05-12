@@ -8,7 +8,7 @@ var itemTable = new Tabulator("#itemTable", {
 	layoutColumnsOnNewData : true,
 	height: "100%",
 	ajaxURL:"maskProductionRest/workingByMachine",
-	ajaxParams: {machineCode : $("#machineCode").val()},
+	ajaxParams: {machineCode : $("#machineCode").val(), condition: 1},
     ajaxConfig:"get",
     ajaxContentType:"json",
 	ajaxResponse:function(url, params, response){

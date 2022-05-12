@@ -22,7 +22,7 @@ import com.busience.common.dto.SearchDto;
 import com.busience.monitoring.dao.TemperatureMonitoringDao;
 import com.busience.monitoring.dto.EquipMonitoringDto;
 import com.busience.monitoring.dto.EquipTemperatureHistoryDto;
-import com.busience.productionLX.dto.WorkOrderDto;
+import com.busience.production.dto.WorkOrderDto;
 import com.busience.standard.dao.ItemDao;
 import com.busience.standard.dto.ItemDto;
 import com.busience.tablet.service.MaskProductionService;

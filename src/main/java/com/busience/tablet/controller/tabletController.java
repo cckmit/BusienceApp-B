@@ -142,47 +142,13 @@ public class tabletController {
 						}
 					}));
 			
-			return "normal/productionLX/workOrderInsertBB";	
+			return "normal/production/workOrderInsertBB";	
 		}
 		
-		@GetMapping("/tablet/workOrderStartBBB")
-		public String WorkOrderStartBBB(Model model, HttpServletRequest request) throws SQLException{
-			
-			String sql = "SELECT * FROM EQUIPMENT_INFO_TBL WHERE EQUIPMENT_INFO_CODE='"+( (request.getParameter("code")==null  || request.getParameter("code").equals("null")) ? "' or 1=1" : request.getParameter("code")+"'" );
-			
-			System.out.println(sql);
-			
-			model.addAttribute("list",
-					jdbctemplate.query(sql, new RowMapper<EQUIPMENT_INFO_TBL>() {
-						@Override
-						public EQUIPMENT_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
-							EQUIPMENT_INFO_TBL data = new EQUIPMENT_INFO_TBL();
-							data.setEQUIPMENT_INFO_CODE(rs.getString("EQUIPMENT_INFO_CODE"));
-							data.setEQUIPMENT_INFO_NAME(rs.getString("EQUIPMENT_INFO_NAME"));
-							return data;
-						}
-					}));
-			
-			model.addAttribute("visibility",jdbctemplate.queryForObject("select CHILD_TBL_RMARK from DTL_TBL where CHILD_TBL_NO = '282'", new RowMapper<String>() {
-
-				@Override
-				public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-					return rs.getString(1);
-				}
-			}));
-			
-			return "normal/productionLX/workOrderStartBBB";
-		}
-	
 	@GetMapping("/tablet/workOrderTabletSeiyon")
 	public String workOrderTabletSeiyon()
 	{
 		return "normal/tablet/workOrderTabletSeiyon";
-	}
-	
-	@GetMapping("/tablet/productionPLC")
-	public String productionPLC() {
-		return "normal/tablet/productionPLC";
 	}
 	
 	@GetMapping("/tablet/workOrderTabletMaster")
@@ -221,5 +187,17 @@ public class tabletController {
 		model.addAttribute("machineInfo", machineDto);
 		
 		return "normal/tablet/maskProductionTablet";
+	}
+	
+	@GetMapping("/tablet/maskInputTablet")
+	public String maskInputTablet(Model model, SearchDto searchDto) {
+		if(searchDto.getMachineCode() == null) {
+			searchDto.setMachineCode("M001");
+		}
+		MachineDto machineDto = machineService.selectMachineInfo(searchDto);
+		
+		model.addAttribute("machineInfo", machineDto);
+		
+		return "normal/tablet/maskInputTablet";
 	}
 }

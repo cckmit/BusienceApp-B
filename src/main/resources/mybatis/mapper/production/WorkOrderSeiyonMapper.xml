@@ -4,8 +4,8 @@
 	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	 
-<mapper namespace="com.busience.productionLX.dao.WorkOrderSeiyonDao">
-	<select id="workOrderSeiyonGapDao" resultType="com.busience.productionLX.dto.ProductionMgmtDto">
+<mapper namespace="com.busience.production.dao.WorkOrderSeiyonDao">
+	<select id="workOrderSeiyonGapDao" resultType="com.busience.production.dto.ProductionMgmtDto">
 		select count(*) PRODUCTION_Volume, PRODUCTION_Equipment_Code
 			from PRODUCTION_MGMT_TBL2
 			where PRODUCTION_WorkOrder_ONo = #{WorkOrder_ONo}
@@ -20,5 +20,4 @@
 			order by PRODUCTION_Date desc
 			limit #{WorkOrder_RQty}
 	</update>
-	
 </mapper>
