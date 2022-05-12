@@ -72,6 +72,13 @@ public class materialController {
 		return "material/matInput";
 	}
 	
+	// MatInputInspection
+	@GetMapping("matInputInspection")
+	public String MatInputInspection(Model model) {
+		model.addAttribute("pageName", "입고 관리 검사");
+		return "material/matInputInspection";
+	}
+	
 	// MatOutput
 	@GetMapping("matOutput")
 	public String matOutput(Model model) {

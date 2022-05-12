@@ -131,7 +131,7 @@ var Sub_WorkOrder_tbl = new Tabulator("#Sub_WorkOrder_tbl", {
 		{ title: "재고", field: "workOrder_SQty", headerHozAlign: "center", align: "right", width: 120 },
 		{ title: "접수일", field: "workOrder_ReceiptTime", align: "right", headerHozAlign: "center", width: 160 },
 		{
-			title: "접수여부", field: "workOrder_WorkStatus", headerHozAlign: "center", editor: "select", align: "center"
+			title: "접수여부", field: "workOrder_WorkStatus", headerHozAlign: "center", editor: "select", align: "center", width: 130
 			, formatter: function(cell, formatterParams) {
 				var value = cell.getValue();
 				if (dtl_arr[value] != null) {
