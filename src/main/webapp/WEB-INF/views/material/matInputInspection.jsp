@@ -4,36 +4,36 @@
 	<!-- MAIN -->
 	<div class="main">
 		<!-- matOutput -->
-		<div class="sub-in">
+		<div class="master-inspect">
 			<div class="top-var">
 				<!-- 버튼 -->
 				<div class="input-button">
-					<img src="/images/button/Search.png" id="MR_SearchBtn"/>
+					<img src="/images/button/Search.png" id="MII_SearchBtn"/>
 				</div>
 				<!-- 버튼 -->
 				<div class="input-box">
 					<div>
-						<span><strong>요청일</strong></span>
+						<span><strong>가입고일</strong></span>
 						<input id="startDate" class="today" type="date">
 						<span style="text-align: center"><strong>~</strong></span>
 						<input id="endDate" class="tomorrow" type="date">		
 					</div>
 					<div>
-						<input id="RS_RequestNo" type="hidden">
-						<span><strong>부서코드</strong></span>
-							<input id="Dept_Code" type="text" value="12" disabled>
-						<span><strong>부서명</strong></span>
-						<select id="Dept_Name">
-							<c:forEach var="data" items="${deptList}">
-								<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>	
-							</c:forEach>				
-						</select>
+						<span><strong>품목코드</strong></span>
+						<input id="PRODUCT_ITEM_CODE1" class="Item_Code1" type="text" disabled>
+						<span><strong>품목명</strong></span>
+						<input id="PRODUCT_ITEM_NAME1" class="Item_Name1 clearInput" type="text" autofocus onkeypress="javascript:if(event.keyCode==13) {itemPopup($(this).val(),'input','1','material')}">
+						<br>
+						<span><strong>거래처코드</strong></span>
+						<input id="Temp_InMat_Client_Code" class="Client_Code" type="text" disabled>
+						<span><strong>거래처명</strong></span>
+						<input id="Temp_InMat_Client_Name" class="Client_Name clearInput" type="text" autofocus onkeypress="javascript:if(event.keyCode==13) {customerPopup($(this).val(),'input','','in')}">
 					</div>
 				</div>
 			</div>
 				<!-- 그리드 생성 장소 -->
-			<div id="matOutputTable"></div>
-			<div id="matOutputSubTable"></div>
+			<div id="tempStorageTable"></div>
+			<div id="matInputTable"></div>
 		</div>
 		<!-- matOutput -->
 		<!-- matOutputSub -->
@@ -41,7 +41,7 @@
 			<div class="top-var">
 				<!-- 버튼 -->
 				<div class="input-button">
-					<img src="/images/button/Save.png" id="MOM_SaveBtn" class="unUseBtn BtnStatus"/>
+					<img src="/images/button/Save.png" id="MIF_SaveBtn" class="unUseBtn BtnStatus"/>
 				</div>
 			</div>
 			<!-- 그리드 생성 장소 -->

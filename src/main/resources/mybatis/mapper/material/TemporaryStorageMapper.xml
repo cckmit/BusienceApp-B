@@ -35,9 +35,15 @@
 		<![CDATA[
 			where A.TS_Date >= #{startDate} and A.TS_Date < #{endDate}
 		]]>
-		and A.TS_ItemCode like concat('%',#{ItemCode},'%') and A.InMat_Client_Code like concat('%',#{ClientCode},'%')
+		and A.TS_ItemCode like concat('%',#{ItemCode},'%') and A.TS_Client_Code like concat('%',#{ClientCode},'%')
 		<if test="ItemSendClsfc != 'all'">
 			and A.TS_Classfy = #{ItemSendClsfc}
+		</if>
+		<if test='"N".equals(Condition)'>
+			and A.TS_Status = 'N'
+		</if>
+		<if test='"Y".equals(Condition)'>
+			and A.TS_Status = 'Y'
 		</if>
 		order by A.TS_Date
 	</select>

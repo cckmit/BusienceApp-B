@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.busience.material.dao.InMatInspectDao">
+	
+	<insert id="InMatInspectInsertDao">
+		insert into InMat_Inspect_tbl (
+			InMat_Inspect_Order_No, InMat_Inspect_Number, InMat_Inspect_ItemCode,
+			InMat_Inspect_Qty, InMat_Inspect_Date, InMat_Inspect_Worker,
+			InMat_Inspect_Customer, InMat_Inspect_Text, InMat_Inspect_Value_1,
+			InMat_Inspect_Value_2, InMat_Inspect_Value_3, InMat_Inspect_Value_4,
+			InMat_Inspect_Value_5, InMat_Inspect_STND_1, inMat_Inspect_STND_2,
+			InMat_Inspect_Status
+		) values (
+			#{InMat_Inspect_Order_No}, #{InMat_Inspect_Number}, #{InMat_Inspect_ItemCode},
+			#{InMat_Inspect_Qty}, now(), #{InMat_Inspect_Worker},
+			#{InMat_Inspect_Customer}, #{InMat_Inspect_Text}, #{InMat_Inspect_Value_1},
+			#{InMat_Inspect_Value_2}, #{InMat_Inspect_Value_3}, #{InMat_Inspect_Value_4},
+			#{InMat_Inspect_Value_5}, #{InMat_Inspect_STND_1}, #{inMat_Inspect_STND_2},
+			#{InMat_Inspect_Status}
+		) 
+	
+	</insert>
+
+</mapper>

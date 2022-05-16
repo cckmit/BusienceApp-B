@@ -43,6 +43,12 @@ body {
 	height: 100%;
 }
 
+.master-inspect {
+	width: calc(48% + 4px);
+	float: left;
+	height: 100%;
+}
+
 .outputOrder-Top {
 	width: calc(46% - 14px);
 	float: left;
