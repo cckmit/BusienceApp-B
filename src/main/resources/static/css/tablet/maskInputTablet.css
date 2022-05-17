@@ -1,7 +1,7 @@
 .container-bs{
 	display: grid;
 	grid-template-columns: 2fr 3fr;
-	grid-template-rows: 10vh 40vh 40vh;
+	grid-template-rows: 10vh 10vh 60vh;
 	grid-template-areas:
 		"header header"
 		"main-a main-c"
@@ -19,7 +19,7 @@
 	width: 20%;
 	display: flex;
     justify-content: space-around;
-	font-size: 3vh;
+	font-size: calc(1vh + 1vw);
 }
 .global-header #machineName{
 	font-weight: bold;
@@ -37,7 +37,7 @@
 	justify-content: space-around;
     align-items: center;
     
-    font-size: 4vh;
+    font-size: calc(1.3vh + 1.3vw);
 	color: white;
 	background-color: rgb(112,173,70);
 }
@@ -73,10 +73,6 @@
 }
 .main-c{
 	grid-area: main-c;
-    padding: 5px;
-}
-.main-c .main-box{
-	grid-template-rows: 1fr 2fr 2fr 2fr 2fr;
 }
 .main-box{
 	background-color: rgb(82,153,217);
@@ -92,7 +88,7 @@
     align-items: center;
 	
 	margin: 5px;
-	font-size: 3.5vh;
+	font-size: calc(1.1vh + 1.1vw);
 }
 .main-box .item label{
 	width: 35%;
@@ -102,9 +98,20 @@
 	width: 60%;
 }
 
+.side-box{
+	background-color: rgb(207,213,234);
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 .table-container{
-	margin: 10px;
-	border: solid 1px gray;
+	margin: 10px;;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .tablet-border{
@@ -113,5 +120,5 @@
 }
 
 .tablet-Table{
-	font-size: 2vh;
+	font-size: calc(1vh + 1vw);
 }

@@ -11,29 +11,6 @@ var itemTable = new Tabulator("#itemTable", {
 	ajaxParams: {machineCode : $("#machineCode").val()},
     ajaxConfig:"get",
     ajaxContentType:"json",
-	ajaxResponse:function(url, params, response){
-		//작업지시번호로 생산랏을 검색해서 내용이 있는지 여부를 검색
-		//있으면 생산랏에 대한 정보를 검색하고
-		//없으면 봄만 가져옴
-		$.when(RawMaterialSelect(response))
-		.then(function(data){
-			// 자재식별코드가 있을경우
-			if(data.length>0){
-				$("#production-ID").val(data[0].rmm_Production_ID)
-				$("#production-Qty").val(data[0].rmm_Qty)
-				
-				RawSubSelect(data[0].rmm_Production_ID)
-				CrateSelect(response)				
-			}else{
-				//생산랏이 없을경우
-				BOM_Check(response)
-			}
-			crateTableSelect(response[0].workOrder_ONo)
-			rawMaterialTableSelect(response[0].workOrder_ONo)
-		})
-		
-   		return response;
-    },
 	columns:[
 		{title:"현재 생산중인 제품", headerHozAlign:"center",
 			columns: [	
@@ -44,9 +21,7 @@ var itemTable = new Tabulator("#itemTable", {
 				{ title: "규격2", field: "workOrder_Item_STND_2", headerHozAlign: "center"},
 				{ title: "생산수량", field: "workOrder_ProductionQty", headerHozAlign: "center", hozAlign:"right",
 					formatter:"money", formatterParams: {precision: false}},
-				{ title: "작업등록일", field: "workOrder_RegisterTime", hozAlign: "right", headerHozAlign: "center"},
-				{ title: "작업시작일", field: "workOrder_StartTime", hozAlign: "right", headerHozAlign: "center"},
-				{ title: "작업완료일", field: "workOrder_CompleteTime", hozAlign: "right", headerHozAlign: "center"}
+				{ title: "작업등록일", field: "workOrder_RegisterTime", hozAlign: "right", headerHozAlign: "center"}
 			]
 		}
 	]
@@ -61,10 +36,6 @@ function toggleFullScreen() {
     document.documentElement.requestFullscreen()
 	itemTable.redraw();
 	itemTable.replaceData();
-	crateTable.redraw();
-	itemTable.replaceData();
-	rawMaterialTable.redraw();
-	rawMaterialTable.replaceData();
   } else {
     if (document.exitFullscreen) {
       document.exitFullscreen()
@@ -105,8 +76,6 @@ $("#barcodeInput").keypress(function(e){
 			
 		}
 		itemTable.redraw();
-		crateTable.redraw();
-		rawMaterialTable.redraw();
 	}
 });
 
@@ -263,46 +232,6 @@ function workOrderStart(machineCode){
 		}
 	});
 	return ajaxResult;
-}
-
-var crateTable = new Tabulator("#crateTable", {
-	layoutColumnsOnNewData : true,
-	ajaxLoader:false,
-	height: "100%",
-	columns:[
-		{title:"상자 LotNo 이력", headerHozAlign:"center",
-			columns: [	
-				{ title: "상자 LotNo", field: "cl_LotNo", headerHozAlign: "center"},
-				{ title: "상자코드", field: "cl_CrateCode", headerHozAlign: "center"},
-				{ title: "생산수량", field: "cl_Qty", headerHozAlign: "center", hozAlign:"right",
-					formatter:"money", formatterParams: {precision: false}}
-			]
-		}
-	]
-});
-
-function crateTableSelect(value){
-	crateTable.setData("maskProductionRest/crateLotRecordSelect", {orderNo : value})
-}
-
-var rawMaterialTable = new Tabulator("#rawMaterialTable", {
-	layoutColumnsOnNewData : true,
-	ajaxLoader:false,
-	height: "100%",
-	columns:[
-		{title:"자재 식별 코드 이력", headerHozAlign:"center",
-			columns: [	
-				{ title: "작업지시No", field: "rmm_OrderNo", headerHozAlign: "center"},
-				{ title: "자재식별코드", field: "rmm_Production_ID", headerHozAlign: "center"},
-				{ title: "생산수량", field: "rmm_Qty", headerHozAlign: "center", hozAlign:"right",
-					formatter:"money", formatterParams: {precision: false}}
-			]
-		}
-	]
-});
-
-function rawMaterialTableSelect(value){
-	rawMaterialTable.setData("maskProductionRest/rawMaterialRecordSelect", {orderNo : value})
 }
 
 window.onload = function(){

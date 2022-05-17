@@ -21,7 +21,7 @@
 	width: 20%;
 	display: flex;
     justify-content: space-around;
-	font-size: 3vh;
+	font-size: calc(1vh + 1vw);
 }
 .global-header #machineName{
 	font-weight: bold;
@@ -39,7 +39,7 @@
 	justify-content: space-around;
     align-items: center;
     
-    font-size: 4vh;
+    font-size: calc(1.3vh + 1.3vw);
 	color: white;
 	background-color: rgb(112,173,70);
 }
@@ -110,7 +110,7 @@
     align-items: center;
 	
 	margin: 5px;
-	font-size: 3.5vh;
+	font-size: calc(1.1vh + 1.1vw);
 }
 .main-box .item label{
 	width: 35%;
@@ -138,7 +138,7 @@
 
 .table-container{
 	margin: 10px;
-	font-size: 2.5vh;
+	font-size: calc(0.9vh + 0.9vw);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -151,5 +151,5 @@
 }
 
 .tablet-Table{
-	font-size: 2vh;
+	font-size: calc(0.65vh + 0.65vw);
 }

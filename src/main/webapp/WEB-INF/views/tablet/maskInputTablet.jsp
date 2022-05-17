@@ -20,23 +20,6 @@
 				<label for="barcodeInput">바코드 입력</label>
 				<input id="barcodeInput" autofocus>
 			</div>
-			<div class="item">
-				<label for="crate-LotNo">상자 LOTNO</label>
-				<input id="crate-LotNo" disabled>
-				<input type="hidden" id="crateCode">
-			</div>
-			<div class="item">
-				<label for="crate-Qty">상자 내 생산량</label>
-				<input id="crate-Qty" readonly>
-			</div>
-			<div class="item">
-				<label for="production-ID">자재 식별 코드</label>
-				<input id="production-ID" disabled>
-			</div>
-			<div class="item">
-				<label for="production-Qty">생 산 량</label>
-				<input id="production-Qty" readonly>
-			</div>
 		</div>
 	</div>
 	<div class="main-b">
@@ -61,8 +44,10 @@
 		</div>
 	</div>
 	<div class="main-c">
-		<div class="main-box tablet-border">
-			<div></div>
+		<div class="side-box tablet-border">
+			<div class="table-container">
+				<div id="itemTable" class="tablet-Table"></div>
+			</div>
 		</div>
 	</div>
 </div>
