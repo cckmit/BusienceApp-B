@@ -61,7 +61,7 @@ public class maskProductionRestController {
 	}
 	
 	@PostMapping("/rawMaterialSave")
-	public int rawMaterialSave(
+	public String rawMaterialSave(
 			@RequestParam("masterData") String masterData,
 			@RequestParam("subData") String subData) {
 		
@@ -75,7 +75,7 @@ public class maskProductionRestController {
 			return maskProductionService.rawMaterialSave(rawMaterialMasterDto, rawMaterialSubDtoList);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return 0;
+			return null;
 		}
 	}
 	
@@ -90,7 +90,7 @@ public class maskProductionRestController {
 	}
 	
 	@PostMapping("/crateSave")
-	public int crateSave(CrateLotDto crateLotNoDto) {
+	public List<CrateLotDto> crateSave(CrateLotDto crateLotNoDto) {
 		return maskProductionService.crateSave(crateLotNoDto);
 	}
 	

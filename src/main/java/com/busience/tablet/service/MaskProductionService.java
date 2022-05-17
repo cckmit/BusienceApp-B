@@ -68,7 +68,7 @@ public class MaskProductionService {
 	}
 	
 	//원자재 투입 저장
-	public int rawMaterialSave(RawMaterialMasterDto rawMaterialMasterDto, List<RawMaterialSubDto> rawMaterialSubDtoList) {
+	public String rawMaterialSave(RawMaterialMasterDto rawMaterialMasterDto, List<RawMaterialSubDto> rawMaterialSubDtoList) {
 		
 		try {			
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
@@ -79,6 +79,7 @@ public class MaskProductionService {
 						//전 id값이 있다면 업데이트 후 저장
 						rawMaterialMasterDao.rawMaterialMasterUpdateDao(rawMaterialMasterDto);
 					}
+					//새로운 식별코드 생성
 					String Production_ID = rawMaterialMasterDao.rawMaterialLotNoSelectDao(rawMaterialMasterDto);
 					
 					rawMaterialMasterDto.setRMM_Production_ID(Production_ID);
@@ -91,11 +92,10 @@ public class MaskProductionService {
 				}				
 			});
 			
-			return 1;
-			
+			return rawMaterialMasterDto.getRMM_Production_ID();			
 		} catch (Exception e) {
 			e.printStackTrace();
-			return 0;
+			return null;
 		}
 	}
 	
@@ -112,8 +112,9 @@ public class MaskProductionService {
 	}
 	
 	// 코드 조건으로 조회
-	public int crateSave(CrateLotDto crateLotDto) {
-		try {
+	public List<CrateLotDto> crateSave(CrateLotDto crateLotDto) {
+		
+		try {			
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 
 				@Override
@@ -127,14 +128,17 @@ public class MaskProductionService {
 					
 					crateLotDto.setCL_LotNo(LotNo);
 					crateLotDao.crateLotSaveDao(crateLotDto);
+					
 				}				
 			});
-			
-			return 1;
+
+			SearchDto searchDto = new SearchDto();
+			searchDto.setOrderNo(crateLotDto.getCL_OrderNo());
+			return crateLotDao.crateLotSelectDao(searchDto);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			return 0;
+			return null;
 		}
 	}
 	
@@ -152,7 +156,7 @@ public class MaskProductionService {
 					SearchDto searchDto = new SearchDto();
 										
 					searchDto.setMachineCode(equip);
-					
+					 
 					//작업지시 가져오기
 					List<WorkOrderDto> workOrderDtoList = workOrderDao.workingSelectByMachineDao(searchDto);
 					searchDto.setOrderNo(workOrderDtoList.get(0).getWorkOrder_ONo());

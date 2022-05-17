@@ -90,42 +90,49 @@ $("#barcodeInput").change(function(){
 		//원자재 object 판단하여 다찼으면 저장 쿼리를 실행한다.
 		rawMaterialLotInput(barcode);
 	}else if(initial == 'C'){
-		if(nextStatus){
-			nextStatus = false;		
-			//다음버튼클릭을 하고나서 crate를 바꾸면 현재 작업지시는 완료로 변경이 되고
-			//리프레쉬 하면 다음작업이 현재 작업으로 올라옴
-			//여기서 전에 쓰던 원자재가 같은 종류이면 랏번호가 유지가 되야함
-			$.when(workOrderStart(itemTable.getData()[0].workOrder_ONo, "E"))
-			.then(function(){
-				itemTable.replaceData();
-				itemTable.redraw();
-			})				
-		}
+		//생산랏이 존재하는가
 		if($("#production-ID").val().length > 0){
-			//이미 작업중인 상자가 있을경우
-			//작업중인 상자와 같은 랏인경우 이무일도 일어나면 안됨
-			//다른 랏인경우
-			//기존 상자를 상태를 바꿔 준 뒤 새로 등록
-			//작업중인 상자가 없을경우
-			//새로 등록
-			if($("#crateCode").val() != barcode){
-				CrateSave($("#crate-LotNo").val(), barcode);
-				CrateSelect(itemTable.getData()[0]);
+			if(nextStatus){
+				nextStatus = false;
+				//다음버튼클릭을 하고나서 crate를 바꾸면 현재 작업지시는 완료로 변경이 되고
+				//리프레쉬 하면 다음작업이 현재 작업으로 올라옴
+				//여기서 전에 쓰던 원자재가 같은 종류이면 랏번호가 유지가 되야함
+				$.when(workOrderStart(itemTable.getData()[0].workOrder_ONo, "E"))
+				.then(function(){
+					if($("#crateCode").val() != barcode){
+						$.when(CrateSave($("#crate-LotNo").val(), barcode))
+						.then(function(){
+							workOrderReady($("#crate-LotNo").val(), $("#production-ID").val())	
+						})						
+					}
+				})
+			}else{
+				//이미 작업중인 상자가 있을경우
+				//작업중인 상자와 같은 랏인경우 이무일도 일어나면 안됨
+				//다른 랏인경우
+				//기존 상자를 상태를 바꿔 준 뒤 새로 등록
+				//작업중인 상자가 없을경우
+				//새로 등록
+				if($("#crateCode").val() != barcode){
+					$.when(CrateSave($("#crate-LotNo").val(), barcode))
+					.then(function(){
+						workOrderReady($("#crate-LotNo").val(), $("#production-ID").val())	
+					})		
+				}
 			}
 		}else{
 			alert("원자재를 등록해 주세요.")
 		}
-		
 	}
 	itemTable.redraw();
 	crateTable.redraw();
 	rawMaterialTable.redraw();
 });
 
-//둘다 lot이 생성 됬경우 작업시작
-function workOrderReady(){
-	var crateLotNo = $("#crate-LotNo").val();
-	var productionID = $("#production-ID").val();
+//둘다 lot이 생성 됬을경우 작업시작
+function workOrderReady(LotNo, prodID){
+	var crateLotNo = LotNo;
+	var productionID = prodID;
 	
 	if(crateLotNo.length>0 && productionID.length>0){
 		CrateProductionSave(crateLotNo, productionID)
@@ -154,14 +161,14 @@ function rawMaterialLotInput(value){
 		alert("제품과 맞지않는 원자재 입니다.");
 	}else{
 		//다 찼을경우 저장 실행
-		$.when(rawMaterialSave())
-		.then(function(){
-			itemTable.replaceData();
-		})	
+		$.when(rawMaterialSave($("#production-ID").val()))
+		.then(function(data){
+			workOrderReady($("#crate-LotNo").val(), $("#production-ID").val())
+		})
 	}
 }
 
-function rawMaterialSave(){
+function rawMaterialSave(value){
 	var result = LotList.every(x => {
 		return x.rms_LotNo != null
 	})
@@ -169,10 +176,10 @@ function rawMaterialSave(){
 		var masterData = {
 			rmm_OrderNo : itemTable.getData()[0].workOrder_ONo,
 			rmm_ItemCode : itemTable.getData()[0].workOrder_ItemCode,
-			rmm_Before_Production_ID : $("#production-ID").val()
+			rmm_Before_Production_ID : value
 		}
 		
-		$.ajax({
+		var ajaxResult = $.ajax({
 			method : "post",
 			url : "maskProductionRest/rawMaterialSave",
 			data: {masterData : JSON.stringify(masterData), subData: JSON.stringify(LotList)},
@@ -180,8 +187,12 @@ function rawMaterialSave(){
 	           var header = $("meta[name='_csrf_header']").attr("content");
 	           var token = $("meta[name='_csrf']").attr("content");
 	           xhr.setRequestHeader(header, token);
+			},
+			success: function (data){
+				$("#production-ID").val(data);
 			}
 		});
+		return ajaxResult;
 	}
 }
 
@@ -275,6 +286,13 @@ function CrateSave(before, after){
            var header = $("meta[name='_csrf_header']").attr("content");
            var token = $("meta[name='_csrf']").attr("content");
            xhr.setRequestHeader(header, token);
+		},
+		success: function (data){
+			if(data.length>0){
+				$("#crate-LotNo").val(data[0].cl_LotNo);
+				$("#crateCode").val(data[0].cl_CrateCode);
+				$("#crate-Qty").val(data[0].cl_Qty);
+			}
 		}
 	});
 	return ajaxResult;
@@ -308,6 +326,10 @@ function workOrderStart(orderNo, status){
            var header = $("meta[name='_csrf_header']").attr("content");
            var token = $("meta[name='_csrf']").attr("content");
            xhr.setRequestHeader(header, token);
+		},
+		success: function (){
+			itemTable.replaceData();
+			itemTable.redraw();
 		}
 	});
 	return ajaxResult;
@@ -360,4 +382,7 @@ $("#nextWorkBtn").click(function(){
 })
 
 window.onload = function(){
+	setInterval(function(){
+		itemTable.replaceData();
+	},2000);
 }

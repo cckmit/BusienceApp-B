@@ -84,7 +84,9 @@ public class ProductionService {
 					//작업지시 옵션 검색
 					List<DtlDto> dtlDtoList = dtlDao.findAllByCode(38);
 					
-					List<WorkOrderDto> workOrderDtoList = productionDao.selectWorkOrderDao(equip);	
+					List<WorkOrderDto> workOrderDtoList = productionDao.selectWorkOrderDao(equip);
+					
+					System.out.println(productionDao.selectWorkOrderDao(equip));
 					
 					//작업지시 있을때 맞춰서 인서트, 해당설비의 작업시작값이 꼭 1개
 					if(workOrderDtoList.size()>0) {
@@ -105,9 +107,9 @@ public class ProductionService {
 						
 						//작업지시 옵션
 						productionDto.setWorkOrder_Status(dtlDtoList.get(2).getCHILD_TBL_USE_STATUS());
+						
 						//작업지시테이블 업데이트
 						productionDao.updateWorkOrderDao(productionDto);
-						
 						//자재식별코드, crate 수량 저장
 						maskProductionService.wholeQtyUpdate(productionDto.getPRODUCTION_Equipment_Code(), productionDto.getPRODUCTION_Volume());
 					}
