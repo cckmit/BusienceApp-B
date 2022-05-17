@@ -47,4 +47,10 @@
 		</if>
 		order by A.TS_Date
 	</select>
+	
+	<update id="temporaryStorageUpdateDao">
+		update Temporary_Storage_tbl
+		set TS_Status = 'Y'
+		where TS_OrderNo = #{TS_OrderNo}
+	</update>
 </mapper>

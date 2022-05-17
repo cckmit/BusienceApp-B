@@ -1,5 +1,7 @@
 package com.busience.material.controller;
 
+import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +16,9 @@ import com.busience.common.dto.SearchDto;
 import com.busience.material.dto.InMatDto;
 import com.busience.material.dto.InMatInspectDto;
 import com.busience.material.service.MatInputInspectionService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController("matInputInspectionRestController")
 @RequestMapping("matInputInspectionRest")
@@ -29,21 +34,33 @@ public class matInputInspectionRestController {
 	}
 	
 	@PostMapping("/MII_Save")
-	public int InMatInspectInsertDao(HttpServletRequest request, InMatInspectDto inMatInspectDto) {
-		String[] standard = request.getParameterValues("standard");
-		String[] value1 = request.getParameterValues("value1");
-		String[] value2 = request.getParameterValues("value2");
-		String[] value3 = request.getParameterValues("value3");
-		String[] value4 = request.getParameterValues("value4");
-		String[] value5 = request.getParameterValues("value5");
-		String[] stnd1 = request.getParameterValues("stnd1");
-		String[] stnd2 = request.getParameterValues("stnd2");
-		String[] status = request.getParameterValues("status");
+	public int InMatInspectInsertDao(HttpServletRequest request, InMatInspectDto inMatInspectDto, Principal principal) throws JsonMappingException, JsonProcessingException {
+		String standard = request.getParameter("standard");
+		String value1 = request.getParameter("value1");
+		String value2 = request.getParameter("value2");
+		String value3 = request.getParameter("value3");
+		String value4 = request.getParameter("value4");
+		String value5 = request.getParameter("value5");
+		String stnd1 = request.getParameter("stnd1");
+		String stnd2 = request.getParameter("stnd2");
+		String status = request.getParameter("status");
 		
-		System.out.println("standard = " + standard);
+		ObjectMapper mapper = new ObjectMapper();
 		
-		return matInputInspectionService.InMatInspectInsertDao(inMatInspectDto, standard, value1, value2, value3, value4,
-				value5, stnd1, stnd2, status);
+		List<InMatInspectDto> value1List = Arrays.asList(mapper.readValue(value1, InMatInspectDto[].class));
+		List<InMatInspectDto> value2List = Arrays.asList(mapper.readValue(value2, InMatInspectDto[].class));
+		List<InMatInspectDto> value3List = Arrays.asList(mapper.readValue(value3, InMatInspectDto[].class));
+		List<InMatInspectDto> value4List = Arrays.asList(mapper.readValue(value4, InMatInspectDto[].class));
+		List<InMatInspectDto> value5List = Arrays.asList(mapper.readValue(value5, InMatInspectDto[].class));
+		List<InMatInspectDto> stnd1List = Arrays.asList(mapper.readValue(stnd1, InMatInspectDto[].class));
+		List<InMatInspectDto> stnd2List = Arrays.asList(mapper.readValue(stnd2, InMatInspectDto[].class));
+		List<InMatInspectDto> statusList = Arrays.asList(mapper.readValue(status, InMatInspectDto[].class));
+		
+		InMatInspectDto standardData = mapper.readValue(standard, InMatInspectDto.class);
+
+		
+		return matInputInspectionService.InMatInspectInsertDao(inMatInspectDto, standardData, value1List, value2List, value3List, value4List,
+				value5List, stnd1List, stnd2List, statusList, principal.getName());
 		
 		
 	}

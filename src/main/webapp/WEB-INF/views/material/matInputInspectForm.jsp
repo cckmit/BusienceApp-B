@@ -90,8 +90,8 @@ td {
 						<td style="width: 40px;"><input style="width: 60px;" type="text" name="Inspect_Value_5[]" id="check1_val5"></td>
 						<td style="width: 50px;">
 							<select style="height: 24px;" name="status[]" id="check1_val6">
-								<option value="check1_True">적</option>
-								<option value="check1_False">부</option>
+								<option value="true">적</option>
+								<option value="false">부</option>
 							</select>
 						</td>
 					</tr>
@@ -107,8 +107,8 @@ td {
 						</td>
 						<td style="width: 50px;">
 							<select style="height: 24px;" name="status[]" id="check2_val2">
-								<option value="check2_True">적</option>
-								<option value="check2_False">부</option>
+								<option value="true">적</option>
+								<option value="false">부</option>
 							</select>
 						</td>
 					</tr>
@@ -124,8 +124,8 @@ td {
 						</td>
 						<td style="width: 50px;">
 							<select style="height: 24px;" name="status[]" id="check3_val2">
-								<option value="check3_True">적</option>
-								<option value="check3_False">부</option>
+								<option value="true">적</option>
+								<option value="false">부</option>
 							</select>
 						</td>
 					</tr>
@@ -140,8 +140,8 @@ td {
 						<input style="width: 60px;" type="hidden" name="Inspect_Value_5[]" id="check4_val5"></td>
 						<td style="width: 50px;">
 							<select style="height: 24px;" name="status[]" id="check4_val2">
-								<option value="check4_True">적</option>
-								<option value="check4_False">부</option>
+								<option value="true">적</option>
+								<option value="false">부</option>
 							</select>
 						</td>
 					</tr>
@@ -157,8 +157,8 @@ td {
 						</td>
 						<td style="width: 50px;">
 							<select style="height: 24px;" name="status[]" id="check5_val2">
-								<option value="check5_True">적</option>
-								<option value="check5_False">부</option>
+								<option value="true">적</option>
+								<option value="false">부</option>
 							</select>
 						</td>
 					</tr>
@@ -174,8 +174,8 @@ td {
 						</td>
 						<td style="width: 50px;">
 							<select style="height: 24px;" name="status[]" id="check6_val2">
-								<option value="check6_True">적</option>
-								<option value="check6_False">부</option>
+								<option value="true">적</option>
+								<option value="false">부</option>
 							</select>
 						</td>
 					</tr>
@@ -191,8 +191,8 @@ td {
 						</td>
 						<td style="width: 50px;">
 							<select style="height: 24px;" name="status[]" id="check7_val2">
-								<option value="check7_True">적</option>
-								<option value="check7_False">부</option>
+								<option value="true">적</option>
+								<option value="false">부</option>
 							</select>
 						</td>
 					</tr>
@@ -207,8 +207,8 @@ td {
 						<td style="width: 40px;"><input style="width: 60px;" type="text" name="Inspect_Value_5[]" id="check8_val5"></td>
 						<td style="width: 50px;">
 							<select style="height: 24px;" name="status[]" id="check8_val6">
-								<option value="check8_True">적</option>
-								<option value="check8_False">부</option>
+								<option value="true">적</option>
+								<option value="false">부</option>
 							</select>
 						</td>
 					</tr>
@@ -223,8 +223,8 @@ td {
 						<td style="width: 40px;"><input style="width: 60px;" type="text" name="Inspect_Value_5[]" id="check9_val5"></td>
 						<td style="width: 50px;">
 							<select style="height: 24px;" name="status[]" id="check9_val6">
-								<option value="check9_True">적</option>
-								<option value="check9_False">부</option>
+								<option value="true">적</option>
+								<option value="false">부</option>
 							</select>
 						</td>
 					</tr>
@@ -239,8 +239,8 @@ td {
 						<td style="width: 40px;"><input style="width: 60px;" type="text" name="Inspect_Value_5[]" id="check10_val5"></td>
 						<td style="width: 50px;">
 							<select style="height: 24px;" name="status[]" id="check10_val6">
-								<option value="check10_True">적</option>
-								<option value="check10_False">부</option>
+								<option value="true">적</option>
+								<option value="false">부</option>
 							</select>
 						</td>
 					</tr>

@@ -27,5 +27,6 @@ public class InMatInspectDto {
 	private String InMat_Inspect_STND_1;
 	private String inMat_Inspect_STND_2;
 	private String InMat_Inspect_Status;
+	private String InMat_Inspect_Classfy;
 	
 }

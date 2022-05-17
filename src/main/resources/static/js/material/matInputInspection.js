@@ -60,6 +60,7 @@ function MII_Search() {
 
 $("#MII_SearchBtn").click(function() {
 	MII_Search();
+	MIS_Search();
 })
 
 // 출고구분 select를 구성하기위한 ajax
@@ -95,17 +96,31 @@ var matInputTable = new Tabulator("#matInputTable", {
 	},
 	columns: [
 		{ title: "순번", field: "rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum" },
-		{ title: "발주번호", field: "rs_RequestNo" },
-		{ title: "품목코드", field: "rs_ItemCode", headerHozAlign: "center" },
-		{ title: "품목명", field: "rs_ItemName", headerHozAlign: "center" },
-		{ title: "수량", field: "rs_Qty", headerHozAlign: "center", hozAlign: "right" },
-		{ title: "단가", field: "rs_Sum", headerHozAlign: "center", hozAlign: "right" },
-		{ title: "금액", field: "rs_Not_Stocked", headerHozAlign: "center", hozAlign: "right" },
-		{ title: "거래처코드", field: "rm_DeptName", headerHozAlign: "center" },
-		{ title: "거래처명", field: "rm_DeptName", headerHozAlign: "center" },
-		{ title: "입고일", field: "rm_DeptName", headerHozAlign: "center" },
-		{ title: "구분", field: "rs_Send_Clsfc_Name", headerHozAlign: "center" }]
+		{ title: "발주번호", field: "ts_OrderNo" },
+		{ title: "품목코드", field: "ts_ItemCode", headerHozAlign: "center" },
+		{ title: "품목명", field: "ts_ItemName", headerHozAlign: "center" },
+		{ title: "수량", field: "ts_Qty", headerHozAlign: "center", hozAlign: "right" },
+		{ title: "단가", field: "ts_Unit_Price", headerHozAlign: "center", hozAlign: "right" },
+		{ title: "금액", field: "ts_Price", headerHozAlign: "center", hozAlign: "right" },
+		{ title: "거래처코드", field: "ts_Client_Code", headerHozAlign: "center" },
+		{ title: "거래처명", field: "ts_Client_Name", headerHozAlign: "center" },
+		{ title: "입고일", field: "ts_Date", headerHozAlign: "center" },
+		{ title: "구분", field: "ts_Classfy", headerHozAlign: "center" }]
 });
+
+function MIS_Search() {
+	
+	var datas = {
+		startDate: $("#startDate").val(),
+		endDate: $("#endDate").val(),
+		ItemCode: $("#PRODUCT_ITEM_CODE1").val(),
+		ClientCode: $("#Temp_InMat_Client_Code").val(),
+		ItemSendClsfc: "all",
+		Condition: "Y"
+	}
+	
+	matInputTable.setData("matInputInspectionRest/MII_Search", datas);
+}
 
 //matInputInspect 정보 삽입
 function MIForm_Search(ItemName, Qty, ClientName) {
@@ -143,55 +158,66 @@ function MIF_Save() {
 	var stnd1 = new Array();
 	var stnd2 = new Array();
 	var status = new Array();
-
 	var value = 10;
 	
-	var standardDatas = {
-		itemCode: tempStorageTable.getData()[0].ts_ItemCode,
-		qty: tempStorageTable.getData()[0].ts_Qty,
-		worker: $("#matInspectWorker").val(),
-		customer: tempStorageTable.getData()[0].ts_Client_Code,
-		text: $("#inspectionText").val()
+	if($("#matInspectWorker").val() == "") {
+		alert("검사자를 입력해주세요.");
+		return false;
 	}
 	
+	for (var i = 1; i < 10; i++) {
+		standardDatas = {
+			inMat_Inspect_Order_No: tempStorageTable.getData()[0].ts_OrderNo,
+			inMat_Inspect_Number: i,
+			inMat_Inspect_ItemCode: tempStorageTable.getData()[0].ts_ItemCode,
+			inMat_Inspect_Qty: tempStorageTable.getData()[0].ts_Qty,
+			inMat_Inspect_Worker: $("#matInspectWorker").val(),
+			inMat_Inspect_Customer: tempStorageTable.getData()[0].ts_Client_Code,
+			inMat_Inspect_Text: $("#inspectionText").val(),
+			inMat_Inspect_Classfy: tempStorageTable.getData()[0].ts_Classfy
+		}
+	}
+
 	console.log(standardDatas);
 
 	// 측정 데이터
 	for (var j = 0; j < value; j++) {
 
-		value1.push($("input[name='Inspect_Value_1[]']")[j].value);
-		
-		value2.push($("input[name='Inspect_Value_2[]']")[j].value);
-		
-		value3.push($("input[name='Inspect_Value_3[]']")[j].value); 
+		value1.push({ inMat_Inspect_Value_1: $("input[name='Inspect_Value_1[]']")[j].value });
 
-		value4.push($("input[name='Inspect_Value_4[]']")[j].value);
-		
-		value5.push($("input[name='Inspect_Value_5[]']")[j].value);
+		value2.push({ inMat_Inspect_Value_2: $("input[name='Inspect_Value_2[]']")[j].value });
+
+		value3.push({ inMat_Inspect_Value_3: $("input[name='Inspect_Value_3[]']")[j].value });
+
+		value4.push({ inMat_Inspect_Value_4: $("input[name='Inspect_Value_4[]']")[j].value });
+
+		value5.push({ inMat_Inspect_Value_5: $("input[name='Inspect_Value_5[]']")[j].value });
 		
 	}
-	
+
 	// 규격 데이터 
 	var stndLength = 3;
 	for (var i = 0; i < stndLength; i++) {
-		stnd1[i] = $("input[name='Inspect_STND_1[]']")[i].value;
-		stnd2[i] = $("input[name='Inspect_STND_2[]']")[i].value;
+		stnd1.push({ inMat_Inspect_STND_1: $("input[name='Inspect_STND_1[]']")[i].value });
+		stnd2.push({ inMat_Inspect_STND_2: $("input[name='Inspect_STND_2[]']")[i].value });
 	}
 
 	// 판정 데이터
 	var statusLength = 10;
 
 	for (var i = 0; i < statusLength; i++) {
-		status.push($("select[name='status[]'] option:selected")[i].value)
+		status.push({ inMat_Inspect_Status: $("select[name='status[]'] option:selected")[i].value })
 	};
 	
 	//OrderSub 저장부분
 	$.ajax({
 		method: "post",
 		url: "matInputInspectionRest/MII_Save",
-		data: {standard: JSON.stringify(standardDatas), value1: JSON.stringify(value1), value2: JSON.stringify(value2), value3: JSON.stringify(value3), 
-		value4: JSON.stringify(value4), value5: JSON.stringify(value5), stnd1: JSON.stringify(stnd1), stnd2: JSON.stringify(stnd2), 
-		status: JSON.stringify(status)},
+		data: {
+			standard: JSON.stringify(standardDatas), value1: JSON.stringify(value1), value2: JSON.stringify(value2), value3: JSON.stringify(value3),
+			value4: JSON.stringify(value4), value5: JSON.stringify(value5), stnd1: JSON.stringify(stnd1), stnd2: JSON.stringify(stnd2),
+			status: JSON.stringify(status)
+		},
 		beforeSend: function(xhr) {
 			var header = $("meta[name='_csrf_header']").attr("content");
 			var token = $("meta[name='_csrf']").attr("content");
@@ -201,7 +227,7 @@ function MIF_Save() {
 			if (result) {
 				alert("저장되었습니다.");
 			} else {
-				alert("오류")
+				alert("중복된 값이 존재합니다.")
 			}
 		}
 	});

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.busience.common.dto.SearchDto;
 import com.busience.material.dto.InMatDto;
+import com.busience.material.dto.InMatInspectDto;
 
 @Mapper
 public interface TemporaryStorageDao {
@@ -15,4 +16,7 @@ public interface TemporaryStorageDao {
 	
 	//입고 리스트 조회
 	public List<InMatDto> temporaryStorageSelectDao(SearchDto searchDto);
+	
+	// 가입고 테이블 update
+	public int temporaryStorageUpdateDao(String TS_OrderNo);
 }
