@@ -238,8 +238,8 @@ public class worktdListRestController {
 		return list;
 	}
 	
-	@RequestMapping(value = "/Month_Select_DetailX", method = RequestMethod.GET)
-	public List<PRODUCTION_MGMT_TBL2> Month_Select_DetailX(HttpServletRequest request) throws SQLException{
+	@RequestMapping(value = "/Month_Select_Detai", method = RequestMethod.GET)
+	public List<PRODUCTION_MGMT_TBL2> Month_Select_Detai(HttpServletRequest request) throws SQLException{
 		List<PRODUCTION_MGMT_TBL2> list = new ArrayList<PRODUCTION_MGMT_TBL2>();
 		// List<PRODUCTION_MGMT_TBL2> list2 = new ArrayList<PRODUCTION_MGMT_TBL2>();
 		String year = request.getParameter("year");

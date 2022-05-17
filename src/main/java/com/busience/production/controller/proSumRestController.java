@@ -21,8 +21,8 @@ import com.busience.production.dto.PRODUCTION_INFO_TBL;
 import com.busience.production.dto.ProductionMgmtDto;
 import com.busience.production.service.ProductionMgmtService;
 
-@RestController("proSumLXRestController")
-@RequestMapping("proSumLXRest")
+@RestController("proSumRestController")
+@RequestMapping("proSumRest")
 public class proSumRestController {
 
 	@Autowired

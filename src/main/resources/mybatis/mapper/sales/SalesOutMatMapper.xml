@@ -2,13 +2,13 @@
 <!DOCTYPE mapper
 	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.busience.salesLX.dao.SalesOutputDao">
-<select id="salesOutMatNoCreateDao" resultType="com.busience.salesLX.dto.Sales_OutMat_tbl">
+<mapper namespace="com.busience.sales.dao.SalesOutputDao">
+<select id="salesOutMatNoCreateDao" resultType="com.busience.sales.dto.Sales_OutMat_tbl">
 	select count(*)+1 from Sales_OutMat_tbl
 	where Sales_OutMat_Cus_No = #{Sales_OutMat_Cus_No} 
 		and Sales_OutMat_Lot_No = #{Sales_OutMat_Lot_No}
 </select>
-<select id="salesOutMatSelectDao" resultType="com.busience.salesLX.dto.Sales_OutMat_tbl">
+<select id="salesOutMatSelectDao" resultType="com.busience.sales.dto.Sales_OutMat_tbl">
 	select 
 		somt.Sales_OutMat_No,
 		somt.Sales_OutMat_Cus_No,
@@ -30,7 +30,7 @@
 		and somt.Sales_OutMat_Date >= curdate()
 		order by somt.Sales_OutMat_No
 </select>
-<select id="salesOutMatSelectListDao" resultType="com.busience.salesLX.dto.Sales_OutMat_tbl">
+<select id="salesOutMatSelectListDao" resultType="com.busience.sales.dto.Sales_OutMat_tbl">
 	select 
 		somt.Sales_OutMat_Lot_No, somt.Sales_OutMat_Date,
 		dt.Child_TBL_Type Sales_OutMat_Send_Clsfc,
@@ -63,7 +63,7 @@
 		and somt.Sales_OutMat_Lot_No like concat('%',#{Sales_OutMat_Lot_No},'%')
 	</if>
 </select>
-<select id="salesOutMatItemViewDao" resultType="com.busience.salesLX.dto.Sales_OutMat_tbl">
+<select id="salesOutMatItemViewDao" resultType="com.busience.sales.dto.Sales_OutMat_tbl">
 	select 
 		somt.Sales_OutMat_Lot_No, somt.Sales_OutMat_Date,
 		dt.Child_TBL_Type Sales_OutMat_Send_Clsfc,
@@ -90,7 +90,7 @@
 	</if>
 	group by somt.Sales_OutMat_Code, somt.Sales_OutMat_Date with ROLLUP
 </select>
-<select id="salesOutMatReturnSelectDao" resultType="com.busience.salesLX.dto.Sales_OutMat_tbl">
+<select id="salesOutMatReturnSelectDao" resultType="com.busience.sales.dto.Sales_OutMat_tbl">
     SELECT
  		A.Sales_OutMat_No, A.Sales_OutMat_Cus_No, A.Sales_OutMat_Lot_No,
  		A.Sales_OutMat_Code, sum(A.Sales_OutMat_Qty) Sales_OutMat_Qty,
@@ -115,7 +115,7 @@
  	group by A.Sales_OutMat_Cus_No, A.Sales_OutMat_Lot_No
  	having Sales_OutMat_Qty>0
 </select>
-<select id="salesOutMatReturnListDao" resultType="com.busience.salesLX.dto.Sales_OutMat_tbl">
+<select id="salesOutMatReturnListDao" resultType="com.busience.sales.dto.Sales_OutMat_tbl">
 	SELECT
  		A.Sales_OutMat_No, A.Sales_OutMat_Cus_No, A.Sales_OutMat_Lot_No,
  		A.Sales_OutMat_Code, A.Sales_OutMat_Qty sales_OutReturn_Qty,
@@ -139,7 +139,7 @@
  	</if>
  	and Sales_OutMat_Send_Clsfc = '213'
 </select>
-<select id="salesDeliveryCustomerViewDao" resultType="com.busience.salesLX.dto.Sales_OutMat_tbl">
+<select id="salesDeliveryCustomerViewDao" resultType="com.busience.sales.dto.Sales_OutMat_tbl">
 	select 
 		somt.Sales_OutMat_Lot_No, somt.Sales_OutMat_Date,
 		dt.CHILD_TBL_TYPE Sales_OutMat_Send_Clsfc,
@@ -167,7 +167,7 @@
 	</if>
 	group by somt.Sales_OutMat_Client_Code, somt.Sales_OutMat_Code with rollup
 </select>
-<select id="salesDeliveryList" resultType="com.busience.salesLX.dto.Sales_OutMat_tbl">
+<select id="salesDeliveryList" resultType="com.busience.sales.dto.Sales_OutMat_tbl">
 	select 
 		somt.Sales_OutMat_No,
 		somt.Sales_OutMat_Client_Code,
@@ -180,7 +180,7 @@
 	]]>
 	group by Sales_OutMat_Client_Code
 </select>
-<select id="salesDeliveryCustomerDao" resultType="com.busience.salesLX.dto.Sales_OutMat_tbl">
+<select id="salesDeliveryCustomerDao" resultType="com.busience.sales.dto.Sales_OutMat_tbl">
 	select 
 		somt.Sales_OutMat_No,
 		somt.Sales_OutMat_Cus_No, 

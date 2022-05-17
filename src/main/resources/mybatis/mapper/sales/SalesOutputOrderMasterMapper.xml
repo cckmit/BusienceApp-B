@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
 	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.busience.salesLX.dao.SalesOutputOrderMasterDao">
-<select id="salesOutputOrderMasterSelectDao" resultType="com.busience.salesLX.dto.SalesOutputOrderMasterDto">
+<mapper namespace="com.busience.sales.dao.SalesOutputOrderMasterDao">
+<select id="salesOutputOrderMasterSelectDao" resultType="com.busience.sales.dto.SalesOutputOrderMasterDto">
 	SELECT
 		A.Sales_Output_Order_mOrder_No,
 		A.Sales_Output_Order_mCus_No,
@@ -31,7 +31,7 @@
 								]]>
 						2,'0'))
 </select>
-<select id="salesOutputOrderListDao" resultType="com.busience.salesLX.dto.SalesOutputOrderMasterDto">
+<select id="salesOutputOrderListDao" resultType="com.busience.sales.dto.SalesOutputOrderMasterDto">
 	SELECT
 		somt.Sales_Output_Order_mOrder_No,
 		somt.Sales_Output_Order_mCus_No,

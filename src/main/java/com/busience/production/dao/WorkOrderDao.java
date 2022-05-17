@@ -9,7 +9,7 @@ import com.busience.common.dto.SearchDto;
 import com.busience.production.dto.ProductionMgmtDto;
 import com.busience.production.dto.WorkOrderDto;
 import com.busience.production.dto.WorkOrder_tbl;
-import com.busience.salesLX.dto.SalesOrderMasterDto;
+import com.busience.sales.dto.SalesOrderMasterDto;
 
 @Mapper
 public interface WorkOrderDao {

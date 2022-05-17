@@ -4,13 +4,13 @@
 	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
-<mapper namespace="com.busience.salesLX.dao.SalesPackingDao">
-	<select id="salesPackingNoCreateDao" resultType="com.busience.salesLX.dto.SalesPackingDto">
+<mapper namespace="com.busience.sales.dao.SalesPackingDao">
+	<select id="salesPackingNoCreateDao" resultType="com.busience.sales.dto.SalesPackingDto">
 		SELECT COUNT(*)+1 Sales_Packing_No FROM Sales_Packing_tbl
 		WHERE Sales_Large_Packing_LotNo = #{Sales_Large_Packing_LotNo} 
 	</select>
 	
-	<select id="salesPackingListSelectDao" resultType="com.busience.salesLX.dto.SalesPackingDto">
+	<select id="salesPackingListSelectDao" resultType="com.busience.sales.dto.SalesPackingDto">
 		SELECT spt.Sales_Packing_No, spt.Sales_Small_Packing_LotNo, spt.Sales_Packing_Qty, lmt.LM_ItemCode as Sales_Packing_Code, pit.Product_Item_Name as Sales_Packing_Name, lmt.LM_Create_Date as Sales_Small_Create_Date
 		FROM Sales_Packing_tbl spt
 		INNER JOIN LotMaster_tbl lmt ON spt.Sales_Small_Packing_LotNo = lmt.LM_LotNo
@@ -19,7 +19,7 @@
 		AND spt.Sales_Packing_Status = '203'
 	</select>
 	
-	<select id="salesInMatReturnSelectDao" resultType="com.busience.salesLX.dto.SalesPackingDto">
+	<select id="salesInMatReturnSelectDao" resultType="com.busience.sales.dto.SalesPackingDto">
 		SELECT spt.Sales_Packing_No, spt.Sales_Large_Packing_LotNo, spt.Sales_Small_Packing_LotNo, spt.Sales_Packing_Qty, lmt.LM_ItemCode as Sales_Packing_Code, pit.Product_Item_Name as Sales_Packing_Name, lmt.LM_Create_Date as Sales_Small_Create_Date, 
 			pit.Product_Item_Name AS Sales_Packing_Name, pit.Product_Info_STND_1 AS Sales_Packing_STND_1, 
 			dt.Child_TBL_Type AS Sales_Packing_Item_Clsfc_1, 
@@ -37,7 +37,7 @@
 		AND spt.Sales_Packing_Status != (SELECT Child_TBL_No FROM DTL_TBL WHERE New_TBL_Code = 17 AND Child_TBL_Type='입고반품');  
 	</select>
 	
-	<select id="salesPackingSelectDao" resultType="com.busience.salesLX.dto.SalesPackingDto">
+	<select id="salesPackingSelectDao" resultType="com.busience.sales.dto.SalesPackingDto">
 		SELECT spt.Sales_Packing_No, spt.Sales_Large_Packing_LotNo, spt.Sales_Small_Packing_LotNo, spt.Sales_Packing_Qty, lmt.LM_ItemCode as Sales_Packing_Code, pit.Product_Item_Name as Sales_Packing_Name, lmt.LM_Create_Date as Sales_Small_Create_Date, 
 			pit.Product_Item_Name AS Sales_Packing_Name, pit.Product_Info_STND_1 AS Sales_Packing_STND_1, pit.Product_Info_STND_2 AS Sales_Packing_STND_2,
 			dt.Child_TBL_Type AS Sales_Packing_Item_Clsfc_1, 
@@ -57,7 +57,7 @@
 		ORDER BY spt.Sales_Large_Packing_Time
 	</select>
 	
-	<select id="salesInMatReturnListDao" resultType="com.busience.salesLX.dto.SalesPackingDto">
+	<select id="salesInMatReturnListDao" resultType="com.busience.sales.dto.SalesPackingDto">
 		SELECT 
 			spt.Sales_Small_Packing_LotNo, -1*spt.Sales_Packing_Qty as Sales_Packing_Qty, sit.Sales_InMat_Code as Sales_Packing_Code, pit.Product_Item_Name as Sales_Packing_Name, 
 			pit.Product_Info_STND_1 as Sales_Packing_STND_1, dt.Child_TBL_Type as Sales_Packing_Item_Clsfc_1, dt2.Child_TBL_Type as Sales_Packing_Unit, 

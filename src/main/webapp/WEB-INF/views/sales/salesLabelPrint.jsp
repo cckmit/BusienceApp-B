@@ -17,5 +17,5 @@
 	<!-- END MAIN -->
 </div>
 <!-- Javascript -->
-<script src="/js/salesLX/salesLabelPrint.js?v=<%=System.currentTimeMillis() %>"></script>
+<script src="/js/sales/salesLabelPrint.js?v=<%=System.currentTimeMillis() %>"></script>
 <script src="/js/labelPrint.js?v=<%=System.currentTimeMillis() %>"></script>

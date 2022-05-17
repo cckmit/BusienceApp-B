@@ -308,7 +308,7 @@
 	</update>
 	
 	<update id="workOrderStockUpdateDao">
-		insert into Sales_StockMatLX_tbl (
+		insert into Sales_StockMat_tbl (
 			SM_Code, SM_Last_Qty, SM_In_Qty, SM_Out_Qty, SM_Prcs_Date
 			) values (
 			#{WorkOrder_ItemCode}, 0, #{WorkOrder_ProductionQty}, 0, '2201'
@@ -381,7 +381,7 @@
 		</if>
 		order by A.WorkOrder_EquipCode, A.WorkOrder_RegisterTime
 		<if test="condition != null">
-			limit 1
+			limit 2
 		</if>
 	</select>
 	
@@ -398,7 +398,7 @@
 				WorkOrder_CompleteTime = now(),
 			</if>
 			WorkOrder_WorkStatus = #{WorkOrder_WorkStatus}
-			where WorkOrder_EquipCode = #{WorkOrder_EquipCode}
+			where WorkOrder_ONo = #{WorkOrder_ONo}
 	</update>
 	
 	<select id="workOrderMonitoringSelectDao" resultType="com.busience.production.dto.WorkOrderDto">

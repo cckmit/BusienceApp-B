@@ -20,7 +20,7 @@ import com.busience.material.dao.StockDao;
 import com.busience.material.dto.LotMasterDto;
 import com.busience.material.dto.OutMatDto;
 import com.busience.material.dto.RequestSubDto;
-import com.busience.salesLX.dao.SalesInputLXDao;
+import com.busience.sales.dao.SalesInputDao;
 
 @Service
 public class MatOutputService {
@@ -47,7 +47,7 @@ public class MatOutputService {
 	RequestSubDao requestSubDao;
 	
 	@Autowired
-	SalesInputLXDao salesInputLXDao;
+	SalesInputDao salesInputDao;
 	
 	@Autowired
 	TransactionTemplate transactionTemplate;
@@ -133,9 +133,9 @@ public class MatOutputService {
 							sales_InMat_tbl.setSales_InMat_Modifier(userCode);
 							
 							//판매출고일경우 영업창고에 입고처리해준다
-							salesInputLXDao.salesInMatInsertDao(sales_InMat_tbl);
+							salesInputDao.salesInMatInsertDao(sales_InMat_tbl);
 							
-							salesInputLXDao.salesStockMatUpdateDao(sales_InMat_tbl);
+							salesInputDao.salesStockMatUpdateDao(sales_InMat_tbl);
 						}*/
 					}
 				}

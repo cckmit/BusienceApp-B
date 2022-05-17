@@ -17,7 +17,7 @@
 		</select>
 		<select id="outMatList" resultType="com.busience.production.dto.ProComparedInput">
 			SELECT omlt.OutMat_Code, pit.PRODUCT_ITEM_NAME OutMat_Name, SUM(omlt.OutMat_Qty) OutMat_Qty, omlt.OutMat_Consignee, dt2.CHILD_TBL_TYPE OutMat_Consignee_Name, date(OutMat_Date) AS OutMat_Date, LAST_DAY(OutMat_Date - interval 2 month) + interval 1 DAY AS Last_Month
-			FROM OutMatLX_tbl omlt
+			FROM OutMat_tbl omlt
 			INNER JOIN DTL_TBL dt2 ON omlt.OutMat_Consignee = dt2.CHILD_TBL_NO
 			INNER JOIN PRODUCT_INFO_TBL pit ON omlt.OutMat_Code = pit.PRODUCT_ITEM_CODE
 			where DATE(OutMat_Date) BETWEEN LAST_DAY(OutMat_Date - interval 2 month) + interval 1 DAY AND 
@@ -27,7 +27,7 @@
 		<select id="outMatTotalQty" resultType="com.busience.production.dto.ProComparedInput">
 			SELECT rocal.OutMat_Date, COUNT(date(rocal.OutMat_Date)) OutMat_Count 
 			FROM(SELECT OutMat_Consignee, pit.PRODUCT_ITEM_NAME OutMat_Name, DATE(OutMat_Date) AS OutMat_Date
-			FROM OutMatLX_tbl omlt
+			FROM OutMat_tbl omlt
 			INNER JOIN DTL_TBL dt2 ON omlt.OutMat_Consignee = dt2.CHILD_TBL_NO
 			INNER JOIN PRODUCT_INFO_TBL pit ON omlt.OutMat_Code = pit.PRODUCT_ITEM_CODE
 			WHERE DATE(OutMat_Date) BETWEEN LAST_DAY(OutMat_Date - INTERVAL 2 MONTH) + INTERVAL 1 DAY AND #{OutMat_Date} AND OutMat_Qty != 0

@@ -16,6 +16,7 @@ import com.busience.production.service.WorkOrderService;
 import com.busience.standard.dto.BOMDto;
 import com.busience.standard.service.BOMService;
 import com.busience.tablet.dto.CrateLotDto;
+import com.busience.tablet.dto.CrateProductionDto;
 import com.busience.tablet.dto.RawMaterialMasterDto;
 import com.busience.tablet.dto.RawMaterialSubDto;
 import com.busience.tablet.service.MaskProductionService;
@@ -91,6 +92,11 @@ public class maskProductionRestController {
 	@PostMapping("/crateSave")
 	public int crateSave(CrateLotDto crateLotNoDto) {
 		return maskProductionService.crateSave(crateLotNoDto);
+	}
+	
+	@PostMapping("/crateProductionSave")
+	public int crateProductionSave(CrateProductionDto crateProductionDto) {
+		return maskProductionService.crateProductionSave(crateProductionDto);
 	}
 	
 	@PostMapping("/workOrderStart")

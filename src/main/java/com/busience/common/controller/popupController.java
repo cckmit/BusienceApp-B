@@ -63,6 +63,6 @@ public class popupController {
 	// 발주서 인쇄
 	@GetMapping("/orderprint")
 	public String MO_print() {
-		return "normal/materialLX/matOrderPrint";
+		return "normal/material/matOrderPrint";
 	}
 }

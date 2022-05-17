@@ -118,8 +118,6 @@ public class MaskProductionService {
 
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
-					CrateProductionDto crateProductionDto = new CrateProductionDto();
-					
 					//기존 값이 있으면 상태값 변경
 					//그 후 새로운 상자 등록
 					if(crateLotDto.getCL_Before_LotNo().length()>0) {
@@ -129,10 +127,6 @@ public class MaskProductionService {
 					
 					crateLotDto.setCL_LotNo(LotNo);
 					crateLotDao.crateLotSaveDao(crateLotDto);
-					
-					crateProductionDto.setCP_LotNo(LotNo);
-					crateProductionDto.setCP_Production_ID(crateLotDto.getCL_Production_ID());
-					crateProductionDao.crateProductionSaveDao(crateProductionDto);
 				}				
 			});
 			
@@ -142,6 +136,11 @@ public class MaskProductionService {
 			e.printStackTrace();
 			return 0;
 		}
+	}
+	
+	// 코드 조건으로 조회
+	public int crateProductionSave(CrateProductionDto crateProductionDto) {
+		return crateProductionDao.crateProductionSaveDao(crateProductionDto);
 	}
 	
 	public int wholeQtyUpdate(String equip, double value) {

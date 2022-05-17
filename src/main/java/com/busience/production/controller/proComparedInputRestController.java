@@ -166,7 +166,7 @@ public class proComparedInputRestController {
 
 		// 자재 출고 조회(기준일 ~ 전 달 1일)
 		String outMatsql = "SELECT omlt.OutMat_Code, pit.PRODUCT_ITEM_NAME OutMat_Name, SUM(omlt.OutMat_Qty) OutMat_Qty, omlt.OutMat_Consignee, dt2.CHILD_TBL_TYPE OutMat_Consignee_Name, date(OutMat_Date) AS OutMat_Date, LAST_DAY(OutMat_Date - interval 2 month) + interval 1 DAY AS Last_Month\r\n"
-				+ "FROM OutMatLX_tbl omlt\r\n"
+				+ "FROM OutMat_tbl omlt\r\n"
 				+ "INNER JOIN DTL_TBL dt2 ON omlt.OutMat_Consignee = dt2.CHILD_TBL_NO\r\n"
 				+ "INNER JOIN PRODUCT_INFO_TBL pit ON omlt.OutMat_Code = pit.PRODUCT_ITEM_CODE";
 
@@ -297,7 +297,7 @@ public class proComparedInputRestController {
 		
 		String outmatCountsql = "SELECT rocal.OutMat_Date, COUNT(date(rocal.OutMat_Date)) OutMat_Count\r\n" + "FROM \r\n"
 				+ " (SELECT OutMat_Consignee, pit.PRODUCT_ITEM_NAME OutMat_Name, DATE(OutMat_Date) AS OutMat_Date\r\n"
-				+ "FROM OutMatLX_tbl omlt\r\n"
+				+ "FROM OutMat_tbl omlt\r\n"
 				+ "INNER JOIN DTL_TBL dt2 ON omlt.OutMat_Consignee = dt2.CHILD_TBL_NO\r\n"
 				+ "INNER JOIN PRODUCT_INFO_TBL pit ON omlt.OutMat_Code = pit.PRODUCT_ITEM_CODE\r\n";
 		

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
 	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.busience.salesLX.dao.SalesInputDao">
+<mapper namespace="com.busience.sales.dao.SalesInputDao">
 		
 	<select id="salesLotNoSelectDao" resultType="String">
 		select concat('L',DATE_FORMAT(curdate(),"%y%m%d"), #{Sales_InMat_Code}, lpad(sales_No,'4',0))

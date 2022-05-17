@@ -17,7 +17,7 @@ function Search() {
 		itemName : $('#PRODUCT_ITEM_NAME').val()
 	}
 
-	proItemTable.setData('proSumLXRest/proItemSumSelect2', jsonData);
+	proItemTable.setData('proSumRest/proItemSumSelect2', jsonData);
 	
 	console.log(proItemTable);
 }

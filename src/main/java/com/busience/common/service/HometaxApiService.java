@@ -14,7 +14,7 @@ import com.busience.common.dao.HometaxApiDao;
 import com.busience.common.dto.DtlDto;
 import com.busience.common.dto.HometaxApiDto;
 import com.busience.common.dto.SearchDto;
-import com.busience.salesLX.dto.Sales_OutMat_tbl;
+import com.busience.sales.dto.Sales_OutMat_tbl;
 import com.busience.standard.dao.CustomerDao;
 import com.busience.standard.dao.ItemDao;
 import com.busience.standard.dto.CustomerDto;

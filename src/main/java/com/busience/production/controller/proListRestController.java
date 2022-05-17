@@ -21,8 +21,8 @@ import com.busience.production.dto.PRODUCTION_INFO_TBL;
 import com.busience.production.dto.ProductionMgmtDto;
 import com.busience.production.service.ProductionMgmtService;
 
-@RestController("proListLXRestController")
-@RequestMapping("proListLXRest")
+@RestController("proListRestController")
+@RequestMapping("proListRest")
 public class proListRestController {
 
 	@Autowired

@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
 	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.busience.salesLX.dao.SalesOutputOrderListDao">
-<select id="salesOutputOrderListSelectDao" resultType="com.busience.salesLX.dto.SalesOutputOrderListDto">
+<mapper namespace="com.busience.sales.dao.SalesOutputOrderListDao">
+<select id="salesOutputOrderListSelectDao" resultType="com.busience.sales.dto.SalesOutputOrderListDto">
 	select solt.Sales_Output_Order_lNo,
 		solt.Sales_Output_Order_lOrder_No,
 		pit.PRODUCT_ITEM_NAME Sales_Output_Order_lName,

@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
 	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.busience.salesLX.dao.SalesOrderMasterDao">
-<select id="salesOrderMasterSelectDao" resultType="com.busience.salesLX.dto.SalesOrderMasterDto">
+<mapper namespace="com.busience.sales.dao.SalesOrderMasterDao">
+<select id="salesOrderMasterSelectDao" resultType="com.busience.sales.dto.SalesOrderMasterDto">
 	SELECT 
 		somt.Sales_Order_mCus_No,
 		somt.Sales_Order_mCode,
@@ -29,7 +29,7 @@
 </if>
 	ORDER BY Sales_Order_mDate DESC
 </select>
-<select id="workOrderSalesOrderSelectDao" resultType="com.busience.salesLX.dto.SalesOrderMasterDto">
+<select id="workOrderSalesOrderSelectDao" resultType="com.busience.sales.dto.SalesOrderMasterDto">
 		SELECT
 			A.Sales_Order_mCus_No, A.Sales_Order_mCode, C.Cus_Name Sales_Order_mName, A.Sales_Order_mDlvry_Date, A.Sales_Order_mCheck,
 		    B.Sales_Order_lCode Sales_Order_ItemCode, D.PRODUCT_ITEM_NAME Sales_Order_ItemName, B.Sales_Order_lQty Sales_Order_Qty

@@ -157,7 +157,7 @@ function homtaxApiListSave(data){
 	var datas = data;
 	$.ajax({
 		method : "post",
-		url : "salesDeliveryReportLXRest/hometaxApiDataSave",
+		url : "salesDeliveryReportRest/hometaxApiDataSave",
         data: datas,
 		beforeSend: function (xhr) {
            var header = $("meta[name='_csrf_header']").attr("content");

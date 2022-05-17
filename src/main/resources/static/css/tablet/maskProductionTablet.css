@@ -132,9 +132,17 @@
     justify-content: space-around;
 }
 
+#nextWorkBtn{
+	width: 60%;
+}
+
 .table-container{
 	margin: 10px;
-	border: solid 1px gray;
+	font-size: 2.5vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .tablet-border{

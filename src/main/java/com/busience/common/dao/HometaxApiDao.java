@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.busience.common.dto.HometaxApiDto;
 import com.busience.common.dto.SearchDto;
-import com.busience.salesLX.dto.Sales_OutMat_tbl;
+import com.busience.sales.dto.Sales_OutMat_tbl;
 
 @Mapper
 public interface HometaxApiDao {

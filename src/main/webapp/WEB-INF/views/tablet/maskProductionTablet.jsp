@@ -82,6 +82,12 @@
 	<footer class="global-footer">
 		<div class="footer-box tablet-border">
 			<div class="table-container">
+				<p id="nextItemName"></p>
+				<button id="nextWorkBtn">
+					<i class="fas fa-angle-double-right"></i>
+				</button>
+			</div>
+			<div class="table-container">
 				<div id="crateTable" class="tablet-Table"></div>
 			</div>
 			<div class="table-container">

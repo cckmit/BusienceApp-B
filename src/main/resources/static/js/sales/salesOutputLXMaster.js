@@ -32,7 +32,7 @@ function SOL_Search() {
 	$.ajax({
 		method : "GET",
 		dataType : "json",
-		url : "salesOutputReportLXRest/SOL_Search?data="+ encodeURI(JSON.stringify(data)),
+		url : "salesOutputReportRest/SOL_Search?data="+ encodeURI(JSON.stringify(data)),
 		success : function(SOL_data) {
 			console.log(SOL_data);
 			
@@ -79,7 +79,7 @@ function SOIV_Search() {
 	$.ajax({
 		method : "GET",
 		dataType : "json",
-		url : "salesOutputReportLXRest/SOIV_Search?data="+ encodeURI(JSON.stringify(data)),
+		url : "salesOutputReportRest/SOIV_Search?data="+ encodeURI(JSON.stringify(data)),
 		success : function(SOIV_data) {
 			console.log(SOIV_data);
 			TableSetData(salesOutputItemViewTable,SOIV_data);

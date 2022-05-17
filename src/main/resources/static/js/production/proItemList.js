@@ -16,7 +16,7 @@ function Search() {
 		ItemName : $('#PRODUCT_ITEM_NAME').val()
 	}
 	
-	proItemListTable.setData('proListLXRest/proItemTestSelect', jsonData);
+	proItemListTable.setData('proListRest/proItemTestSelect', jsonData);
 }
 
 $('#SearchBtn').click(function(){

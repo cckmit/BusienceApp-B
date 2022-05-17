@@ -26,9 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.busience.common.dto.SearchDto;
 import com.busience.production.dto.WorkOrderDto;
 import com.busience.production.service.WorkOrderService;
-import com.busience.salesLX.dto.SalesOrderMasterDto;
-import com.busience.salesLX.dto.Sales_OrderMasterList_tbl;
-import com.busience.salesLX.dto.Sales_StockMat_tbl;
+import com.busience.sales.dto.SalesOrderMasterDto;
+import com.busience.sales.dto.Sales_OrderMasterList_tbl;
+import com.busience.sales.dto.Sales_StockMat_tbl;
 
 @RestController("workOrderRestController")
 @RequestMapping("workOrderRest")
@@ -47,7 +47,7 @@ public class workOrderRestController {
 	@RequestMapping(value = "/MI_Search1", method = RequestMethod.GET)
 	public List<Sales_StockMat_tbl> MI_Search1(HttpServletRequest request) throws SQLException {
 		String workOrder_ItemCode = request.getParameter("workOrder_ItemCode");
-		String sql = "select t1.*,t2.* from Sales_StockMatLX_tbl t1 inner join PRODUCT_INFO_TBL t2 on t1.Sales_SM_Code = t2.PRODUCT_ITEM_CODE where Sales_SM_Code='"
+		String sql = "select t1.*,t2.* from Sales_StockMat_tbl t1 inner join PRODUCT_INFO_TBL t2 on t1.Sales_SM_Code = t2.PRODUCT_ITEM_CODE where Sales_SM_Code='"
 				+ workOrder_ItemCode + "'";
 
 		System.out.println(sql);
@@ -81,7 +81,7 @@ public class workOrderRestController {
 	}
 
 	// 수주현황
-	// ERROR : 작업지시 - 작업지시완료일을 입력하면 뒤에 조회되는 기능 : Sales_OrderMasterLX_tbl에 데이터가 많이 삭제되서 조회가 안됨 ex) A01001 코드가 없음
+	// ERROR : 작업지시 - 작업지시완료일을 입력하면 뒤에 조회되는 기능 : Sales_OrderMaster_tbl에 데이터가 많이 삭제되서 조회가 안됨 ex) A01001 코드가 없음
 	@RequestMapping(value = "/MI_Search2", method = RequestMethod.GET)
 	public List<Sales_OrderMasterList_tbl> MI_Search2(HttpServletRequest request) throws SQLException, ParseException {
 		String originData = request.getParameter("data");
@@ -90,8 +90,8 @@ public class workOrderRestController {
 
 		String endDate = (String) obj.get("endDate");
 
-		String sql = "select * from Sales_OrderMasterLX_tbl t1\r\n"
-				+ "inner join Sales_OrderListLX_tbl t2 on t1.Sales_Order_mCus_No = t2.Sales_Order_lCus_No\r\n"
+		String sql = "select * from Sales_OrderMaster_tbl t1\r\n"
+				+ "inner join Sales_OrderList_tbl t2 on t1.Sales_Order_mCus_No = t2.Sales_Order_lCus_No\r\n"
 				+ "inner join Customer_tbl t3 on t1.Sales_Order_mCode=t3.Cus_Code\r\n"
 				+ "inner join PRODUCT_INFO_TBL t4 on t2.Sales_Order_lCode = t4.PRODUCT_ITEM_CODE\r\n" + "where \r\n"
 				+ "t1.Sales_Order_mDlvry_Date >= " + "'" + endDate + "'\r\n";

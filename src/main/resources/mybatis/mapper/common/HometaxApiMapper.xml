@@ -5,7 +5,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="com.busience.common.dao.HometaxApiDao">
-	<select id="transactionCustomerListDao" resultType="com.busience.salesLX.dto.Sales_OutMat_tbl">
+	<select id="transactionCustomerListDao" resultType="com.busience.sales.dto.Sales_OutMat_tbl">
 	<![CDATA[
 		select
 			A.Sales_OutMat_No,
@@ -21,7 +21,7 @@
 	]]>		
 	</select>
 	
-	<select id="transactionDetailListDao" resultType="com.busience.salesLX.dto.Sales_OutMat_tbl">
+	<select id="transactionDetailListDao" resultType="com.busience.sales.dto.Sales_OutMat_tbl">
 	<![CDATA[
 		select 
 			A.Sales_OutMat_No,

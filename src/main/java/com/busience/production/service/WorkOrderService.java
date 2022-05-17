@@ -17,10 +17,10 @@ import com.busience.production.dao.WorkOrderDao;
 import com.busience.production.dto.ProductionMgmtDto;
 import com.busience.production.dto.WorkOrderDto;
 import com.busience.production.dto.WorkOrder_tbl;
-import com.busience.salesLX.dao.SalesInputLXDao;
-import com.busience.salesLX.dao.SalesOrderMasterDao;
-import com.busience.salesLX.dto.SalesOrderMasterDto;
-import com.busience.salesLX.dto.Sales_InMat_tbl;
+import com.busience.sales.dao.SalesInputDao;
+import com.busience.sales.dao.SalesOrderMasterDao;
+import com.busience.sales.dto.SalesOrderMasterDto;
+import com.busience.sales.dto.Sales_InMat_tbl;
 
 @Service
 public class WorkOrderService {
@@ -29,7 +29,7 @@ public class WorkOrderService {
 	WorkOrderDao workOrderDao;
 	
 	@Autowired
-	SalesInputLXDao salesInputLXDao;
+	SalesInputDao salesInputDao;
 	
 	@Autowired
 	SalesOrderMasterDao SalesOrderMasterDao;
@@ -228,9 +228,9 @@ public class WorkOrderService {
 			sales_InMat_tbl.setSales_InMat_Rcv_Clsfc(dtlDao.findByCode(17).get(0).getCHILD_TBL_NO()); //정상입고
 			sales_InMat_tbl.setSales_InMat_Modifier("admin");
 			
-			salesInputLXDao.salesInMatInsertDao(sales_InMat_tbl);
+			salesInputDao.salesInMatInsertDao(sales_InMat_tbl);
 			
-			salesInputLXDao.salesStockMatUpdateDao(sales_InMat_tbl);
+			//salesInputDao.salesStockMatUpdateDao(sales_InMat_tbl);
 		}
 		return workOrderDao.workOrderUpdateDao(workOrderDto);
 	}

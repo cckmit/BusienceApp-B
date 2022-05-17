@@ -16,8 +16,8 @@ import com.busience.production.dto.ProductionMgmtDto;
 import com.busience.production.dto.WorkOrderDto;
 import com.busience.production.service.ProResultService;
 
-@RestController("proResultLXRestController")
-@RequestMapping("proResultLXRest")
+@RestController("proResultRestController")
+@RequestMapping("proResultRest")
 public class proResultRestController {
 
 	@Autowired

@@ -17,7 +17,7 @@ function Search() {
 		EQUIPMENT_INFO_CODE : $('#EQUIPMENT_INFO_CODE').val(),
 		EQUIPMENT_INFO_NAME : $('#EQUIPMENT_INFO_NAME').val()
 	}
-	proMachineListTable.setData('proListLXRest/proMachineTestSelect', jsonData);
+	proMachineListTable.setData('proListRest/proMachineTestSelect', jsonData);
 }
 
 

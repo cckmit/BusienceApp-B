@@ -1,4 +1,6 @@
 var LotList = new Array();
+var preLotList = new Array();
+var nextStatus = false;
 
 $("#machineName").click(function(){
 	location.reload();
@@ -8,14 +10,14 @@ var itemTable = new Tabulator("#itemTable", {
 	layoutColumnsOnNewData : true,
 	height: "100%",
 	ajaxURL:"maskProductionRest/workingByMachine",
-	ajaxParams: {machineCode : $("#machineCode").val(), condition: 1},
+	ajaxParams: {machineCode : $("#machineCode").val(), condition: 2},
     ajaxConfig:"get",
     ajaxContentType:"json",
 	ajaxResponse:function(url, params, response){
 		//작업지시번호로 생산랏을 검색해서 내용이 있는지 여부를 검색
 		//있으면 생산랏에 대한 정보를 검색하고
 		//없으면 봄만 가져옴
-		$.when(RawMaterialSelect(response))
+		$.when(RawMaterialSelect(response[0]))
 		.then(function(data){
 			// 자재식별코드가 있을경우
 			if(data.length>0){
@@ -23,16 +25,19 @@ var itemTable = new Tabulator("#itemTable", {
 				$("#production-Qty").val(data[0].rmm_Qty)
 				
 				RawSubSelect(data[0].rmm_Production_ID)
-				CrateSelect(response)				
+				CrateSelect(response[0])				
 			}else{
 				//생산랏이 없을경우
-				BOM_Check(response)
+				BOM_Check(response[0])
 			}
 			crateTableSelect(response[0].workOrder_ONo)
 			rawMaterialTableSelect(response[0].workOrder_ONo)
+			
+			$("#nextItemName").text(function(){
+				return response[1] == null? "다음 제품 : 없음" : "다음 제품 : " + response[1].workOrder_ItemName
+			})
 		})
-		
-   		return response;
+		return [response[0]];
     },
 	columns:[
 		{title:"현재 생산중인 제품", headerHozAlign:"center",
@@ -59,12 +64,12 @@ $("#fullScreenBtn").click(function(){
 function toggleFullScreen() {
   if (!document.fullscreenElement) {
     document.documentElement.requestFullscreen()
+	itemTable.replaceData();
 	itemTable.redraw();
-	itemTable.replaceData();
+	crateTable.replaceData();
 	crateTable.redraw();
-	itemTable.replaceData();
-	rawMaterialTable.redraw();
 	rawMaterialTable.replaceData();
+	rawMaterialTable.redraw();
   } else {
     if (document.exitFullscreen) {
       document.exitFullscreen()
@@ -76,39 +81,57 @@ $(document).keydown(function(){
 	$("#barcodeInput").focus();
 });
 
-$("#barcodeInput").keypress(function(e){
-	if(e.keyCode == 13){
-		//바코드를 읽었을때
-		//이니셜값 비교하여 맞는 칸에 값을 넣는다.
-		var barcode = $(this).val();
-		var initial = barcode.substring(0,1);
-		if(initial == 'R'){
-			//원자재 object 판단하여 다찼으면 저장 쿼리를 실행한다.
-			rawMaterialLotInput(barcode);
-		}else if(initial == 'C'){
-			if($("#production-ID").val().length > 0){
-				//이미 작업중인 상자가 있을경우
-				//작업중인 상자와 같은 랏인경우 이무일도 일어나면 안됨
-				//다른 랏인경우
-				//기존 상자를 상태를 바꿔 준 뒤 새로 등록
-				//작업중인 상자가 없을경우
-				//새로 등록
-				if($("#crateCode").val() != barcode){
-					//상자를 등록했을때 해당 작업지시의 첫 상자면 작업지시를 작업시작으로 변경함
-					workOrderStart($("#machineCode").val())
-					CrateSave($("#crate-LotNo").val(), barcode)
-					CrateSelect(itemTable.getData())
-				}
-			}else{
-				alert("원자재를 등록해 주세요.")
-			}
-			
+$("#barcodeInput").change(function(){
+	//바코드를 읽었을때
+	//이니셜값 비교하여 맞는 칸에 값을 넣는다.
+	var barcode = $(this).val();
+	var initial = barcode.substring(0,1);
+	if(initial == 'R'){
+		//원자재 object 판단하여 다찼으면 저장 쿼리를 실행한다.
+		rawMaterialLotInput(barcode);
+	}else if(initial == 'C'){
+		if(nextStatus){
+			nextStatus = false;		
+			//다음버튼클릭을 하고나서 crate를 바꾸면 현재 작업지시는 완료로 변경이 되고
+			//리프레쉬 하면 다음작업이 현재 작업으로 올라옴
+			//여기서 전에 쓰던 원자재가 같은 종류이면 랏번호가 유지가 되야함
+			$.when(workOrderStart(itemTable.getData()[0].workOrder_ONo, "E"))
+			.then(function(){
+				itemTable.replaceData();
+				itemTable.redraw();
+			})				
 		}
-		itemTable.redraw();
-		crateTable.redraw();
-		rawMaterialTable.redraw();
+		if($("#production-ID").val().length > 0){
+			//이미 작업중인 상자가 있을경우
+			//작업중인 상자와 같은 랏인경우 이무일도 일어나면 안됨
+			//다른 랏인경우
+			//기존 상자를 상태를 바꿔 준 뒤 새로 등록
+			//작업중인 상자가 없을경우
+			//새로 등록
+			if($("#crateCode").val() != barcode){
+				CrateSave($("#crate-LotNo").val(), barcode);
+				CrateSelect(itemTable.getData()[0]);
+			}
+		}else{
+			alert("원자재를 등록해 주세요.")
+		}
+		
 	}
+	itemTable.redraw();
+	crateTable.redraw();
+	rawMaterialTable.redraw();
 });
+
+//둘다 lot이 생성 됬경우 작업시작
+function workOrderReady(){
+	var crateLotNo = $("#crate-LotNo").val();
+	var productionID = $("#production-ID").val();
+	
+	if(crateLotNo.length>0 && productionID.length>0){
+		CrateProductionSave(crateLotNo, productionID)
+		workOrderStart(itemTable.getData()[0].workOrder_ONo, "S");
+	}
+}
 
 //원자재 리스트 입력
 function rawMaterialLotInput(value){
@@ -127,12 +150,14 @@ function rawMaterialLotInput(value){
 		}
 		return true;
 	})
-	
 	if(result){
 		alert("제품과 맞지않는 원자재 입니다.");
 	}else{
 		//다 찼을경우 저장 실행
-		rawMaterialSave();		
+		$.when(rawMaterialSave())
+		.then(function(){
+			itemTable.replaceData();
+		})	
 	}
 }
 
@@ -164,9 +189,10 @@ function BOM_Check(values){
 	var ajaxResult = $.ajax({
 		method : "get",
 		url : "maskProductionRest/BOMBOMList",
-		data : {itemCode : values[0].workOrder_ItemCode},
+		data : {itemCode : values.workOrder_ItemCode},
 		success : function(data) {
 			LotList = new Array();
+			
 			//BOM을 가져와서 그수만큼 리스트에 담는다			
 			for(let i=0;i<data.length;i++){
 				
@@ -178,6 +204,11 @@ function BOM_Check(values){
 				$(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Code").val(data[i].bom_ItemCode);
 				$(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Name").val(data[i].bom_ItemName);
 			}
+			/*
+			for(let j=0; j<preLotList.length;j++){
+				rawMaterialLotInput(preLotList[j].rms_ItemCode)			
+			}
+			preLotList = new Array();*/
 		}
 	});
 	return ajaxResult
@@ -187,7 +218,7 @@ function RawMaterialSelect(values){
 	var ajaxResult = $.ajax({
 	method : "get",
 		url : "maskProductionRest/rawMaterialMasterSelect",
-		data : {orderNo : values[0].workOrder_ONo}
+		data : {orderNo : values.workOrder_ONo}
 	})
 	return ajaxResult;
 }
@@ -198,6 +229,8 @@ function RawSubSelect(value){
 		url : "maskProductionRest/rawMaterialSubSelect",
 		data : {lotNo : value},
 		success : function(data) {
+			LotList = new Array();
+			
 			for(let i=0;i<data.length;i++){
 				LotList.push({
 					rms_LotNo : data[i].rms_LotNo,
@@ -216,7 +249,7 @@ function CrateSelect(values){
 	var ajaxResult = $.ajax({
 		method : "get",
 		url : "maskProductionRest/crateSelect",
-		data : {orderNo : values[0].workOrder_ONo},
+		data : {orderNo : values.workOrder_ONo},
 		success : function(data) {
 			if(data.length>0){
 				$("#crate-LotNo").val(data[0].cl_LotNo);
@@ -236,8 +269,23 @@ function CrateSave(before, after){
 			CL_Before_LotNo : before,
 			CL_CrateCode : after,
 			CL_OrderNo : itemTable.getData()[0].workOrder_ONo,
-			CL_ItemCode : itemTable.getData()[0].workOrder_ItemCode,
-			CL_Production_ID : $("#production-ID").val()
+			CL_ItemCode : itemTable.getData()[0].workOrder_ItemCode
+		},
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		}
+	});
+	return ajaxResult;
+}
+function CrateProductionSave(lotNo, production_ID){
+	var ajaxResult = $.ajax({
+		method : "post",
+		url : "maskProductionRest/crateProductionSave",
+		data : {
+			CP_LotNo : lotNo,
+			CP_Production_ID : production_ID
 		},
 		beforeSend: function (xhr) {
            var header = $("meta[name='_csrf_header']").attr("content");
@@ -248,13 +296,13 @@ function CrateSave(before, after){
 	return ajaxResult;
 }
 
-function workOrderStart(machineCode){
+function workOrderStart(orderNo, status){
 	var ajaxResult = $.ajax({
 		method : "post",
 		url : "maskProductionRest/workOrderStart",
 		data : {
-			workOrder_EquipCode : machineCode,
-			workOrder_WorkStatus_Name : "S"
+			WorkOrder_ONo : orderNo,
+			workOrder_WorkStatus_Name : status
 		},
 		beforeSend: function (xhr) {
            var header = $("meta[name='_csrf_header']").attr("content");
@@ -305,8 +353,11 @@ function rawMaterialTableSelect(value){
 	rawMaterialTable.setData("maskProductionRest/rawMaterialRecordSelect", {orderNo : value})
 }
 
+$("#nextWorkBtn").click(function(){
+	nextStatus = true;
+	preLotList = LotList;
+	LotList = new Array();
+})
+
 window.onload = function(){
-	setInterval(function(){
-		itemTable.replaceData();
-	},2000);
 }

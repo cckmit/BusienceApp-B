@@ -17,7 +17,7 @@ function Search() {
 		machineCode: $('#machineCode').val(),
 		machineName: $('#machineName').val()
 	}
-	proResultTable.setData('proResultLXRest/proResultSelect', jsonData)
+	proResultTable.setData('proResultRest/proResultSelect', jsonData)
 }
 
 $('#SearchBtn').click(function() {
@@ -139,7 +139,7 @@ var proResultTable = new Tabulator("#proResultTable", {
 
 /*		$.ajax({
 			method: "GET",
-			url: "proResultLXRest/workOrderDetail",
+			url: "proResultRest/workOrderDetail",
 			data: { WorkOrder_ONo: cell.getValue() },
 			dataType: "json",
 			success: function(data) {
@@ -185,7 +185,7 @@ function save() {
 
 	$.ajax({
 		method: "put",
-		url: "proResultLXRest/proResultUpdate",
+		url: "proResultRest/proResultUpdate",
 		data: JSON.stringify(selectedData),
 		contentType: 'application/json',
 		beforeSend: function(xhr) {
