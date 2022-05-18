@@ -8,7 +8,7 @@
 			<span id="itemName">마스크A-53</span>
 		</div>
 		<div class="title tablet-border">
-			<span>작업관리 (마스크 생산)</span>
+			<span>작업 관리 (마스크 생산)</span>
 		</div>
 		<div class="header-right">
 			<span id="fullScreenBtn">전체화면</span>

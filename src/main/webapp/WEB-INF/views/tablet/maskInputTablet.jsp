@@ -8,7 +8,7 @@
 			<span id="itemName">마스크A-53</span>
 		</div>
 		<div class="title tablet-border">
-			<span>작업관리 (마스크 투입)</span>
+			<span>작업 관리 (마스크 투입)</span>
 		</div>
 		<div class="header-right">
 			<span id="fullScreenBtn">전체화면</span>
@@ -25,9 +25,12 @@
 	<div class="main-b">
 		<div class="main-box tablet-border">
 			<div class="item">
+				<label for="crateCode">상 자 코 드</label>
+				<input id="crateCode" disabled>
+			</div>
+			<div class="item">
 				<label for="crate-LotNo">상자 LOTNO</label>
 				<input id="crate-LotNo" disabled>
-				<input type="hidden" id="crateCode">
 			</div>
 			<div class="item">
 				<label for="crate-Qty">상자 내 생산량</label>
@@ -37,14 +40,10 @@
 				<label for="production-ID">자재 식별 코드</label>
 				<input id="production-ID" disabled>
 			</div>
-			<div class="item">
-				<label for="production-Qty">생 산 량</label>
-				<input id="production-Qty" readonly>
-			</div>
 		</div>
 	</div>
 	<div class="main-c">
-		<div class="side-box tablet-border">
+		<div class="side-box">
 			<div class="table-container">
 				<div id="itemTable" class="tablet-Table"></div>
 			</div>

@@ -60,9 +60,8 @@ var WO_inputEditor = function(cell, onRendered, success, cancel, editorParams) {
 					cell.getRow().getData().workOrder_CompleteOrderTime)
 			}
 
+			cell.nav().next();
 		}
-
-		cell.nav().next();
 	});
 	//반환
 	return WO_input;
@@ -108,12 +107,7 @@ var WorkOrderTable = new Tabulator("#WorkOrderTable", {
 		{ title: "설비코드", field: "workOrder_EquipCode", headerHozAlign: "center"},
 		{ title: "설비이름", field: "workOrder_EquipName", headerHozAlign: "center", editor: WO_inputEditor},
 		{ title: "등록일", field: "workOrder_RegisterTime", align: "right", headerHozAlign: "center" },
-		{
-			title: "특이사항", field: "workOrder_Remark", headerHozAlign: "center", editor: "input",
-			cellEdited: function(cell) {
-				Right_Move(cell, "bottom");
-			}
-		},
+		{ title: "특이사항", field: "workOrder_Remark", headerHozAlign: "center", editor: "input"	},
 		{ title: "사용유무", field: "workOrder_Use_Status", headerHozAlign: "center", align: "center", formatter: "tickCross", editor: true },
 		{ title: "수정자", field: "workOrder_Worker", align: "right", headerHozAlign: "center", visible: false }
 	]
@@ -125,8 +119,6 @@ function itemPopupMaster(WO_input, cell) {
 		url: "product_check?PRODUCT_ITEM_CODE=" + WO_input.value,
 		dataType: "json",
 		success: function(data) {
-			console.log(data);
-			//console.log("쿼리실행");
 			if (data.length == 1) {
 				cell.getRow().update({
 					"workOrder_ItemCode": data[0].product_ITEM_CODE,
@@ -266,8 +258,6 @@ function Right_Move(cell, flag) {
 $('#FI_SaveBtn').click(function() {
 	var selectedData = WorkOrderTable.getSelectedData();
 	
-	console.log(selectedData);
-
 	if (selectedData.length == 0) {
 		alert("선택된 행이 없습니다.");
 		return;
@@ -275,7 +265,6 @@ $('#FI_SaveBtn').click(function() {
 
 	for (var i = 0; i < selectedData.length; i++) {
 		var workOrder_ItemCode = selectedData[i].workOrder_ItemCode;
-		console.log(workOrder_ItemCode);
 		if (workOrder_ItemCode == undefined) {
 			alert("제품코드가 입력되지 않은 행이 존재합니다.");
 			return;
@@ -328,9 +317,7 @@ function item_gridInit(code, name, stnd_1) {
 	});
 	
 	//선택 후 포커스 이동
-	cellPos.getElement().focus();
-	
-	
+	cellPos.getElement().focus();	
 }
 
 $(document).ready(function() {

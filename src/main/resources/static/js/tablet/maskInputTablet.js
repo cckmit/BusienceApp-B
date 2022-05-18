@@ -7,21 +7,23 @@ $("#machineName").click(function(){
 var itemTable = new Tabulator("#itemTable", {
 	layoutColumnsOnNewData : true,
 	height: "100%",
-	ajaxURL:"maskProductionRest/workingByMachine",
+	ajaxURL:"maskInputRest/crateLotListSelect",
 	ajaxParams: {machineCode : $("#machineCode").val()},
     ajaxConfig:"get",
     ajaxContentType:"json",
 	columns:[
 		{title:"현재 생산중인 제품", headerHozAlign:"center",
 			columns: [	
-				{ title: "작업지시No", field: "workOrder_ONo", headerHozAlign: "center"},
-				{ title: "제품코드", field: "workOrder_ItemCode", headerHozAlign: "center"},
-				{ title: "제품이름", field: "workOrder_ItemName", headerHozAlign: "center"},
+				{ title: "상자Lot", field: "cl_LotNo", headerHozAlign: "center"},
+				//{ title: "작업지시No", field: "cl_OrderNo", headerHozAlign: "center"},
+				{ title: "상자코드", field: "cl_CrateCode", headerHozAlign: "center"},
+				{ title: "제품코드", field: "cl_ItemCode", headerHozAlign: "center"},
+				{ title: "제품명", field: "cl_ItemCName", headerHozAlign: "center"},
 				{ title: "규격1", field: "workOrder_Item_STND_1", headerHozAlign: "center"},
 				{ title: "규격2", field: "workOrder_Item_STND_2", headerHozAlign: "center"},
-				{ title: "생산수량", field: "workOrder_ProductionQty", headerHozAlign: "center", hozAlign:"right",
+				{ title: "생산수량", field: "cl_Qty", headerHozAlign: "center", hozAlign:"right",
 					formatter:"money", formatterParams: {precision: false}},
-				{ title: "작업등록일", field: "workOrder_RegisterTime", hozAlign: "right", headerHozAlign: "center"}
+				{ title: "작업등록일", field: "cl_Create_Date", hozAlign: "right", headerHozAlign: "center"}
 			]
 		}
 	]

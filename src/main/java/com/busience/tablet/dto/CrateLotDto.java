@@ -12,6 +12,7 @@ public class CrateLotDto {
 	private String CL_LotNo;
 	private String CL_OrderNo;
 	private String CL_ItemCode;
+	private String CL_ItemName;
 	private String CL_CrateCode;
 	private double CL_Qty;
 	private String CL_Create_Date;

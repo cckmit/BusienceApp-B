@@ -19,6 +19,9 @@ public interface CrateLotDao {
 	//이력조회
 	public List<CrateLotDto> crateLotRecordSelectDao(SearchDto searchDto);
 	
+	//설비별목록
+	public List<CrateLotDto> crateLotListSelectDao(SearchDto searchDto);
+	
 	//저장
 	public int crateLotSaveDao(CrateLotDto crateLotDto);
 	
