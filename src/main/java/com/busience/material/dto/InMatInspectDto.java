@@ -14,6 +14,7 @@ public class InMatInspectDto {
 	private String InMat_Inspect_ItemCode;
 	private String InMat_Inspect_ItemName;
 	private int InMat_Inspect_Qty;
+	private int InMat_Inspect_UnitPrice;
 	private String InMat_Inspect_Date;
 	private String InMat_Inspect_Worker;
 	private String InMat_Inspect_Customer;

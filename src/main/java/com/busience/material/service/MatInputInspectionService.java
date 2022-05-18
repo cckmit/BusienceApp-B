@@ -1,7 +1,9 @@
 package com.busience.material.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,6 +61,11 @@ public class MatInputInspectionService {
 		System.out.println(searchDto);
 		return temporaryStorageDao.temporaryStorageSelectDao(searchDto);
 	}
+	
+	// 선택 조회
+	public List<InMatInspectDto> matInspectOneSelectDao(SearchDto searchDto) {
+		return inMatInspectDao.matInspectOneSelectDao(searchDto);
+	}
 
 	public int InMatInspectInsertDao(InMatInspectDto inMatInspectDto, InMatInspectDto standardData,
 			List<InMatInspectDto> value1List, List<InMatInspectDto> value2List, List<InMatInspectDto> value3List,
@@ -78,7 +85,7 @@ public class MatInputInspectionService {
 					List<DtlDto> WarehouseList = dtlDao.findByCode(10);
 					
 					InMatDto inMatDto = new InMatDto();
-
+					
 					for (int i = 0; i < 10; i++) {
 
 						standardData.setInMat_Inspect_Number(i + 1);
@@ -113,14 +120,15 @@ public class MatInputInspectionService {
 					}
 
 					// 가입고 테이블 update
-					temporaryStorageDao.temporaryStorageUpdateDao(standardData.getInMat_Inspect_Order_No());
+					String TS_OrderNo = standardData.getInMat_Inspect_Order_No();
+					String TS_ItemCode = standardData.getInMat_Inspect_ItemCode();
+					temporaryStorageDao.temporaryStorageUpdateDao(TS_OrderNo, TS_ItemCode);
 					
 					inMatDto.setInMat_Order_No(standardData.getInMat_Inspect_Order_No());
 					inMatDto.setInMat_Code(standardData.getInMat_Inspect_ItemCode());
 					inMatDto.setInMat_Qty(standardData.getInMat_Inspect_Qty());
 					inMatDto.setInMat_Rcv_Clsfc(standardData.getInMat_Inspect_Classfy());
 
-					int no = inMatDto.getInMat_No();
 					String lotNo = inMatDto.getInMat_Lot_No();
 					String itemCode = inMatDto.getInMat_Code();
 					double qty = (double) inMatDto.getInMat_Qty();
@@ -142,6 +150,17 @@ public class MatInputInspectionService {
 					inMatDto.setInMat_Warehouse(Warehouse);
 					// 랏트랜스번호 가져오기
 					inMatDto.setInMat_No(lotTransDao.lotTransNoSelectDao(lotNo));
+					int no = inMatDto.getInMat_No();
+					// 고객 정보
+					inMatDto.setInMat_Client_Code(standardData.getInMat_Inspect_Customer());
+					
+					// 입고일
+					Date date = new Date();
+				    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				    String now = format.format(date);
+					inMatDto.setInMat_Date(now);
+					// 단가
+					inMatDto.setInMat_Unit_Price(standardData.getInMat_Inspect_UnitPrice());
 					// 이동 설정하기 외부 -> 자재창고
 					inMatDto.setInMat_Before(before);
 					inMatDto.setInMat_After(after);

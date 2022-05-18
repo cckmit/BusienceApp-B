@@ -106,7 +106,7 @@ td {
 						<input style="width: 60px;" type="hidden" name="Inspect_Value_5[]" id="check2_val5">
 						</td>
 						<td style="width: 50px;">
-							<select style="height: 24px;" name="status[]" id="check2_val2">
+							<select style="height: 24px;" name="status[]" id="check2_val6">
 								<option value="true">적</option>
 								<option value="false">부</option>
 							</select>
@@ -123,7 +123,7 @@ td {
 						<input style="width: 60px;" type="hidden" name="Inspect_Value_5[]" id="check3_val5">
 						</td>
 						<td style="width: 50px;">
-							<select style="height: 24px;" name="status[]" id="check3_val2">
+							<select style="height: 24px;" name="status[]" id="check3_val6">
 								<option value="true">적</option>
 								<option value="false">부</option>
 							</select>
@@ -139,7 +139,7 @@ td {
 						<input style="width: 60px;" type="hidden" name="Inspect_Value_4[]" id="check4_val4">
 						<input style="width: 60px;" type="hidden" name="Inspect_Value_5[]" id="check4_val5"></td>
 						<td style="width: 50px;">
-							<select style="height: 24px;" name="status[]" id="check4_val2">
+							<select style="height: 24px;" name="status[]" id="check4_val6">
 								<option value="true">적</option>
 								<option value="false">부</option>
 							</select>
@@ -156,7 +156,7 @@ td {
 						<input style="width: 60px;" type="hidden" name="Inspect_Value_5[]" id="check5_val5">
 						</td>
 						<td style="width: 50px;">
-							<select style="height: 24px;" name="status[]" id="check5_val2">
+							<select style="height: 24px;" name="status[]" id="check5_val6">
 								<option value="true">적</option>
 								<option value="false">부</option>
 							</select>
@@ -173,7 +173,7 @@ td {
 						<input style="width: 60px;" type="hidden" name="Inspect_Value_5[]" id="check6_val5">
 						</td>
 						<td style="width: 50px;">
-							<select style="height: 24px;" name="status[]" id="check6_val2">
+							<select style="height: 24px;" name="status[]" id="check6_val6">
 								<option value="true">적</option>
 								<option value="false">부</option>
 							</select>
@@ -190,7 +190,7 @@ td {
 						<input style="width: 60px;" type="hidden" name="Inspect_Value_5[]" id="check7_val5">
 						</td>
 						<td style="width: 50px;">
-							<select style="height: 24px;" name="status[]" id="check7_val2">
+							<select style="height: 24px;" name="status[]" id="check7_val6">
 								<option value="true">적</option>
 								<option value="false">부</option>
 							</select>

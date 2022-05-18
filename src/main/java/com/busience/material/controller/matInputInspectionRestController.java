@@ -33,6 +33,12 @@ public class matInputInspectionRestController {
 		return matInputInspectionService.temporaryStorageSelectDao(searchDto);
 	}
 	
+	// 선택 조회 
+	@GetMapping("/MIF_Search")
+	public List<InMatInspectDto> matInspectOneSelectDao(SearchDto searchDto) {
+		return matInputInspectionService.matInspectOneSelectDao(searchDto);
+	}
+	
 	@PostMapping("/MII_Save")
 	public int InMatInspectInsertDao(HttpServletRequest request, InMatInspectDto inMatInspectDto, Principal principal) throws JsonMappingException, JsonProcessingException {
 		String standard = request.getParameter("standard");

@@ -51,6 +51,7 @@
 	<update id="temporaryStorageUpdateDao">
 		update Temporary_Storage_tbl
 		set TS_Status = 'Y'
-		where TS_OrderNo = #{TS_OrderNo}
+		where TS_OrderNo = #{TS_OrderNo} 
+		and TS_ItemCode = #{TS_ItemCode}
 	</update>
 </mapper>
