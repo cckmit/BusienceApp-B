@@ -52,7 +52,7 @@ request.setCharacterEncoding("UTF-8");
 					<td style="border: 2px solid #444 !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/</td>
 					<td style="border: 2px solid #444 !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/</td>
 					<td style="border: 2px solid #444 !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/</td>
-					<td style="border: 2px solid #444 !important;"></td>
+					<td style="border: 2px solid #444 !important; text-align: center;"><input type="checkbox" checked onclick="return false;">&nbsp;입고</td>
 					<td style="border: 2px solid #444 !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/</td>
 					<td style="border: 2px solid #444 !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/</td>
 					<td style="border: 2px solid #444 !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/</td>
