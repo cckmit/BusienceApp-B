@@ -84,7 +84,7 @@ request.setCharacterEncoding("UTF-8");
 				</tr>
 				<tr>
 					<td colspan="7" style="border: 2px solid #444 !important;"><textarea id="subinspectionText"
-							name="inspectionText" rows="4" cols="92.5" style="resize: none;"></textarea>
+							name="inspectionText" rows="4" cols="92.5" style="resize: none;" readonly></textarea>
 					</td>
 				</tr>
 			</table>
@@ -120,20 +120,20 @@ request.setCharacterEncoding("UTF-8");
 					<td style="width: 40px; border: 2px solid #444 !important;">
 						<input style="width: 60px; text-align: center;" type="text" name="subInspect_Value_5[]" id="check1_val5"></td>
 					<td style="width: 50px; border: 2px solid #444 !important;">
-						<input type="text" name="substatus[]" style="width: 50px; text-align: center;"></td>
+						<input type="text" name="substatus[]" style="width: 50px; text-align: center;" readonly></td>
 				</tr>
 				<tr>
 					<td style="border: 2px solid #444 !important;">2</td>
 					<td style="border: 2px solid #444 !important;">색소</td>
 					<td style="border: 2px solid #444 !important;">부직포의 순도시험 중 1)색소에 따라 시험한다.</td>
 					<td colspan="5" style="border: 2px solid #444 !important;">
-						<input style="width: 400px; text-align: center;" type="text" name="subInspect_Value_1[]" id="check2_val1"> 
-						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_2[]" id="check2_val2"> 
-						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_3[]" id="check2_val3"> 
-						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_4[]" id="check2_val4"> 
-						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_5[]" id="check2_val5"></td>
+						<input style="width: 400px; text-align: center;" type="text" name="subInspect_Value_1[]" id="check2_val1" readonly> 
+						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_2[]" id="check2_val2" readonly> 
+						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_3[]" id="check2_val3" readonly> 
+						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_4[]" id="check2_val4" readonly> 
+						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_5[]" id="check2_val5" readonly></td>
 					<td style="width: 50px; border: 2px solid #444 !important;">
-						<input type="text" name="substatus[]" style="width: 50px; text-align: center;">
+						<input type="text" name="substatus[]" style="width: 50px; text-align: center;" readonly>
 					</td>
 				</tr>
 				<tr>
@@ -141,14 +141,14 @@ request.setCharacterEncoding("UTF-8");
 					<td style="border: 2px solid #444 !important;">산 또는 알칼리</td>
 					<td style="border: 2px solid #444 !important;">부직포의 순도시험 중 2)산 또는 알칼리에 따라 시험한다.</td>
 					<td colspan="5" style="border: 2px solid #444 !important;">
-						<input style="width: 400px; text-align: center;" type="text" name="subInspect_Value_1[]" id="check3_val1"> 
-						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_2[]" id="check3_val2"> 
-						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_3[]" id="check3_val3"> 
-						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_4[]" id="check3_val4"> 
-						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_5[]" id="check3_val5">
+						<input style="width: 400px; text-align: center;" type="text" name="subInspect_Value_1[]" id="check3_val1" readonly> 
+						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_2[]" id="check3_val2" readonly> 
+						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_3[]" id="check3_val3" readonly> 
+						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_4[]" id="check3_val4" readonly> 
+						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_5[]" id="check3_val5" readonly>
 					</td>
 					<td style="width: 50px; border: 2px solid #444 !important;">
-						<input type="text" name="substatus[]" style="width: 50px; text-align: center;">
+						<input type="text" name="substatus[]" style="width: 50px; text-align: center;" readonly>
 					</td>
 				</tr>
 				<tr>
@@ -156,14 +156,14 @@ request.setCharacterEncoding("UTF-8");
 					<td style="border: 2px solid #444 !important;">형광증백제</td>
 					<td style="border: 2px solid #444 !important;">부직포의 순도시험 중 3)형광증백제에 따라 시험한다.</td>
 					<td colspan="5" style="border: 2px solid #444 !important;">
-						<input style="width: 400px; text-align: center;" type="text" name="subInspect_Value_1[]" id="check4_val1"> 
-						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_2[]" id="check4_val2"> 
-						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_3[]" id="check4_val3"> 
-						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_4[]" id="check4_val4"> 
-						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_5[]" id="check4_val5">
+						<input style="width: 400px; text-align: center;" type="text" name="subInspect_Value_1[]" id="check4_val1" readonly> 
+						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_2[]" id="check4_val2" readonly> 
+						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_3[]" id="check4_val3" readonly> 
+						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_4[]" id="check4_val4" readonly> 
+						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_5[]" id="check4_val5" readonly>
 					</td>
 					<td style="width: 50px; border: 2px solid #444 !important;">
-						<input type="text" name="substatus[]" style="width: 50px; text-align: center;">
+						<input type="text" name="substatus[]" style="width: 50px; text-align: center;" readonly>
 					</td>
 				</tr>
 				<tr>
@@ -171,14 +171,14 @@ request.setCharacterEncoding("UTF-8");
 					<td style="border: 2px solid #444 !important;">회분</td>
 					<td style="border: 2px solid #444 !important;">부직포의 회분에 따라 시험한다.</td>
 					<td colspan="5" style="border: 2px solid #444 !important;">
-						<input style="width: 400px; text-align: center;" type="text" name="subInspect_Value_1[]" id="check5_val1"> 
-						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_2[]" id="check5_val2"> 
-						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_3[]" id="check5_val3"> 
-						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_4[]" id="check5_val4"> 
-						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_5[]" id="check5_val5">
+						<input style="width: 400px; text-align: center;" type="text" name="subInspect_Value_1[]" id="check5_val1" readonly> 
+						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_2[]" id="check5_val2" readonly> 
+						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_3[]" id="check5_val3" readonly> 
+						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_4[]" id="check5_val4" readonly> 
+						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_5[]" id="check5_val5" readonly>
 					</td>
 					<td style="width: 50px; border: 2px solid #444 !important;">
-						<input type="text" name="substatus[]" style="width: 50px; text-align: center;">
+						<input type="text" name="substatus[]" style="width: 50px; text-align: center;" readonly>
 					</td>
 				</tr>
 				<tr>
@@ -186,14 +186,14 @@ request.setCharacterEncoding("UTF-8");
 					<td style="border: 2px solid #444 !important;">포름알데히드</td>
 					<td style="border: 2px solid #444 !important;">부직포의 포름알데히드에 따라 시험한다.</td>
 					<td colspan="5" style="border: 2px solid #444 !important;">
-						<input style="width: 400px; text-align: center;" type="text" name="subInspect_Value_1[]" id="check6_val1"> 
-						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_2[]" id="check6_val2"> 
-						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_3[]" id="check6_val3"> 
-						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_4[]" id="check6_val4"> 
-						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_5[]" id="check6_val5">
+						<input style="width: 400px; text-align: center;" type="text" name="subInspect_Value_1[]" id="check6_val1" readonly> 
+						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_2[]" id="check6_val2" readonly> 
+						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_3[]" id="check6_val3" readonly> 
+						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_4[]" id="check6_val4" readonly> 
+						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_5[]" id="check6_val5" readonly>
 					</td>
 					<td style="width: 50px; border: 2px solid #444 !important;">
-						<input type="text" name="substatus[]" style="width: 50px; text-align: center;">
+						<input type="text" name="substatus[]" style="width: 50px; text-align: center;" readonly>
 					</td>
 				</tr>
 				<tr>
@@ -201,103 +201,103 @@ request.setCharacterEncoding("UTF-8");
 					<td style="border: 2px solid #444 !important;">강도</td>
 					<td style="border: 2px solid #444 !important;">부직포의 강도에 따라 시험한다.</td>
 					<td colspan="5" style="border: 2px solid #444 !important;">
-						<input style="width: 400px; text-align: center;" type="text" name="subInspect_Value_1[]" id="check7_val1"> 
-						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_2[]" id="check7_val2"> 
-						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_3[]" id="check7_val3"> 
-						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_4[]" id="check7_val4"> 
-						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_5[]" id="check7_val5">
+						<input style="width: 400px; text-align: center;" type="text" name="subInspect_Value_1[]" id="check7_val1" readonly> 
+						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_2[]" id="check7_val2" readonly> 
+						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_3[]" id="check7_val3" readonly> 
+						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_4[]" id="check7_val4" readonly> 
+						<input style="width: 60px; text-align: center;" type="hidden" name="subInspect_Value_5[]" id="check7_val5" readonly>
 					</td>
 					<td style="width: 50px; border: 2px solid #444 !important;">
-						<input type="text" name="substatus[]" style="width: 50px; text-align: center;">
+						<input type="text" name="substatus[]" style="width: 50px; text-align: center;" readonly>
 					</td>
 				</tr>
 				<tr>
 					<td style="border: 2px solid #444 !important;">8</td>
 					<td style="border: 2px solid #444 !important;">치수(A)</td>
 					<td style="border: 2px solid #444 !important;">
-						<input type="text" name="subInspect_STND_1[]" style="width: 50px; text-align: center;"> ± <input type="text" name="subInspect_STND_2[]" style="width: 80px; text-align: center;">
+						<input type="text" name="subInspect_STND_1[]" style="width: 50px; text-align: center;" readonly> ± <input type="text" name="subInspect_STND_2[]" style="width: 80px; text-align: center;" readonly>
 					</td>
 					<td style="width: 40px; border: 2px solid #444 !important;">
 						<input style="width: 60px; text-align: center;"
-						type="text" name="subInspect_Value_1[]" id="check8_val1">
+						type="text" name="subInspect_Value_1[]" id="check8_val1" readonly>
 					</td>
 					<td style="width: 40px; border: 2px solid #444 !important;">
 						<input style="width: 60px; text-align: center;"
-						type="text" name="subInspect_Value_2[]" id="check8_val2">
+						type="text" name="subInspect_Value_2[]" id="check8_val2" readonly>
 					</td>
 					<td style="width: 40px; border: 2px solid #444 !important;">
 						<input style="width: 60px; text-align: center;"
-						type="text" name="subInspect_Value_3[]" id="check8_val3">
+						type="text" name="subInspect_Value_3[]" id="check8_val3" readonly>
 					</td>
 					<td style="width: 40px; border: 2px solid #444 !important;">
 						<input style="width: 60px; text-align: center;"
-						type="text" name="subInspect_Value_4[]" id="check8_val4">
+						type="text" name="subInspect_Value_4[]" id="check8_val4" readonly>
 					</td>
-					<td style="width: 40px; border: 2px solid #444 !important;">
+					<td style="width: 40px; border: 2px solid #444 !important;"> 
 						<input style="width: 60px; text-align: center;"
-						type="text" name="subInspect_Value_5[]" id="check8_val5">
+						type="text" name="subInspect_Value_5[]" id="check8_val5" readonly>
 					</td>
 					<td style="width: 50px; border: 2px solid #444 !important;">
-						<input type="text" name="substatus[]" style="width: 50px; text-align: center;">
+						<input type="text" name="substatus[]" style="width: 50px; text-align: center;" readonly>
 					</td>
 				</tr>
 				<tr>
 					<td style="border: 2px solid #444 !important;">9</td>
 					<td style="border: 2px solid #444 !important;">중량</td>
 					<td style="border: 2px solid #444 !important;">
-						<input type="text" name="subInspect_STND_1[]" style="width: 50px; text-align: center;"> ± <input type="text" name="subInspect_STND_2[]" style="width: 80px; text-align: center;"></td>
+						<input type="text" name="subInspect_STND_1[]" style="width: 50px; text-align: center;" readonly> ± <input type="text" name="subInspect_STND_2[]" style="width: 80px; text-align: center;" readonly></td>
 					<td style="width: 40px; border: 2px solid #444 !important;">
 						<input style="width: 60px; text-align: center;"
-						type="text" name="subInspect_Value_1[]" id="check9_val1">
+						type="text" name="subInspect_Value_1[]" id="check9_val1" readonly>
 					</td>
 					<td style="width: 40px; border: 2px solid #444 !important;">
 						<input style="width: 60px; text-align: center;"
-						type="text" name="subInspect_Value_2[]" id="check9_val2">
+						type="text" name="subInspect_Value_2[]" id="check9_val2" readonly>
 					</td>
 					<td style="width: 40px; border: 2px solid #444 !important;">
 						<input style="width: 60px; text-align: center;"
-						type="text" name="subInspect_Value_3[]" id="check9_val3">
+						type="text" name="subInspect_Value_3[]" id="check9_val3" readonly>
 					</td>
 					<td style="width: 40px; border: 2px solid #444 !important;">
 						<input style="width: 60px; text-align: center;"
-						type="text" name="subInspect_Value_4[]" id="check9_val4">
+						type="text" name="subInspect_Value_4[]" id="check9_val4" readonly>
 					</td>
 					<td style="width: 40px; border: 2px solid #444 !important;">
 						<input style="width: 60px; text-align: center;"
-						type="text" name="subInspect_Value_5[]" id="check9_val5">
+						type="text" name="subInspect_Value_5[]" id="check9_val5" readonly>
 					</td>
 					<td style="width: 50px; border: 2px solid #444 !important;">
-						<input type="text" name="substatus[]" style="width: 50px; text-align: center;">
+						<input type="text" name="substatus[]" style="width: 50px; text-align: center;" readonly>
 					</td>
 				</tr>
 				<tr>
 					<td style="border: 2px solid #444 !important;">10</td>
 					<td style="border: 2px solid #444 !important;">두께</td>
 					<td style="border: 2px solid #444 !important;">
-						<input type="text" name="subInspect_STND_1[]" style="width: 50px; text-align: center;"> ± <input type="text" name="subInspect_STND_2[]" style="width: 80px; text-align: center;">
+						<input type="text" name="subInspect_STND_1[]" style="width: 50px; text-align: center;" readonly> ± <input type="text" name="subInspect_STND_2[]" style="width: 80px; text-align: center;" readonly>
 					</td>
 					<td style="width: 40px; border: 2px solid #444 !important;">
 						<input style="width: 60px; text-align: center;"
-						type="text" name="subInspect_Value_1[]" id="check10_val1">
+						type="text" name="subInspect_Value_1[]" id="check10_val1" readonly>
 					</td>
 					<td style="width: 40px; border: 2px solid #444 !important;">
 						<input style="width: 60px; text-align: center;;"
-						type="text" name="subInspect_Value_2[]" id="check10_val2">
+						type="text" name="subInspect_Value_2[]" id="check10_val2" readonly>
 					</td>
 					<td style="width: 40px; border: 2px solid #444 !important;">
 						<input style="width: 60px; text-align: center;"
-						type="text" name="subInspect_Value_3[]" id="check10_val3">
+						type="text" name="subInspect_Value_3[]" id="check10_val3" readonly>
 					</td>
 					<td style="width: 40px; border: 2px solid #444 !important;">
 						<input style="width: 60px; text-align: center;"
-						type="text" name="subInspect_Value_4[]" id="check10_val4">
+						type="text" name="subInspect_Value_4[]" id="check10_val4" readonly>
 					</td>
 					<td style="width: 40px; border: 2px solid #444 !important;">
 						<input style="width: 60px; text-align: center;"
-						type="text" name="subInspect_Value_5[]" id="check10_val5">
+						type="text" name="subInspect_Value_5[]" id="check10_val5" readonly>
 					</td>
 					<td style="width: 50px; border: 2px solid #444 !important;">
-						<input type="text" name="substatus[]" style="width: 50px; text-align: center;">
+						<input type="text" name="substatus[]" style="width: 50px; text-align: center;" readonly>
 					</td>
 				</tr>
 			</table>
@@ -307,7 +307,7 @@ request.setCharacterEncoding("UTF-8");
 					<td colspan="4" style="width: 97px; align-contents: center; border: 2px solid #444 !important; "><p>비고</p></td>
 					<td colspan="4" style="border: 2px solid #444 !important;"><textarea
 							id="subinspectionRemark" name="subinspectionRemark" rows="3" cols="60"
-							style="resize: none;"></textarea></td>
+							style="resize: none;" readonly></textarea></td>
 				</tr>
 			</table>
 			<br> <br> <br>
