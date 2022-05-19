@@ -62,12 +62,6 @@ var output_dtl = dtlSelectList(18);
 var matInputTable = new Tabulator("#matInputTable", {
 	layoutColumnsOnNewData: true,
 	height: "calc(50% - 90px)",
-	rowFormatter: function(row) {
-		//미출고가 없으면 빨간색으로
-		if (row.getData().rs_Not_Stocked == 0) {
-			row.getElement().style.color = "red";
-		}
-	},
 	//행을 클릭하면 matLotMasterTable에 리스트가 나타남
 	rowClick: function(e, row) {
 		matInputTable.deselectRow();
@@ -91,7 +85,8 @@ var matInputTable = new Tabulator("#matInputTable", {
 		{ title: "거래처코드", field: "ts_Client_Code", headerHozAlign: "center" },
 		{ title: "거래처명", field: "ts_Client_Name", headerHozAlign: "center" },
 		{ title: "입고일", field: "ts_Date", headerHozAlign: "center" },
-		{ title: "구분", field: "ts_Classfy", headerHozAlign: "center" }]
+		{ title: "구분", field: "ts_Classfy", headerHozAlign: "center", visible: false },
+		{ title: "구분", field: "ts_Classfy_Name", headerHozAlign: "center", hozAlign: "right" }]
 });
 
 function MIS_Search() {
@@ -122,6 +117,8 @@ function MIF_Search(OrderNo, ItemCode) {
 		OrderNo: OrderNo,
 		ItemCode: ItemCode
 	}
+	
+	console.log(datas);
 
 	$.ajax({
 		method: "GET",
@@ -135,7 +132,7 @@ function MIF_Search(OrderNo, ItemCode) {
 			$("#matInspectWorker").val(MIF_datas[0].inMat_Inspect_Worker);
 			$("#matInspectCustomer").val(MIF_datas[0].inMat_Inspect_Customer_Name);
 			$("#inspectionText").val(MIF_datas[0].inMat_Inspect_Text);
-			
+
 			for (var i = 0; i < MIF_datas.length; i++) {
 				//console.log(MIF_datas[i].inMat_Inspect_Value_1);
 				$("input[name='Inspect_Value_1[]']")[i].value = MIF_datas[i].inMat_Inspect_Value_1;
@@ -197,7 +194,7 @@ function MIF_Save() {
 		alert("검사할 행을 선택해주세요.");
 		return false;
 	}
-	
+
 	if ($("#matInspectWorker").val() == "") {
 		alert("검사자를 입력해주세요.");
 		return false;
@@ -213,7 +210,8 @@ function MIF_Save() {
 			inMat_Inspect_Worker: $("#matInspectWorker").val(),
 			inMat_Inspect_Customer: tempStorageTable.getData()[0].ts_Client_Code,
 			inMat_Inspect_Text: $("#inspectionText").val(),
-			inMat_Inspect_Classfy: tempStorageTable.getData()[0].ts_Classfy
+			inMat_Inspect_Classfy: tempStorageTable.getData()[0].ts_Classfy,
+			inMat_Inspect_Remark: $("#inspectionRemark").val()
 		}
 	}
 
@@ -321,6 +319,25 @@ function formClearFunc() {
 $('#MIF_SaveBtn').click(function() {
 	MIF_Save();
 })
+
+//MO_PrintBtn
+$('#MII_PrintBtn').click(function() {
+	MII_print();
+})
+
+//orderprint
+function MII_print() {
+	//창의 주소
+	var url = "matInputInspectionPrint";
+	//창의 이름
+	var name = "matInputInspectionPrint";
+	//창의 css
+	var option = "width = 1000, height = 800, top = 50, left = 440, location = top";
+
+	openWin = window.open(url, name, option);
+
+	$("#inspect_frm").submit();
+}
 
 //품목코드로 matOutputSubTable 선택하는 코드
 function lCode_select(value) {

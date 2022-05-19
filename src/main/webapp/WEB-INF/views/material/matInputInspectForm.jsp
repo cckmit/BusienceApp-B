@@ -1,8 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
-<!DOCTYPE html>
 <html>
 <head>
 <style>
@@ -36,34 +33,34 @@ td {
 			<div class="master-table" style="padding-left: 10px;">
 				<table class="table table-bordered" style="padding-left: 10px; height: 100px; width: 870px; font-size: 12px;">
 					<tr>
-						<td colspan="2">품명</td>
+						<td colspan="2" style="text-align: center;">품명</td>
 						<td><input type="text" id="matInspectItemName" readonly></td>
-						<td colspan="2">검사일자</td>
+						<td colspan="2" style="text-align: center;">검사일자</td>
 						<td colspan="2"><input type="text" id="matInspectDate" readonly></td>
 						
 					</tr>
 					<tr>
-						<td colspan="2">수량</td>
+						<td colspan="2" style="text-align: center;">수량</td>
 						<td><input type="text" id="matInspectQty" readonly></td>
-						<td colspan="2">검사자</td>
+						<td colspan="2" style="text-align: center;">검사자</td>
 						<td colspan="2"><input type="text" id="matInspectWorker"></td>
 					</tr>
 					<tr>
-						<td colspan="2">검사기준</td>
+						<td colspan="2" style="text-align: center;">검사기준</td>
 						<td>KS Q ISO 2859-1</td>
-						<td colspan="2">공급업체</td>
+						<td colspan="2" style="text-align: center;">공급업체</td>
 						<td colspan="2"><input type="text" id="matInspectCustomer" readonly></td>
 					</tr>
 					<tr>
 						<td colspan="2" style="width: 100px; font-size: 13px;" width="80"
 							class="col1"></td>
 						<td colspan="4" class="col2">
-							<textarea id="inspectionText" name="inspectionText" rows="4" cols="94" style="resize: none;"></textarea>
+							<textarea id="inspectionText" name="inspectionText" rows="2" cols="94" style="resize: none;"></textarea>
 						</td>
 					</tr>
 				</table>
 				<table class="table table-bordered"
-					style="padding-left: 10px; margin-top: -17px; height: 250px; width: 870px; font-size: 12px; text-align: center;">
+					style="padding-left: 10px; margin-top: -22px; height: 250px; width: 870px; font-size: 12px; text-align: center;">
 					<tr>
 						<td rowspan="2" style="border: 1px;">번호</td>
 						<td rowspan="2">검사항목</td>
@@ -245,6 +242,15 @@ td {
 						</td>
 					</tr>
 				</table>
+				<table class="table table-bordered"
+				style="margin-top: -22px; height: 25px; width: 870px; font-size: 12px;">
+				<tr>
+					<td colspan="4" style="width: 97px; text-align: center;"><p>비고</p></td >
+					<td colspan="4">
+						<textarea id="inspectionRemark" name="inspectionRemark" rows="2" cols="94" style="resize: none;"></textarea>
+					</td>
+				</tr>
+			</table>
 			</div>
 		</div>
 		<!-- END MAIN -->

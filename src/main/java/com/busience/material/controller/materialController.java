@@ -79,6 +79,11 @@ public class materialController {
 		return "material/matInputInspection";
 	}
 	
+	@GetMapping("matInputInspectionPrint")
+	public String InputInspectionPrint(HttpServletRequest request) {
+		return "material/matInputInspectionPrint";
+	}
+	
 	// MatOutput
 	@GetMapping("matOutput")
 	public String matOutput(Model model) {

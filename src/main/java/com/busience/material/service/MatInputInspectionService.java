@@ -73,8 +73,6 @@ public class MatInputInspectionService {
 			List<InMatInspectDto> stnd2List, List<InMatInspectDto> statusList, String userCode) {
 		// TODO Auto-generated method stub
 
-		System.out.println("서비스단 : ");
-
 		try {
 
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {

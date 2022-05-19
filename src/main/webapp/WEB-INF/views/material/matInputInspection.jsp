@@ -42,6 +42,7 @@
 				<!-- 버튼 -->
 				<div class="input-button">
 					<img src="/images/button/Save.png" id="MIF_SaveBtn" class="unUseBtn BtnStatus"/>
+					<img src="/images/button/Print.png" id="MII_PrintBtn"/>
 				</div>
 			</div>
 			<!-- 그리드 생성 장소 -->
