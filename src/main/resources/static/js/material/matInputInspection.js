@@ -7,28 +7,30 @@ var tempStorageTable = new Tabulator("#tempStorageTable", {
 	},
 	rowClick: function(e, row) {
 		tempStorageTable.deselectRow();
-		row.select();
+		row.select();s
 	},
 	rowSelected: function(row) {
 		formClearFunc();
 		row.select();
-		MIForm_Search(row.getData().ts_ItemName, row.getData().ts_Qty, row.getData().ts_Client_Name);
+		MIForm_Search(row.getData().inMat_Name, row.getData().inMat_Qty, row.getData().inMat_Client_Name);
 		UseBtn();
 		$("#matInspectWorker").focus();
 	},
 	columns: [
 		{ title: "순번", field: "rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum" },
-		{ title: "발주번호", field: "ts_OrderNo", headerHozAlign: "center", hozAlign: "right" },
-		{ title: "품목코드", field: "ts_ItemCode" },
-		{ title: "품목명", field: "ts_ItemName", headerHozAlign: "center" },
-		{ title: "수량", field: "ts_Qty", hozAlign: "right" },
-		{ title: "단가", field: "ts_Unit_Price", headerHozAlign: "center", hozAlign: "right" },
-		{ title: "금액", field: "ts_Price", headerHozAlign: "center", hozAlign: "right" },
-		{ title: "거래처코드", field: "ts_Client_Code", headerHozAlign: "center" },
-		{ title: "거래처명", field: "ts_Client_Name", headerHozAlign: "center" },
-		{ title: "가입고일", field: "ts_Date", headerHozAlign: "center" },
-		{ title: "구분", field: "ts_Classfy", headerHozAlign: "center", hozAlign: "right", visible: false },
-		{ title: "구분", field: "ts_Classfy_Name", headerHozAlign: "center", hozAlign: "right" }
+		{ title: "입고순번", field: "inMat_No", headerHozAlign: "center", hozAlign: "right", visible: false },
+		{ title: "LotNo", field: "inMat_Lot_No", headerHozAlign: "center", hozAlign: "right", visible: false },
+		{ title: "발주번호", field: "inMat_Order_No", headerHozAlign: "center", hozAlign: "right" },
+		{ title: "품목코드", field: "inMat_Code" },
+		{ title: "품목명", field: "inMat_Name", headerHozAlign: "center" },
+		{ title: "수량", field: "inMat_Qty", hozAlign: "right" },
+		{ title: "단가", field: "inMat_Unit_Price", headerHozAlign: "center", hozAlign: "right" },
+		{ title: "금액", field: "inMat_Price", headerHozAlign: "center", hozAlign: "right", formatter : "money", formatterParams:{ precision:false}, },
+		{ title: "거래처코드", field: "inMat_Client_Code", headerHozAlign: "center" },
+		{ title: "거래처명", field: "inMat_Client_Name", headerHozAlign: "center" },
+		{ title: "가입고일", field: "inMat_Date", headerHozAlign: "center"},
+		{ title: "구분", field: "inMat_Rcv_Clsfc", headerHozAlign: "center", hozAlign: "right", visible: false },
+		{ title: "구분", field: "inMat_Rcv_Clsfc_Name", headerHozAlign: "center", hozAlign: "right" }
 	],
 });
 
@@ -48,6 +50,7 @@ function MII_Search() {
 		.then(function() {
 			//list와 stock의 데이터를 없에준다
 			formClearFunc();
+			console.log(tempStorageTable);
 		})
 }
 
@@ -71,22 +74,22 @@ var matInputTable = new Tabulator("#matInputTable", {
 		formClearFunc();
 		row.select();
 		//발주번호, 품목코드로 검색
-		MIF_Search(row.getData().ts_OrderNo, row.getData().ts_ItemCode);
+		MIF_Search(row.getData().inMat_Order_No, row.getData().inMat_Code);
 		ResetBtn();
 	},
 	columns: [
 		{ title: "순번", field: "rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum" },
-		{ title: "발주번호", field: "ts_OrderNo" },
-		{ title: "품목코드", field: "ts_ItemCode", headerHozAlign: "center" },
-		{ title: "품목명", field: "ts_ItemName", headerHozAlign: "center" },
-		{ title: "수량", field: "ts_Qty", headerHozAlign: "center", hozAlign: "right" },
-		{ title: "단가", field: "ts_Unit_Price", headerHozAlign: "center", hozAlign: "right" },
-		{ title: "금액", field: "ts_Price", headerHozAlign: "center", hozAlign: "right" },
-		{ title: "거래처코드", field: "ts_Client_Code", headerHozAlign: "center" },
-		{ title: "거래처명", field: "ts_Client_Name", headerHozAlign: "center" },
-		{ title: "입고일", field: "ts_Date", headerHozAlign: "center" },
-		{ title: "구분", field: "ts_Classfy", headerHozAlign: "center", visible: false },
-		{ title: "구분", field: "ts_Classfy_Name", headerHozAlign: "center", hozAlign: "right" }]
+		{ title: "발주번호", field: "inMat_Order_No" },
+		{ title: "품목코드", field: "inMat_Code", headerHozAlign: "center" },
+		{ title: "품목명", field: "inMat_Name", headerHozAlign: "center" },
+		{ title: "수량", field: "inMat_Qty", headerHozAlign: "center", hozAlign: "right" },
+		{ title: "단가", field: "inMat_Unit_Price", headerHozAlign: "center", hozAlign: "right" },
+		{ title: "금액", field: "inMat_Price", headerHozAlign: "center", hozAlign: "right" },
+		{ title: "거래처코드", field: "inMat_Client_Code", headerHozAlign: "center" },
+		{ title: "거래처명", field: "inMat_Client_Name", headerHozAlign: "center" },
+		{ title: "입고일", field: "inMat_Date", headerHozAlign: "center" },
+		{ title: "구분", field: "inMat_Rcv_Clsfc", headerHozAlign: "center", visible: false },
+		{ title: "구분", field: "inMat_Rcv_Clsfc_Name", headerHozAlign: "center", hozAlign: "right" }]
 });
 
 function MIS_Search() {
@@ -101,6 +104,7 @@ function MIS_Search() {
 	}
 
 	matInputTable.setData("matInputInspectionRest/MII_Search", datas);
+	console.log(matInputTable);
 }
 
 //matInputInspect 정보 삽입
@@ -202,20 +206,25 @@ function MIF_Save() {
 
 	for (var i = 1; i < 10; i++) {
 		standardDatas = {
-			inMat_Inspect_Order_No: tempStorageTable.getData()[0].ts_OrderNo,
+			inMat_Inspect_Order_No: tempStorageTable.getData()[0].inMat_Order_No,
 			inMat_Inspect_Number: i,
-			inMat_Inspect_ItemCode: tempStorageTable.getData()[0].ts_ItemCode,
-			inMat_Inspect_Qty: tempStorageTable.getData()[0].ts_Qty,
-			inMat_Inspect_UnitPrice: tempStorageTable.getData()[0].ts_Unit_Price,
+			inMat_Inspect_ItemCode: tempStorageTable.getData()[0].inMat_Code,
+			inMat_Inspect_Qty: tempStorageTable.getData()[0].inMat_Qty,
+			inMat_Inspect_UnitPrice: tempStorageTable.getData()[0].inMat_Unit_Price,
 			inMat_Inspect_Worker: $("#matInspectWorker").val(),
-			inMat_Inspect_Customer: tempStorageTable.getData()[0].ts_Client_Code,
+			inMat_Inspect_Customer: tempStorageTable.getData()[0].inMat_Client_Code,
 			inMat_Inspect_Text: $("#inspectionText").val(),
-			inMat_Inspect_Classfy: tempStorageTable.getData()[0].ts_Classfy,
+			inMat_Inspect_Classfy: tempStorageTable.getData()[0].inMat_Rcv_Clsfc,
 			inMat_Inspect_Remark: $("#inspectionRemark").val()
 		}
 	}
 
 	console.log(standardDatas);
+	
+	inMatDatas = {
+		inMat_No: tempStorageTable.getData()[0].inMat_No,
+		inMat_Lot_No: tempStorageTable.getData()[0].inMat_Lot_No
+	}
 
 	// 측정 데이터
 	for (var j = 0; j < value; j++) {
@@ -253,7 +262,7 @@ function MIF_Save() {
 		data: {
 			standard: JSON.stringify(standardDatas), value1: JSON.stringify(value1), value2: JSON.stringify(value2), value3: JSON.stringify(value3),
 			value4: JSON.stringify(value4), value5: JSON.stringify(value5), stnd1: JSON.stringify(stnd1), stnd2: JSON.stringify(stnd2),
-			status: JSON.stringify(status)
+			status: JSON.stringify(status), inMatData: JSON.stringify(inMatDatas)
 		},
 		beforeSend: function(xhr) {
 			var header = $("meta[name='_csrf_header']").attr("content");
@@ -354,3 +363,9 @@ function lCode_select(value) {
 		}
 	}
 }
+
+$(document).ready(function(){
+	MII_Search();
+	MIS_Search();
+})
+

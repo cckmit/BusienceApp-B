@@ -16,6 +16,9 @@ public interface InMatDao {
 	//자재 입고 등록
 	public int inMatInsertDao(InMatDto inMatDto);
 	
+	//입고 검사 상태 수정
+	public int inMatCheckUpdateDao(InMatDto inMatDto);
+	
 	//입고 리스트 조회
 	public List<InMatDto> inMatListDao(SearchDto searchDto);
 	

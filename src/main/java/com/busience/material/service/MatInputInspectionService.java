@@ -57,11 +57,6 @@ public class MatInputInspectionService {
 	@Autowired
 	TransactionTemplate transactionTemplate;
 
-	public List<InMatDto> temporaryStorageSelectDao(SearchDto searchDto) {
-		System.out.println(searchDto);
-		return temporaryStorageDao.temporaryStorageSelectDao(searchDto);
-	}
-	
 	// 선택 조회
 	public List<InMatInspectDto> matInspectOneSelectDao(SearchDto searchDto) {
 		return inMatInspectDao.matInspectOneSelectDao(searchDto);
@@ -70,7 +65,7 @@ public class MatInputInspectionService {
 	public int InMatInspectInsertDao(InMatInspectDto inMatInspectDto, InMatInspectDto standardData,
 			List<InMatInspectDto> value1List, List<InMatInspectDto> value2List, List<InMatInspectDto> value3List,
 			List<InMatInspectDto> value4List, List<InMatInspectDto> value5List, List<InMatInspectDto> stnd1List,
-			List<InMatInspectDto> stnd2List, List<InMatInspectDto> statusList, String userCode) {
+			List<InMatInspectDto> stnd2List, List<InMatInspectDto> statusList, InMatDto inMatData, String userCode) {
 		// TODO Auto-generated method stub
 
 		try {
@@ -80,7 +75,6 @@ public class MatInputInspectionService {
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
 					// TODO Auto-generated method stub
-					List<DtlDto> WarehouseList = dtlDao.findByCode(10);
 					
 					InMatDto inMatDto = new InMatDto();
 					
@@ -109,73 +103,17 @@ public class MatInputInspectionService {
 						}
 
 						standardData.setInMat_Inspect_Status(statusList.get(i).getInMat_Inspect_Status());
-
+						
 						System.out.println("standardData = " + standardData);
 
 						// 입고 검사 테이블 저장
 						inMatInspectDao.InMatInspectInsertDao(standardData);
 
 					}
-
-					// 가입고 테이블 update
-					String TS_OrderNo = standardData.getInMat_Inspect_Order_No();
-					String TS_ItemCode = standardData.getInMat_Inspect_ItemCode();
-					temporaryStorageDao.temporaryStorageUpdateDao(TS_OrderNo, TS_ItemCode);
 					
-					inMatDto.setInMat_Order_No(standardData.getInMat_Inspect_Order_No());
-					inMatDto.setInMat_Code(standardData.getInMat_Inspect_ItemCode());
-					inMatDto.setInMat_Qty(standardData.getInMat_Inspect_Qty());
-					inMatDto.setInMat_Rcv_Clsfc(standardData.getInMat_Inspect_Classfy());
+					// 자재입고 테이블 update
+					inMatDao.inMatCheckUpdateDao(inMatData);
 
-					String lotNo = inMatDto.getInMat_Lot_No();
-					String itemCode = inMatDto.getInMat_Code();
-					double qty = (double) inMatDto.getInMat_Qty();
-					String Warehouse = WarehouseList.get(0).getCHILD_TBL_NO();
-					String before = "";
-					String after = WarehouseList.get(0).getCHILD_TBL_NO();
-					String classfy = inMatDto.getInMat_Rcv_Clsfc();
-
-					// 랏번호가 없을경우 랏번호 생성
-					if (lotNo == null || lotNo.isBlank()) {
-						lotNo = lotNoDao.lotNoSelectDao(inMatDto);
-						inMatDto.setInMat_Lot_No(lotNo);
-
-						// 랏번호 업데이트
-						lotNoDao.lotNoMatUpdateDao();
-					}
-
-					// 자재창고에 저장
-					inMatDto.setInMat_Warehouse(Warehouse);
-					// 랏트랜스번호 가져오기
-					inMatDto.setInMat_No(lotTransDao.lotTransNoSelectDao(lotNo));
-					int no = inMatDto.getInMat_No();
-					// 고객 정보
-					inMatDto.setInMat_Client_Code(standardData.getInMat_Inspect_Customer());
-					
-					// 입고일
-					Date date = new Date();
-				    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				    String now = format.format(date);
-					inMatDto.setInMat_Date(now);
-					// 단가
-					inMatDto.setInMat_Unit_Price(standardData.getInMat_Inspect_UnitPrice());
-					// 이동 설정하기 외부 -> 자재창고
-					inMatDto.setInMat_Before(before);
-					inMatDto.setInMat_After(after);
-					// 작업자
-					inMatDto.setInMat_Modifier(userCode);
-
-					// 랏마스터 저장
-					lotMasterDao.lotMasterInsertUpdateDao(lotNo, itemCode, qty, Warehouse);
-
-					// 재고 저장
-					stockDao.stockInsertUpdateDao(itemCode, qty, Warehouse);
-
-					// 자재입고 저장
-					inMatDao.inMatInsertDao(inMatDto);
-
-					// 랏트랜스 저장
-					lotTransDao.lotTransInsertDao(no, lotNo, itemCode, qty, before, after, classfy);
 				}
 
 			});
@@ -186,4 +124,5 @@ public class MatInputInspectionService {
 		}
 
 	}
+
 }

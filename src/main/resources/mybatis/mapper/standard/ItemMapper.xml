@@ -162,4 +162,9 @@
 			inner join User_Info_tbl K on A.PRODUCT_MODIFIER = K.USER_CODE
 			where A.PRODUCT_MTRL_CLSFC = #{materialClsfc}
 	</select>
+	
+	<select id="selectInspectStatusDao" resultType="com.busience.standard.dto.ItemDto">
+		select * from Product_Info_tbl
+		where Product_WRHSN_INSPC = 'false'
+	</select>
 </mapper>

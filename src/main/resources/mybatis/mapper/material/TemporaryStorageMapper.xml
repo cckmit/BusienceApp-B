@@ -6,18 +6,6 @@
 	 
 <mapper namespace="com.busience.material.dao.TemporaryStorageDao">
 	
-	<insert id="temporaryStorageInsertDao">
-		insert into Temporary_Storage_tbl(
-			TS_OrderNo, TS_ItemCode, TS_Qty, TS_Unit_Price,
-		    TS_Price, TS_Client_Code, TS_Date,
-		    TS_Classfy, TS_Insert_Time, TS_Modifier
-		) values (
-			#{InMat_Order_No}, #{InMat_Code}, #{InMat_Qty}, #{InMat_Unit_Price},
-		    #{InMat_Qty} * #{InMat_Unit_Price}, #{InMat_Client_Code}, #{InMat_Date},
-		    #{InMat_Rcv_Clsfc}, now(), #{InMat_Modifier}
-		)
-	</insert>
-	
 	<select id="temporaryStorageSelectDao" resultType="com.busience.material.dto.TemporaryStorageDto">
 		select 
 			A.TS_OrderNo, A.TS_ItemCode, C.Product_Item_Name TS_ItemName,

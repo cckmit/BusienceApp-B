@@ -16,6 +16,7 @@ import com.busience.common.dto.SearchDto;
 import com.busience.material.dto.InMatDto;
 import com.busience.material.dto.InMatInspectDto;
 import com.busience.material.service.MatInputInspectionService;
+import com.busience.material.service.MatInputService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,10 +28,13 @@ public class matInputInspectionRestController {
 	@Autowired
 	MatInputInspectionService matInputInspectionService;
 	
+	@Autowired
+	MatInputService matInputService;
+	
 	@GetMapping("/MII_Search")
-	public List<InMatDto> temporaryStorageSelectDao(SearchDto searchDto) {
+	public List<InMatDto> matInputList(SearchDto searchDto) {
 		//System.out.println(searchDto);
-		return matInputInspectionService.temporaryStorageSelectDao(searchDto);
+		return matInputService.matInputList(searchDto);
 	}
 	
 	// 선택 조회 
@@ -50,6 +54,7 @@ public class matInputInspectionRestController {
 		String stnd1 = request.getParameter("stnd1");
 		String stnd2 = request.getParameter("stnd2");
 		String status = request.getParameter("status");
+		String inMat = request.getParameter("inMatData");
 		
 		ObjectMapper mapper = new ObjectMapper();
 		
@@ -63,10 +68,11 @@ public class matInputInspectionRestController {
 		List<InMatInspectDto> statusList = Arrays.asList(mapper.readValue(status, InMatInspectDto[].class));
 		
 		InMatInspectDto standardData = mapper.readValue(standard, InMatInspectDto.class);
+		System.out.println(standardData);
+		InMatDto inMatData = mapper.readValue(inMat, InMatDto.class);
 
-		
 		return matInputInspectionService.InMatInspectInsertDao(inMatInspectDto, standardData, value1List, value2List, value3List, value4List,
-				value5List, stnd1List, stnd2List, statusList, principal.getName());
+				value5List, stnd1List, stnd2List, statusList, inMatData, principal.getName());
 		
 		
 	}

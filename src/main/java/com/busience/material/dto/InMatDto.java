@@ -37,4 +37,6 @@ public class InMatDto {
 	
 	private String InMat_Before;
 	private String InMat_After;
+	
+	private String InMat_Check_1;
 }
