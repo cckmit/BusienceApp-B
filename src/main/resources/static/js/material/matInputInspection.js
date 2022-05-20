@@ -136,6 +136,7 @@ function MIF_Search(OrderNo, ItemCode) {
 			$("#matInspectWorker").val(MIF_datas[0].inMat_Inspect_Worker);
 			$("#matInspectCustomer").val(MIF_datas[0].inMat_Inspect_Customer_Name);
 			$("#inspectionText").val(MIF_datas[0].inMat_Inspect_Text);
+			$("#inspectionRemark").val(MIF_datas[0].inMat_Inspect_Remark);
 
 			for (var i = 0; i < MIF_datas.length; i++) {
 				//console.log(MIF_datas[i].inMat_Inspect_Value_1);
@@ -160,6 +161,7 @@ function MIF_Search(OrderNo, ItemCode) {
 				}
 				// status 
 				$("select[name='status[]']")[i].value = MIF_datas[i].inMat_Inspect_Status;
+				
 			}
 		}
 	});
