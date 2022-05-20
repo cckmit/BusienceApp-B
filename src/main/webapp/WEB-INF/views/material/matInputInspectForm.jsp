@@ -21,6 +21,8 @@ html, body {
 
 td {
  border: 1px solid black;
+ vertical-align: middle !important;
+ 
 }
 
 </style>
