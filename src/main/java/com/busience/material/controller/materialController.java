@@ -81,7 +81,7 @@ public class materialController {
 	
 	@GetMapping("matInputInspectionPrint")
 	public String InputInspectionPrint(HttpServletRequest request) {
-		return "material/matInputInspectionPrint";
+		return "normal/material/matInputInspectionPrint";
 	}
 	
 	// MatOutput
