@@ -17,27 +17,31 @@ var itemTable = new Tabulator("#itemTable", {
 		//작업지시번호로 생산랏을 검색해서 내용이 있는지 여부를 검색
 		//있으면 생산랏에 대한 정보를 검색하고
 		//없으면 봄만 가져옴
-		$.when(RawMaterialSelect(response[0]))
-		.then(function(data){
-			// 자재식별코드가 있을경우
-			if(data.length>0){
-				$("#production-ID").val(data[0].rmm_Production_ID)
-				$("#production-Qty").val(data[0].rmm_Qty)
+		if(response.length > 0){
+			$.when(RawMaterialSelect(response[0]))
+			.then(function(data){
+				// 자재식별코드가 있을경우
+				if(data.length>0){
+					$("#production-ID").val(data[0].rmm_Production_ID)
+					$("#production-Qty").val(data[0].rmm_Qty)
+					
+					RawSubSelect(data[0].rmm_Production_ID)
+					CrateSelect(response[0])				
+				}else{
+					//생산랏이 없을경우
+					BOM_Check(response[0])
+				}
+				crateTableSelect(response[0].workOrder_ONo)
+				rawMaterialTableSelect(response[0].workOrder_ONo)
 				
-				RawSubSelect(data[0].rmm_Production_ID)
-				CrateSelect(response[0])				
-			}else{
-				//생산랏이 없을경우
-				BOM_Check(response[0])
-			}
-			crateTableSelect(response[0].workOrder_ONo)
-			rawMaterialTableSelect(response[0].workOrder_ONo)
-			
-			$("#nextItemName").text(function(){
-				return response[1] == null? "다음 제품 : 없음" : "다음 제품 : " + response[1].workOrder_ItemName
+				$("#nextItemName").text(function(){
+					return response[1] == null? "다음 제품 : 없음" : "다음 제품 : " + response[1].workOrder_ItemName
+				})
 			})
-		})
-		return [response[0]];
+			return [response[0]];	
+		}else{
+			return response
+		}
     },
 	columns:[
 		{title:"현재 생산중인 제품", headerHozAlign:"center",

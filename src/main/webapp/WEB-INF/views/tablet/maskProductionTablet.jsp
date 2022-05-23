@@ -82,7 +82,7 @@
 	<footer class="global-footer">
 		<div class="footer-box tablet-border">
 			<div class="table-container">
-				<p id="nextItemName"></p>
+				<p id="nextItemName">다음 제품 :</p>
 				<button id="nextWorkBtn">
 					<i class="fas fa-angle-double-right"></i>
 				</button>
