@@ -181,8 +181,7 @@ var matInReturnSearchTable = new Tabulator("#matInReturnSearchTable", {
 		{ title: "금액", field: "inMat_Price", align: "right", headerHozAlign: "center", formatter : "money", formatterParams: { precision: false } },
 		{ title: "거래처명", field: "inMat_Client_Name", headerHozAlign: "center"},
 		{ title: "입고구분", field: "inMat_Rcv_Clsfc_Name", headerHozAlign: "center" },
-		{ title: "입고일", field: "inMat_Date", headerHozAlign: "center" },
-		{ title: "반품일", field: "inMat_dInsert_Time", headerHozAlign: "center" },
+		{ title: "반품일", field: "inMat_Date", headerHozAlign: "center" },
 		{ title: "작업자명", field: "inMat_Modifier", headerHozAlign: "center" }	
 	]
 });

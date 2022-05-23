@@ -20,7 +20,7 @@ var matInputListTable = new Tabulator("#matInputListTable", {
 			formatter: "money", formatterParams: { precision: false } },
 		{ title: "입고금액", field: "inMat_Price", headerHozAlign: "center", headerFilter: true, hozAlign: "right",
 			formatter: "money", formatterParams: { precision: false } },
-		{ title: "입고일자", field: "inMat_Date", headerHozAlign: "center", headerFilter: true, hozAlign: "left",
+		{ title: "일자", field: "inMat_Date", headerHozAlign: "center", headerFilter: true, hozAlign: "left",
 			formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" } },
 		{ title: "입고구분", field: "inMat_Rcv_Clsfc_Name", headerHozAlign: "center", headerFilter: true, hozAlign: "left" },
 		{ title: "비고", field: "inMat_Info_Remark", headerHozAlign: "center", headerFilter: true, hozAlign: "right" }	
@@ -69,7 +69,7 @@ var matInputItemViewTable = new Tabulator("#matInputItemViewTable", {
 			formatter: "money", formatterParams: { precision: false } },
 		{ title: "입고금액", field: "inMat_Price", headerHozAlign: "center", hozAlign: "right",
 			formatter: "money", formatterParams: { precision: false } },
-		{ title: "입고일자", field: "inMat_Date", headerHozAlign: "center", hozAlign: "left",
+		{ title: "일자", field: "inMat_Date", headerHozAlign: "center", hozAlign: "left",
 			formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" } },
 		{ title: "입고구분", field: "inMat_Rcv_Clsfc_Name", headerHozAlign: "center", hozAlign: "left" },
 		{ title: "비고", field: "inMat_Info_Remark", headerHozAlign: "center", hozAlign: "right"}
@@ -117,7 +117,7 @@ var matInputCustomerViewTable = new Tabulator("#matInputCustomerViewTable", {
 			formatter: "money", formatterParams: { precision: false } },
 		{ title: "입고금액", field: "inMat_Price", headerHozAlign: "center", hozAlign: "right",
 			formatter: "money", formatterParams: { precision: false } },
-		{ title: "입고일자", field: "inMat_Date", headerHozAlign: "center", hozAlign: "left",
+		{ title: "일자", field: "inMat_Date", headerHozAlign: "center", hozAlign: "left",
 			formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" } },
 		{ title: "입고구분", field: "inMat_Rcv_Clsfc_Name", headerHozAlign: "center", hozAlign: "left" },
 		{ title: "비고", field: "inMat_Info_Remark", headerHozAlign: "center", hozAlign: "right"}

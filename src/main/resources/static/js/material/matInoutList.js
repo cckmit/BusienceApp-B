@@ -21,7 +21,7 @@ var matInoutListTable = new Tabulator("#matInoutListTable", {
  	{title:"입고반품", field:"lt_InReturn_Qty", headerHozAlign:"center", hozAlign:"right", headerSort:false},
 	{title:"그외 입고", field:"lt_InOther_Qty", headerHozAlign:"center", hozAlign:"right", headerSort:false}, 	
 	{title:"출고", field:"lt_OutQty", headerHozAlign:"center", hozAlign:"right", headerSort:false},
- 	{title:"출고반품", field:"lt_OutReturn_Qty", headerHozAlign:"center", hozAlign:"right", headerSort:false},
+ 	//{title:"출고이동", field:"lt_OutReturn_Qty", headerHozAlign:"center", hozAlign:"right", headerSort:false},
  	{title:"그외 출고", field:"lt_OutOther_Qty", headerHozAlign:"center", hozAlign:"right", headerSort:false},
 	{title:"입출고 구분", field:"lt_Classify_Name", headerHozAlign:"center", hozAlign:"right", headerSort:false}
  	]

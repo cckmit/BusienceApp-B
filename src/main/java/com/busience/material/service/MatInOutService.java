@@ -73,7 +73,7 @@ public class MatInOutService {
 			inReturnSum += LotTransDtoListStandard.get(i).getLT_InReturn_Qty();
 			inOtherSum += LotTransDtoListStandard.get(i).getLT_InOther_Qty();
 			OutQtySum += LotTransDtoListStandard.get(i).getLT_OutQty();
-			OutReturnQtySum += LotTransDtoListStandard.get(i).getLT_OutOther_Qty();
+			OutReturnQtySum += LotTransDtoListStandard.get(i).getLT_OutReturn_Qty();
 			OutOtherQtySum += LotTransDtoListStandard.get(i).getLT_OutOther_Qty();
 			
 		}

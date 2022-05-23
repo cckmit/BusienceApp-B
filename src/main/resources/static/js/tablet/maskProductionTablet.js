@@ -91,37 +91,33 @@ $("#barcodeInput").change(function(){
 		rawMaterialLotInput(barcode);
 	}else if(initial == 'C'){
 		//생산랏이 존재하는가
-		if($("#production-ID").val().length > 0){
-			if(nextStatus){
-				nextStatus = false;
-				//다음버튼클릭을 하고나서 crate를 바꾸면 현재 작업지시는 완료로 변경이 되고
-				//리프레쉬 하면 다음작업이 현재 작업으로 올라옴
-				//여기서 전에 쓰던 원자재가 같은 종류이면 랏번호가 유지가 되야함
-				$.when(workOrderStart(itemTable.getData()[0].workOrder_ONo, "E"))
-				.then(function(){
-					if($("#crateCode").val() != barcode){
-						$.when(CrateSave($("#crate-LotNo").val(), barcode))
-						.then(function(){
-							workOrderReady($("#crate-LotNo").val(), $("#production-ID").val())	
-						})						
-					}
-				})
-			}else{
-				//이미 작업중인 상자가 있을경우
-				//작업중인 상자와 같은 랏인경우 이무일도 일어나면 안됨
-				//다른 랏인경우
-				//기존 상자를 상태를 바꿔 준 뒤 새로 등록
-				//작업중인 상자가 없을경우
-				//새로 등록
+		if(nextStatus){
+			nextStatus = false;
+			//다음버튼클릭을 하고나서 crate를 바꾸면 현재 작업지시는 완료로 변경이 되고
+			//리프레쉬 하면 다음작업이 현재 작업으로 올라옴
+			//여기서 전에 쓰던 원자재가 같은 종류이면 랏번호가 유지가 되야함
+			$.when(workOrderStart(itemTable.getData()[0].workOrder_ONo, "E"))
+			.then(function(){
 				if($("#crateCode").val() != barcode){
 					$.when(CrateSave($("#crate-LotNo").val(), barcode))
 					.then(function(){
 						workOrderReady($("#crate-LotNo").val(), $("#production-ID").val())	
-					})		
+					})						
 				}
-			}
+			})
 		}else{
-			alert("원자재를 등록해 주세요.")
+			//이미 작업중인 상자가 있을경우
+			//작업중인 상자와 같은 랏인경우 이무일도 일어나면 안됨
+			//다른 랏인경우
+			//기존 상자를 상태를 바꿔 준 뒤 새로 등록
+			//작업중인 상자가 없을경우
+			//새로 등록
+			if($("#crateCode").val() != barcode){
+				$.when(CrateSave($("#crate-LotNo").val(), barcode))
+				.then(function(){
+					workOrderReady($("#crate-LotNo").val(), $("#production-ID").val())	
+				})		
+			}
 		}
 	}
 	itemTable.redraw();
@@ -197,31 +193,31 @@ function rawMaterialSave(value){
 }
 
 function BOM_Check(values){
-	var ajaxResult = $.ajax({
-		method : "get",
-		url : "maskProductionRest/BOMBOMList",
-		data : {itemCode : values.workOrder_ItemCode},
-		success : function(data) {
-			LotList = new Array();
-			
-			//BOM을 가져와서 그수만큼 리스트에 담는다			
-			for(let i=0;i<data.length;i++){
+	var result = LotList.every(x => {
+		return x.rms_LotNo == null
+	})
+	if(result){
+		var ajaxResult = $.ajax({
+			method : "get",
+			url : "maskProductionRest/BOMBOMList",
+			data : {itemCode : values.workOrder_ItemCode},
+			success : function(data) {
+				LotList = new Array();
 				
-				LotList.push({
-					rms_LotNo : null,
-					rms_ItemCode : data[i].bom_ItemCode
-				})
-				
-				$(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Code").val(data[i].bom_ItemCode);
-				$(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Name").val(data[i].bom_ItemName);
+				//BOM을 가져와서 그수만큼 리스트에 담는다			
+				for(let i=0;i<data.length;i++){
+					
+					LotList.push({
+						rms_LotNo : null,
+						rms_ItemCode : data[i].bom_ItemCode
+					})
+					
+					$(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Code").val(data[i].bom_ItemCode);
+					$(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Name").val(data[i].bom_ItemName);
+				}
 			}
-			/*
-			for(let j=0; j<preLotList.length;j++){
-				rawMaterialLotInput(preLotList[j].rms_ItemCode)			
-			}
-			preLotList = new Array();*/
-		}
-	});
+		});
+	}	
 	return ajaxResult
 }
 

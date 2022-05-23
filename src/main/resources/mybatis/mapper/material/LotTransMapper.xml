@@ -33,7 +33,7 @@
 			E.CHILD_TBL_TYPE LT_ITEM_CLSFC_2, 
 		    case when A.LT_Classify='203' then A.LT_Qty ELSE 0 END AS LT_InQty,
 			case when A.LT_Classify='207' then A.LT_Qty ELSE 0 END AS LT_InReturn_Qty,
-			case when A.LT_Classify IN (204, 205, 206) then A.LT_Qty ELSE 0 END AS LT_InOther_Qty,
+			case when A.LT_Classify IN (204, 205, 206, 326) then A.LT_Qty ELSE 0 END AS LT_InOther_Qty,
 			case when A.LT_Classify='208' then A.LT_Qty ELSE 0 END AS LT_OutQty,
 			case when A.LT_Classify='210' then A.LT_Qty ELSE 0 END AS LT_OutReturn_Qty,
 			case when A.LT_Classify IN (209, 213) then A.LT_Qty ELSE 0 END AS LT_OutOther_Qty,
