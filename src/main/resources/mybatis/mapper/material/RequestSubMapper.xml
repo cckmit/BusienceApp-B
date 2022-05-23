@@ -10,13 +10,14 @@
 		select 
 			A.RS_RequestNo,
 			A.RS_ItemCode, B.Product_Item_Name RS_ItemName,
-			A.RS_Qty, A.RS_Sum, A.RS_Not_Stocked,
+			A.RS_Qty, A.RS_Sum, A.RS_Not_Stocked, D.S_Qty RS_Stock_Qty,
 			A.RS_Send_Clsfc, C.Child_TBL_Type RS_Send_Clsfc_Name,
 			A.RS_Remark
 		from RequestSub_tbl A
 		inner join Product_Info_tbl B on A.RS_ItemCode = B.Product_Item_Code
 		inner join DTL_TBL C on A.RS_Send_Clsfc = C.Child_TBL_No
-		WHERE A.RS_RequestNo = #{OrderNo}
+		left outer join Stock_tbl D on A.RS_ItemCode = D.S_ItemCode
+		WHERE A.RS_RequestNo = #{OrderNo} AND D.S_Warehouse = '50'
 		order by RS_ItemCode
 	</select>
 	
