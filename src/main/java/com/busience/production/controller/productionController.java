@@ -129,4 +129,10 @@ public class productionController {
 		model.addAttribute("pageName", "온도 조회");
 		return "/production/tempDaily";
 	}
+	
+	@GetMapping("/crateManage")
+	public String crateManage(Model model) {
+		model.addAttribute("pageName", "상자 관리");
+		return "/production/crateManage";
+	}
 }

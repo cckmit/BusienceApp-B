@@ -11,7 +11,7 @@ import com.busience.tablet.dto.CrateDto;
 public interface CrateDao {
 
 	//조회
-	public List<CrateDto> crateSelectDao(SearchDto searchDto);
+	public List<CrateDto> crateSelectDao(CrateDto crateDto);
 	
 	//랏번호 조회
 	public String crateLotNoSelectDao(CrateDto crateDto);

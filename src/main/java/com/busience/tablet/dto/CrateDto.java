@@ -9,8 +9,9 @@ import lombok.ToString;
 @ToString
 public class CrateDto {
 
-	private String C_LotNo;
+	private String C_CrateCode;
 	private String C_Condition;
 	private String C_Create_Date;
 	private boolean C_Use_Status;
 }
+
