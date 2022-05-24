@@ -150,12 +150,12 @@ function crateSave() {
 							xhr.setRequestHeader(header, token);
 						},
 						success: function(result) {
-							if (result) {
+							if (result == 1) {
 								$(function() {
 									alert("저장되었씁니다.");
 									$(this).off();
 								})
-								location.reload();
+								//location.reload();
 							} else {
 								alert("저장 중 오류가 발생했습니다. 다시 시도해주세요.");
 								location.reload();
@@ -180,6 +180,15 @@ function saveChk() {
 		var k = 0;
 		for (var j = 0; j < crateManageTable.getDataCount(); j++) {
 			if (crateManageTable.getData()[j].c_CrateCode == tempCode) {
+
+				// 공백 삭제
+				if (crateManageTable.getData()[j].c_CrateCode == "") {
+					console.log(crateManageTable.getData()[j].c_CrateCode);
+					crateManageTable.deleteRow(crateManageTable.getRows()[j]);
+					alert("작성중인 행이 있습니다.");
+					return;
+				}
+				
 				k += 1;
 				if (k > 1) {
 					if (crateManageTable.getRows()[j].getPosition() == index) {
