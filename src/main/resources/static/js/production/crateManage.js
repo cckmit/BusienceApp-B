@@ -1,9 +1,5 @@
-
-function nextFocus(next) {
-	if (event.keyCode == 13) {
-		$('#' + next).focus();
-	}
-}
+//셀위치저장
+var cellPos = null;
 
 var editCheck = function(cell) {
 	//cell - the cell component for the editable cell
@@ -67,9 +63,9 @@ var crateManageTable = new Tabulator("#crateManageTable", {
 	paginationSize: 20,
 	headerFilterPlaceholder: null,
 	layoutColumnsOnNewData: true,
+	selectable: true,
 	height: "calc(100% - 175px)",
 	rowClick: function(e, row) {
-		row.getTable().deselectRow();
 		row.select();
 	},
 	rowSelected: function(row) {
@@ -85,6 +81,10 @@ var crateManageTable = new Tabulator("#crateManageTable", {
 			$('#crateSaveBtn').addClass('unUseBtn');
 		}
 
+		row.update({
+			"c_Use_Status": "true"
+		});
+
 		UseBtn();
 
 		//행이 추가되면 첫셀에 포커스
@@ -95,27 +95,17 @@ var crateManageTable = new Tabulator("#crateManageTable", {
 		}
 		while (row.getData().c_Create_Date === "undefined");
 	},
+	cellEditing: function(cell) {
+		//셀위치 저장하여 포커싱부여
+		cellPos = cell;
+	},
 	columns: [
 		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
 		{ title: "순번", field: "rownum", hozAlign: "center", headerHozAlign: "center", formatter: "rownum" },
 		{
 			title: "상자코드", field: "c_CrateCode", headerHozAlign: "center", editor: MO_inputEditor, headerFilter: "input", editable: editCheck,
 			cellEdited: function(cell) {
-				tempCode = cell.getRow().getData().c_CrateCode;
-				index = cell.getRow().getPosition(true);
-				var j = 0;
-				for (var i = 0; i < crateManageTable.getDataCount(); i++) {
-					if (crateManageTable.getData()[i].c_CrateCode == tempCode) {
-						j += 1;
-						if (j > 1) {
-							if (crateManageTable.getRows()[i].getPosition() == index) {
-								alert("동일한 코드가 존재합니다.");
-								return;
-							}
-						}
-						j++;
-					}
-				}
+
 			}
 		},
 		{ title: "상태", field: "c_Condition", headerHozAlign: "center", headerFilter: "input", visible: false },
@@ -134,43 +124,77 @@ $("#crateADDBtn").click(function() {
 
 function crateSave() {
 
+	$.when(saveChk())
+		.then(function(data) {
+			console.log(data);
+			if (data.length > 0) {
+				for (var i = 0; i < data.length; i++) {
+
+					if (data[i].c_Use_Status == 'true') {
+						status = 1;
+					} else if (data[i].c_Use_Status == 'false') {
+						status = 0;
+					}
+					var datas = {
+						C_CrateCode: data[i].c_CrateCode,
+						C_Use_Status: status
+					}
+
+					$.ajax({
+						method: "POST",
+						url: "crateRest/crateSave",
+						data: datas,
+						beforeSend: function(xhr) {
+							var header = $("meta[name='_csrf_header']").attr("content");
+							var token = $("meta[name='_csrf']").attr("content");
+							xhr.setRequestHeader(header, token);
+						},
+						success: function(result) {
+							if (result) {
+								$(function() {
+									alert("저장되었씁니다.");
+									$(this).off();
+								})
+								location.reload();
+							} else {
+								alert("저장 중 오류가 발생했습니다. 다시 시도해주세요.");
+								location.reload();
+							}
+
+						}
+					});
+				}
+			}
+		})
+}
+
+
+
+function saveChk() {
+
 	var selectedRow = crateManageTable.getData("selected");
-	var status;
 
 	for (var i = 0; i < selectedRow.length; i++) {
-
-		if (selectedRow[i].c_Use_Status == 'true') {
-			status = 1;
-		} else if (selectedRow[i].c_Use_Status == 'false') {
-			status = 0;
-		}
-		var datas = {
-			C_CrateCode: selectedRow[i].c_CrateCode,
-			C_Use_Status: status
-		}
-
-		$.ajax({
-			method: "POST",
-			url: "crateRest/crateSave",
-			data: datas,
-			beforeSend: function(xhr) {
-				var header = $("meta[name='_csrf_header']").attr("content");
-				var token = $("meta[name='_csrf']").attr("content");
-				xhr.setRequestHeader(header, token);
-			},
-			success: function(data) {
-				if (data) {
-					alert("저장되었씁니다.");
-					location.reload();
-				} else {
-					alert("저장 중 오류가 발생했습니다. 다시 시도해주세요.");
-					location.reload();
+		tempCode = selectedRow[i].c_CrateCode;
+		index = cellPos.getRow().getPosition(true);
+		var k = 0;
+		for (var j = 0; j < crateManageTable.getDataCount(); j++) {
+			if (crateManageTable.getData()[j].c_CrateCode == tempCode) {
+				k += 1;
+				if (k > 1) {
+					if (crateManageTable.getRows()[j].getPosition() == index) {
+						alert("동일한 코드가 존재합니다.");
+						return;
+					}
 				}
-
+				k++;
 			}
-		});
+		}
 	}
+
+	return selectedRow;
 }
+
 
 // update버튼을 클릭을 할때 모달창을 여는 이벤트
 $("#crateSaveBtn").click(function() {
