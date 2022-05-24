@@ -62,9 +62,26 @@ public class MaskProductionService {
 		return rawMaterialMasterDao.rawMaterialQtyUpdateDao(rawMaterialMasterDto);
 	}
 	
-	// 코드 조건으로 조회
+	// 설비명으로 조회
 	public List<WorkOrderDto> workingSelectByMachine(SearchDto searchDto) {
-        return workOrderDao.workingSelectByMachineDao(searchDto);
+		try {			
+			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					// 설비명으로 작업지시 조회 후
+					workOrderDao.workingSelectByMachineDao(searchDto);
+					//작업지시번호로 자재식별코드 검색
+					
+					//작업지시번호로 상자lot 검색
+				}				
+			});
+			
+			return workOrderDao.workingSelectByMachineDao(searchDto);			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	//원자재 투입 저장

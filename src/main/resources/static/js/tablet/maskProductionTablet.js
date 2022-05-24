@@ -14,29 +14,33 @@ var itemTable = new Tabulator("#itemTable", {
     ajaxConfig:"get",
     ajaxContentType:"json",
 	ajaxResponse:function(url, params, response){
+		console.log(response)
 		//작업지시번호로 생산랏을 검색해서 내용이 있는지 여부를 검색
 		//있으면 생산랏에 대한 정보를 검색하고
 		//없으면 봄만 가져옴
 		if(response.length > 0){
+			//자재식별코드 탐색
 			$.when(RawMaterialSelect(response[0]))
 			.then(function(data){
 				// 자재식별코드가 있을경우
-				if(data.length>0){
-					$("#production-ID").val(data[0].rmm_Production_ID)
-					$("#production-Qty").val(data[0].rmm_Qty)
-					
+				if(data.length>0){					
 					RawSubSelect(data[0].rmm_Production_ID)
-					CrateSelect(response[0])				
 				}else{
-					//생산랏이 없을경우
+					//자재식별코드가 없을경우
 					BOM_Check(response[0])
 				}
-				crateTableSelect(response[0].workOrder_ONo)
-				rawMaterialTableSelect(response[0].workOrder_ONo)
-				
-				$("#nextItemName").text(function(){
-					return response[1] == null? "다음 제품 : 없음" : "다음 제품 : " + response[1].workOrder_ItemName
-				})
+			})			
+			//상자 랏 번호 탐색
+			CrateSelect(response[0])
+			//상자 이력
+			crateTableSelect(response[0].workOrder_ONo)
+			//자재식별코드 이력
+			rawMaterialTableSelect(response[0].workOrder_ONo)
+			//현재 작업 품목
+			$("#itemName").text(response[0].workOrder_ItemName)
+			//다음 작업 품목
+			$("#nextItemName").text(function(){
+				return response[1] == null? "다음 제품 : 없음" : "다음 제품 : " + response[1].workOrder_ItemName
 			})
 			return [response[0]];	
 		}else{
@@ -105,8 +109,8 @@ $("#barcodeInput").change(function(){
 				if($("#crateCode").val() != barcode){
 					$.when(CrateSave($("#crate-LotNo").val(), barcode))
 					.then(function(){
-						workOrderReady($("#crate-LotNo").val(), $("#production-ID").val())	
-					})						
+						workOrderReady($("#crate-LotNo").val(), $("#production-ID").val())
+					})
 				}
 			})
 		}else{
@@ -124,6 +128,7 @@ $("#barcodeInput").change(function(){
 			}
 		}
 	}
+	$("#barcodeInput").val("");
 	itemTable.redraw();
 	crateTable.redraw();
 	rawMaterialTable.redraw();
@@ -150,7 +155,6 @@ function rawMaterialLotInput(value){
 				//반복문 실행하여 LotList 에 정보만 넣고
 				//LotList의 정보를 화면에 보여주는 함수 따로 만들면 좋을듯
 				$(".main-c .item:nth-of-type("+(i+2)+") .LotNo").val(value);
-				$("#barcodeInput").val("");
 				currentValue.rms_LotNo = value
 			}
 			return false;
@@ -229,7 +233,13 @@ function RawMaterialSelect(values){
 	var ajaxResult = $.ajax({
 	method : "get",
 		url : "maskProductionRest/rawMaterialMasterSelect",
-		data : {orderNo : values.workOrder_ONo}
+		data : {orderNo : values.workOrder_ONo},
+		success : function(data) {
+			if(data.length>0){
+				$("#production-ID").val(data[0].rmm_Production_ID)
+				$("#production-Qty").val(data[0].rmm_Qty)
+			}
+		}
 	})
 	return ajaxResult;
 }
@@ -328,8 +338,7 @@ function workOrderStart(orderNo, status){
            xhr.setRequestHeader(header, token);
 		},
 		success: function (){
-			itemTable.replaceData();
-			itemTable.redraw();
+			itemTable.replaceData();			
 		}
 	});
 	return ajaxResult;
@@ -380,6 +389,12 @@ $("#nextWorkBtn").click(function(){
 	preLotList = LotList;
 	LotList = new Array();
 })
+
+function linkageData(){
+	//작업지시를 완료를 시킨 후에 새로운 작업지시에서 봄을 가져옴
+	//가져온 봄과 기존 데이터를 비교하여 같은 원자재는 그대로 연동
+	//다른 원자재는 빈칸으로 하며 
+}
 
 window.onload = function(){
 	setInterval(function(){

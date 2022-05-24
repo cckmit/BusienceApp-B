@@ -5,7 +5,7 @@
 		<div class="header-left">
 			<input id="machineCode" type="hidden" value="${machineInfo.EQUIPMENT_INFO_CODE}">
 			<span id="machineName">${machineInfo.EQUIPMENT_INFO_NAME}</span>
-			<span id="itemName">마스크A-53</span>
+			<span id="itemName">품목명</span>
 		</div>
 		<div class="title tablet-border">
 			<span>작업 관리 (마스크 생산)</span>
@@ -48,7 +48,7 @@
 			<div class="item">
 				<span class="LotNo_Name">원자재 명</span>
 				<span class="LotNo">원자재 LOTNO</span>
-				<span class="LotNo_Qty">수량</span>
+				<span class="LotNo_Qty">-</span>
 			</div>
 			<div class="item">
 				<input type="hidden" class="LotNo_Code">
