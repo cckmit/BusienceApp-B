@@ -155,7 +155,7 @@ function crateSave() {
 									alert("저장되었씁니다.");
 									$(this).off();
 								})
-								//location.reload();
+								location.reload();
 							} else {
 								alert("저장 중 오류가 발생했습니다. 다시 시도해주세요.");
 								location.reload();
