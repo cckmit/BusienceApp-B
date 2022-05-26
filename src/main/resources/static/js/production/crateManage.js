@@ -153,6 +153,7 @@ function crateSave() {
 							if (result == 1) {
 								$(function() {
 									alert("저장되었씁니다.");
+									CratePrinter(crateManageTable.getData("selected"))
 									$(this).off();
 								})
 								location.reload();
@@ -211,6 +212,10 @@ $("#crateSaveBtn").click(function() {
 	crateSave();
 
 });
+
+$("#cratePrintBtn").click(function(){
+	CratePrinter(crateManageTable.getData("selected"))
+})
 
 $(document).ready(function() {
 
