@@ -22,6 +22,9 @@ public interface CrateLotDao {
 	//설비별목록
 	public List<CrateLotDto> crateLotListSelectDao(SearchDto searchDto);
 	
+	//공정검사 상자 List 조회
+	public List<CrateLotDto> crateInspectSelectDao(SearchDto searchDto);
+	
 	//저장
 	public int crateLotSaveDao(CrateLotDto crateLotDto);
 	

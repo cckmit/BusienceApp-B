@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.busience.common.service.DtlService;
 import com.busience.standard.service.MachineService;
 
 @Controller
@@ -20,6 +21,9 @@ public class productionController {
 	
 	@Autowired
 	JdbcTemplate jdbctemplate;
+	
+	@Autowired
+	DtlService dtlService;
 	
 	// proResult
 	@GetMapping("proResult")
@@ -128,6 +132,13 @@ public class productionController {
 		
 		model.addAttribute("pageName", "온도 조회");
 		return "/production/tempDaily";
+	}
+	
+	@GetMapping("/processInspection")
+	public String processInspection(Model model) {
+		model.addAttribute("processInspectList", dtlService.getDtl(44));
+		model.addAttribute("pageName", "공정 검사 관리");
+		return "/production/processInspection";
 	}
 	
 	@GetMapping("/crateManage")

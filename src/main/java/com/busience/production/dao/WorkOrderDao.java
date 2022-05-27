@@ -39,6 +39,9 @@ public interface WorkOrderDao {
 	//작업지시 접수 직압 흐 reload
 	public WorkOrderDto workorderUpdatedList(WorkOrderDto workOrderDto);
 	
+	//공정 검사 조회(생산된 제품 조회)
+	public List<ProductionMgmtDto> workOrderResultDao(SearchDto searchDto);
+	
 	public int workOrderSumQtyDao(SearchDto searchDto);
 	
 	public int workOrderRegisterDao(WorkOrderDto workOrderDto);
