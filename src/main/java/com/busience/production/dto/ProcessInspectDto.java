@@ -30,5 +30,7 @@ public class ProcessInspectDto {
 	
 	private String Process_Inspect_STND_NAME_1;
 	private String Process_Inspect_Item_Clsfc_Name_1;
+	private String Process_Inspect_Create_Date;
+	private String Process_Inspect_Worker_Name;
 	
 }

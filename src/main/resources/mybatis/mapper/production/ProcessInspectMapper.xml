@@ -23,8 +23,15 @@
 	</select>
 	
 	<select id="processInspectOneSelectDao" resultType="com.busience.production.dto.ProcessInspectDto">
-		select * from Process_Inspect_tbl
-		where Process_Inspect_LotNo = #{LotNo}
+		select proit.*, eit.Equipment_Info_Name as Process_Inspect_EquipName, 
+		pit.Product_Item_Name as Process_Inspect_ItemName, date(clt.CL_Create_Date) as Process_Inspect_Create_Date,
+		dt.Child_TBL_Type as Process_Inspect_Worker_Name
+		from Process_Inspect_tbl proit
+		inner join Equipment_Info_tbl eit ON proit.Process_Inspect_EquipCode = eit.Equipment_Info_Code
+		inner join Product_Info_tbl pit ON proit.Process_Inspect_ItemCode = pit.Product_Item_Code
+		inner join Crate_Lot_tbl clt ON proit.Process_Inspect_LotNo = clt.CL_LotNo
+		inner join DTL_TBL dt ON proit.Process_Inspect_Worker = dt.Child_TBL_No
+		where proit.Process_Inspect_LotNo = #{LotNo}
 	</select>
 
 	<insert id="processInspectInsertDao">

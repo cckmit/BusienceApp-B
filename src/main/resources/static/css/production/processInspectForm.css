@@ -38,6 +38,10 @@
 	width: 230px;
 }
 
+#processLotNo {
+	width: 170px;
+}
+
 select {
  height: 24px !important;	
 }

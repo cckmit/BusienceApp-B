@@ -31,7 +31,7 @@ public class ProcessInspectionService {
 	}
 	
 	// 검사 form 조회
-	public String processInspectOneSelectDao(SearchDto searchDto) {
+	public List<ProcessInspectDto> processInspectOneSelectDao(SearchDto searchDto) {
 		return processInspectDao.processInspectOneSelectDao(searchDto);
 	}
 	

@@ -14,7 +14,7 @@ public interface ProcessInspectDao {
 	public List<ProcessInspectDto> processInspectListDao(SearchDto searchDto);
 	
 	// 검사 form 조회
-	public String processInspectOneSelectDao(SearchDto searchDto);
+	public List<ProcessInspectDto> processInspectOneSelectDao(SearchDto searchDto);
 
 	public int processInspectInsertDao(ProcessInspectDto processInspectDto);
 }

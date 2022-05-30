@@ -51,8 +51,8 @@
 					<td colspan="3">성상</td>
 					<td colspan="4">(흰색, 검정색)의 3단 가로접이식 본체에 코편이 있고, 양측면에 (흰색, 검정색)의
 					끈이 있는 부직포 마스크
-					<input type="hidden" id="stnd1" name="subInspect_STND_1[]" style="width: 20%">
-					<input type="hidden" id="stnd2" name="subInspect_STND_2[]" style="width: 20%">
+					<input type="hidden" id="stnd1" style="width: 20%">
+					<input type="hidden" id="stnd2" style="width: 20%">
 					</td>
 					<td colspan="1"><input type="text" id="value1"></td>
 					<td colspan="1"><input type="text" id="value2"></td>
@@ -60,7 +60,7 @@
 					<td colspan="1"><input type="text" id="value4"></td>
 					<td colspan="1"><input type="text" id="value5"></td>
 					<td colspan="2">
-						<select name="status[]" id="status">
+						<select id="status">
 							<option value="true">적</option>
 							<option value="false">부</option>
 						</select>
@@ -70,9 +70,9 @@
 					<td rowspan="4" colspan="1">형상</td>
 					<td colspan="2">가로</td>
 					<td colspan="4">
-						<input type="text" id="stnd1" name="subInspect_STND_1[]" style="width: 20%">
+						<input type="text" id="stnd1" style="width: 20%">
 						±
-						<input type="text" id="stnd2" name="subInspect_STND_2[]" style="width: 20%">
+						<input type="text" id="stnd2" style="width: 20%">
 					</td>
 					<td colspan="1"><input type="text" id="value1"></td>
 					<td colspan="1"><input type="text" id="value2"></td>
@@ -80,7 +80,7 @@
 					<td colspan="1"><input type="text" id="value4"></td>
 					<td colspan="1"><input type="text" id="value5"></td>
 					<td colspan="2">
-						<select name="status[]" id="status">
+						<select id="status">
 							<option value="true">적</option>
 							<option value="false">부</option>
 						</select>
@@ -89,9 +89,9 @@
 				<tr>
 					<td colspan="2">세로</td>
 					<td colspan="4">
-						<input type="text" id="stnd1" name="subInspect_STND_1[]" style="width: 20%">
+						<input type="text" id="stnd1" style="width: 20%">
 						±
-						<input type="text" id="stnd2" name="subInspect_STND_2[]" style="width: 20%">
+						<input type="text" id="stnd2" style="width: 20%">
 					</td>
 					<td colspan="1"><input type="text" id="value1"></td>
 					<td colspan="1"><input type="text" id="value2"></td>
@@ -99,7 +99,7 @@
 					<td colspan="1"><input type="text" id="value4"></td>
 					<td colspan="1"><input type="text" id="value5"></td>
 					<td colspan="2">
-						<select name="status[]" id="status">
+						<select id="status">
 							<option value="true">적</option>
 							<option value="false">부</option>
 						</select>
@@ -108,9 +108,9 @@
 				<tr>
 					<td colspan="2">머리끈(좌)</td>
 					<td colspan="4">
-						<input type="text" id="stnd1" name="subInspect_STND_1[]" style="width: 20%">
+						<input type="text" id="stnd1" style="width: 20%">
 						±
-						<input type="text" id="stnd2" name="subInspect_STND_2[]" style="width: 20%">
+						<input type="text" id="stnd2" style="width: 20%">
 					</td>
 					<td colspan="1"><input type="text" id="value1"></td>
 					<td colspan="1"><input type="text" id="value2"></td>
@@ -118,7 +118,7 @@
 					<td colspan="1"><input type="text" id="value4"></td>
 					<td colspan="1"><input type="text" id="value5"></td>
 					<td colspan="2">
-						<select name="status[]" id="status">
+						<select id="status">
 							<option value="true">적</option>
 							<option value="false">부</option>
 						</select>
@@ -127,9 +127,9 @@
 				<tr>
 					<td colspan="2">머리끈(우)</td>
 					<td colspan="4">
-						<input type="text" id="stnd1" name="subInspect_STND_1[]" style="width: 20%">
+						<input type="text" id="stnd1" style="width: 20%">
 						±
-						<input type="text" id="stnd2" name="subInspect_STND_2[]" style="width: 20%">
+						<input type="text" id="stnd2" style="width: 20%">
 					</td>
 					<td colspan="1"><input type="text" id="value1"></td>
 					<td colspan="1"><input type="text" id="value2"></td>
@@ -137,7 +137,7 @@
 					<td colspan="1"><input type="text" id="value4"></td>
 					<td colspan="1"><input type="text" id="value5"></td>
 					<td colspan="2">
-						<select name="status[]" id="status">
+						<select id="status">
 							<option value="true">적</option>
 							<option value="false">부</option>
 						</select>
@@ -146,9 +146,9 @@
 				<tr>
 					<td colspan="3">코편</td>
 					<td colspan="4">
-						<input type="text" id="stnd1" name="subInspect_STND_1[]" style="width: 20%">
+						<input type="text" id="stnd1" style="width: 20%">
 						±
-						<input type="text" id="stnd2" name="subInspect_STND_2[]" style="width: 20%">
+						<input type="text" id="stnd2" style="width: 20%">
 					</td>
 					<td colspan="1"><input type="text" id="value1"></td>
 					<td colspan="1"><input type="text" id="value2"></td>
@@ -156,7 +156,7 @@
 					<td colspan="1"><input type="text" id="value4"></td>
 					<td colspan="1"><input type="text" id="value5"></td>
 					<td colspan="2">
-						<select name="status[]" id="status">
+						<select id="status">
 							<option value="true">적</option>
 							<option value="false">부</option>
 						</select>
@@ -165,9 +165,9 @@
 				<tr>
 					<td colspan="3">중량</td>
 					<td colspan="4">
-						<input type="text" id="stnd1" name="subInspect_STND_1[]" style="width: 20%">
+						<input type="text" id="stnd1" style="width: 20%">
 						±
-						<input type="text" id="stnd2" name="subInspect_STND_2[]" style="width: 20%">
+						<input type="text" id="stnd2" style="width: 20%">
 					</td>
 					<td colspan="1"><input type="text" id="value1"></td>
 					<td colspan="1"><input type="text" id="value2"></td>
@@ -175,7 +175,7 @@
 					<td colspan="1"><input type="text" id="value4"></td>
 					<td colspan="1"><input type="text" id="value5"></td>
 					<td colspan="2">
-						<select name="status[]" id="status">
+						<select id="status">
 							<option value="true">적</option>
 							<option value="false">부</option>
 						</select>
@@ -187,8 +187,8 @@
 						인장시험기(30 cm/분)로 잡아당겨
 						머리끈과 마스크의 접착부위가 절단될
 						때까지의 최대 하중을 측정할 때, 10N
-						<input type="hidden" id="stnd1" name="subInspect_STND_1[]" style="width: 20%">
-						<input type="hidden" id="stnd2" name="subInspect_STND_2[]" style="width: 20%">
+						<input type="hidden" id="stnd1" style="width: 20%">
+						<input type="hidden" id="stnd2" style="width: 20%">
 					</td>
 					<td colspan="1"><input type="text" id="value1"></td>
 					<td colspan="1"><input type="text" id="value2"></td>
@@ -196,7 +196,7 @@
 					<td colspan="1"><input type="text" id="value4"></td>
 					<td colspan="1"><input type="text" id="value5"></td>
 					<td colspan="2">
-						<select name="status[]" id="status">
+						<select id="status">
 							<option value="true">적</option>
 							<option value="false">부</option>
 						</select>
@@ -205,7 +205,7 @@
 				<tr>
 					<td colspan="9"><b>최종 검사결과</b></td>
 					<td colspan="5">
-						<select name="status[]" id="result">
+						<select id="result">
 							<option value="true">적합</option>
 							<option value="false">부적합</option>
 						</select>
@@ -216,7 +216,7 @@
 				<tr>
 					<td colspan="3">비고</td>
 					<td colspan="11">
-						<textarea id="processRemark" name="subinspectionRemark" rows="3" cols="60"></textarea>
+						<textarea id="processRemark" rows="3" cols="60"></textarea>
 					</td>
 				</tr>
 			</tfoot>

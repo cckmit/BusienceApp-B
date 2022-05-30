@@ -35,7 +35,7 @@ public class processInspectionRestController {
 	
 	// 검사 form 조회
 	@GetMapping("/PIF_Search")
-	public String processInspectOneSelectDao(SearchDto searchDto) {
+	public List<ProcessInspectDto> processInspectOneSelectDao(SearchDto searchDto) {
 		return processInspectionService.processInspectOneSelectDao(searchDto);
 	}
 	

@@ -22,7 +22,7 @@ var crateInspectTable = new Tabulator("#crateInspectTable", {
 	columns: [
 		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center" },
 		{ title: "LotNo", field: "cl_LotNo", headerHozAlign: "center" },
-		{ title: "작업지시번호", field: "cl_OrderNo", headerHozAlign: "center", visible:false },
+		{ title: "작업지시번호", field: "cl_OrderNo", headerHozAlign: "center", visible: false },
 		{ title: "품목 코드", field: "cl_ItemCode", headerHozAlign: "center" },
 		{ title: "품목 명", field: "cl_ItemName", headerHozAlign: "center" },
 		{ title: "규격1", field: "cl_STND_1", headerHozAlign: "center" },
@@ -47,7 +47,7 @@ function CI_Search() {
 	crateInspectTable.setData("processInspectionRest/CI_Search", datas)
 		.then(function() {
 			//list와 stock의 데이터를 없에준다
-			//formClearFunc();
+			formClearFunc();
 			console.log(crateInspectTable);
 		})
 }
@@ -126,38 +126,29 @@ function PIF_Search(LotNo) {
 		data: datas,
 		success: function(PIF_datas) {
 			console.log(PIF_datas);
-			$("#matInspectItemName").val(MIF_datas[0].inMat_Inspect_ItemName);
-			$("#matInspectDate").val(moment(MIF_datas[0].inMat_Inspect_Date).format("YYYY-MM-DD"));
-			$("#matInspectQty").val(MIF_datas[0].inMat_Inspect_Qty);
-			$("#matInspectWorker").val(MIF_datas[0].inMat_Inspect_Worker);
-			$("#matInspectCustomer").val(MIF_datas[0].inMat_Inspect_Customer_Name);
-			$("#inspectionText").val(MIF_datas[0].inMat_Inspect_Text);
-			$("#inspectionRemark").val(MIF_datas[0].inMat_Inspect_Remark);
+			$("#proInspectEquipName").val(PIF_datas[0].process_Inspect_EquipName);
+			$("#proInspectItemName").val(PIF_datas[0].process_Inspect_ItemName);
+			$("#productionDate").val(moment(PIF_datas[0].process_Inspect_Create_Date).format("YYYY-MM-DD"));
+			$("#processDate").val(moment(PIF_datas[0].process_Inspect_Date).format("YYYY-MM-DD"));
+			$("#processQty").val(PIF_datas[0].process_Inspect_Qty);
+			$("#processRemark").val(PIF_datas[0].process_Inspect_Remark);
+			document.querySelector('#pqcWorkerList').value = PIF_datas[0].process_Inspect_Worker;
+			document.querySelector('#itemColorType').value = PIF_datas[0].process_Inspect_Color;
 
-			for (var i = 0; i < MIF_datas.length; i++) {
-				//console.log(MIF_datas[i].inMat_Inspect_Value_1);
-				$("input[name='Inspect_Value_1[]']")[i].value = MIF_datas[i].inMat_Inspect_Value_1;
-				$("input[name='Inspect_Value_2[]']")[i].value = MIF_datas[i].inMat_Inspect_Value_2;
-				$("input[name='Inspect_Value_3[]']")[i].value = MIF_datas[i].inMat_Inspect_Value_3;
-				$("input[name='Inspect_Value_4[]']")[i].value = MIF_datas[i].inMat_Inspect_Value_4;
-				$("input[name='Inspect_Value_5[]']")[i].value = MIF_datas[i].inMat_Inspect_Value_5;
-				if (i == 7) {
-					$("input[name='Inspect_STND_1[]']")[0].value = MIF_datas[7].inMat_Inspect_STND_1;
-					$("input[name='Inspect_STND_2[]']")[0].value = MIF_datas[7].inMat_Inspect_STND_2;
+			for (var i = 0; i < PIF_datas.length; i++) {
+				document.querySelectorAll('#value1')[i].value = PIF_datas[i].process_Inspect_Value_1;
+				document.querySelectorAll('#value2')[i].value = PIF_datas[i].process_Inspect_Value_2;
+				document.querySelectorAll('#value3')[i].value = PIF_datas[i].process_Inspect_Value_3;
+				document.querySelectorAll('#value4')[i].value = PIF_datas[i].process_Inspect_Value_4;
+				document.querySelectorAll('#value5')[i].value = PIF_datas[i].process_Inspect_Value_5;
+
+				if (PIF_datas[i].process_Inspect_STND_1 != "" && PIF_datas[i].process_Inspect_STND_2 != "") {
+					document.querySelectorAll('#stnd1')[i].value = PIF_datas[i].process_Inspect_STND_1;
+					document.querySelectorAll('#stnd2')[i].value = PIF_datas[i].process_Inspect_STND_2;
 				}
 
-				if (i == 8) {
-					$("input[name='Inspect_STND_1[]']")[1].value = MIF_datas[8].inMat_Inspect_STND_1;
-					$("input[name='Inspect_STND_2[]']")[1].value = MIF_datas[8].inMat_Inspect_STND_2;
-				}
-
-				if (i == 9) {
-					$("input[name='Inspect_STND_1[]']")[2].value = MIF_datas[9].inMat_Inspect_STND_1;
-					$("input[name='Inspect_STND_2[]']")[2].value = MIF_datas[9].inMat_Inspect_STND_2;
-				}
-				// status 
-				$("select[name='status[]']")[i].value = MIF_datas[i].inMat_Inspect_Status;
-
+				document.querySelectorAll('#status')[i].value = PIF_datas[i].process_Inspect_Status;
+				document.querySelectorAll('#result')[0].value = PIF_datas[0].process_Inspect_Result;	
 			}
 		}
 	});
@@ -189,7 +180,7 @@ function PI_Save() {
 		alert("검사할 행을 선택해주세요.");
 		return false;
 	}
-	
+
 	if ($("#processQty").val() > selectedRow[0].cl_Qty) {
 		alert("시료수가 생산수량보다 많습니다.");
 		return false;
@@ -246,18 +237,14 @@ function PI_Save() {
 						$(this).off();
 					})
 					formClearFunc();
-					/*MII_Search();
-					MIS_Search();*/
+					CI_Search();
+					PI_Search();
 				} else {
 					alert("중복된 값이 존재합니다.")
 				}
 			}
 		});
 	}
-
-	/*for (let elem of elements) {
-		console.log(elem.value);
-	}*/
 }
 
 function PI_SaveBtn() {
@@ -271,7 +258,7 @@ function formClearFunc() {
 	$("#proInspectItemName").val("");
 	$("#productionDate").val("");
 	$("#processDate").val("");
-	$("#processWorker").val("");
+	$("#processQty").val("");
 
 	let values = 8;
 
@@ -285,7 +272,8 @@ function formClearFunc() {
 		document.querySelectorAll('#stnd2')[i].value = "";
 		document.querySelectorAll('#status')[i].value = true;
 	}
-	
+
+	document.querySelector('#pqcWorkerList').value = '327';
 	document.querySelector('#itemColorType').value = '화이트';
 	document.querySelector('#result').value = true;
 
@@ -334,7 +322,7 @@ function lCode_select(value) {
 }
 
 $(document).ready(function() {
-	CI_Search;
-	//MIS_Search();
+	CI_Search();
+	PI_Search();
 })
 

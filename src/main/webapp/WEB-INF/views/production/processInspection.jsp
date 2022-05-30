@@ -19,13 +19,15 @@
 						<span><strong>생산일</strong></span>
 						<input id="startDate" class="today" type="date">
 						<span style="text-align: center"><strong>~</strong></span>
-						<input id="endDate" class="tomorrow" type="date">		
+						<input id="endDate" class="tomorrow" type="date">	
 					</div>
 					<div>
 						<span><strong>품목코드</strong></span>
 						<input id="PRODUCT_ITEM_CODE1" class="Item_Code1" type="text" disabled>
 						<span><strong>품목명</strong></span>
 						<input id="PRODUCT_ITEM_NAME1" class="Item_Name1 clearInput" type="text" autofocus onkeypress="javascript:if(event.keyCode==13) {itemPopup($(this).val(),'input','1','material')}">
+						<span><strong>LotNo</strong></span>
+						<input id="processLotNo" type="text">	
 						<br>
 						<span><strong>설비코드</strong></span>
 						<input id="EQUIPMENT_INFO_CODE" class="Machine_Code" type="text" disabled>
