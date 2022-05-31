@@ -166,7 +166,6 @@ public class matmodelmappingRestController {
 					
 					String product_ITEM_CODE = (String)datas.get("product_ITEM_CODE");
 					String routing_FairCode = (String)datas.get("routing_FairCode");
-					String workOrder_ItemCode = (String)datas.get("workOrder_ItemCode");
 					String mat_Model_ItemCode = (String)datas.get("mat_Model_ItemCode");
 					
 					if((String)datas.get("mat_Model_ItemBCode") == null)
@@ -215,7 +214,7 @@ public class matmodelmappingRestController {
 		}
 		
 		conn.setAutoCommit(true); //트랜잭션 처리를 기본상태로 되돌린다.
-		if( pstmt != null ) pstmt.close();
+		//if( pstmt != null ) pstmt.close();
         if( conn != null ) conn.close();
 		
 		return "ok";
@@ -234,14 +233,7 @@ public class matmodelmappingRestController {
 			for (int i = 0; i < dataList.size(); i++)
 			{
 				JSONObject datas = (JSONObject) dataList.get(i);
-				
-				String product_ITEM_CODE = (String)datas.get("product_ITEM_CODE");
-				String routing_FairCode = (String)datas.get("routing_FairCode");
-				String workOrder_ItemCode = (String)datas.get("workOrder_ItemCode");
-				String mat_Model_ItemCode = (String)datas.get("mat_Model_ItemCode");
-				
-				System.out.println(datas);
-				
+												
 				jdbctemplate.update("delete from Mat_Model_Mapping_tbl where Mat_Model_ItemCode=? and mat_Model_Num=?"
 						,(String)datas.get("mat_Model_ItemCode"),(String)datas.get("mat_Model_Num"));
 			}

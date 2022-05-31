@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
 import com.busience.production.dto.ProcessInspectDto;
-import com.busience.production.dto.ProductionMgmtDto;
 import com.busience.production.service.ProcessInspectionService;
 import com.busience.tablet.dto.CrateLotDto;
 

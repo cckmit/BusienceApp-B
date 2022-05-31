@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Param;
 
 import com.busience.common.dto.SearchDto;
 import com.busience.material.dto.InMatDto;
-import com.busience.material.dto.InMatInspectDto;
 
 @Mapper
 public interface TemporaryStorageDao {
