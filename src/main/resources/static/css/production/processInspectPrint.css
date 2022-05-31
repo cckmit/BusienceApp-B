@@ -10,20 +10,67 @@ body {
 }
 
 .tg td {
-	font-size: 13px;
+	font-size: 14px;
 	text-align: center;
 	vertical-align: middle !important;
 	border: 2px solid black !important;
 	padding: 7px !important;
+	height: 50px;
 }
 .footer {
 	text-align: center;
+}
+
+#subproInspectEquipName {
+	width: 100px;
+}
+
+#subproInspectItemName {
+	width: 100px;
+}
+
+#subproductionDate {
+	width: 80px;
+}
+
+#subprocessDate {
+	width: 80px;
+}
+
+#subprocessQty {
+	width: 50px;
+}
+
+#subpqcWorker {
+	width: 100px;
+}
+
+#subitemColorType {
+	width: 80px;
+}
+
+#processLotNo {
+	width: 170px;
+}
+
+#write {
+	height: 5px !important;
+}
+
+select {
+ height: 24px !important;	
 }
 
 .tg input, .tg textarea {
 	border: none;
 	width: 100%;
 	resize: none;
+	text-align: left !important;
+}
+
+.machine {
+	float: left;
+	width: 10% !important;
 }
 
 #pageCounter {

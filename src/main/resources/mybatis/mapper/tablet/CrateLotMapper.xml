@@ -58,6 +58,9 @@
 		]]>
 		AND clt.CL_ItemCode LIKE CONCAT('%',#{itemCode},'%')
 		AND wot.WorkOrder_EquipCode LIKE CONCAT('%',#{machineCode},'%')
+		<if test="LotNo != ''">
+		AND clt.CL_LotNo LIKE CONCAT ('%',#{LotNo},'%')
+		</if>
 		AND proit.Process_Inspect_Qty is null
 		ORDER BY clt.CL_Create_Date 
 	</select>

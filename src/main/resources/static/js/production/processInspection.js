@@ -1,6 +1,7 @@
 var crateInspectTable = new Tabulator("#crateInspectTable", {
 	pagination: "local",
 	paginationSize: 20,
+	clipboard: true,
 	height: "calc(50% - 85px)",
 	headerFilterPlaceholder: null,
 	layoutColumnsOnNewData: true,
@@ -41,7 +42,8 @@ function CI_Search() {
 		startDate: $("#startDate").val(),
 		endDate: $("#endDate").val(),
 		itemCode: $("#PRODUCT_ITEM_CODE1").val(),
-		machineCode: $('#EQUIPMENT_INFO_CODE').val()
+		machineCode: $('#EQUIPMENT_INFO_CODE').val(),
+		LotNo: $("#processLotNo").val()
 	}
 
 	crateInspectTable.setData("processInspectionRest/CI_Search", datas)
@@ -62,6 +64,7 @@ var output_dtl = dtlSelectList(18);
 
 var processInspectTable = new Tabulator("#processInspectTable", {
 	layoutColumnsOnNewData: true,
+	clipboard: true,
 	height: "calc(50% - 90px)",
 	//행을 클릭하면 matLotMasterTable에 리스트가 나타남
 	rowClick: function(e, row) {
@@ -96,7 +99,8 @@ function PI_Search() {
 		startDate: $("#startDate").val(),
 		endDate: $("#endDate").val(),
 		itemCode: $("#PRODUCT_ITEM_CODE1").val(),
-		machineCode: $("#EQUIPMENT_INFO_CODE").val()
+		machineCode: $("#EQUIPMENT_INFO_CODE").val(),
+		LotNo: $("#processLotNo").val()
 	}
 
 	processInspectTable.setData("processInspectionRest/PI_Search", datas);
@@ -287,16 +291,16 @@ $('#PI_SaveBtn').click(function() {
 })
 
 //MO_PrintBtn
-$('#MII_PrintBtn').click(function() {
-	MII_print();
+$('#PI_PrintBtn').click(function() {
+	PI_print();
 })
 
 //orderprint
-function MII_print() {
+function PI_print() {
 	//창의 주소
-	var url = "matInputInspectionPrint";
+	var url = "processInspectPrint";
 	//창의 이름
-	var name = "matInputInspectionPrint";
+	var name = "processInspectPrint";
 	//창의 css
 	var option = "width = 1000, height = 800, top = 50, left = 440, location = top";
 

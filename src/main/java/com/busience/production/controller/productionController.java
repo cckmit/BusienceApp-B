@@ -141,6 +141,11 @@ public class productionController {
 		return "/production/processInspection";
 	}
 	
+	@GetMapping("processInspectPrint")
+	public String processInspectionPrint(HttpServletRequest request) {
+		return "normal/production/processInspectPrint";
+	}
+	
 	@GetMapping("/crateManage")
 	public String crateManage(Model model) {
 		model.addAttribute("pageName", "상자 관리");

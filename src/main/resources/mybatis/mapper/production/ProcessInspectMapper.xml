@@ -19,6 +19,9 @@
 		]]>
 		AND proit.Process_Inspect_ItemCode LIKE CONCAT('%',#{itemCode},'%')
 		AND proit.Process_Inspect_EquipCode LIKE CONCAT('%',#{machineCode},'%')
+		<if test="LotNo != ''">
+		AND proit.Process_Inspect_LotNo LIKE CONCAT ('%',#{LotNo},'%') 
+		</if>
 		GROUP BY proit.Process_Inspect_LotNo
 	</select>
 	
