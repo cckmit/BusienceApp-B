@@ -289,8 +289,7 @@ public class BOMRestController {
 							+ " where BOM_ItemCode = '"+obj.get("bom_Parent_ItemCode")+"'";
 				
 				System.out.println("BBL_update_sql1 =" + BBL_update_sql1);
-				pstmt = conn.prepareStatement(BBL_update_sql1);
-				pstmt.executeUpdate();
+				conn.prepareStatement(BBL_update_sql1).executeUpdate();
 				
 				//BOM_tbl에 BOM_ChildExist를 업데이트
 				BBL_update_sql2 = "update BOM_tbl set BOM_ChildExist = 'Y'\r\n"
@@ -298,8 +297,7 @@ public class BOMRestController {
 							+ "and exists (select * from (select * from BOM_tbl where BOM_Parent_ItemCode = '"+obj.get("bom_ItemCode")+"') A)";
 								
 				System.out.println("BBL_update_sql2 =" + BBL_update_sql2);
-				pstmt = conn.prepareStatement(BBL_update_sql2);
-				pstmt.executeUpdate();
+				conn.prepareStatement(BBL_update_sql2).executeUpdate();
 			}
 
 			conn.commit();
@@ -366,8 +364,7 @@ public class BOMRestController {
 				
 				System.out.println("BBL_Update_sql =" + BBL_Update_sql);
 				
-				pstmt = conn.prepareStatement(BBL_Update_sql);
-				pstmt.executeUpdate();
+				conn.prepareStatement(BBL_Update_sql).executeUpdate();
 			}
 
 			conn.commit();

@@ -11,7 +11,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -354,7 +353,7 @@ public class oqcOutputInspectRestController {
 		if (conn != null)
 			conn.close();
 	}
-
+/*
 	@RequestMapping(value = "/Save2", method = { RequestMethod.GET })
 	public void Save2(Model model, HttpServletRequest request) throws ParseException, SQLException {
 		String originData = request.getParameter("data");
@@ -502,5 +501,5 @@ public class oqcOutputInspectRestController {
 			if (conn != null)
 				conn.close();
 		}
-	}
+	}*/
 }

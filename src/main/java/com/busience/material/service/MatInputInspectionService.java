@@ -1,12 +1,6 @@
 package com.busience.material.service;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +9,6 @@ import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import com.busience.common.dao.DtlDao;
-import com.busience.common.dto.DtlDto;
 import com.busience.common.dto.SearchDto;
 import com.busience.material.dao.InMatDao;
 import com.busience.material.dao.InMatInspectDao;
@@ -75,9 +68,7 @@ public class MatInputInspectionService {
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
 					// TODO Auto-generated method stub
-					
-					InMatDto inMatDto = new InMatDto();
-					
+										
 					for (int i = 0; i < 10; i++) {
 
 						standardData.setInMat_Inspect_Number(i + 1);

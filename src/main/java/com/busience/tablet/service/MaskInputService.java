@@ -18,4 +18,8 @@ public class MaskInputService {
 	public List<CrateLotDto> crateLotListSelect(SearchDto searchDto) {
 		return crateLotDao.crateLotListSelectDao(searchDto);
 	}
+	
+	public int crateLotUpdate2(CrateLotDto crateLotDto) {
+		return crateLotDao.crateLotUpdateDao2(crateLotDto);
+	}
 }

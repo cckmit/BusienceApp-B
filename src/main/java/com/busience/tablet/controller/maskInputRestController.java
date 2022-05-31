@@ -23,4 +23,9 @@ public class maskInputRestController {
 		return maskInputService.crateLotListSelect(searchDto);
 	}
 	
+	@GetMapping("/crateLotUpdate")
+	public int crateLotUpdate(CrateLotDto crateLotDto) {
+		return maskInputService.crateLotUpdate2(crateLotDto);
+	}
+	
 }
