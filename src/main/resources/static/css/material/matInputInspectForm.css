@@ -1,0 +1,55 @@
+
+.tg {
+	width: 100%;
+	border-collapse: collapse;
+	table-layout: fixed;
+	word-break:break-all;
+}
+
+.tg td {
+	font-size: 13px;
+	text-align: center;
+	vertical-align: middle !important;
+	border: 2px solid black !important;
+	padding: 7px !important;
+}
+.footer {
+	text-align: center;
+}
+
+.tg input, .tg textarea {
+	width: 100%;
+	resize: none;
+}
+
+.tg select {
+	width: 100%;
+	height: 25px;
+	resize: none;
+}
+
+#pageCounter {
+	counter-reset: pageTotal;
+}
+
+#pageCounter span {
+	counter-increment: pageTotal;
+}
+
+#pageNumbers {
+	counter-reset: currentPage;
+}
+
+#pageNumbers div:before {
+	counter-increment: currentPage;
+	content: "Page " counter(currentPage) " of ";
+}
+
+#pageNumbers div:after {
+	content: counter(pageTotal);
+}
+@media print {
+    .printBtn {
+        display: none;
+    }
+}

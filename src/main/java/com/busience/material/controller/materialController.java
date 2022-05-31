@@ -75,6 +75,7 @@ public class materialController {
 	// MatInputInspection
 	@GetMapping("matInputInspection")
 	public String MatInputInspection(Model model) {
+		model.addAttribute("matInputInspectList", dtlService.getDtl(44));
 		model.addAttribute("pageName", "입고 관리 검사");
 		return "material/matInputInspection";
 	}

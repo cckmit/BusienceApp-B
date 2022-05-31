@@ -133,7 +133,7 @@ function MIF_Search(OrderNo, ItemCode) {
 			$("#matInspectItemName").val(MIF_datas[0].inMat_Inspect_ItemName);
 			$("#matInspectDate").val(moment(MIF_datas[0].inMat_Inspect_Date).format("YYYY-MM-DD"));
 			$("#matInspectQty").val(MIF_datas[0].inMat_Inspect_Qty);
-			$("#matInspectWorker").val(MIF_datas[0].inMat_Inspect_Worker);
+			document.querySelector('#matInspectWorker').value = MIF_datas[0].inMat_Inspect_Worker;
 			$("#matInspectCustomer").val(MIF_datas[0].inMat_Inspect_Customer_Name);
 			$("#inspectionText").val(MIF_datas[0].inMat_Inspect_Text);
 			$("#inspectionRemark").val(MIF_datas[0].inMat_Inspect_Remark);
@@ -213,7 +213,7 @@ function MIF_Save() {
 			inMat_Inspect_ItemCode: tempStorageTable.getData()[0].inMat_Code,
 			inMat_Inspect_Qty: tempStorageTable.getData()[0].inMat_Qty,
 			inMat_Inspect_UnitPrice: tempStorageTable.getData()[0].inMat_Unit_Price,
-			inMat_Inspect_Worker: $("#matInspectWorker").val(),
+			inMat_Inspect_Worker: document.querySelector('#matInspectWorker > option:checked').value,
 			inMat_Inspect_Customer: tempStorageTable.getData()[0].inMat_Client_Code,
 			inMat_Inspect_Text: $("#inspectionText").val(),
 			inMat_Inspect_Classfy: tempStorageTable.getData()[0].inMat_Rcv_Clsfc,
@@ -289,7 +289,6 @@ function formClearFunc() {
 	$("#matInspectItemName").val("");
 	$("#matInspectDate").val("");
 	$("#matInspectQty").val("");
-	$("#matInspectWorker").val("");
 	$("#matInspectCustomer").val("");
 	$("#inspectionText").val("");
 	$("input[name='Inspect_Value_1[]']").each(function(index, item) {
@@ -313,6 +312,8 @@ function formClearFunc() {
 	$("input[name='Inspect_STND_2[]']").each(function(index, item) {
 		$(item).val("");
 	});
+	
+	document.querySelector('#matInspectWorker').value = '327';
 	// status check1 기본 값
 	$('#check1_val6').val('true').prop("selected", true);
 	$('#check2_val6').val('true').prop("selected", true);

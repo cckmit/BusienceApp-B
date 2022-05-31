@@ -8,7 +8,8 @@ $(document).ready(function() {
 	document.getElementById("submatInspectItemName").value = opener.document.getElementById("matInspectItemName").value;
 	document.getElementById("submatInspectDate").value = opener.document.getElementById("matInspectDate").value;
 	document.getElementById("submatInspectQty").value = opener.document.getElementById("matInspectQty").value;
-	document.getElementById("submatInspectWorker").value = opener.document.getElementById("matInspectWorker").value;
+	var target = opener.document.getElementById("matInspectWorker");
+	document.getElementById("submatInspectWorker").value = target.options[target.selectedIndex].text;
 	document.getElementById("submatInspectCustomer").value = opener.document.getElementById("matInspectCustomer").value;
 	document.getElementById("subinspectionText").value = opener.document.getElementById("inspectionText").value;
 	document.getElementById("subinspectionRemark").value = opener.document.getElementById("inspectionRemark").value;
