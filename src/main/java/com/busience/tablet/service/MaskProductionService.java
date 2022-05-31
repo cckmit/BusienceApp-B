@@ -144,8 +144,7 @@ public class MaskProductionService {
 					String LotNo = crateLotDao.crateLotNoCreateDao(crateLotDto);
 					
 					crateLotDto.setCL_LotNo(LotNo);
-					crateLotDao.crateLotSaveDao(crateLotDto);
-					
+					crateLotDao.crateLotSaveDao(crateLotDto);					
 				}				
 			});
 

@@ -33,4 +33,7 @@ public interface CrateLotDao {
 	
 	//수량수정
 	public int crateLotQtyUpdateDao(CrateLotDto crateLotDto);
+	
+	//수정2
+	public int crateLotUpdateDao2(CrateLotDto crateLotDto);
 }
