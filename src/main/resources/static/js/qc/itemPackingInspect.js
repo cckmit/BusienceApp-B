@@ -1,4 +1,4 @@
-var workOrderTable = new Tabulator("#workOrderTable", {
+var salesItemTable = new Tabulator("#salesItemTable", {
 	pagination: "local",
 	paginationSize: 20,
 	clipboard: true,
@@ -9,56 +9,50 @@ var workOrderTable = new Tabulator("#workOrderTable", {
 	rowFormatter: function(row) {
 	},
 	rowClick: function(e, row) {
-		crateInspectTable.deselectRow();
+		salesItemTable.deselectRow();
 		row.select();
 	},
 	rowSelected: function(row) {
-		formClearFunc();
+		//formClearFunc();
 		row.select();
 		// 설비명, 제품명, 생산일자
-		CIForm_Search(row.getData().cl_EquipName, row.getData().cl_ItemName, row.getData().cl_Create_Date);
+		SILForm_Search(row.getData().lm_LotNo, row.getData().lm_ItemName, row.getData().lm_Create_Date);
 		UseBtn();
 		$("#processQty").focus();
 	},
 	columns: [
 		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center" },
-		{ title: "LotNo", field: "cl_LotNo", headerHozAlign: "center" },
-		{ title: "작업지시번호", field: "cl_OrderNo", headerHozAlign: "center", visible: false },
-		{ title: "품목 코드", field: "cl_ItemCode", headerHozAlign: "center" },
-		{ title: "품목 명", field: "cl_ItemName", headerHozAlign: "center" },
-		{ title: "규격1", field: "cl_STND_1", headerHozAlign: "center" },
-		{ title: "품목분류1", field: "cl_Item_Clsfc_Name_1", headerHozAlign: "center" },
-		{ title: "생산 수량", field: "cl_Qty", headerHozAlign: "center", hozAlign: "right" },
-		{ title: "설비 코드", field: "cl_EquipCode", headerHozAlign: "center" },
-		{ title: "설비 명", field: "cl_EquipName", headerHozAlign: "center" },
-		{ title: "작업지시일", field: "cl_Create_Date", headerHozAlign: "center" },
-		{ title: "작업종료일", field: "cl_Create_Date", headerHozAlign: "center" },
-		{ title: "검사여부", field: "cl_Create_Date", headerHozAlign: "center" }
+		{ title: "LotNo", field: "lm_LotNo", headerHozAlign: "center" },
+		{ title: "품목 코드", field: "lm_ItemCode", headerHozAlign: "center" },
+		{ title: "품목 명", field: "lm_ItemName", headerHozAlign: "center" },
+		{ title: "규격1", field: "lm_STND_1", headerHozAlign: "center" },
+		{ title: "품목분류1", field: "lm_Item_CLSFC_1", headerHozAlign: "center" },
+		{ title: "제품수량", field: "lm_Qty", headerHozAlign: "center", hozAlign: "right" },
+		{ title: "제품포장일", field: "lm_Create_Date", headerHozAlign: "center" }
 	],
 });
 
 //matRequest 검색버튼
-function CI_Search() {
+function SIL_Search() {
 
 	var datas = {
 		startDate: $("#startDate").val(),
 		endDate: $("#endDate").val(),
 		itemCode: $("#PRODUCT_ITEM_CODE1").val(),
-		machineCode: $('#EQUIPMENT_INFO_CODE').val(),
 		LotNo: $("#processLotNo").val()
 	}
 
-	crateInspectTable.setData("processInspectionRest/CI_Search", datas)
+	salesItemTable.setData("itemPackingInspectRest/SIL_Search", datas)
 		.then(function() {
 			//list와 stock의 데이터를 없에준다
-			formClearFunc();
-			console.log(crateInspectTable);
+			//formClearFunc();
+			console.log(salesItemTable);
 		})
 }
 
-$("#CI_SearchBtn").click(function() {
-	CI_Search();
-	PI_Search();
+$("#SIL_SearchBtn").click(function() {
+	SIL_Search();
+	//PI_Search();
 })
 
 // 출고구분 select를 구성하기위한 ajax
@@ -110,12 +104,12 @@ var output_dtl = dtlSelectList(18);
 }*/
 
 //matInputInspect 정보 삽입
-function CIForm_Search(EquipName, ItemName, ProductionDate) {
+function SILForm_Search(LotNo, ItemName, packingDate) {
 	var now = moment();
-	$("#proInspectEquipName").val(EquipName);
-	$("#proInspectItemName").val(ItemName);
-	$("#productionDate").val(moment(ProductionDate).format("YYYY-MM-DD"));
-	$("#processDate").val(now.format("YYYY-MM-DD"));
+	$("#itemInspectLotNo").val(LotNo);
+	$("#itemInspectItemName").val(ItemName);
+	$("#itemPackingDate").val(moment(packingDate).format("YYYY-MM-DD"));
+	$("#itemInspectDate").val(now.format("YYYY-MM-DD"));
 
 }
 
@@ -328,7 +322,7 @@ function lCode_select(value) {
 }
 
 $(document).ready(function() {
-	CI_Search();
-	PI_Search();
+	SIL_Search();
+	//PI_Search();
 })
 

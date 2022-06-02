@@ -5,7 +5,7 @@
 		<!-- MAIN -->
 		<div class="main">
 			<!-- 그리드 생성 장소 -->
-			<div class="master-table" style="padding-left: 10px;">
+			<div class="master-table" style="padding-left: 10px; padding-right: 10px;">
 			<table class="tg table table-bordered">
 			<tbody>
 				<tr>
@@ -49,8 +49,8 @@
 				</tr>
 				<tr>
 					<td colspan="3">성상</td>
-					<td colspan="4">(흰색, 검정색)의 3단 가로접이식 본체에 코편이 있고, 양측면에 (흰색, 검정색)의
-					끈이 있는 부직포 마스크
+					<td colspan="4">마스크 좌우 상단, 우 하단에 글자 등 새김이 있는 (흰색, 검정색)의 2단 세로접이식 본체에 표면이 있고,
+					양 측면에 (흰색, 검정색)의 끈이 있는 부직포 마스크
 					<input type="hidden" id="stnd1" style="width: 20%">
 					<input type="hidden" id="stnd2" style="width: 20%">
 					</td>
@@ -144,7 +144,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="3">코편</td>
+					<td colspan="3">순도시험</td>
 					<td colspan="4">
 						<input type="text" id="stnd1" style="width: 20%">
 						±
@@ -163,7 +163,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="3">중량</td>
+					<td colspan="3">분진포집효율</td>
 					<td colspan="4">
 						<input type="text" id="stnd1" style="width: 20%">
 						±
@@ -182,11 +182,8 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="3">인장강도</td>
+					<td colspan="3">안면부 흡기저항</td>
 					<td colspan="4">
-						인장시험기(30 cm/분)로 잡아당겨
-						머리끈과 마스크의 접착부위가 절단될
-						때까지의 최대 하중을 측정할 때, 10N
 						<input type="hidden" id="stnd1" style="width: 20%">
 						<input type="hidden" id="stnd2" style="width: 20%">
 					</td>
@@ -203,7 +200,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="9"><b>최종 검사결과</b></td>
+					<td colspan="3">이어밴드 접합부 인장강도</td>
 					<td colspan="5">
 						<select id="result">
 							<option value="true">적합</option>
@@ -213,10 +210,98 @@
 				</tr>
 			</tbody>
 			<tfoot>
+					<tr>
+					<td colspan="3">순도시험</td>
+					<td colspan="4">
+						<input type="text" id="stnd1" style="width: 20%">
+						±
+						<input type="text" id="stnd2" style="width: 20%">
+					</td>
+					<td colspan="1"><input type="text" id="value1"></td>
+					<td colspan="1"><input type="text" id="value2"></td>
+					<td colspan="1"><input type="text" id="value3"></td>
+					<td colspan="1"><input type="text" id="value4"></td>
+					<td colspan="1"><input type="text" id="value5"></td>
+					<td colspan="2">
+						<select id="status">
+							<option value="true">적</option>
+							<option value="false">부</option>
+						</select>
+					</td>
+				</tr>
 				<tr>
-					<td colspan="3">비고</td>
-					<td colspan="11">
-						<textarea id="processRemark" rows="3" cols="60"></textarea>
+					<td colspan="3">분진포집효율</td>
+					<td colspan="4">
+						<input type="text" id="stnd1" style="width: 20%">
+						±
+						<input type="text" id="stnd2" style="width: 20%">
+					</td>
+					<td colspan="1"><input type="text" id="value1"></td>
+					<td colspan="1"><input type="text" id="value2"></td>
+					<td colspan="1"><input type="text" id="value3"></td>
+					<td colspan="1"><input type="text" id="value4"></td>
+					<td colspan="1"><input type="text" id="value5"></td>
+					<td colspan="2">
+						<select id="status">
+							<option value="true">적</option>
+							<option value="false">부</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3">안면부 흡기저항</td>
+					<td colspan="4">
+						<input type="hidden" id="stnd1" style="width: 20%">
+						<input type="hidden" id="stnd2" style="width: 20%">
+					</td>
+					<td colspan="1"><input type="text" id="value1"></td>
+					<td colspan="1"><input type="text" id="value2"></td>
+					<td colspan="1"><input type="text" id="value3"></td>
+					<td colspan="1"><input type="text" id="value4"></td>
+					<td colspan="1"><input type="text" id="value5"></td>
+					<td colspan="2">
+						<select id="status">
+							<option value="true">적</option>
+							<option value="false">부</option>
+						</select>
+					</td>
+				</tr>
+					<tr>
+					<td colspan="3">순도시험</td>
+					<td colspan="4">
+						<input type="text" id="stnd1" style="width: 20%">
+						±
+						<input type="text" id="stnd2" style="width: 20%">
+					</td>
+					<td colspan="1"><input type="text" id="value1"></td>
+					<td colspan="1"><input type="text" id="value2"></td>
+					<td colspan="1"><input type="text" id="value3"></td>
+					<td colspan="1"><input type="text" id="value4"></td>
+					<td colspan="1"><input type="text" id="value5"></td>
+					<td colspan="2">
+						<select id="status">
+							<option value="true">적</option>
+							<option value="false">부</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3">분진포집효율</td>
+					<td colspan="4">
+						<input type="text" id="stnd1" style="width: 20%">
+						±
+						<input type="text" id="stnd2" style="width: 20%">
+					</td>
+					<td colspan="1"><input type="text" id="value1"></td>
+					<td colspan="1"><input type="text" id="value2"></td>
+					<td colspan="1"><input type="text" id="value3"></td>
+					<td colspan="1"><input type="text" id="value4"></td>
+					<td colspan="1"><input type="text" id="value5"></td>
+					<td colspan="2">
+						<select id="status">
+							<option value="true">적</option>
+							<option value="false">부</option>
+						</select>
 					</td>
 				</tr>
 			</tfoot>

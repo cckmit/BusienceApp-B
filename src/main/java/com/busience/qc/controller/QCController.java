@@ -12,6 +12,13 @@ public class QCController {
 
 	@Autowired
 	DtlService dtlService;
+	
+	// itemPackingInspect
+	@GetMapping("/itemPackingInspect")
+	public String itemPackingInspect(Model model) {
+		model.addAttribute("pageName", "제품 포장 검사");
+		return "qc/itemPackingInspect";
+	}
 
 	// oqcOutputInspect
 	@GetMapping("/oqcOutputInspect")
@@ -33,7 +40,7 @@ public class QCController {
 		int check = 27;
 		model.addAttribute("checkList", dtlService.getDtl(check));
 
-		model.addAttribute("pageName", "최종 검사(제품별)");
+		model.addAttribute("pageName", "최종 검사");
 
 		return "qc/oqcOutputInspect";
 	}

@@ -8,35 +8,35 @@
 			<div class="master-table" style="padding-left: 10px;">
 			<table class="tg table table-bordered">
 			<tbody>
-				<tr>
-					<td colspan="3">생산라인</td>
-					<td colspan="4"><input type="text" id="proInspectEquipName" readonly></td>
-					<td colspan="3">제품명</td>
-					<td colspan="4"><input type="text" id="proInspectItemName" readonly></td>
-				</tr>
-				<tr>
-					<td colspan="3">생산일자/검사일자</td>
-					<td colspan="4"><input type="text" id="productionDate" readonly> / <input type="text" id="processDate" readonly></td>
-					<td colspan="3">검사자</td>
-					<td colspan="4">
-					<select id="pqcWorkerList" onchange="">
-						<c:forEach var="list" items="${processInspectList}">
-							<option value="${list.CHILD_TBL_NO}">${list.CHILD_TBL_TYPE}</option>
-						</c:forEach>			
-					</select>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="3">검사기준/검사수량</td>
-					<td colspan="4">KS Q ISO 2859-1</td>
-					<td colspan="3">시료수</td>
-					<td colspan="4"><input type="text" id="processQty">&nbsp;&nbsp;
-					<select id="itemColorType">
-						<option value="화이트">화이트</option>
-						<option value="블랙">블랙</option>
-					</select>
-					</td>
-				</tr>
+					<tr>
+						<td colspan="3">생산라인</td>
+						<td colspan="4"><input type="text" id="proInspectEquipName" readonly></td>
+						<td colspan="3">제품명</td>
+						<td colspan="4"><input type="text" id="proInspectItemName" readonly></td>
+					</tr>
+					<tr>
+						<td colspan="3">생산일자/검사일자</td>
+						<td colspan="4"><input type="text" id="productionDate" readonly> / <input type="text" id="processDate" readonly></td>
+						<td colspan="3">검사자</td>
+						<td colspan="4">
+						<select id="pqcWorkerList" onchange="">
+							<c:forEach var="list" items="${processInspectList}">
+								<option value="${list.CHILD_TBL_NO}">${list.CHILD_TBL_TYPE}</option>
+							</c:forEach>			
+						</select>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3">검사기준/검사수량</td>
+						<td colspan="4">KS Q ISO 2859-1</td>
+						<td colspan="3">시료수</td>
+						<td colspan="4"><input type="text" id="processQty">&nbsp;&nbsp;
+						<select id="itemColorType">
+							<option value="화이트">화이트</option>
+							<option value="블랙">블랙</option>
+						</select>
+						</td>
+					</tr>
 				<tr>
 					<td colspan="3">검사항목</td>
 					<td colspan="4">검사기준</td>
@@ -49,8 +49,8 @@
 				</tr>
 				<tr>
 					<td colspan="3">성상</td>
-					<td colspan="4">(흰색, 검정색)의 3단 가로접이식 본체에 코편이 있고, 양측면에 (흰색, 검정색)의
-					끈이 있는 부직포 마스크
+					<td colspan="4">마스크 좌우 상단, 우 하단에 글자 등 새김이 있는 (흰색, 검정색)의 2단 세로접이식 본체에 표면이 있고,
+					양 측면에 (흰색, 검정색)의 끈이 있는 부직포 마스크
 					<input type="hidden" id="stnd1" style="width: 20%">
 					<input type="hidden" id="stnd2" style="width: 20%">
 					</td>
@@ -144,17 +144,10 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="3">코편</td>
-					<td colspan="4">
-						<input type="text" id="stnd1" style="width: 20%">
-						±
-						<input type="text" id="stnd2" style="width: 20%">
+					<td colspan="3">순도시험</td>
+					<td colspan="9">
+					공인기관 시험성적서 참조
 					</td>
-					<td colspan="1"><input type="text" id="value1"></td>
-					<td colspan="1"><input type="text" id="value2"></td>
-					<td colspan="1"><input type="text" id="value3"></td>
-					<td colspan="1"><input type="text" id="value4"></td>
-					<td colspan="1"><input type="text" id="value5"></td>
 					<td colspan="2">
 						<select id="status">
 							<option value="true">적</option>
@@ -163,17 +156,10 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="3">중량</td>
-					<td colspan="4">
-						<input type="text" id="stnd1" style="width: 20%">
-						±
-						<input type="text" id="stnd2" style="width: 20%">
+					<td colspan="3">분진포집효율</td>
+					<td colspan="9">
+					공인기관 시험성적서 참조
 					</td>
-					<td colspan="1"><input type="text" id="value1"></td>
-					<td colspan="1"><input type="text" id="value2"></td>
-					<td colspan="1"><input type="text" id="value3"></td>
-					<td colspan="1"><input type="text" id="value4"></td>
-					<td colspan="1"><input type="text" id="value5"></td>
 					<td colspan="2">
 						<select id="status">
 							<option value="true">적</option>
@@ -182,19 +168,10 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="3">인장강도</td>
-					<td colspan="4">
-						인장시험기(30 cm/분)로 잡아당겨
-						머리끈과 마스크의 접착부위가 절단될
-						때까지의 최대 하중을 측정할 때, 10N
-						<input type="hidden" id="stnd1" style="width: 20%">
-						<input type="hidden" id="stnd2" style="width: 20%">
+					<td colspan="3">안면부 흡기저항</td>
+					<td colspan="9">
+					공인기관 시험성적서 참조
 					</td>
-					<td colspan="1"><input type="text" id="value1"></td>
-					<td colspan="1"><input type="text" id="value2"></td>
-					<td colspan="1"><input type="text" id="value3"></td>
-					<td colspan="1"><input type="text" id="value4"></td>
-					<td colspan="1"><input type="text" id="value5"></td>
 					<td colspan="2">
 						<select id="status">
 							<option value="true">적</option>
@@ -203,25 +180,62 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="9"><b>최종 검사결과</b></td>
-					<td colspan="5">
-						<select id="result">
-							<option value="true">적합</option>
-							<option value="false">부적합</option>
+					<td colspan="3">이어밴드 접합부 인장강도</td>
+					<td colspan="9">
+					공인기관 시험성적서 참조
+					</td>
+					<td colspan="2">
+						<select id="status">
+							<option value="true">적</option>
+							<option value="false">부</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="14">외관검사</td>
+				</tr>
+				<tr>
+					<td colspan="3">패키지상태</td>
+					<td colspan="6">
+					밀봉상태 및 인쇄상태 확인
+					</td>
+					<td colspan="3"><input type="text"></td>
+					<td colspan="2">
+						<select id="status">
+							<option value="true">적</option>
+							<option value="false">부</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3">박스상태</td>
+					<td colspan="6">
+					테이핑 및 박스포장 상태 확인
+					</td>
+					<td colspan="3"><input type="text"></td>
+					<td colspan="2">
+						<select id="status">
+							<option value="true">적</option>
+							<option value="false">부</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3">포장단위</td>
+					<td colspan="6">
+					보건용, 비말용
+					</td>
+					<td colspan="3"><input type="text"></td>
+					<td colspan="2">
+						<select id="status">
+							<option value="true">적</option>
+							<option value="false">부</option>
 						</select>
 					</td>
 				</tr>
 			</tbody>
-			<tfoot>
-				<tr>
-					<td colspan="3">비고</td>
-					<td colspan="11">
-						<textarea id="processRemark" rows="3" cols="60"></textarea>
-					</td>
-				</tr>
-			</tfoot>
 		</table>
-			</div>
+		</div>
 		</div>
 		<!-- END MAIN -->
 	</div>
