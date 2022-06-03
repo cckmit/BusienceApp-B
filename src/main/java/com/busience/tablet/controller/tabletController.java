@@ -200,4 +200,16 @@ public class tabletController {
 		
 		return "normal/tablet/maskInputTablet";
 	}
+	
+	@GetMapping("/tablet/maskPackagingTablet")
+	public String maskPackagingTablet(Model model, SearchDto searchDto) {
+		if(searchDto.getMachineCode() == null) {
+			searchDto.setMachineCode("M001");
+		}
+		MachineDto machineDto = machineService.selectMachineInfo(searchDto);
+		
+		model.addAttribute("machineInfo", machineDto);
+		
+		return "normal/tablet/maskPackagingTablet";
+	}
 }
