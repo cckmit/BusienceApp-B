@@ -28,4 +28,8 @@ public class maskInputRestController {
 		return maskInputService.crateLotUpdate2(crateLotDto);
 	}
 	
+	@GetMapping("/crateLotRefresh")
+	public int crateLotRefresh(CrateLotDto crateLotDto) {
+		return maskInputService.crateLotRefresh(crateLotDto);
+	}
 }

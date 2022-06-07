@@ -65,6 +65,21 @@
 		ORDER BY clt.CL_Create_Date 
 	</select>
 	
+	<select id="crateLotRefreshSelectDao" resultType="com.busience.tablet.dto.CrateLotDto">
+		SELECT *
+		FROM Crate_Lot_tbl A
+		<![CDATA[
+		where A.CL_Create_Date < (
+		]]>
+			select
+				CL_Create_Date
+			from Crate_Lot_tbl B
+			where B.CL_CrateCode = #{CL_CrateCode}
+			and B.CL_MachineCode = #{CL_MachineCode}
+			and B.CL_Use_Status = 1
+		)
+	</select>
+	
 	<insert id="crateLotSaveDao">
 		insert into Crate_Lot_tbl(
 			CL_LotNo, CL_OrderNo, CL_ItemCode,

@@ -10,14 +10,14 @@
 		SELECT A.WorkOrder_ONo,
 			A.WorkOrder_ItemCode, B.PRODUCT_ITEM_NAME WorkOrder_ItemName, B.PRODUCT_INFO_STND_1 WorkOrder_Item_STND_1,
 			A.WorkOrder_EquipCode, C.EQUIPMENT_INFO_NAME WorkOrder_EquipName,
-			A.WorkOrder_PQty, A.WorkOrder_RQty, A.WorkOrder_CompleteTime, E.Defect_Qty WorkOrder_DQty
+			A.WorkOrder_ProductionQty, A.WorkOrder_AllottedQty, A.WorkOrder_CompleteTime, E.Defect_Qty WorkOrder_DQty
 			FROM (
 				select * from WorkOrder_tbl
 				where WorkOrder_WorkStatus = (select CHILD_TBL_NO from DTL_TBL where NEW_TBL_CODE = '29' and CHILD_TBL_NUM = '4')
                 and WorkOrder_CompleteTime >= #{startDate} and WorkOrder_CompleteTime < #{endDate}
 			) A
-			inner join PRODUCT_INFO_TBL B on A.WorkOrder_ItemCode = B.PRODUCT_ITEM_CODE
-			inner join EQUIPMENT_INFO_TBL C on A.WorkOrder_EquipCode = C.EQUIPMENT_INFO_CODE
+			inner join Product_Info_tbl B on A.WorkOrder_ItemCode = B.PRODUCT_ITEM_CODE
+			inner join Equipment_Info_tbl C on A.WorkOrder_EquipCode = C.EQUIPMENT_INFO_CODE
 			left outer join (
 				SELECT Defect_ONo, sum(Defect_Qty) Defect_Qty FROM defect_tbl group by Defect_ONo
 			) E on A.WorkOrder_ONo = E.Defect_ONo
@@ -27,14 +27,14 @@
 	<select id="defectItemListSelectDao" resultType="com.busience.production.dto.WorkOrderDto">
 	<![CDATA[
 		SELECT	A.WorkOrder_ItemCode, B.PRODUCT_ITEM_NAME WorkOrder_ItemName, B.PRODUCT_INFO_STND_1 WorkOrder_Item_STND_1,
-			sum(A.WorkOrder_PQty) WorkOrder_PQty, sum(A.WorkOrder_RQty) WorkOrder_RQty, A.WorkOrder_CompleteTime,
+			sum(A.WorkOrder_ProductionQty) WorkOrder_ProductionQty, sum(A.WorkOrder_AllottedQty) WorkOrder_AllottedQty, A.WorkOrder_CompleteTime,
             sum(D.Defect_Qty) WorkOrder_DQty
 			FROM (
 				select * from WorkOrder_tbl
 				where WorkOrder_WorkStatus = (select CHILD_TBL_NO from DTL_TBL where NEW_TBL_CODE = '29' and CHILD_TBL_NUM = '4')
                 and WorkOrder_CompleteTime >= #{startDate} and WorkOrder_CompleteTime < #{endDate}
 			) A
-			inner join PRODUCT_INFO_TBL B on A.WorkOrder_ItemCode = B.PRODUCT_ITEM_CODE
+			inner join Product_Info_tbl B on A.WorkOrder_ItemCode = B.PRODUCT_ITEM_CODE
 			left outer join (
 				SELECT Defect_ONo, sum(Defect_Qty) Defect_Qty FROM defect_tbl group by Defect_ONo
 			) D on A.WorkOrder_ONo = D.Defect_ONo
@@ -45,14 +45,14 @@
 	<select id="defectMachineListSelectDao" resultType="com.busience.production.dto.WorkOrderDto">
 	<![CDATA[
 		SELECT	A.WorkOrder_EquipCode, C.EQUIPMENT_INFO_NAME WorkOrder_EquipName,
-			sum(A.WorkOrder_PQty) WorkOrder_PQty, sum(A.WorkOrder_RQty) WorkOrder_RQty, A.WorkOrder_CompleteTime,
+			sum(A.WorkOrder_ProductionQty) WorkOrder_ProductionQty, sum(A.WorkOrder_AllottedQty) WorkOrder_AllottedQty, A.WorkOrder_CompleteTime,
             sum(D.Defect_Qty) WorkOrder_DQty
 			FROM (
 				select * from WorkOrder_tbl
 				where WorkOrder_WorkStatus = (select CHILD_TBL_NO from DTL_TBL where NEW_TBL_CODE = '29' and CHILD_TBL_NUM = '4')
                 and WorkOrder_CompleteTime >= #{startDate} and WorkOrder_CompleteTime < #{endDate}
 			) A
-			inner join EQUIPMENT_INFO_TBL C on A.WorkOrder_EquipCode = C.EQUIPMENT_INFO_CODE
+			inner join Equipment_Info_tbl C on A.WorkOrder_EquipCode = C.EQUIPMENT_INFO_CODE
 			left outer join (
 				SELECT Defect_ONo, sum(Defect_Qty) Defect_Qty FROM defect_tbl group by Defect_ONo
 			) D on A.WorkOrder_ONo = D.Defect_ONo
@@ -62,7 +62,7 @@
 	
 	<select id="defectListSubSelectDao" resultType="com.busience.qc.dto.DefectDto">
 	<![CDATA[
-		select A.WorkOrder_ONo, A.WorkOrder_ItemCode, WorkOrder_EquipCode, sum(A.WorkOrder_RQty) WorkOrder_RQty, A.WorkOrder_CompleteTime, B.Defect_Code, sum(B.Defect_Qty) Defect_Qty
+		select A.WorkOrder_ONo, A.WorkOrder_ItemCode, WorkOrder_EquipCode, sum(A.WorkOrder_AllottedQty) WorkOrder_AllottedQty, A.WorkOrder_CompleteTime, B.Defect_Code, sum(B.Defect_Qty) Defect_Qty
 			from WorkOrder_tbl A
 			inner join (SELECT * FROM defect_tbl) B on A.WorkOrder_ONo = B.Defect_ONo
 			where A.WorkOrder_CompleteTime >= #{startDate} and A.WorkOrder_CompleteTime < #{endDate}

@@ -99,6 +99,6 @@
 	font-size: calc(0.63vw);
 }
 
-.redTest{
-	border: solid 4px red;
+.border-color{
+	border: solid 4px;
 }
