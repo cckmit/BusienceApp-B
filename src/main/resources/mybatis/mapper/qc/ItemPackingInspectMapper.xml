@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.busience.qc.dao.ItemPackingInspectDao">
+
+	<select id="itemPackingInspectListDao" resultType="com.busience.qc.dto.ItemPackingInspectDto">
+		select iit.*, pit.Product_Item_Name as ItemPack_Inspect_ItemName, 
+			dt.Child_TBL_Type as ItemPack_Inspect_Worker_Name, date(iit.ItemPack_Inspect_Date) ItemPack_Inspect_Date
+		from ItemPack_Inspect_tbl iit
+		inner join Product_Info_tbl pit on iit.ItemPack_Inspect_ItemCode = pit.Product_Item_Code
+		inner join DTL_TBL dt on iit.ItemPack_Inspect_Worker = dt.Child_TBL_No
+		where ItemPack_Inspect_LotNo = #{LotNo}
+	</select>
+
+	<insert id="itemPackingInspectInsertDao">
+		insert into ItemPack_Inspect_tbl (
+			ItemPack_Inspect_Number, ItemPack_Inspect_LotNo, ItemPack_Inspect_ItemCode,
+			ItemPack_Inspect_Qty, ItemPack_Inspect_Color, ItemPack_Inspect_Date,
+			ItemPack_Inspect_Worker, ItemPack_Inspect_Value_1, ItemPack_Inspect_Value_2,
+			ItemPack_Inspect_Value_3, ItemPack_Inspect_Value_4, ItemPack_Inspect_Value_5,
+			ItemPack_Inspect_STND_1, ItemPack_Inspect_STND_2, ItemPack_Inspect_Status,
+			ItemPack_Inspect_Result, ItemPack_Inspect_Package_Status,
+			ItemPack_Inspect_Box_Status, ItemPack_Inspect_Packing_Unit,
+			ItemPack_Inspect_Unit_1
+		) values (
+			#{ItemPack_Inspect_Number}, #{ItemPack_Inspect_LotNo}, #{ItemPack_Inspect_ItemCode},
+			#{ItemPack_Inspect_Qty}, #{ItemPack_Inspect_Color}, now(),
+			#{ItemPack_Inspect_Worker}, #{ItemPack_Inspect_Value_1}, #{ItemPack_Inspect_Value_2},
+			#{ItemPack_Inspect_Value_3}, #{ItemPack_Inspect_Value_4}, #{ItemPack_Inspect_Value_5},
+			#{ItemPack_Inspect_STND_1}, #{ItemPack_Inspect_STND_2}, #{ItemPack_Inspect_Status},
+			#{ItemPack_Inspect_Result}, #{ItemPack_Inspect_Package_Status},
+			#{ItemPack_Inspect_Box_Status}, #{ItemPack_Inspect_Packing_Unit},
+			#{ItemPack_Inspect_Unit_1}
+		)
+	</insert>
+</mapper>

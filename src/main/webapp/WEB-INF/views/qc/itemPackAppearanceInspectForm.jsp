@@ -5,12 +5,12 @@
 		<!-- MAIN -->
 		<div class="main">
 			<!-- 그리드 생성 장소 -->
-			<div class="master-table" style="padding-left: 10px; padding-right: 10px;">
+			<div class="master-table" style="width: 360px; padding-left: 15px; padding-top: 20px;">
 			<table class="tg table table-bordered">
 			<tbody>
-				<tr >
-					<td colspan="9"><h5><b>최종 검사결과</b></h5></td>
-					<td colspan="5">
+				<tr>
+					<td colspan="5"><h5><b>최종 검사결과</b></h5></td>
+					<td colspan="3">
 						<select id="result">
 							<option value="true">적합</option>
 							<option value="false">부적합</option>

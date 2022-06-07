@@ -20,7 +20,7 @@
 						<td colspan="3">검사자</td>
 						<td colspan="4">
 						<select id="itemPackingWorkerList" onchange="">
-							<c:forEach var="list" items="${processInspectList}">
+							<c:forEach var="list" items="${itemInspectList}">
 								<option value="${list.CHILD_TBL_NO}">${list.CHILD_TBL_TYPE}</option>
 							</c:forEach>			
 						</select>
@@ -199,7 +199,7 @@
 					<td colspan="6">
 					밀봉상태 및 인쇄상태 확인
 					</td>
-					<td colspan="3"><input type="text"></td>
+					<td colspan="3"><input type="text" id="itemPackgeStatus"></td>
 					<td colspan="2">
 						<select id="status">
 							<option value="true">적</option>
@@ -212,7 +212,7 @@
 					<td colspan="6">
 					테이핑 및 박스포장 상태 확인
 					</td>
-					<td colspan="3"><input type="text"></td>
+					<td colspan="3"><input type="text" id="itemBoxStatus"></td>
 					<td colspan="2">
 						<select id="status">
 							<option value="true">적</option>
@@ -223,9 +223,13 @@
 				<tr>
 					<td colspan="3">포장단위</td>
 					<td colspan="6">
-					보건용, 비말용
+						<select id="unit1">
+							<option value="보건용">보건용</option>
+							<option value="비말용">비말용</option>
+						</select>
+					<!-- 보건용, 비말용 -->
 					</td>
-					<td colspan="3"><input type="text"></td>
+					<td colspan="3"><input type="text" id="itemPacking"></td>
 					<td colspan="2">
 						<select id="status">
 							<option value="true">적</option>

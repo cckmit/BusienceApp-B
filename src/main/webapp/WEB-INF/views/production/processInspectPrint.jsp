@@ -6,7 +6,7 @@
 <div class="main">
 	<div class="container">
 	<br><br><br>
-		<table class="tg table table-bordered"">
+		<table class="tg table table-bordered">
 			<thead>
 				<tr>
 					<td rowspan="3" colspan="5"></td>

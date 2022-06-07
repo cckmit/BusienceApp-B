@@ -24,8 +24,11 @@ public class ItemPackingInspectDto {
 	private String ItemPack_Inspect_STND_2;
 	private String ItemPack_Inspect_Status;
 	private String ItemPack_Inspect_Result;
-	private String ItemPack_Inspect_Remark;
 	private String ItemPack_Inspect_Package_Status;
 	private String ItemPack_Inspect_Box_Status;
-	private String itemPack_Inspect_Packing_Unit;
+	private String ItemPack_Inspect_Packing_Unit;
+	private String ItemPack_Inspect_Unit_1;
+	
+	private String ItemPack_Inspect_Worker_Name;
+	
 }

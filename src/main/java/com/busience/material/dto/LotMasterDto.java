@@ -24,4 +24,7 @@ public class LotMasterDto {
 	private String LM_ItemName;
 	private String LM_STND_1;
 	private String LM_Item_CLSFC_1;
+	
+	// 품질
+	private String LM_Inspect_Code;
 }

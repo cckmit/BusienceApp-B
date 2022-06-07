@@ -2,23 +2,32 @@ var salesItemTable = new Tabulator("#salesItemTable", {
 	pagination: "local",
 	paginationSize: 20,
 	clipboard: true,
-	height: "calc(85% - 85px)",
+	height: "calc(100% - 175px)",
 	headerFilterPlaceholder: null,
 	layoutColumnsOnNewData: true,
 	//행클릭 이벤트
 	rowFormatter: function(row) {
+		// 검사 결과가 존재하면 글자 색을 다르게 넣어줌
+		if(row.getData().lm_Inspect_Code != null) {
+			row.getElement().style.color = "red";
+		}
 	},
 	rowClick: function(e, row) {
 		salesItemTable.deselectRow();
 		row.select();
 	},
 	rowSelected: function(row) {
-		//formClearFunc();
+		formClearFunc();
 		row.select();
-		// 설비명, 제품명, 생산일자
+		// LotNo, 제품명, 생산일자
 		SILForm_Search(row.getData().lm_LotNo, row.getData().lm_ItemName, row.getData().lm_Create_Date);
 		UseBtn();
-		$("#processQty").focus();
+		if(row.getData().lm_Inspect_Code != null) {
+			ResetBtn();
+			// LotNo 조회
+			IP_Search(row.getData().lm_LotNo);
+		}
+		$("#itemInspectQty").focus();
 	},
 	columns: [
 		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center" },
@@ -28,7 +37,8 @@ var salesItemTable = new Tabulator("#salesItemTable", {
 		{ title: "규격1", field: "lm_STND_1", headerHozAlign: "center" },
 		{ title: "품목분류1", field: "lm_Item_CLSFC_1", headerHozAlign: "center" },
 		{ title: "제품수량", field: "lm_Qty", headerHozAlign: "center", hozAlign: "right" },
-		{ title: "제품포장일", field: "lm_Create_Date", headerHozAlign: "center" }
+		{ title: "제품포장일", field: "lm_Create_Date", headerHozAlign: "center" },
+		{ title: "검서결과코드", field:"lm_Inspect_Code", headerHozAlign: "center", visible: false }
 	],
 });
 
@@ -39,13 +49,13 @@ function SIL_Search() {
 		startDate: $("#startDate").val(),
 		endDate: $("#endDate").val(),
 		itemCode: $("#PRODUCT_ITEM_CODE1").val(),
-		LotNo: $("#processLotNo").val()
+		LotNo: $("#itemPackLotNo").val()
 	}
 
-	salesItemTable.setData("itemPackingInspectRest/SIL_Search", datas)
+	salesItemTable.setData("itemPackingInspectRest/SIL_Search", datas) 
 		.then(function() {
 			//list와 stock의 데이터를 없에준다
-			//formClearFunc();
+			formClearFunc();
 			console.log(salesItemTable);
 		})
 }
@@ -54,54 +64,6 @@ $("#SIL_SearchBtn").click(function() {
 	SIL_Search();
 	//PI_Search();
 })
-
-// 출고구분 select를 구성하기위한 ajax
-var output_dtl = dtlSelectList(18);
-
-/*var processInspectTable = new Tabulator("#processInspectTable", {
-	layoutColumnsOnNewData: true,
-	clipboard: true,
-	height: "calc(50% - 90px)",
-	//행을 클릭하면 matLotMasterTable에 리스트가 나타남
-	rowClick: function(e, row) {
-		processInspectTable.deselectRow();
-		row.select();
-	},
-	rowSelected: function(row) {
-		formClearFunc();
-		row.select();
-		//LotNo 검색
-		PIF_Search(row.getData().process_Inspect_LotNo);
-		ResetBtn();
-	},
-	columns: [
-		{ title: "순번", field: "rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum" },
-		{ title: "LotNo", field: "process_Inspect_LotNo", headerHozAlign: "center", hozAlign: "center" },
-		{ title: "품목 코드", field: "process_Inspect_ItemCode", headerHozAlign: "center" },
-		{ title: "품목 명", field: "process_Inspect_ItemName", headerHozAlign: "center" },
-		{ title: "규격1", field: "process_Inspect_STND_NAME_1", headerHozAlign: "center" },
-		{ title: "품목분류1", field: "process_Inspect_Item_Clsfc_Name_1", headerHozAlign: "center" },
-		{ title: "시료수", field: "process_Inspect_Qty", headerHozAlign: "center", hozAlign: "right" },
-		{ title: "설비 코드", field: "process_Inspect_EquipCode", headerHozAlign: "center" },
-		{ title: "설비 명", field: "process_Inspect_EquipName", headerHozAlign: "center" },
-		{ title: "검사 시간", field: "process_Inspect_Date", headerHozAlign: "center" },
-		{ title: "작업자", field: "process_Inspect_Worker", headerHozAlign: "center" }
-	]
-});*/
-
-/*function PI_Search() {
-
-	var datas = {
-		startDate: $("#startDate").val(),
-		endDate: $("#endDate").val(),
-		itemCode: $("#PRODUCT_ITEM_CODE1").val(),
-		machineCode: $("#EQUIPMENT_INFO_CODE").val(),
-		LotNo: $("#processLotNo").val()
-	}
-
-	processInspectTable.setData("processInspectionRest/PI_Search", datas);
-	console.log(processInspectTable);
-}*/
 
 //matInputInspect 정보 삽입
 function SILForm_Search(LotNo, ItemName, packingDate) {
@@ -113,118 +75,122 @@ function SILForm_Search(LotNo, ItemName, packingDate) {
 
 }
 
-function PIF_Search(LotNo) {
+function IP_Search(LotNo) {
+	
 	var datas = {
 		LotNo: LotNo
 	}
-
-	console.log(datas);
-
+	
 	$.ajax({
-		method: "GET",
-		url: "processInspectionRest/PIF_Search",
+		method: "get",
+		url: "itemPackingInspectRest/IP_Search",
 		data: datas,
-		success: function(PIF_datas) {
-			console.log(PIF_datas);
-			$("#proInspectEquipName").val(PIF_datas[0].process_Inspect_EquipName);
-			$("#proInspectItemName").val(PIF_datas[0].process_Inspect_ItemName);
-			$("#productionDate").val(moment(PIF_datas[0].process_Inspect_Create_Date).format("YYYY-MM-DD"));
-			$("#processDate").val(moment(PIF_datas[0].process_Inspect_Date).format("YYYY-MM-DD"));
-			$("#processQty").val(PIF_datas[0].process_Inspect_Qty);
-			$("#processRemark").val(PIF_datas[0].process_Inspect_Remark);
-			document.querySelector('#pqcWorkerList').value = PIF_datas[0].process_Inspect_Worker;
-			document.querySelector('#itemColorType').value = PIF_datas[0].process_Inspect_Color;
-
-			for (var i = 0; i < PIF_datas.length; i++) {
-				document.querySelectorAll('#value1')[i].value = PIF_datas[i].process_Inspect_Value_1;
-				document.querySelectorAll('#value2')[i].value = PIF_datas[i].process_Inspect_Value_2;
-				document.querySelectorAll('#value3')[i].value = PIF_datas[i].process_Inspect_Value_3;
-				document.querySelectorAll('#value4')[i].value = PIF_datas[i].process_Inspect_Value_4;
-				document.querySelectorAll('#value5')[i].value = PIF_datas[i].process_Inspect_Value_5;
-
-				if (PIF_datas[i].process_Inspect_STND_1 != "" && PIF_datas[i].process_Inspect_STND_2 != "") {
-					document.querySelectorAll('#stnd1')[i].value = PIF_datas[i].process_Inspect_STND_1;
-					document.querySelectorAll('#stnd2')[i].value = PIF_datas[i].process_Inspect_STND_2;
+		success: function(IP_datas) {
+			console.log(IP_datas);
+			
+			for(var i=0; i < IP_datas.length; i++) {
+				
+				if(i < 5) {
+					document.querySelectorAll('#value1')[i].value = IP_datas[i].itemPack_Inspect_Value_1;
+					document.querySelectorAll('#value2')[i].value = IP_datas[i].itemPack_Inspect_Value_2;
+					document.querySelectorAll('#value3')[i].value = IP_datas[i].itemPack_Inspect_Value_3;
+					document.querySelectorAll('#value4')[i].value = IP_datas[i].itemPack_Inspect_Value_4;
+					document.querySelectorAll('#value5')[i].value = IP_datas[i].itemPack_Inspect_Value_5;
+					
+					if (IP_datas[i].itemPack_Inspect_STND_1 != "" && IP_datas[i].itemPack_Inspect_STND_2 != "") {
+						document.querySelectorAll('#stnd1')[i].value = IP_datas[i].itemPack_Inspect_STND_1;
+						document.querySelectorAll('#stnd2')[i].value = IP_datas[i].itemPack_Inspect_STND_2;
+					}
 				}
-
-				document.querySelectorAll('#status')[i].value = PIF_datas[i].process_Inspect_Status;
-				document.querySelectorAll('#result')[0].value = PIF_datas[0].process_Inspect_Result;	
-			}
+				
+				document.querySelectorAll('#status')[i].value = IP_datas[i].itemPack_Inspect_Status;
+				document.querySelectorAll('#result')[0].value = IP_datas[0].itemPack_Inspect_Result;	
+				document.querySelector('#itemPackingWorkerList').value = IP_datas[0].itemPack_Inspect_Worker;
+				document.querySelector('#itemColorType').value = IP_datas[0].itemPack_Inspect_Color;
+				document.querySelector('#unit1').value = IP_datas[0].itemPack_Inspect_Unit_1;
+				
+				$("#itemInspectQty").val(IP_datas[0].itemPack_Inspect_Qty);
+				$("#itemPackgeStatus").val(IP_datas[0].itemPack_Inspect_Package_Status);
+				$("#itemBoxStatus").val(IP_datas[0].itemPack_Inspect_Box_Status);
+				$("#itemPacking").val(IP_datas[0].itemPack_Inspect_Packing_Unit);
+				
+			}	
 		}
-	});
+	})
+
+	
 }
 
-function MOM_Search(requestNo, itemCode) {
-	var datas = {
-		om_RequestNo: requestNo,
-		om_ItemCode: itemCode
-	}
-	$.ajax({
-		method: "GET",
-		async: false,
-		url: "matOutputRest/MOM_Search",
-		data: datas,
-		success: function(MOM_datas) {
-			matOutMatTable.setData(MOM_datas);
-		}
-	});
-}
+function IPI_Save() {
 
-function PI_Save() {
+	let values = 12;
+	
+	var selectedRow = salesItemTable.getData("selected");
 
-	let values = 8;
-
-	var selectedRow = crateInspectTable.getData("selected");
-
-	if ($("#proInspectEquipName").val() == "") {
+	if ($("#itemInspectLotNo").val() == "") {
 		alert("검사할 행을 선택해주세요.");
 		return false;
 	}
 
-	if ($("#processQty").val() > selectedRow[0].cl_Qty) {
+	if ($("#itemInspectQty").val() > selectedRow[0].lm_Qty) {
 		alert("시료수가 생산수량보다 많습니다.");
 		return false;
 	}
 
 	for (let j = 0; j < values; j++) {
-		let processInspectData = new Array();
-		let elements_1 = document.querySelectorAll('#value1')[j].value;
-		let elements_2 = document.querySelectorAll('#value2')[j].value;
-		let elements_3 = document.querySelectorAll('#value3')[j].value;
-		let elements_4 = document.querySelectorAll('#value4')[j].value;
-		let elements_5 = document.querySelectorAll('#value5')[j].value;
-		let stndData_1 = document.querySelectorAll('#stnd1')[j].value;
-		let stndData_2 = document.querySelectorAll('#stnd2')[j].value;
+		let itemInspectData = new Array();
+		
+		let elements_1;
+		let elements_2;
+		let elements_3;
+		let elements_4;
+		let elements_5;
+		let stndData_1;
+		let stndData_2;
+		
+		if (j < 5) {
+			
+			elements_1 = document.querySelectorAll('#value1')[j].value;
+			elements_2 = document.querySelectorAll('#value2')[j].value;
+			elements_3 = document.querySelectorAll('#value3')[j].value;
+			elements_4 = document.querySelectorAll('#value4')[j].value;
+			elements_5 = document.querySelectorAll('#value5')[j].value;
+			stndData_1 = document.querySelectorAll('#stnd1')[j].value;
+			stndData_2 = document.querySelectorAll('#stnd2')[j].value;
+		}
+		
 		let statusData = document.querySelectorAll('#status > option:checked')[j].value;
 
-		processInspectData = {
-			process_Inspect_LotNo: selectedRow[0].cl_LotNo,
-			process_Inspect_Number: j + 1,
-			process_Inspect_EquipCode: selectedRow[0].cl_EquipCode,
-			process_Inspect_ItemCode: selectedRow[0].cl_ItemCode,
-			process_Inspect_Qty: $("#processQty").val(),
-			process_Inspect_Color: document.querySelector('#itemColorType > option:checked').value,
-			process_Inspect_Date: $("#processDate").val(),
-			process_Inspect_Worker: document.querySelector('#pqcWorkerList > option:checked').value,
-			process_Inspect_Value_1: elements_1,
-			process_Inspect_Value_2: elements_2,
-			process_Inspect_Value_3: elements_3,
-			process_Inspect_Value_4: elements_4,
-			process_Inspect_Value_5: elements_5,
-			process_Inspect_STND_1: stndData_1,
-			process_Inspect_STND_2: stndData_2,
-			process_Inspect_Status: statusData,
-			process_Inspect_Result: document.querySelector('#result > option:checked').value,
-			process_Inspect_Remark: $("#processRemark").val()
+		itemInspectData = {
+			itemPack_Inspect_LotNo: selectedRow[0].lm_LotNo,
+			itemPack_Inspect_Number: j + 1,
+			itemPack_Inspect_ItemCode: selectedRow[0].lm_ItemCode,
+			itemPack_Inspect_Qty: $("#itemInspectQty").val(),
+			itemPack_Inspect_Color: document.querySelector('#itemColorType > option:checked').value,
+			itemPack_Inspect_Date: $("#itemInspectDate").val(),
+			itemPack_Inspect_Worker: document.querySelector('#itemPackingWorkerList > option:checked').value,
+			itemPack_Inspect_Value_1: elements_1,
+			itemPack_Inspect_Value_2: elements_2,
+			itemPack_Inspect_Value_3: elements_3,
+			itemPack_Inspect_Value_4: elements_4,
+			itemPack_Inspect_Value_5: elements_5,
+			itemPack_Inspect_STND_1: stndData_1,
+			itemPack_Inspect_STND_2: stndData_2,
+			itemPack_Inspect_Status: statusData,
+			itemPack_Inspect_Result: document.querySelector('#result > option:checked').value,
+			itemPack_Inspect_Package_Status: $("#itemPackgeStatus").val(),
+			itemPack_Inspect_Box_Status: $("#itemBoxStatus").val(),
+			itemPack_Inspect_Packing_Unit: $("#itemPacking").val(),
+			itemPack_Inspect_Unit_1: document.querySelector('#unit1 > option:checked').value
 		}
 
-		console.log(processInspectData);
+		console.log(itemInspectData);
 
-		//OrderSub 저장부분
+		//itemPacking 저장부분
 		$.ajax({
 			method: "post",
-			url: "processInspectionRest/PI_Save",
-			data: processInspectData,
+			url: "itemPackingInspectRest/IPI_Save",
+			data: itemInspectData,
 			beforeSend: function(xhr) {
 				var header = $("meta[name='_csrf_header']").attr("content");
 				var token = $("meta[name='_csrf']").attr("content");
@@ -237,8 +203,7 @@ function PI_Save() {
 						$(this).off();
 					})
 					formClearFunc();
-					CI_Search();
-					PI_Search();
+					SIL_Search();
 				} else {
 					alert("중복된 값이 존재합니다.")
 				}
@@ -247,56 +212,62 @@ function PI_Save() {
 	}
 }
 
-function PI_SaveBtn() {
-	PI_Save();
+function IPI_SaveBtn() {
+	IPI_Save();
 }
-
 
 // 입력 폼 clear
 function formClearFunc() {
-	$("#proInspectEquipName").val("");
-	$("#proInspectItemName").val("");
-	$("#productionDate").val("");
-	$("#processDate").val("");
-	$("#processQty").val("");
+	$("#itemInspectLotNo").val("");
+	$("#itemInspectItemName").val("");
+	$("#itemPackingDate").val("");
+	$("#itemInspectDate").val("");
+	$("#itemInspectQty").val("");
 
-	let values = 8;
+	let values = 12;
 
 	for (var i = 0; i < values; i++) {
-		document.querySelectorAll('#value1')[i].value = "";
-		document.querySelectorAll('#value2')[i].value = "";
-		document.querySelectorAll('#value3')[i].value = "";
-		document.querySelectorAll('#value4')[i].value = "";
-		document.querySelectorAll('#value5')[i].value = "";
-		document.querySelectorAll('#stnd1')[i].value = "";
-		document.querySelectorAll('#stnd2')[i].value = "";
+		
+		if(i < 5) {
+			document.querySelectorAll('#value1')[i].value = "";
+			document.querySelectorAll('#value2')[i].value = "";
+			document.querySelectorAll('#value3')[i].value = "";
+			document.querySelectorAll('#value4')[i].value = "";
+			document.querySelectorAll('#value5')[i].value = "";
+			document.querySelectorAll('#stnd1')[i].value = "";
+			document.querySelectorAll('#stnd2')[i].value = "";
+		}
+		
 		document.querySelectorAll('#status')[i].value = true;
 	}
 
-	document.querySelector('#pqcWorkerList').value = '327';
+	document.querySelector('#itemPackingWorkerList').value = '231';
 	document.querySelector('#itemColorType').value = '화이트';
+	document.querySelector('#unit1').value = '보건용';
 	document.querySelector('#result').value = true;
 
-	$("#processRemark").val("");
+	$("#itemPackgeStatus").val("");
+	$("#itemBoxStatus").val("");
+	$("#itemPacking").val("");
 
 }
 
-//SOM_SaveBtn
-$('#PI_SaveBtn').click(function() {
-	PI_Save();
+//itemPacking_SaveBtn
+$('#IPI_SaveBtn').click(function() {
+	IPI_Save();
 })
 
-//MO_PrintBtn
-$('#PI_PrintBtn').click(function() {
-	PI_print();
+//itemPacking_PrintBtn
+$('#IPI_PrintBtn').click(function() {
+	IPI_print();
 })
 
 //orderprint
-function PI_print() {
+function IPI_print() {
 	//창의 주소
-	var url = "processInspectPrint";
+	var url = "itemPackingInspectPrint";
 	//창의 이름
-	var name = "processInspectPrint";
+	var name = "itemPackingInspectPrint";
 	//창의 css
 	var option = "width = 1000, height = 800, top = 50, left = 440, location = top";
 

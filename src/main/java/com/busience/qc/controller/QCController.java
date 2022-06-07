@@ -1,5 +1,7 @@
 package com.busience.qc.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,8 +18,14 @@ public class QCController {
 	// itemPackingInspect
 	@GetMapping("/itemPackingInspect")
 	public String itemPackingInspect(Model model) {
+		model.addAttribute("itemInspectList", dtlService.getDtl(24));
 		model.addAttribute("pageName", "제품 포장 검사");
 		return "qc/itemPackingInspect";
+	}
+	
+	@GetMapping("itemPackingInspectPrint")
+	public String itemPackingInspectPrint(HttpServletRequest request) {
+		return "normal/qc/itemPackingInspectPrint";
 	}
 
 	// oqcOutputInspect
