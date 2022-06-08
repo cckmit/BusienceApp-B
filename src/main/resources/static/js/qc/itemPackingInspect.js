@@ -136,6 +136,8 @@ function IPI_Save() {
 		alert("시료수가 생산수량보다 많습니다.");
 		return false;
 	}
+	
+	let dataList = new Array();
 
 	for (let j = 0; j < values; j++) {
 		let itemInspectData = new Array();
@@ -184,19 +186,24 @@ function IPI_Save() {
 			itemPack_Inspect_Unit_1: document.querySelector('#unit1 > option:checked').value
 		}
 
-		console.log(itemInspectData);
-
-		//itemPacking 저장부분
+		dataList.push(itemInspectData);
+	}
+	
+	console.log(dataList.length);
+	
+			//itemPacking 저장부분
 		$.ajax({
 			method: "post",
 			url: "itemPackingInspectRest/IPI_Save",
-			data: itemInspectData,
+			data: JSON.stringify(dataList),
+			contentType: 'application/json',
 			beforeSend: function(xhr) {
 				var header = $("meta[name='_csrf_header']").attr("content");
 				var token = $("meta[name='_csrf']").attr("content");
 				xhr.setRequestHeader(header, token);
 			},
 			success: function(result) {
+				console.log(result);
 				if (result) {
 					$(function() {
 						alert("저장되었씁니다.");
@@ -209,7 +216,6 @@ function IPI_Save() {
 				}
 			}
 		});
-	}
 }
 
 function IPI_SaveBtn() {

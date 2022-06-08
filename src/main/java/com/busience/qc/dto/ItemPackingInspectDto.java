@@ -2,9 +2,11 @@ package com.busience.qc.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class ItemPackingInspectDto {
 
 	private int ItemPack_Inspect_Number;

@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import com.busience.common.dto.SearchDto;
 import com.busience.material.dao.LotMasterDao;
@@ -20,6 +23,9 @@ public class ItemPackingInspectService {
 	@Autowired
 	ItemPackingInspectDao itemPackingInspectDao;
 	
+	@Autowired
+	TransactionTemplate transactionTemplate;
+	
 	// 완제품 데이터 조회
 	public List<LotMasterDto> salesItemListDao(SearchDto searchDto) {
 		return lotMasterDao.salesItemListDao(searchDto);
@@ -30,7 +36,29 @@ public class ItemPackingInspectService {
 		return itemPackingInspectDao.itemPackingInspectListDao(searchDto);
 	}
 	
-	public int itemPackingInspectInsertDao(ItemPackingInspectDto itemPackingInspectDto) {
-		return itemPackingInspectDao.itemPackingInspectInsertDao(itemPackingInspectDto);
+	public int itemPackingInspectInsertDao(List<ItemPackingInspectDto> dataList, ItemPackingInspectDto itemPackingInspectDto) {
+		
+		try {
+			
+			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					// TODO Auto-generated method stub
+					
+					for(int i=0; i<dataList.size(); i++) {
+						//System.out.println(dataList.get(i));
+						itemPackingInspectDao.itemPackingInspectInsertDao(dataList.get(i));
+					}
+				}
+			});
+			
+			return 1;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+		
 	}
 }
