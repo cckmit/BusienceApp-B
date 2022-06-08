@@ -8,9 +8,9 @@ function nextFocus(next) {
 //입력 및 업데이트 할 리스트
 var pickValue = ["equipment_BUSINESS_PLACE_NAME", "equipment_INFO_CODE", "equipment_INFO_NAME",
 					"equipment_INFO_ABR", "equipment_HEIGHT", "equipment_WIDTH",
-					"equipment_DEPTH", "equipment_SERIAL_NUM", "equipment_WEIGHT",
-					"equipment_RECEIVED_D", "equipment_MODEL_YEAR", "equipment_MANUFACTURER", "equipment_STATUS_NAME",
-					"equipment_INFO_RMARK", "equipment_USE_STATUS", "equipment_MODIFY_D",
+					"equipment_DEPTH", "equipment_SERIAL_NUM", "equipment_RECEIVED_D",
+					"equipment_TYPE", "equipment_MODEL_YEAR", "equipment_MANUFACTURER",
+					"equipment_STATUS_NAME", "equipment_INFO_RMARK", "equipment_USE_STATUS", "equipment_MODIFY_D",
 					"equipment_MODIFIER"];
 
 
@@ -100,8 +100,8 @@ function machineRegister() {
 		EQUIPMENT_WIDTH: $("#equipment_WIDTH").val(),
 		EQUIPMENT_DEPTH: $("#equipment_DEPTH").val(),
 		EQUIPMENT_SERIAL_NUM: $("#equipment_SERIAL_NUM").val(),
-		EQUIPMENT_WEIGHT: $("#equipment_WEIGHT").val(),
 		EQUIPMENT_RECEIVED_D: $("#equipment_RECEIVED_D").val(),
+		EQUIPMENT_TYPE: $("#equipment_TYPE").val(),
 		EQUIPMENT_MODEL_YEAR: $("#E#equipment_DEL_YEAR").val(),
 		EQUIPMENT_MANUFACTURER: $("#equipment_MANUFACTURER").val(),
 		EQUIPMENT_STATUS: $("#equipment_STATUS").val(),
@@ -180,8 +180,8 @@ function machineModify() {
 		EQUIPMENT_WIDTH: $("#equipment_WIDTH").val(),
 		EQUIPMENT_DEPTH: $("#equipment_DEPTH").val(),
 		EQUIPMENT_SERIAL_NUM: $("#equipment_SERIAL_NUM").val(),
-		EQUIPMENT_WEIGHT: $("#equipment_WEIGHT").val(),
 		EQUIPMENT_RECEIVED_D: $("#equipment_RECEIVED_D").val(),
+		EQUIPMENT_TYPE: $("#equipment_TYPE").val(),
 		EQUIPMENT_MODEL_YEAR: $("#equipment_MODEL_YEAR").val(),
 		EQUIPMENT_MANUFACTURER: $("#equipment_MANUFACTURER").val(),
 		EQUIPMENT_STATUS: $("#equipment_STATUS").val(),

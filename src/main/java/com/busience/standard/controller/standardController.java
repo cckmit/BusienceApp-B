@@ -109,6 +109,10 @@ public class standardController {
 		int equipmentStatus = 12;
 		model.addAttribute("equipmentStatusList", dtlService.getDtl(equipmentStatus));
 		
+		//설비종류
+		int equipmentType = 43;
+		model.addAttribute("equipmentTypeList", dtlService.getDtl(equipmentType));
+		
 		model.addAttribute("pageName", "설비 정보 관리");
 		
 		return "standard/machineManage";
