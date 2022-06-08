@@ -1,3 +1,6 @@
+body {
+	background-color: white;
+}
 
 .tg {
 	width: 100%;
@@ -18,28 +21,36 @@
 	text-align: center;
 }
 
-#machineLine {
-	width: 200px;
+#subitemInspectLotNo {
+	width: 150px;
 }
 
-#itemPackingDate {
+#subitemInspectItemName {
+	width: 150px;
+}
+
+#subitemPackingDate {
 	width: 80px;
 }
 
-#itemInspectDate {
+#subitemInspectDate {
 	width: 80px;
 }
 
-#itemInspectQty {
+#subitemInspectQty {
+	width: 60px;
+}
+
+#subitemColorType {
 	width: 80px;
 }
 
-#itemPackingWorkerList {
-	width: 230px;
+#subitemPackingWorkerList {
+	width: 150px;
 }
 
-#processLotNo {
-	width: 170px;
+#subunit1 {
+	width: 80px;
 }
 
 #unit1 {
@@ -51,6 +62,7 @@ select {
 }
 
 .tg input, .tg textarea {
+	border: none;
 	width: 100%;
 	resize: none;
 	text-align: left !important;
