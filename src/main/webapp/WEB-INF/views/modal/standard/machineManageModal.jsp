@@ -9,10 +9,10 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<img class="insert" src="/images/modal/inputHeader.jpg" alt=""
-					style="width: 40%; height: auto;" loading="lazy"
+					style="width: 40%; height: auto;"
 					style="position: relative;"> <img class="modify"
 					src="/images/modal/updateDeleteHeader.jpg" alt=""
-					style="width: 40%; height: auto;" loading="lazy"
+					style="width: 40%; height: auto;"
 					style="position: relative;">
 			</div>
 			<div class="modal-body">
@@ -91,12 +91,22 @@
 								style="width: 80%; height: 25px;"
 								OnKeyDown="nextFocus('equipment_RECEIVED_D')" value="0">
 						</div>
-						<br> <br> <label class="col-sm-2 control-label"
-							for="equipment_DEPTH">&nbsp;&nbsp;설&nbsp;비&nbsp;깊&nbsp;이</label>
+						<br> <br>
+						<label class="col-sm-2 control-label" for="equipment_DEPTH">&nbsp;&nbsp;설&nbsp;비&nbsp;깊&nbsp;이</label>
 						<div class="col-sm-3">
 							<input type="text" id="equipment_DEPTH"
 								style="width: 80%; height: 25px;"
-								OnKeyDown="nextFocus('equipment_SERIAL_NUM')" value="0">
+								OnKeyDown="nextFocus('equipment_TYPE')" value="0">
+						</div>
+						<div class="col-sm-1"></div>
+						<label class="col-sm-2 control-label" for="equipment_DEPTH">&nbsp;&nbsp;설&nbsp;비&nbsp;종&nbsp;류</label>
+						<div class="col-sm-3">
+							<select id="equipment_TYPE" style="width: 80%; height: 25px;"
+								OnKeyDown="nextFocus('equipment_SERIAL_NUM')">
+								<c:forEach var="data" items="${equipmentTypeList}">
+									<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>
+								</c:forEach>
+							</select>
 						</div>
 					</fieldset>
 					<br>

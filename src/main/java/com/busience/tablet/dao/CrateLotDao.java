@@ -10,6 +10,9 @@ import com.busience.tablet.dto.CrateLotDto;
 @Mapper
 public interface CrateLotDao {
 
+	//포장설비 조회
+	public List<CrateLotDto> crateMachineSelectDao(SearchDto searchDto);
+	
 	//조회
 	public List<CrateLotDto> crateLotSelectDao(SearchDto searchDto);
 	

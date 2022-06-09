@@ -5,6 +5,16 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="com.busience.tablet.dao.CrateLotDao">
+	<select id="crateMachineSelectDao" resultType="com.busience.tablet.dto.CrateLotDto">
+		SELECT
+			CL_LotNo, CL_OrderNo, CL_ItemCode,
+		    CL_CrateCode, CL_Qty, CL_Create_Date,
+		    CL_Use_Status
+		FROM Crate_Lot_tbl
+		where CL_OrderNo = #{OrderNo}
+		and CL_Use_Status = 1
+	</select>
+
 	<select id="crateLotSelectDao" resultType="com.busience.tablet.dto.CrateLotDto">
 		SELECT
 			CL_LotNo, CL_OrderNo, CL_ItemCode,
@@ -40,7 +50,9 @@
 		FROM Crate_Lot_tbl A
 		inner join Product_Info_tbl B on A.CL_ItemCode = B.Product_Item_Code
 		where A.CL_MachineCode = #{machineCode}
-		and A.CL_Use_Status = 1
+		and A.CL_Qty > 0
+		and A.CL_Use_Status = 0
+
 	</select>
 	
 	<select id="crateInspectSelectDao" resultType="com.busience.tablet.dto.CrateLotDto">
@@ -102,7 +114,8 @@
 	<update id="crateLotQtyUpdateDao">
 		update Crate_Lot_tbl
 		set
-		CL_Qty = CL_Qty + #{CL_Qty}
+		CL_Qty = CL_Qty + #{CL_Qty},
+		CL_ProductionQty = CL_Qty
 		where CL_LotNo = #{CL_LotNo}
 	</update>
 	
@@ -111,6 +124,6 @@
 		set
 		CL_MachineCode = #{CL_MachineCode}
 		where CL_CrateCode = #{CL_CrateCode}
-		and CL_Use_Status = true
+		and CL_Qty > 0
 	</update>
 </mapper>

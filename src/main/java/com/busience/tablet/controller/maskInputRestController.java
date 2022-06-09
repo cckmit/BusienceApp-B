@@ -18,6 +18,11 @@ public class maskInputRestController {
 	@Autowired
 	MaskInputService maskInputService;
 		
+	@GetMapping("/crateMachineSelect")
+	public List<CrateLotDto> crateMachineSelect(SearchDto searchDto) {
+		return maskInputService.crateMachineSelect(searchDto);
+	}
+	
 	@GetMapping("/crateLotListSelect")
 	public List<CrateLotDto> crateLotListSelect(SearchDto searchDto) {
 		return maskInputService.crateLotListSelect(searchDto);
