@@ -54,4 +54,24 @@ public class MachineDto {
 	private String EQUIPMENT_MODIFY_D;
 	
 	private String EQUIPMENT_MODIFIER;
+	
+	// 작업지시 등록 프로그램에서 필요
+	
+	private String WorkOrder_EquipCode;
+	
+	private String WorkOrder_EquipName;
+	
+	private String WorkOrder_ONo;
+	
+	private String WorkOrder_ItemCode;
+	
+	private String WorkOrder_ItemName;
+	
+	private String WorkOrder_RegisterTime;
+	
+	private String WorkOrder_Remark;
+	
+	private String WorkOrder_WorkStatus_Name;
+	
+	private boolean WorkOrder_Use_Status;
 }

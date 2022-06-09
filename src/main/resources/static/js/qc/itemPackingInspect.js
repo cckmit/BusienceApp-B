@@ -189,7 +189,7 @@ function IPI_Save() {
 		dataList.push(itemInspectData);
 	}
 	
-	console.log(dataList.length);
+	//console.log(dataList.length);
 	
 			//itemPacking 저장부분
 		$.ajax({
@@ -203,12 +203,9 @@ function IPI_Save() {
 				xhr.setRequestHeader(header, token);
 			},
 			success: function(result) {
-				console.log(result);
+				//console.log(result);
 				if (result) {
-					$(function() {
-						alert("저장되었씁니다.");
-						$(this).off();
-					})
+					alert("저장되었씁니다.");
 					formClearFunc();
 					SIL_Search();
 				} else {

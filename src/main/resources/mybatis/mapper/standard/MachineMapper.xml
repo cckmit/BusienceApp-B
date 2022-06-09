@@ -57,26 +57,28 @@
 	</select>
 	
  	<select id="dtlMachineListDao" resultType="com.busience.standard.dto.MachineDto">
-			<if test="EQUIPMENT_TYPE == 1">
-			select eit.Equipment_info_Code, eit.Equipment_info_Name, eit.Equipment_info_ABR, eit.Equipment_Type,
-				wot.WorkOrder_ONo, dt.CHILD_TBL_TYPE as EQUIPMENT_TYPE_NAME
+ 			select eit.Equipment_info_Code workOrder_EquipCode, eit.Equipment_info_Name workOrder_EquipName, eit.Equipment_info_ABR, eit.Equipment_Type,
+				wot.WorkOrder_ONo, wot.WorkOrder_ItemCode, pit.Product_Item_Name WorkOrder_ItemName, wot.WorkOrder_RegisterTime, wot.WorkOrder_Remark, wot.WorkOrder_WorkStatus, 
+				dt2.Child_TBL_Type WorkOrder_WorkStatus_Name
 			from Equipment_Info_tbl eit
 			inner join (
 				select * from DTL_TBL where NEW_TBL_CODE=43
 			) dt on eit.Equipment_Type = dt.CHILD_TBL_NO
 			left outer join WorkOrder_tbl wot ON eit.Equipment_Info_Code = wot.WorkOrder_EquipCode
-			where Equipment_Type = 324 and wot.WorkOrder_ONo IS null
+			left outer join DTL_TBL dt2 ON wot.WorkOrder_WorkStatus = dt2.Child_TBL_No
+			left outer join Product_Info_tbl pit ON wot.WorkOrder_ItemCode = pit.Product_Item_Code
+
+			<if test="EQUIPMENT_TYPE == 1">
+			where Equipment_Type = 324 
 			</if>
 			<if test="EQUIPMENT_TYPE == 2">
-			select eit.Equipment_info_Code EQUIPMENT_PACK_CODE, eit.Equipment_info_Name EQUIPMENT_PACK_NAME, eit.Equipment_info_ABR, eit.Equipment_Type,
-				wot.WorkOrder_ONo, dt.CHILD_TBL_TYPE as EQUIPMENT_TYPE_NAME
-			from Equipment_Info_tbl eit
-			inner join (
-				select * from DTL_TBL where NEW_TBL_CODE=43
-			) dt on eit.Equipment_Type = dt.CHILD_TBL_NO
-			left outer join WorkOrder_tbl wot ON eit.Equipment_Info_Code = wot.WorkOrder_EquipCode
-			where Equipment_Type = 325 and wot.WorkOrder_ONo IS null
+			where Equipment_Type = 325
 			</if>		
+			<if test="EQUIPMENT_TYPE == 3">
+			where Equipment_Type = 330
+			</if>	
+			and (wot.WorkOrder_ONo != '245' or wot.WorkOrder_ONo IS NULL)
+			order by WorkOrder_RegisterTime 
 	</select> 
 	<insert id="insertMachineDao">
 		insert into Equipment_Info_tbl values(
