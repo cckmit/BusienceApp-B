@@ -178,6 +178,12 @@ public class workOrderRestController {
 		return workOrderService.workOrderChoiceSelectDao(searchDto);
 	}
 	
+	//작업종료 update
+	@PostMapping("/workOrderUpdate")
+	public int workOrderUpdate(WorkOrderDto workOrderDto, Principal principal) {
+		return workOrderService.workOrderFinalUpdate(workOrderDto, principal.getName());
+	}
+	
 	//작업지시 삭제
 	@PostMapping("/workOrderDelete")
 	public int workOrderDelete(WorkOrderDto workOrderDto) {

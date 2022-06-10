@@ -264,6 +264,14 @@ public class WorkOrderService {
 		}
 	}
 	
+	//작업종료
+	public int workOrderFinalUpdate(WorkOrderDto workOrderDto, String modifier) {
+		
+		workOrderDto.setWorkOrder_Worker(modifier);
+		
+		return workOrderDao.workOrderFinalUpdate(workOrderDto);
+	}
+	
 	public int workOrderQtyUpdate(WorkOrderDto workOrderDto) {
 		return workOrderDao.workOrderQtyUpdateDao(workOrderDto);
 	}

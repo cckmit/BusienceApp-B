@@ -1,20 +1,29 @@
 //셀위치저장
 var cellPos = new Array();
 
+function printFormatter(cell, formatterParams, onRendered){
+    return cell.getValue() == 1 ? "true" : "false";
+}
+
 let maskEquipTable = new Tabulator("#maskEquipTable", {
 	//페이징
 	height: "calc(100% - 175px)",
 	layoutColumnsOnNewData: true,
 	selectable: true,
+	rowFormatter: function(row) {
+		if (row.getData().workOrder_ONo != null)
+			row.getElement().style.color = "blue";
+	},
 	rowClick: function(e, row) {
-		row.select();
+		let selected = row.isSelected();
+		if(selected == false) {
+			row.deselect();
+		} else {
+			row.select();
+		}
 	},
 	rowSelected: function(row, cell) {
 		cellPos.push(row.getCell("workOrder_EquipCode"));
-		console.log(cellPos);
-	},
-	rowAdded: function(row) {
-		
 	},
 	columns: [
 		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
@@ -26,7 +35,7 @@ let maskEquipTable = new Tabulator("#maskEquipTable", {
 		{ title: "등록일", field: "workOrder_RegisterTime", align: "right", headerHozAlign: "center" },
 		{ title: "특이사항", field: "workOrder_Remark", headerHozAlign: "center", editor: "input"	},
 		{ title: "작업상태", field: "workOrder_WorkStatus_Name", headerHozAlign: "center", align:"center"},
-		{ title: "사용유무", field: "workOrder_Use_Status", headerHozAlign: "center", align: "center", formatter: "tickCross", editor: true },
+		{ title: "사용유무", field: "workOrder_Use_Status", headerHozAlign: "center", align: "center", editor: 'select', editorParams: { values: { "true": "사용", "false": "미사용" }}, formatter: "tickCross"},
 		{ title: "상태", field: "status", headerHozAlign: "center" }
 	]
 });
@@ -36,18 +45,20 @@ let packEquipTable = new Tabulator("#packEquipTable", {
 	height: "calc(100% - 175px)",
 	layoutColumnsOnNewData: true,
 	selectable: true,
+	rowFormatter: function(row) {
+		if (row.getData().workOrder_ONo != null)
+			row.getElement().style.color = "blue";
+	},
 	rowClick: function(e, row) {
-		row.select();
+		let selected = row.isSelected();
+		if(selected == false) {
+			row.deselect();
+		} else {
+			row.select();
+		}
 	},
 	rowSelected: function(row, cell) {
 		cellPos.push(row.getCell("workOrder_EquipCode"));
-	},
-	rowAdded: function(row) {
-		if(row.getData().workOrder_ONo == undefined && row.getData().workOrder_ItemCode == undefined) {
-			row.update({
-				"workOrder_Use_Status": "true"
-			})	
-		}
 	},
 	columns: [
 		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
@@ -59,7 +70,7 @@ let packEquipTable = new Tabulator("#packEquipTable", {
 		{ title: "등록일", field: "workOrder_RegisterTime", align: "right", headerHozAlign: "center" },
 		{ title: "특이사항", field: "workOrder_Remark", headerHozAlign: "center", editor: "input"	},
 		{ title: "작업상태", field: "workOrder_WorkStatus_Name", headerHozAlign: "center", align:"center"},
-		{ title: "사용유무", field: "workOrder_Use_Status", headerHozAlign: "center", align: "center", formatter: "tickCross", editor: true },
+		{ title: "사용유무", field: "workOrder_Use_Status", headerHozAlign: "center", align: "center", formatter: "tickCross", editor: 'select', editorParams: { values: { "true": "사용", "false": "미사용" }}},
 		{ title: "상태", field: "status", headerHozAlign: "center" }
 	]
 });
@@ -68,18 +79,20 @@ let labelEquipTable = new Tabulator("#labelEquipTable", {
 	height: "calc(100% - 175px)",
 	layoutColumnsOnNewData: true,
 	selectable: true,
+	rowFormatter: function(row) {
+		if (row.getData().workOrder_ONo != null)
+			row.getElement().style.color = "blue";
+	},
 	rowClick: function(e, row) {
-		row.select();
+		let selected = row.isSelected();
+		if(selected == false) {
+			row.deselect();
+		} else {
+			row.select();
+		}
 	},
 	rowSelected: function(row, cell) {
 		cellPos.push(row.getCell("workOrder_EquipCode"));
-	},
-	rowAdded: function(row) {
-		if(row.getData().workOrder_ONo == undefined && row.getData().workOrder_ItemCode == undefined) {
-			row.update({
-				"workOrder_Use_Status": "true"
-			})	
-		}
 	},
 	columns: [
 		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
@@ -91,7 +104,7 @@ let labelEquipTable = new Tabulator("#labelEquipTable", {
 		{ title: "등록일", field: "workOrder_RegisterTime", align: "right", headerHozAlign: "center" },
 		{ title: "특이사항", field: "workOrder_Remark", headerHozAlign: "center", editor: "input"	},
 		{ title: "작업상태", field: "workOrder_WorkStatus_Name", headerHozAlign: "center", align:"center"},
-		{ title: "사용유무", field: "workOrder_Use_Status", headerHozAlign: "center", align: "center", formatter: "tickCross", editor: true },
+		{ title: "사용유무", field: "workOrder_Use_Status", headerHozAlign: "center", align: "center", formatter: "tickCross", editor: 'select', editorParams: { values: { "true": "사용", "false": "미사용" }}, formatterPrint:printFormatter },
 		{ title: "상태", field: "status", headerHozAlign: "center" }
 	]
 });
@@ -148,7 +161,6 @@ function item_gridInit(code, name) {
 function WO_Save() {
 	
 	let selectedData = new Array();
-	
 		
 	if(cellPos.length == 0) {
 		alert("선택된 행이 없습니다.");
@@ -156,7 +168,19 @@ function WO_Save() {
 	
 	for (let i = 0; i < cellPos.length; i++) {
 		if(cellPos[i].getRow().getData().status == 1) {
-			selectedData.push(cellPos[i].getRow().getData());
+			if(cellPos[i].getRow().getData().workOrder_ONo != null) {
+				if(confirm("기존 작업이 종료됩니다. 계속하시겠습니까?")) {
+					selectedData.push(cellPos[i].getRow().getData());
+					$.when(delChkFunc(selectedData))
+					.then(function(data) {
+						if(data.length > 0) {
+							alert("저장되었습니다.");
+						}
+					})
+				} 
+			} else {
+				selectedData.push(cellPos[i].getRow().getData());
+			}
 		}
 	}
 	
@@ -165,6 +189,12 @@ function WO_Save() {
 	if(selectedData.length == 0) {
 		alert("제품코드가 입력되지 않은 행이 존재합니다.");
 		return;
+	}
+	
+	for(let j=0; j< selectedData.length; j++) {
+		if(selectedData[j].workOrder_ONo != null) {
+			
+		}
 	}
 
 	//console.log(datas);
@@ -191,17 +221,22 @@ function WO_Save() {
 	});
 }
 
-function deleteChkFunc(equip) {
+function delChkFunc(workOrderNo) {
 
 	datas = {
-		MachineCode: equip
+		WorkOrder_ONo: workOrderNo
 	}
 
 	var resultData = $.ajax({
-		method: "get",
+		method: "post",
 		async: false,
-		url: "workOrderRest/workOrderChoice",
+		url: "workOrderRest/workOrderUpdate",
 		data: datas,
+		beforeSend: function(xhr) {
+			var header = $("meta[name='_csrf_header']").attr("content");
+			var token = $("meta[name='_csrf']").attr("content");
+			xhr.setRequestHeader(header, token);
+		},
 		success: function(result) {
 			resultData = result;
 		}
@@ -274,8 +309,8 @@ $(document).ready(function() {
 	.then(function(){
 		rowCount = maskEquipTable.getDataCount("active");
 		for(let i=0; i<rowCount; i++) {
-			if((maskEquipTable.getRows()[i].getData().workOrder_ONo == undefined && 
-			maskEquipTable.getRows()[i].getData().workOrder_ItemCode == undefined ) {
+			if(maskEquipTable.getRows()[i].getData().workOrder_ONo == undefined && 
+			maskEquipTable.getRows()[i].getData().workOrder_ItemCode == undefined) {
 				maskEquipTable.getRows()[i].update({
 					"workOrder_Use_Status": "true"
 				})	
@@ -311,4 +346,5 @@ $(document).ready(function() {
 		}
 		
 	})
+	
 })

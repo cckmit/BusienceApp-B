@@ -73,5 +73,5 @@ public class MachineDto {
 	
 	private String WorkOrder_WorkStatus_Name;
 	
-	private boolean WorkOrder_Use_Status;
+	private String WorkOrder_Use_Status;
 }

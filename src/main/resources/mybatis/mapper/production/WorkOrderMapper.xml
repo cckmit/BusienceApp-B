@@ -401,6 +401,14 @@
 			where WorkOrder_ONo = #{WorkOrder_ONo}
 	</update>
 	
+	<update id="workOrderFinalUpdate">
+		update WorkOrder_tbl
+		set WorkOrder_WorkStatus = '245', WorkOrder_ReceiptTime = NOW(),
+			WorkOrder_StartTime = NOW(), WorkOrder_CompleteTime = NOW(),
+   		    WorkOrder_Worker = #{WorkOrder_Worker}
+        where workOrder_ONo = #{WorkOrder_ONo}
+	</update>
+	
 	<select id="workOrderMonitoringSelectDao" resultType="com.busience.production.dto.WorkOrderDto">
 		select 
 			A.WorkOrder_No, A.WorkOrder_ONo,

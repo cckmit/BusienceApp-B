@@ -69,4 +69,7 @@ public interface WorkOrderDao {
 	public int workOrderStatusUpdateDao(WorkOrderDto workOrderDto);
 	
 	public List<WorkOrderDto> workOrderMonitoringSelectDao(SearchDto searchDto);
+	
+	//작업종료
+	public int workOrderFinalUpdate(WorkOrderDto workOrderDto);
 }

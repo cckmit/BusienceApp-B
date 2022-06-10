@@ -59,7 +59,7 @@
  	<select id="dtlMachineListDao" resultType="com.busience.standard.dto.MachineDto">
  			select eit.Equipment_info_Code workOrder_EquipCode, eit.Equipment_info_Name workOrder_EquipName, eit.Equipment_info_ABR, eit.Equipment_Type,
 				wot.WorkOrder_ONo, wot.WorkOrder_ItemCode, pit.Product_Item_Name WorkOrder_ItemName, wot.WorkOrder_RegisterTime, wot.WorkOrder_Remark, wot.WorkOrder_WorkStatus, 
-				dt2.Child_TBL_Type WorkOrder_WorkStatus_Name
+				dt2.Child_TBL_Type WorkOrder_WorkStatus_Name, wot.WorkOrder_Use_Status
 			from Equipment_Info_tbl eit
 			inner join (
 				select * from DTL_TBL where NEW_TBL_CODE=43
@@ -67,7 +67,6 @@
 			left outer join WorkOrder_tbl wot ON eit.Equipment_Info_Code = wot.WorkOrder_EquipCode
 			left outer join DTL_TBL dt2 ON wot.WorkOrder_WorkStatus = dt2.Child_TBL_No
 			left outer join Product_Info_tbl pit ON wot.WorkOrder_ItemCode = pit.Product_Item_Code
-
 			<if test="EQUIPMENT_TYPE == 1">
 			where Equipment_Type = 324 
 			</if>
@@ -77,7 +76,6 @@
 			<if test="EQUIPMENT_TYPE == 3">
 			where Equipment_Type = 330
 			</if>	
-			and (wot.WorkOrder_ONo != '245' or wot.WorkOrder_ONo IS NULL)
 			order by WorkOrder_RegisterTime 
 	</select> 
 	<insert id="insertMachineDao">
