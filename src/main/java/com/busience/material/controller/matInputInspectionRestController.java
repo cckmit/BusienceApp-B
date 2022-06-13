@@ -33,7 +33,6 @@ public class matInputInspectionRestController {
 	
 	@GetMapping("/MII_Search")
 	public List<InMatDto> matInputList(SearchDto searchDto) {
-		//System.out.println(searchDto);
 		return matInputService.matInputList(searchDto);
 	}
 	

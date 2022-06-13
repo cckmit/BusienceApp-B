@@ -14,7 +14,6 @@ var itemTable = new Tabulator("#itemTable", {
     ajaxConfig:"get",
     ajaxContentType:"json",
 	ajaxResponse:function(url, params, response){
-		console.log(response)
 		//작업지시번호로 생산랏을 검색해서 내용이 있는지 여부를 검색
 		//있으면 생산랏에 대한 정보를 검색하고
 		//없으면 봄만 가져옴
@@ -147,6 +146,8 @@ function workOrderReady(LotNo, prodID){
 
 //원자재 리스트 입력
 function rawMaterialLotInput(value){
+	//lotNo와 기존 원자재와 비교 한 뒤에 맞는게 없으면 다음 작업의 봄과 비교한다.
+	// 없으면 에러발생, 있으면 작업종료후 원자재 등록
 	var itemCode = value.substr(7,6);
 	var result = LotList.every(function(currentValue, i){
 		//품목코드와 동일한 값을 찾은 후, 랏번호가 같지 않다면 변경됨

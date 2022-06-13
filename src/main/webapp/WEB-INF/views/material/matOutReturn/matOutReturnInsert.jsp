@@ -9,7 +9,7 @@
 		</div>
 		<!-- 버튼 -->
 		<div class="input-box">
-			<span><strong>바코드 입력</strong></span>
+			<span><strong>LotNo 검색</strong></span>
 			<input id="MORI_Search" class="lotNo" type="text">
 		</div>
 	</div>

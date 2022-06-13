@@ -3,11 +3,9 @@ var tempStorageTable = new Tabulator("#tempStorageTable", {
 	headerFilterPlaceholder: null,
 	layoutColumnsOnNewData: true,
 	//행클릭 이벤트
-	rowFormatter: function(row) {
-	},
 	rowClick: function(e, row) {
 		tempStorageTable.deselectRow();
-		row.select();s
+		row.select();
 	},
 	rowSelected: function(row) {
 		formClearFunc();
@@ -50,7 +48,6 @@ function MII_Search() {
 		.then(function() {
 			//list와 stock의 데이터를 없에준다
 			formClearFunc();
-			console.log(tempStorageTable);
 		})
 }
 
