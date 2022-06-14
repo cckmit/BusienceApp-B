@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
-<link href="/css/production/processInspectForm.css" rel="stylesheet" />
+<link href="/css/qc/oqcInspectForm.css" rel="stylesheet" />
 
 <div class="soloView">
 	<!-- MAIN -->
@@ -37,23 +36,25 @@
 				</div>
 			</div>
 			<div id="workOrderTable"></div>
-			<br>
-			<div id="itemPackingInspection"><jsp:include page="itemPackingInspectForm.jsp" /></div>
+			
+			<div id="itemPackingInspection"><jsp:include page="oqcInspectHeadForm.jsp"/></div>
+			<div id="processInspectTable"></div>
 			<!-- <div id="processInspectTable"></div> -->
 		</div>
 		<div class="master-in">
 			<div class="top-var">
 				<!-- 버튼 -->
-				<div class="input-button">
+				<div class="input-button"  style="width: 550px;">
 					<img src="/images/button/Save.png" id="OI_SaveBtn" class="unUseBtn BtnStatus" /> 
 					<img src="/images/button/Print.png" id="OI_PrintBtn" />
 				</div>
+				<div style="float: right; margin-left: 20px !important; margin-top: 20px; width: 400px !important;" id="itemPackInspection"><jsp:include page="oqcAppearanceInspectForm.jsp" /></div>
 			</div>
-			<div id="itemPackingInspection"><jsp:include page="itemPackingInspectForm.jsp" /></div>
+			<div id="itemPackingInspection"><jsp:include page="oqcOutputInspectForm.jsp" /></div>
 		</div>
 	</div>
 	<!-- END MAIN -->
 </div>
 <!-- Javascript -->
 <script
-	src="/js/qc/itemPackingInspect.js?v=<%=System.currentTimeMillis()%>"></script>
+	src="/js/qc/oqcOutputInspect.js?v=<%=System.currentTimeMillis()%>"></script>

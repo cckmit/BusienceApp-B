@@ -1,0 +1,84 @@
+
+.tg {
+	width: 100%;
+	border-collapse: collapse;
+	table-layout: fixed;
+	word-break:break-all;
+}
+
+.tg td {
+	font-size: 14px;
+	text-align: center;
+	vertical-align: middle !important;
+	border: 2px solid black !important;
+	padding: 5px !important;
+	height: 55px;
+}
+.footer {
+	text-align: center;
+}
+
+#machineLine {
+	width: 200px;
+}
+
+#productionDate {
+	width: 80px;
+}
+
+#processDate {
+	width: 80px;
+}
+
+#processQty {
+	width: 80px;
+}
+
+#pqcWorkerList {
+	width: 230px;
+}
+
+#processLotNo {
+	width: 170px;
+}
+
+select {
+ height: 24px !important;	
+}
+
+.tg input, .tg textarea {
+	width: 100%;
+	resize: none;
+	text-align: left !important;
+}
+
+.machine {
+	float: left;
+	width: 10% !important;
+}
+
+#pageCounter {
+	counter-reset: pageTotal;
+}
+
+#pageCounter span {
+	counter-increment: pageTotal;
+}
+
+#pageNumbers {
+	counter-reset: currentPage;
+}
+
+#pageNumbers div:before {
+	counter-increment: currentPage;
+	content: "Page " counter(currentPage) " of ";
+}
+
+#pageNumbers div:after {
+	content: counter(pageTotal);
+}
+@media print {
+    .printBtn {
+        display: none;
+    }
+}

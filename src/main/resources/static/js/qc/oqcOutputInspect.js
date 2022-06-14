@@ -1,8 +1,6 @@
 var workOrderTable = new Tabulator("#workOrderTable", {
-	pagination: "local",
-	paginationSize: 20,
 	clipboard: true,
-	height: "calc(85% - 85px)",
+	height: "calc(50% - 85px)",
 	headerFilterPlaceholder: null,
 	layoutColumnsOnNewData: true,
 	//행클릭 이벤트
@@ -48,12 +46,12 @@ function CI_Search() {
 		LotNo: $("#processLotNo").val()
 	}
 
-	crateInspectTable.setData("processInspectionRest/CI_Search", datas)
+	/*crateInspectTable.setData("processInspectionRest/CI_Search", datas)
 		.then(function() {
 			//list와 stock의 데이터를 없에준다
 			formClearFunc();
 			console.log(crateInspectTable);
-		})
+		})*/
 }
 
 $("#CI_SearchBtn").click(function() {
@@ -64,10 +62,10 @@ $("#CI_SearchBtn").click(function() {
 // 출고구분 select를 구성하기위한 ajax
 var output_dtl = dtlSelectList(18);
 
-/*var processInspectTable = new Tabulator("#processInspectTable", {
+var processInspectTable = new Tabulator("#processInspectTable", {
 	layoutColumnsOnNewData: true,
 	clipboard: true,
-	height: "calc(50% - 90px)",
+	height: "calc(35% - 80px)",
 	//행을 클릭하면 matLotMasterTable에 리스트가 나타남
 	rowClick: function(e, row) {
 		processInspectTable.deselectRow();
@@ -93,7 +91,7 @@ var output_dtl = dtlSelectList(18);
 		{ title: "검사 시간", field: "process_Inspect_Date", headerHozAlign: "center" },
 		{ title: "작업자", field: "process_Inspect_Worker", headerHozAlign: "center" }
 	]
-});*/
+});
 
 /*function PI_Search() {
 
@@ -329,6 +327,6 @@ function lCode_select(value) {
 
 $(document).ready(function() {
 	CI_Search();
-	PI_Search();
+	//PI_Search();
 })
 
