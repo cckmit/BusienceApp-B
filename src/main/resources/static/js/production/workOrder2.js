@@ -1,22 +1,19 @@
 //셀위치저장
 var cellPos = new Array();
 
-function printFormatter(cell, formatterParams, onRendered){
-    return cell.getValue() == 1 ? "true" : "false";
-}
-
 let maskEquipTable = new Tabulator("#maskEquipTable", {
 	//페이징
 	height: "calc(100% - 175px)",
 	layoutColumnsOnNewData: true,
+	layout: "fitDataFill",
 	selectable: true,
 	rowFormatter: function(row) {
-		if (row.getData().workOrder_ONo != null)
+		if (row.getData().status == '1')
 			row.getElement().style.color = "blue";
 	},
 	rowClick: function(e, row) {
 		let selected = row.isSelected();
-		if(selected == false) {
+		if (selected == false) {
 			row.deselect();
 		} else {
 			row.select();
@@ -27,16 +24,13 @@ let maskEquipTable = new Tabulator("#maskEquipTable", {
 	},
 	columns: [
 		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
-		{ title: "작업지시No", field: "workOrder_ONo", headerHozAlign: "center" },
+		{ title: "작업지시No", field: "workOrder_ONo", headerHozAlign: "center", visible: false },
 		{ title: "마스크 설비코드", field: "workOrder_EquipCode", headerHozAlign: "center" },
-		{ title: "마스크 설비명", field: "workOrder_EquipName", headerHozAlign: "center", hozAlign: "left", width: 170 },
+		{ title: "마스크 설비명", field: "workOrder_EquipName", headerHozAlign: "center", hozAlign: "left" },
 		{ title: "제품코드", field: "workOrder_ItemCode", headerHozAlign: "center" },
 		{ title: "제품명", field: "workOrder_ItemName", headerHozAlign: "center", width: 150 },
-		{ title: "등록일", field: "workOrder_RegisterTime", align: "right", headerHozAlign: "center" },
-		{ title: "특이사항", field: "workOrder_Remark", headerHozAlign: "center", editor: "input"	},
-		{ title: "작업상태", field: "workOrder_WorkStatus_Name", headerHozAlign: "center", align:"center"},
-		{ title: "사용유무", field: "workOrder_Use_Status", headerHozAlign: "center", align: "center", editor: 'select', editorParams: { values: { "true": "사용", "false": "미사용" }}, formatter: "tickCross"},
-		{ title: "상태", field: "status", headerHozAlign: "center" }
+		{ title: "사용유무", field: "workOrder_Use_Status", headerHozAlign: "center", align: "center", editor: 'select', editorParams: { values: { "true": "사용", "false": "미사용" } }, formatter: "tickCross" },
+		{ title: "상태", field: "status", headerHozAlign: "center", visible: false }
 	]
 });
 
@@ -46,12 +40,12 @@ let packEquipTable = new Tabulator("#packEquipTable", {
 	layoutColumnsOnNewData: true,
 	selectable: true,
 	rowFormatter: function(row) {
-		if (row.getData().workOrder_ONo != null)
+		if (row.getData().status == '1')
 			row.getElement().style.color = "blue";
 	},
 	rowClick: function(e, row) {
 		let selected = row.isSelected();
-		if(selected == false) {
+		if (selected == false) {
 			row.deselect();
 		} else {
 			row.select();
@@ -62,16 +56,13 @@ let packEquipTable = new Tabulator("#packEquipTable", {
 	},
 	columns: [
 		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
-		{ title: "작업지시No", field: "workOrder_ONo", headerHozAlign: "center" },
+		{ title: "작업지시No", field: "workOrder_ONo", headerHozAlign: "center", visible: false },
 		{ title: "포장 설비코드", field: "workOrder_EquipCode", headerHozAlign: "center" },
-		{ title: "포장 설비명", field: "workOrder_EquipName", headerHozAlign: "center", hozAlign: "left", width: 170 },
+		{ title: "포장 설비명", field: "workOrder_EquipName", headerHozAlign: "center", hozAlign: "left" },
 		{ title: "제품코드", field: "workOrder_ItemCode", headerHozAlign: "center" },
-		{ title: "제품명", field: "workOrder_ItemName", headerHozAlign: "center", width: 150 },
-		{ title: "등록일", field: "workOrder_RegisterTime", align: "right", headerHozAlign: "center" },
-		{ title: "특이사항", field: "workOrder_Remark", headerHozAlign: "center", editor: "input"	},
-		{ title: "작업상태", field: "workOrder_WorkStatus_Name", headerHozAlign: "center", align:"center"},
-		{ title: "사용유무", field: "workOrder_Use_Status", headerHozAlign: "center", align: "center", formatter: "tickCross", editor: 'select', editorParams: { values: { "true": "사용", "false": "미사용" }}},
-		{ title: "상태", field: "status", headerHozAlign: "center" }
+		{ title: "제품명", field: "workOrder_ItemName", headerHozAlign: "center", width: 150  },
+		{ title: "사용유무", field: "workOrder_Use_Status", headerHozAlign: "center", align: "center", formatter: "tickCross", editor: 'select', editorParams: { values: { "true": "사용", "false": "미사용" } } },
+		{ title: "상태", field: "status", headerHozAlign: "center", visible: false }
 	]
 });
 
@@ -80,12 +71,12 @@ let labelEquipTable = new Tabulator("#labelEquipTable", {
 	layoutColumnsOnNewData: true,
 	selectable: true,
 	rowFormatter: function(row) {
-		if (row.getData().workOrder_ONo != null)
+		if (row.getData().status == '1')
 			row.getElement().style.color = "blue";
 	},
 	rowClick: function(e, row) {
 		let selected = row.isSelected();
-		if(selected == false) {
+		if (selected == false) {
 			row.deselect();
 		} else {
 			row.select();
@@ -96,16 +87,13 @@ let labelEquipTable = new Tabulator("#labelEquipTable", {
 	},
 	columns: [
 		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
-		{ title: "작업지시No", field: "workOrder_ONo", headerHozAlign: "center" },
+		{ title: "작업지시No", field: "workOrder_ONo", headerHozAlign: "center", visible: false },
 		{ title: "라벨 프린터코드", field: "workOrder_EquipCode", headerHozAlign: "center" },
-		{ title: "라벨 프린터명", field: "workOrder_EquipName", headerHozAlign: "center", hozAlign: "left", width: 170 },
+		{ title: "라벨 프린터명", field: "workOrder_EquipName", headerHozAlign: "center", hozAlign: "left" },
 		{ title: "제품코드", field: "workOrder_ItemCode", headerHozAlign: "center" },
-		{ title: "제품명", field: "workOrder_ItemName", headerHozAlign: "center", width: 150 },
-		{ title: "등록일", field: "workOrder_RegisterTime", align: "right", headerHozAlign: "center" },
-		{ title: "특이사항", field: "workOrder_Remark", headerHozAlign: "center", editor: "input"	},
-		{ title: "작업상태", field: "workOrder_WorkStatus_Name", headerHozAlign: "center", align:"center"},
-		{ title: "사용유무", field: "workOrder_Use_Status", headerHozAlign: "center", align: "center", formatter: "tickCross", editor: 'select', editorParams: { values: { "true": "사용", "false": "미사용" }}, formatterPrint:printFormatter },
-		{ title: "상태", field: "status", headerHozAlign: "center" }
+		{ title: "제품명", field: "workOrder_ItemName", headerHozAlign: "center", width: 150  },
+		{ title: "사용유무", field: "workOrder_Use_Status", headerHozAlign: "center", align: "center", formatter: "tickCross", editor: 'select', editorParams: { values: { "true": "사용", "false": "미사용" } }, formatterPrint: printFormatter },
+		{ title: "상태", field: "status", headerHozAlign: "center", visible: false }
 	]
 });
 
@@ -159,47 +147,79 @@ function item_gridInit(code, name) {
 
 //workOrderTable 저장
 function WO_Save() {
-	
+	// 보낼 데이터를 전부 담을 배열(조건에 부합하는 데이터 전부)
 	let selectedData = new Array();
-		
-	if(cellPos.length == 0) {
-		alert("선택된 행이 없습니다.");
+
+	// 검증
+	let packData = packEquipTable.getDataCount();
+	let labelData = labelEquipTable.getDataCount("active");
+	let maskData = maskEquipTable.getDataCount();
+	let labelArray = new Array();
+	let packArray = new Array();
+	let elementArray = new Array();
+	let itemArray = new Array();
+	
+	for (let j = 0; j < labelData; j++) {
+		labelArray.push(labelEquipTable.getData()[j].workOrder_ItemCode);
+	}
+
+	for (let i = 0; i < packData; i++) {
+		packArray.push(packEquipTable.getData()[i].workOrder_ItemCode);
 	}
 	
-	for (let i = 0; i < cellPos.length; i++) {
-		if(cellPos[i].getRow().getData().status == 1) {
-			if(cellPos[i].getRow().getData().workOrder_ONo != null) {
-				if(confirm("기존 작업이 종료됩니다. 계속하시겠습니까?")) {
-					selectedData.push(cellPos[i].getRow().getData());
-					$.when(delChkFunc(selectedData))
-					.then(function(data) {
-						if(data.length > 0) {
-							alert("저장되었습니다.");
-						}
-					})
-				} 
-			} else {
-				selectedData.push(cellPos[i].getRow().getData());
+	// 1. 포장 설비는 최대 제품 3개까지만 등록 가능
+	packArray.forEach((element) => {
+		if(element != null) {
+			if(!itemArray.includes(element)) {
+				itemArray.push(element);
 			}
+		}
+	});
+	
+	if(itemArray.length > 3) {
+		alert("포장 설비 오류: 제품 종류 3개 이상 등록할 수 없습니다.");
+		return;
+	}
+	
+	// 2. 라벨 프린터 코드 목록에 제품과 포장 설비의 제품이 일치하는지 확인
+	labelArray.forEach((element) => {
+		if (!packArray.includes(element)) {
+			elementArray.push(element);
+		}
+	})
+
+	if (elementArray.length > 0) {
+		alert("라벨 프린터 오류: 포장설비와 같은 제품을 등록하세요.");
+		return;
+	}
+	
+	// 배열에 데이터 담기
+	for (let i = 0; i < maskData; i++) {
+		if(maskEquipTable.getData()[i].status == 1) {
+			selectedData.push(maskEquipTable.getData()[i]);
+		}
+	}
+
+	for (let k = 0; k < packData; k++) {
+		if(packEquipTable.getData()[k].status == 1) {
+			selectedData.push(packEquipTable.getData()[k]);
+		}
+	}
+	
+	for (let j = 0; j < labelData; j++) {
+		if(labelEquipTable.getData()[j].status == 1) {
+			selectedData.push(labelEquipTable.getData()[j]);
 		}
 	}
 	
 	console.log(selectedData);
 	
 	if(selectedData.length == 0) {
-		alert("제품코드가 입력되지 않은 행이 존재합니다.");
+		alert("제품이 등록된 행이 없습니다.");
 		return;
 	}
-	
-	for(let j=0; j< selectedData.length; j++) {
-		if(selectedData[j].workOrder_ONo != null) {
-			
-		}
-	}
 
-	//console.log(datas);
-
-	//InputSub 저장부분
+	//작업지시 등록 저장
 	$.ajax({
 		method: "post",
 		url: "workOrderRest/workOrderRegister",
@@ -216,6 +236,7 @@ function WO_Save() {
 				alert("중복된 값이 있습니다.");
 			} else if (result == 1) {
 				alert("저장되었습니다.");
+				location.reload();
 			}
 		}
 	});
@@ -267,7 +288,7 @@ function WO_Delete(equipData) {
 				//console.log(result);
 				alert("저장되었습니다.");
 				location.reload();
-				
+
 			} else if (result == 0) {
 				alert("저장 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
 			}
@@ -306,45 +327,45 @@ $(document).ready(function() {
 	//console.log(maskEquipList);
 	//console.log(packEquipList);
 	maskEquipTable.setData(maskEquipList)
-	.then(function(){
-		rowCount = maskEquipTable.getDataCount("active");
-		for(let i=0; i<rowCount; i++) {
-			if(maskEquipTable.getRows()[i].getData().workOrder_ONo == undefined && 
-			maskEquipTable.getRows()[i].getData().workOrder_ItemCode == undefined) {
-				maskEquipTable.getRows()[i].update({
-					"workOrder_Use_Status": "true"
-				})	
+		.then(function() {
+			rowCount = maskEquipTable.getDataCount("active");
+			for (let i = 0; i < rowCount; i++) {
+				if (maskEquipTable.getRows()[i].getData().workOrder_ONo == undefined &&
+					maskEquipTable.getRows()[i].getData().workOrder_ItemCode == undefined) {
+					maskEquipTable.getRows()[i].update({
+						"workOrder_Use_Status": "true"
+					})
+				}
 			}
-		}
-		
-	})
-	
+
+		})
+
 	packEquipTable.setData(packEquipList)
-	.then(function(){
-		rowCount = packEquipTable.getDataCount("active");
-		for(let i=0; i<rowCount; i++) {
-			if(packEquipTable.getRows()[i].getData().workOrder_ONo == undefined && 
-			packEquipTable.getRows()[i].getData().workOrder_ItemCode == undefined) {
-				packEquipTable.getRows()[i].update({
-					"workOrder_Use_Status": "true"
-				})	
+		.then(function() {
+			rowCount = packEquipTable.getDataCount("active");
+			for (let i = 0; i < rowCount; i++) {
+				if (packEquipTable.getRows()[i].getData().workOrder_ONo == undefined &&
+					packEquipTable.getRows()[i].getData().workOrder_ItemCode == undefined) {
+					packEquipTable.getRows()[i].update({
+						"workOrder_Use_Status": "true"
+					})
+				}
 			}
-		}
-		
-	})
-	
+
+		})
+
 	labelEquipTable.setData(labelEquipList)
-	.then(function(){
-		rowCount = labelEquipTable.getDataCount("active");
-		for(let i=0; i<rowCount; i++) {
-			if(labelEquipTable.getRows()[i].getData().workOrder_ONo == undefined && 
-			labelEquipTable.getRows()[i].getData().workOrder_ItemCode == undefined) {
-				labelEquipTable.getRows()[i].update({
-					"workOrder_Use_Status": "true"
-				})	
+		.then(function() {
+			rowCount = labelEquipTable.getDataCount("active");
+			for (let i = 0; i < rowCount; i++) {
+				if (labelEquipTable.getRows()[i].getData().workOrder_ONo == undefined &&
+					labelEquipTable.getRows()[i].getData().workOrder_ItemCode == undefined) {
+					labelEquipTable.getRows()[i].update({
+						"workOrder_Use_Status": "true"
+					})
+				}
 			}
-		}
-		
-	})
-	
+
+		})
+
 })
