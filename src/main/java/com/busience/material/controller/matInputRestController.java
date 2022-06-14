@@ -23,7 +23,7 @@ public class matInputRestController {
 		
 	// MIM_Save
 	@PostMapping("/MIM_Save")
-	public int MIM_Save(@RequestBody List<InMatDto> InMatDtoList, Principal principal) {
+	public List<InMatDto> MIM_Save(@RequestBody List<InMatDto> InMatDtoList, Principal principal) {
 		return matInputService.matInputRegister(InMatDtoList, principal.getName());
 	}
 	

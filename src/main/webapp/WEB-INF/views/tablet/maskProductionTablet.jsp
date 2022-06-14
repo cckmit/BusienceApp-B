@@ -25,7 +25,7 @@
 	<div class="main-b">
 		<div class="main-box tablet-border">
 			<div class="item">
-				<label for="crate-LotNo">상자 LOTNO</label>
+				<label for="crate-LotNo">생산 LOTNO</label>
 				<input id="crate-LotNo" disabled>
 				<input type="hidden" id="crateCode">
 			</div>

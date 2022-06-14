@@ -51,6 +51,7 @@
 			<div class="mid-var">
 				<div class="input-button">
 					<img src="/images/button/Save.png" id="MIM_SaveBtn" class="unUseBtn BtnStatus"/>
+					<select id="selected_device" onchange=onDeviceSelected(this);></select>
 				</div>
 			</div>
 			<div id="inMatTable"></div>
@@ -62,3 +63,4 @@
 
 <!-- Javascript -->
 <script src="/js/material/matInput.js?v=<%=System.currentTimeMillis() %>"></script>
+<script src="/js/labelPrint/paldangLabelPrint.js?v=<%=System.currentTimeMillis() %>"></script>

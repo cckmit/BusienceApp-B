@@ -64,6 +64,24 @@ function writeToSelectedPrinter()
 	selected_device.send(printCode, undefined, errorCallback);
 }
 
+
+function RawMaterialPrinter(jsonDatas)
+{	
+	var printCode = ""
+	
+	for(let j=0;j<jsonDatas.length;j++){
+		
+		printCode += "^XA"
+					+"^CFJ,50^SEE:UHANGUL.DAT^FS"
+					+"^CW1,E:KFONT3.FNT^CI28^FS"
+					+"^FT25,55^A1N,30,30^FD"+jsonDatas[j].inMat_Name+"^FS"
+					+"^FO115,15^BQN,2,5"
+					+"^FH^FDLA,"+jsonDatas[j].inMat_Lot_No+"^FS"
+					+"^XZ"
+	}
+	selected_device.send(printCode, undefined, errorCallback);
+}
+
 function CratePrinter(jsonDatas)
 {	
 	var printCode = ""
@@ -76,7 +94,15 @@ function CratePrinter(jsonDatas)
 					+"^FT240,170^A0N,56,69^FB603,1,0^FR^FH^FD"+jsonDatas[j].c_CrateCode+"^FS"
 					+"^BY3,3,69^FT160,270^B3N,N,,N,N"
 					+"^FD"+jsonDatas[j].c_CrateCode+"^FS"
-					+"^XZ"
+					+"^XZ";
+					
+		printCode += "^XA"
+					+"^CFJ,50^SEE:UHANGUL.DAT^FS"
+					+"^CW1,E:KFONT3.FNT^CI28^FS"
+					+"^FT240,170^A0N,56,69^FB603,1,0^FR^FH^FD"+jsonDatas[j].c_CrateCode+"^FS"
+					+"^BY3,3,69^FT160,270^B3N,N,,N,N"
+					+"^FD"+jsonDatas[j].c_CrateCode+"^FS"
+					+"^XZ";
 	}
 	selected_device.send(printCode, undefined, errorCallback);
 }

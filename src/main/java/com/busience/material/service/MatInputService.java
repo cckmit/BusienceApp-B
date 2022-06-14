@@ -55,7 +55,7 @@ public class MatInputService {
 	TransactionTemplate transactionTemplate;
 
 	// 등록
-	public int matInputRegister(List<InMatDto> inMatDtoList, String userCode) {
+	public List<InMatDto> matInputRegister(List<InMatDto> inMatDtoList, String userCode) {
 		try {
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 
@@ -119,10 +119,10 @@ public class MatInputService {
 					}
 				}
 			});
-			return 1;
+			return inMatDtoList;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return 0;
+			return null;
 		}
 	}
 

@@ -98,7 +98,6 @@ var matInputSubTable = new Tabulator("#matInputSubTable", {
 			}
 		})
     },
-	index: "order_lCode",
  	columns:[
 	{title:"순번", field:"rownum", headerHozAlign:"center", hozAlign:"center", formatter:"rownum"},
 	{title:"발주번호", field:"order_lCus_No", visible:false},
@@ -335,12 +334,14 @@ function MIM_Save(){
            xhr.setRequestHeader(header, token);
 		},
 		success : function(result) {
-			if(result){
+			console.log(result)
+			if(result == null){
+				alert("오류가 발생하였습니다.");
+			}else{
 				MI_Search();
 				Cus_No_select();
+				RawMaterialPrinter(result);
 				alert("저장되었습니다.");
-			}else{
-				alert("오류가 발생하였습니다.")
 			}
 		}				
 	});	
