@@ -39,7 +39,7 @@ public class WorkOrderDto {
 	private String WorkOrder_CompleteTime;
 	private String WorkOrder_Worker;
 	private String WorkOrder_Remark;
-	private boolean WorkOrder_Use_Status;
+	private String WorkOrder_Use_Status;
 	private String EQUIPMENT_INFO_CODE;
 	private String EQUIPMENT_INFO_NAME;
 	private String EQUIPMENT_PACK_CODE;
