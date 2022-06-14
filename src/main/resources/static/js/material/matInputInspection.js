@@ -101,7 +101,6 @@ function MIS_Search() {
 	}
 
 	matInputTable.setData("matInputInspectionRest/MII_Search", datas);
-	console.log(matInputTable);
 }
 
 //matInputInspect 정보 삽입
@@ -119,8 +118,6 @@ function MIF_Search(OrderNo, ItemCode) {
 		ItemCode: ItemCode
 	}
 	
-	console.log(datas);
-
 	$.ajax({
 		method: "GET",
 		url: "matInputInspectionRest/MIF_Search",

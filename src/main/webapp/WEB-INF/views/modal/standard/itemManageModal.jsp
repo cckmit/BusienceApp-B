@@ -166,7 +166,7 @@
 							<div class="col-sm-1"></div>
 							<label class="col-sm-3 control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;부&nbsp;자&nbsp;재&nbsp;관&nbsp;리</label>
 							<div class="col-sm-1">
-								<input type="checkbox" class="form-control-plaintext" id="product_SUBSID_MATL_MGMT"
+								<input type="checkbox" class="form-control-plaintext" id="product_SUBSID_MATL_MGMT" checked
 								OnKeyDown="nextFocus('product_USE_STATUS')">
 							</div>
 							<label class="col-sm-2 control-label">사&nbsp;용&nbsp;유&nbsp;무&nbsp;</label>

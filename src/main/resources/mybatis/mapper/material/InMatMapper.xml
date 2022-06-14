@@ -32,7 +32,8 @@
 			A.InMat_Qty, A.InMat_Unit_Price, D.Child_TBL_Type InMat_Unit,
 			A.InMat_Price, A.InMat_Client_Code, B.Cus_Name InMat_Client_Name,
 			A.InMat_Date, A.InMat_Rcv_Clsfc,  E.Child_TBL_Type InMat_Rcv_Clsfc_Name,
-			F.Order_lInfo_Remark InMat_Info_Remark, A.inMat_dInsert_Time, A.inMat_Modifier
+			F.Order_lInfo_Remark InMat_Info_Remark, A.inMat_dInsert_Time, A.inMat_Modifier,
+			A.InMat_External_Lot_No
 		from InMat_tbl A 
 		inner join Customer_tbl B on A.InMat_Client_Code = B.Cus_Code 
 		inner join Product_Info_tbl C on A.InMat_Code = C.PRODUCT_ITEM_CODE 

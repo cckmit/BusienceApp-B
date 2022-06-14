@@ -23,6 +23,7 @@ var matInputListTable = new Tabulator("#matInputListTable", {
 		{ title: "일자", field: "inMat_Date", headerHozAlign: "center", headerFilter: true, hozAlign: "left",
 			formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" } },
 		{ title: "입고구분", field: "inMat_Rcv_Clsfc_Name", headerHozAlign: "center", headerFilter: true, hozAlign: "left" },
+		{ title: "외부LotNo", field: "inMat_External_Lot_No", headerHozAlign: "center", headerFilter: true, hozAlign: "left" },
 		{ title: "비고", field: "inMat_Info_Remark", headerHozAlign: "center", headerFilter: true, hozAlign: "right" }	
 	]
 });

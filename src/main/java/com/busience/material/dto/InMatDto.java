@@ -20,6 +20,7 @@ public class InMatDto {
 	private String InMat_Rcv_Clsfc;
 	private String InMat_dInsert_Time;
 	private String InMat_Modifier;
+	private String InMat_External_Lot_No;
 
 	private String InMat_Name; // 제품명
 	private String InMat_STND_1; // 규격

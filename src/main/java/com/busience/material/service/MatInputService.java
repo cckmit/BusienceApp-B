@@ -65,6 +65,7 @@ public class MatInputService {
 
 					for (int i = 0; i < inMatDtoList.size(); i++) {
 						InMatDto inMatDto = inMatDtoList.get(i);
+						System.out.println(inMatDto);
 						inMatDto.setInMat_Modifier(userCode);
 
 						int no = inMatDto.getInMat_No();

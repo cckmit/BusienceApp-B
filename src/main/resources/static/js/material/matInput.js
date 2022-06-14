@@ -91,23 +91,16 @@ var matInputSubTable = new Tabulator("#matInputSubTable", {
 		if(row.getData().order_lNot_Stocked == 0){
 			return false;
 		}
-		//클릭한 행과 같은 랏번호를 찾아서 삭제해줌
-		for(i=0;i<inMatTable.getDataCount();i++){
-			if(inMatTable.getData()[i].inMat_Code == row.getData().order_lCode){
-				inMatTable.getRows()[i].delete()
-				.then(function(){
-					// 삭제후 순번 정리
-					rowCount = inMatTable.getDataCount("active");
-					for(j=0;j<rowCount;j++){
-						inMatTable.getRows()[j].update({inMat_No:j+1})
-					}
-				});
-				break;
+		//클릭한 행과 같은 아이템를 찾아서 삭제해줌		
+		inMatTable.getRows().forEach(function(item){
+			if(item.getData().inMat_Code == row.getData().order_lCode){
+				item.delete();
 			}
-		}
+		})
     },
+	index: "order_lCode",
  	columns:[
-	{title:"순번", field:"order_lNo", headerHozAlign:"center", hozAlign:"center"},
+	{title:"순번", field:"rownum", headerHozAlign:"center", hozAlign:"center", formatter:"rownum"},
 	{title:"발주번호", field:"order_lCus_No", visible:false},
  	{title:"코드", field:"order_lCode", headerHozAlign:"center"},
  	{title:"품목명", field:"order_lName", headerHozAlign:"center"},
@@ -185,14 +178,56 @@ var MIM_InputEditor = function(cell, onRendered, success, cancel, editorParams){
     MIM_input.addEventListener("keydown", function (e) {
 		//품목코드 팝업창
 		if(e.keyCode == 13){
-			//단가셀 체크
-			if (cell.getField() == "inMat_Unit_Price") {
-				//선택되있는 행중 마지막행의 순번 == 선택할 다음행의 인덱스값
-				nextRow_No = matInputSubTable.getData("selected")[matInputSubTable.getDataCount("selected")-1].order_lNo;
-				nextRow = matInputSubTable.getRows()[nextRow_No];
-				if(nextRow){
-					matInputSubTable.selectRow(nextRow);	
+			//외부LotNo셀 체크
+			if (cell.getField() == "InMat_External_Lot_No") {
+				let inMat_Qty = cell.getRow().getData().inMat_Qty;
+				let inMat_Code = cell.getRow().getData().inMat_Code;
+				let total_Qty = 0;
+				let sub_SeletedRow = matInputSubTable.getRows("selected");
+				//입력 수량이 0인지 체크 후 0이면 다음 행 선택, 0이 아니면 다음 검증실행
+				if(inMat_Qty == 0){
+					cell.getRow().delete();
+					//선택된 행중 마지막 행을 가져온 뒤에 그행의 다음 행을 선택 하게 해야 함
+					if(sub_SeletedRow[sub_SeletedRow.length -1].getNextRow()){
+						sub_SeletedRow[sub_SeletedRow.length -1].getNextRow().select();	
+					}
+				}else{
+					//해당 품목코드의 지금 입고하려는 수량
+					for(let j=0;j<inMatTable.getDataCount();j++){
+						let inMat_ItemCode = inMatTable.getData()[j].inMat_Code
+						if(inMat_ItemCode == inMat_Code){
+							total_Qty += Number(inMatTable.getData()[j].inMat_Qty);
+						}
+					}	
+					//해당 품목코드의 미입고 수량과 지금 입고하려는 수량을 비교
+					for(let i=0;i<matInputSubTable.getDataCount();i++){
+						let sub_Data = matInputSubTable.getData()[i]
+						let sub_ItemCode = sub_Data.order_lCode
+						if(inMat_Code == sub_ItemCode){
+							if(total_Qty < sub_Data.order_lNot_Stocked){
+								inMatTable.addRow({
+									inMat_Order_No : matInputTable.getData('selected')[0].order_mCus_No,
+									inMat_Code : sub_Data.order_lCode,
+									inMat_Name : sub_Data.order_lName,
+									inMat_Qty : 0,
+									inMat_Unit_Price : sub_Data.order_lUnit_Price,
+									inMat_Price : 0,
+									inMat_Rcv_Clsfc : sub_Data.order_Rcv_Clsfc,
+									inMat_Rcv_Clsfc_Name : sub_Data.order_Rcv_Clsfc_Name,
+									inMat_Client_Code : matInputTable.getData('selected')[0].order_mCode,
+									inMat_Date : moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+								});
+							}else if(total_Qty == sub_Data.order_lNot_Stocked){
+								if(sub_SeletedRow[sub_SeletedRow.length -1].getNextRow()){
+									sub_SeletedRow[sub_SeletedRow.length -1].getNextRow().select();	
+								}
+							}else{
+								alert("수량이 많습니다.")
+							}			
+						}
+					}
 				}
+				//발주량보다 합계수량이 작으면 같은 품목코드로 한줄이 생김
 			}
 		}
     });
@@ -227,7 +262,7 @@ var inMatTable = new Tabulator("#inMatTable", {
 		row.select();
     },
  	columns:[
-	{title:"순번", field:"inMat_No", headerHozAlign:"center", hozAlign:"center"},
+	{title:"순번", field:"rownum", headerHozAlign:"center", hozAlign:"center", formatter:"rownum"},
 	{title:"발주번호", field:"inMat_Order_No", visible:false},
  	{title:"코드", field:"inMat_Code", headerHozAlign:"center"},
  	{title:"품목명", field:"inMat_Name", headerHozAlign:"center", width : 120},
@@ -261,13 +296,13 @@ var inMatTable = new Tabulator("#inMatTable", {
 			cell.getRow().update({"inMat_Price": iPrice});
 		}
 	},
-	{title:"금액", field:"inMat_Price", headerHozAlign:"center", hozAlign:"right",
+	{title:"금액", field:"inMat_Price", headerHozAlign:"center", hozAlign:"right", width : 70,
 		formatter : "money", formatterParams:{ precision:false}},
 	{title:"구분", field:"inMat_Rcv_Clsfc", visible:false},
 	{title:"구분", field:"inMat_Rcv_Clsfc_Name", headerHozAlign:"center"},
 	{title:"거래처코드", field:"inMat_Client_Code", visible:false},
-	{title:"입고일자", field:"inMat_Date", visible:false}
- 		
+	{title:"입고일자", field:"inMat_Date", visible:false},
+	{title:"외부LotNo", field:"InMat_External_Lot_No", headerHozAlign:"center", editor:MIM_InputEditor} 		
  	]
 });
 

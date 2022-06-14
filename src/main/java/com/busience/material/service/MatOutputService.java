@@ -21,10 +21,15 @@ import com.busience.material.dto.LotMasterDto;
 import com.busience.material.dto.OutMatDto;
 import com.busience.material.dto.RequestSubDto;
 import com.busience.sales.dao.SalesInputDao;
+import com.busience.standard.dao.ItemDao;
+import com.busience.standard.dto.ItemDto;
 
 @Service
 public class MatOutputService {
 
+	@Autowired
+	ItemDao itemDao;
+	
 	@Autowired
 	DtlDao dtlDao;
 	
@@ -71,6 +76,7 @@ public class MatOutputService {
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
 					
 					for(int i=0;i<outMatDtoList.size();i++) {
+						ItemDto itemDto = new ItemDto();
 						OutMatDto outMatDto = outMatDtoList.get(i);
 						
 						String lotNo = outMatDto.getOM_LotNo();
@@ -80,9 +86,16 @@ public class MatOutputService {
 						double qty = outMatDto.getOM_Qty();
 						String wareHouse = wareHouseList.get(0).getCHILD_TBL_NO();
 						String before = wareHouseList.get(0).getCHILD_TBL_NO();
-						String after = wareHouseList.get(1).getCHILD_TBL_NO();
+						String after = "";
+						//부자재 관리하는지 파악
+						if("true".equals(itemDto.getPRODUCT_SUBSID_MATL_MGMT())) {
+							after = wareHouseList.get(1).getCHILD_TBL_NO();
+						}
+						
 						String classfy = requestSubDto.getRS_Send_Clsfc();
 
+						itemDto = itemDao.selectItemCode(itemCode);
+						
 						//랏트랜스번호 가져오기
 						outMatDto.setOM_No(no);
 						outMatDto.setOM_RequestNo(requestNo);
@@ -101,17 +114,19 @@ public class MatOutputService {
 						lotTransDao.lotTransInsertDao(
 								no, lotNo, itemCode, qty, before, after, classfy
 								);
-
-						//자재창고 재고 증가
-						wareHouse = after;
 						
-						//랏마스터
-						lotMasterDao.salesLotMasterInsertUpdateDao(
-								lotNo, itemCode, qty, wareHouse
-								);
-						
-						//재고
-						stockDao.stockInsertUpdateDao(itemCode, qty, after);
+						//부자재 관리하는지 파악
+						if(itemDto.getPRODUCT_ITEM_STTS().equals("true")) {
+							//자재창고 재고 증가
+							wareHouse = after;
+							//랏마스터
+							lotMasterDao.salesLotMasterInsertUpdateDao(
+									lotNo, itemCode, qty, wareHouse
+									);
+							
+							//재고
+							stockDao.stockInsertUpdateDao(itemCode, qty, after);
+						}
 						
 						//출고
 						outMatDao.outMatInsertDao(outMatDto);
