@@ -36,7 +36,7 @@ public class contolController {
 		return "normal/monitoring/TemperatureMonitoring";
 	}
 	
-	@GetMapping("/productionStatus")
+	@GetMapping("/tablet/productionStatus")
 	public String productionStatus(Model model) {
 
 		model.addAttribute("machineList", machineService.selectMachineList());
