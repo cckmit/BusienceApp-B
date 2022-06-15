@@ -34,5 +34,7 @@ public class Sales_OutMat_tbl {
 	private String Sales_OutMat_WareHouse;
 	private String Sales_OutMat_Order_No;
 	private int LT_No; // 랫트랜스 번호
-	private String Sales_OutMat_Item_Clsfc_Name_1; // 분류1
+	private String Sales_OutMat_Material; // 재질
+	private String Sales_OutMat_Item_Clsfc_Name_1; // 품목 분류1
+	private String Sales_OutMat_Item_Clsfc_Name_2; // 품목 분류2
 }

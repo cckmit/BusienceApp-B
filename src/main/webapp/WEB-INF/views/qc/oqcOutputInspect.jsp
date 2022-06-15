@@ -10,7 +10,7 @@
 			<div class="top-var">
 				<!-- 버튼 -->
 				<div class="input-button">
-					<img src="/images/button/Search.png" id="CI_SearchBtn" /> 
+					<img src="/images/button/Search.png" id="SOIL_SearchBtn" /> 
 				</div>
 				<!-- 버튼 -->
 				<div class="input-box">
@@ -27,15 +27,10 @@
 						<input id="PRODUCT_ITEM_NAME1" class="Item_Name1 clearInput" type="text" autofocus onkeypress="javascript:if(event.keyCode==13) {itemPopup($(this).val(),'input','1','material')}">
 						<span><strong>LotNo</strong></span>
 						<input id="processLotNo" type="text">	
-						<br>
-						<span><strong>설비코드</strong></span>
-						<input id="EQUIPMENT_INFO_CODE" class="Machine_Code" type="text" disabled>
-						<span><strong>설비명</strong></span>
-						<input id="EQUIPMENT_INFO_NAME" class="Machine_Name clearInput" type="text" autofocus>
 					</div>
 				</div>
 			</div>
-			<div id="workOrderTable"></div>
+			<div id="salesOutMatTable"></div>
 			
 			<div id="itemPackingInspection"><jsp:include page="oqcInspectHeadForm.jsp"/></div>
 			<div id="processInspectTable"></div>
@@ -48,7 +43,7 @@
 					<img src="/images/button/Save.png" id="OI_SaveBtn" class="unUseBtn BtnStatus" /> 
 					<img src="/images/button/Print.png" id="OI_PrintBtn" />
 				</div>
-				<div style="float: right; margin-left: 20px !important; margin-top: 20px; width: 400px !important;" id="itemPackInspection"><jsp:include page="oqcAppearanceInspectForm.jsp" /></div>
+				<div style="float: right; margin-left: 20px !important; margin-top: 20px; !important;" id="itemPackInspection"><jsp:include page="oqcAppearanceInspectForm.jsp" /></div>
 			</div>
 			<div id="itemPackingInspection"><jsp:include page="oqcOutputInspectForm.jsp" /></div>
 		</div>
