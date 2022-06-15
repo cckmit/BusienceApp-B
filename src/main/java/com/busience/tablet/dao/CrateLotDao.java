@@ -16,6 +16,9 @@ public interface CrateLotDao {
 	//조회
 	public List<CrateLotDto> crateLotSelectDao(SearchDto searchDto);
 	
+	//조회
+	public List<CrateLotDto> crateLotSelectDao2(SearchDto searchDto);
+	
 	//랏번호 생성
 	public String crateLotNoCreateDao(CrateLotDto crateLotDto);
 	

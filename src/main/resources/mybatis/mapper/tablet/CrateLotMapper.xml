@@ -25,9 +25,20 @@
 		and CL_Use_Status = 1
 	</select>
 	
+	<select id="crateLotSelectDao2" resultType="com.busience.tablet.dto.CrateLotDto">
+		SELECT
+			A.CL_LotNo, A.CL_OrderNo, A.CL_ItemCode, B.Product_Item_Name CL_ItemName,
+		    A.CL_CrateCode, A.CL_Qty, A.CL_Create_Date,
+		    A.CL_Use_Status
+		FROM Crate_Lot_tbl A
+		inner join Product_Info_tbl B on A.CL_ItemCode = B.Product_Item_Code
+		where A.CL_MachineCode = #{machineCode}
+		and A.CL_Use_Status = 1
+	</select>
+	
 	<select id="crateLotNoCreateDao" resultType="String">
 		SELECT
-			concat('C', DATE_FORMAT(NOW(),'%y%m%d'), #{CL_ItemCode}, lpad(count(*)+1, 4, 0))
+			concat('N', DATE_FORMAT(NOW(),'%y%m%d'), #{CL_ItemCode}, lpad(count(*)+1, 4, 0))
 		FROM Crate_Lot_tbl
 		where CL_Create_Date > current_date();
 	</select>

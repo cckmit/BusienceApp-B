@@ -14,7 +14,7 @@
 	
 	<select id="crateLotNoSelectDao" resultType="String">
 		SELECT
-			concat('C', DATE_FORMAT(NOW(),'%y%m%d'), #{C_LotNo}, lpad(count(*)+1, 4, 0))
+			concat('N', DATE_FORMAT(NOW(),'%y%m%d'), #{C_LotNo}, lpad(count(*)+1, 4, 0))
 		FROM Crate_tbl
 		where C_Create_Date > current_date();
 	</select>

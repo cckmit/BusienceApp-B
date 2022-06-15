@@ -93,10 +93,19 @@ $("#barcodeInput").change(function(){
 	//이니셜값 비교하여 맞는 칸에 값을 넣는다.
 	var barcode = $(this).val();
 	var initial = barcode.substring(0,1);
+	
 	if(initial == 'R'){
-		//원자재 object 판단하여 다찼으면 저장 쿼리를 실행한다.
+		//상자가 있으면 저장하고 없으면 저장하지 않는다.
+		//코드가 안맞을경우 안맞는다고 알림
 		rawMaterialLotInput(barcode);
-	}else if(initial == 'C'){
+	}else if(initial == 'N'){
+		// 상자를 바꿀때 설비- 아이템을 확인하여 그정보로 저장
+		$("#crateCode").val(barcode);
+		CrateSave($("#crate-LotNo").val(), barcode)
+		
+		//아이템이 바뀌는데 원자재가 일부만 바뀌어 기존 원자재를 일부 사용할때 문제가 된다.
+		
+		/*
 		//생산랏이 존재하는가
 		if(nextStatus){
 			nextStatus = false;
@@ -125,7 +134,7 @@ $("#barcodeInput").change(function(){
 					workOrderReady($("#crate-LotNo").val(), $("#production-ID").val())	
 				})		
 			}
-		}
+		}*/
 	}
 	$("#barcodeInput").val("");
 	itemTable.redraw();
@@ -165,15 +174,41 @@ function rawMaterialLotInput(value){
 	if(result){
 		alert("제품과 맞지않는 원자재 입니다.");
 	}else{
-		//다 찼을경우 저장 실행
-		$.when(rawMaterialSave($("#production-ID").val()))
+		//상자가 있으면 저장하고 없으면 저장하지 않는다.
+		if($("#crate-LotNo").val()){
+			rawMaterialSave(value);
+		}
+		/*
+		$.when(rawMaterialSave2($("#production-ID").val()))
 		.then(function(data){
 			workOrderReady($("#crate-LotNo").val(), $("#production-ID").val())
-		})
+		})*/
 	}
 }
-
 function rawMaterialSave(value){
+	var datas = {
+			production_LotNo : $("#crate-LotNo").val(),
+			material_LotNo : value,
+			material_ItemCode : itemTable.getData()[0].workOrder_ItemCode,
+			qty : $("#crate-Qty").val()
+		}
+	$.ajax({
+		method : "post",
+		url : "maskProductionRest/rawMaterialSave",
+		data: datas,
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
+		success: function (data){
+			console.log(data);
+		}
+	});
+}
+/*
+function rawMaterialSave2(value){
+	//있는지 체크
 	var result = LotList.every(x => {
 		return x.rms_LotNo != null
 	})
@@ -199,7 +234,7 @@ function rawMaterialSave(value){
 		});
 		return ajaxResult;
 	}
-}
+}*/
 
 function BOM_Check(values){
 	var result = LotList.every(x => {

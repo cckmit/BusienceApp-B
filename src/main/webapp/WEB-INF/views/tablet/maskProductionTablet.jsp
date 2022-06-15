@@ -25,21 +25,18 @@
 	<div class="main-b">
 		<div class="main-box tablet-border">
 			<div class="item">
-				<label for="crate-LotNo">생산 LOTNO</label>
-				<input id="crate-LotNo" disabled>
-				<input type="hidden" id="crateCode">
+				<label for="crateCode">상 자 코 드</label>
+				<input id="crateCode" readonly>
 			</div>
 			<div class="item">
-				<label for="crate-Qty">상자 내 생산량</label>
+				<label for="crate-LotNo">생산 LOTNO</label>
+				<input id="crate-LotNo" disabled>
+			</div>
+			<div class="item">
+				<label for="crate-Qty">생 산 량</label>
 				<input id="crate-Qty" readonly>
 			</div>
 			<div class="item">
-				<label for="production-ID">자재 식별 코드</label>
-				<input id="production-ID" disabled>
-			</div>
-			<div class="item">
-				<label for="production-Qty">생 산 량</label>
-				<input id="production-Qty" readonly>
 			</div>
 		</div>
 	</div>

@@ -1,13 +1,11 @@
 package com.busience.tablet.controller;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
@@ -17,10 +15,10 @@ import com.busience.standard.dto.BOMDto;
 import com.busience.standard.service.BOMService;
 import com.busience.tablet.dto.CrateLotDto;
 import com.busience.tablet.dto.CrateProductionDto;
+import com.busience.tablet.dto.RawMaterialDto;
 import com.busience.tablet.dto.RawMaterialMasterDto;
 import com.busience.tablet.dto.RawMaterialSubDto;
 import com.busience.tablet.service.MaskProductionService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController("maskProductionRestController")
 @RequestMapping("/tablet/maskProductionRest")
@@ -61,7 +59,12 @@ public class maskProductionRestController {
 	}
 	
 	@PostMapping("/rawMaterialSave")
-	public String rawMaterialSave(
+	public String rawMaterialSave(RawMaterialDto rawMaterialDto) {
+		return maskProductionService.rawMaterialSave(rawMaterialDto);
+	}
+	/*
+	@PostMapping("/rawMaterialSave2")
+	public String rawMaterialSave2(
 			@RequestParam("masterData") String masterData,
 			@RequestParam("subData") String subData) {
 		
@@ -77,7 +80,7 @@ public class maskProductionRestController {
 			e.printStackTrace();
 			return null;
 		}
-	}
+	}*/
 	
 	@GetMapping("/crateSelect")
 	public List<CrateLotDto> crateSelect(SearchDto searchDto) {

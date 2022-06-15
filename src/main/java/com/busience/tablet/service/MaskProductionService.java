@@ -14,10 +14,12 @@ import com.busience.production.dto.WorkOrderDto;
 import com.busience.tablet.dao.CrateDao;
 import com.busience.tablet.dao.CrateLotDao;
 import com.busience.tablet.dao.CrateProductionDao;
+import com.busience.tablet.dao.RawMaterialDao;
 import com.busience.tablet.dao.RawMaterialMasterDao;
 import com.busience.tablet.dao.RawMaterialSubDao;
 import com.busience.tablet.dto.CrateLotDto;
 import com.busience.tablet.dto.CrateProductionDto;
+import com.busience.tablet.dto.RawMaterialDto;
 import com.busience.tablet.dto.RawMaterialMasterDto;
 import com.busience.tablet.dto.RawMaterialSubDto;
 
@@ -32,6 +34,9 @@ public class MaskProductionService {
 	
 	@Autowired
 	RawMaterialSubDao rawMaterialSubDao;
+	
+	@Autowired
+	RawMaterialDao rawMaterialDao;
 	
 	@Autowired
 	CrateDao crateDao;
@@ -84,8 +89,26 @@ public class MaskProductionService {
 		}
 	}
 	
+	public String rawMaterialSave(RawMaterialDto rawMaterialDto) {
+		
+		try {			
+			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					rawMaterialDao.rawMaterialSaveDao(rawMaterialDto);
+				}				
+			});
+			
+			return null;			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	/*
 	//원자재 투입 저장
-	public String rawMaterialSave(RawMaterialMasterDto rawMaterialMasterDto, List<RawMaterialSubDto> rawMaterialSubDtoList) {
+	public String rawMaterialSave1(RawMaterialMasterDto rawMaterialMasterDto, List<RawMaterialSubDto> rawMaterialSubDtoList) {
 		
 		try {			
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
@@ -114,7 +137,7 @@ public class MaskProductionService {
 			e.printStackTrace();
 			return null;
 		}
-	}
+	}*/
 	
 	public List<CrateLotDto> crateSelect(SearchDto searchDto) {
 		//검색해서 있는지 파악
