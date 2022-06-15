@@ -21,4 +21,4 @@
 	</div>
 
 <script src="/js/production/crateManage.js?v=<%=System.currentTimeMillis() %>"></script>
-<script src="/js/labelPrint.js?v=<%=System.currentTimeMillis() %>"></script>
+<script src="/js/labelPrint/paldangLabelPrint.js?v=<%=System.currentTimeMillis() %>"></script>
