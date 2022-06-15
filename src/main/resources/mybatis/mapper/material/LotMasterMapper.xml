@@ -96,6 +96,7 @@
 		<if test="LotNo != ''">
 		AND lmt.LM_LotNo = #{LotNo} 
 		</if>
+		AND lmt.LM_ItemCode = #{ItemCode}
 		<![CDATA[
 		AND lmt.LM_Create_Date >= #{startDate} and lmt.LM_Create_Date < #{endDate}
 		]]>

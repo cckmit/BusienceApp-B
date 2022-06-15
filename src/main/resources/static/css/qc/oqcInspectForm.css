@@ -15,6 +15,11 @@
 	height: 5px;
 }
 
+.formHeader input{
+	width: 100%;
+	border: 1px solid black !important;
+}
+
 .tg td {
 	font-size: 13px;
 	text-align: center;
@@ -26,6 +31,10 @@
 
 .footer {
 	text-align: center;
+}
+
+#stndpart {
+	text-align: left !important;
 }
 
 #machineLine {
@@ -56,7 +65,19 @@ select {
  height: 24px !important;	
 }
 
-.tg input, .tg textarea {
+#unit16 {
+ margin-left: -5px;
+ width: 77px;	
+}
+
+.tg input{
+	margin-left: -3px;
+	width: 115%;
+	resize: none;
+	text-align: left !important;
+}
+
+.tg textarea{
 	width: 100%;
 	resize: none;
 	text-align: left !important;

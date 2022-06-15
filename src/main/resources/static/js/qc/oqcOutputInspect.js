@@ -1,4 +1,4 @@
-var workOrderTable = new Tabulator("#workOrderTable", {
+var salesOutMatTable = new Tabulator("#salesOutMatTable", {
 	clipboard: true,
 	height: "calc(50% - 85px)",
 	headerFilterPlaceholder: null,
@@ -20,43 +20,41 @@ var workOrderTable = new Tabulator("#workOrderTable", {
 	},
 	columns: [
 		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center" },
-		{ title: "LotNo", field: "cl_LotNo", headerHozAlign: "center" },
-		{ title: "작업지시번호", field: "cl_OrderNo", headerHozAlign: "center", visible: false },
-		{ title: "품목 코드", field: "cl_ItemCode", headerHozAlign: "center" },
-		{ title: "품목 명", field: "cl_ItemName", headerHozAlign: "center" },
-		{ title: "규격1", field: "cl_STND_1", headerHozAlign: "center" },
-		{ title: "품목분류1", field: "cl_Item_Clsfc_Name_1", headerHozAlign: "center" },
-		{ title: "생산 수량", field: "cl_Qty", headerHozAlign: "center", hozAlign: "right" },
-		{ title: "설비 코드", field: "cl_EquipCode", headerHozAlign: "center" },
-		{ title: "설비 명", field: "cl_EquipName", headerHozAlign: "center" },
-		{ title: "작업지시일", field: "cl_Create_Date", headerHozAlign: "center" },
-		{ title: "작업종료일", field: "cl_Create_Date", headerHozAlign: "center" },
-		{ title: "검사여부", field: "cl_Create_Date", headerHozAlign: "center" }
+		{ title: "LotNo", field: "sales_OutMat_Lot_No", headerHozAlign: "center" },
+		{ title: "품목 코드", field: "sales_OutMat_Code", headerHozAlign: "center" },
+		{ title: "품목 명", field: "sales_OutMat_Name", headerHozAlign: "center" },
+		{ title: "거래처 코드", field: "sales_OutMat_Client_Code", headerHozAlign: "center" },
+		{ title: "거래처 명", field: "sales_OutMat_Client_Name", headerHozAlign: "center" },
+		{ title: "규격1", field: "sales_OutMat_STND_1", headerHozAlign: "center" },
+		{ title: "재질", field: "sales_OutMat_Material", headerHozAlign: "center" },
+		{ title: "품목분류1", field: "sales_OutMat_Item_Clsfc_Name_1", headerHozAlign: "center" },
+		{ title: "품목분류2", field: "sales_OutMat_Item_Clsfc_Name_2", headerHozAlign: "center" },
+		{ title: "출고 수량", field: "sales_OutMat_Qty", headerHozAlign: "center", hozAlign: "right" },
+		{ title: "출고일", field: "sales_OutMat_Date", headerHozAlign: "center" }
 	],
 });
 
 //matRequest 검색버튼
-function CI_Search() {
+function SOIL_Search() {
 
 	var datas = {
 		startDate: $("#startDate").val(),
 		endDate: $("#endDate").val(),
 		itemCode: $("#PRODUCT_ITEM_CODE1").val(),
-		machineCode: $('#EQUIPMENT_INFO_CODE').val(),
 		LotNo: $("#processLotNo").val()
 	}
 
-	/*crateInspectTable.setData("processInspectionRest/CI_Search", datas)
+	salesOutMatTable.setData("oqcInspectRest/SOIL_Search", datas)
 		.then(function() {
 			//list와 stock의 데이터를 없에준다
-			formClearFunc();
-			console.log(crateInspectTable);
-		})*/
+			//formClearFunc();
+			console.log(salesOutMatTable);
+		})
 }
 
-$("#CI_SearchBtn").click(function() {
-	CI_Search();
-	PI_Search();
+$("#SOIL_SearchBtn").click(function() {
+	SOIL_Search();
+	//PI_Search();
 })
 
 // 출고구분 select를 구성하기위한 ajax
@@ -326,7 +324,7 @@ function lCode_select(value) {
 }
 
 $(document).ready(function() {
-	CI_Search();
+	SOIL_Search();
 	//PI_Search();
 })
 

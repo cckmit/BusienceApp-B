@@ -28,11 +28,6 @@
 						<input id="PRODUCT_ITEM_NAME1" class="Item_Name1 clearInput" type="text" autofocus onkeypress="javascript:if(event.keyCode==13) {itemPopup($(this).val(),'input','1','material')}">
 						<span><strong>LotNo</strong></span>
 						<input id="itemPackLotNo" type="text">	
-						<br>
-						<span><strong>설비코드</strong></span>
-						<input id="EQUIPMENT_INFO_CODE" class="Machine_Code" type="text" disabled>
-						<span><strong>설비명</strong></span>
-						<input id="EQUIPMENT_INFO_NAME" class="Machine_Name clearInput" type="text" autofocus>
 					</div>
 				</div>
 			</div>

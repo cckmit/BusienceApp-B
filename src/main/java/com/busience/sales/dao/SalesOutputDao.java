@@ -41,4 +41,7 @@ public interface SalesOutputDao {
 	
 	// 납품 현황 (거래처별명세서)
 	public List<Sales_OutMat_tbl> salesDeliveryCustomerDao(SearchDto searchDto);
+	
+	// 영업 출고검사 할 리스트 조회
+	public List<Sales_OutMat_tbl> salesOutMatInspectList(SearchDto searchDto);
 }
