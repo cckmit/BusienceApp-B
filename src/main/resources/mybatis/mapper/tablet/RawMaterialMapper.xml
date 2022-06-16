@@ -6,14 +6,16 @@
 	
 <mapper namespace="com.busience.tablet.dao.RawMaterialDao">
 
-	<!-- <select id="rawMaterialSubSelectDao" resultType="com.busience.tablet.dto.RawMaterialSubDto">
-		SELECT
-			A.RMS_Production_ID, A.RMS_LotNo,
-            A.RMS_ItemCode, B.Product_Item_Name RMS_ItemName
-		FROM Raw_MaterialSub_tbl A
-		inner join Product_Info_tbl B on A.RMS_ItemCode = B.Product_Item_Code 
-		where RMS_Production_ID = #{lotNo}
-	</select> -->
+	<select id="rawMaterialSelectDao" resultType="com.busience.tablet.dto.RawMaterialDto">
+		select distinct
+			A.Material_ItemCode,
+		    B.Product_Item_Name Material_ItemName,
+		    (SELECT Material_LotNo FROM Raw_Material_tbl where Material_ItemCode = A.Material_ItemCode order by CrateDate desc limit 1) Material_LotNo,
+		    (SELECT Qty FROM Raw_Material_tbl where Material_ItemCode = A.Material_ItemCode order by CrateDate desc limit 1) Qty
+		from Raw_Material_tbl A
+		inner join Product_Info_tbl B on A.Material_ItemCode = B.Product_Item_Code
+		where A.Production_LotNo = #{LotNo};
+	</select>
 
 	<insert id="rawMaterialSaveDao">
 		insert into Raw_Material_tbl (

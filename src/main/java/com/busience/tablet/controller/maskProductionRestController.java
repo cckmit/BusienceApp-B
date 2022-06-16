@@ -1,11 +1,13 @@
 package com.busience.tablet.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
@@ -19,6 +21,7 @@ import com.busience.tablet.dto.RawMaterialDto;
 import com.busience.tablet.dto.RawMaterialMasterDto;
 import com.busience.tablet.dto.RawMaterialSubDto;
 import com.busience.tablet.service.MaskProductionService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController("maskProductionRestController")
 @RequestMapping("/tablet/maskProductionRest")
@@ -43,9 +46,9 @@ public class maskProductionRestController {
 		return maskProductionService.rawMaterialRecordSelect(searchDto);
 	}
 	
-	@GetMapping("/rawMaterialSubSelect")
-	public List<RawMaterialSubDto> rawMaterialSubSelect(SearchDto searchDto) {
-		return maskProductionService.rawMaterialSubSelect(searchDto);
+	@GetMapping("/rawMaterialSelect")
+	public List<RawMaterialDto> rawMaterialSelect(SearchDto searchDto) {
+		return maskProductionService.rawMaterialSelect(searchDto);
 	}
 	
 	@GetMapping("/workingByMachine")
@@ -59,28 +62,25 @@ public class maskProductionRestController {
 	}
 	
 	@PostMapping("/rawMaterialSave")
-	public String rawMaterialSave(RawMaterialDto rawMaterialDto) {
-		return maskProductionService.rawMaterialSave(rawMaterialDto);
-	}
-	/*
-	@PostMapping("/rawMaterialSave2")
-	public String rawMaterialSave2(
+	public String rawMaterialSave(
 			@RequestParam("masterData") String masterData,
 			@RequestParam("subData") String subData) {
 		
 		ObjectMapper mapper = new ObjectMapper();
 		
 		try {
-			RawMaterialMasterDto rawMaterialMasterDto = mapper.readValue(masterData, RawMaterialMasterDto.class);
+			System.out.println(masterData);
+			System.out.println(subData);
+			RawMaterialDto rawMaterialDto = mapper.readValue(masterData, RawMaterialDto.class);
 			
 			List<RawMaterialSubDto> rawMaterialSubDtoList = Arrays.asList(mapper.readValue(subData, RawMaterialSubDto[].class));
 			
-			return maskProductionService.rawMaterialSave(rawMaterialMasterDto, rawMaterialSubDtoList);
+			return maskProductionService.rawMaterialSave(rawMaterialDto, rawMaterialSubDtoList);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
-	}*/
+	}
 	
 	@GetMapping("/crateSelect")
 	public List<CrateLotDto> crateSelect(SearchDto searchDto) {

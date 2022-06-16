@@ -12,6 +12,7 @@ public class RawMaterialDto {
 	private String Production_LotNo;
 	private String Material_LotNo;
 	private String Material_ItemCode;
+	private String Material_ItemName;
 	private String Qty;
 	private String CrateDate;
 }

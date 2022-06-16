@@ -18,7 +18,8 @@ var itemTable = new Tabulator("#itemTable", {
 		//있으면 생산랏에 대한 정보를 검색하고
 		//없으면 봄만 가져옴
 		if(response.length > 0){
-			//자재식별코드 탐색
+			/*
+			//자재식별코드 탐색		
 			$.when(RawMaterialSelect(response[0]))
 			.then(function(data){
 				// 자재식별코드가 있을경우
@@ -28,13 +29,21 @@ var itemTable = new Tabulator("#itemTable", {
 					//자재식별코드가 없을경우
 					BOM_Check(response[0])
 				}
-			})			
+			})*/	
 			//상자 랏 번호 탐색
-			CrateSelect(response[0])
+			$.when(CrateSelect(response[0]))
+			.then(function(data){
+				return RawSelect(data[0].cl_LotNo);
+			}).then(function(data1){
+				if(data1.length == 0){
+					BOM_Check(response[0])
+				}
+			})
+			
 			//상자 이력
 			crateTableSelect(response[0].workOrder_ONo)
 			//자재식별코드 이력
-			rawMaterialTableSelect(response[0].workOrder_ONo)
+			//rawMaterialTableSelect(response[0].workOrder_ONo)
 			//현재 작업 품목
 			$("#itemName").text(response[0].workOrder_ItemName)
 			//다음 작업 품목
@@ -49,7 +58,7 @@ var itemTable = new Tabulator("#itemTable", {
 	columns:[
 		{title:"현재 생산중인 제품", headerHozAlign:"center",
 			columns: [	
-				{ title: "작업지시No", field: "workOrder_ONo", headerHozAlign: "center"},
+				{ title: "작업지시No", field: "workOrder_ONo", headerHozAlign: "center", visible: false},
 				{ title: "제품코드", field: "workOrder_ItemCode", headerHozAlign: "center"},
 				{ title: "제품이름", field: "workOrder_ItemName", headerHozAlign: "center"},
 				{ title: "규격1", field: "workOrder_Item_STND_1", headerHozAlign: "center"},
@@ -92,17 +101,32 @@ $("#barcodeInput").change(function(){
 	//바코드를 읽었을때
 	//이니셜값 비교하여 맞는 칸에 값을 넣는다.
 	var barcode = $(this).val();
+	
+	$.when(barcodeBranch(barcode))
+	.then(function(data){
+		var newLotNo = data[0].cl_LotNo
+		
+		//다 차있을경우 저장 실행
+		if(inputCheck(newLotNo)){
+			rawMaterialSave(newLotNo);		
+		}
+		$("#barcodeInput").val("");
+	})
+});
+
+function barcodeBranch(barcode){
 	var initial = barcode.substring(0,1);
 	
 	if(initial == 'R'){
 		//상자가 있으면 저장하고 없으면 저장하지 않는다.
 		//코드가 안맞을경우 안맞는다고 알림
 		rawMaterialLotInput(barcode);
+		
+		return [{cl_LotNo : $("#crate-LotNo").val()}]; 
 	}else if(initial == 'N'){
 		// 상자를 바꿀때 설비- 아이템을 확인하여 그정보로 저장
 		$("#crateCode").val(barcode);
-		CrateSave($("#crate-LotNo").val(), barcode)
-		
+		return CrateSave($("#crate-LotNo").val(), barcode)
 		//아이템이 바뀌는데 원자재가 일부만 바뀌어 기존 원자재를 일부 사용할때 문제가 된다.
 		
 		/*
@@ -136,11 +160,7 @@ $("#barcodeInput").change(function(){
 			}
 		}*/
 	}
-	$("#barcodeInput").val("");
-	itemTable.redraw();
-	crateTable.redraw();
-	rawMaterialTable.redraw();
-});
+}
 
 //둘다 lot이 생성 됬을경우 작업시작
 function workOrderReady(LotNo, prodID){
@@ -175,34 +195,45 @@ function rawMaterialLotInput(value){
 		alert("제품과 맞지않는 원자재 입니다.");
 	}else{
 		//상자가 있으면 저장하고 없으면 저장하지 않는다.
+		/*
 		if($("#crate-LotNo").val()){
 			rawMaterialSave(value);
-		}
+		}*/
 		/*
 		$.when(rawMaterialSave2($("#production-ID").val()))
 		.then(function(data){
 			workOrderReady($("#crate-LotNo").val(), $("#production-ID").val())
 		})*/
 	}
+	return 
 }
+function inputCheck(LotNo){
+	var result = LotList.every(x => {
+		return x.rms_LotNo != null
+	})
+	if(LotNo.length > 0 && result){
+		return true;
+	}
+	return false;
+}
+
 function rawMaterialSave(value){
-	var datas = {
-			production_LotNo : $("#crate-LotNo").val(),
-			material_LotNo : value,
-			material_ItemCode : itemTable.getData()[0].workOrder_ItemCode,
+	var masterData = {
+			production_LotNo : value,
 			qty : $("#crate-Qty").val()
 		}
+	console.log(LotList);
 	$.ajax({
 		method : "post",
 		url : "maskProductionRest/rawMaterialSave",
-		data: datas,
+		data: {masterData : JSON.stringify(masterData), subData: JSON.stringify(LotList)},
 		beforeSend: function (xhr) {
            var header = $("meta[name='_csrf_header']").attr("content");
            var token = $("meta[name='_csrf']").attr("content");
            xhr.setRequestHeader(header, token);
 		},
 		success: function (data){
-			console.log(data);
+			//console.log(data);
 		}
 	});
 }
@@ -280,22 +311,22 @@ function RawMaterialSelect(values){
 	return ajaxResult;
 }
 
-function RawSubSelect(value){
+function RawSelect(value){
 	var ajaxResult = $.ajax({
 	method : "get",
-		url : "maskProductionRest/rawMaterialSubSelect",
+		url : "maskProductionRest/rawMaterialSelect",
 		data : {lotNo : value},
 		success : function(data) {
 			LotList = new Array();
 			
 			for(let i=0;i<data.length;i++){
 				LotList.push({
-					rms_LotNo : data[i].rms_LotNo,
-					rms_ItemCode : data[i].rms_ItemCode
+					rms_LotNo : data[i].material_LotNo,
+					rms_ItemCode : data[i].material_ItemCode
 				})
-				$(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Code").val(data[i].rms_ItemCode);
-				$(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Name").val(data[i].rms_ItemName);
-				$(".main-c .item:nth-of-type("+(i+2)+") .LotNo").val(data[i].rms_LotNo);
+				$(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Code").val(data[i].material_ItemCode);
+				$(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Name").val(data[i].material_ItemName);
+				$(".main-c .item:nth-of-type("+(i+2)+") .LotNo").val(data[i].material_LotNo);
 			}
 		}
 	})
@@ -306,7 +337,7 @@ function CrateSelect(values){
 	var ajaxResult = $.ajax({
 		method : "get",
 		url : "maskProductionRest/crateSelect",
-		data : {orderNo : values.workOrder_ONo},
+		data : {machineCode : $("#machineCode").val()},
 		success : function(data) {
 			if(data.length>0){
 				$("#crate-LotNo").val(data[0].cl_LotNo);
@@ -325,8 +356,9 @@ function CrateSave(before, after){
 		data : {
 			CL_Before_LotNo : before,
 			CL_CrateCode : after,
-			CL_OrderNo : itemTable.getData()[0].workOrder_ONo,
-			CL_ItemCode : itemTable.getData()[0].workOrder_ItemCode
+			//CL_OrderNo : itemTable.getData()[0].workOrder_ONo,
+			CL_ItemCode : itemTable.getData()[0].workOrder_ItemCode,
+			CL_MachineCode : $("#machineCode").val()
 		},
 		beforeSend: function (xhr) {
            var header = $("meta[name='_csrf_header']").attr("content");
@@ -385,9 +417,9 @@ var crateTable = new Tabulator("#crateTable", {
 	ajaxLoader:false,
 	height: "100%",
 	columns:[
-		{title:"상자 LotNo 이력", headerHozAlign:"center",
+		{title:"생산 LotNo 이력", headerHozAlign:"center",
 			columns: [	
-				{ title: "상자 LotNo", field: "cl_LotNo", headerHozAlign: "center"},
+				{ title: "생산 LotNo", field: "cl_LotNo", headerHozAlign: "center"},
 				{ title: "상자코드", field: "cl_CrateCode", headerHozAlign: "center"},
 				{ title: "생산수량", field: "cl_Qty", headerHozAlign: "center", hozAlign:"right",
 					formatter:"money", formatterParams: {precision: false}}
@@ -434,6 +466,6 @@ function linkageData(){
 
 window.onload = function(){
 	setInterval(function(){
-		itemTable.replaceData();
+		//itemTable.replaceData();
 	},2000);
 }

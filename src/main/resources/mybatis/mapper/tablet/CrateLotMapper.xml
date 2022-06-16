@@ -104,13 +104,13 @@
 	</select>
 	
 	<insert id="crateLotSaveDao">
-		insert into Crate_Lot_tbl(
+		insert ignore into Crate_Lot_tbl(
 			CL_LotNo, CL_OrderNo, CL_ItemCode,
-			CL_CrateCode, CL_Qty, CL_Create_Date,
+			CL_CrateCode, CL_MachineCode, CL_Qty, CL_Create_Date,
 			CL_Use_Status
 		)values(
 			#{CL_LotNo}, #{CL_OrderNo}, #{CL_ItemCode},
-			#{CL_CrateCode}, 0, now(),
+			#{CL_CrateCode}, #{CL_MachineCode}, 0, now(),
 			1
 		)
 	</insert>
