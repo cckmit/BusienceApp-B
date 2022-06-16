@@ -1,6 +1,10 @@
 //셀위치저장
 var cellPos = new Array();
 
+function printFormatter(cell, formatterParams, onRendered) {
+	return cell.getValue() == 1 ? "true" : "false";
+}
+
 let maskEquipTable = new Tabulator("#maskEquipTable", {
 	//페이징
 	height: "calc(100% - 175px)",

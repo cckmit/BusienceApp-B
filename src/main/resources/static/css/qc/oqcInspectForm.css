@@ -16,7 +16,7 @@
 }
 
 .formHeader input{
-	width: 100%;
+	width: 95%;
 	border: 1px solid black !important;
 }
 
@@ -41,20 +41,18 @@
 	width: 200px;
 }
 
-#productionDate {
-	width: 80px;
+#oqcWorkerList {
+	width: 190px;
 }
 
-#processDate {
+#oqcOutMatQty {
 	width: 80px;
+	text-align: right;
 }
 
-#processQty {
+#oqcQty {
 	width: 80px;
-}
-
-#pqcWorkerList {
-	width: 230px;
+	text-align: right;
 }
 
 #processLotNo {
@@ -63,11 +61,6 @@
 
 select {
  height: 24px !important;	
-}
-
-#unit16 {
- margin-left: -5px;
- width: 77px;	
 }
 
 .tg input{

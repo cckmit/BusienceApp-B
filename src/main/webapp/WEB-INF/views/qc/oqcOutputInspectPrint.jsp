@@ -1,37 +1,77 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-	
-	<div class="soloView1">
+
+<link href="/css/qc/oqcInspectPrint.css" rel="stylesheet" />
 		<!-- MAIN -->
-		<div class="main">
+	<div class="main">
 			<!-- 그리드 생성 장소 -->
-			<div class="master-table" style="padding-left: 10px;">
+		<div class="container">
 			<table class="tg table table-bordered">
-		<!-- 		<tr>
-						<td colspan="3">문서번호</td>
-						<td colspan="4"><input type="text" id="proInspectEquipName" readonly></td>
-						<td colspan="3">고&nbsp;&nbsp;객&nbsp;&nbsp;사</td>
-						<td colspan="4"><input type="text" id="proInspectItemName" readonly></td>
-						<td colspan="3">검&nbsp;&nbsp;사&nbsp;&nbsp;자</td>
-						<td colspan="4"><input type="text" id="proInspectItemName" readonly></td>
-					</tr>
-					<tr>
-						<td colspan="3">품&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;명</td>
-						<td colspan="4"><input type="text" id="productionDate" readonly></td>
-						<td colspan="3">출고수량</td>
-						<td colspan="4"><input type="text" id="productionDate" readonly></td>
-						<td colspan="3">규&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;격</td>
-						<td colspan="4"><input type="text" id="productionDate" readonly></td>
-					</tr>
-					<tr>
-						<td colspan="3">검사일자</td>
-						<td colspan="4"><input type="text" id="processQty"></td>
-						<td colspan="3">검사수량</td>
-						<td colspan="4"><input type="text" id="productionDate" readonly></td>
-						<td colspan="3">검사기준</td>
-						<td colspan="4">KS Q ISO 2859-1</td>
-					</tr> -->
+			<thead>
+				<tr>
+					<td rowspan="3" colspan="5"></td>
+					<td colspan="10" rowspan="3" style="height: 30px !important;">
+						<p style="font-family: '고딕'; font-weight: 900; letter-spacing: -0.03em; font-size: 26px;">완제품포장 검사성적서</p>
+					</td>
+					<td colspan="3"  style="height: 15px !important;">작 성</td>
+					<td colspan="3">검 토</td>
+					<td colspan="3">승 인</td>
+				</tr>
+				<tr>
+					<td colspan="3" style="height: 70px !important;"></td>
+					<td colspan="3"></td>
+					<td colspan="3"></td>
+				</tr>
+				<tr>
+					<td colspan="3" style="height: 15px !important;">/</td>
+					<td colspan="3">/</td>
+					<td colspan="3">/</td>
+				</tr>
+				<tr>
+					<td colspan="5">LOT NO</td>
+					<td colspan="7"><input type="text" id="subitemInspectLotNo" readonly></td>
+					<td colspan="5">제품명</td>
+					<td colspan="7"><input type="text" id="subitemInspectItemName" readonly></td>
+				</tr>
+				<tr>
+					<td colspan="5">생산일자/검사일자</td>
+					<td colspan="7"><input type="text" id="subitemPackingDate" readonly>&nbsp;/&nbsp; <input type="text" id="subitemInspectDate" readonly></td>
+					<td colspan="5">검사자</td>
+					<td colspan="7"><input type="text" id="subitemPackingWorkerList" readonly></td>
+				</tr>
+				<tr>
+					<td colspan="5">검사기준/검사수량</td>
+					<td colspan="7">KS Q ISO 2859-1</td>
+					<td colspan="5">시료수</td>
+					<td colspan="7"><input type="text" id="subitemInspectQty">개 /&nbsp;&nbsp;<input type="text" id="subitemColorType">
+					</td>
+				</tr>
+			</thead>	
 			<tbody>
+				<tr>
+					<td colspan="3">문서번호</td>
+					<td colspan="4"><input type="text" id="proInspectEquipName" readonly></td>
+					<td colspan="3">고&nbsp;&nbsp;객&nbsp;&nbsp;사</td>
+					<td colspan="4"><input type="text" id="proInspectItemName" readonly></td>
+					<td colspan="3">검&nbsp;&nbsp;사&nbsp;&nbsp;자</td>
+					<td colspan="4"><input type="text" id="proInspectItemName" readonly></td>
+				</tr>
+				<tr>
+					<td colspan="3">품&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;명</td>
+					<td colspan="4"><input type="text" id="productionDate" readonly></td>
+					<td colspan="3">출고수량</td>
+					<td colspan="4"><input type="text" id="productionDate" readonly></td>
+					<td colspan="3">규&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;격</td>
+					<td colspan="4"><input type="text" id="productionDate" readonly></td>
+				</tr>
+				<tr>
+					<td colspan="3">검사일자</td>
+					<td colspan="4"><input type="text" id="processQty"></td>
+					<td colspan="3">검사수량</td>
+					<td colspan="4"><input type="text" id="productionDate" readonly></td>
+					<td colspan="3">검사기준</td>
+					<td colspan="4">KS Q ISO 2859-1</td>
+				</tr>
 				<tr>
 					<td colspan="3" style="border: 2px; width: 40px;">NO</td>
 					<td colspan="3">검사항목</td>
@@ -293,7 +333,6 @@
 		</div>
 		</div>
 		<!-- END MAIN -->
-	</div>
 
 <!-- END WRAPPER -->
 <!-- Javascript -->

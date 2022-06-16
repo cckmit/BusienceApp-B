@@ -30,27 +30,18 @@ public class QCController {
 
 	// oqcOutputInspect
 	@GetMapping("/oqcOutputInspect")
-	public String iqcInputInspect(Model model) {
+	public String oqcOutputInspect(Model model) {
 
-		// 로직
-		int rogic = 22;
-		model.addAttribute("rogicList", dtlService.getDtl(rogic));
-
-		// 작업자
-		int in = 23;
-		model.addAttribute("inList", dtlService.getDtl(in));
-
-		// 유형
-		int cost = 25;
-		model.addAttribute("costList", dtlService.getDtl(cost));
-
-		// 판정
-		int check = 27;
-		model.addAttribute("checkList", dtlService.getDtl(check));
-
-		model.addAttribute("pageName", "최종 검사");
+		model.addAttribute("oqcInspectWorkerList", dtlService.getDtl(24));
+		model.addAttribute("pageName", "출하 검사 관리");
 
 		return "qc/oqcOutputInspect";
+	}
+	
+	// oqcOutputInspectPrint
+	@GetMapping("/oqcOutputInspectPrint")
+	public String oqcOutputInspectPrint(Model model) {
+		return "normal/qc/oqcOutputInspectPrint";
 	}
 
 	// oqcOutputList

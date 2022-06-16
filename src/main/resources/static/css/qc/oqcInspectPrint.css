@@ -6,36 +6,53 @@
 	word-break:break-all;
 }
 
+.formHeader {
+	font-size: 13px;
+	text-align: center;
+	vertical-align: middle !important;
+	border: 2px solid !important;
+	padding: 7px !important;
+	height: 5px;
+}
+
+.formHeader input{
+	width: 95%;
+	border: 1px solid black !important;
+}
+
 .tg td {
-	font-size: 14px;
+	font-size: 13px;
 	text-align: center;
 	vertical-align: middle !important;
 	border: 2px solid black !important;
-	padding: 5px !important;
-	height: 55px;
+	padding: 7px !important;
+	height: 5px;
 }
+
 .footer {
 	text-align: center;
+}
+
+#stndpart {
+	text-align: left !important;
 }
 
 #machineLine {
 	width: 200px;
 }
 
-#productionDate {
-	width: 80px;
+#oqcWorkerList {
+	width: 190px;
 }
 
-#processDate {
+#oqcOutMatQty {
 	width: 80px;
+	text-align: right;
 }
 
-#processQty {
+#oqcQty {
 	width: 80px;
-}
-
-#pqcWorkerList {
-	width: 230px;
+	text-align: right;
 }
 
 #processLotNo {
@@ -46,7 +63,19 @@ select {
  height: 24px !important;	
 }
 
-.tg input, .tg textarea {
+#unit16 {
+ margin-left: -5px;
+ width: 77px;	
+}
+
+.tg input{
+	margin-left: -3px;
+	width: 115%;
+	resize: none;
+	text-align: left !important;
+}
+
+.tg textarea{
 	width: 100%;
 	resize: none;
 	text-align: left !important;

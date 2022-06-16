@@ -7,14 +7,14 @@ var salesOutMatTable = new Tabulator("#salesOutMatTable", {
 	rowFormatter: function(row) {
 	},
 	rowClick: function(e, row) {
-		crateInspectTable.deselectRow();
+		salesOutMatTable.deselectRow();
 		row.select();
 	},
 	rowSelected: function(row) {
 		formClearFunc();
 		row.select();
 		// 설비명, 제품명, 생산일자
-		CIForm_Search(row.getData().cl_EquipName, row.getData().cl_ItemName, row.getData().cl_Create_Date);
+		SOILForm_Search(row.getData().sales_OutMat_Client_Name, row.getData().sales_OutMat_Name, row.getData().sales_OutMat_Qty, row.getData().sales_OutMat_STND_1);
 		UseBtn();
 		$("#processQty").focus();
 	},
@@ -29,7 +29,7 @@ var salesOutMatTable = new Tabulator("#salesOutMatTable", {
 		{ title: "재질", field: "sales_OutMat_Material", headerHozAlign: "center" },
 		{ title: "품목분류1", field: "sales_OutMat_Item_Clsfc_Name_1", headerHozAlign: "center" },
 		{ title: "품목분류2", field: "sales_OutMat_Item_Clsfc_Name_2", headerHozAlign: "center" },
-		{ title: "출고 수량", field: "sales_OutMat_Qty", headerHozAlign: "center", hozAlign: "right" },
+		{ title: "출고 수량", field: "sales_OutMat_Qty", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false } },
 		{ title: "출고일", field: "sales_OutMat_Date", headerHozAlign: "center" }
 	],
 });
@@ -41,6 +41,7 @@ function SOIL_Search() {
 		startDate: $("#startDate").val(),
 		endDate: $("#endDate").val(),
 		itemCode: $("#PRODUCT_ITEM_CODE1").val(),
+		clientCode: $("#InMat_Client_Code1").val(),
 		LotNo: $("#processLotNo").val()
 	}
 
@@ -105,13 +106,26 @@ var processInspectTable = new Tabulator("#processInspectTable", {
 	console.log(processInspectTable);
 }*/
 
-//matInputInspect 정보 삽입
-function CIForm_Search(EquipName, ItemName, ProductionDate) {
+//oqcInspect 정보 삽입
+function SOILForm_Search(CusName, ItemName, OutmatQty, ItemStnd) {
 	var now = moment();
-	$("#proInspectEquipName").val(EquipName);
-	$("#proInspectItemName").val(ItemName);
-	$("#productionDate").val(moment(ProductionDate).format("YYYY-MM-DD"));
-	$("#processDate").val(now.format("YYYY-MM-DD"));
+	$("#oqcCusName").val(CusName);
+	$("#oqcItemName").val(ItemName);
+	$("#oqcOutMatQty").val(OutmatQty.toLocaleString('ko-KR'));
+	$("#oqcItemSTND_1").val(ItemStnd);
+	$("#oqcDate").val(now.format("YYYY-MM-DD"));
+	// 셋째 자리 콤마 넣기
+	const input = document.querySelector('#oqcQty');
+	input.addEventListener('keyup', function(e) {
+		let value = e.target.value;
+		value = Number(value.replaceAll(',', ''));
+		if (isNaN(value)) {
+			input.value = 0;
+		} else {
+			const formatValue = value.toLocaleString('ko-KR');
+			input.value = formatValue;
+		}
+	})
 
 }
 
@@ -150,7 +164,7 @@ function PIF_Search(LotNo) {
 				}
 
 				document.querySelectorAll('#status')[i].value = PIF_datas[i].process_Inspect_Status;
-				document.querySelectorAll('#result')[0].value = PIF_datas[0].process_Inspect_Result;	
+				document.querySelectorAll('#result')[0].value = PIF_datas[0].process_Inspect_Result;
 			}
 		}
 	});
@@ -172,133 +186,177 @@ function MOM_Search(requestNo, itemCode) {
 	});
 }
 
-function PI_Save() {
+function SOI_Save() {
 
-	let values = 8;
+	let values = 16;
 
-	var selectedRow = crateInspectTable.getData("selected");
+	let unitValues = 7;
 
-	if ($("#proInspectEquipName").val() == "") {
+	var selectedRow = salesOutMatTable.getData("selected");
+
+	if ($("#oqcItemName").val() == "") {
 		alert("검사할 행을 선택해주세요.");
 		return false;
 	}
 
-	if ($("#processQty").val() > selectedRow[0].cl_Qty) {
-		alert("시료수가 생산수량보다 많습니다.");
+	if ($("#oqcQty").val() > selectedRow[0].sales_OutMat_Qty) {
+		alert("검사수량이 출고수량보다 많습니다.");
 		return false;
 	}
 
-	for (let j = 0; j < values; j++) {
-		let processInspectData = new Array();
-		let elements_1 = document.querySelectorAll('#value1')[j].value;
-		let elements_2 = document.querySelectorAll('#value2')[j].value;
-		let elements_3 = document.querySelectorAll('#value3')[j].value;
-		let elements_4 = document.querySelectorAll('#value4')[j].value;
-		let elements_5 = document.querySelectorAll('#value5')[j].value;
-		let stndData_1 = document.querySelectorAll('#stnd1')[j].value;
-		let stndData_2 = document.querySelectorAll('#stnd2')[j].value;
-		let statusData = document.querySelectorAll('#status > option:checked')[j].value;
+	let packUnit;
 
-		processInspectData = {
-			process_Inspect_LotNo: selectedRow[0].cl_LotNo,
-			process_Inspect_Number: j + 1,
-			process_Inspect_EquipCode: selectedRow[0].cl_EquipCode,
-			process_Inspect_ItemCode: selectedRow[0].cl_ItemCode,
-			process_Inspect_Qty: $("#processQty").val(),
-			process_Inspect_Color: document.querySelector('#itemColorType > option:checked').value,
-			process_Inspect_Date: $("#processDate").val(),
-			process_Inspect_Worker: document.querySelector('#pqcWorkerList > option:checked').value,
-			process_Inspect_Value_1: elements_1,
-			process_Inspect_Value_2: elements_2,
-			process_Inspect_Value_3: elements_3,
-			process_Inspect_Value_4: elements_4,
-			process_Inspect_Value_5: elements_5,
-			process_Inspect_STND_1: stndData_1,
-			process_Inspect_STND_2: stndData_2,
-			process_Inspect_Status: statusData,
-			process_Inspect_Result: document.querySelector('#result > option:checked').value,
-			process_Inspect_Remark: $("#processRemark").val()
+	let dataList = new Array();
+
+	let packUnitList = new Array();
+
+	for (let j = 0; j < values; j++) {
+		let oqcInspectData = new Array();
+
+		let elements_1;
+		let elements_2;
+		let elements_3;
+		let elements_4;
+		let elements_5;
+		let elements_6;
+		let elements_7;
+		let elements_8;
+		let elements_9;
+		let elements_10;
+		let stndData_1;
+		let stndData_2;
+
+
+		if (j < 16) {
+
+			elements_1 = document.querySelectorAll('#value1')[j].value;
+			elements_2 = document.querySelectorAll('#value2')[j].value;
+			elements_3 = document.querySelectorAll('#value3')[j].value;
+			elements_4 = document.querySelectorAll('#value4')[j].value;
+			elements_5 = document.querySelectorAll('#value5')[j].value;
+			elements_6 = document.querySelectorAll('#value6')[j].value;
+			elements_7 = document.querySelectorAll('#value7')[j].value;
+			elements_8 = document.querySelectorAll('#value8')[j].value;
+			elements_9 = document.querySelectorAll('#value9')[j].value;
+			elements_10 = document.querySelectorAll('#value10')[j].value;
+
+			stndData_1 = document.querySelectorAll('#stnd1')[j].value;
+			stndData_2 = document.querySelectorAll('#stnd2')[j].value;
+
 		}
 
-		console.log(processInspectData);
+		let statusData = document.querySelectorAll('#status > option:checked')[j].value;
 
-		//OrderSub 저장부분
-		$.ajax({
-			method: "post",
-			url: "processInspectionRest/PI_Save",
-			data: processInspectData,
-			beforeSend: function(xhr) {
-				var header = $("meta[name='_csrf_header']").attr("content");
-				var token = $("meta[name='_csrf']").attr("content");
-				xhr.setRequestHeader(header, token);
-			},
-			success: function(result) {
-				if (result) {
-					$(function() {
-						alert("저장되었씁니다.");
-						$(this).off();
-					})
-					formClearFunc();
-					CI_Search();
-					PI_Search();
-				} else {
-					alert("중복된 값이 존재합니다.")
-				}
-			}
-		});
+		oqcInspectData = {
+			oqc_Inspect_LotNo: selectedRow[0].sales_OutMat_Lot_No,
+			oqc_Inspect_Number: j + 1,
+			oqc_Inspect_ItemCode: selectedRow[0].sales_OutMat_Code,
+			oqc_Inspect_Customer: selectedRow[0].sales_OutMat_Client_Code,
+			oqc_Inspect_Qty: $("#oqcQty").val(),
+			oqc_Inspect_Date: $("#oqcDate").val(),
+			oqc_Inspect_Worker: document.querySelector('#oqcWorkerList > option:checked').value,
+			oqc_Inspect_Value_1: elements_1,
+			oqc_Inspect_Value_2: elements_2,
+			oqc_Inspect_Value_3: elements_3,
+			oqc_Inspect_Value_4: elements_4,
+			oqc_Inspect_Value_5: elements_5,
+			oqc_Inspect_Value_6: elements_6,
+			oqc_Inspect_Value_7: elements_7,
+			oqc_Inspect_Value_8: elements_8,
+			oqc_Inspect_Value_9: elements_9,
+			oqc_Inspect_Value_10: elements_10,
+			oqc_Inspect_STND_1: stndData_1,
+			oqc_Inspect_STND_2: stndData_2,
+			oqc_Inspect_Status: statusData,
+			oqc_Inspect_Result: document.querySelector('#result > option:checked').value,
+			oqc_Inspect_Remark: $("#oqcRemark").val()
+		}
+
+		dataList.push(oqcInspectData);
 	}
-}
 
-function PI_SaveBtn() {
-	PI_Save();
-}
+	for (let k = 0; k < unitValues; k++) {
+		packUnit = document.querySelectorAll('#unit1 > option:checked')[k].value;
+		packUnitList.push({ oqc_Inspect_Packing_Unit: packUnit });
+	}
 
+	console.log(dataList);
+	console.log(packUnitList);
+
+	//itemPacking 저장부분
+	$.ajax({
+		method: "post",
+		url: "oqcInspectRest/SOI_Save",
+		data: {dataList: JSON.stringify(dataList), packList: JSON.stringify(packUnitList)},
+		beforeSend: function(xhr) {
+			var header = $("meta[name='_csrf_header']").attr("content");
+			var token = $("meta[name='_csrf']").attr("content");
+			xhr.setRequestHeader(header, token);
+		},
+		success: function(result) {
+			console.log(result);
+			if (result) {
+				alert("저장되었씁니다.");
+				formClearFunc();
+				SOIL_Search();
+			} else {
+				alert("중복된 값이 존재합니다.")
+			}
+		}
+	});
+}
 
 // 입력 폼 clear
 function formClearFunc() {
-	$("#proInspectEquipName").val("");
-	$("#proInspectItemName").val("");
-	$("#productionDate").val("");
-	$("#processDate").val("");
-	$("#processQty").val("");
+	$("#oqcCusName").val("");
+	$("#oqcItemName").val("");
+	$("#oqcOutMatQty").val("");
+	$("#oqcItemSTND_1").val("");
+	$("#oqcDate").val("");
+	$("#oqcQty").val("");
 
-	let values = 8;
+	let values = 16;
 
 	for (var i = 0; i < values; i++) {
-		document.querySelectorAll('#value1')[i].value = "";
-		document.querySelectorAll('#value2')[i].value = "";
-		document.querySelectorAll('#value3')[i].value = "";
-		document.querySelectorAll('#value4')[i].value = "";
-		document.querySelectorAll('#value5')[i].value = "";
 		document.querySelectorAll('#stnd1')[i].value = "";
 		document.querySelectorAll('#stnd2')[i].value = "";
+		document.querySelectorAll('.tempValue1')[i].value = "";
+		document.querySelectorAll('.tempValue2')[i].value = "";
+		document.querySelectorAll('.tempValue3')[i].value = "";
+		document.querySelectorAll('.tempValue4')[i].value = "";
+		document.querySelectorAll('.tempValue5')[i].value = "";
+		document.querySelectorAll('.tempValue6')[i].value = "";
+		document.querySelectorAll('.tempValue7')[i].value = "";
+		document.querySelectorAll('.tempValue8')[i].value = "";
+		document.querySelectorAll('.tempValue9')[i].value = "";
+		document.querySelectorAll('.tempValue10')[i].value = "";
 		document.querySelectorAll('#status')[i].value = true;
 	}
 
-	document.querySelector('#pqcWorkerList').value = '327';
-	document.querySelector('#itemColorType').value = '화이트';
+	document.querySelector('#oqcWorkerList').value = '231';
 	document.querySelector('#result').value = true;
-
-	$("#processRemark").val("");
+	
+	
+	$("#oqcRemark").val("");
 
 }
 
 //SOM_SaveBtn
-$('#PI_SaveBtn').click(function() {
-	PI_Save();
+$('#SOI_SaveBtn').click(function() {
+	SOI_Save();
 })
 
 //MO_PrintBtn
-$('#PI_PrintBtn').click(function() {
-	PI_print();
+$('#SOI_PrintBtn').click(function() {
+	SOI_print();
 })
 
-//orderprint
-function PI_print() {
+//OQCprint
+function SOI_print() {
 	//창의 주소
-	var url = "processInspectPrint";
+	var url = "oqcOutputInspectPrint";
 	//창의 이름
-	var name = "processInspectPrint";
+	var name = "oqcOutputInspectPrint";
 	//창의 css
 	var option = "width = 1000, height = 800, top = 50, left = 440, location = top";
 
