@@ -36,11 +36,11 @@
 	
 	<insert id="insertUser">
 		insert into User_Info_tbl (
-				USER_CODE, USER_PASSWORD, USER_NAME, USER_TYPE,
-				COMPANY, DEPT_CODE, USER_MODIFIER, USER_USE_STATUS
+				User_Code, User_Password, User_Name, User_Type,
+				Company, Dept_Code, User_Modifier, User_Use_Status
 			) values(
-				#{USER_CODE}, #{USER_PASSWORD}, #{USER_NAME}, #{USER_TYPE},
-				#{COMPANY}, #{DEPT_CODE}, #{USER_MODIFIER}, #{USER_USE_STATUS}
+				#{User_Code}, #{User_Password}, #{User_Name}, #{User_Type},
+				#{Company}, #{Dept_Code}, #{User_Modifier}, #{User_Use_Status}
 			)
 	</insert>
 	
@@ -53,22 +53,22 @@
 	<update id="updateUser">
 		update User_Info_tbl
 			set
-			USER_NAME = #{USER_NAME},
-			USER_TYPE = #{USER_TYPE},
-			COMPANY = #{COMPANY},
-			DEPT_CODE = #{DEPT_CODE},
-			USER_MODIFIER = #{USER_MODIFIER},
-			USER_MODIFY_D = now(),
-			USER_USE_STATUS = #{USER_USE_STATUS}
-			where USER_CODE = #{USER_CODE}
+			User_Name = #{User_Name},
+			User_Type = #{User_Type},
+			Company = #{Company},
+			Dept_Code = #{Dept_Code},
+			User_Modifier = #{User_Modifier},
+			User_Modify_D = now(),
+			User_Use_Status = #{User_Use_Status}
+			where User_Code = #{User_Code}
 	</update>
 	
 	<update id="updatePassword">
 		update User_Info_tbl
 			set
-			USER_PASSWORD = #{USER_PASSWORD},
-			USER_MODIFIER = #{USER_MODIFIER},
-			USER_MODIFY_D = now()
-			where USER_CODE = #{USER_CODE}
+			User_Password = #{User_Password},
+			User_Modifier = #{User_Modifier},
+			User_Modify_D = now()
+			where User_Code = #{User_Code}
 	</update>
 </mapper>
