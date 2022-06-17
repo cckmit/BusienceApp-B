@@ -18,7 +18,7 @@
 	</select>
 
 	<insert id="rawMaterialSaveDao">
-		insert into Raw_Material_tbl (
+		insert ignore into Raw_Material_tbl (
 			Production_LotNo, Material_LotNo, Material_ItemCode, Qty
 		)values(
 			#{Production_LotNo},

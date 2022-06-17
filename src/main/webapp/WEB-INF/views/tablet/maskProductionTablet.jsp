@@ -79,16 +79,12 @@
 	<footer class="global-footer">
 		<div class="footer-box tablet-border">
 			<div class="table-container">
-				<p id="nextItemName">다음 제품 :</p>
 				<button id="nextWorkBtn">
-					<i class="fas fa-angle-double-right"></i>
+					작업완료
 				</button>
 			</div>
 			<div class="table-container">
 				<div id="crateTable" class="tablet-Table"></div>
-			</div>
-			<div class="table-container">
-				<div id="rawMaterialTable" class="tablet-Table"></div>
 			</div>
 		</div>
 	</footer>

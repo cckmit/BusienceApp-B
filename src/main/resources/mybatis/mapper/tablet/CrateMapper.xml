@@ -30,10 +30,11 @@
 			C_Use_Status = #{C_Use_Status}
 	</insert>
 	
-	<update id="CrateUpdateDao">
+	<update id="crateUpdateDao">
 		update Crate_tbl
 		set
-		C_Use_Status = #{C_Use_Status}
+		C_Use_Status = #{C_Use_Status},
+		C_Production_LotNo = #{C_Production_LotNo}
 		where C_CrateCode = #{C_CrateCode}
 	</update>
 </mapper>

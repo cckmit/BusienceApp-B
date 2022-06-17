@@ -1,7 +1,5 @@
 package com.busience.monitoring.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +17,7 @@ public class productionStatusRestController {
 	ProductionStatusService productionStatusService;
 	
 	@GetMapping("productionStatusSelect")
-	public List<CrateLotDto> productionStatusSelect(SearchDto searchDto){
+	public CrateLotDto productionStatusSelect(SearchDto searchDto){
 		return productionStatusService.productionStatusSelect(searchDto);
 	}
 }

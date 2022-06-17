@@ -13,5 +13,6 @@ public class CrateDto {
 	private String C_Condition;
 	private String C_Create_Date;
 	private boolean C_Use_Status;
+	private String C_Production_LotNo;
 }
 

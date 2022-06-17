@@ -1,7 +1,5 @@
  package com.busience.monitoring.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +14,7 @@ public class ProductionStatusService {
 	CrateLotDao crateLotDao;
 	
 	
-	public List<CrateLotDto> productionStatusSelect(SearchDto searchDto) {
+	public CrateLotDto productionStatusSelect(SearchDto searchDto) {
 		//검색해서 있는지 파악
 		//있으면 해당내용을 뿌림
 		return crateLotDao.crateLotSelectDao2(searchDto);

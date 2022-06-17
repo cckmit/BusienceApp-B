@@ -20,7 +20,7 @@ public class ItemService {
 	public List<ItemDto> selectItemList() {
 		return itemDao.selectItemList();
 	}
-	
+
 	//등록
 	public int insertItemCode(ItemDto itemDto){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

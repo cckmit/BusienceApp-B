@@ -14,6 +14,7 @@ import com.busience.common.dto.SearchDto;
 import com.busience.production.dto.WorkOrderDto;
 import com.busience.production.service.WorkOrderService;
 import com.busience.standard.dto.BOMDto;
+import com.busience.standard.dto.ItemDto;
 import com.busience.standard.service.BOMService;
 import com.busience.tablet.dto.CrateLotDto;
 import com.busience.tablet.dto.CrateProductionDto;
@@ -52,7 +53,7 @@ public class maskProductionRestController {
 	}
 	
 	@GetMapping("/workingByMachine")
-	public List<WorkOrderDto> workingByMachine(SearchDto searchDto){
+	public ItemDto workingByMachine(SearchDto searchDto){
 		return maskProductionService.workingSelectByMachine(searchDto);
 	}
 	
@@ -83,7 +84,7 @@ public class maskProductionRestController {
 	}
 	
 	@GetMapping("/crateSelect")
-	public List<CrateLotDto> crateSelect(SearchDto searchDto) {
+	public CrateLotDto crateSelect(SearchDto searchDto) {
 		return maskProductionService.crateSelect(searchDto);
 	}
 	
@@ -93,7 +94,7 @@ public class maskProductionRestController {
 	}
 	
 	@PostMapping("/crateSave")
-	public List<CrateLotDto> crateSave(CrateLotDto crateLotNoDto) {
+	public CrateLotDto crateSave(CrateLotDto crateLotNoDto) {
 		return maskProductionService.crateSave(crateLotNoDto);
 	}
 	

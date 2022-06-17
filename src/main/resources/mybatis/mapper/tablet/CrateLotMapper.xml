@@ -48,7 +48,7 @@
 			CL_LotNo, CL_OrderNo, CL_ItemCode,
 		    CL_CrateCode, CL_Qty, CL_Create_Date, CL_Use_Status
 		FROM Crate_Lot_tbl
-		where CL_OrderNo = #{OrderNo}
+		where CL_MachineCode = #{machineCode}
 		and CL_Use_Status = 0
 		order by CL_Create_Date desc
 		limit 3
@@ -127,7 +127,8 @@
 		set
 		CL_Qty = CL_Qty + #{CL_Qty},
 		CL_ProductionQty = CL_Qty
-		where CL_LotNo = #{CL_LotNo}
+		where CL_MachineCode = #{CL_MachineCode}
+		and CL_Use_Status = 1
 	</update>
 	
 	<update id="crateLotUpdateDao2">

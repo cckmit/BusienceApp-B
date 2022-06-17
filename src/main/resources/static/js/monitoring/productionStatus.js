@@ -9,10 +9,10 @@ function productStatus(machineCode){
 		data : {machineCode : machineCode},
         url : "/productionStatusRest/productionStatusSelect",
         success : function(result) {
-			if(result.length>0){
+			if(result instanceof Object){
 	        	$("#"+machineCode).val(machineCode)
-	        	$("#itemCode_"+machineCode).val(result[0].cl_ItemCode)
-	        	$("#qty_"+machineCode).val(result[0].cl_Qty)
+	        	$("#itemCode_"+machineCode).val(result.cl_ItemCode)
+	        	$("#qty_"+machineCode).val(result.cl_Qty)
 			}
         }
     })

@@ -10,13 +10,15 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import com.busience.common.dto.SearchDto;
 import com.busience.production.dao.WorkOrderDao;
-import com.busience.production.dto.WorkOrderDto;
+import com.busience.standard.dao.ItemDao;
+import com.busience.standard.dto.ItemDto;
 import com.busience.tablet.dao.CrateDao;
 import com.busience.tablet.dao.CrateLotDao;
 import com.busience.tablet.dao.CrateProductionDao;
 import com.busience.tablet.dao.RawMaterialDao;
 import com.busience.tablet.dao.RawMaterialMasterDao;
 import com.busience.tablet.dao.RawMaterialSubDao;
+import com.busience.tablet.dto.CrateDto;
 import com.busience.tablet.dto.CrateLotDto;
 import com.busience.tablet.dto.CrateProductionDto;
 import com.busience.tablet.dto.RawMaterialDto;
@@ -26,6 +28,9 @@ import com.busience.tablet.dto.RawMaterialSubDto;
 @Service
 public class MaskProductionService {
 
+	@Autowired
+	ItemDao itemDao;
+	
 	@Autowired
 	WorkOrderDao workOrderDao;
 	
@@ -68,25 +73,11 @@ public class MaskProductionService {
 	}
 	
 	// 설비명으로 조회
-	public List<WorkOrderDto> workingSelectByMachine(SearchDto searchDto) {
-		try {			
-			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+	public ItemDto workingSelectByMachine(SearchDto searchDto) {
+		// 설비명으로 품목 조회
+		String itemCode = workOrderDao.workingSelectByMachineDao(searchDto).get(0).getWorkOrder_ItemCode();
 
-				@Override
-				protected void doInTransactionWithoutResult(TransactionStatus status) {
-					// 설비명으로 작업지시 조회 후
-					workOrderDao.workingSelectByMachineDao(searchDto);
-					//작업지시번호로 자재식별코드 검색
-					
-					//작업지시번호로 상자lot 검색
-				}				
-			});
-			
-			return workOrderDao.workingSelectByMachineDao(searchDto);			
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+		return itemDao.selectItemCode(itemCode);		
 	}
 	
 	
@@ -114,7 +105,7 @@ public class MaskProductionService {
 		}
 	}
 	
-	public List<CrateLotDto> crateSelect(SearchDto searchDto) {
+	public CrateLotDto crateSelect(SearchDto searchDto) {
 		//검색해서 있는지 파악
 		//있으면 해당내용을 뿌림
 		return crateLotDao.crateLotSelectDao2(searchDto);
@@ -127,7 +118,7 @@ public class MaskProductionService {
 	}
 	
 	// 코드 조건으로 조회
-	public List<CrateLotDto> crateSave(CrateLotDto crateLotDto) {
+	public CrateLotDto crateSave(CrateLotDto crateLotDto) {
 		
 		try {			
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
@@ -140,6 +131,13 @@ public class MaskProductionService {
 						crateLotDao.crateLotUpdateDao(crateLotDto);
 					}
 					String LotNo = crateLotDao.crateLotNoCreateDao(crateLotDto);
+					
+					CrateDto crateDto = new CrateDto();
+					crateDto.setC_Use_Status(true);
+					crateDto.setC_Production_LotNo(LotNo);
+					crateDto.setC_CrateCode(crateLotDto.getCL_CrateCode());
+					System.out.println(crateDto);
+					crateDao.crateUpdateDao(crateDto);
 					
 					crateLotDto.setCL_LotNo(LotNo);
 					crateLotDao.crateLotSaveDao(crateLotDto);					
@@ -170,20 +168,23 @@ public class MaskProductionService {
 					SearchDto searchDto = new SearchDto();
 										
 					searchDto.setMachineCode(equip);
-					 
+					
+					/*
 					//작업지시 가져오기
 					List<WorkOrderDto> workOrderDtoList = workOrderDao.workingSelectByMachineDao(searchDto);
 					searchDto.setOrderNo(workOrderDtoList.get(0).getWorkOrder_ONo());
-					
-					//crateLotNo 가져오기
-					CrateLotDto crateLotDto = crateLotDao.crateLotSelectDao(searchDto).get(0);
+					*/
+					//crateLotNo 수정
+					CrateLotDto crateLotDto = new CrateLotDto();
+					crateLotDto.setCL_MachineCode(equip);
 					crateLotDto.setCL_Qty(value);
 					crateLotDao.crateLotQtyUpdateDao(crateLotDto);
-					
+					/*
 					//자재식별코드 가져오기
 					RawMaterialMasterDto rawMaterialMasterDto = rawMaterialMasterDao.rawMaterialMasterSelectDao(searchDto).get(0);
 					rawMaterialMasterDto.setRMM_Qty(value);
 					rawMaterialMasterDao.rawMaterialQtyUpdateDao(rawMaterialMasterDto);
+					*/
 				}				
 			});			
 			return 1;			
