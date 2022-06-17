@@ -28,4 +28,4 @@
 	<!-- END MAIN -->
 </div>
 <!-- Javascript -->
-<script src="/js/production/workOrder2.js?v=<%=System.currentTimeMillis()%>"></script>
+<script src="/js/production/workOrder.js?v=<%=System.currentTimeMillis()%>"></script>

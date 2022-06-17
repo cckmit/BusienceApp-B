@@ -95,7 +95,7 @@ $("#barcodeInput").keypress(function(e){
 					}			
 				}
 			}
-		}else if(initial == "C"){
+		}else if(initial == "N"){
 			if(inputMode == "save"){
 				//상자코드가 찍힐 것
 				//해당설비로 해당 상자가 등록되면 된다
