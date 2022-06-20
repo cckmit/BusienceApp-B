@@ -20,7 +20,7 @@
         }
 
         .box2 {
-            width:200px;height:60px;font-size:25px;text-align:center;color:#99ffcc; font-weight:bold;background-color: transparent;
+            width:200px;height:60px;font-size:25px;text-align:center;color:#ffffcc; font-weight:bold;background-color: transparent;
         }
 
         .box3 {
@@ -252,10 +252,10 @@ function productStatus(machineCode){
 				
 				//대기수량
 				var standby_qty = machineCode.replace('M','T');
-				$("#"+standby_qty).val(100);
+				$("#"+standby_qty).val(120);
 				
 				//색상변경
-				if(result.cl_Qty > 10){
+				if(result.cl_Qty > 12){
 					$("#qty_"+machineCode).css("color","red")
 				}
 			}

@@ -300,6 +300,6 @@ function linkageData(){
 
 window.onload = function(){
 	setInterval(function(){
-		//itemTable.replaceData();
-	},2000);
+		CrateSelect($("#machineCode").val());
+	},5000);
 }

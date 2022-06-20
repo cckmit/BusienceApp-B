@@ -1,21 +1,27 @@
 var machineCodeObj = new Object();
-var inputMode = "save"
+var inputMode = "";
+var saveList = new Array();
 var refreshData = { machineCode : "", crateCode : ""};
 
 function tableSetting(value){
 	var tableSetting = {
-		height: "100%",layout:"fitDataFill",
+		height: "100%",
 		ajaxURL:"maskInputRest/crateLotListSelect",
-		ajaxParams: {machineCode : value.equipment_INFO_CODE},
+		ajaxParams: {machineCode : value.workOrder_EquipCode},
 	    ajaxConfig:"get",
 	    ajaxContentType:"json",
 		ajaxLoader:false,
+		rowFormatter: function(row) {
+			if (row.getData().color == '1')
+				row.getElement().style.backgroundColor = "yellow";
+		},
 		columns:[
-			{title: value.equipment_INFO_NAME, field: "machineCode", headerHozAlign:"center",
-				columns: [	
-					{ title: "코드", field: "cl_CrateCode", headerHozAlign: "center", headerSort:false},
-					{ title: "수량", field: "cl_Qty", headerHozAlign: "center", hozAlign:"right", headerSort:false,
-						formatter:"money", formatterParams: {precision: false}}
+			{title: value.workOrder_EquipName+" ("+value.workOrder_ItemCode+")", field: "machineCode", headerHozAlign:"center",
+				columns: [
+					{ title: "상 자 코 드", field: "cl_CrateCode", headerHozAlign: "center", headerSort:false},
+					{ title: "제 품 수 량", field: "cl_Qty", headerHozAlign: "center", hozAlign:"right", headerSort:false,
+						formatter:"money", formatterParams: {precision: false}},
+					{ title: "색상", field: "color", visible: false}
 				]
 			}
 		]
@@ -25,19 +31,17 @@ function tableSetting(value){
 
 $.ajax({
 	method : "get",
-	url : "../machineManageRest/machineManageSelect",
+	url : "maskInputRest/maskInputSelect",
 	success : function(data) {
 		machineCodeObj = new Object();
 		for(let i=0;i<data.length;i++){
-			if(data[i].equipment_TYPE_NAME == "포장"){
-				machineCodeObj[data[i].equipment_INFO_CODE] = "itemTable"+(i)
-				$("#multiTableAdd").append(
-					'<div class="table-container">'
-						+'<div id="itemTable'+(i)+'" class="tablet-Table"></div>'
-					+'</div>'
-				)
-				new Tabulator("#itemTable"+(i), tableSetting(data[i]));
-			}
+			machineCodeObj[data[i].workOrder_EquipCode] = "itemTable"+(i)
+			$("#multiTableAdd").append(
+				'<div class="table-container">'
+					+'<div id="itemTable'+(i)+'" class="tablet-Table"></div>'
+				+'</div>'
+			)
+			new Tabulator("#itemTable"+(i), tableSetting(data[i]));
 		}
 	}
 });
@@ -74,10 +78,17 @@ $("#barcodeInput").keypress(function(e){
 			if(result){
 				$("#selectedMachine").val(barcode);
 				if(colorStatus == 'R'){
-					$(".tablet-Table").removeClass("border-color")
-					$("#"+machineCodeObj[barcode]).addClass("border-color")
-					$(".border-color").css("border-color","red");
-					inputMode = "save"
+					if(inputMode == "save"){
+						//해당설비로 해당 상자가 등록되면 된다
+						crateLotUpdate($("#selectedMachine").val(), barcode);
+						$(".tablet-Table").removeClass("border-color");
+						inputMode = "";
+					}else{
+						$(".tablet-Table").removeClass("border-color")
+						$("#"+machineCodeObj[barcode]).addClass("border-color")
+						$(".border-color").css("border-color","red");
+						inputMode = "save"
+					}
 				}else if(colorStatus == 'Y'){
 					if(inputMode == "refresh"){
 						//최신화 실행
@@ -97,9 +108,8 @@ $("#barcodeInput").keypress(function(e){
 		}else if(initial == "N"){
 			if(inputMode == "save"){
 				//상자코드가 찍힐 것
-				//해당설비로 해당 상자가 등록되면 된다
-				crateLotUpdate($("#selectedMachine").val(), barcode);
-				$(".tablet-Table").removeClass("border-color");
+				saveList.push(barcode)
+				Tabulator.prototype.findTable("#"+machineCodeObj[$("#selectedMachine").val()])[0].addRow({"cl_CrateCode" : barcode, "color" : "1"})
 			}else if(inputMode == "refresh"){
 				refreshData.crateCode = barcode;
 			}
@@ -141,5 +151,5 @@ window.onload = function(){
 		for(var key in machineCodeObj){
 			Tabulator.prototype.findTable("#"+machineCodeObj[key])[0].replaceData();	
 		}
-	},5000);
+	},60000);
 }

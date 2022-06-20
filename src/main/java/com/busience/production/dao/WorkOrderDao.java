@@ -72,4 +72,6 @@ public interface WorkOrderDao {
 	
 	//작업종료
 	public int workOrderFinalUpdate(WorkOrderDto workOrderDto);
+	
+	public List<WorkOrderDto> workOrderInputTabletDao();
 }

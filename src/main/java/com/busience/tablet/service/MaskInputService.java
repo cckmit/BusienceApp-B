@@ -10,6 +10,8 @@ import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import com.busience.common.dto.SearchDto;
+import com.busience.production.dao.WorkOrderDao;
+import com.busience.production.dto.WorkOrderDto;
 import com.busience.tablet.dao.CrateLotDao;
 import com.busience.tablet.dto.CrateLotDto;
 
@@ -18,6 +20,9 @@ public class MaskInputService {
 	
 	@Autowired
 	CrateLotDao crateLotDao;
+	
+	@Autowired
+	WorkOrderDao workOrderDao;
 
 	@Autowired
 	TransactionTemplate transactionTemplate;
@@ -28,6 +33,10 @@ public class MaskInputService {
 	
 	public List<CrateLotDto> crateLotListSelect(SearchDto searchDto) {
 		return crateLotDao.crateLotListSelectDao(searchDto);
+	}
+	
+	public List<WorkOrderDto> maskInputSelect(){
+		return workOrderDao.workOrderInputTabletDao();
 	}
 	
 	public int crateLotUpdate2(CrateLotDto crateLotDto) {

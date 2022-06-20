@@ -96,9 +96,9 @@
 }
 
 .tablet-Table{
-	font-size: calc(0.9vh + 0.9vw);
+	font-size: 1vw;
 }
 
 .border-color{
-	border: solid 4px;
+	border: solid 10px;
 }
