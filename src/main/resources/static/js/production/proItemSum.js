@@ -71,6 +71,7 @@ var proItemTable = new Tabulator("#proItemTable", {
  	{title:"규격 1", field:"production_Info_STND_1", headerHozAlign:"center"},
  	{title:"품목분류 1", field:"production_Item_CLSFC_NAME_1", headerHozAlign:"center"},
  	{title:"품목분류 2", field:"production_Item_CLSFC_NAME_2", headerHozAlign:"center"},
+ 	{title:"재질", field:"production_Material", headerHozAlign:"center"},
  	{title:"작업시작시간", field:"production_Start_Date", headerHozAlign:"center"},
  	{title:"작업완료시간", field:"production_Date", headerHozAlign:"center"},
  	{title:"작업시간", field:"production_Total_Work_Time", headerHozAlign:"center"}

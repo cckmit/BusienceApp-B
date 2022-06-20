@@ -16,9 +16,9 @@ function Search() {
 		MachineName : $('#EQUIPMENT_INFO_NAME').val()
 	}
 
-	proMachineTable.setData('proSumRest/proMachineSumSelect2', jsonData);
+	proPackingTable.setData('proSumRest/proPackingSumSelect', jsonData);
 	
-	console.log(proMachineTable);
+	console.log(proPackingTable);
 }
 
 
@@ -48,7 +48,7 @@ $('#EQUIPMENT_INFO_NAME').keypress(function(e){
 	}
 })
 
-var proMachineTable = new Tabulator("#proMachineTable", {
+var proPackingTable = new Tabulator("#proPackingTable", {
 	//페이징
 	pagination:"local",
 	paginationSize:20,
@@ -71,6 +71,7 @@ var proMachineTable = new Tabulator("#proMachineTable", {
 	{title:"규격 1", field:"production_Info_STND_1", headerHozAlign:"center"},
  	{title:"품목분류 1", field:"production_Item_CLSFC_NAME_1", headerHozAlign:"center"},
  	{title:"품목분류 2", field:"production_Item_CLSFC_NAME_2", headerHozAlign:"center"},
+ 	{title:"재질", field:"production_Material", headerHozAlign:"center"},
  	{title:"작업시작시간", field:"production_Start_Date", headerHozAlign:"center"},
  	{title:"작업완료시간", field:"production_Date", headerHozAlign:"center"},
  	{title:"작업시간", field:"production_Total_Work_Time", headerHozAlign:"center"}

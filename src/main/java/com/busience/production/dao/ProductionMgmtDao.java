@@ -26,7 +26,7 @@ public interface ProductionMgmtDao {
 	public List<ProductionMgmtDto> proMaskSumDao(SearchDto searchDto);
 	
 	//생간 포장 현황
-	public List<ProductionMgmtDto> proPackingDao(SearchDto searchDto);
+	public List<ProductionMgmtDto> proPackingSumDao(SearchDto searchDto);
 	
 	//자재 투입 현황
 	

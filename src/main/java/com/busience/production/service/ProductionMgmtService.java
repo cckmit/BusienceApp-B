@@ -31,6 +31,7 @@ public class ProductionMgmtService {
 			    dto.setPRODUCTION_Info_STND_1("");
 			    dto.setPRODUCTION_Item_CLSFC_NAME_1("");
 			    dto.setPRODUCTION_Item_CLSFC_NAME_2("");
+			    dto.setPRODUCTION_Material("");
 			    dto.setPRODUCTION_Start_Date("");
 				dto.setPRODUCTION_Date("");
 				dto.setPRODUCTION_Total_Work_Time("");
@@ -56,6 +57,7 @@ public class ProductionMgmtService {
 			    dto.setPRODUCTION_Info_STND_1("");
 			    dto.setPRODUCTION_Item_CLSFC_NAME_1("");
 			    dto.setPRODUCTION_Item_CLSFC_NAME_2("");
+			    dto.setPRODUCTION_Material("");
 			    dto.setPRODUCTION_Start_Date("");
 				dto.setPRODUCTION_Date("");
 				dto.setPRODUCTION_Total_Work_Time("");
@@ -116,6 +118,7 @@ public class ProductionMgmtService {
 				dto.setPRODUCTION_Info_STND_1("");
 				dto.setPRODUCTION_Item_CLSFC_NAME_1("");
 				dto.setPRODUCTION_Item_CLSFC_NAME_2("");
+				dto.setPRODUCTION_Material("");
 				dto.setPRODUCTION_Start_Date("");
 				dto.setPRODUCTION_Date("");
 				dto.setPRODUCTION_Total_Work_Time("");
@@ -127,7 +130,7 @@ public class ProductionMgmtService {
 	//생산 포장 현황
 	public List<ProductionMgmtDto> proPackingDao(SearchDto searchDto) {
 		
-		List<ProductionMgmtDto> proPacingSumList = productionMgmtDao.proPackingDao(searchDto);
+		List<ProductionMgmtDto> proPacingSumList = productionMgmtDao.proPackingSumDao(searchDto);
 		
 		for(ProductionMgmtDto dto : proPacingSumList) {
 			if(dto.getPRODUCTION_WorkOrder_ONo() == null || dto.getPRODUCTION_WorkOrder_ONo() == "") {
@@ -139,6 +142,7 @@ public class ProductionMgmtService {
 				dto.setPRODUCTION_Info_STND_1("");
 				dto.setPRODUCTION_Item_CLSFC_NAME_1("");
 				dto.setPRODUCTION_Item_CLSFC_NAME_2("");
+				dto.setPRODUCTION_Material("");
 				dto.setPRODUCTION_Start_Date("");
 				dto.setPRODUCTION_Date("");
 				dto.setPRODUCTION_Total_Work_Time("");
