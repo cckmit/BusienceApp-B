@@ -1,3 +1,5 @@
+let processInspectTable;
+
 var crateInspectTable = new Tabulator("#crateInspectTable", {
 	pagination: "local",
 	paginationSize: 20,
@@ -10,6 +12,7 @@ var crateInspectTable = new Tabulator("#crateInspectTable", {
 	},
 	rowClick: function(e, row) {
 		crateInspectTable.deselectRow();
+		processInspectTable.deselectRow();
 		row.select();
 	},
 	rowSelected: function(row) {
@@ -62,12 +65,13 @@ $("#CI_SearchBtn").click(function() {
 // 출고구분 select를 구성하기위한 ajax
 var output_dtl = dtlSelectList(18);
 
-var processInspectTable = new Tabulator("#processInspectTable", {
+processInspectTable = new Tabulator("#processInspectTable", {
 	layoutColumnsOnNewData: true,
 	clipboard: true,
 	height: "calc(50% - 90px)",
 	//행을 클릭하면 matLotMasterTable에 리스트가 나타남
 	rowClick: function(e, row) {
+		crateInspectTable.deselectRow();
 		processInspectTable.deselectRow();
 		row.select();
 	},

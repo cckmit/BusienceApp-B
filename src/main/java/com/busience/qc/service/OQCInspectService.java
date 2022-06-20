@@ -31,6 +31,16 @@ public class OQCInspectService {
 		return salesOutputDao.salesOutMatInspectList(searchDto);
 	}
 	
+	// oqcInspectList
+	public List<OQC_Inspect_Dto> oqcInspectList(SearchDto searchDto) {
+		return oqcInspectDao.oqcInspectList(searchDto);
+	}
+	
+	// oqcInspectOneSelect
+	public List<OQC_Inspect_Dto> oqcInspectOneSelect(SearchDto searchDto) {
+		return oqcInspectDao.oqcInspectOneSelect(searchDto);
+	}
+	
 	// 저장
 	public int oqcInspectInsertDao(List<OQC_Inspect_Dto> OQCInspectDtoList, List<OQC_Inspect_Dto> OQCPackUnitDtoList) {
 		

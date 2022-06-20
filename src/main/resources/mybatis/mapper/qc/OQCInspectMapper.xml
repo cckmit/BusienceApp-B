@@ -4,6 +4,35 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="com.busience.qc.dao.OQCInspectDao">
+	<select id="oqcInspectList" resultType="com.busience.qc.dto.OQC_Inspect_Dto">
+		SELECT DISTINCT oqit.OQC_Inspect_LotNo, oqit.OQC_Inspect_ItemCode, pit.Product_Item_Name OQC_Inspect_ItemName, pit.Product_Info_STND_1 OQC_Inspect_STND_1, 
+			dt.Child_TBL_Type OQC_Inspect_Material, dt2.Child_TBL_Type OQC_Inspect_Item_STND_1, dt3.Child_TBL_Type OQC_Inspect_Item_STND_2, dt4.Child_TBL_Type OQC_Inspect_Worker,
+			oqit.OQC_Inspect_Qty, oqit.OQC_Inspect_Customer, ct.Cus_Name OQC_Inspect_Customer_Name, oqit.OQC_Inspect_Date
+		FROM OQC_Inspect_tbl oqit
+		INNER JOIN Product_Info_tbl pit ON oqit.OQC_Inspect_ItemCode = pit.Product_Item_Code
+		INNER JOIN DTL_TBL dt ON pit.Product_Material = dt.Child_TBL_No
+		INNER JOIN DTL_TBL dt2 ON pit.Product_Item_CLSFC_1 = dt2.Child_TBL_No
+		INNER JOIN DTL_TBL dt3 ON pit.Product_Item_CLSFC_2 = dt3.Child_TBL_No
+		INNER JOIN DTL_TBL dt4 ON oqit.OQC_Inspect_Worker = dt4.Child_TBL_No
+		INNER JOIN Customer_tbl ct ON oqit.OQC_Inspect_Customer = ct.Cus_Code
+		<![CDATA[
+		WHERE oqit.OQC_Inspect_Date >= #{startDate} AND oqit.OQC_Inspect_Date < #{endDate}
+		]]>
+		<if test="LotNo != ''">
+		AND oqit.OQC_Inspect_LotNo = #{LotNo}
+		</if>
+		<if test="ClientCode != ''">
+		AND oqit.OQC_Inspect_Customer LIKE CONCAT('%',#{ClientCode},'%')
+		</if>
+		<if test="ItemCode != ''">
+		AND oqit.OQC_Inspect_ItemCode LIKE CONCAT('%',#{ItemCode},'%')
+		</if>
+		AND oqit.OQC_Inspect_Qty > 0
+	</select>
+	<select id="oqcInspectOneSelect" resultType="com.busience.qc.dto.OQC_Inspect_Dto">
+		select oqit.* from OQC_Inspect_tbl oqit 
+		where oqit.OQC_Inspect_LotNo = #{LotNo}
+	</select>
 	<insert id="oqcInspectInsertDao">
 		insert into OQC_Inspect_tbl (
 			OQC_Inspect_Number, OQC_Inspect_LotNo, OQC_Inspect_ItemCode,
@@ -25,7 +54,4 @@
 			#{OQC_Inspect_Remark}, #{OQC_Inspect_Packing_Unit}
 		)
 	</insert>
-
-
-
 </mapper>	

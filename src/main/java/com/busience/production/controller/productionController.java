@@ -81,10 +81,45 @@ public class productionController {
 		return "production/proCalendar";
 	}
 	
+	// proMaskSum
+	@GetMapping("proMaskSum")
+	public String proMaskSum(Model model) {
+		model.addAttribute("pageName", "마스크 실적 현황");
+		return "production/proMaskSum";
+	}
+	
+	// proPackingSum
+	@GetMapping("proPackingSum")
+	public String proPackingSum(Model model) {
+		model.addAttribute("pageName", "생산 포장 현황");
+		return "production/proPackingSum";
+	}
+	
+	// matInputSum
+	@GetMapping("matInputSum")
+	public String matInputSum(Model model) {
+		model.addAttribute("pageName", "자재 투입 현황");
+		return "production/matInputSum";
+	}
+	
+	// lotIssueMaster
+	@GetMapping("lotIssueMaster")
+	public String lotIssueMaster(Model model) {
+		model.addAttribute("pageName", "Lot 발행 조회");
+		return "production/lotIssueMaster";
+	}
+	
+	// lotListMaster
+	@GetMapping("lotListMaster")
+	public String lotListMaster(Model model) {
+		model.addAttribute("pageName", "Lot 이력 조회");
+		return "production/lotListMaster";
+	}
+	
 	// workorder
 	@GetMapping("workorder")
 	public String workorder(Model model) {
-		model.addAttribute("pageName", "작업지시 등록");
+		model.addAttribute("pageName", "설비별 작업지시");
 		return "production/workorder";
 	}
 	

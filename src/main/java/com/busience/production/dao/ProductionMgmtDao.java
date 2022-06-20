@@ -21,5 +21,17 @@ public interface ProductionMgmtDao {
 	
 	//proMachineListDao
 	public List<ProductionMgmtDto> proMachineListDao(SearchDto searchDto);
+	
+	//마스크 실적 현황
+	public List<ProductionMgmtDto> proMaskSumDao(SearchDto searchDto);
+	
+	//생간 포장 현황
+	public List<ProductionMgmtDto> proPackingDao(SearchDto searchDto);
+	
+	//자재 투입 현황
+	
+	//Lot 발행 조회
+	
+	//Lot 이력 조회
 
 }

@@ -1,3 +1,5 @@
+let oqcInspectTable;
+
 var salesOutMatTable = new Tabulator("#salesOutMatTable", {
 	clipboard: true,
 	height: "calc(50% - 85px)",
@@ -8,6 +10,7 @@ var salesOutMatTable = new Tabulator("#salesOutMatTable", {
 	},
 	rowClick: function(e, row) {
 		salesOutMatTable.deselectRow();
+		oqcInspectTable.deselectRow();
 		row.select();
 	},
 	rowSelected: function(row) {
@@ -42,7 +45,7 @@ function SOIL_Search() {
 		endDate: $("#endDate").val(),
 		itemCode: $("#PRODUCT_ITEM_CODE1").val(),
 		clientCode: $("#InMat_Client_Code1").val(),
-		LotNo: $("#processLotNo").val()
+		LotNo: $("#oqcLotNo").val()
 	}
 
 	salesOutMatTable.setData("oqcInspectRest/SOIL_Search", datas)
@@ -55,56 +58,59 @@ function SOIL_Search() {
 
 $("#SOIL_SearchBtn").click(function() {
 	SOIL_Search();
-	//PI_Search();
+	OIL_Search();
 })
 
 // 출고구분 select를 구성하기위한 ajax
 var output_dtl = dtlSelectList(18);
 
-var processInspectTable = new Tabulator("#processInspectTable", {
+oqcInspectTable = new Tabulator("#oqcInspectTable", {
 	layoutColumnsOnNewData: true,
 	clipboard: true,
 	height: "calc(35% - 80px)",
 	//행을 클릭하면 matLotMasterTable에 리스트가 나타남
 	rowClick: function(e, row) {
-		processInspectTable.deselectRow();
+		salesOutMatTable.deselectRow();
+		oqcInspectTable.deselectRow();
 		row.select();
 	},
 	rowSelected: function(row) {
 		formClearFunc();
 		row.select();
 		//LotNo 검색
-		PIF_Search(row.getData().process_Inspect_LotNo);
+		OIF_Search(row.getData().oqc_Inspect_LotNo);
 		ResetBtn();
 	},
 	columns: [
-		{ title: "순번", field: "rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum" },
-		{ title: "LotNo", field: "process_Inspect_LotNo", headerHozAlign: "center", hozAlign: "center" },
-		{ title: "품목 코드", field: "process_Inspect_ItemCode", headerHozAlign: "center" },
-		{ title: "품목 명", field: "process_Inspect_ItemName", headerHozAlign: "center" },
-		{ title: "규격1", field: "process_Inspect_STND_NAME_1", headerHozAlign: "center" },
-		{ title: "품목분류1", field: "process_Inspect_Item_Clsfc_Name_1", headerHozAlign: "center" },
-		{ title: "시료수", field: "process_Inspect_Qty", headerHozAlign: "center", hozAlign: "right" },
-		{ title: "설비 코드", field: "process_Inspect_EquipCode", headerHozAlign: "center" },
-		{ title: "설비 명", field: "process_Inspect_EquipName", headerHozAlign: "center" },
-		{ title: "검사 시간", field: "process_Inspect_Date", headerHozAlign: "center" },
-		{ title: "작업자", field: "process_Inspect_Worker", headerHozAlign: "center" }
+		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center" },
+		{ title: "LotNo", field: "oqc_Inspect_LotNo", headerHozAlign: "center" },
+		{ title: "품목 코드", field: "oqc_Inspect_ItemCode", headerHozAlign: "center" },
+		{ title: "품목 명", field: "oqc_Inspect_ItemName", headerHozAlign: "center" },
+		{ title: "거래처 코드", field: "oqc_Inspect_Customer", headerHozAlign: "center" },
+		{ title: "거래처 명", field: "oqc_Inspect_Customer_Name", headerHozAlign: "center" },
+		{ title: "규격1", field: "oqc_Inspect_STND_1", headerHozAlign: "center" },
+		{ title: "재질", field: "oqc_Inspect_Material", headerHozAlign: "center" },
+		{ title: "품목분류1", field: "oqc_Inspect_Item_STND_1", headerHozAlign: "center" },
+		{ title: "품목분류2", field: "oqc_Inspect_Item_STND_2", headerHozAlign: "center" },
+		{ title: "검사 수량", field: "oqc_Inspect_Qty", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false } },
+		{ title: "검사일", field: "oqc_Inspect_Date", headerHozAlign: "center" },
+		{ title: "검사자", field: "oqc_Inspect_Worker", headerHozAlign: "center" }
 	]
 });
 
-/*function PI_Search() {
+function OIL_Search() {
 
 	var datas = {
 		startDate: $("#startDate").val(),
 		endDate: $("#endDate").val(),
 		itemCode: $("#PRODUCT_ITEM_CODE1").val(),
-		machineCode: $("#EQUIPMENT_INFO_CODE").val(),
-		LotNo: $("#processLotNo").val()
+		clientCode: $("#InMat_Client_Code1").val(),
+		LotNo: $("#oqcLotNo").val()
 	}
 
-	processInspectTable.setData("processInspectionRest/PI_Search", datas);
-	console.log(processInspectTable);
-}*/
+	oqcInspectTable.setData("oqcInspectRest/OIL_Search", datas);
+	console.log(oqcInspectTable);
+}
 
 //oqcInspect 정보 삽입
 function SOILForm_Search(CusName, ItemName, OutmatQty, ItemStnd) {
@@ -129,42 +135,48 @@ function SOILForm_Search(CusName, ItemName, OutmatQty, ItemStnd) {
 
 }
 
-function PIF_Search(LotNo) {
+function OIF_Search(LotNo) {
 	var datas = {
 		LotNo: LotNo
 	}
 
-	console.log(datas);
-
 	$.ajax({
 		method: "GET",
-		url: "processInspectionRest/PIF_Search",
+		url: "oqcInspectRest/OIF_Search",
 		data: datas,
-		success: function(PIF_datas) {
-			console.log(PIF_datas);
-			$("#proInspectEquipName").val(PIF_datas[0].process_Inspect_EquipName);
-			$("#proInspectItemName").val(PIF_datas[0].process_Inspect_ItemName);
-			$("#productionDate").val(moment(PIF_datas[0].process_Inspect_Create_Date).format("YYYY-MM-DD"));
-			$("#processDate").val(moment(PIF_datas[0].process_Inspect_Date).format("YYYY-MM-DD"));
-			$("#processQty").val(PIF_datas[0].process_Inspect_Qty);
-			$("#processRemark").val(PIF_datas[0].process_Inspect_Remark);
-			document.querySelector('#pqcWorkerList').value = PIF_datas[0].process_Inspect_Worker;
-			document.querySelector('#itemColorType').value = PIF_datas[0].process_Inspect_Color;
+		success: function(OIF_datas) {
+			console.log(OIF_datas);
+			$("#oqcRemark").val(OIF_datas[0].oqc_Inspect_Remark);
+			let j=0;
+			
+			for (var i = 0; i < OIF_datas.length; i++) {
+				document.querySelectorAll('#value1')[i].value = OIF_datas[i].oqc_Inspect_Value_1;
+				document.querySelectorAll('#value2')[i].value = OIF_datas[i].oqc_Inspect_Value_2;
+				document.querySelectorAll('#value3')[i].value = OIF_datas[i].oqc_Inspect_Value_3;
+				document.querySelectorAll('#value4')[i].value = OIF_datas[i].oqc_Inspect_Value_4;
+				document.querySelectorAll('#value5')[i].value = OIF_datas[i].oqc_Inspect_Value_5;
+				document.querySelectorAll('#value6')[i].value = OIF_datas[i].oqc_Inspect_Value_6;
+				document.querySelectorAll('#value7')[i].value = OIF_datas[i].oqc_Inspect_Value_7;
+				document.querySelectorAll('#value8')[i].value = OIF_datas[i].oqc_Inspect_Value_8;
+				document.querySelectorAll('#value9')[i].value = OIF_datas[i].oqc_Inspect_Value_9;
+				document.querySelectorAll('#value10')[i].value = OIF_datas[i].oqc_Inspect_Value_10;
 
-			for (var i = 0; i < PIF_datas.length; i++) {
-				document.querySelectorAll('#value1')[i].value = PIF_datas[i].process_Inspect_Value_1;
-				document.querySelectorAll('#value2')[i].value = PIF_datas[i].process_Inspect_Value_2;
-				document.querySelectorAll('#value3')[i].value = PIF_datas[i].process_Inspect_Value_3;
-				document.querySelectorAll('#value4')[i].value = PIF_datas[i].process_Inspect_Value_4;
-				document.querySelectorAll('#value5')[i].value = PIF_datas[i].process_Inspect_Value_5;
-
-				if (PIF_datas[i].process_Inspect_STND_1 != "" && PIF_datas[i].process_Inspect_STND_2 != "") {
-					document.querySelectorAll('#stnd1')[i].value = PIF_datas[i].process_Inspect_STND_1;
-					document.querySelectorAll('#stnd2')[i].value = PIF_datas[i].process_Inspect_STND_2;
+				if (OIF_datas[i].oqc_Inspect_STND_1 != "" && OIF_datas[i].oqc_Inspect_STND_2 != "") {
+					document.querySelectorAll('#stnd1')[i].value = OIF_datas[i].oqc_Inspect_STND_1;
+					document.querySelectorAll('#stnd2')[i].value = OIF_datas[i].oqc_Inspect_STND_2;
+				}
+				
+				
+				if (OIF_datas[i].oqc_Inspect_Packing_Unit != null) {
+					console.log();
+					
+					console.log(document.querySelectorAll('#unit1')[j].value);
+					document.querySelectorAll('#unit1')[j].value = OIF_datas[i].oqc_Inspect_Packing_Unit;
+					j++;
 				}
 
-				document.querySelectorAll('#status')[i].value = PIF_datas[i].process_Inspect_Status;
-				document.querySelectorAll('#result')[0].value = PIF_datas[0].process_Inspect_Result;
+				document.querySelectorAll('#status')[i].value = OIF_datas[i].oqc_Inspect_Status;
+				document.querySelectorAll('#result')[0].value = OIF_datas[0].oqc_Inspect_Result;
 			}
 		}
 	});
@@ -316,21 +328,26 @@ function formClearFunc() {
 	$("#oqcQty").val("");
 
 	let values = 16;
+	let tempValues = 7;
 
 	for (var i = 0; i < values; i++) {
 		document.querySelectorAll('#stnd1')[i].value = "";
 		document.querySelectorAll('#stnd2')[i].value = "";
-		document.querySelectorAll('.tempValue1')[i].value = "";
-		document.querySelectorAll('.tempValue2')[i].value = "";
-		document.querySelectorAll('.tempValue3')[i].value = "";
-		document.querySelectorAll('.tempValue4')[i].value = "";
-		document.querySelectorAll('.tempValue5')[i].value = "";
-		document.querySelectorAll('.tempValue6')[i].value = "";
-		document.querySelectorAll('.tempValue7')[i].value = "";
-		document.querySelectorAll('.tempValue8')[i].value = "";
-		document.querySelectorAll('.tempValue9')[i].value = "";
-		document.querySelectorAll('.tempValue10')[i].value = "";
 		document.querySelectorAll('#status')[i].value = true;
+	}
+	
+	for (let j = 0; j < tempValues; j++) {
+		document.querySelectorAll('#unit1')[j].value = "보건용";
+		document.querySelectorAll('.tempValue1')[j].value = "";
+		document.querySelectorAll('.tempValue2')[j].value = "";
+		document.querySelectorAll('.tempValue3')[j].value = "";
+		document.querySelectorAll('.tempValue4')[j].value = "";
+		document.querySelectorAll('.tempValue5')[j].value = "";
+		document.querySelectorAll('.tempValue6')[j].value = "";
+		document.querySelectorAll('.tempValue7')[j].value = "";
+		document.querySelectorAll('.tempValue8')[j].value = "";
+		document.querySelectorAll('.tempValue9')[j].value = "";
+		document.querySelectorAll('.tempValue10')[j].value = "";
 	}
 
 	document.querySelector('#oqcWorkerList').value = '231';
@@ -383,6 +400,6 @@ function lCode_select(value) {
 
 $(document).ready(function() {
 	SOIL_Search();
-	//PI_Search();
+	OIL_Search();
 })
 

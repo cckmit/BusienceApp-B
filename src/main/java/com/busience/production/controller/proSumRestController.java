@@ -45,6 +45,18 @@ public class proSumRestController {
 	public List<ProductionMgmtDto> proItemSumSelect(SearchDto searchDto) {
 		return productionMgmtService.proItemSumList(searchDto);
 	}
+	
+	// 마스크 실적 현황
+	@GetMapping("/proMaskSumSelect")
+	public List<ProductionMgmtDto> proMaskSumSelect(SearchDto searchDto) {
+		return productionMgmtService.proMaskSumDao(searchDto);
+	}
+	
+	// 생산 포장 현황
+	@GetMapping("/proPackingSumSelect")
+	public List<ProductionMgmtDto> proPackingSumSelect(SearchDto searchDto) {
+		return productionMgmtService.proPackingDao(searchDto);
+	}
 
 	// proItemSumSelect3
 	@RequestMapping(value = "/proItemSumSelect3", method = RequestMethod.GET)

@@ -31,6 +31,9 @@ public class ProductionMgmtService {
 			    dto.setPRODUCTION_Info_STND_1("");
 			    dto.setPRODUCTION_Item_CLSFC_NAME_1("");
 			    dto.setPRODUCTION_Item_CLSFC_NAME_2("");
+			    dto.setPRODUCTION_Start_Date("");
+				dto.setPRODUCTION_Date("");
+				dto.setPRODUCTION_Total_Work_Time("");
 			}
 		} 
 		
@@ -53,6 +56,9 @@ public class ProductionMgmtService {
 			    dto.setPRODUCTION_Info_STND_1("");
 			    dto.setPRODUCTION_Item_CLSFC_NAME_1("");
 			    dto.setPRODUCTION_Item_CLSFC_NAME_2("");
+			    dto.setPRODUCTION_Start_Date("");
+				dto.setPRODUCTION_Date("");
+				dto.setPRODUCTION_Total_Work_Time("");
 			}
 		} 
 		
@@ -93,5 +99,51 @@ public class ProductionMgmtService {
 			}
 		}
 		return resultList;
+	}
+	
+	//마스크 실적 현황
+	public List<ProductionMgmtDto> proMaskSumDao(SearchDto searchDto) {
+		
+		List<ProductionMgmtDto> proMaskSumList = productionMgmtDao.proMaskSumDao(searchDto);
+		
+		for(ProductionMgmtDto dto : proMaskSumList) {
+			if(dto.getPRODUCTION_WorkOrder_ONo() == null || dto.getPRODUCTION_WorkOrder_ONo() == "") {
+				dto.setPRODUCTION_WorkOrder_ONo("Grand Total");
+				dto.setPRODUCTION_Product_Code("");
+				dto.setPRODUCTION_Product_Name("");
+				dto.setPRODUCTION_Equipment_Code("");
+				dto.setPRODUCTION_Equipment_Name("");
+				dto.setPRODUCTION_Info_STND_1("");
+				dto.setPRODUCTION_Item_CLSFC_NAME_1("");
+				dto.setPRODUCTION_Item_CLSFC_NAME_2("");
+				dto.setPRODUCTION_Start_Date("");
+				dto.setPRODUCTION_Date("");
+				dto.setPRODUCTION_Total_Work_Time("");
+			}
+		}
+		return proMaskSumList;
+	}
+	
+	//생산 포장 현황
+	public List<ProductionMgmtDto> proPackingDao(SearchDto searchDto) {
+		
+		List<ProductionMgmtDto> proPacingSumList = productionMgmtDao.proPackingDao(searchDto);
+		
+		for(ProductionMgmtDto dto : proPacingSumList) {
+			if(dto.getPRODUCTION_WorkOrder_ONo() == null || dto.getPRODUCTION_WorkOrder_ONo() == "") {
+				dto.setPRODUCTION_WorkOrder_ONo("Grand Total");
+				dto.setPRODUCTION_Product_Code("");
+				dto.setPRODUCTION_Product_Name("");
+				dto.setPRODUCTION_Equipment_Code("");
+				dto.setPRODUCTION_Equipment_Name("");
+				dto.setPRODUCTION_Info_STND_1("");
+				dto.setPRODUCTION_Item_CLSFC_NAME_1("");
+				dto.setPRODUCTION_Item_CLSFC_NAME_2("");
+				dto.setPRODUCTION_Start_Date("");
+				dto.setPRODUCTION_Date("");
+				dto.setPRODUCTION_Total_Work_Time("");
+			}
+		}
+		return proPacingSumList;
 	}
 }
