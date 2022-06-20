@@ -152,7 +152,7 @@ function crateSave() {
 						success: function(result) {
 							if (result == 1) {
 								$(function() {
-									alert("저장되었씁니다.");
+									alert("저장되었습니다.");
 									CratePrinter(crateManageTable.getData("selected"))
 									$(this).off();
 								})
