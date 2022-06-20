@@ -4,7 +4,7 @@ var refreshData = { machineCode : "", crateCode : ""};
 
 function tableSetting(value){
 	var tableSetting = {
-		height: "100%",
+		height: "100%",layout:"fitDataFill",
 		ajaxURL:"maskInputRest/crateLotListSelect",
 		ajaxParams: {machineCode : value.equipment_INFO_CODE},
 	    ajaxConfig:"get",
@@ -13,7 +13,6 @@ function tableSetting(value){
 		columns:[
 			{title: value.equipment_INFO_NAME, field: "machineCode", headerHozAlign:"center",
 				columns: [	
-					{ title: "Lot번호", field: "cl_LotNo", headerHozAlign: "center", headerSort:false},
 					{ title: "코드", field: "cl_CrateCode", headerHozAlign: "center", headerSort:false},
 					{ title: "수량", field: "cl_Qty", headerHozAlign: "center", hozAlign:"right", headerSort:false,
 						formatter:"money", formatterParams: {precision: false}}

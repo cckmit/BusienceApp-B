@@ -426,13 +426,15 @@ function MR_Save(){
 	
 	rowCount = matRequestSubTable.getDataCount("active");
 	subTable = matRequestSubTable.getData();
-	
-	//목록의 마지막 데이터를 확인하고 수량이 0이면 행을 삭제하고 저장한다.
-	if(matRequestSubTable.getData()[rowCount-1].request_lQty == 0){
-		matRequestSubTable.deleteRow(matRequestSubTable.getRows()[rowCount-1]);
+	saveData = new Array();
+
+	for(let i=0;i<subTable.length;i++){
+		if(subTable[i].rs_Qty > 0){
+			saveData.push(subTable[i]);	
+		}
 	}
 	
-	if(item_Code_Check()){
+	if(item_Code_Check(rowCount)){
 		alert("중복된 품목이 있습니다.");
 		return false;
 	}
@@ -440,7 +442,7 @@ function MR_Save(){
 	$.ajax({
 		method: "post",
 		url: "matRequestRest/MR_Save",
-		data: {masterData : JSON.stringify(masterTable), listData: JSON.stringify(subTable)},
+		data: {masterData : JSON.stringify(masterTable), listData: JSON.stringify(saveData)},
 		beforeSend: function (xhr) {
            var header = $("meta[name='_csrf_header']").attr("content");
            var token = $("meta[name='_csrf']").attr("content");
@@ -484,8 +486,7 @@ function ReqNo_select(){
 }
 
 //list에서 같은 품목을 추가할때 경고 알리고 추가안됨
-function item_Code_Check() {
-	rowCount = matRequestSubTable.getDataCount("active");
+function item_Code_Check(rowCount) {
 	
 	itemCode = matRequestSubTable.getColumn("rs_ItemCode").getCells();
 	//컬럼값을 검색해서 입력값을 포함하는 값이 있으면 선택한다.

@@ -96,7 +96,7 @@
 }
 
 .tablet-Table{
-	font-size: calc(0.63vw);
+	font-size: calc(0.9vh + 0.9vw);
 }
 
 .border-color{

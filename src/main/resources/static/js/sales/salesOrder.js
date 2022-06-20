@@ -611,20 +611,16 @@ $('#SOL_DeleteBtn').click(function() {
 //OrderSub 저장
 function SOL_Save() {
 	selectedRow = salesOrderTable.getData("selected")[0];
-	rowCount = salesOrderSubTable.getDataCount("active");
+	subTable = salesOrderSubTable.getData();
+	saveData = new Array();
 
-	//목록의 마지막 데이터를 확인하고 금액이 0이면 행을 삭제하고 저장한다. 
-	if (salesOrderSubTable.getData()[rowCount - 1].sales_Order_lQty == 0) {
-		salesOrderSubTable.deleteRow(salesOrderSubTable.getRows()[rowCount - 1]);
+	for(let i=0;i<subTable.length;i++){
+		if(subTable[i].rs_Qty > 0){
+			saveData.push(subTable[i]);	
+		}
 	}
-
-	//만약 선택한행의 수량이 비어있을경우 저장 안됨
-	if (selectedRow.sales_Order_lQty == 0) {
-		alert("작성중인 목록이 있습니다.");
-		return false;
-	}
-
-	if (item_Code_Check()) {
+	
+	if (item_Code_Check(rowCount)) {
 		alert("중복된 품목이 있습니다.");
 		return false;
 	}
@@ -633,7 +629,7 @@ function SOL_Save() {
 	$.ajax({
 		method: "post",
 		url: "salesOrderRest/SOL_Save",
-		data: { masterData: JSON.stringify(selectedRow), subData: JSON.stringify(salesOrderSubTable.getData()) },
+		data: { masterData: JSON.stringify(selectedRow), subData: JSON.stringify(saveData) },
 		beforeSend: function(xhr) {
 			var header = $("meta[name='_csrf_header']").attr("content");
 			var token = $("meta[name='_csrf']").attr("content");
@@ -677,9 +673,7 @@ function Cus_No_select() {
 }
 
 //list에서 같은 품목을 추가할때 경고 알리고 추가안됨
-function item_Code_Check() {
-	rowCount = salesOrderSubTable.getDataCount("active");
-
+function item_Code_Check(rowCount) {
 	itemCode = salesOrderSubTable.getColumn("sales_Order_lCode").getCells();
 	//컬럼값을 검색해서 입력값을 포함하는 값이 있으면 선택한다.
 	for (i = 0; i < rowCount - 1; i++) {
