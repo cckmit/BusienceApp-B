@@ -30,6 +30,18 @@ public class oqcInspectRestController {
 		return oqcInspectService.salesOutMatInspectList(searchDto);
 	}
 	
+	//oqcInspectList
+	@GetMapping("/OIL_Search")
+	public List<OQC_Inspect_Dto> oqcInspectList(SearchDto searchDto) {
+		return oqcInspectService.oqcInspectList(searchDto);
+	}
+		
+	//oqcInspectOneSelect
+	@GetMapping("/OIF_Search")
+	public List<OQC_Inspect_Dto> oqcInspectOneSelect(SearchDto searchDto) {
+		return oqcInspectService.oqcInspectOneSelect(searchDto);
+	}
+	
 	//저장
 	@PostMapping("/SOI_Save")
 	public int oqcInspectInsertDao(HttpServletRequest request) {
