@@ -247,11 +247,11 @@
 		insert into WorkOrder_tbl (
 			WorkOrder_No, WorkOrder_ONo, WorkOrder_ItemCode, WorkOrder_EquipCode,
 		    WorkOrder_RegisterTime, WorkOrder_ReceiptTime,
-			WorkOrder_WorkStatus, WorkOrder_Worker, WorkOrder_Remark, WorkOrder_Use_Status
+			WorkOrder_WorkStatus, WorkOrder_Worker, WorkOrder_Remark
 		) values (
 			#{WorkOrder_No},#{WorkOrder_ONo},#{WorkOrder_ItemCode},#{WorkOrder_EquipCode},
 			now(), #{WorkOrder_ReceiptTime},
-			#{WorkOrder_WorkStatus}, #{WorkOrder_Worker}, #{WorkOrder_Remark}, #{WorkOrder_Use_Status}
+			#{WorkOrder_WorkStatus}, #{WorkOrder_Worker}, #{WorkOrder_Remark}
 		) on duplicate key update
 		WorkOrder_ONo = #{WorkOrder_ONo},
 		WorkOrder_ItemCode = #{WorkOrder_ItemCode},

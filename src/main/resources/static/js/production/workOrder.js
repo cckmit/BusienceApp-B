@@ -143,7 +143,7 @@ function item_gridInit(code, name) {
 			"status": 1
 		})
 	}
-	packSelectedRows.deselectRow();
+	packEquipTable.deselectRow();
 	
 	let labelSelectedRows = labelEquipTable.getRows("selected");
 	for(let i=0;i<labelSelectedRows.length;i++){
@@ -153,7 +153,7 @@ function item_gridInit(code, name) {
 			"status": 1
 		})
 	}
-	labelSelectedRows.deselectRow();
+	labelEquipTable.deselectRow();
 }
 
 function ppCheck(){
@@ -255,6 +255,9 @@ function WO_Save() {
 				alert("중복된 값이 있습니다.");
 			} else if (result == 1) {
 				alert("저장되었습니다.");
+				maskEquipTable.replaceData();
+				packEquipTable.replaceData();
+				labelEquipTable.replaceData();
 			}
 		}
 	});
