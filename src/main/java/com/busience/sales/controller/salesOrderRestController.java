@@ -48,8 +48,6 @@ public class salesOrderRestController {
 	public int SO_Save(@RequestParam("masterData") String masterData, @RequestParam("subData") String subData,
 			Principal principal) {
 		
-		System.out.println("masterData=" + masterData);
-		System.out.println("subData=" + subData);
 		ObjectMapper mapper = new ObjectMapper();
 
 		try {

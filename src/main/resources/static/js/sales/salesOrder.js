@@ -615,16 +615,19 @@ function SOL_Save() {
 	saveData = new Array();
 
 	for(let i=0;i<subTable.length;i++){
-		if(subTable[i].rs_Qty > 0){
+		if(subTable[i].sales_Order_lQty > 0){
 			saveData.push(subTable[i]);	
 		}
 	}
 	
-	if (item_Code_Check(rowCount)) {
+	if (item_Code_Check(subTable.length)) {
 		alert("중복된 품목이 있습니다.");
 		return false;
 	}
-
+	if (saveData.length == 0) {
+		alert("저장할 데이터가 없습니다.");
+		return false;
+	}
 	//OrderSub 저장부분
 	$.ajax({
 		method: "post",

@@ -17,7 +17,7 @@
 		inner join Product_Info_tbl B on A.RS_ItemCode = B.Product_Item_Code
 		inner join DTL_TBL C on A.RS_Send_Clsfc = C.Child_TBL_No
 		left outer join Stock_tbl D on A.RS_ItemCode = D.S_ItemCode
-		WHERE A.RS_RequestNo = #{OrderNo} AND D.S_Warehouse = '50'
+		WHERE A.RS_RequestNo = #{OrderNo}
 		order by RS_ItemCode
 	</select>
 	

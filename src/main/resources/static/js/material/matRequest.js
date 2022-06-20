@@ -439,6 +439,11 @@ function MR_Save(){
 		return false;
 	}
 	
+	if (saveData.length == 0) {
+		alert("저장할 데이터가 없습니다.");
+		return false;
+	}
+	
 	$.ajax({
 		method: "post",
 		url: "matRequestRest/MR_Save",

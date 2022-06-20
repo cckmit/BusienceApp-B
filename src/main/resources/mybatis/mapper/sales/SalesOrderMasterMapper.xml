@@ -42,17 +42,23 @@
 		]]>
 </select>
 <select id="salesOrderNoCreateDao" resultType="String">
-	select 
+	select
 		concat(
-				#{Sales_Order_mCode},'-',date_format(#{Sales_Order_mDate},'%y%m%d'),'-',
-				lpad(
-					1+(select IFNULL(
-								(select max(SUBSTRING_INDEX(#{Sales_Order_mCus_No},'-',-1))
-								FROM Sales_OrderMaster_tbl
-								where SUBSTRING_INDEX(#{Sales_Order_mCus_No}, '-', 2) 
-								= CONCAT(#{Sales_Order_mCode},'-',DATE_FORMAT(#{Sales_Order_mDate},'%y%m%d'))),0)
-						),2,'0')
-			   )
+			#{Sales_Order_mCode},'-',
+			date_format(#{Sales_Order_mDate},'%y%m%d'),'-',
+			lpad(
+				1+(
+					select IFNULL(
+						(
+							select max(SUBSTRING_INDEX(Sales_Order_mCus_No,'-',-1))
+							FROM Sales_OrderMaster_tbl
+							where SUBSTRING_INDEX(Sales_Order_mCus_No, '-', 2) 
+							= concat(#{Sales_Order_mCode},'-',date_format(#{Sales_Order_mDate},'%y%m%d'))
+						)
+					,0)
+				),
+		 	2,'0')
+		)
 </select>
 <insert id="salesOrderMasterInsertUpdateDao">
 	insert into Sales_OrderMaster_tbl
