@@ -65,11 +65,11 @@ public class StockService {
 
 	// 재고테이블 조회
 	public List<StockDto> StockSelect(SearchDto searchDto) {
-		
+
 		List<StockDto> stockList = stockDao.stockSelectDao(searchDto);
-		
-		for(StockDto dto : stockList) {
-			if(dto.getS_ItemCode() == null || dto.getS_ItemCode() == "") {
+
+		for (StockDto dto : stockList) {
+			if (dto.getS_ItemCode() == null || dto.getS_ItemCode() == "") {
 				dto.setS_ItemCode("Grand Total");
 				dto.setS_ItemName("");
 				dto.setS_Item_Standard_1("");
@@ -80,7 +80,7 @@ public class StockService {
 		}
 		return stockList;
 	}
-	
+
 	// 재고 Lot-품목 조회
 	public List<StockDto> stockLotSelectDao(SearchDto searchDto) {
 		return stockDao.stockLotSelectDao(searchDto);
@@ -118,68 +118,84 @@ public class StockService {
 					List<DtlDto> WarehouseList = dtlDao.findByCode(10);
 
 					System.out.println(stockDtoList);
+
 					for (int i = 0; i < stockDtoList.size(); i++) {
 						StockDto stockDto = stockDtoList.get(i);
 						System.out.println(stockDtoList.get(i));
 						OutMatDto outMatDto = new OutMatDto();
-						RequestMasterDto requestMasterDto = new RequestMasterDto();
+						UserDto userDto = userDao.selectUser(Modifier);
 
 						outMatDto.setOM_Modifier(Modifier);
-						outMatDto.setOM_LotNo(stockDtoList.get(i).getS_ItemCode());
+						outMatDto.setOM_ItemCode(stockDtoList.get(i).getS_ItemCode());
 
 						int no = i;
 						String lotNo = stockDto.getS_LotNo();
 						String itemCode = stockDto.getS_ItemCode();
-						Double qty = (Double) stockDto.getS_ChangeQty();
+						Double qty;
+						
+						if(stockDto.getS_Qty() == 0) {
+							qty = (Double) stockDto.getS_ChangeQty();
+						} else {
+							qty = (Double) stockDto.getS_Qty() - (Double) stockDto.getS_ChangeQty();
+						}
+						
 						String Warehouse = WarehouseList.get(0).getCHILD_TBL_NO();
 
 						outMatDto.setOM_Qty(qty);
 
-						/*
-						 * // 랏번호가 없을경우 랏번호 생성 if (lotNo == null || lotNo.isBlank()) { lotNo =
-						 * lotNoDao.outMatlotNoSelectDao(outMatDto); outMatDto.setOM_LotNo(lotNo);
-						 * 
-						 * // 랏번호 업데이트 lotNoDao.lotNoMatUpdateDao(); }
-						 */
+						// 랏번호가 없을경우 랏번호 생성
+						if (lotNo == null || lotNo.isBlank()) {
+							lotNo = lotNoDao.outMatlotNoSelectDao(outMatDto);
+							outMatDto.setOM_LotNo(lotNo);
 
-						// 자재 요청에 저장하기 위해 부서 정보 불러옴
-						UserDto userDto = userDao.selectUser(Modifier);
+							// 랏번호 업데이트
+							lotNoDao.lotNoMatUpdateDao();
+							
+							outMatDto.setOM_RequestNo("99-221231-01");
+							
+							outMatDto.setOM_DeptCode(userDto.getDept_Code());
+							
+							outMatDto.setOM_Before(Warehouse);
+							
+							outMatDto.setOM_After(Warehouse);
+							
+							outMatDto.setOM_Qty(-1*qty);
+							
+							String before = Warehouse;
+							String after = Warehouse;
+							
+							outMatDto.setOM_Send_Clsfc("344");
+							
+							String classfy = "345";
+							
+							// 랏마스터 저장
+							lotMasterDao.lotMasterInsertUpdateDao(lotNo, itemCode, qty, Warehouse);
 
-						// 작업자
-						requestMasterDto.setRM_Modifier(Modifier);
-						requestMasterDto.setRM_UserCode(Modifier);
-						requestMasterDto.setRM_DeptCode(userDto.getDept_Code());
-						
-						// 자재 요청번호 생성
-						String RequestNo = requestMasterDto.getRM_RequestNo();
-						if (RequestNo.length() == 0) {
-							RequestNo = requestMasterDto.getRM_DeptCode() + "-"
-									+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
-							RequestNo = RequestNo + "-" + requestMasterDao.requestNoSelectDao(RequestNo);
-							requestMasterDto.setRM_RequestNo(RequestNo);
+							// 랏트랜스번호 가져오기
+							outMatDto.setOM_No(lotTransDao.lotTransNoSelectDao(lotNo));
+							
+							outMatDto.setOM_LotNo(lotNo);
+
+							// 자재출고 저장
+							outMatDao.outMatInsertDao(outMatDto);
+
+							// 랏트랜스 저장
+							lotTransDao.lotTransInsertDao(no, lotNo, itemCode, qty, before, after, classfy);
+							
+							stockDao.stockInsertDao(itemCode, qty, Warehouse);
+						} else {
+							lotNo = stockDto.getS_LotNo();
+							
+							stockDao.stockUpdateDao(qty, itemCode, Warehouse);
 						}
-
-						requestMasterDao.requestMasterInsertDao(requestMasterDto);
 						
-						// 변경 수량 만큼 RequestSub 저장
-						for(int j=0; j<qty; j++) {
-							requestSubDao.requestSubInsertDao(requestSubDtoList, RequestNo);
-						}
+						System.out.println(lotNo);
+						
 
-						/*
-						 * // 랏마스터 저장 lotMasterDao.lotMasterInsertUpdateDao(lotNo, itemCode, qty,
-						 * Warehouse);
-						 * 
-						 * // 랏트랜스번호 가져오기 outMatDto.setOM_No(lotTransDao.lotTransNoSelectDao(lotNo)); //
-						 * 재고 저장 stockDao.stockInsertUpdateDao(itemCode, qty, Warehouse);
-						 * 
-						 * outMatDto.setOM_Before(Warehouse);
-						 * 
-						 * // 자재출고 저장 outMatDto.outMatInsertDao(outMatDto);
-						 * 
-						 * // 랏트랜스 저장 lotTransDao.lotTransInsertDao(no, lotNo, itemCode, qty, before,
-						 * after, classfy);
-						 */
+						// 재고 저장
+						
+
+
 
 					}
 				}

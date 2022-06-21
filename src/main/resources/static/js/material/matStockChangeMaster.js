@@ -154,7 +154,7 @@ $("#stockChangeSaveBtn").click(function() {
 function stockChangeSave() {
 	
 	let selectedRow = matStockChangeTable.getData("selected");
-	let subTable = matStockChangeTable.getData("selected");
+	let subData = matStockChangeTable.getData("selected");
 	console.log(selectedRow);
 	for(let i=0; i<selectedRow.length; i++) {
 		if(selectedRow[i].s_ChangeQty == undefined) {
@@ -164,12 +164,20 @@ function stockChangeSave() {
 		} 
 	}
 	
+	let subTable = new Array();
+	
+	for(let i=0; i<selectedRow.length; i++) {
+		subTable.push({rs_ItemCode: selectedRow[i].s_ItemCode,
+			rs_Qty: selectedRow[i].s_ChangeQty})
+	}
+	
+	console.log(subTable);
+	
 	//OrderSub 저장부분
 	$.ajax({
 		method: "post",
 		url: "matStockRest/matStockChangeSave",
 		data: {masterData: JSON.stringify(selectedRow), requestlistData: JSON.stringify(subTable)},
-		contentType: 'application/json',
 		beforeSend: function(xhr) {
 			var header = $("meta[name='_csrf_header']").attr("content");
 			var token = $("meta[name='_csrf']").attr("content");
@@ -178,7 +186,7 @@ function stockChangeSave() {
 		success: function(result) {
 			if (result) {
 				alert("저장되었습니다.");
-				MOM_Search();
+				MSC_SearchBtn();
 			} else {
 				alert("빈칸이 있어서 저장할 수 없습니다.");
 			}

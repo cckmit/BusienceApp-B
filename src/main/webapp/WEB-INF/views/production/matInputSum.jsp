@@ -1,12 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+	pageEncoding="UTF-8"%>
 
-</body>
-</html>
+<div class="soloView">
+	<!-- MAIN -->
+	<div class="main">
+		<div class="top-var">
+			<div class="input-button">
+				<img id="LIS_SearchBtn" src="/images/button/Search.png"/>
+			</div>
+			<div class="input-box">
+				<div>
+					<span><strong>일자별</strong></span>
+					<input id="startDate" class="today" type="date">
+					<span style="text-align: center"><strong>~</strong></span>
+					<input id="endDate" class="tomorrow" type="date">
+				</div>
+			</div>
+		</div>
+		<div id="largePackTable" style="width: calc(25% - 10px); float:left; margin-right: 10px;"></div>
+		<div id="smallPackTable" style="width: calc(25% - 10px); float:left; margin-right: 10px;"></div>
+		<div id="crateTable" style="width: calc(25% - 10px); float:left; margin-right: 10px;"></div>
+		<div id="rawTable" style="width: calc(25% - 10px); float:left; margin-right: 10px;"></div>
+	</div>
+	<!-- END MAIN -->
+	
+</div>
+<script src="/js/production/matInputSum.js"></script>

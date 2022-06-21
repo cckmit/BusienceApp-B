@@ -8,12 +8,12 @@
 	
 	<insert id="outMatInsertDao">
 		insert into OutMat_tbl(
-			OM_No,
-			OM_RequestNo, OM_LotNo,
-			OM_ItemCode, OM_Qty, OM_DeptCode,
-			OM_Send_Clsfc, OM_OutDate, OM_Modifier
+			OutMat_No,
+			OutMat_ReqNo, OutMat_Lot_No,
+			OutMat_Code, OutMat_Qty, OutMat_Dept_Code,
+			OutMat_Send_Clsfc, OutMat_Date, OutMat_Modifier
 		) values (
-			(select ifnull(max(AA.OM_No)+1,1) from OutMat_tbl AS AA where AA.OM_RequestNo = #{OM_RequestNo}),
+			(select ifnull(max(AA.OutMat_No)+1,1) from OutMat_tbl AS AA where AA.OutMat_ReqNo = #{OM_RequestNo}),
 			#{OM_RequestNo}, #{OM_LotNo},
 			#{OM_ItemCode}, #{OM_Qty}, #{OM_DeptCode},
 			#{OM_Send_Clsfc}, now(), #{OM_Modifier}

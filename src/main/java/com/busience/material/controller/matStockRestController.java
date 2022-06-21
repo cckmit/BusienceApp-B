@@ -50,6 +50,8 @@ public class matStockRestController {
 		
 		ObjectMapper mapper = new ObjectMapper();
 		
+		System.out.println(stockList);
+		
 		try {
 			
 			List<StockDto> stockDtoList = Arrays.asList(mapper.readValue(stockList, StockDto[].class));
