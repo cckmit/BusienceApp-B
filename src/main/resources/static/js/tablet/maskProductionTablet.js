@@ -18,7 +18,7 @@ var itemTable = new Tabulator("#itemTable", {
 		//상자 랏 번호 탐색
 		$.when(CrateSelect($("#machineCode").val()))
 		.then(function(data){
-			return RawSelect(data.cl_LotNo);
+			return RawSelect(data.c_Production_LotNo);
 		}).then(function(data1){
 			if(data1.length == 0){
 				BOM_Check(response)
@@ -26,7 +26,7 @@ var itemTable = new Tabulator("#itemTable", {
 		})
 		
 		//상자 이력
-		crateTableSelect($("#machineCode").val())
+		//crateTableSelect($("#machineCode").val())
 		
 		//현재 작업 품목
 		$("#itemName").text(response.product_ITEM_NAME)
@@ -72,21 +72,40 @@ $("#barcodeInput").change(function(){
 	//바코드를 읽었을때
 	//이니셜값 비교하여 맞는 칸에 값을 넣는다.
 	var barcode = $(this).val();
+	var initial = barcode.substring(0,1);
 	
-	$.when(barcodeBranch(barcode))
-	.then(function(data){
-		console.log(data);
-		var newLotNo = data.cl_LotNo
-		console.log(newLotNo)
-		//다 차있을경우 저장 실행
-		if(inputCheck(newLotNo)){
-			console.log("저장")
-			rawMaterialSave(newLotNo);		
+	if(initial == 'R'){
+		//상자가 있으면 저장하고 없으면 저장하지 않는다.
+		//코드가 안맞을경우 안맞는다고 알림
+		rawMaterialLotInput(barcode);
+		
+		if(inputCheck()){			
+			rawMaterialSave($("#crate-LotNo").val());		
 		}
+		
 		$("#barcodeInput").val("");
-	})
+	}else if(initial == 'N'){
+		$.when(CrateStatusCheck(barcode))
+		.then(function(data){
+			//있다 or 없다.
+			if(data instanceof Object){
+				// 상자를 바꿀때 설비- 아이템을 확인하여 그정보로 저장
+				//기존 생산랏 상태변경 새로운 생산랑 생성 
+				return CrateSave($("#crateCode").val(), data.c_CrateCode)
+			}
+		})
+		.then(function(data){
+			$("#crateCode").val(barcode);
+			console.log(data)
+			if(inputCheck()){
+				console.log("저장")
+				rawMaterialSave($("#crate-LotNo").val());
+			}
+			$("#barcodeInput").val("");
+		})		
+	}
 });
-
+/*
 function barcodeBranch(barcode){
 	var initial = barcode.substring(0,1);
 	
@@ -97,13 +116,19 @@ function barcodeBranch(barcode){
 		
 		return {cl_LotNo : $("#crate-LotNo").val()}; 
 	}else if(initial == 'N'){
-		// 상자를 바꿀때 설비- 아이템을 확인하여 그정보로 저장
-		$("#crateCode").val(barcode);
-		return CrateSave($("#crate-LotNo").val(), barcode)
-		//아이템이 바뀌는데 원자재가 일부만 바뀌어 기존 원자재를 일부 사용할때 문제가 된다.
+		$.when(CrateStatusCheck(values))
+		.then(function(data){
+			//있다 or 없다.
+			console.log(data)
+			
+			// 상자를 바꿀때 설비- 아이템을 확인하여 그정보로 저장
+			$("#crateCode").val(barcode);
+			return CrateSave($("#crate-LotNo").val(), barcode)
+		})
 		
+		//아이템이 바뀌는데 원자재가 일부만 바뀌어 기존 원자재를 일부 사용할때 문제가 된다.
 	}
-}
+}*/
 
 //원자재 리스트 입력
 function rawMaterialLotInput(value){
@@ -128,11 +153,11 @@ function rawMaterialLotInput(value){
 	}
 	return 
 }
-function inputCheck(LotNo){
+function inputCheck(){
 	var result = LotList.every(x => {
 		return x.rms_LotNo != null
 	})
-	if(LotNo.length > 0 && result){
+	if($("#crate-LotNo").val().length > 0 && result){
 		return true;
 	}
 	return false;
@@ -210,16 +235,27 @@ function RawSelect(value){
 	return ajaxResult;
 }
 
-function CrateSelect(values){
+function CrateStatusCheck(value){
+	var ajaxResult = $.ajax({
+		method : "get",
+		url : "maskProductionRest/CrateStatusCheck",
+		data : {crateCode : value, condition : 0},
+		success : function() {
+		}
+	})
+	return ajaxResult;
+}
+
+function CrateSelect(value){
 	var ajaxResult = $.ajax({
 		method : "get",
 		url : "maskProductionRest/crateSelect",
-		data : {machineCode : values},
+		data : {machineCode : value, condition : 1},
 		success : function(data) {
 			if(data instanceof Object){
-				$("#crate-LotNo").val(data.cl_LotNo);
-				$("#crateCode").val(data.cl_CrateCode);
-				$("#crate-Qty").val(data.cl_Qty);
+				$("#crate-LotNo").val(data.c_Production_LotNo);
+				$("#crateCode").val(data.c_CrateCode);
+				$("#crate-Qty").val(data.c_Qty);
 			}
 		}
 	})
@@ -231,10 +267,10 @@ function CrateSave(before, after){
 		method : "post",
 		url : "maskProductionRest/crateSave",
 		data : {
-			CL_Before_LotNo : before,
-			CL_CrateCode : after,
-			CL_ItemCode : itemTable.getData()[0].product_ITEM_CODE,
-			CL_MachineCode : $("#machineCode").val()
+			C_Before_CrateCode : before,
+			C_CrateCode : after,
+			C_ItemCode : itemTable.getData()[0].product_ITEM_CODE,
+			C_MachineCode : $("#machineCode").val()
 		},
 		beforeSend: function (xhr) {
            var header = $("meta[name='_csrf_header']").attr("content");
@@ -243,9 +279,9 @@ function CrateSave(before, after){
 		},
 		success: function (data){
 			if(data instanceof Object){
-				$("#crate-LotNo").val(data.cl_LotNo);
-				$("#crateCode").val(data.cl_CrateCode);
-				$("#crate-Qty").val(data.cl_Qty);
+				$("#crate-LotNo").val(data.c_LotNo);
+				$("#crateCode").val(data.c_CrateCode);
+				$("#crate-Qty").val(data.c_Qty);
 			}
 		}
 	});
@@ -289,8 +325,26 @@ function crateTableSelect(value){
 }
 
 $("#nextWorkBtn").click(function(){
-	LotList = new Array();
+	var datas = {
+		C_CrateCode : $("#crateCode").val(),
+		C_Condition : '2',
+	}
+	crateUpdate(datas);
 })
+
+function crateUpdate(values){
+	var ajaxResult = $.ajax({
+		method : "post",
+		url : "crateRest/crateUpdate",
+		data : values,
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		}
+	});
+	return ajaxResult;
+}
 
 function linkageData(){
 	//작업지시를 완료를 시킨 후에 새로운 작업지시에서 봄을 가져옴

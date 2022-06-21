@@ -105,10 +105,10 @@ public class MaskProductionService {
 		}
 	}
 	
-	public CrateLotDto crateSelect(SearchDto searchDto) {
+	public CrateDto crateSelect(SearchDto searchDto) {
 		//검색해서 있는지 파악
 		//있으면 해당내용을 뿌림
-		return crateLotDao.crateLotSelectDao2(searchDto);
+		return crateDao.crateSelectByMachineDao(searchDto);
 	}
 	
 	public List<CrateLotDto> crateLotRecordSelect(SearchDto searchDto) {
@@ -117,36 +117,40 @@ public class MaskProductionService {
 		return crateLotDao.crateLotRecordSelectDao(searchDto);
 	}
 	
-	// 코드 조건으로 조회
-	public CrateLotDto crateSave(CrateLotDto crateLotDto) {
+	//상자 저장
+	public CrateDto crateSave(CrateDto crateDto) {
 		
 		try {			
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
-					//기존 값이 있으면 상태값 변경
-					//그 후 새로운 상자 등록
-					if(crateLotDto.getCL_Before_LotNo().length()>0) {
-						crateLotDao.crateLotUpdateDao(crateLotDto);
-					}
-					String LotNo = crateLotDao.crateLotNoCreateDao(crateLotDto);
 					
-					CrateDto crateDto = new CrateDto();
-					crateDto.setC_Use_Status(true);
+					//기존 값이 있으면 상태값 변경
+					if(crateDto.getC_Before_CrateCode().length()>0) {
+						CrateDto crateDtoTemp = new CrateDto();
+						crateDtoTemp.setC_CrateCode(crateDto.getC_Before_CrateCode());
+						crateDtoTemp.setC_Condition("2");
+						crateDao.crateUpdateDao(crateDtoTemp);
+					}
+
+					//그 후 새로운 상자 등록
+					String LotNo = crateLotDao.crateLotNoCreateDao(crateDto.getC_ItemCode());
+					
+					crateDto.setC_Condition("1");
 					crateDto.setC_Production_LotNo(LotNo);
-					crateDto.setC_CrateCode(crateLotDto.getCL_CrateCode());
-					System.out.println(crateDto);
 					crateDao.crateUpdateDao(crateDto);
 					
+					CrateLotDto crateLotDto = new CrateLotDto();
 					crateLotDto.setCL_LotNo(LotNo);
-					crateLotDao.crateLotSaveDao(crateLotDto);					
+					crateLotDto.setCL_ItemCode(crateDto.getC_ItemCode());
+					crateLotDto.setCL_CrateCode(crateDto.getC_CrateCode());
+					crateLotDto.setCL_MachineCode(crateDto.getC_MachineCode());
+					crateLotDao.crateLotSaveDao(crateLotDto);
 				}				
 			});
 
-			SearchDto searchDto = new SearchDto();
-			searchDto.setMachineCode(crateLotDto.getCL_MachineCode());
-			return crateLotDao.crateLotSelectDao2(searchDto);
+			return crateDto;
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -192,5 +196,9 @@ public class MaskProductionService {
 			e.printStackTrace();
 			return 0;
 		}
+	}
+	
+	public CrateDto CrateStatusCheck(SearchDto searchDto) {
+		return crateDao.crateStatusCheckDao(searchDto);
 	}
 }

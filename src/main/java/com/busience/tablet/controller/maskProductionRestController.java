@@ -16,6 +16,7 @@ import com.busience.production.service.WorkOrderService;
 import com.busience.standard.dto.BOMDto;
 import com.busience.standard.dto.ItemDto;
 import com.busience.standard.service.BOMService;
+import com.busience.tablet.dto.CrateDto;
 import com.busience.tablet.dto.CrateLotDto;
 import com.busience.tablet.dto.CrateProductionDto;
 import com.busience.tablet.dto.RawMaterialDto;
@@ -70,8 +71,6 @@ public class maskProductionRestController {
 		ObjectMapper mapper = new ObjectMapper();
 		
 		try {
-			System.out.println(masterData);
-			System.out.println(subData);
 			RawMaterialDto rawMaterialDto = mapper.readValue(masterData, RawMaterialDto.class);
 			
 			List<RawMaterialSubDto> rawMaterialSubDtoList = Arrays.asList(mapper.readValue(subData, RawMaterialSubDto[].class));
@@ -84,7 +83,7 @@ public class maskProductionRestController {
 	}
 	
 	@GetMapping("/crateSelect")
-	public CrateLotDto crateSelect(SearchDto searchDto) {
+	public CrateDto crateSelect(SearchDto searchDto) {
 		return maskProductionService.crateSelect(searchDto);
 	}
 	
@@ -94,8 +93,8 @@ public class maskProductionRestController {
 	}
 	
 	@PostMapping("/crateSave")
-	public CrateLotDto crateSave(CrateLotDto crateLotNoDto) {
-		return maskProductionService.crateSave(crateLotNoDto);
+	public CrateDto crateSave(CrateDto crateDto) {
+		return maskProductionService.crateSave(crateDto);
 	}
 	
 	@PostMapping("/crateProductionSave")
@@ -106,5 +105,10 @@ public class maskProductionRestController {
 	@PostMapping("/workOrderStart")
 	public int workOrderStart(WorkOrderDto workOrderDto) {
 		return workOrderService.workOrderStatusUpdate(workOrderDto);
+	}
+	
+	@GetMapping("/CrateStatusCheck")
+	public CrateDto CrateStatusCheck(SearchDto searchDto) {
+		return maskProductionService.CrateStatusCheck(searchDto);
 	}
 }

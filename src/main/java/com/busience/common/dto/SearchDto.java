@@ -54,4 +54,6 @@ public class SearchDto {
 	private String Warehouse;
 	
 	private String Modifier;
+	
+	private String CrateCode;
 }

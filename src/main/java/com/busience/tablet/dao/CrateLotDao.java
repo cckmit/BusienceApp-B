@@ -20,7 +20,7 @@ public interface CrateLotDao {
 	public CrateLotDto crateLotSelectDao2(SearchDto searchDto);
 	
 	//랏번호 생성
-	public String crateLotNoCreateDao(CrateLotDto crateLotDto);
+	public String crateLotNoCreateDao(String itemCode);
 	
 	//이력조회
 	public List<CrateLotDto> crateLotRecordSelectDao(SearchDto searchDto);
