@@ -26,6 +26,7 @@ import com.busience.material.dto.OutMatDto;
 import com.busience.material.dto.RequestMasterDto;
 import com.busience.material.dto.RequestSubDto;
 import com.busience.material.dto.StockDto;
+import com.busience.production.dto.ProductionMgmtDto;
 import com.busience.standard.dao.UserDao;
 import com.busience.standard.dto.UserDto;
 
@@ -64,7 +65,25 @@ public class StockService {
 
 	// 재고테이블 조회
 	public List<StockDto> StockSelect(SearchDto searchDto) {
-		return stockDao.stockSelectDao(searchDto);
+		
+		List<StockDto> stockList = stockDao.stockSelectDao(searchDto);
+		
+		for(StockDto dto : stockList) {
+			if(dto.getS_ItemCode() == null || dto.getS_ItemCode() == "") {
+				dto.setS_ItemCode("Grand Total");
+				dto.setS_ItemName("");
+				dto.setS_Item_Standard_1("");
+				dto.setS_Item_Classfy_1_Name("");
+				dto.setS_Item_Classfy_2_Name("");
+				dto.setS_Item_Unit("");
+			}
+		}
+		return stockList;
+	}
+	
+	// 재고 Lot-품목 조회
+	public List<StockDto> stockLotSelectDao(SearchDto searchDto) {
+		return stockDao.stockLotSelectDao(searchDto);
 	}
 
 	// 재고 조정

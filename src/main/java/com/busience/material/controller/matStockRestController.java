@@ -32,6 +32,12 @@ public class matStockRestController {
 		return stockService.StockSelect(searchDto);
 	}
 	
+	// 재고 Lot- 품목 조회
+	@GetMapping("matStockLotSelect")
+	public List<StockDto> stockLotSelectDao(SearchDto searchDto) {
+		return stockService.stockLotSelectDao(searchDto);
+	}
+	
 	// 재고 조정
 	@GetMapping("matStockChangeSelect")
 	public List<StockDto> matStockChanageSelect(StockDto stockDto) {
