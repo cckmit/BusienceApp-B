@@ -1,7 +1,5 @@
 var machineCodeObj = new Object();
-var inputMode = "";
-var saveList = new Array();
-var refreshData = { machineCode : "", crateCode : ""};
+var inputMode = '';
 
 function tableSetting(value){
 	var tableSetting = {
@@ -46,73 +44,35 @@ $.ajax({
 	}
 });
 
-
-
-
 $(document).keydown(function(){
 	$("#barcodeInput").focus();
 });
 
 $("#barcodeInput").keypress(function(e){
 	if(e.keyCode == 13){
-		// m인지 파악
-		// r인지 y인지 파악
-		
-		// c인지 파악
-		// r이면 바로 저장
-		// y면 배열에 저장		
+			
 		var barcode = $(this).val();
-		var colorStatus = 'R'
 		var initial = barcode.substr(0,1);
 		//코드가 무엇인지 확인
 		if(initial == "M"){
-			//R은 빨간색 Y는 노란색
-			if(barcode.substr(-1) == "Y"){
-				colorStatus = barcode.substr(-1);
-				barcode = barcode.substr(0,4);
-			}
 			//포장설비코드만 걸러냄
 			let result = Object.keys(machineCodeObj).some(x => {
 				return x == barcode
 			})
 			if(result){
 				$("#selectedMachine").val(barcode);
-				if(colorStatus == 'R'){
-					if(inputMode == "save"){
-						//해당설비로 해당 상자가 등록되면 된다
-						crateLotUpdate($("#selectedMachine").val(), barcode);
-						$(".tablet-Table").removeClass("border-color");
-						inputMode = "";
-					}else{
-						$(".tablet-Table").removeClass("border-color")
-						$("#"+machineCodeObj[barcode]).addClass("border-color")
-						$(".border-color").css("border-color","red");
-						inputMode = "save"
-					}
-				}else if(colorStatus == 'Y'){
-					if(inputMode == "refresh"){
-						//최신화 실행
-						refreshData = { machineCode : "", crateCode : ""};
-						inputMode = "save";
-						
-						$(".tablet-Table").removeClass("border-color")
-					}else{
-						$(".tablet-Table").removeClass("border-color")
-						$("#"+machineCodeObj[barcode]).addClass("border-color")
-						$(".border-color").css("border-color","yellow");
-						inputMode = "refresh"
-						refreshData.machineCode = barcode;
-					}			
-				}
+				$(".tablet-Table").removeClass("border-color")
+				$("#"+machineCodeObj[barcode]).addClass("border-color")
+				$(".border-color").css("border-color","red");
 			}
 		}else if(initial == "N"){
-			if(inputMode == "save"){
-				//상자코드가 찍힐 것
-				saveList.push(barcode)
-				Tabulator.prototype.findTable("#"+machineCodeObj[$("#selectedMachine").val()])[0].addRow({"cl_CrateCode" : barcode, "color" : "1"})
-			}else if(inputMode == "refresh"){
-				refreshData.crateCode = barcode;
-			}
+			$.when(CrateStatusCheck(barcode)).
+			then(function(data){
+				//아이템이 설비지정아이템과 맞으면 등록이 되고 맞지않으면 오류 뱉음				
+				console.log(data)
+				
+				crateLotUpdate($("#selectedMachine").val(), data.c_CrateCode);
+			})
 		}
 		$(this).val("");
 	}
@@ -123,12 +83,28 @@ $("#barcodeInput").keyup(function(){
 	$("#barcodeInput-mirror").val($(this).val());
 })
 
+function CrateStatusCheck(value){
+	var ajaxResult = $.ajax({
+		method : "get",
+		url : "maskProductionRest/CrateStatusCheck",
+		data : {crateCode : value, condition : 2},
+		success : function() {
+		}
+	})
+	return ajaxResult;
+}
+
 function crateLotUpdate(machineCode, CrateCode){
 	$.ajax({
-		method : "get",
-		url : "maskInputRest/crateLotUpdate",
+		method : "post",
+		url : "maskInputRest/maskInputUpdate",
 		data: {CL_MachineCode : machineCode, CL_CrateCode : CrateCode},
-		success : function() {
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
+		success : function(data) {
 			Tabulator.prototype.findTable("#"+machineCodeObj[machineCode])[0].replaceData();
 		}
 	});

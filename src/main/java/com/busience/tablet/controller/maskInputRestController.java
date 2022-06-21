@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,6 +33,11 @@ public class maskInputRestController {
 	@GetMapping("/maskInputSelect")
 	public List<WorkOrderDto> maskInputSelect() {
 		return maskInputService.maskInputSelect();
+	}
+	
+	@PostMapping("/maskInputUpdate")
+	public int maskInputUpdate(CrateLotDto crateLotDto) {
+		return maskInputService.maskInputUpdate(crateLotDto);
 	}
 	
 	@GetMapping("/crateLotUpdate")

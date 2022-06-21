@@ -15,20 +15,20 @@
 	<select id="crateStatusCheckDao" resultType="com.busience.tablet.dto.CrateDto">
 		SELECT 
 			A.C_CrateCode, A.C_Condition, A.C_Create_Date,
-			A.C_Production_LotNo
+			A.C_Production_LotNo, B.CL_ItemCode C_ItemCode
 		FROM Crate_tbl A
+		left outer join Crate_Lot_tbl B on A.C_Production_LotNo = B.CL_LotNo
 		where A.C_CrateCode = #{CrateCode}
-		and C_Condition = #{Condition}
+		and A.C_Condition = #{Condition}
 	</select>
 	
 	<select id="crateSelectByMachineDao" resultType="com.busience.tablet.dto.CrateDto">
 		SELECT
 			A.C_CrateCode, A.C_Condition,
-			A.C_Create_Date, C_Production_LotNo,
+			A.C_Create_Date, A.C_Production_LotNo,
             B.CL_MachineCode C_MachineCode, B.CL_Qty C_Qty
 		FROM Crate_tbl A
-		inner join Crate_Lot_tbl B on A.C_Production_LotNo = B.CL_LotNo
-		and B.CL_MachineCode = #{machineCode}
+		inner join Crate_Lot_tbl B on A.C_Production_LotNo = B.CL_LotNo and B.CL_MachineCode = #{machineCode}
 		where A.C_Condition = #{condition}
 	</select>
 	
@@ -52,7 +52,9 @@
 	<update id="crateUpdateDao">
 		update Crate_tbl
 		set
+	<if test="C_Production_LotNo != null">
 		C_Production_LotNo = #{C_Production_LotNo},
+	</if>
 		C_Condition = #{C_Condition}
 		where C_CrateCode = #{C_CrateCode}
 	</update>

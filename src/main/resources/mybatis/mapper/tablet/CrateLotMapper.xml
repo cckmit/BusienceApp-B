@@ -108,7 +108,9 @@
 	<update id="crateLotUpdateDao">
 		update Crate_Lot_tbl
 		set
-		where CL_LotNo = #{CL_Before_LotNo}
+		CL_MachineCode = #{CL_MachineCode},
+		CL_Create_Date = now()
+		where CL_LotNo = #{CL_LotNo}
 	</update>
 	
 	<update id="crateLotQtyUpdateDao">
