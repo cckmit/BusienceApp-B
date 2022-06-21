@@ -70,6 +70,36 @@ function packagingInputSave(){
 	return ajaxResult;
 }
 
+function maskPackagingSelect(){
+	var ajaxResult = $.ajax({
+		method: "get",
+		url: "maskPackagingRest/maskPackagingSelect",
+		success: function(result) {
+			for(let i=0;i<result.length;i++){
+				if(result[i].workOrder_EquipCode == $("#machineCode").val()){
+					$("#itemCode").val(result[i].workOrder_ItemCode);
+					$("#itemName").text(result[i].workOrder_ItemName);
+				}
+			}
+		}
+	});
+	return ajaxResult;
+}
+
+function packagingLineListSelect(){
+	var ajaxResult = $.ajax({
+		method: "get",
+		url: "maskPackagingRest/packagingLineListSelect",
+		data: {itemCode : $("#itemCode").val()},
+		success: function(result) {
+			for(let j=0;j<result.length;j++){
+				$("#bundle-list").append('<li>'+result[j].workOrder_EquipName+'</li>')
+			}
+		}
+	});
+	return ajaxResult;
+}
+
 $("#rePrintBtn").click(function(){
 	//프린트
 	smallPackagingPrinter($("#selectedItem").val());
@@ -77,7 +107,11 @@ $("#rePrintBtn").click(function(){
 })
 
 window.onload = function(){
+	$.when(maskPackagingSelect())
+	.then(function(){
+		packagingLineListSelect()
+	})
 	setInterval(function(){
-		packagingTable.replaceData();
+		//packagingTable.replaceData();
 	},5000);
 }

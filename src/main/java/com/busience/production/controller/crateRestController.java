@@ -30,6 +30,7 @@ public class crateRestController {
 	
 	@PostMapping("/crateUpdate")
 	public int crateUpdateDao(CrateDto crateDto) {
+		System.out.println(crateDto);
 		return crateService.crateUpdateDao(crateDto);
 	}
 

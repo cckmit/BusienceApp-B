@@ -4,6 +4,9 @@
 	<header class="global-header">
 		<div class="header-left">
 			<input id="machineCode" type="hidden" value="${machineInfo.EQUIPMENT_INFO_CODE}">
+			<span id="machineName">${machineInfo.EQUIPMENT_INFO_NAME}</span>
+			<input id="itemCode" type="hidden">
+			<span id="itemName">품목명</span>
 		</div>
 		<div class="title tablet-border">
 			<span>작업 관리 (마스크 포장)</span>
@@ -15,6 +18,8 @@
 	<div class="main-a">
 		<div class="main-box tablet-border">
 			<div class="item">
+				<ul id="bundle-list">
+				</ul>
 				<button type="button" id="packagingBtn" class="btn btn-default">포장 발행</button>
 			</div>
 		</div>
@@ -22,13 +27,17 @@
 	<div class="main-b">
 		<div class="main-box tablet-border">
 			<div class="item">
+				<label for="crate-Count">소포장 카운트</label>
+				<input id="crate-Count" disabled>
+			</div>
+			<div class="item">
 				<label for="crate-LotNo">당일 발행 수량</label>
-				<input id="crate-LotNo" disabled>
+				<input id="crate-LotNo" readonly>
 				<input type="hidden" id="crateCode">
 			</div>
 			<div class="item">
 				<label for="crate-Qty">당일 포장 수량</label>
-				<input id="crate-Qty" readonly>
+				<input id="crate-Qty" disabled>
 			</div>
 		</div>
 	</div>
@@ -36,8 +45,11 @@
 	<div class="main-c">
 		<div class="main-box tablet-border">
 			<div class="item">
+				<button type="button" class="btn btn-success">대포장 수동 출력</button>
+			</div>
+			<div class="item">
 				<input id="selectedItem" placeholder="목록을 선택하세요." disabled>
-				<button type="button" id="rePrintBtn" class="btn btn-primary">재발행</button>
+				<button type="button" id="rePrintBtn" class="btn btn-primary">소포장 재 발행</button>
 			</div>
 		</div>
 	</div>

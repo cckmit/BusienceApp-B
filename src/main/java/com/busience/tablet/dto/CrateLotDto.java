@@ -19,6 +19,7 @@ public class CrateLotDto {
 	private boolean CL_Use_Status;
 
 	private String CL_MachineCode;
+	private String CL_MachineCode2;
 	private String CL_Production_ID;
 	private String CL_Before_LotNo;
 	private String CL_EquipCode;

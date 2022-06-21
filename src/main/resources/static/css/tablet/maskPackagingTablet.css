@@ -1,7 +1,7 @@
 .container-bs{
 	display: grid;
 	grid-template-columns: 2fr 3fr;
-	grid-template-rows: 10vh 20vh 30vh 40vh;
+	grid-template-rows: 10vh 25vh 35vh 30vh;
 	grid-template-areas:
 		"header header"
 		"main-a main-d"
@@ -20,7 +20,7 @@
 	width: 20%;
 	display: flex;
     justify-content: space-around;
-	font-size: calc(1vh + 1vw);
+	font-size: calc(0.7vh + 0.7vw);
 }
 .global-header #machineName{
 	font-weight: bold;
@@ -68,7 +68,7 @@
     padding: 5px;
 }
 .main-b .main-box{
-	grid-template-rows: repeat(2, 1fr);
+	grid-template-rows: repeat(3, 1fr);
 }
 .main-c{
 	grid-area: main-c;
@@ -76,6 +76,10 @@
 }
 .main-c .main-box{
 	background-color: rgb(207,213,234);
+}
+.main-c .main-box button{
+	width: 50%;
+	height: 50%;
 }
 .main-d{
 	grid-area: main-d;
@@ -102,7 +106,7 @@
 	text-align-last: justify;
 }
 .main-box .item input{
-	width: 60%;
+	width: 40%;
 }
 
 .global-footer{

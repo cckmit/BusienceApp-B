@@ -79,7 +79,7 @@
 	<footer class="global-footer">
 		<div class="footer-box tablet-border">
 			<div class="table-container">
-				<button id="nextWorkBtn">
+				<button id="completeBtn">
 					작업완료
 				</button>
 			</div>

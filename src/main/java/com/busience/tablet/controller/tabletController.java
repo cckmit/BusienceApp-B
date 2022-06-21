@@ -19,6 +19,7 @@ import com.busience.standard.dto.EQUIPMENT_INFO_TBL;
 import com.busience.standard.dto.MachineDto;
 import com.busience.standard.dto.PRODUCT_INFO_TBL;
 import com.busience.standard.service.MachineService;
+import com.busience.tablet.service.MaskPackagingService;
 
 @Controller
 public class tabletController {
@@ -31,6 +32,9 @@ public class tabletController {
 	
 	@Autowired
 	MachineService machineService;
+	
+	@Autowired
+	MaskPackagingService maskPackagingService;
 
 	//workOrderTablet
 	@GetMapping("/tablet/workOrderTablet")
@@ -192,7 +196,7 @@ public class tabletController {
 	@GetMapping("/tablet/maskInputTablet")
 	public String maskInputTablet(Model model, SearchDto searchDto) {
 		if(searchDto.getMachineCode() == null) {
-			searchDto.setMachineCode("M001");
+			searchDto.setMachineCode("M101");
 		}
 		MachineDto machineDto = machineService.selectMachineInfo(searchDto);
 		
@@ -204,9 +208,11 @@ public class tabletController {
 	@GetMapping("/tablet/maskPackagingTablet")
 	public String maskPackagingTablet(Model model, SearchDto searchDto) {
 		if(searchDto.getMachineCode() == null) {
-			searchDto.setMachineCode("M001");
+			searchDto.setMachineCode("M301");
 		}
 		MachineDto machineDto = machineService.selectMachineInfo(searchDto);
+		
+		//List<WorkOrderDto> workOrderDtoList = maskPackagingService.maskPackagingSelect();
 		
 		model.addAttribute("machineInfo", machineDto);
 		

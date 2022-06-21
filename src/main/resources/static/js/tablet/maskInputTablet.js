@@ -88,7 +88,8 @@ function CrateStatusCheck(value){
 		method : "get",
 		url : "maskProductionRest/CrateStatusCheck",
 		data : {crateCode : value, condition : 2},
-		success : function() {
+		success : function(data) {
+			console.log(data)
 		}
 	})
 	return ajaxResult;
@@ -110,22 +111,11 @@ function crateLotUpdate(machineCode, CrateCode){
 	});
 }
 
-function crateLotRefresh(machineCode, CrateCode){
-	$.ajax({
-		method : "get",
-		url : "maskInputRest/crateLotRefresh",
-		data: {CL_MachineCode : machineCode, CL_CrateCode : CrateCode},
-		success : function() {
-			Tabulator.prototype.findTable("#"+machineCodeObj[machineCode])[0].replaceData();
-		}
-	});
-}
-
 window.onload = function(){
 	
 	setInterval(function(){
 		for(var key in machineCodeObj){
-			Tabulator.prototype.findTable("#"+machineCodeObj[key])[0].replaceData();	
+			//Tabulator.prototype.findTable("#"+machineCodeObj[key])[0].replaceData();	
 		}
 	},60000);
 }

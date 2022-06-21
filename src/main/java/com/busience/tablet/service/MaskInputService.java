@@ -41,7 +41,7 @@ public class MaskInputService {
 	}
 	
 	public List<WorkOrderDto> maskInputSelect(){
-		return workOrderDao.workOrderInputTabletDao();
+		return workOrderDao.workOrderTabletSelectDao("325");
 	}
 	
 	public int crateLotUpdate2(CrateLotDto crateLotDto) {
@@ -94,7 +94,7 @@ public class MaskInputService {
 					
 					//Crate_Lot_tbl 업데이트
 					crateLotDtoTemp.setCL_LotNo(LotNo);
-					crateLotDtoTemp.setCL_MachineCode(crateLotDto.getCL_MachineCode());
+					crateLotDtoTemp.setCL_MachineCode2(crateLotDto.getCL_MachineCode());
 					crateLotDao.crateLotUpdateDao(crateLotDtoTemp);					
 				}
 			});

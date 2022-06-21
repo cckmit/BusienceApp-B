@@ -324,10 +324,10 @@ function crateTableSelect(value){
 	crateTable.setData("maskProductionRest/crateLotRecordSelect", {machineCode : value})
 }
 
-$("#nextWorkBtn").click(function(){
+$("#completeBtn").click(function(){
 	var datas = {
-		C_CrateCode : $("#crateCode").val(),
-		C_Condition : '2',
+		c_CrateCode : $("#crateCode").val(),
+		c_Condition : '2',
 	}
 	crateUpdate(datas);
 })
@@ -335,7 +335,7 @@ $("#nextWorkBtn").click(function(){
 function crateUpdate(values){
 	var ajaxResult = $.ajax({
 		method : "post",
-		url : "crateRest/crateUpdate",
+		url : "/crateRest/crateUpdate",
 		data : values,
 		beforeSend: function (xhr) {
            var header = $("meta[name='_csrf_header']").attr("content");
@@ -354,6 +354,6 @@ function linkageData(){
 
 window.onload = function(){
 	setInterval(function(){
-		CrateSelect($("#machineCode").val());
+		//CrateSelect($("#machineCode").val());
 	},5000);
 }
