@@ -59,6 +59,26 @@
 
 	</select>
 	
+	<select id="crateLotListMasterDao" resultType="com.busience.tablet.dto.CrateLotDto">
+		SELECT clt.CL_LotNo, clt.CL_ItemCode, clt.CL_Qty, clt.CL_Create_Date, 
+			pit.Product_Item_Name CL_ItemName, pit.Product_Info_STND_1 CL_STND_1, 
+			dt.Child_TBL_Type CL_Item_Material, dt2.Child_TBL_Type CL_Item_Clsfc_Name_1, dt3.Child_TBL_Type CL_Item_Clsfc_Name_2
+		FROM Crate_Lot_tbl clt
+		INNER JOIN Product_Info_tbl pit ON clt.CL_ItemCode = pit.Product_Item_Code
+		INNER JOIN DTL_TBL dt ON pit.Product_Material = dt.Child_TBL_No
+		INNER JOIN DTL_TBL dt2 ON pit.Product_Item_CLSFC_1 = dt2.Child_TBL_No
+		INNER JOIN DTL_TBL dt3 ON pit.Product_Item_CLSFC_2 = dt3.Child_TBL_No
+		<![CDATA[
+		WHERE clt.CL_Create_Date >= #{startDate} and clt.CL_Create_Date < #{endDate}
+		]]>
+		<if test="LotNo != ''">
+		AND clt.CL_LotNo LIKE CONCAT ('%',#{LotNo},'%')
+		</if>
+		<if test="ItemCode != ''">
+		AND clt.CL_ItemCode LIKE CONCAT('%',#{ItemCode},'%')
+		</if>
+	</select>
+	
 	<select id="crateInspectSelectDao" resultType="com.busience.tablet.dto.CrateLotDto">
 		SELECT distinct clt.*, wot.WorkOrder_EquipCode as CL_EquipCode, eit.Equipment_Info_Name as CL_EquipName, pit.Product_Item_Name as CL_ItemName,
 			pit.Product_Info_STND_1 as CL_STND_1, dt.Child_TBL_Type as CL_Item_Clsfc_Name_1, proit.Process_Inspect_Qty as CL_Process_Inspect_Qty
