@@ -8,6 +8,18 @@
 			<div class="input-button">
 				<img id="IPL_SearchBtn" src="/images/button/Search.png"/>
 			</div>
+			<div class="input-box">
+				<span><strong>일자별</strong></span>
+				<input id="startDate" class="today" type="date">
+				<span style="text-align: center"><strong>~</strong></span>
+				<input id="endDate" class="tomorrow" type="date">
+				<span><strong>제품코드</strong></span>
+				<input id="PRODUCT_ITEM_CODE" class="Item_Code" type="text" disabled>
+				<span><strong>제품명</strong></span>
+				<input id="PRODUCT_ITEM_NAME" class="Item_Name clearInput" type="text" autofocus>
+				<span><strong>LotNo</strong></span>
+				<input id="itemPackinLotNo" class="itemPackinLotNo" type="text" style="width: 230px;" onclick="$(this).val('')" onkeypress="javascript:if(event.keyCode==13) {InspectionWorkONo()}" autofocus>
+			</div>
 		</div>
 		
 		<div id="salesPackingMasterTable" style="width: calc(50% - 5px); float:left; margin-right: 10px;"></div>

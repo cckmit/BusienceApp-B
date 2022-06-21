@@ -82,7 +82,7 @@
 		SELECT spt.Sales_Packing_No, spt.Sales_Large_Packing_LotNo, sum(spt.Sales_Packing_Qty) Sales_Packing_Qty, lmt.LM_ItemCode as Sales_Packing_Code, pit.Product_Item_Name as Sales_Packing_Name, lmt.LM_Create_Date as Sales_Small_Create_Date, 
 			pit.Product_Info_STND_1 AS Sales_Packing_STND_1, dt4.Child_TBL_Type AS Sales_Packing_Material, 
 			dt.Child_TBL_Type AS Sales_Packing_Item_Clsfc_1, dt3.Child_TBL_Type AS Sales_Packing_Item_Clsfc_2,
-			spt.Sales_Packing_Status, dt2.Child_TBL_Type AS Sales_Packing_Status_Name 
+			spt.Sales_Packing_Status, dt2.Child_TBL_Type AS Sales_Packing_Status_Name, spt.Sales_Large_Packing_Time 
 		FROM Sales_Packing_tbl spt
 		INNER JOIN LotMaster_tbl lmt ON spt.Sales_Small_Packing_LotNo = lmt.LM_LotNo
 		INNER JOIN Product_Info_tbl pit ON lmt.LM_ItemCode = pit.Product_Item_Code
@@ -90,8 +90,14 @@
 		INNER JOIN DTL_TBL dt2 ON spt.Sales_Packing_Status = dt2.Child_TBL_No
 		INNER JOIN DTL_TBL dt3 ON pit.Product_Item_CLSFC_2 = dt3.Child_TBL_No
 		INNER JOIN DTL_TBL dt4 ON pit.Product_Material = dt4.Child_TBL_No
-		<if test="LotNo != null">
-		WHERE Sales_Large_Packing_LotNo = #{LotNo}
+		<![CDATA[
+		WHERE spt.Sales_Large_Packing_Time >= #{startDate} and spt.Sales_Large_Packing_Time < #{endDate}
+		]]>
+		<if test="LotNo != ''">
+		AND Sales_Large_Packing_LotNo = #{LotNo}
+		</if>
+		<if test="ItemCode != ''">
+		AND lmt.LM_ItemCode LIKE CONCAT('%',#{ItemCode},'%')
 		</if>
 	</select>
 	
