@@ -56,4 +56,8 @@ public class SearchDto {
 	private String Modifier;
 	
 	private String CrateCode;
+	
+	private String LotType; 
+	
+	private String SubType;
 }

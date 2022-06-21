@@ -20,6 +20,8 @@ import com.busience.common.dto.SearchDto;
 import com.busience.production.dto.PRODUCTION_INFO_TBL;
 import com.busience.production.dto.ProductionMgmtDto;
 import com.busience.production.service.ProductionMgmtService;
+import com.busience.tablet.dto.CrateLotDto;
+import com.busience.tablet.dto.RawMaterialDto;
 
 @RestController("proListRestController")
 @RequestMapping("proListRest")
@@ -52,9 +54,22 @@ public class proListRestController {
 		return productionMgmtService.proMachineList(searchDto);
 	}
 	
+	// Lot 발행 조회
 	@GetMapping("/LotIssueList")
 	public List<ProductionMgmtDto> lotIssueListDao(SearchDto searchDto) {
 		return productionMgmtService.lotIssueListDao(searchDto);
+	}
+	
+	// Lot 이력 조회
+	@GetMapping("/crateLotList")
+	public List<CrateLotDto> crateLotListMasterDao(SearchDto searchDto) {
+		return productionMgmtService.crateLotListMasterDao(searchDto);
+	}
+	
+	// Lot 이력 조회
+	@GetMapping("/rawLotList")
+	public List<RawMaterialDto> rawMaterialListMasterDao(SearchDto searchDto) {
+		return productionMgmtService.rawMaterialListMasterDao(searchDto);
 	}
 	
 	// proItemListSelect2

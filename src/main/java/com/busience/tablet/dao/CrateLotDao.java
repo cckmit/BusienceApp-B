@@ -34,6 +34,9 @@ public interface CrateLotDao {
 	//마스크 투입 최신화 리스트
 	public List<CrateLotDto> crateLotRefreshSelectDao(CrateLotDto crateLotDto);
 	
+	//lot 이력 조회
+	public List<CrateLotDto> crateLotListMasterDao(SearchDto searchDto);
+	
 	//저장
 	public int crateLotSaveDao(CrateLotDto crateLotDto);
 	

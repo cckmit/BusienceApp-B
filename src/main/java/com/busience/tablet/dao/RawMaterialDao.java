@@ -13,6 +13,9 @@ public interface RawMaterialDao {
 	//조회
 	public List<RawMaterialDto> rawMaterialSelectDao(SearchDto searchDto);
 	
+	//Lot 이력 조회
+	public List<RawMaterialDto> rawMaterialListMasterDao(SearchDto searchDto);
+	
 	//저장
 	public int rawMaterialSaveDao(RawMaterialDto rawMaterialDto);
 }

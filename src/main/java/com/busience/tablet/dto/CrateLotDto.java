@@ -25,5 +25,7 @@ public class CrateLotDto {
 	private String CL_EquipName;
 	private String CL_STND_1;
 	private String CL_Item_Clsfc_Name_1;
+	private String CL_Item_Clsfc_Name_2;
+	private String CL_Item_Material;
 	private String CL_Process_Inspect_Qty;
 }

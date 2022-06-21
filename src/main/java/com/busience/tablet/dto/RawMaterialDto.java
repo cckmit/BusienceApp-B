@@ -15,4 +15,8 @@ public class RawMaterialDto {
 	private String Material_ItemName;
 	private String Qty;
 	private String CrateDate;
+	private String Material_Item_Stnd_1; // 이력조회
+	private String Material_Item_Clsfc_1; // 이력조회
+	private String Material_Item_Clsfc_2; // 이력조회
+	private String Material_Item_Material; // 이력조회
 }

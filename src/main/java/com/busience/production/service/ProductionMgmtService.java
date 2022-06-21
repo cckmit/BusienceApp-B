@@ -8,12 +8,22 @@ import org.springframework.stereotype.Service;
 import com.busience.common.dto.SearchDto;
 import com.busience.production.dao.ProductionMgmtDao;
 import com.busience.production.dto.ProductionMgmtDto;
+import com.busience.tablet.dao.CrateLotDao;
+import com.busience.tablet.dao.RawMaterialDao;
+import com.busience.tablet.dto.CrateLotDto;
+import com.busience.tablet.dto.RawMaterialDto;
 
 @Service
 public class ProductionMgmtService {
 	
 	@Autowired
 	ProductionMgmtDao productionMgmtDao;
+	
+	@Autowired
+	CrateLotDao crateLotDao;
+	
+	@Autowired
+	RawMaterialDao rawMaterialDao;
 	
 	// 생산 실적 관리(제품별)
 	public List<ProductionMgmtDto> proItemSumList(SearchDto searchDto) {
@@ -154,5 +164,15 @@ public class ProductionMgmtService {
 	//Lot 발행 조회
 	public List<ProductionMgmtDto> lotIssueListDao(SearchDto searchDto) {
 		return productionMgmtDao.lotIssueListDao(searchDto);
+	}
+	
+	//Lot 이력 조회
+	public List<CrateLotDto> crateLotListMasterDao(SearchDto searchDto) {
+		return crateLotDao.crateLotListMasterDao(searchDto);
+	}
+	
+	//Lot 이력 조회
+	public List<RawMaterialDto> rawMaterialListMasterDao(SearchDto searchDto) {
+		return rawMaterialDao.rawMaterialListMasterDao(searchDto);
 	}
 }

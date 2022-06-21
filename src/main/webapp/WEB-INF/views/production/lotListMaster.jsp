@@ -6,7 +6,7 @@
 	<div class="main">
 		<div class="top-var">
 			<div class="input-button">
-				<img id="IPL_SearchBtn" src="/images/button/Search.png"/>
+				<img id="LLM_SearchBtn" src="/images/button/Search.png"/>
 			</div>
 			<div class="input-box">
 				<div>
@@ -26,10 +26,10 @@
 			</div>
 		</div>
 		
-		<div id="salesPackingMasterTable" style="width: calc(50% - 5px); float:left; margin-right: 10px;"></div>
-		<div id="salesPackingSubTable" style="width: calc(50% - 5px); float:left;"></div>
+		<div id="crateTable" style="width: calc(50% - 5px); float:left; margin-right: 10px;"></div>
+		<div id="rawTable" style="width: calc(50% - 5px); float:left;"></div>
 	</div>
 	<!-- END MAIN -->
 	
 </div>
-<script src="/js/production/itemPackingList.js"></script>
+<script src="/js/production/lotListMaster.js"></script>
