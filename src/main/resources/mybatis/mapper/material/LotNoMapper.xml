@@ -11,6 +11,12 @@
 			concat(DATE_FORMAT(curdate(),"%y%m%d"), #{InMat_Code}, lpad(matarial_No,'4',0))
 		from LotNo_tbl
 	</select>
+	
+	<select id="outMatlotNoSelectDao" resultType="String">
+		select
+			concat(DATE_FORMAT(curdate(),"%y%m%d"), #{OutMat_Code}, lpad(matarial_No,'4',0))
+		from LotNo_tbl
+	</select>
 
 	<update id="lotNoMatUpdateDao">
 		update LotNo_tbl

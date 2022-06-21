@@ -132,4 +132,8 @@
 			AND dt3.Child_TBL_No = '325'
 		GROUP BY WorkOrder_ONo WITH ROLLUP
 	</select>
+	
+	<select id="itemPackingListDao" resultType="com.busience.sales.dto.SalesPackingDto">
+		
+	</select>
 </mapper>

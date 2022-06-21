@@ -102,6 +102,13 @@ public class productionController {
 		return "production/matInputSum";
 	}
 	
+	// itemPackingList
+	@GetMapping("itemPackingList")
+	public String itemPackingList(Model model) {
+		model.addAttribute("pageName", "제품 생산 현황(대포장)");
+		return "production/itemPackingList";
+	}
+	
 	// lotIssueMaster
 	@GetMapping("lotIssueMaster")
 	public String lotIssueMaster(Model model) {
@@ -183,7 +190,7 @@ public class productionController {
 	
 	@GetMapping("/crateManage")
 	public String crateManage(Model model) {
-		model.addAttribute("pageName", "상자 관리");
+		model.addAttribute("pageName", "Crate 바코드 관리");
 		return "/production/crateManage";
 	}
 }

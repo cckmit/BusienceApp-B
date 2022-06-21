@@ -1,34 +1,3 @@
-/* 입고를 직접 입력하는 경우의 입고 페이지 */
-
-var salesInputTable = new Tabulator("#salesInputTable", {
-	height: "calc(70% - 175px)",
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
-	//order_lNo를 인덱스로 설정
-	index: "sales_InMat_No",
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
-	/*ajaxConfig : "get",
-	ajaxContentType:"json",
-	ajaxURL : "salesInputRest/SI_Search",*/
-	columns: [
-		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false, width: 40 },
-		{ title: "순번", field: "sales_InMat_No", headerHozAlign: "center", hozAlign: "right", width: 65 },
-		{ title: "LotNo", field: "sales_InMat_Lot_No", headerHozAlign: "center", width: 150 },
-		{ title: "제품코드", field: "sales_InMat_Code", headerHozAlign: "center" },
-		{ title: "제품명", field: "sales_InMat_Name", headerHozAlign: "center", width: 130 },
-		{ title: "규격", field: "sales_InMat_STND_1", headerHozAlign: "center", width: 85 },
-		{ title: "분류1", field: "sales_InMat_Item_Clsfc_1", headerHozAlign: "center", width: 85 },
-		{ title: "수량", field: "sales_InMat_Qty", headerHozAlign: "center", hozAlign: "right", width: 85 },
-		{
-			title: "입고일자", field: "sales_InMat_Date", headerHozAlign: "center", hozAlign: "right", width: 130,
-			formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" }
-		},
-		{ title: "구분", field: "sales_InMat_Rcv_Clsfc", visible: false },
-		{ title: "구분", field: "sales_InMat_Rcv_Clsfc_Name", width: 80 },
-	]
-});
-
 //fgoodsName
 $('#fgoodsName').keydown(function(e) {
 	//엔터키를 눌렀을떄
@@ -255,70 +224,9 @@ $('#fgoodsLotNo').keydown(function(e) {
 
 	}
 })
-// delete 버튼
-function SI_Delete() {
-   rowCount = salesInputTable.getDataCount("active");
-   selectedData = salesInputTable.getSelectedData();
-   
-   //여러행 삭제할경우 위에서부터 하나씩 반복하여 삭제함
-	if (selectedData.length < 1) {
-		alert("행을 선택하세요.")
-	} else {
-		//삭제
-		salesInputTable.deleteRow(salesInputTable.getSelectedRows());
-	}
-}
-
-//delete버튼
-$('#SI_DeleteBtn').click(function() {
-	rowCount = salesInputTable.getDataCount("active");
-	selectedData = salesInputTable.getSelectedData();
-	//여러행 삭제할경우 위에서부터 하나씩 반복하여 삭제함
-	if (selectedData.length < 1) {
-		alert("행을 선택하세요.")
-	} else {
-		//삭제
-		salesInputTable.deleteRow(salesInputTable.getSelectedRows());
-		//행번호를 업데이트 한다
-		for (i = 0; i < rowCount; i++) {
-			console.log(i);
-			salesInputTable.updateRow(salesInputTable.getData()[i].sales_InMat_No, { "sales_InMat_No": i + 1 });
-		}
-	}
-})
-
-function SI_buttonUse() {
-	//SI_DeleteBtn 활성화
-	if ($('#SI_DeleteBtn').hasClass('unusebtn')) {
-		$('#SI_DeleteBtn').removeClass('unusebtn');
-	}
-	//SI_SaveBtn 활성화
-	if ($('#SI_SaveBtn').hasClass('unusebtn')) {
-		$('#SI_SaveBtn').removeClass('unusebtn');
-	}
-}
-
-function SI_buttonReset() {
-	//SI_DeleteBtn 비활성화
-	if (!$('#SI_DeleteBtn').hasClass('unusebtn')) {
-		$('#SI_DeleteBtn').addClass('unusebtn');
-	}
-	//SI_SaveBtn 비활성화
-	if (!$('#SI_SaveBtn').hasClass('unusebtn')) {
-		$('#SI_SaveBtn').addClass('unusebtn');
-	}
-}
-
-function trans_input_use() {
-	$('.trans_input').attr('disabled', false)
-}
-
-function trans_input_unuse() {
-	$('.trans_input').attr('disabled', true)
-}
 
 var salesInputInfoTable = new Tabulator("#salesInputInfoTable", {
-	height: "calc(49% - 175px)",
+	height: "calc(100% - 175px)",
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
 	//order_lNo를 인덱스로 설정
@@ -350,7 +258,7 @@ var salesInputInfoTable = new Tabulator("#salesInputInfoTable", {
 });
 
 var salesInputInfoSubTable = new Tabulator("#salesInputInfoSubTable", {
-	height: "calc(49% - 175px)",
+	height: "calc(100% - 175px)",
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
 	//order_lNo를 인덱스로 설정
@@ -374,8 +282,7 @@ var salesInputInfoSubTable = new Tabulator("#salesInputInfoSubTable", {
 });
 
 function SI_InfoSearch() {
-	salesInputInfoTable.setData("salesInputRest/SI_Search");
-	salesInputInfoTable.selectRow();
+	salesInputInfoTable.setData("salesPackingRest/LargeLot_Search");
 }
 
 function SI_InfoSubSearch(LotNo) {
@@ -384,7 +291,7 @@ function SI_InfoSubSearch(LotNo) {
 	datas = {
 		LotNo : LotNo
 	}
-	salesInputInfoSubTable.setData("salesPackingRest/SP_Search", datas);
+	salesInputInfoSubTable.setData("salesPackingRest/SmallLot_Search", datas);
 	console.log(salesInputInfoSubTable);
 }
 

@@ -41,4 +41,16 @@ public class salesPackingRestController {
 	public List<SalesPackingDto> salesPackingSelectDao(SearchDto searchDto) {
 		return salesPackingService.salesPackingSelectDao(searchDto);
 	}
+	
+	// 대포장 Lot 조회
+	@GetMapping("/LargeLot_Search")
+	public List<SalesPackingDto> salesLargePackingLotNoDao(SearchDto searchDto) {
+		return salesPackingService.salesLargePackingLotNoDao(searchDto);
+	}
+	
+	// 소포장 Lot 조회
+	@GetMapping("/SmallLot_Search")
+	public List<SalesPackingDto> salesSmallPackingLotNoDao(SearchDto searchDto) {
+		return salesPackingService.salesSmallPackingLotNoDao(searchDto);
+	}
 }

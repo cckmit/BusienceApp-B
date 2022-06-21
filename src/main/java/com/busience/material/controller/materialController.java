@@ -188,7 +188,14 @@ public class materialController {
 	//matOutputBoard
 	@GetMapping("tablet/matOutputBoard")
 	public String matOutputTablet(Model model) {
-		
 		return "normal/material/matOutputBoard";
 	}
+	
+	//matStockChangeMaster
+	@GetMapping("matStockChangeMaster")
+	public String matStockChangeMaster(Model model) {
+		model.addAttribute("pageName", "재고 조정");
+		return "material/matStockChangeMaster";
+	}
+	
 }

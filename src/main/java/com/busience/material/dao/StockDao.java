@@ -14,6 +14,9 @@ public interface StockDao {
 	//재고테이블 조회
 	public List<StockDto> stockSelectDao(SearchDto searchDto);
 	
+	//재고 조정
+	public List<StockDto> stockChangeSelect(StockDto stockDto);
+	
 	//영업 재고테이블 조회 
 	public List<StockDto> salesStockSelectDao(SearchDto searchDto);
 	
@@ -36,4 +39,7 @@ public interface StockDao {
 	
 	//영업 반품 업데이트
 	public int stockReturnUpdateDao(@Param("LM_Qty") Double LM_Qty, @Param("LM_ItemCode") String LM_ItemCode, @Param("LT_Before") String LT_Before);
+	
+	//재고 조정 저장
+	public List<StockDto> stockChangeSave(StockDto stockDto);
 }

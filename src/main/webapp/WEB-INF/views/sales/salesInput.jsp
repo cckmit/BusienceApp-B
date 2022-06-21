@@ -6,8 +6,6 @@
 		<div class="top-var">
 			<!-- 버튼 -->
 			<div class="input-button">
-				<img src="images/button/Save.png" onclick="SI_Save()"/>
-				<img src="images/button/Delete.png" onclick="SI_Delete()">
 				<img src="images/button/Print.png" id="MO_PrintBtn"/>
 			</div>
 			
@@ -21,9 +19,8 @@
 				</div>
 			</div>
 		</div>
-		<div id="salesInputTable" style="float:left; width: calc(100%)"></div>
-		<div id="salesInputInfoTable" style="float:left; width: calc(60% - 10px)"></div>
-		<div id="salesInputInfoSubTable" style="float:left; width: 40%; margin-left: 10px;"></div>
+		<div id="salesLargePackingTable" style="float:left; width: calc(60% - 10px)"></div>
+		<div id="salesSmallPackingTable" style="float:left; width: 40%; margin-left: 10px;"></div>
 		</div>
 	</div>
 	<!-- END MAIN -->

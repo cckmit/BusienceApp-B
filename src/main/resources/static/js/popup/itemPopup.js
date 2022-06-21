@@ -36,7 +36,9 @@ var itemPopupTable = new Tabulator("#itemPopupTable", {
 	{title:"품목코드", field:"product_ITEM_CODE", headerHozAlign:"center"},
 	{title:"품목이름", field:"product_ITEM_NAME", headerHozAlign:"center"},
 	{title:"규격1", field:"product_INFO_STND_1", headerHozAlign:"center"},
-	{title:"자재분류", field:"product_MTRL_CLSFC", headerHozAlign:"center"}
+	{title:"자재분류", field:"product_MTRL_CLSFC", headerHozAlign:"center"},
+	{title:"재질", field:"product_UNIT_NAME", headerHozAlign:"center"},
+	{title:"단위", field:"product_MATERIAL_NAME", headerHozAlign:"center"}
 	]
 	
 })
@@ -53,6 +55,8 @@ function list_select(row){
 									row.getData().product_ITEM_NAME, 
 									row.getData().product_INFO_STND_1,
 									row.getData().product_UNIT_PRICE,
+									row.getData().product_UNIT_NAME,
+									row.getData().product_MATERIAL_NAME,
 									urlParams.get('save_value'));
 	}	
 	exitfrn()

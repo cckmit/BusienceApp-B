@@ -34,4 +34,14 @@ public class SalesPackingService {
 	public List<SalesPackingDto> salesPackingSelectDao(SearchDto searchDto) {
 		return salesPackingDao.salesPackingSelectDao(searchDto);
 	}
+	
+	// 대포장 Lot 조회
+	public List<SalesPackingDto> salesLargePackingLotNoDao(SearchDto searchDto) {
+		return salesPackingDao.salesLargePackingLotNoDao(searchDto);
+	}
+	
+	// 소포장 Lot 조회
+	public List<SalesPackingDto> salesSmallPackingLotNoDao(SearchDto searchDto) {
+		return salesPackingDao.salesSmallPackingLotNoDao(searchDto);
+	}
 }

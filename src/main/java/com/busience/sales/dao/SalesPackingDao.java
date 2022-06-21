@@ -25,6 +25,12 @@ public interface SalesPackingDao {
 	// 포장 관리 조회
 	public List<SalesPackingDto> salesPackingSelectDao(SearchDto searchDto);
 	
+	// 대포장 Lot 조회
+	public List<SalesPackingDto> salesLargePackingLotNoDao(SearchDto searchDto);
+	
+	// 소포장 Lot 조회
+	public List<SalesPackingDto> salesSmallPackingLotNoDao(SearchDto searchDto);
+	
 	// sales_packing_tbl insert
 	public int salesPackingInsertDao(SalesPackingDto salesPackingDto);
 	
