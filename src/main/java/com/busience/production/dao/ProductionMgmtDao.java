@@ -31,6 +31,7 @@ public interface ProductionMgmtDao {
 	//자재 투입 현황
 	
 	//Lot 발행 조회
+	public List<ProductionMgmtDto> lotIssueListDao(SearchDto searchDto);
 	
 	//Lot 이력 조회
 

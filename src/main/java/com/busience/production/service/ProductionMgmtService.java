@@ -150,4 +150,9 @@ public class ProductionMgmtService {
 		}
 		return proPacingSumList;
 	}
+	
+	//Lot 발행 조회
+	public List<ProductionMgmtDto> lotIssueListDao(SearchDto searchDto) {
+		return productionMgmtDao.lotIssueListDao(searchDto);
+	}
 }

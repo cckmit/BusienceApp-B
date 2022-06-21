@@ -112,6 +112,8 @@ public class productionController {
 	// lotIssueMaster
 	@GetMapping("lotIssueMaster")
 	public String lotIssueMaster(Model model) {
+		// 설비 종류 리스트 가져오기
+		model.addAttribute("equipTypeList", dtlService.getDtl(43));
 		model.addAttribute("pageName", "Lot 발행 조회");
 		return "production/lotIssueMaster";
 	}

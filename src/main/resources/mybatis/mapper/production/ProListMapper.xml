@@ -133,7 +133,63 @@
 		GROUP BY WorkOrder_ONo WITH ROLLUP
 	</select>
 	
-	<select id="itemPackingListDao" resultType="com.busience.sales.dto.SalesPackingDto">
-		
+	<select id="lotIssueListDao" resultType="com.busience.production.dto.LotIssueDto">
+		<choose>
+			<when test="LotType == 'mask'">
+			SELECT clt.CL_LotNo LI_LotNo, clt.CL_ItemCode LI_ItemCode, clt.CL_Qty LI_Qty, clt.CL_Create_Date LI_Create_Date, 
+				pit.Product_Item_Name LI_ItemName, pit.Product_Info_STND_1 LI_Item_STND_1, 
+				dt.Child_TBL_Type LI_Item_Material, dt2.Child_TBL_Type LI_Item_Clsfc_1, dt3.Child_TBL_Type LI_Item_Clsfc_2
+			FROM Crate_Lot_tbl clt
+			INNER JOIN Product_Info_tbl pit ON clt.CL_ItemCode = pit.Product_Item_Code
+			</when>
+			<when test="LotType == 'packing'">
+			SELECT lmt.LM_LotNo LI_LotNo, lmt.LM_ItemCode LI_ItemCode, lmt.LM_Qty LI_Qty, lmt.LM_Create_Date LI_Create_Date, 
+				pit.Product_Item_Name LI_ItemName, pit.Product_Info_STND_1 LI_Item_STND_1, 
+				dt.Child_TBL_Type LI_Item_Material, dt2.Child_TBL_Type LI_Item_Clsfc_1, dt3.Child_TBL_Type LI_Item_Clsfc_2,
+				dt4.Child_TBL_Type LI_Status
+			FROM LotMaster_tbl lmt
+			INNER JOIN Product_Info_tbl pit ON lmt.LM_ItemCode = pit.Product_Item_Code
+			</when>
+		</choose>
+		INNER JOIN DTL_TBL dt ON pit.Product_Material = dt.Child_TBL_No
+		INNER JOIN DTL_TBL dt2 ON pit.Product_Item_CLSFC_1 = dt2.Child_TBL_No
+		INNER JOIN DTL_TBL dt3 ON pit.Product_Item_CLSFC_2 = dt3.Child_TBL_No
+		<if test="subType == 'mask'">
+		<![CDATA[
+		WHERE clt.CL_Create_Date >= #{startDate} and clt.CL_Create_Date < #{endDate}
+		]]>
+			<if test="lotNo != ''">
+				AND clt.CL_LotNo LIKE CONCAT ('%',#{LotNo},'%')
+			</if>
+			<if test="ItemCode != ''">
+				AND clt.CL_ItemCode LIKE CONCAT ('%',#{ItemCode},'%')
+			</if>
+		</if>
+		<if test="subType == 'smallBox'">
+		<![CDATA[
+		INNER JOIN DTL_TBL dt4 ON lmt.LM_Warehouse = dt4.Child_TBL_No
+		WHERE lmt.LM_Create_Date >= #{startDate} and lmt.LM_Create_Date < #{endDate}	
+		AND lmt.LM_LotNo LIKE CONCAT('S','%')
+		]]>
+			<if test="lotNo != ''">
+				AND lmt.LM_LotNo LIKE CONCAT ('%',#{LotNo},'%')
+			</if>
+			<if test="ItemCode != ''">
+				AND lmt.LM_ItemCode LIKE CONCAT ('%',#{ItemCode},'%')
+			</if>
+		</if>
+		<if test="subType == 'largeBox'">
+		<![CDATA[
+		INNER JOIN DTL_TBL dt4 ON lmt.LM_Warehouse = dt4.Child_TBL_No
+		WHERE lmt.LM_Create_Date >= #{startDate} and lmt.LM_Create_Date < #{endDate}	
+		AND lmt.LM_LotNo LIKE CONCAT('L','%')
+		]]>
+			<if test="lotNo != ''">
+				AND lmt.LM_LotNo LIKE CONCAT ('%',#{LotNo},'%')
+			</if>
+			<if test="ItemCode != ''">
+				AND lmt.LM_ItemCode LIKE CONCAT ('%',#{ItemCode},'%')
+			</if>
+		</if>
 	</select>
 </mapper>

@@ -52,6 +52,11 @@ public class proListRestController {
 		return productionMgmtService.proMachineList(searchDto);
 	}
 	
+	@GetMapping("/LotIssueList")
+	public List<ProductionMgmtDto> lotIssueListDao(SearchDto searchDto) {
+		return productionMgmtService.lotIssueListDao(searchDto);
+	}
+	
 	// proItemListSelect2
 	@RequestMapping(value = "/proItemListSelect3", method = RequestMethod.GET)
 	public List<PRODUCTION_INFO_TBL> proItemListSelect3(HttpServletRequest request)
