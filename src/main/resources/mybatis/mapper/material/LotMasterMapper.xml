@@ -23,9 +23,9 @@
 		    A.LM_Create_Date, B.InMat_Client_Code LM_ClientCode,
 		    C.Cus_Name LM_ClientName, A.LM_Warehouse
 		FROM LotMaster_tbl A
-		INNER JOIN InMat_tbl B ON A.LM_LotNo = B.InMat_Lot_No and InMat_No = '1'
-		INNER JOIN Customer_tbl C ON B.InMat_Client_Code = C.Cus_Code
-		INNER JOIN DTL_TBL D ON B.InMat_Rcv_Clsfc = D.Child_TBL_No and D.New_TBL_Code = '17'
+		left outer JOIN InMat_tbl B ON A.LM_LotNo = B.InMat_Lot_No and InMat_No = '1'
+		left outer JOIN Customer_tbl C ON B.InMat_Client_Code = C.Cus_Code
+		left outer JOIN DTL_TBL D ON B.InMat_Rcv_Clsfc = D.Child_TBL_No and D.New_TBL_Code = '17'
 		where A.LM_Qty > 0
 		<if test="ItemCode != null">
 			and A.LM_ItemCode = #{itemCode}

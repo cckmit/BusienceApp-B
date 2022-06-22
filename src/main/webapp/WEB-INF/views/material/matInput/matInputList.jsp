@@ -7,6 +7,8 @@
 		<div class="input-button">
 			<img src="/images/button/Search.png" id="MIL_SearchBtn"/>
 			<img src="/images/button/Excel.png" onclick="excel_download(matInputListTable)"/>
+			<img src="/images/button/Print.png" id="MIL_PrintBtn"/>
+			<select id="selected_device" onchange=onDeviceSelected(this); style="display:none"></select>
 		</div>
 		<!-- 버튼 -->
 		<div class="input-box">
