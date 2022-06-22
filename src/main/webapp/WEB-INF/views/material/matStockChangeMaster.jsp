@@ -5,7 +5,7 @@
 	<div class="top-var">
 		<!-- 버튼 -->
 		<div class="input-button">
-			<img src="/images/button/Add.png" id="stockChangeAddBtn"/>
+			<img src="/images/button/ADD.png" id="stockChangeAddBtn"/>
 			<img src="/images/button/Save.png" id="stockChangeSaveBtn"/>
 		</div>
 		<!-- 버튼 -->
