@@ -13,7 +13,7 @@
 			OM_ItemCode, OM_Qty, OM_DeptCode,
 			OM_Send_Clsfc, OM_OutDate, OM_Modifier
 		) values (
-			(select ifnull(max(AA.OutMat_No)+1,1) from OutMat_tbl AS AA where AA.OutMat_ReqNo = #{OM_RequestNo}),
+			(select ifnull(max(AA.OM_No)+1,1) from OutMat_tbl AS AA where AA.OM_RequestNo = #{OM_RequestNo}),
 			#{OM_RequestNo}, #{OM_LotNo},
 			#{OM_ItemCode}, #{OM_Qty}, #{OM_DeptCode},
 			#{OM_Send_Clsfc}, now(), #{OM_Modifier}
