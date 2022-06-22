@@ -131,18 +131,31 @@ public class StockService {
 						int no = i;
 						String lotNo = stockDto.getS_LotNo();
 						String itemCode = stockDto.getS_ItemCode();
+						Double changeqty;
 						Double qty;
-						
-						if(stockDto.getS_Qty() == 0) {
-							qty = (Double) stockDto.getS_ChangeQty();
-						} else {
-							qty = (Double) stockDto.getS_Qty() - (Double) stockDto.getS_ChangeQty();
-						}
+						Double outMatQty;
 						
 						String Warehouse = WarehouseList.get(0).getCHILD_TBL_NO();
-
-						outMatDto.setOM_Qty(qty);
-
+						String before = Warehouse;
+						String after = Warehouse;
+						
+						String classfy = "345";
+						
+						changeqty = (Double) stockDto.getS_ChangeQty();
+						outMatQty = (Double) stockDto.getS_Qty() - (Double) stockDto.getS_ChangeQty();
+						
+						outMatDto.setOM_RequestNo("99-221231-01");
+						
+						outMatDto.setOM_DeptCode(userDto.getDept_Code());
+						
+						outMatDto.setOM_Before(Warehouse);
+						
+						outMatDto.setOM_After(Warehouse);
+						
+						outMatDto.setOM_Send_Clsfc("344");
+						
+						no = lotTransDao.lotTransNoSelectDao(lotNo);
+						
 						// 랏번호가 없을경우 랏번호 생성
 						if (lotNo == null || lotNo.isBlank()) {
 							lotNo = lotNoDao.outMatlotNoSelectDao(outMatDto);
@@ -151,52 +164,39 @@ public class StockService {
 							// 랏번호 업데이트
 							lotNoDao.lotNoMatUpdateDao();
 							
-							outMatDto.setOM_RequestNo("99-221231-01");
-							
-							outMatDto.setOM_DeptCode(userDto.getDept_Code());
-							
-							outMatDto.setOM_Before(Warehouse);
-							
-							outMatDto.setOM_After(Warehouse);
-							
-							outMatDto.setOM_Qty(-1*qty);
-							
-							String before = Warehouse;
-							String after = Warehouse;
-							
-							outMatDto.setOM_Send_Clsfc("344");
-							
-							String classfy = "345";
+							qty = changeqty;
 							
 							// 랏마스터 저장
 							lotMasterDao.lotMasterInsertUpdateDao(lotNo, itemCode, qty, Warehouse);
 
-							// 랏트랜스번호 가져오기
-							outMatDto.setOM_No(lotTransDao.lotTransNoSelectDao(lotNo));
 							
-							outMatDto.setOM_LotNo(lotNo);
-
-							// 자재출고 저장
-							outMatDao.outMatInsertDao(outMatDto);
-
-							// 랏트랜스 저장
-							lotTransDao.lotTransInsertDao(no, lotNo, itemCode, qty, before, after, classfy);
-							
-							stockDao.stockInsertDao(itemCode, qty, Warehouse);
-						} else {
-							lotNo = stockDto.getS_LotNo();
-							
-							stockDao.stockUpdateDao(qty, itemCode, Warehouse);
-						}
+						}  
 						
 						System.out.println(lotNo);
 						
-
-						// 재고 저장
+						// 랏트랜스번호 가져오기
+						outMatDto.setOM_No(lotTransDao.lotTransNoSelectDao(lotNo));
 						
+						outMatDto.setOM_LotNo(lotNo);
+						
+						qty = changeqty;
 
-
-
+						// 랏트랜스 저장
+						lotTransDao.lotTransInsertDao(no, lotNo, itemCode, qty, before, after, classfy);
+						
+						qty = outMatQty;
+						
+						outMatDto.setOM_Qty(qty);
+						
+						// 자재출고 저장
+						outMatDao.outMatInsertDao(outMatDto);
+						
+						Double stockQty =  (Double) stockDto.getS_ChangeQty() - (Double) stockDto.getS_Qty();
+						
+						outMatQty = (double) stockQty;
+						
+						stockDao.stockInsertUpdateDao(itemCode, outMatQty, Warehouse);
+						
 					}
 				}
 			});

@@ -74,6 +74,11 @@ var MSC_inputEditor = function(cell, onRendered, success, cancel, editorParams) 
 					}
 				})
 			}
+			
+			if (cell.getField() == "s_ChangeQty") {
+				//내용이 있을경우 검색해서 값이 하나일경우 생략, 아
+				cell.getRow().select();
+			}
 
 			cell.nav().next();
 		}
@@ -115,7 +120,7 @@ var matStockChangeTable = new Tabulator("#matStockChangeTable", {
 		{ title: "재질", field: "s_Item_Material", headerHozAlign: "center", headerFilter: true, hozAlign: "center" },
 		{ title: "단위", field: "s_Item_Unit", headerHozAlign: "center", headerFilter: true, hozAlign: "left" },
 		{ title: "재고수량", field: "s_Qty", headerHozAlign: "center", hozAlign: "right" },
-		{ title: "변경수량", field: "s_ChangeQty", headerHozAlign: "center", hozAlign: "right", editor: "input" }
+		{ title: "변경수량", field: "s_ChangeQty", headerHozAlign: "center", hozAlign: "right", editor: MSC_inputEditor }
 	]
 });
 
@@ -156,6 +161,12 @@ function stockChangeSave() {
 	let selectedRow = matStockChangeTable.getData("selected");
 	let subData = matStockChangeTable.getData("selected");
 	console.log(selectedRow);
+	
+	if(selectedRow.length == 0) {
+		alert("저장할 행을 선택하세요.");
+		return;
+	}
+	
 	for(let i=0; i<selectedRow.length; i++) {
 		if(selectedRow[i].s_ChangeQty == undefined) {
 			console.log(selectedRow[i].s_ChangeQty);
