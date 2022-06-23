@@ -1,7 +1,4 @@
 var matInputTable = new Tabulator("#matInputTable", {
-	//페이징
-	pagination:"local",
-	paginationSize:20,
     height:"calc(100% - 175px)",
 	layoutColumnsOnNewData : true,
 	headerFilterPlaceholder: null,

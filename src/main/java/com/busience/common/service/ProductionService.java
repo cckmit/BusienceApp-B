@@ -92,7 +92,7 @@ public class ProductionService {
 					if(workOrderDtoList.size()>0) {
 						//해당 품목의 정보를 가져옴
 						ItemDto itemDto = itemDao.selectItemCode(workOrderDtoList.get(0).getWorkOrder_ItemCode());	
-												
+						
 						ProductionDto productionDto = new ProductionDto();
 						productionDto.setPRODUCTION_WorkOrder_ONo(workOrderDtoList.get(0).getWorkOrder_ONo());
 						productionDto.setPRODUCTION_Product_Code(workOrderDtoList.get(0).getWorkOrder_ItemCode());
@@ -110,9 +110,41 @@ public class ProductionService {
 						
 						//작업지시테이블 업데이트
 						productionDao.updateWorkOrderDao(productionDto);
+						System.out.println("작동");
 						//자재식별코드, crate 수량 저장
 						maskProductionService.wholeQtyUpdate(productionDto.getPRODUCTION_Equipment_Code(), productionDto.getPRODUCTION_Volume());
 					}
+				}
+			});
+			return 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	//생산량 저장
+	public int insertProductionPaldang(String equip, int value) {
+		//iot 접속 체크용
+		IotCheckDto iotCheckDto = new IotCheckDto();
+		iotCheckDto.setIot_EquipCode(equip);
+		iotCheckDto.setIot_Value(value);
+		iotCheckDao.IotInsertDao(iotCheckDto);
+		
+		try {
+			
+			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+				
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					
+					List<WorkOrderDto> workOrderDtoList = productionDao.selectWorkOrderDao(equip);
+					
+					//해당 품목의 정보를 가져옴
+					ItemDto itemDto = itemDao.selectItemCode(workOrderDtoList.get(0).getWorkOrder_ItemCode());	
+					
+					//자재식별코드, crate 수량 저장
+					maskProductionService.wholeQtyUpdate(equip, value*itemDto.getPRODUCT_MULTIPLE());
 				}
 			});
 			return 1;

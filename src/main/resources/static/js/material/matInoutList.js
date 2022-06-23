@@ -1,7 +1,4 @@
 var matInoutListTable = new Tabulator("#matInoutListTable", { 
-	//페이징
-	pagination:"local",
-	paginationSize:20,
 	layoutColumnsOnNewData : true,
 	rowFormatter: function(row){
 		if(row.getData().lt_ItemName == "Total"){

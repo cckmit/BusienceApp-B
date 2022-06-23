@@ -1,8 +1,4 @@
 var matOrderListTable = new Tabulator("#matOrderListTable", {
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
-	paginationAddRow: "table",
 	layoutColumnsOnNewData: true,
 	headerFilterPlaceholder: null,
 	//입고 된 데이터 색상

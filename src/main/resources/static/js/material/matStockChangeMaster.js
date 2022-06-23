@@ -88,9 +88,6 @@ var MSC_inputEditor = function(cell, onRendered, success, cancel, editorParams) 
 }
 
 var matStockChangeTable = new Tabulator("#matStockChangeTable", {
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
 	headerFilterPlaceholder: null,
 	height: "calc(100% - 175px)",
 	//행추가시 기능

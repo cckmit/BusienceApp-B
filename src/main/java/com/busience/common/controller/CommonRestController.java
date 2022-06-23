@@ -59,6 +59,7 @@ public class CommonRestController {
 	//생산량 저장
 	@GetMapping("/bsapp2")
 	public int bsapp2(String equip, int value) {
+		productionService.insertProductionPaldang(equip, value);
 		return productionService.insertProduction(equip, value);
 	}
 	

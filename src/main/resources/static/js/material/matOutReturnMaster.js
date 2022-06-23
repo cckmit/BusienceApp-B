@@ -135,10 +135,6 @@ function MORI_Save() {
 }
 
 var matOutReturnSearchTable = new Tabulator("#matOutReturnSearchTable", {
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
-	paginationAddRow: "table",
 	height: "calc(100% - 175px)",
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,

@@ -215,8 +215,6 @@ function MIF_Save() {
 		}
 	}
 
-	console.log(standardDatas);
-	
 	inMatDatas = {
 		inMat_No: tempStorageTable.getData()[0].inMat_No,
 		inMat_Lot_No: tempStorageTable.getData()[0].inMat_Lot_No

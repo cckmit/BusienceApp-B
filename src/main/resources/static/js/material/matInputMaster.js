@@ -1,7 +1,4 @@
 var matInputListTable = new Tabulator("#matInputListTable", {
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
 	headerFilterPlaceholder: null,
 	layoutColumnsOnNewData : true,
 	selectable: true,
@@ -50,9 +47,6 @@ $("#MIL_PrintBtn").click(function(){
 })
 
 var matInputItemViewTable = new Tabulator("#matInputItemViewTable", {
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
 	layoutColumnsOnNewData : true,
 	//Sub Total 색상
 	rowFormatter: function(row) {
@@ -98,9 +92,6 @@ function MIIL_Search(){
 }
 
 var matInputCustomerViewTable = new Tabulator("#matInputCustomerViewTable", {
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
 	layoutColumnsOnNewData : true,
 	//Sub Total 색상
 	rowFormatter: function(row) {
@@ -146,9 +137,6 @@ function MICL_Search(){
 }
 
 var matInputDeliveryListTable = new Tabulator("#matInputDeliveryListTable", {
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
 	layoutColumnsOnNewData : true,
 	//Sub Total 색상
 	rowFormatter: function(row) {
@@ -192,9 +180,6 @@ function MIDM_Search() {
 }
 
 var matInputDeliveryItemTable = new Tabulator("#matInputDeliveryItemTable", {
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
 	layoutColumnsOnNewData : true,
 	height: "calc(100% - 175px)",
 	columns: [ //Define Table Columns
