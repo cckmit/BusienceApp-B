@@ -24,4 +24,4 @@
 		<!-- END MAIN -->
 	</div>
 
-<script src="/js/standard/userManage.js"></script>
+<script src="/js/standard/userManage.js?v=<%=System.currentTimeMillis() %>"></script>

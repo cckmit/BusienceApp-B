@@ -53,4 +53,4 @@
 </div>
 
 <!-- Javascript -->
-<script src="/js/standard/matmodelmapping.js"></script>
+<script src="/js/standard/matmodelmapping.js?v=<%=System.currentTimeMillis() %>"></script>

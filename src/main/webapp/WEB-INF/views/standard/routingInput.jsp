@@ -51,4 +51,4 @@
 	</div>
 
 <!-- Javascript -->
-<script src="js/standard/routingInput.js"></script>
+<script src="js/standard/routingInput.js?v=<%=System.currentTimeMillis() %>"></script>

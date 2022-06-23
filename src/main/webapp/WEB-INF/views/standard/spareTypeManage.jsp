@@ -135,4 +135,4 @@
 <input type="hidden" id="comPicture" name="comPicture" value="">
 <input type="hidden" id="comInfo_Remark" name="comInfo_Remark" value="">
 <!-- END WRAPPER -->
-<script src="/js/standard/spareTypeManage.js"></script>
+<script src="/js/standard/spareTypeManage.js?v=<%=System.currentTimeMillis() %>"></script>

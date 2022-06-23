@@ -23,4 +23,4 @@
 	<!-- END MAIN -->
 </div>
 
-<script src="/js/standard/packagingManage.js"></script>
+<script src="/js/standard/packagingManage.js?v=<%=System.currentTimeMillis() %>"></script>

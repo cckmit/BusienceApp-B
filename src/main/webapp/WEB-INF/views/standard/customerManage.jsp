@@ -22,4 +22,4 @@
 	</div>
 	<!-- END MAIN -->
 </div>
-<script src="/js/standard/customerManage.js"></script>
+<script src="/js/standard/customerManage.js?v=<%=System.currentTimeMillis() %>"></script>
