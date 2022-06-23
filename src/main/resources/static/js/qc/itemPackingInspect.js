@@ -100,7 +100,7 @@ function SIL_Search() {
 
 $("#SIL_SearchBtn").click(function() {
 	SIL_Search();
-	//PI_Search();
+	IPS_Search();
 })
 
 //matInputInspect 정보 삽입
