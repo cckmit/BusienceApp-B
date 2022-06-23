@@ -49,9 +49,6 @@ $('#EQUIPMENT_INFO_NAME').keypress(function(e){
 })
 
 var proPackingTable = new Tabulator("#proPackingTable", {
-	//페이징
-	pagination:"local",
-	paginationSize:20,
 	layoutColumnsOnNewData : true,
     //Sub Total 색상
 	rowFormatter: function(row){

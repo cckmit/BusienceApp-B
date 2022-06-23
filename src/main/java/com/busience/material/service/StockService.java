@@ -164,16 +164,15 @@ public class StockService {
 							// 랏번호 업데이트
 							lotNoDao.lotNoMatUpdateDao();
 							
-							qty = changeqty;
-							
-							// 랏마스터 저장
-							lotMasterDao.lotMasterInsertUpdateDao(lotNo, itemCode, qty, Warehouse);
-
-							
 						}  
 						
 						System.out.println(lotNo);
 						
+						qty = changeqty;
+						
+						// 랏마스터 저장
+						lotMasterDao.lotMasterInsertUpdateDao(lotNo, itemCode, qty, Warehouse);
+
 						// 랏트랜스번호 가져오기
 						outMatDto.setOM_No(lotTransDao.lotTransNoSelectDao(lotNo));
 						

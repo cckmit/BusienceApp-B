@@ -1,8 +1,5 @@
 // salesOrderMaster
 var salesOrderTable = new Tabulator("#salesOrderTable", {
-	//페이징
-	pagination:"local",
-	paginationSize:20,
 	headerFilterPlaceholder: null,
     height:"calc(50% - 124px)",
 	//복사하여 엑셀 붙여넣기 가능

@@ -135,8 +135,6 @@ var cellPos = null;
 
 var packagingManageTable = new Tabulator("#packagingManageTable",{	
 	//페이징
-	pagination: "local",
-	paginationSize: 20,
 	paginationAddRow : "table",
 	layoutColumnsOnNewData : true,
 	headerFilterPlaceholder: null,

@@ -1,7 +1,4 @@
 var salesOutReturnInsertTable = new Tabulator("#salesOutReturnInsertTable", {
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
 	height: "calc(100% - 175px)",
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
@@ -79,9 +76,6 @@ function SORI_Save() {
 }
 
 var salesOutReturnSearchTable = new Tabulator("#salesOutReturnSearchTable", {
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
 	height: "calc(100% - 175px)",
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,

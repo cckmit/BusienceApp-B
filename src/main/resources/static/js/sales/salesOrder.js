@@ -117,9 +117,6 @@ var cellPos = null;
 
 var salesOrderTable = new Tabulator("#salesOrderTable", {
 	layoutColumnsOnNewData: true,
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
 	paginationAddRow: "table",
 	headerFilterPlaceholder: null,
 	height: "calc(100% - 175px)",

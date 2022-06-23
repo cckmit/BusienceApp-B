@@ -1,7 +1,4 @@
 var salesStockItemListTable = new Tabulator("#salesStockItemListTable", { 
-	//페이징
-	pagination:"local",
-	paginationSize:20,
 	headerFilterPlaceholder: null,
 	height:"calc(100% - 175px)",
  	columns:[ //Define Table Columns

@@ -1,7 +1,5 @@
 //정전개 페이지
 var BOMitemListTable1 = new Tabulator("#BOMitemListTable1", {
-	pagination: "local",
-	paginationSize: 20,
 	ajaxConfig : "get",
 	ajaxContentType:"json",
 	ajaxURL : "BOMRest/BOMitemList",
@@ -42,8 +40,6 @@ function BIL_Search1(){
 
 var BOMExpListTable = new Tabulator("#BOMExpListTable", {
 	layoutColumnsOnNewData : true,
-	pagination: "local",
-	paginationSize: 20,
 	dataTree:true,
     dataTreeStartExpanded:true,
 	dataTreeChildColumnCalcs:true,
@@ -162,8 +158,6 @@ function BOM_Child(row,level,type) {
 
 //역전개 페이지
 var BOMitemListTable2 = new Tabulator("#BOMitemListTable2", {
-	pagination: "local",
-	paginationSize: 20,
 	ajaxConfig : "get",
 	ajaxContentType:"json",
 	ajaxURL : "BOMRest/BOMitemList",
@@ -203,8 +197,6 @@ function BIL_Search2(){
 
 var BOMImpListTable = new Tabulator("#BOMImpListTable", {
 	layoutColumnsOnNewData : true,
-	pagination: "local",
-	paginationSize: 20,
 	dataTree:true,
     dataTreeStartExpanded:true,
 	dataTreeChildColumnCalcs:true,

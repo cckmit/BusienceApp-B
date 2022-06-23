@@ -49,9 +49,6 @@ $('#PRODUCT_ITEM_NAME').keypress(function(e){
 })
 
 var proItemTable = new Tabulator("#proItemTable", { 
-	//페이징
-	pagination:"local",
-	paginationSize:20,
 	layoutColumnsOnNewData : true,
     //Sub Total 색상
 	rowFormatter: function(row){

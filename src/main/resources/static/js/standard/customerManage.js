@@ -25,8 +25,6 @@ if(pickValue != null){
 
 var customerManageTable = new Tabulator("#customerManageTable", {
 	//페이징
-	pagination: "local",
-	paginationSize: 20,
 	layoutColumnsOnNewData : true,
 	headerFilterPlaceholder: null,
 	height: "calc(100% - 175px)",

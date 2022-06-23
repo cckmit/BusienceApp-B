@@ -9,8 +9,6 @@ var pickValue = ["user_Code", "user_Name", "company", "user_Use_Status", "user_T
 
 var userManageTable = new Tabulator("#userManageTable", {
 	//페이징
-	pagination: "local",
-	paginationSize: 20,
 	headerFilterPlaceholder: null,
 	layoutColumnsOnNewData : true,
 	height: "calc(100% - 175px)",

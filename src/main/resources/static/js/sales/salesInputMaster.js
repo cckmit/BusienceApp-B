@@ -1,7 +1,4 @@
 var salesInputListTable = new Tabulator("#salesInputListTable", { 
-	//페이징
-	pagination:"local",
-	paginationSize:20,
 	headerFilterPlaceholder: null,
 	height:"calc(100% - 175px)",
  	columns:[ //Define Table Columns
@@ -36,9 +33,6 @@ function SIL_SearchBtn() {
 }
 
 var salesInputItemViewTable = new Tabulator("#salesInputItemViewTable", { 
-	//페이징
-	pagination:"local",
-	paginationSize:20,
     //Sub Total 색상
 	rowFormatter: function(row){
 		if(row.getData().sales_InMat_Lot_No == "Sub Total"){

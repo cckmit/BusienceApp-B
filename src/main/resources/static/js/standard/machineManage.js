@@ -16,8 +16,6 @@ var pickValue = ["equipment_BUSINESS_PLACE_NAME", "equipment_INFO_CODE", "equipm
 
 var machineManageTable = new Tabulator("#machineManageTable", {
 	//페이징
-	pagination: "local",
-	paginationSize: 20,
 	layoutColumnsOnNewData : true,
 	headerFilterPlaceholder: null,
 	height: "calc(100% - 175px)",

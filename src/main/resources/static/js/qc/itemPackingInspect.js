@@ -1,6 +1,4 @@
 var salesItemTable = new Tabulator("#salesItemTable", {
-	pagination: "local",
-	paginationSize: 20,
 	clipboard: true,
 	height: "calc(100% - 175px)",
 	headerFilterPlaceholder: null,

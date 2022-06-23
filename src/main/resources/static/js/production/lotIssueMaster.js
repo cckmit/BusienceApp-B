@@ -1,7 +1,4 @@
 var lotIssueMasterTable = new Tabulator("#lotIssueMasterTable", { 
-	//페이징
-	pagination:"local",
-	paginationSize:25,
 	layoutColumnsOnNewData : true,
     //Sub Total 색상
 	rowFormatter: function(row){

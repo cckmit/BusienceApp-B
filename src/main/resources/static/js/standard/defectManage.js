@@ -6,8 +6,6 @@ var pickValue = ["defect_Code", "defect_Name", "defect_Abr", "defect_Rmrks",
 					
 var defectManageTable = new Tabulator("#defectManageTable", {
 	//페이징
-	pagination: "local",
-	paginationSize: 20,
 	layoutColumnsOnNewData : true,
 	headerFilterPlaceholder: null,
 	height: "calc(100% - 175px)",

@@ -1,7 +1,4 @@
 var salesOutputListTable = new Tabulator("#salesOutputListTable", { 
-	//페이징
-	pagination:"local",
-	paginationSize:20,
 	headerFilterPlaceholder: null,
 	height:"calc(100% - 175px)",
  	columns:[ //Define Table Columns
@@ -42,9 +39,6 @@ $('#SOL_SearchBtn').click(function(){
 })
 
 var salesOutputItemViewTable = new Tabulator("#salesOutputItemViewTable", { 
-	//페이징
-	pagination:"local",
-	paginationSize:20,
     //Sub Total 색상
 	rowFormatter: function(row){
 		if(row.getData().sales_OutMat_Lot_No == "Sub Total"){

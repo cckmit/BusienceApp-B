@@ -6,9 +6,6 @@ var salesOutMatTable;
 
 // salesOrderMaster
 var salesOutputOrderTable = new Tabulator("#salesOutputOrderTable", {
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
 	headerFilterPlaceholder: null,
 	height: "calc(50% - 85px)",
 	//복사하여 엑셀 붙여넣기 가능

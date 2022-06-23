@@ -1,8 +1,6 @@
 let processInspectTable;
 
 var crateInspectTable = new Tabulator("#crateInspectTable", {
-	pagination: "local",
-	paginationSize: 20,
 	clipboard: true,
 	height: "calc(50% - 85px)",
 	headerFilterPlaceholder: null,

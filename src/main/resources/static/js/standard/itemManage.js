@@ -21,8 +21,6 @@ var pickValue = ["product_BUSINESS_PLACE", "product_ITEM_CODE", "product_OLD_ITE
 
 var itemManageTable = new Tabulator("#itemManageTable",	{
 		//페이징
-		pagination: "local",
-		paginationSize: 20,
 		layoutColumnsOnNewData : true,
 		headerFilterPlaceholder: null,
 		height: "calc(100% - 175px)",

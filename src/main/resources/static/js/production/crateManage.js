@@ -58,9 +58,6 @@ var MO_inputEditor = function(cell, onRendered, success, cancel, editorParams) {
 };
 
 var crateManageTable = new Tabulator("#crateManageTable", {
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
 	headerFilterPlaceholder: null,
 	layoutColumnsOnNewData: true,
 	selectable: true,

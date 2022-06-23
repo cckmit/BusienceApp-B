@@ -1,7 +1,4 @@
 var salesInReturnInsertTable = new Tabulator("#salesInReturnInsertTable", {
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
 	height: "calc(100% - 175px)",
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
@@ -73,9 +70,6 @@ function SIRI_Save() {
 }
 
 var salesInReturnSearchTable = new Tabulator("#salesInReturnSearchTable", {
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
 	height: "calc(100% - 175px)",
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,

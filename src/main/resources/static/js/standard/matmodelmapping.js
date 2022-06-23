@@ -6,9 +6,6 @@ var product_ITEM_CODE = null;
 
 var PRODUCT_INFO_TBL = new Tabulator("#PRODUCT_INFO_TBL", {
 	layoutColumnsOnNewData : true,
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
 	paginationAddRow: "table",
 	height: "calc(100% - 175px)",
 	headerFilterPlaceholder: null,

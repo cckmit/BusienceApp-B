@@ -1,7 +1,4 @@
 var salesOutputOrderReportTable = new Tabulator("#salesOutputOrderReportTable", {
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
 	headerFilterPlaceholder: null,
 	height: "calc(100% - 175px)",
 	//복사하여 엑셀 붙여넣기 가능
@@ -80,9 +77,6 @@ $.ajax({
 });
 
 var salesOutputOrderReportSubTable = new Tabulator("#salesOutputOrderReportSubTable", {
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
 	//Sub Total 색상
 	rowFormatter: function(row) {
 		if (row.getData().sales_Output_Order_lNot_Stocked <= 0) {

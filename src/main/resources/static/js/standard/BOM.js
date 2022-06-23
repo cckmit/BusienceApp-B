@@ -1,6 +1,4 @@
 var BOMitemListTable = new Tabulator("#BOMitemListTable", {
-	pagination: "local",
-	paginationSize: 20,
 	ajaxConfig : "get",
 	ajaxContentType:"json",
 	ajaxURL : "BOMRest/BOMitemList",
@@ -48,8 +46,6 @@ var editCheck = function(cell){
 
 var BOMBOMListTable = new Tabulator("#BOMBOMListTable", {
 	layoutColumnsOnNewData : true,
-	pagination: "local",
-	paginationSize: 20,
 	index:"bom_ItemCode",
 	dataTree:true,
     dataTreeStartExpanded:true,
