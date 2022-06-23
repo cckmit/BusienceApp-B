@@ -110,9 +110,6 @@ public class ProductionService {
 						
 						//작업지시테이블 업데이트
 						productionDao.updateWorkOrderDao(productionDto);
-						System.out.println("작동");
-						//자재식별코드, crate 수량 저장
-						maskProductionService.wholeQtyUpdate(productionDto.getPRODUCTION_Equipment_Code(), productionDto.getPRODUCTION_Volume());
 					}
 				}
 			});

@@ -25,9 +25,6 @@ var itemTable = new Tabulator("#itemTable", {
 			}
 		})
 		
-		//상자 이력
-		//crateTableSelect($("#machineCode").val())
-		
 		//현재 작업 품목
 		$("#itemName").text(response.product_ITEM_NAME)
 		return [response]
@@ -87,6 +84,7 @@ $("#barcodeInput").change(function(){
 	}else if(initial == 'N'){
 		$.when(CrateStatusCheck(barcode))
 		.then(function(data){
+			
 			//있다 or 없다.
 			if(data instanceof Object){
 				// 상자를 바꿀때 설비- 아이템을 확인하여 그정보로 저장
@@ -95,11 +93,10 @@ $("#barcodeInput").change(function(){
 			}
 		})
 		.then(function(data){
-			$("#crateCode").val(barcode);
-			console.log(data)
+			$("#crateCode").val(data.c_CrateCode);
+			$("#crate-LotNo").val(data.c_Production_LotNo);
 			if(inputCheck()){
-				console.log("저장")
-				rawMaterialSave($("#crate-LotNo").val());
+				rawMaterialSave(data.c_Production_LotNo);
 			}
 			$("#barcodeInput").val("");
 		})		

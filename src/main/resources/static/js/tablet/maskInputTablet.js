@@ -1,4 +1,5 @@
 var machineCodeObj = new Object();
+var itemCodeObj = new Object();
 var inputMode = '';
 
 function tableSetting(value){
@@ -33,6 +34,7 @@ $.ajax({
 	success : function(data) {
 		machineCodeObj = new Object();
 		for(let i=0;i<data.length;i++){
+			itemCodeObj[data[i].workOrder_EquipCode] = data[i].workOrder_ItemCode
 			machineCodeObj[data[i].workOrder_EquipCode] = "itemTable"+(i)
 			$("#multiTableAdd").append(
 				'<div class="table-container">'
@@ -68,10 +70,14 @@ $("#barcodeInput").keypress(function(e){
 		}else if(initial == "N"){
 			$.when(CrateStatusCheck(barcode)).
 			then(function(data){
-				//아이템이 설비지정아이템과 맞으면 등록이 되고 맞지않으면 오류 뱉음				
-				console.log(data)
+				//아이템이 설비지정아이템과 맞으면 등록이 되고 맞지않으면 오류 뱉음
+				console.log(data);			
+				if(data instanceof Object){
+					crateLotUpdate($("#selectedMachine").val(), data.c_CrateCode);
+				}else{
+					console.log("설비와 품목이 맞지 않습니다.")
+				}
 				
-				crateLotUpdate($("#selectedMachine").val(), data.c_CrateCode);
 			})
 		}
 		$(this).val("");
@@ -87,10 +93,7 @@ function CrateStatusCheck(value){
 	var ajaxResult = $.ajax({
 		method : "get",
 		url : "maskProductionRest/CrateStatusCheck",
-		data : {crateCode : value, condition : 2},
-		success : function(data) {
-			console.log(data)
-		}
+		data : {itemCode : itemCodeObj[$("#selectedMachine").val()], crateCode : value, condition : 2},
 	})
 	return ajaxResult;
 }

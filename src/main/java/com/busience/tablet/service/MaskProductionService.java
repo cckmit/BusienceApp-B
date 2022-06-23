@@ -173,22 +173,12 @@ public class MaskProductionService {
 										
 					searchDto.setMachineCode(equip);
 					
-					/*
-					//작업지시 가져오기
-					List<WorkOrderDto> workOrderDtoList = workOrderDao.workingSelectByMachineDao(searchDto);
-					searchDto.setOrderNo(workOrderDtoList.get(0).getWorkOrder_ONo());
-					*/
 					//crateLotNo 수정
 					CrateLotDto crateLotDto = new CrateLotDto();
 					crateLotDto.setCL_MachineCode(equip);
 					crateLotDto.setCL_Qty(value);
 					crateLotDao.crateLotQtyUpdateDao(crateLotDto);
-					/*
-					//자재식별코드 가져오기
-					RawMaterialMasterDto rawMaterialMasterDto = rawMaterialMasterDao.rawMaterialMasterSelectDao(searchDto).get(0);
-					rawMaterialMasterDto.setRMM_Qty(value);
-					rawMaterialMasterDao.rawMaterialQtyUpdateDao(rawMaterialMasterDto);
-					*/
+					
 				}				
 			});			
 			return 1;			

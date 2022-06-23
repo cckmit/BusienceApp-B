@@ -135,10 +135,20 @@
 	
 	<update id="crateLotQtyUpdateDao">
 		update Crate_Lot_tbl
-		set
+		set	
 		CL_Qty = CL_Qty + #{CL_Qty},
 		CL_ProductionQty = CL_Qty
-		where CL_MachineCode = #{CL_MachineCode}
+		where CL_LotNo = (
+			select
+				AA.C_Production_LotNo
+		    from (
+				select
+					A.C_Production_LotNo
+				from Crate_tbl A
+				inner join Crate_Lot_tbl B on B.CL_LotNo = A.C_Production_LotNo and B.CL_MachineCode = #{CL_MachineCode}
+				where C_Condition = '1'
+		    ) AA
+		);
 	</update>
 	
 	<update id="crateLotUpdateDao2">
