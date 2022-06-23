@@ -30,7 +30,7 @@ var crateInspectTable = new Tabulator("#crateInspectTable", {
 		{ title: "규격1", field: "cl_STND_1", headerHozAlign: "center" },
 		{ title: "품목분류1", field: "cl_Item_Clsfc_Name_1", headerHozAlign: "center" },
 		{ title: "생산 수량", field: "cl_Qty", headerHozAlign: "center", hozAlign: "right" },
-		{ title: "설비 코드", field: "cl_EquipCode", headerHozAlign: "center" },
+		{ title: "설비 코드", field: "cl_MachineCode", headerHozAlign: "center" },
 		{ title: "설비 명", field: "cl_EquipName", headerHozAlign: "center" },
 		{ title: "생산시간", field: "cl_Create_Date", headerHozAlign: "center" }
 	],
