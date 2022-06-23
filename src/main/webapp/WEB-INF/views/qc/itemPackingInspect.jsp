@@ -32,7 +32,7 @@
 				</div>
 			</div>
 			<div id="salesItemTable"></div>
-			<!-- <div id="processInspectTable"></div> -->
+			<div id="itemInspectTable"></div>
 		</div>
 		<div class="master-in">
 			<div class="top-var">

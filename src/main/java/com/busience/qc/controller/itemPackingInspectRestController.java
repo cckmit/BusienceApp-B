@@ -33,6 +33,12 @@ public class itemPackingInspectRestController {
 		return itemPackingInspectService.itemPackingInspectListDao(searchDto);
 	}
 	
+	// list 
+	@GetMapping("/IPS_Search")
+	public List<ItemPackingInspectDto> itemPackingInspectSearchDao(SearchDto searchDto) {
+		return itemPackingInspectService.itemPackingInspectSearchDao(searchDto);
+	}
+	
 	@PostMapping("/IPI_Save")
 	public int itemPackingInspectInsertDao(@RequestBody List<ItemPackingInspectDto> dataList,  ItemPackingInspectDto itemPackingInspectDto) {
 		return itemPackingInspectService.itemPackingInspectInsertDao(dataList, itemPackingInspectDto);

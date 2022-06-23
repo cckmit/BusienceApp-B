@@ -12,6 +12,22 @@
 		inner join DTL_TBL dt on iit.ItemPack_Inspect_Worker = dt.Child_TBL_No
 		where ItemPack_Inspect_LotNo = #{LotNo}
 	</select>
+	
+	<select id="itemPackingInspectSearchDao" resultType="com.busience.qc.dto.ItemPackingInspectDto">
+		SELECT distinct iit.ItemPack_Inspect_LotNo, iit.ItemPack_Inspect_ItemCode, iit.ItemPack_Inspect_Qty, iit.ItemPack_Inspect_Date, pit.Product_Item_Name AS ItemPack_Inspect_ItemName, pit.Product_Info_STND_1 AS ItemPack_Inspect_STND_1,
+			dt.Child_TBL_Type AS ItemPack_Inspect_Item_Clsfc_1, dt2.Child_TBL_Type AS ItemPack_Inspect_Item_Clsfc_2,
+			dt3.Child_TBL_Type AS ItemPack_Inspect_Item_Material  
+		FROM ItemPack_Inspect_tbl iit
+		INNER JOIN Product_Info_tbl pit ON iit.ItemPack_Inspect_ItemCode = pit.Product_Item_Code
+		INNER JOIN DTL_TBL dt ON pit.Product_Item_CLSFC_1 = dt.Child_TBL_No
+		INNER JOIN DTL_TBL dt2 ON pit.Product_Item_CLSFC_2 = dt2.Child_TBL_No
+		INNER JOIN DTL_TBL dt3 ON pit.Product_Material = dt3.Child_TBL_No
+		<![CDATA[
+		WHERE iit.ItemPack_Inspect_Date >= #{startDate} AND iit.ItemPack_Inspect_Date < #{endDate}
+		]]>
+		AND iit.ItemPack_Inspect_LotNo LIKE CONCAT('%',#{LotNo},'%')
+		AND iit.ItemPack_Inspect_ItemCode LIKE CONCAT('%',#{ItemCode},'%')	
+	</select>
 
 	<insert id="itemPackingInspectInsertDao">
 		insert into ItemPack_Inspect_tbl (

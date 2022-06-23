@@ -32,5 +32,8 @@ public class ItemPackingInspectDto {
 	private String ItemPack_Inspect_Unit_1;
 	
 	private String ItemPack_Inspect_Worker_Name;
+	private String ItemPack_Inspect_Item_Clsfc_1;
+	private String ItemPack_Inspect_Item_Clsfc_2;
+	private String ItemPack_Inspect_Item_Material;
 	
 }

@@ -36,6 +36,11 @@ public class ItemPackingInspectService {
 		return itemPackingInspectDao.itemPackingInspectListDao(searchDto);
 	}
 	
+	// list
+	public List<ItemPackingInspectDto> itemPackingInspectSearchDao(SearchDto searchDto) {
+		return itemPackingInspectDao.itemPackingInspectSearchDao(searchDto);
+	}
+	
 	public int itemPackingInspectInsertDao(List<ItemPackingInspectDto> dataList, ItemPackingInspectDto itemPackingInspectDto) {
 		
 		try {

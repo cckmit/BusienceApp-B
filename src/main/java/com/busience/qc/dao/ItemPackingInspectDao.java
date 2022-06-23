@@ -12,6 +12,9 @@ public interface ItemPackingInspectDao {
 	
 	// LotNo로 조회
 	public List<ItemPackingInspectDto> itemPackingInspectListDao(SearchDto searchDto);
+	
+	// list
+	public List<ItemPackingInspectDto> itemPackingInspectSearchDao(SearchDto searchDto);
 
 	public int itemPackingInspectInsertDao(ItemPackingInspectDto itemPackingInspectDto);
 }

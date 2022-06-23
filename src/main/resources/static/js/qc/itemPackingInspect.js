@@ -1,6 +1,6 @@
 var salesItemTable = new Tabulator("#salesItemTable", {
 	clipboard: true,
-	height: "calc(100% - 175px)",
+	height: "calc(50% - 85px)",
 	headerFilterPlaceholder: null,
 	layoutColumnsOnNewData: true,
 	//행클릭 이벤트
@@ -36,6 +36,44 @@ var salesItemTable = new Tabulator("#salesItemTable", {
 		{ title: "품목분류1", field: "lm_Item_CLSFC_1", headerHozAlign: "center" },
 		{ title: "제품수량", field: "lm_Qty", headerHozAlign: "center", hozAlign: "right" },
 		{ title: "제품포장일", field: "lm_Create_Date", headerHozAlign: "center" },
+		{ title: "검서결과코드", field:"lm_Inspect_Code", headerHozAlign: "center", visible: false }
+	],
+});
+
+var itemInspectTable = new Tabulator("#itemInspectTable", {
+	clipboard: true,
+	height: "calc(50% - 85px)",
+	headerFilterPlaceholder: null,
+	layoutColumnsOnNewData: true,
+	//행클릭 이벤트
+	rowFormatter: function(row) {
+		// 검사 결과가 존재하면 글자 색을 다르게 넣어줌
+		if(row.getData().lm_Inspect_Code != null) {
+			row.getElement().style.color = "red";
+		}
+	},
+	rowClick: function(e, row) {
+		itemInspectTable.deselectRow();
+		row.select();
+	},
+	rowSelected: function(row) {
+		formClearFunc();
+		row.select();
+		// LotNo, 제품명, 생산일자
+		SILForm_Search(row.getData().itemPack_Inspect_LotNo, row.getData().itemPack_Inspect_ItemName, row.getData().itemPack_Inspect_Date);
+		IP_Search(row.getData().itemPack_Inspect_LotNo);
+	},
+	columns: [
+		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center" },
+		{ title: "LotNo", field: "itemPack_Inspect_LotNo", headerHozAlign: "center" },
+		{ title: "품목 코드", field: "itemPack_Inspect_ItemCode", headerHozAlign: "center" },
+		{ title: "품목 명", field: "itemPack_Inspect_ItemName", headerHozAlign: "center" },
+		{ title: "규격1", field: "itemPack_Inspect_STND_1", headerHozAlign: "center" },
+		{ title: "품목분류1", field: "itemPack_Inspect_Item_Clsfc_1", headerHozAlign: "center" },
+		{ title: "품목분류2", field: "itemPack_Inspect_Item_Clsfc_2", headerHozAlign: "center" },
+		{ title: "재질", field: "itemPack_Inspect_Item_Material", headerHozAlign: "center" },
+		{ title: "제품수량", field: "itemPack_Inspect_Qty", headerHozAlign: "center", hozAlign: "right" },
+		{ title: "검사일", field: "itemPack_Inspect_Date", headerHozAlign: "center" },
 		{ title: "검서결과코드", field:"lm_Inspect_Code", headerHozAlign: "center", visible: false }
 	],
 });
@@ -263,6 +301,19 @@ $('#IPI_PrintBtn').click(function() {
 	IPI_print();
 })
 
+function IPS_Search() {
+	
+	datas = {
+		startDate: $("#startDate").val(),
+		endDate: $("#endDate").val(),
+		itemCode: $("#PRODUCT_ITEM_CODE1").val(),
+		LotNo: $("#itemPackLotNo").val()
+	}
+	
+	itemInspectTable.setData("itemPackingInspectRest/IPS_Search", datas);
+	console.log(itemInspectTable);
+}
+
 //orderprint
 function IPI_print() {
 	//창의 주소
@@ -295,6 +346,6 @@ function lCode_select(value) {
 
 $(document).ready(function() {
 	SIL_Search();
-	//PI_Search();
+	IPS_Search();
 })
 
