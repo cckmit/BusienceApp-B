@@ -5,12 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
 import com.busience.production.dto.ProcessInspectDto;
 import com.busience.production.service.ProcessInspectionService;
+import com.busience.qc.dto.ItemPackingInspectDto;
 import com.busience.tablet.dto.CrateLotDto;
 
 @RestController("processInspectionRestController")
@@ -39,8 +41,8 @@ public class processInspectionRestController {
 	}
 	
 	@PostMapping("/PI_Save")
-	public int processInspectInsert(ProcessInspectDto processInspectDto) {
-		return processInspectionService.processInspectInsert(processInspectDto);
+	public int processInspectInsert(@RequestBody List<ProcessInspectDto> dataList, ProcessInspectDto processInspectDto) {
+		return processInspectionService.processInspectInsert(dataList, processInspectDto);
 	}
 	
 	

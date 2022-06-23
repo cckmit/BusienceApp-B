@@ -76,7 +76,16 @@ var itemInspectTable = new Tabulator("#itemInspectTable", {
 		{ title: "재질", field: "itemPack_Inspect_Item_Material", headerHozAlign: "center" },
 		{ title: "제품수량", field: "itemPack_Inspect_Qty", headerHozAlign: "center", hozAlign: "right" },
 		{ title: "검사일", field: "itemPack_Inspect_Date", headerHozAlign: "center" },
-		{ title: "검서결과코드", field:"lm_Inspect_Code", headerHozAlign: "center", visible: false }
+		{ title: "검사결과", field:"itemPack_Inspect_Result", headerHozAlign: "center", 
+			formatter: function(cell, formatterParams) {
+				var value = cell.getValue();
+				if (value == 'true') {
+					value = "적합";
+				} else if(value == 'false') {
+					value = "부적합";
+				}
+				return value;
+			}}
 	],
 });
 

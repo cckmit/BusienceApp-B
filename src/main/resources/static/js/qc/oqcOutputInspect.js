@@ -94,7 +94,17 @@ oqcInspectTable = new Tabulator("#oqcInspectTable", {
 		{ title: "품목분류2", field: "oqc_Inspect_Item_STND_2", headerHozAlign: "center" },
 		{ title: "검사 수량", field: "oqc_Inspect_Qty", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false } },
 		{ title: "검사일", field: "oqc_Inspect_Date", headerHozAlign: "center" },
-		{ title: "검사자", field: "oqc_Inspect_Worker", headerHozAlign: "center" }
+		{ title: "검사자", field: "oqc_Inspect_Worker", headerHozAlign: "center" },
+		{ title: "검사결과", field:"oqc_Inspect_Result", headerHozAlign: "center", 
+			formatter: function(cell, formatterParams) {
+				var value = cell.getValue();
+				if (value == 'true') {
+					value = "적합";
+				} else if(value == 'false') {
+					value = "부적합";
+				}
+				return value;
+			}}
 	]
 });
 

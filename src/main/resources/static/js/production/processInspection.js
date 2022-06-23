@@ -191,6 +191,8 @@ function PI_Save() {
 		alert("시료수가 생산수량보다 많습니다.");
 		return false;
 	}
+	
+	let dataList = new Array();
 
 	for (let j = 0; j < values; j++) {
 		let processInspectData = new Array();
@@ -206,7 +208,7 @@ function PI_Save() {
 		processInspectData = {
 			process_Inspect_LotNo: selectedRow[0].cl_LotNo,
 			process_Inspect_Number: j + 1,
-			process_Inspect_EquipCode: selectedRow[0].cl_EquipCode,
+			process_Inspect_EquipCode: selectedRow[0].cl_MachineCode,
 			process_Inspect_ItemCode: selectedRow[0].cl_ItemCode,
 			process_Inspect_Qty: $("#processQty").val(),
 			process_Inspect_Color: document.querySelector('#itemColorType > option:checked').value,
@@ -224,13 +226,15 @@ function PI_Save() {
 			process_Inspect_Remark: $("#processRemark").val()
 		}
 
-		console.log(processInspectData);
-
+		dataList.push(processInspectData);
+	}
+	
 		//OrderSub 저장부분
 		$.ajax({
 			method: "post",
 			url: "processInspectionRest/PI_Save",
-			data: processInspectData,
+			data: JSON.stringify(dataList),
+			contentType: 'application/json',
 			beforeSend: function(xhr) {
 				var header = $("meta[name='_csrf_header']").attr("content");
 				var token = $("meta[name='_csrf']").attr("content");
@@ -250,7 +254,6 @@ function PI_Save() {
 				}
 			}
 		});
-	}
 }
 
 function PI_SaveBtn() {
