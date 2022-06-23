@@ -436,6 +436,7 @@
 		inner join Equipment_Info_tbl B on A.WorkOrder_EquipCode = B.Equipment_Info_Code
 		inner join Product_Info_tbl C on A.WorkOrder_ItemCode = C.Product_Item_Code
 		where B.Equipment_Type = #{Equipment_Type}
+        order by WorkOrder_EquipCode
 	</select>
 	
 	<select id="packagingLineListSelectDao" resultType="com.busience.production.dto.WorkOrderDto">

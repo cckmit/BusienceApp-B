@@ -45,31 +45,26 @@
 			<div class="item">
 				<span class="LotNo_Name">원자재 명</span>
 				<span class="LotNo">원자재 LOTNO</span>
-				<span class="LotNo_Qty">-</span>
 			</div>
 			<div class="item">
 				<input type="hidden" class="LotNo_Code">
 				<input class="LotNo_Name" disabled>
 				<input class="LotNo" readonly>
-				<input class="LotNo_Qty" disabled>
 			</div>
 			<div class="item">
 				<input type="hidden" class="LotNo_Code">
 				<input class="LotNo_Name" disabled>
 				<input class="LotNo" readonly>
-				<input class="LotNo_Qty" disabled>
 			</div>
 			<div class="item">
 				<input type="hidden" class="LotNo_Code">
 				<input class="LotNo_Name" disabled>
 				<input class="LotNo" readonly>
-				<input class="LotNo_Qty" disabled>
 			</div>
 			<div class="item">
 				<input type="hidden" class="LotNo_Code">
 				<input class="LotNo_Name" disabled>
 				<input class="LotNo" readonly>
-				<input class="LotNo_Qty" disabled>
 			</div>
 		</div>
 	</div>
