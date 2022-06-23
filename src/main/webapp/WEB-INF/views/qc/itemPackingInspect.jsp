@@ -40,9 +40,6 @@
 				<div class="input-button" style="width: 550px;">
 					<img src="/images/button/Save.png" id="IPI_SaveBtn" class="unUseBtn BtnStatus" /> 
 					<img src="/images/button/Print.png" id="IPI_PrintBtn" />
-					<div style="float: right; background-color: red; color: white; margin-left: 20px; margin-top: 20px; height: 27px !important;">
-						<strong style="font-size: 20px;">검사 완료 데이터</strong>
-					</div>
 				</div>
 				<div style="float: right;" id="itemPackInspection"><jsp:include page="itemPackAppearanceInspectForm.jsp" /></div>
 			</div>
