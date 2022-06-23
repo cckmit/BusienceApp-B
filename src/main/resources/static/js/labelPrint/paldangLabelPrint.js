@@ -35,8 +35,15 @@ function setup()
 			alert("'zebra browser print settings'를 설치하여 프린터를 연결해주세요.\r\n 인터넷 설정 'block-insecure-private-network-requests'를 'disabled'로 변경해주세요.");
 		})
 }
+function printerCheck(){
+	if($("#selected_device").val() == null){
+		setup()
+		return false;
+	}
+}
 function writeToSelectedPrinter()
 {
+	printerCheck()
 	var printCode = "^XA"
 					+"^CFJ,50^SEE:UHANGUL.DAT^FS"
 					+"^CW1,E:KFONT3.FNT^CI28^FS"
@@ -67,16 +74,15 @@ function writeToSelectedPrinter()
 
 function RawMaterialPrinter(jsonDatas)
 {	
+	printerCheck()
 	var printCode = ""
-	
 	for(let j=0;j<jsonDatas.length;j++){
-		
 		printCode += "^XA"
 					+"^CFJ,50^SEE:UHANGUL.DAT^FS"
 					+"^CW1,E:KFONT3.FNT^CI28^FS"
-					+"^FT25,55^A1N,30,30^FD"+jsonDatas[j].inMat_Name+"^FS"
-					+"^FO115,15^BQN,2,5"
-					+"^FH^FDLA,"+jsonDatas[j].inMat_Lot_No+"^FS"
+					+"^FT150,40^A1N,30,20^FD"+jsonDatas[j].inMat_Name+"^FS"
+					+"^FO250,60^BQN,2,5"
+					+"^FH^FDLA,R"+jsonDatas[j].inMat_Lot_No+"^FS"
 					+"^XZ"
 	}
 	selected_device.send(printCode, undefined, errorCallback);
@@ -84,6 +90,7 @@ function RawMaterialPrinter(jsonDatas)
 
 function CratePrinter(jsonDatas)
 {	
+	printerCheck()
 	var printCode = ""
 	
 	for(let j=0;j<jsonDatas.length;j++){
@@ -109,6 +116,7 @@ function CratePrinter(jsonDatas)
 
 function smallPackagingPrinter(LotNo)
 {
+	printerCheck()
 	var printCode = ""
 	
 	printCode += "^XA"
@@ -136,4 +144,4 @@ function onDeviceSelected(selected)
 	}
 }
 
-window.onload = setup;
+//window.onload = setup;

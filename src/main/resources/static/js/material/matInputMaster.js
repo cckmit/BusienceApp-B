@@ -4,6 +4,7 @@ var matInputListTable = new Tabulator("#matInputListTable", {
 	paginationSize: 20,
 	headerFilterPlaceholder: null,
 	layoutColumnsOnNewData : true,
+	selectable: true,
 	height: "calc(100% - 175px)",
 	columns: [
 		{ title: "순번", field: "rownum", headerHozAlign: "center", headerFilter: true, hozAlign: "center", formatter: "rownum"},
@@ -42,6 +43,11 @@ function MIL_Search(){
 	}
 	matInputListTable.setData("matInputRest/MIL_Search", datas)
 }
+
+$("#MIL_PrintBtn").click(function(){
+	var datas = matInputListTable.getData("selected");
+	RawMaterialPrinter(datas)
+})
 
 var matInputItemViewTable = new Tabulator("#matInputItemViewTable", {
 	//페이징
@@ -222,4 +228,3 @@ function MIDS_Search(clientCode) {
 	}
 	matInputDeliveryItemTable.setData("matInputRest/MIDS_Search", datas);
 }
-

@@ -4,6 +4,7 @@ var matOutputListTable = new Tabulator("#matOutputListTable", {
 	paginationSize:20,
 	headerFilterPlaceholder: null,
 	layoutColumnsOnNewData : true,
+	selectable: true,
 	height:"calc(100% - 175px)",
  	columns:[
  	{title:"순번", field:"rownum", headerHozAlign: "center", headerFilter:true, hozAlign: "center", formatter:"rownum"},
@@ -37,6 +38,17 @@ function MOL_Search(){
 	}
 	matOutputListTable.setData("matOutputRest/MOL_Search", data);
 }
+$("#MOL_PrintBtn").click(function(){
+	var selectedDatas = matOutputListTable.getData("selected");
+	var datas = new Array()
+	for(let i=0;i<selectedDatas.length;i++){
+		datas.push({
+			inMat_Lot_No : selectedDatas[i].om_LotNo,
+			inMat_Name: selectedDatas[i].om_ItemName
+		})
+	}
+	RawMaterialPrinter(datas)
+})
 
 var matOutputItemViewTable = new Tabulator("#matOutputItemViewTable", { 
 	//페이징

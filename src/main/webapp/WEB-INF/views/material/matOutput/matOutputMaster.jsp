@@ -35,3 +35,4 @@
 <!-- Javascript -->
 <script src="/js/material/matOutputMaster.js?v=<%=System.currentTimeMillis() %>"></script>
 <script src="/js/tabMenu.js?v=<%=System.currentTimeMillis() %>"></script>
+<script src="/js/labelPrint/paldangLabelPrint.js?v=<%=System.currentTimeMillis() %>"></script>
