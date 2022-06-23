@@ -21,7 +21,7 @@
 		</div>
 	</header>
 	<div class="main">
-		<div id="multiTableAdd" class="main-box tablet-border">			
+		<div id="multiTableAdd" class="main-box tablet-border">		
 		</div>
 	</div>
 </div>

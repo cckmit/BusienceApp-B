@@ -5,24 +5,17 @@ var inputMode = '';
 function tableSetting(value){
 	var tableSetting = {
 		height: "100%",
+		headerVisible: false,
 		ajaxURL:"maskInputRest/crateLotListSelect",
 		ajaxParams: {machineCode : value.workOrder_EquipCode},
 	    ajaxConfig:"get",
 	    ajaxContentType:"json",
 		ajaxLoader:false,
-		rowFormatter: function(row) {
-			if (row.getData().color == '1')
-				row.getElement().style.backgroundColor = "yellow";
-		},
+		layout:"fitColumns",
 		columns:[
-			{title: value.workOrder_EquipName+" ("+value.workOrder_ItemCode+")", field: "machineCode", headerHozAlign:"center",
-				columns: [
-					{ title: "상 자 코 드", field: "cl_CrateCode", headerHozAlign: "center", headerSort:false},
-					{ title: "제 품 수 량", field: "cl_Qty", headerHozAlign: "center", hozAlign:"right", headerSort:false,
-						formatter:"money", formatterParams: {precision: false}},
-					{ title: "색상", field: "color", visible: false}
-				]
-			}
+			{ title: "코드", field: "cl_CrateCode", headerHozAlign: "center", headerSort:false, widthGrow : 6},
+			{ title: "수량", field: "cl_Qty", headerHozAlign: "center", hozAlign:"right", headerSort:false,
+				formatter:"money", formatterParams: {precision: false}, widthGrow : 5}
 		]
 	}
 	return tableSetting
@@ -34,11 +27,25 @@ $.ajax({
 	success : function(data) {
 		machineCodeObj = new Object();
 		for(let i=0;i<data.length;i++){
-			itemCodeObj[data[i].workOrder_EquipCode] = data[i].workOrder_ItemCode
+			itemCodeObj[data[i].workOrder_EquipCode] = data[i].workOrder_Old_ItemCode
 			machineCodeObj[data[i].workOrder_EquipCode] = "itemTable"+(i)
 			$("#multiTableAdd").append(
-				'<div class="table-container">'
-					+'<div id="itemTable'+(i)+'" class="tablet-Table"></div>'
+				'<div class="machine-module" id="module-'+data[i].workOrder_EquipCode+'">'
+						+'<div class="m-header m-font">'
+							+'<p><strong>'+data[i].workOrder_EquipName+'</strong></p>'
+							+'<p><strong>'+data[i].workOrder_ItemName.substr(0,data[i].workOrder_ItemName.length-3)+'</strong></p>'
+						+'</div>'
+						+'<div class="m-main m-font">'
+							+'<p><strong>'+data[i].workOrder_ItemCode+'</strong></p>'
+							+'<p><strong>'+data[i].workOrder_INFO_STND_1+'</strong></p>'
+							+'<p><strong>'+data[i].workOrder_INFO_STND_2+'</strong></p>'
+							+'<p><strong>'+data[i].workOrder_Material_Name+'</strong></p>'
+							+'<p><strong>'+data[i].workOrder_Item_CLSFC_1_Name+'</strong></p>'
+							+'<p><strong>'+data[i].workOrder_Item_CLSFC_2_Name+'</strong></p>'
+						+'</div>'
+					+'<div class="table-container">'
+						+'<div id="itemTable'+(i)+'" class="tablet-Table"></div>'
+					+'</div>'
 				+'</div>'
 			)
 			new Tabulator("#itemTable"+(i), tableSetting(data[i]));
@@ -63,19 +70,30 @@ $("#barcodeInput").keypress(function(e){
 			})
 			if(result){
 				$("#selectedMachine").val(barcode);
-				$(".tablet-Table").removeClass("border-color")
-				$("#"+machineCodeObj[barcode]).addClass("border-color")
-				$(".border-color").css("border-color","red");
+				$(".machine-module").removeClass("selected-module");
+				$("#module-"+barcode).addClass("selected-module");
 			}
+		}else if(initial == "C"){
+			barcode = barcode.substr(1,-1)
+			console.log("수정모드")
+			$("#selectedMachine").val(barcode);
+			$(".machine-module").removeClass("selected-module");
+			$("#module-"+barcode).addClass("selected-module");
 		}else if(initial == "N"){
 			$.when(CrateStatusCheck(barcode)).
 			then(function(data){
-				//아이템이 설비지정아이템과 맞으면 등록이 되고 맞지않으면 오류 뱉음
-				console.log(data);			
+				//아이템이 설비지정아이템과 맞으면 등록이 되고 맞지않으면 오류 뱉음	
 				if(data instanceof Object){
-					crateLotUpdate($("#selectedMachine").val(), data.c_CrateCode);
+					console.log(itemCodeObj[$("#selectedMachine").val()]);
+					console.log(data.c_ItemCode);
+					if(data.c_ItemCode == itemCodeObj[$("#selectedMachine").val()]){
+						crateLotUpdate($("#selectedMachine").val(), data.c_CrateCode);
+						console.log("통과");
+					}else{
+						console.log("설비와 품목이 맞지 않습니다.")
+					}
 				}else{
-					console.log("설비와 품목이 맞지 않습니다.")
+					console.log("잘못된 박스입니다.")
 				}
 				
 			})
