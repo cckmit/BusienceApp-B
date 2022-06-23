@@ -85,11 +85,14 @@
 	
 	<select id="salesItemListDao" resultType="com.busience.material.dto.LotMasterDto">
 		SELECT 
-			distinct lmt.*, pit.Product_Item_Name LM_ItemName, pit.Product_Info_STND_1 LM_STND_1, dt.Child_TBL_Type LM_Item_CLSFC_1, iit.ItemPack_Inspect_LotNo,
+			distinct lmt.*, pit.Product_Item_Name LM_ItemName, pit.Product_Info_STND_1 LM_STND_1, dt.Child_TBL_Type LM_Item_CLSFC_1, 
+			dt2.Child_TBL_Type AS LM_Item_CLSFC_2, dt3.Child_TBL_Type AS LM_Item_Material, iit.ItemPack_Inspect_LotNo,
 			iit.ItemPack_Inspect_ItemCode LM_Inspect_Code
 		FROM LotMaster_tbl lmt
 		INNER JOIN Product_Info_tbl pit ON lmt.LM_ItemCode = pit.Product_Item_Code
 		INNER JOIN DTL_TBL dt ON pit.Product_Item_CLSFC_1 = dt.Child_TBL_No
+		INNER JOIN DTL_TBL dt2 ON pit.Product_Item_CLSFC_2 = dt2.Child_TBL_No
+		INNER JOIN DTL_TBL dt3 ON pit.Product_Material = dt3.Child_TBL_No
 		LEFT OUTER JOIN ItemPack_Inspect_tbl iit ON lmt.LM_LotNo = iit.ItemPack_Inspect_LotNo
 		WHERE lmt.LM_Qty != 0 
 		<if test="LotNo != ''">

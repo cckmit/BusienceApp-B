@@ -34,6 +34,8 @@ var salesItemTable = new Tabulator("#salesItemTable", {
 		{ title: "품목 명", field: "lm_ItemName", headerHozAlign: "center" },
 		{ title: "규격1", field: "lm_STND_1", headerHozAlign: "center" },
 		{ title: "품목분류1", field: "lm_Item_CLSFC_1", headerHozAlign: "center" },
+		{ title: "품목분류2", field: "lm_Item_CLSFC_2", headerHozAlign: "center" },
+		{ title: "재질", field: "lm_Item_Material", headerHozAlign: "center" },
 		{ title: "제품수량", field: "lm_Qty", headerHozAlign: "center", hozAlign: "right" },
 		{ title: "제품포장일", field: "lm_Create_Date", headerHozAlign: "center" },
 		{ title: "검서결과코드", field:"lm_Inspect_Code", headerHozAlign: "center", visible: false }
