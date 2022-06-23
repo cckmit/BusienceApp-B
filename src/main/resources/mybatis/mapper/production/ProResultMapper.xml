@@ -5,19 +5,27 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	 
 <mapper namespace="com.busience.production.dao.ProResultDao">
-	<select id="proResultSelectDao" resultType="com.busience.production.dto.ProductionMgmtDto">
-	<![CDATA[
-		SELECT 
-			WorkOrder_No as PRODUCTION_WorkOrder_No, WorkOrder_ONo as PRODUCTION_WorkOrder_ONo, WorkOrder_ItemCode as PRODUCTION_Product_Code, 
-			WorkOrder_EquipCode as PRODUCTION_Equipment_Code, pit.Product_Item_Name as PRODUCTION_Product_Name, eit.Equipment_Info_Name as PRODUCTION_Equipment_Name,
-			WorkOrder_ProductionQty as PRODUCTION_Qty, WorkOrder_CompleteTime as PRODUCTION_Date
-		FROM WorkOrder_tbl wot
-		INNER JOIN Product_Info_tbl pit ON wot.WorkOrder_ItemCode = pit.Product_Item_Code 
-		INNER JOIN Equipment_Info_tbl eit ON wot.WorkOrder_EquipCode = eit.Equipment_Info_Code
-		WHERE WorkOrder_CompleteTime >= #{startDate} AND WorkOrder_CompleteTime < #{endDate} AND WorkOrder_ItemCode LIKE CONCAT('%',#{itemCode},'%') 
-			AND pit.Product_Item_Name LIKE CONCAT('%',#{itemName},'%') AND WorkOrder_EquipCode LIKE CONCAT('%',#{machineCode},'%') AND eit.Equipment_Info_Name LIKE CONCAT('%',#{machineName},'%')
-		ORDER BY WorkOrder_ItemCode, WorkOrder_ONo, WorkOrder_No
-	]]>
+	<select id="proResultSelectDao" resultType="com.busience.tablet.dto.CrateLotDto">
+		SELECT clt.CL_LotNo, clt.CL_ItemCode, pit.Product_Item_Name CL_ItemName, pit.Product_Info_STND_1 CL_STND_1, dt.Child_TBL_Type CL_Item_Clsfc_Name_1, 
+			dt2.Child_TBL_Type CL_Item_Clsfc_Name_2, dt3.Child_TBL_Type CL_Item_Material,
+			eit.Equipment_Info_Name CL_EquipName, clt.CL_CrateCode, clt.CL_MachineCode, clt.CL_Qty, date(clt.CL_Create_Date) CL_Create_Date
+			FROM Crate_Lot_tbl clt
+		INNER JOIN Product_Info_tbl pit ON clt.CL_ItemCode = pit.Product_Item_Code 
+		INNER JOIN Equipment_Info_tbl eit ON clt.CL_MachineCode = eit.Equipment_Info_Code
+		INNER JOIN DTL_TBL dt ON pit.Product_Item_CLSFC_1 = dt.Child_TBL_No
+		INNER JOIN DTL_TBL dt2 ON pit.Product_Item_CLSFC_2 = dt2.Child_TBL_No
+		INNER JOIN DTL_TBL dt3 ON pit.Product_Material = dt3.Child_TBL_No
+		WHERE clt.CL_MachineCode IS NOT NULL
+		<![CDATA[
+		AND clt.CL_Create_Date >= #{startDate} and clt.CL_Create_Date < #{endDate}
+		]]>
+		<if test="ItemCode != ''">
+		AND pit.Product_Item_Code LIKE CONCAT('%',#{ItemCode},'%')
+		</if>
+		<if test="MachineCode != ''">
+		AND eit.Equipment_Info_Code LIKE CONCAT('%',#{MachineCode},'%')
+		</if>
+		ORDER BY clt.CL_ItemCode, clt.CL_LotNo
 	</select>
 
 	<select id="workOrderDetailDao" resultType="com.busience.production.dto.WorkOrderDto">

@@ -5,42 +5,42 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	 
 <mapper namespace="com.busience.production.dao.ProductionMgmtDao">
-	<select id="proItemSumDao" resultType="com.busience.production.dto.ProductionMgmtDto">
-	<![CDATA[
-		SELECT WorkOrder_No as PRODUCTION_WorkOrder_No, WorkOrder_ONo as PRODUCTION_WorkOrder_ONo, WorkOrder_ItemCode as PRODUCTION_Product_Code, 
-		    WorkOrder_EquipCode as PRODUCTION_Equipment_Code, pit.Product_Item_Name as PRODUCTION_Product_Name, eit.Equipment_Info_Name as PRODUCTION_Equipment_Name,
-			pit.Product_Info_STND_1 as PRODUCTION_Info_STND_1, dt.Child_TBL_Type as PRODUCTION_Item_CLSFC_NAME_1, dt2.Child_TBL_Type as PRODUCTION_Item_CLSFC_NAME_2,
-			dt3.Child_TBL_Type as PRODUCTION_Material, sum(WorkOrder_ProductionQty) PRODUCTION_Qty, WorkOrder_StartTime as PRODUCTION_Start_Date, WorkOrder_CompleteTime as PRODUCTION_Date
-			, time_format(SEC_TO_TIME(TIMESTAMPDIFF(second,WorkOrder_StartTime,WorkOrder_CompleteTime)),'%H시간 %i분') as PRODUCTION_Total_Work_Time
-		FROM WorkOrder_tbl wot
-		INNER JOIN Product_Info_tbl pit ON wot.WorkOrder_ItemCode = pit.Product_Item_Code 
-		INNER JOIN Equipment_Info_tbl eit ON wot.WorkOrder_EquipCode = eit.Equipment_Info_Code
-		INNER JOIN DTL_TBL dt ON pit.PRODUCT_ITEM_CLSFC_1 = dt.CHILD_TBL_NO
-		INNER JOIN DTL_TBL dt2 ON pit.PRODUCT_ITEM_CLSFC_2 = dt2.CHILD_TBL_NO
+	<select id="proItemSumDao" resultType="com.busience.tablet.dto.CrateLotDto">
+		SELECT clt.CL_LotNo, clt.CL_ItemCode, pit.Product_Item_Name CL_ItemName, pit.Product_Info_STND_1 CL_STND_1, dt.Child_TBL_Type CL_Item_Clsfc_Name_1, 
+			dt2.Child_TBL_Type CL_Item_Clsfc_Name_2, dt3.Child_TBL_Type CL_Item_Material, eit.Equipment_Info_Name CL_EquipName, clt.CL_CrateCode, clt.CL_MachineCode, sum(clt.CL_Qty) CL_Qty, date(clt.CL_Create_Date) CL_Create_Date 
+		FROM Crate_Lot_tbl clt
+		INNER JOIN Product_Info_tbl pit ON clt.CL_ItemCode = pit.Product_Item_Code 
+		INNER JOIN Equipment_Info_tbl eit ON clt.CL_MachineCode = eit.Equipment_Info_Code
+		INNER JOIN DTL_TBL dt ON pit.Product_Item_CLSFC_1 = dt.Child_TBL_No
+		INNER JOIN DTL_TBL dt2 ON pit.Product_Item_CLSFC_2 = dt2.Child_TBL_No
 		INNER JOIN DTL_TBL dt3 ON pit.Product_Material = dt3.Child_TBL_No
-		WHERE WorkOrder_CompleteTime >= #{startDate} AND WorkOrder_CompleteTime < #{endDate} 
-			AND WorkOrder_ItemCode LIKE CONCAT('%',#{itemCode},'%') AND pit.Product_Item_Name LIKE CONCAT('%',#{itemName},'%')
-		GROUP BY WorkOrder_ONo WITH rollup
-	]]>
+		WHERE clt.CL_MachineCode IS NOT NULL
+		<![CDATA[
+		AND clt.CL_Create_Date >= #{startDate} and clt.CL_Create_Date < #{endDate}
+		]]>
+		<if test="ItemCode != ''">
+		AND pit.Product_Item_Code LIKE CONCAT('%',#{ItemCode},'%')
+		</if>
+		GROUP BY clt.CL_LotNo WITH rollup
 	</select>
 	
-	<select id="proMachineSumDao" resultType="com.busience.production.dto.ProductionMgmtDto">
-	<![CDATA[
-		SELECT WorkOrder_No as PRODUCTION_WorkOrder_No, WorkOrder_ONo as PRODUCTION_WorkOrder_ONo, WorkOrder_ItemCode as PRODUCTION_Product_Code, 
-		    WorkOrder_EquipCode as PRODUCTION_Equipment_Code, pit.Product_Item_Name as PRODUCTION_Product_Name, eit.Equipment_Info_Name as PRODUCTION_Equipment_Name,
-			pit.Product_Info_STND_1 as PRODUCTION_Info_STND_1, dt.Child_TBL_Type as PRODUCTION_Item_CLSFC_NAME_1, dt2.Child_TBL_Type as PRODUCTION_Item_CLSFC_NAME_2,
-			dt3.Child_TBL_Type as PRODUCTION_Material, sum(WorkOrder_ProductionQty) PRODUCTION_Qty, WorkOrder_StartTime as PRODUCTION_Start_Date, WorkOrder_CompleteTime as PRODUCTION_Date
-			, time_format(SEC_TO_TIME(TIMESTAMPDIFF(second,WorkOrder_StartTime,WorkOrder_CompleteTime)),'%H시간 %i분') as PRODUCTION_Total_Work_Time
-		FROM WorkOrder_tbl wot
-		INNER JOIN Product_Info_tbl pit ON wot.WorkOrder_ItemCode = pit.Product_Item_Code 
-		INNER JOIN Equipment_Info_tbl eit ON wot.WorkOrder_EquipCode = eit.Equipment_Info_Code
-		INNER JOIN DTL_TBL dt ON pit.PRODUCT_ITEM_CLSFC_1 = dt.CHILD_TBL_NO
-		INNER JOIN DTL_TBL dt2 ON pit.PRODUCT_ITEM_CLSFC_2 = dt2.CHILD_TBL_NO
+	<select id="proMachineSumDao" resultType="com.busience.tablet.dto.CrateLotDto">
+		SELECT clt.CL_LotNo, clt.CL_ItemCode, pit.Product_Item_Name CL_ItemName, pit.Product_Info_STND_1 CL_STND_1, dt.Child_TBL_Type CL_Item_Clsfc_Name_1, 
+			dt2.Child_TBL_Type CL_Item_Clsfc_Name_2, dt3.Child_TBL_Type CL_Item_Material, eit.Equipment_Info_Name CL_EquipName, clt.CL_CrateCode, clt.CL_MachineCode, sum(clt.CL_Qty) CL_Qty, date(clt.CL_Create_Date) CL_Create_Date 
+		FROM Crate_Lot_tbl clt
+		INNER JOIN Product_Info_tbl pit ON clt.CL_ItemCode = pit.Product_Item_Code 
+		INNER JOIN Equipment_Info_tbl eit ON clt.CL_MachineCode = eit.Equipment_Info_Code
+		INNER JOIN DTL_TBL dt ON pit.Product_Item_CLSFC_1 = dt.Child_TBL_No
+		INNER JOIN DTL_TBL dt2 ON pit.Product_Item_CLSFC_2 = dt2.Child_TBL_No
 		INNER JOIN DTL_TBL dt3 ON pit.Product_Material = dt3.Child_TBL_No
-		WHERE WorkOrder_CompleteTime >= #{startDate} AND WorkOrder_CompleteTime < #{endDate} 
-			AND WorkOrder_EquipCode LIKE CONCAT('%',#{MachineCode},'%') AND eit.Equipment_Info_Name LIKE CONCAT('%',#{MachineName},'%')
-		GROUP BY WorkOrder_ONo WITH rollup
-	]]>  
+		WHERE clt.CL_MachineCode IS NOT NULL
+		<![CDATA[
+		AND clt.CL_Create_Date >= #{startDate} and clt.CL_Create_Date < #{endDate}
+		]]>
+		<if test="MachineCode != ''">
+		AND eit.Equipment_Info_Code LIKE CONCAT('%',#{MachineCode},'%')
+		</if>
+		GROUP BY clt.CL_LotNo WITH rollup
 	</select>
 
 	<select id="proItemListDao" resultType="com.busience.production.dto.ProductionMgmtDto">
@@ -92,45 +92,39 @@
 	</select>
 	
 	<select id="proMaskSumDao" resultType="com.busience.production.dto.ProductionMgmtDto">
-		SELECT WorkOrder_No as PRODUCTION_WorkOrder_No, WorkOrder_ONo as PRODUCTION_WorkOrder_ONo, WorkOrder_ItemCode as PRODUCTION_Product_Code, 
-		    WorkOrder_EquipCode as PRODUCTION_Equipment_Code, pit.Product_Item_Name as PRODUCTION_Product_Name, eit.Equipment_Info_Name as PRODUCTION_Equipment_Name,
-			pit.Product_Info_STND_1 as PRODUCTION_Info_STND_1, dt.Child_TBL_Type as PRODUCTION_Item_CLSFC_NAME_1, dt2.Child_TBL_Type as PRODUCTION_Item_CLSFC_NAME_2,
-			dt4.Child_TBL_Type as PRODUCTION_Material, sum(WorkOrder_ProductionQty) PRODUCTION_Qty, WorkOrder_StartTime as PRODUCTION_Start_Date, WorkOrder_CompleteTime as PRODUCTION_Date
-			, time_format(SEC_TO_TIME(TIMESTAMPDIFF(second,WorkOrder_StartTime,WorkOrder_CompleteTime)),'%H시간 %i분') as PRODUCTION_Total_Work_Time
-		FROM WorkOrder_tbl wot
-		INNER JOIN Product_Info_tbl pit ON wot.WorkOrder_ItemCode = pit.Product_Item_Code 
-		INNER JOIN Equipment_Info_tbl eit ON wot.WorkOrder_EquipCode = eit.Equipment_Info_Code
+		SELECT clt.CL_LotNo, clt.CL_ItemCode, pit.Product_Item_Name CL_ItemName, pit.Product_Info_STND_1 CL_STND_1, dt.Child_TBL_Type CL_Item_Clsfc_Name_1, 
+			dt2.Child_TBL_Type CL_Item_Clsfc_Name_2, dt3.Child_TBL_Type CL_Item_Material, eit.Equipment_Info_Name CL_EquipName, clt.CL_CrateCode, clt.CL_MachineCode, sum(clt.CL_Qty) CL_Qty, date(clt.CL_Create_Date) CL_Create_Date 
+		FROM Crate_Lot_tbl clt
+		INNER JOIN Product_Info_tbl pit ON clt.CL_ItemCode = pit.Product_Item_Code 
+		INNER JOIN Equipment_Info_tbl eit ON clt.CL_MachineCode = eit.Equipment_Info_Code
 		INNER JOIN DTL_TBL dt ON pit.PRODUCT_ITEM_CLSFC_1 = dt.CHILD_TBL_NO
 		INNER JOIN DTL_TBL dt2 ON pit.PRODUCT_ITEM_CLSFC_2 = dt2.CHILD_TBL_NO
 		INNER JOIN DTL_TBL dt3 ON eit.Equipment_Type = dt3.Child_TBL_No
 		INNER JOIN DTL_TBL dt4 ON pit.Product_Material = dt4.Child_TBL_No
 		<![CDATA[
-		WHERE WorkOrder_CompleteTime >= #{startDate} AND WorkOrder_CompleteTime < #{endDate} 
+		WHERE clt.CL_Create_Date >= #{startDate} AND clt.CL_Create_Date < #{endDate} 
 		]]>
-			AND WorkOrder_EquipCode LIKE CONCAT('%',#{MachineCode},'%') AND eit.Equipment_Info_Name LIKE CONCAT('%',#{MachineName},'%')
+			AND eit.Equipment_Info_Code LIKE CONCAT('%',#{MachineCode},'%')
 			AND dt3.Child_TBL_No = '324'
-		GROUP BY WorkOrder_ONo WITH ROLLUP
+		GROUP BY clt.CL_LotNo WITH ROLLUP
 	</select>
 	
 	<select id="proPackingSumDao" resultType="com.busience.production.dto.ProductionMgmtDto">
-		SELECT WorkOrder_No as PRODUCTION_WorkOrder_No, WorkOrder_ONo as PRODUCTION_WorkOrder_ONo, WorkOrder_ItemCode as PRODUCTION_Product_Code, 
-		    WorkOrder_EquipCode as PRODUCTION_Equipment_Code, pit.Product_Item_Name as PRODUCTION_Product_Name, eit.Equipment_Info_Name as PRODUCTION_Equipment_Name,
-			pit.Product_Info_STND_1 as PRODUCTION_Info_STND_1, dt.Child_TBL_Type as PRODUCTION_Item_CLSFC_NAME_1, dt2.Child_TBL_Type as PRODUCTION_Item_CLSFC_NAME_2,
-			dt4.Child_TBL_Type as PRODUCTION_Material, sum(WorkOrder_ProductionQty) PRODUCTION_Qty, WorkOrder_StartTime as PRODUCTION_Start_Date, WorkOrder_CompleteTime as PRODUCTION_Date
-			, time_format(SEC_TO_TIME(TIMESTAMPDIFF(second,WorkOrder_StartTime,WorkOrder_CompleteTime)),'%H시간 %i분') as PRODUCTION_Total_Work_Time
-		FROM WorkOrder_tbl wot
-		INNER JOIN Product_Info_tbl pit ON wot.WorkOrder_ItemCode = pit.Product_Item_Code 
-		INNER JOIN Equipment_Info_tbl eit ON wot.WorkOrder_EquipCode = eit.Equipment_Info_Code
+		SELECT clt.CL_LotNo, clt.CL_ItemCode, pit.Product_Item_Name CL_ItemName, pit.Product_Info_STND_1 CL_STND_1, dt.Child_TBL_Type CL_Item_Clsfc_Name_1, 
+			dt2.Child_TBL_Type CL_Item_Clsfc_Name_2, dt3.Child_TBL_Type CL_Item_Material, eit.Equipment_Info_Name CL_EquipName, clt.CL_CrateCode, clt.CL_MachineCode, sum(clt.CL_Qty) CL_Qty, date(clt.CL_Create_Date) CL_Create_Date 
+		FROM Crate_Lot_tbl clt
+		INNER JOIN Product_Info_tbl pit ON clt.CL_ItemCode = pit.Product_Item_Code 
+		INNER JOIN Equipment_Info_tbl eit ON clt.CL_MachineCode = eit.Equipment_Info_Code
 		INNER JOIN DTL_TBL dt ON pit.PRODUCT_ITEM_CLSFC_1 = dt.CHILD_TBL_NO
 		INNER JOIN DTL_TBL dt2 ON pit.PRODUCT_ITEM_CLSFC_2 = dt2.CHILD_TBL_NO
 		INNER JOIN DTL_TBL dt3 ON eit.Equipment_Type = dt3.Child_TBL_No
 		INNER JOIN DTL_TBL dt4 ON pit.Product_Material = dt4.Child_TBL_No
 		<![CDATA[
-		WHERE WorkOrder_CompleteTime >= #{startDate} AND WorkOrder_CompleteTime < #{endDate} 
+		WHERE clt.CL_Create_Date >= #{startDate} AND clt.CL_Create_Date < #{endDate} 
 		]]>
-			AND WorkOrder_EquipCode LIKE CONCAT('%',#{MachineCode},'%') AND eit.Equipment_Info_Name LIKE CONCAT('%',#{MachineName},'%')
+			AND eit.Equipment_Info_Code LIKE CONCAT('%',#{MachineCode},'%')
 			AND dt3.Child_TBL_No = '325'
-		GROUP BY WorkOrder_ONo WITH ROLLUP
+		GROUP BY clt.CL_LotNo WITH ROLLUP
 	</select>
 	
 	<select id="lotIssueListDao" resultType="com.busience.production.dto.LotIssueDto">

@@ -13,9 +13,7 @@ function Search() {
 		startDate: $('#startDate').val(),
 		endDate: $('#endDate').val(),
 		itemCode: $('#itemCode').val(),
-		itemName: $('#itemName').val(),
-		machineCode: $('#machineCode').val(),
-		machineName: $('#machineName').val()
+		machineCode: $('#machineCode').val()
 	}
 	proResultTable.setData('proResultRest/proResultSelect', jsonData)
 }
@@ -126,12 +124,8 @@ var PR_InputEditor = function(cell, onRendered, success, cancel, editorParams) {
 var cellPos = null;
 
 var proResultTable = new Tabulator("#proResultTable", {
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
 	layoutColumnsOnNewData: true,
 	clipboard: true,
-	selectable: true,
 	height: "calc(100% - 175px)",
 	cellEdited: function(cell) {
 		//셀위치 저장하여 포커싱부여
@@ -155,13 +149,16 @@ var proResultTable = new Tabulator("#proResultTable", {
 	},
 	columns: [ //Define Table Columns
 		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center" },
-		{ title: "작업지시번호", field: "production_WorkOrder_ONo", headerHozAlign: "center" },
-		{ title: "제품 코드", field: "production_Product_Code", headerHozAlign: "center"},
-		{ title: "제품명", field: "production_Product_Name", headerHozAlign: "center" },
-		{ title: "생산 수량", field: "production_Qty", headerHozAlign: "center", hozAlign: "right", editor: PR_InputEditor },
-		{ title: "설비 코드", field: "production_Equipment_Code", headerHozAlign: "center"},
-		{ title: "설비 명", field: "production_Equipment_Name", headerHozAlign: "center" },
-		{ title: "시간", field: "production_Date", headerHozAlign: "center" }
+		{ title: "제품 코드", field: "cl_ItemCode", headerHozAlign: "center"},
+		{ title: "제품명", field: "cl_ItemName", headerHozAlign: "center" },
+		{ title: "규격1", field: "cl_STND_1", headerHozAlign: "center"},
+		{ title: "품목 분류1", field: "cl_Item_Clsfc_Name_1", headerHozAlign: "center" },
+		{ title: "품목 분류2", field: "cl_Item_Clsfc_Name_2", headerHozAlign: "center" },
+		{ title: "재질", field: "cl_Item_Material", headerHozAlign: "center" },
+		{ title: "생산 수량", field: "cl_Qty", headerHozAlign: "center", hozAlign: "right" },
+		{ title: "설비 코드", field: "cl_MachineCode", headerHozAlign: "center"},
+		{ title: "설비 명", field: "cl_EquipName", headerHozAlign: "center" },
+		{ title: "시간", field: "cl_Create_Date", headerHozAlign: "center" }
 	]
 });
 
@@ -172,34 +169,4 @@ function item_gridInit(PCode, PName) {
 		"production_Product_Name": PName
 	})
 	cellPos.getElement().focus();
-}
-
-$('#SaveBtn').click(function() {
-	if (confirm("선택한 행을 수정하시겠습니까?")) {
-		save();
-	}
-})
-
-function save() {
-	selectedData = proResultTable.getData("selected");
-
-	$.ajax({
-		method: "put",
-		url: "proResultRest/proResultUpdate",
-		data: JSON.stringify(selectedData),
-		contentType: 'application/json',
-		beforeSend: function(xhr) {
-			var header = $("meta[name='_csrf_header']").attr("content");
-			var token = $("meta[name='_csrf']").attr("content");
-			xhr.setRequestHeader(header, token);
-		},
-		success: function(data) {
-			if (data) {
-				Search()
-				alert("수정되었습니다.")
-			} else {
-				alert("작업지시번호를 잘못 입력하셨습니다.")
-			}
-		}
-	})
 }

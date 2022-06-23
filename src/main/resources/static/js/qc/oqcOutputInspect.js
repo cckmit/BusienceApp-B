@@ -318,7 +318,7 @@ function SOI_Save() {
 		success: function(result) {
 			console.log(result);
 			if (result) {
-				alert("저장되었씁니다.");
+				alert("저장되었습니다.");
 				formClearFunc();
 				SOIL_Search();
 			} else {

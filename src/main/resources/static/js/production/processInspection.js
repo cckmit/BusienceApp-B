@@ -243,7 +243,7 @@ function PI_Save() {
 			success: function(result) {
 				if (result) {
 					$(function() {
-						alert("저장되었씁니다.");
+						alert("저장되었습니다.");
 						$(this).off();
 					})
 					formClearFunc();

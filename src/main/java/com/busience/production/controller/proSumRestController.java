@@ -20,6 +20,7 @@ import com.busience.common.dto.SearchDto;
 import com.busience.production.dto.PRODUCTION_INFO_TBL;
 import com.busience.production.dto.ProductionMgmtDto;
 import com.busience.production.service.ProductionMgmtService;
+import com.busience.tablet.dto.CrateLotDto;
 
 @RestController("proSumRestController")
 @RequestMapping("proSumRest")
@@ -36,25 +37,25 @@ public class proSumRestController {
 	
 	// 생산 실적 관리(설비별)
 	@GetMapping("/proMachineSumSelect2")
-	public List<ProductionMgmtDto> proMachineSumSelect(SearchDto searchDto) {
+	public List<CrateLotDto> proMachineSumSelect(SearchDto searchDto) {
 		return productionMgmtService.proMachineSumList(searchDto);
 	}
 
 	// 생산 실적 관리(제품별)
 	@GetMapping("/proItemSumSelect2")
-	public List<ProductionMgmtDto> proItemSumSelect(SearchDto searchDto) {
+	public List<CrateLotDto> proItemSumSelect(SearchDto searchDto) {
 		return productionMgmtService.proItemSumList(searchDto);
 	}
 	
 	// 마스크 실적 현황
 	@GetMapping("/proMaskSumSelect")
-	public List<ProductionMgmtDto> proMaskSumSelect(SearchDto searchDto) {
+	public List<CrateLotDto> proMaskSumSelect(SearchDto searchDto) {
 		return productionMgmtService.proMaskSumDao(searchDto);
 	}
 	
 	// 생산 포장 현황
 	@GetMapping("/proPackingSumSelect")
-	public List<ProductionMgmtDto> proPackingSumSelect(SearchDto searchDto) {
+	public List<CrateLotDto> proPackingSumSelect(SearchDto searchDto) {
 		return productionMgmtService.proPackingDao(searchDto);
 	}
 

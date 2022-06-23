@@ -26,25 +26,23 @@ public class ProductionMgmtService {
 	RawMaterialDao rawMaterialDao;
 	
 	// 생산 실적 관리(제품별)
-	public List<ProductionMgmtDto> proItemSumList(SearchDto searchDto) {
+	public List<CrateLotDto> proItemSumList(SearchDto searchDto) {
 		
 		System.out.println(searchDto);
-		List<ProductionMgmtDto> proItemSumList = productionMgmtDao.proItemSumDao(searchDto);
+		List<CrateLotDto> proItemSumList = productionMgmtDao.proItemSumDao(searchDto);
 		
-		for(ProductionMgmtDto dto : proItemSumList) {
-			if(dto.getPRODUCTION_WorkOrder_ONo() == null || dto.getPRODUCTION_WorkOrder_ONo() == "") {
-				dto.setPRODUCTION_WorkOrder_ONo("Grand Total");
-			    dto.setPRODUCTION_Product_Code("");
-			    dto.setPRODUCTION_Product_Name("");
-			    dto.setPRODUCTION_Equipment_Code("");
-			    dto.setPRODUCTION_Equipment_Name("");
-			    dto.setPRODUCTION_Info_STND_1("");
-			    dto.setPRODUCTION_Item_CLSFC_NAME_1("");
-			    dto.setPRODUCTION_Item_CLSFC_NAME_2("");
-			    dto.setPRODUCTION_Material("");
-			    dto.setPRODUCTION_Start_Date("");
-				dto.setPRODUCTION_Date("");
-				dto.setPRODUCTION_Total_Work_Time("");
+		for(CrateLotDto dto : proItemSumList) {
+			if(dto.getCL_LotNo() == null || dto.getCL_LotNo() == "") {
+				dto.setCL_LotNo("Grand Total");
+				dto.setCL_ItemCode("");
+				dto.setCL_ItemName("");
+				dto.setCL_MachineCode("");
+				dto.setCL_EquipName("");
+				dto.setCL_STND_1("");
+				dto.setCL_Item_Clsfc_Name_1("");
+				dto.setCL_Item_Clsfc_Name_2("");
+				dto.setCL_Item_Material("");
+				dto.setCL_Create_Date("");
 			}
 		} 
 		
@@ -52,25 +50,23 @@ public class ProductionMgmtService {
 	}
 	
 	// 생산 실적 관리(설비별)
-	public List<ProductionMgmtDto> proMachineSumList(SearchDto searchDto) {
+	public List<CrateLotDto> proMachineSumList(SearchDto searchDto) {
 		
 		System.out.println(searchDto);
-		List<ProductionMgmtDto> proMachineSumList = productionMgmtDao.proMachineSumDao(searchDto);
+		List<CrateLotDto> proMachineSumList = productionMgmtDao.proMachineSumDao(searchDto);
 		
-		for(ProductionMgmtDto dto : proMachineSumList) {
-			if(dto.getPRODUCTION_WorkOrder_ONo() == null || dto.getPRODUCTION_WorkOrder_ONo() == "") {
-				dto.setPRODUCTION_WorkOrder_ONo("Grand Total");
-			    dto.setPRODUCTION_Product_Code("");
-			    dto.setPRODUCTION_Product_Name("");
-			    dto.setPRODUCTION_Equipment_Code("");
-			    dto.setPRODUCTION_Equipment_Name("");
-			    dto.setPRODUCTION_Info_STND_1("");
-			    dto.setPRODUCTION_Item_CLSFC_NAME_1("");
-			    dto.setPRODUCTION_Item_CLSFC_NAME_2("");
-			    dto.setPRODUCTION_Material("");
-			    dto.setPRODUCTION_Start_Date("");
-				dto.setPRODUCTION_Date("");
-				dto.setPRODUCTION_Total_Work_Time("");
+		for(CrateLotDto dto : proMachineSumList) {
+			if(dto.getCL_LotNo() == null || dto.getCL_LotNo() == "") {
+				dto.setCL_LotNo("Grand Total");
+				dto.setCL_ItemCode("");
+				dto.setCL_ItemName("");
+				dto.setCL_MachineCode("");
+				dto.setCL_EquipName("");
+				dto.setCL_STND_1("");
+				dto.setCL_Item_Clsfc_Name_1("");
+				dto.setCL_Item_Clsfc_Name_2("");
+				dto.setCL_Item_Material("");
+				dto.setCL_Create_Date("");
 			}
 		} 
 		
@@ -96,66 +92,63 @@ public class ProductionMgmtService {
 	}
 
 	//기계별
-	public List<ProductionMgmtDto> proMachineList(SearchDto searchDto) {
-		List<ProductionMgmtDto> resultList = productionMgmtDao.proMachineListDao(searchDto);
+	public List<CrateLotDto> proMachineList(SearchDto searchDto) {
+		List<CrateLotDto> resultList = productionMgmtDao.proMachineListDao(searchDto);
 
-		for(ProductionMgmtDto dto : resultList) {
-			if(dto.getPRODUCTION_WorkOrder_No() == 0) {
-				if(dto.getPRODUCTION_Equipment_Code() == null) {
-					dto.setPRODUCTION_WorkOrder_ONo("Grand Total");
-				}else {
-					dto.setPRODUCTION_WorkOrder_ONo("Sub Total");
+		for(CrateLotDto dto : resultList) {
+			
+			if(dto.getCL_LotNo() == null) {
+				if(dto.getCL_MachineCode() == null) {
+					dto.setCL_LotNo("Grand_Total");
+				} else {
+					dto.setCL_LotNo("Sub_Total");
 				}
-				dto.setPRODUCTION_Product_Code(null);
-				dto.setPRODUCTION_Product_Name(null);
+				dto.setCL_ItemCode("");
+				dto.setCL_ItemName("");
 			}
 		}
 		return resultList;
 	}
 	
 	//마스크 실적 현황
-	public List<ProductionMgmtDto> proMaskSumDao(SearchDto searchDto) {
+	public List<CrateLotDto> proMaskSumDao(SearchDto searchDto) {
 		
-		List<ProductionMgmtDto> proMaskSumList = productionMgmtDao.proMaskSumDao(searchDto);
+		List<CrateLotDto> proMaskSumList = productionMgmtDao.proMaskSumDao(searchDto);
 		
-		for(ProductionMgmtDto dto : proMaskSumList) {
-			if(dto.getPRODUCTION_WorkOrder_ONo() == null || dto.getPRODUCTION_WorkOrder_ONo() == "") {
-				dto.setPRODUCTION_WorkOrder_ONo("Grand Total");
-				dto.setPRODUCTION_Product_Code("");
-				dto.setPRODUCTION_Product_Name("");
-				dto.setPRODUCTION_Equipment_Code("");
-				dto.setPRODUCTION_Equipment_Name("");
-				dto.setPRODUCTION_Info_STND_1("");
-				dto.setPRODUCTION_Item_CLSFC_NAME_1("");
-				dto.setPRODUCTION_Item_CLSFC_NAME_2("");
-				dto.setPRODUCTION_Material("");
-				dto.setPRODUCTION_Start_Date("");
-				dto.setPRODUCTION_Date("");
-				dto.setPRODUCTION_Total_Work_Time("");
+		for(CrateLotDto dto : proMaskSumList) {
+			if(dto.getCL_LotNo() == null || dto.getCL_LotNo() == "") {
+				dto.setCL_LotNo("Grand Total");
+				dto.setCL_ItemCode("");
+				dto.setCL_ItemName("");
+				dto.setCL_MachineCode("");
+				dto.setCL_EquipName("");
+				dto.setCL_STND_1("");
+				dto.setCL_Item_Clsfc_Name_1("");
+				dto.setCL_Item_Clsfc_Name_2("");
+				dto.setCL_Item_Material("");
+				dto.setCL_Create_Date("");
 			}
 		}
 		return proMaskSumList;
 	}
 	
 	//생산 포장 현황
-	public List<ProductionMgmtDto> proPackingDao(SearchDto searchDto) {
+	public List<CrateLotDto> proPackingDao(SearchDto searchDto) {
 		
-		List<ProductionMgmtDto> proPacingSumList = productionMgmtDao.proPackingSumDao(searchDto);
+		List<CrateLotDto> proPacingSumList = productionMgmtDao.proPackingSumDao(searchDto);
 		
-		for(ProductionMgmtDto dto : proPacingSumList) {
-			if(dto.getPRODUCTION_WorkOrder_ONo() == null || dto.getPRODUCTION_WorkOrder_ONo() == "") {
-				dto.setPRODUCTION_WorkOrder_ONo("Grand Total");
-				dto.setPRODUCTION_Product_Code("");
-				dto.setPRODUCTION_Product_Name("");
-				dto.setPRODUCTION_Equipment_Code("");
-				dto.setPRODUCTION_Equipment_Name("");
-				dto.setPRODUCTION_Info_STND_1("");
-				dto.setPRODUCTION_Item_CLSFC_NAME_1("");
-				dto.setPRODUCTION_Item_CLSFC_NAME_2("");
-				dto.setPRODUCTION_Material("");
-				dto.setPRODUCTION_Start_Date("");
-				dto.setPRODUCTION_Date("");
-				dto.setPRODUCTION_Total_Work_Time("");
+		for(CrateLotDto dto : proPacingSumList) {
+			if(dto.getCL_LotNo() == null || dto.getCL_LotNo() == "") {
+				dto.setCL_LotNo("Grand Total");
+				dto.setCL_ItemCode("");
+				dto.setCL_ItemName("");
+				dto.setCL_MachineCode("");
+				dto.setCL_EquipName("");
+				dto.setCL_STND_1("");
+				dto.setCL_Item_Clsfc_Name_1("");
+				dto.setCL_Item_Clsfc_Name_2("");
+				dto.setCL_Item_Material("");
+				dto.setCL_Create_Date("");
 			}
 		}
 		return proPacingSumList;

@@ -6,7 +6,6 @@
 			<!-- 버튼 -->
 			<div class="input-button">
 				<img id="SearchBtn" src="images/button/Search.png" />
-				<img id="SaveBtn" src="images/button/Save.png" />
 				<img src="/images/button/Excel.png" onclick="excel_download(proResultTable)"/>
 			</div>
 			<!-- 버튼 -->
