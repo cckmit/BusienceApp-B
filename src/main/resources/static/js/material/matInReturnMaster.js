@@ -64,10 +64,6 @@ var MIRI_InputEditor = function(cell, onRendered, success, cancel, editorParams)
 };
 
 var matInReturnInsertTable = new Tabulator("#matInReturnInsertTable", {
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
-	paginationAddRow: "table",
 	layoutColumnsOnNewData: true,
 	height: "calc(100% - 175px)",
 	rowDblClick: function(e, row) {
@@ -158,10 +154,6 @@ function MIRI_Save() {
 }
 
 var matInReturnSearchTable = new Tabulator("#matInReturnSearchTable", {
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
-	paginationAddRow: "table",
 	height: "calc(100% - 175px)",
 	layoutColumnsOnNewData: true,
 	rowDblClick: function(e, row) {

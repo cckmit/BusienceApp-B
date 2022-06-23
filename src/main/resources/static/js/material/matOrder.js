@@ -111,10 +111,6 @@ var MO_EditCheck = function(cell) {
 }
 
 var matOrderTable = new Tabulator("#matOrderTable", {
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
-	paginationAddRow: "table",
 	layoutColumnsOnNewData: true,
 	headerFilterPlaceholder: null,
 	height: "calc(100% - 175px)",

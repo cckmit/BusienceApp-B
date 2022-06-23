@@ -1,8 +1,4 @@
 var matRequestTable = new Tabulator("#matRequestTable", {
-	//페이징
-	pagination:"local",
-	paginationSize:20,
-	paginationAddRow : "table",
     height:"calc(100% - 175px)",
 	headerFilterPlaceholder: null,
 	layoutColumnsOnNewData : true,

@@ -1,7 +1,4 @@
 var matStockItemListTable = new Tabulator("#matStockItemListTable", { 
-	//페이징
-	pagination:"local",
-	paginationSize:20,
 	headerFilterPlaceholder: null,
 	height:"calc(100% - 175px)",
  	columns:[ //Define Table Columns
@@ -26,9 +23,6 @@ function MS_ItemListViewSearchBtn() {
 }
 
 var matStockLotListTable = new Tabulator("#matStockLotListTable", { 
-	//페이징
-	pagination:"local",
-	paginationSize:20,
 	headerFilterPlaceholder: null,
 	height:"calc(100% - 175px)",
  	columns:[ //Define Table Columns

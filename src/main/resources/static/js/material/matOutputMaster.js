@@ -1,7 +1,4 @@
 var matOutputListTable = new Tabulator("#matOutputListTable", { 
-	//페이징
-	pagination:"local",
-	paginationSize:20,
 	headerFilterPlaceholder: null,
 	layoutColumnsOnNewData : true,
 	selectable: true,
@@ -51,9 +48,6 @@ $("#MOL_PrintBtn").click(function(){
 })
 
 var matOutputItemViewTable = new Tabulator("#matOutputItemViewTable", { 
-	//페이징
-	pagination:"local",
-	paginationSize:20,
 	layoutColumnsOnNewData : true,
     //Sub Total 색상
 	rowFormatter: function(row){
@@ -95,9 +89,6 @@ function MOIL_Search(){
 }
 
 var matOutputDeptViewTable = new Tabulator("#matOutputDeptViewTable", { 
-	//페이징
-	pagination:"local",
-	paginationSize:20,
 	layoutColumnsOnNewData : true,
     //Sub Total 색상
 	rowFormatter: function(row){
@@ -139,9 +130,6 @@ function MODL_Search(){
 }
 
 var matOutputDeliveryListTable = new Tabulator("#matOutputDeliveryListTable", { 
-	//페이징
-	pagination:"local",
-	paginationSize:20,
 	layoutColumnsOnNewData : true,
 	height:"calc(100% - 175px)",
 	//행클릭 이벤트
@@ -178,9 +166,6 @@ function MODM_Search() {
 }
 
 var matOutputDeliveryItemTable = new Tabulator("#matOutputDeliveryItemTable", { 
-	//페이징
-	pagination:"local",
-	paginationSize:20,
 	layoutColumnsOnNewData : true,
 	height:"calc(100% - 175px)",
  	columns:[
