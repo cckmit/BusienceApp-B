@@ -32,46 +32,45 @@ public class proListRestController {
 
 	@Autowired
 	JdbcTemplate jdbctemplate;
-	
+
 	@Autowired
-	ProductionMgmtService productionMgmtService; 
+	ProductionMgmtService productionMgmtService;
 
 	@GetMapping("/proItemTestSelect")
 	public List<ProductionMgmtDto> proItemTestSelect(SearchDto searchDto) {
-		//코드가 비어있으면 이름으로 대체
-		if(searchDto.getItemCode().length() == 0) {
+		// 코드가 비어있으면 이름으로 대체
+		if (searchDto.getItemCode().length() == 0) {
 			searchDto.setItemCode(searchDto.getItemName());
 		}
 		return productionMgmtService.proItemList(searchDto);
 	}
-	
+
 	@GetMapping("/proMachineTestSelect")
-	public List<ProductionMgmtDto> proMachineTestSelect(SearchDto searchDto) {
-		//코드가 비어있으면 이름으로 대체
-		if(searchDto.getMachineCode().length() == 0) {
+	public List<CrateLotDto> proMachineTestSelect(SearchDto searchDto) { // 코드가 비어있으면 이름으로 대체
+		if (searchDto.getMachineCode().length() == 0) {
 			searchDto.setMachineCode(searchDto.getMachineName());
 		}
 		return productionMgmtService.proMachineList(searchDto);
 	}
-	
+
 	// Lot 발행 조회
 	@GetMapping("/LotIssueList")
 	public List<ProductionMgmtDto> lotIssueListDao(SearchDto searchDto) {
 		return productionMgmtService.lotIssueListDao(searchDto);
 	}
-	
+
 	// Lot 이력 조회
 	@GetMapping("/crateLotList")
 	public List<CrateLotDto> crateLotListMasterDao(SearchDto searchDto) {
 		return productionMgmtService.crateLotListMasterDao(searchDto);
 	}
-	
+
 	// Lot 이력 조회
 	@GetMapping("/rawLotList")
 	public List<RawMaterialDto> rawMaterialListMasterDao(SearchDto searchDto) {
 		return productionMgmtService.rawMaterialListMasterDao(searchDto);
 	}
-	
+
 	// proItemListSelect2
 	@RequestMapping(value = "/proItemListSelect3", method = RequestMethod.GET)
 	public List<PRODUCTION_INFO_TBL> proItemListSelect3(HttpServletRequest request)
@@ -174,24 +173,18 @@ public class proListRestController {
 			@Override
 			public PRODUCTION_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
 				PRODUCTION_INFO_TBL data = new PRODUCTION_INFO_TBL();
-				
-				
-				if (rs.getString("PRODUCTION_EQUIPMENT_CODE") == null && rs.getString("PRODUCTION_INFO_NUM") == null)
-				{
+
+				if (rs.getString("PRODUCTION_EQUIPMENT_CODE") == null && rs.getString("PRODUCTION_INFO_NUM") == null) {
 					data.setPRODUCTION_WorkOrder_ONo("Grand Total");
 					data.setPRODUCTION_P_Qty(rs.getInt("PRODUCTION_VOLUME_S"));
 					data.setPRODUCTION_PRODUCT_CODE("");
 					data.setPRODUCT_ITEM_NAME("");
-				}
-				else if (rs.getString("PRODUCTION_INFO_NUM") == null)
-				{
+				} else if (rs.getString("PRODUCTION_INFO_NUM") == null) {
 					data.setPRODUCTION_WorkOrder_ONo("Sub Total");
 					data.setPRODUCTION_P_Qty(rs.getInt("PRODUCTION_VOLUME_S"));
 					data.setPRODUCTION_PRODUCT_CODE("");
 					data.setPRODUCT_ITEM_NAME("");
-				}
-				else
-				{
+				} else {
 					data.setPRODUCTION_WorkOrder_ONo(rs.getString("PRODUCTION_SERIAL_NUM"));
 
 					data.setPRODUCTION_EQUIPMENT_CODE(rs.getString("PRODUCTION_EQUIPMENT_CODE"));

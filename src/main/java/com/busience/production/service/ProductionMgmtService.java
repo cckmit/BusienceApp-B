@@ -116,7 +116,7 @@ public class ProductionMgmtService {
 		List<CrateLotDto> proMaskSumList = productionMgmtDao.proMaskSumDao(searchDto);
 		
 		for(CrateLotDto dto : proMaskSumList) {
-			if(dto.getCL_LotNo() == null || dto.getCL_LotNo() == "") {
+			if(dto.getCL_LotNo() == null) {
 				dto.setCL_LotNo("Grand Total");
 				dto.setCL_ItemCode("");
 				dto.setCL_ItemName("");

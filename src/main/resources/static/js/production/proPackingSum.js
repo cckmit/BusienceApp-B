@@ -60,7 +60,7 @@ var proPackingTable = new Tabulator("#proPackingTable", {
  	columns:[ //Define Table Columns
 		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center" },
 		{ title: "LotNo", field: "cl_LotNo", headerHozAlign: "center"},
-		{ title: "설비 코드", field: "cl_MachineCode", headerHozAlign: "center"},
+		{ title: "설비 코드", field: "cl_MachineCode2", headerHozAlign: "center"},
 		{ title: "설비 명", field: "cl_EquipName", headerHozAlign: "center" },
 		{ title: "제품 코드", field: "cl_ItemCode", headerHozAlign: "center"},
 		{ title: "제품명", field: "cl_ItemName", headerHozAlign: "center" },
