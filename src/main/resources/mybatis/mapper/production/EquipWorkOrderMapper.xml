@@ -4,8 +4,8 @@
 	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	 
-<mapper namespace="com.busience.production.dao.WorkOrderDao">
-	<select id="packagingLineListSelectDao" resultType="com.busience.production.dto.WorkOrderDto">
+<mapper namespace="com.busience.production.dao.EquipWorkOrderDao">
+	<select id="packagingLineListSelectDao" resultType="com.busience.production.dto.EquipWorkOrderDto">
 		SELECT 
 			A.WorkOrder_ItemCode, C.Product_Item_Name WorkOrder_ItemName, A.WorkOrder_EquipCode,
    			B.Equipment_Info_Name WorkOrder_EquipName, B.Equipment_Type
