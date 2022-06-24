@@ -16,7 +16,7 @@ function Search() {
 		MachineName : $('#EQUIPMENT_INFO_NAME').val()
 	}
 
-	proPackingTable.setData('proSumRest/proPackingSumSelect', jsonData);
+	proPackingTable.setData('smallPackagingRest/smallPackagingList', jsonData);
 	
 	console.log(proPackingTable);
 }
@@ -59,16 +59,18 @@ var proPackingTable = new Tabulator("#proPackingTable", {
 	height:"calc(100% - 175px)",
  	columns:[ //Define Table Columns
 		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center" },
-		{ title: "LotNo", field: "cl_LotNo", headerHozAlign: "center"},
-		{ title: "설비 코드", field: "cl_MachineCode2", headerHozAlign: "center"},
-		{ title: "설비 명", field: "cl_EquipName", headerHozAlign: "center" },
-		{ title: "제품 코드", field: "cl_ItemCode", headerHozAlign: "center"},
-		{ title: "제품명", field: "cl_ItemName", headerHozAlign: "center" },
-		{ title: "규격1", field: "cl_STND_1", headerHozAlign: "center"},
-		{ title: "품목 분류1", field: "cl_Item_Clsfc_Name_1", headerHozAlign: "center" },
-		{ title: "품목 분류2", field: "cl_Item_Clsfc_Name_2", headerHozAlign: "center" },
-		{ title: "재질", field: "cl_Item_Material", headerHozAlign: "center" },
-		{ title: "생산 수량", field: "cl_Qty", headerHozAlign: "center", hozAlign: "right" },
-		{ title: "시간", field: "cl_Create_Date", headerHozAlign: "center" }
+		{ title: "LotNo", field: "small_Packaging_LotNo", headerHozAlign: "center"},
+		{ title: "설비 코드", field: "machineCode", headerHozAlign: "center"},
+		{ title: "설비 명", field: "machineName", headerHozAlign: "center" },
+		{ title: "제품 코드", field: "itemCode", headerHozAlign: "center"},
+		{ title: "제품명", field: "itemName", headerHozAlign: "center" },
+		{ title: "규격1", field: "itemSTND1", headerHozAlign: "center"},
+		{ title: "규격2", field: "itemSTND2", headerHozAlign: "center"},
+		{ title: "품목 분류1", field: "itemClsfc1", headerHozAlign: "center" },
+		{ title: "품목 분류2", field: "itemClsfc2", headerHozAlign: "center" },
+		{ title: "재질", field: "itemMaterial", headerHozAlign: "center" },
+		{ title: "생산 수량", field: "qty", headerHozAlign: "center", hozAlign: "right" },
+		{ title: "시간", field: "create_Date", headerHozAlign: "center", formatter:"datetime", formatterParams:{
+    		outputFormat:"YYYY-MM-DD HH:mm" } }
  	],
 });
