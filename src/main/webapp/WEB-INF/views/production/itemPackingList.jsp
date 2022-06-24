@@ -32,4 +32,4 @@
 	<!-- END MAIN -->
 	
 </div>
-<script src="/js/production/itemPackingList.js"></script>
+<script src="/js/production/itemPackingList.js?v=<%=System.currentTimeMillis() %>"></script>

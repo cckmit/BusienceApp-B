@@ -32,4 +32,4 @@
 	<!-- END MAIN -->
 	
 </div>
-<script src="/js/production/lotListMaster.js"></script>
+<script src="/js/production/lotListMaster.js?v=<%=System.currentTimeMillis() %>"></script>

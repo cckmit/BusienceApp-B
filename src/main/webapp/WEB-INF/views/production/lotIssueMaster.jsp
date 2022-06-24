@@ -38,4 +38,4 @@
 	<!-- END MAIN -->
 </div>
 <!-- Javascript -->
-<script src="/js/production/lotIssueMaster.js"></script>
+<script src="/js/production/lotIssueMaster.js?v=<%=System.currentTimeMillis() %>"></script>

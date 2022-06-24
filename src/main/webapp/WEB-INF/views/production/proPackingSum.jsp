@@ -25,4 +25,4 @@
 	<!-- END MAIN -->
 </div>
 <!-- Javascript -->
-<script src="/js/production/proPackingSum.js"></script>
+<script src="/js/production/proPackingSum.js?v=<%=System.currentTimeMillis() %>"></script>

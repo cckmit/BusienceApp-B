@@ -25,4 +25,4 @@
 	<!-- END MAIN -->
 	
 </div>
-<script src="/js/production/matInputSum.js"></script>
+<script src="/js/production/matInputSum.js?v=<%=System.currentTimeMillis() %>"></script>
