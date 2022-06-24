@@ -12,12 +12,17 @@ import com.busience.common.dto.SearchDto;
 import com.busience.production.dto.WorkOrderDto;
 import com.busience.qc.dao.DefectInsertDao;
 import com.busience.qc.dto.DefectDto;
+import com.busience.tablet.dao.CrateLotDao;
+import com.busience.tablet.dto.CrateLotDto;
 
 @Service
 public class DefectInsertService {
 	
 	@Autowired
 	DefectInsertDao defectInsertDao;
+	
+	@Autowired
+	CrateLotDao crateLotDao;
 		
 	@Autowired
 	TransactionTemplate transactionTemplate;
@@ -25,6 +30,11 @@ public class DefectInsertService {
 	//완료된 작업지시
 	public List<WorkOrderDto> completeWorkOrder(SearchDto searchDto) {
         return defectInsertDao.completeWorkOrderDao(searchDto);
+	}
+	
+	// 불량 list 조회
+	public List<CrateLotDto> defectListDao(SearchDto searchDto) {
+		return crateLotDao.defectListDao(searchDto);
 	}
 
 	public List<DefectDto> defectList(String workOrder_ONo) {

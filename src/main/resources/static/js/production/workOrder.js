@@ -1,15 +1,6 @@
 //셀위치저장
 var cellPos = new Array();
 
-var editCheck = function(cell) {
-	//cell - the cell component for the editable cell
-
-	//get row data
-	var data = cell.getRow().getData();
-
-	return data.c_Create_Date == undefined; // only allow the name cell to be edited if the age is over 18
-}
-
 let maskEquipTable = new Tabulator("#maskEquipTable", {
 	//페이징
 	height: "calc(100% - 175px)",
@@ -18,6 +9,11 @@ let maskEquipTable = new Tabulator("#maskEquipTable", {
 	rowFormatter: function(row) {
 		if (row.getData().status == '1')
 			row.getElement().style.color = "blue";
+	},
+	rowClick: function(e, row) {
+		packEquipTable.deselectRow();
+		labelEquipTable.deselectRow();
+		row.select();
 	},
 	rowSelected: function(row, cell) {
 		cellPos.push(row.getCell("workOrder_EquipCode"));
@@ -49,6 +45,11 @@ let packEquipTable = new Tabulator("#packEquipTable", {
 		if (row.getData().status == '1')
 			row.getElement().style.color = "blue";
 	},
+	rowClick: function(e, row) {
+		maskEquipTable.deselectRow();
+		labelEquipTable.deselectRow();
+		row.select();
+	},
 	rowSelected: function(row, cell) {
 		cellPos.push(row.getCell("workOrder_EquipCode"));
 	},
@@ -77,6 +78,11 @@ let labelEquipTable = new Tabulator("#labelEquipTable", {
 	rowFormatter: function(row) {
 		if (row.getData().status == '1')
 			row.getElement().style.color = "blue";
+	},
+	rowClick: function(e, row) {
+		packEquipTable.deselectRow();
+		maskEquipTable.deselectRow();
+		row.select();
 	},
 	rowSelected: function(row, cell) {
 		cellPos.push(row.getCell("workOrder_EquipCode"));
@@ -111,6 +117,8 @@ $('#PRODUCT_ITEM_NAME').keypress(function(e) {
 			alert("설비를 선택하세요.");
 			return
 		} else {
+			
+			
 			//내용이 있을경우 검색해서 값이 하나일경우 생략, 아닐경우 팝업창
 			$.ajax({
 				method: "GET",
@@ -184,44 +192,6 @@ function WO_Save() {
 	let packData = packEquipTable.getDataCount();
 	let labelData = labelEquipTable.getDataCount("active");
 	let maskData = maskEquipTable.getDataCount();
-	let labelArray = new Array();
-	let packArray = new Array();
-	let elementArray = new Array();
-	let itemArray = new Array();
-	
-	for (let j = 0; j < labelData; j++) {
-		labelArray.push(labelEquipTable.getData()[j].workOrder_ItemCode);
-	}
-
-	for (let i = 0; i < packData; i++) {
-		packArray.push(packEquipTable.getData()[i].workOrder_ItemCode);
-	}
-	
-	// 1. 포장 설비는 최대 제품 3개까지만 등록 가능
-	packArray.forEach((element) => {
-		if(element != null) {
-			if(!itemArray.includes(element)) {
-				itemArray.push(element);
-			}
-		}
-	});
-	
-	if(itemArray.length > 3) {
-		alert("포장 설비 오류: 제품 종류 3개 이상 등록할 수 없습니다.");
-		return;
-	}
-	
-	// 2. 라벨 프린터 코드 목록에 제품과 포장 설비의 제품이 일치하는지 확인
-	labelArray.forEach((element) => {
-		if (!packArray.includes(element)) {
-			elementArray.push(element);
-		}
-	})
-
-	if (elementArray.length > 0) {
-		alert("라벨 프린터 오류: 포장설비와 같은 제품을 등록하세요.");
-		return;
-	}
 	
 	// 배열에 데이터 담기
 	for (let i = 0; i < maskData; i++) {

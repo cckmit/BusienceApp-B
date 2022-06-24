@@ -13,6 +13,7 @@ import com.busience.common.dto.SearchDto;
 import com.busience.production.dto.WorkOrderDto;
 import com.busience.qc.dto.DefectDto;
 import com.busience.qc.service.DefectInsertService;
+import com.busience.tablet.dto.CrateLotDto;
 
 @RestController
 @RequestMapping("defectInsertRest")
@@ -24,6 +25,12 @@ public class defectInsertRestController {
 	@GetMapping("/DI_Search")
 	public List<WorkOrderDto> DI_Search(SearchDto searchDto){
 		return defectInsertService.completeWorkOrder(searchDto);
+	}
+	
+	// 불량 list 조회
+	@GetMapping("/DefectList")
+	public List<CrateLotDto> defectListDao(SearchDto searchDto) {
+		return defectInsertService.defectListDao(searchDto);
 	}
 	
 	@GetMapping("/DIS_Search")

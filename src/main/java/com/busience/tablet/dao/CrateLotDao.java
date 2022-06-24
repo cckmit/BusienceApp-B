@@ -37,6 +37,9 @@ public interface CrateLotDao {
 	//lot 이력 조회
 	public List<CrateLotDto> crateLotListMasterDao(SearchDto searchDto);
 	
+	//불량 list 조회
+	public List<CrateLotDto> defectListDao(SearchDto searchDto);
+	
 	//저장
 	public int crateLotSaveDao(CrateLotDto crateLotDto);
 	

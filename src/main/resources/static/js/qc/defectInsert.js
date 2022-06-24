@@ -1,26 +1,28 @@
-var WorkOrderTable = new Tabulator("#WorkOrderTable", {
-	//페이징
-	pagination: "local",
-	paginationSize: 20,
+var crateLotTable = new Tabulator("#crateLotTable", {
 	height:"calc(100% - 175px)",
 	layoutColumnsOnNewData : true,
 	rowClick:function(e, row){
 		row.getTable().deselectRow();
 		row.select();
-		DIS_Search(row.getData().workOrder_ONo);
+		DIS_Search(row.getData().cl_LotNo);
 	},
 	columns:[
-		{ title: "작업지시No", field: "workOrder_ONo", headerHozAlign: "center"},
-		{ title: "제품코드", field: "workOrder_ItemCode", headerHozAlign: "center"},
-		{ title: "제품명", field: "workOrder_ItemName", headerHozAlign: "center"},
-		{ title: "규격", field: "workOrder_Item_STND_1", headerHozAlign: "center"},
-		{ title: "설비코드", field: "workOrder_EquipCode", headerHozAlign: "center"},
-		{ title: "설비명", field: "workOrder_EquipName", headerHozAlign: "center"},	
-		{ title: "작업상태", field: "workOrder_WorkStatus_Name", headerHozAlign: "center"},	
-		{ title: "작업완료일", field: "workOrder_CompleteTime", headerHozAlign: "center"},	
-		{ title: "지시수량", field: "workOrder_PQty", headerHozAlign: "center", align:"right"},
-		{ title: "생산수량", field: "workOrder_RQty", headerHozAlign: "center", align:"right"},
-		{ title: "불량수량", field: "workOrder_DQty", headerHozAlign: "center", align:"right"}
+		{ title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
+		{ title: "LotNo", field: "cl_LotNo", headerHozAlign: "center"},
+		{ title: "제품코드", field: "cl_ItemCode", headerHozAlign: "center"},
+		{ title: "제품명", field: "cl_ItemName", headerHozAlign: "center"},
+		{ title: "규격1", field: "cl_STND_1", headerHozAlign: "center"},
+		{ title: "규격2", field: "cl_STND_2", headerHozAlign: "center"},
+		{ title: "품목 분류1", field: "cl_Item_Clsfc_Name_1", headerHozAlign: "center"},
+		{ title: "품목 분류2", field: "cl_Item_Clsfc_Name_2", headerHozAlign: "center"},
+		{ title: "재질", field: "cl_Item_Material", headerHozAlign: "center"},
+		{ title: "설비코드", field: "cl_MachineCode", headerHozAlign: "center"},
+		{ title: "설비명", field: "cl_EquipName", headerHozAlign: "center"},	
+		{ title: "생산수량", field: "cl_Qty", headerHozAlign: "center", align:"right"},
+		{ title: "불량수량", field: "cl_Defect_Qty", headerHozAlign: "center", align:"right"},
+		{ title: "작업종료일", field: "cl_Create_Date", headerHozAlign: "center"
+		, formatter:"datetime", formatterParams:{
+    		outputFormat:"YYYY-MM-DD HH:mm" }}
 	]
 });
 
@@ -29,11 +31,23 @@ $("#DI_SearchBtn").click(function(){
 })
 
 function DI_Search(selectedRow){
+	
+	let status = document.querySelector('#defectStatusList').value;
+	console.log(status);
+	
+	if(status == '251') {
+		status = 2
+	} else if(status == '252') {
+		status = 3
+	}
+	
 	var datas = {
 		startDate : $("#startDate").val(),
-		endDate : $("#endDate").val()
+		endDate : $("#endDate").val(),
+		condition : status
 	}
-	WorkOrderTable.setData("defectInsertRest/DI_Search", datas);
+	crateLotTable.setData("defectInsertRest/DefectList", datas);
+	console.log(crateLotTable);
 }
 
 //defectTable 커스텀 기능설정
@@ -101,6 +115,9 @@ var defectTable = new Tabulator("#defectTable", {
 });
 
 function DIS_Search(value){
+	
+	
+	
 	defectTable.setData("defectInsertRest/DIS_Search", {"workOrder_ONo" : value})
 	.then(function(){
 		defectTable.getRows()[0].getCell("defect_Qty").edit();
@@ -114,18 +131,18 @@ $("#DI_SaveBtn").click(function(){
 function DI_Save(){
 	var rows = defectTable.getRows();
 	var sum = 0;
-	var selectedRow = WorkOrderTable.getRows("selected")[0];
+	var selectedRow = crateLotTable.getRows("selected")[0];
 	for(let i=0;i<rows.length;i++){
 		sum += Number(rows[i].getCell("defect_Qty").getValue());
 	}
-	if(selectedRow.getData().workOrder_RQty < sum){
+	if(selectedRow.getData().cl_Qty < sum){
 		alert("생산수량보다 불량수량이 더 많을 수 없습니다.");
 		return false;
 	}
 	
 	console.log(defectTable.getData());
 	
-    $.ajax({
+ /*   $.ajax({
         method : "post",
         url : "defectInsertRest/DI_Save",
 		data : JSON.stringify(defectTable.getData()),
@@ -140,10 +157,10 @@ function DI_Save(){
 				alert("잘못 입력하였습니다.");
 			} else if (result == 1) {
 				alert("저장되었습니다.");
-				WorkOrderTable.updateRow(selectedRow,{"workOrder_DQty" : sum}); 
+				crateLotTable.updateRow(selectedRow,{"cl_Qty" : sum}); 
 			}
         }
-    })
+    })*/
 }
 
 $(document).ready(function(){

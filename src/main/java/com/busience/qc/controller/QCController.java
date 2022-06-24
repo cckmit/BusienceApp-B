@@ -73,6 +73,7 @@ public class QCController {
 	// defectInsert
 	@GetMapping("defectInsert")
 	public String defectInsert(Model model) {
+		model.addAttribute("defectList", dtlService.getDtl(32));
 		model.addAttribute("pageName", "불량별 관리");
 		return "qc/defectInsert";
 	}

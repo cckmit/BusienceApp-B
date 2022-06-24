@@ -60,4 +60,5 @@ public class SearchDto {
 	private String LotType; 
 	
 	private String SubType;
+
 }
