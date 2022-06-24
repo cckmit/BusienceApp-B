@@ -43,28 +43,26 @@ function toggleFullScreen() {
   }
 }
 
+//소포장발행
 $("#packagingBtn").click(function(){
-	//입고 후 프린트
-})
-
-function packagingInput(){
-	$.when(packagingInputSave())
+	$.when(smallPackagingSave())
 	.then(function(data){
 		smallPackagingPrinter(data);
 	})
-}
+})
 
-function packagingInputSave(){
+function smallPackagingSave(){
 	var ajaxResult = $.ajax({
 		method: "post",
-		url: "maskInputRestController/packagingInputSave",
-		data: {},
+		url: "maskInputRestController/smallPackagingSave",
+		data: {machineCode : $("#machineCode").val()},
 		beforeSend: function(xhr) {
 			var header = $("meta[name='_csrf_header']").attr("content");
 			var token = $("meta[name='_csrf']").attr("content");
 			xhr.setRequestHeader(header, token);
 		},
 		success: function(result) {
+			console.log(result);
 		}
 	});
 	return ajaxResult;

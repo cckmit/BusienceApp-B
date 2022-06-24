@@ -148,13 +148,13 @@ var packagingManageTable = new Tabulator("#packagingManageTable",{
         "navNext" : "13"
     },
 	rowClick:function(e,row){
-		console.log(row.getElement());
+		//console.log(row.getElement());
 	},
 	rowAdded: function(row){
 		if(packagingManageTable.getDataCount("selected")!=0){
 			row.update(packagingManageTable.getData("selected")[0])
 		}else{
-			row.update({packaging_Cus_Status : '240',
+			row.update({packaging_Cus_Status : '241',
 						packaging_Cus_Name : '',
 						packaging_ItemName : '',
 						packaging_Min_Order_Qty : 0,
