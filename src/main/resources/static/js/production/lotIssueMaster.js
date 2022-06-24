@@ -18,7 +18,9 @@ var lotIssueMasterTable = new Tabulator("#lotIssueMasterTable", {
  	{title:"품목분류 2", field:"li_Item_Clsfc_2", headerHozAlign:"center"},
  	{title:"재질", field:"li_Item_Material", headerHozAlign:"center"},
  	{title:"상태", field:"li_Status", headerHozAlign:"center"},
- 	{title:"발행일", field:"li_Create_Date", headerHozAlign:"center"}
+ 	{title:"발행일", field:"li_Create_Date", headerHozAlign:"center"
+ 	, formatter:"datetime", formatterParams:{
+    		outputFormat:"YYYY-MM-DD HH:mm" }}
  	],
 });
 

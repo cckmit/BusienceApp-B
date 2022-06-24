@@ -6,8 +6,8 @@
 	 
 <mapper namespace="com.busience.production.dao.ProductionMgmtDao">
 	<select id="proItemSumDao" resultType="com.busience.tablet.dto.CrateLotDto">
-		SELECT clt.CL_LotNo, clt.CL_ItemCode, pit.Product_Item_Name CL_ItemName, pit.Product_Info_STND_1 CL_STND_1, dt.Child_TBL_Type CL_Item_Clsfc_Name_1, 
-			dt2.Child_TBL_Type CL_Item_Clsfc_Name_2, dt3.Child_TBL_Type CL_Item_Material, eit.Equipment_Info_Name CL_EquipName, clt.CL_CrateCode, clt.CL_MachineCode, sum(clt.CL_Qty) CL_Qty, date(clt.CL_Create_Date) CL_Create_Date 
+		SELECT clt.CL_LotNo, clt.CL_ItemCode, pit.Product_Item_Name CL_ItemName, pit.Product_Info_STND_1 CL_STND_1, pit.Product_Info_STND_2 CL_STND_2,
+			dt.Child_TBL_Type CL_Item_Clsfc_Name_1, dt2.Child_TBL_Type CL_Item_Clsfc_Name_2, dt3.Child_TBL_Type CL_Item_Material, eit.Equipment_Info_Name CL_EquipName, clt.CL_CrateCode, clt.CL_MachineCode, sum(clt.CL_Qty) CL_Qty, CL_Create_Date 
 		FROM Crate_Lot_tbl clt
 		INNER JOIN Product_Info_tbl pit ON clt.CL_ItemCode = pit.Product_Item_Code 
 		INNER JOIN Equipment_Info_tbl eit ON clt.CL_MachineCode = eit.Equipment_Info_Code
@@ -25,8 +25,8 @@
 	</select>
 	
 	<select id="proMachineSumDao" resultType="com.busience.tablet.dto.CrateLotDto">
-		SELECT clt.CL_LotNo, clt.CL_ItemCode, pit.Product_Item_Name CL_ItemName, pit.Product_Info_STND_1 CL_STND_1, dt.Child_TBL_Type CL_Item_Clsfc_Name_1, 
-			dt2.Child_TBL_Type CL_Item_Clsfc_Name_2, dt3.Child_TBL_Type CL_Item_Material, eit.Equipment_Info_Name CL_EquipName, clt.CL_CrateCode, clt.CL_MachineCode, sum(clt.CL_Qty) CL_Qty, date(clt.CL_Create_Date) CL_Create_Date 
+		SELECT clt.CL_LotNo, clt.CL_ItemCode, pit.Product_Item_Name CL_ItemName, pit.Product_Info_STND_1 CL_STND_1, pit.Product_Info_STND_2 CL_STND_2, 
+			dt.Child_TBL_Type CL_Item_Clsfc_Name_1, dt2.Child_TBL_Type CL_Item_Clsfc_Name_2, dt3.Child_TBL_Type CL_Item_Material, eit.Equipment_Info_Name CL_EquipName, clt.CL_CrateCode, clt.CL_MachineCode, sum(clt.CL_Qty) CL_Qty, CL_Create_Date 
 		FROM Crate_Lot_tbl clt
 		INNER JOIN Product_Info_tbl pit ON clt.CL_ItemCode = pit.Product_Item_Code 
 		INNER JOIN Equipment_Info_tbl eit ON clt.CL_MachineCode = eit.Equipment_Info_Code
@@ -92,8 +92,9 @@
 	</select>
 	
 	<select id="proMaskSumDao" resultType="com.busience.tablet.dto.CrateLotDto">
-		SELECT clt.CL_LotNo, clt.CL_ItemCode, pit.Product_Item_Name CL_ItemName, pit.Product_Info_STND_1 CL_STND_1, dt.Child_TBL_Type CL_Item_Clsfc_Name_1, 
-			dt2.Child_TBL_Type CL_Item_Clsfc_Name_2, dt3.Child_TBL_Type CL_Item_Material, eit.Equipment_Info_Name CL_EquipName, clt.CL_CrateCode, clt.CL_MachineCode, sum(clt.CL_Qty) CL_Qty, date(clt.CL_Create_Date) CL_Create_Date 
+		SELECT clt.CL_LotNo, clt.CL_ItemCode, pit.Product_Item_Name CL_ItemName, pit.Product_Info_STND_1 CL_STND_1, pit.Product_Info_STND_2 CL_STND_2,
+			dt.Child_TBL_Type CL_Item_Clsfc_Name_1, 
+			dt2.Child_TBL_Type CL_Item_Clsfc_Name_2, dt3.Child_TBL_Type CL_Item_Material, eit.Equipment_Info_Name CL_EquipName, clt.CL_CrateCode, clt.CL_MachineCode, sum(clt.CL_Qty) CL_Qty, CL_Create_Date 
 		FROM Crate_Lot_tbl clt
 		INNER JOIN Product_Info_tbl pit ON clt.CL_ItemCode = pit.Product_Item_Code 
 		INNER JOIN Equipment_Info_tbl eit ON clt.CL_MachineCode = eit.Equipment_Info_Code
@@ -110,8 +111,8 @@
 	</select>
 	
 	<select id="proPackingSumDao" resultType="com.busience.tablet.dto.CrateLotDto">
-		SELECT clt.CL_LotNo, clt.CL_ItemCode, pit.Product_Item_Name CL_ItemName, pit.Product_Info_STND_1 CL_STND_1, dt.Child_TBL_Type CL_Item_Clsfc_Name_1, 
-			dt2.Child_TBL_Type CL_Item_Clsfc_Name_2, dt3.Child_TBL_Type CL_Item_Material, eit.Equipment_Info_Name CL_EquipName, clt.CL_CrateCode, clt.CL_MachineCode2, sum(clt.CL_Qty) CL_Qty, date(clt.CL_Create_Date) CL_Create_Date 
+		SELECT clt.CL_LotNo, clt.CL_ItemCode, pit.Product_Item_Name CL_ItemName, pit.Product_Info_STND_1 CL_STND_1, pit.Product_Info_STND_2 CL_STND_2,
+			dt.Child_TBL_Type CL_Item_Clsfc_Name_1, dt2.Child_TBL_Type CL_Item_Clsfc_Name_2, dt3.Child_TBL_Type CL_Item_Material, eit.Equipment_Info_Name CL_EquipName, clt.CL_CrateCode, clt.CL_MachineCode2, sum(clt.CL_Qty) CL_Qty, CL_Create_Date 
 		FROM Crate_Lot_tbl clt
 		INNER JOIN Product_Info_tbl pit ON clt.CL_ItemCode = pit.Product_Item_Code 
 		INNER JOIN Equipment_Info_tbl eit ON clt.CL_MachineCode2 = eit.Equipment_Info_Code

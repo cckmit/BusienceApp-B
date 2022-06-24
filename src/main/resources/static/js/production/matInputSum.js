@@ -15,7 +15,9 @@ var largePackTable = new Tabulator("#largePackTable",{
 		{ title: "제품코드", field: "sales_Packing_Code", headerHozAlign: "center"},
 		{ title: "제품명", field: "sales_Packing_Name", headerHozAlign: "center"},
 		{ title: "수량",	field: "sales_Packing_Qty",	headerHozAlign: "center", hozAlign:"right"},
-		{ title: "등록일자", field: "sales_Small_Create_Date", headerHozAlign: "center", headerHozAlign: "center", hozAlign: "center"}
+		{ title: "등록일자", field: "sales_Small_Create_Date", headerHozAlign: "center", headerHozAlign: "center", hozAlign: "center"
+		, formatter:"datetime", formatterParams:{
+    		outputFormat:"YYYY-MM-DD HH:mm" }}
 	]
 });
 
@@ -29,7 +31,9 @@ var smallPackTable = new Tabulator("#smallPackTable", {
 		{ title: "제품코드", field: "sales_Packing_Code", headerHozAlign: "center"},
 		{ title: "제품명", field: "sales_Packing_Name", headerHozAlign: "center"},
 		{ title: "수량",	field: "sales_Packing_Qty",	headerHozAlign: "center", hozAlign:"right"},
-		{ title: "등록일자", field: "sales_Small_Create_Date", headerHozAlign: "center", headerHozAlign: "center", hozAlign: "center"}
+		{ title: "등록일자", field: "sales_Small_Create_Date", headerHozAlign: "center", headerHozAlign: "center", hozAlign: "center"
+		, formatter:"datetime", formatterParams:{
+    		outputFormat:"YYYY-MM-DD HH:mm" }}
 	]
 });
 
@@ -50,7 +54,9 @@ var crateTable = new Tabulator("#crateTable",{
 		{ title: "제품코드", field: "cl_ItemCode", headerHozAlign: "center"},
 		{ title: "제품명", field: "cl_ItemName", headerHozAlign: "center"},
 		{ title: "수량",	field: "cl_Qty", headerHozAlign: "center", hozAlign:"right"},
-		{ title: "등록일자", field: "crateDate", headerHozAlign: "center", headerHozAlign: "center", hozAlign: "center"}
+		{ title: "등록일자", field: "crateDate", headerHozAlign: "center", headerHozAlign: "center", hozAlign: "center"
+		, formatter:"datetime", formatterParams:{
+    		outputFormat:"YYYY-MM-DD HH:mm" }}
 	]
 });
 
@@ -64,7 +70,9 @@ var rawTable = new Tabulator("#rawTable", {
 		{ title: "제품코드", field: "material_ItemCode", headerHozAlign: "center"},
 		{ title: "제품명", field: "material_ItemName", headerHozAlign: "center"},
 		{ title: "수량",	field: "qty", headerHozAlign: "center", hozAlign:"right"},
-		{ title: "등록일자", field: "crateDate", headerHozAlign: "center", headerHozAlign: "center", hozAlign: "center"}
+		{ title: "등록일자", field: "crateDate", headerHozAlign: "center", headerHozAlign: "center", hozAlign: "center"
+		, formatter:"datetime", formatterParams:{
+    		outputFormat:"YYYY-MM-DD HH:mm" }}
 	]
 });
 

@@ -36,7 +36,10 @@ var rawTable = new Tabulator("#rawTable", {
 		{ title: "품목분류2", field: "material_Item_Clsfc_2", headerHozAlign: "center"},
 		{ title: "재질", field: "material_Item_Material", headerHozAlign: "center"},
 		{ title: "수량",	field: "qty", headerHozAlign: "center", hozAlign:"right"},
-		{ title: "등록일자", field: "crateDate", headerHozAlign: "center", headerHozAlign: "center", hozAlign: "center"}
+		{ title: "등록일자", field: "createDate", headerHozAlign: "center", headerHozAlign: "center", hozAlign: "center"
+		, formatter:"datetime", formatterParams:{
+    		outputFormat:"YYYY-MM-DD HH:mm" }
+		}
 	]
 });
 

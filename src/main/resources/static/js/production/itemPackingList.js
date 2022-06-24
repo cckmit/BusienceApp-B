@@ -33,7 +33,9 @@ var salesPackingSubTable = new Tabulator("#salesPackingSubTable", {
 		{ title: "제품코드", field: "sales_Packing_Code", headerHozAlign: "center", headerFilter:"input"},
 		{ title: "제품명", field: "sales_Packing_Name", headerHozAlign: "center", headerFilter:"input"},
 		{ title: "수량",	field: "sales_Packing_Qty",	headerHozAlign: "center", hozAlign:"right"},
-		{ title: "등록일자", field: "sales_Small_Create_Date", headerHozAlign: "center", headerHozAlign: "center", hozAlign: "center"}
+		{ title: "등록일자", field: "sales_Small_Create_Date", headerHozAlign: "center", headerHozAlign: "center", hozAlign: "center"
+		, formatter:"datetime", formatterParams:{
+    		outputFormat:"YYYY-MM-DD HH:mm" }}
 	]
 });
 

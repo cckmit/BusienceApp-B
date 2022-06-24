@@ -10,7 +10,7 @@
 			</div>
 			<div class="input-box">
 				<div>
-					<span><strong>일자별</strong></span>
+					<span><strong>대포장일</strong></span>
 					<input id="startDate" class="today" type="date">
 					<span style="text-align: center"><strong>~</strong></span>
 					<input id="endDate" class="tomorrow" type="date">
