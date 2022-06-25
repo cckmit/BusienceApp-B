@@ -36,6 +36,6 @@
 		<div id="crateLotTable" style="float:left; width: calc(70% - 10px)"></div>
 		<div id="defectTable" style="float:left; width: 30%; margin-left: 10px;"></div>
 
-		<script src="/js/qc/defectInsert.js"></script>
+		<script src="/js/qc/defectInsert.js?v=<%=System.currentTimeMillis() %>"></script>
 	</div>
 </div>
