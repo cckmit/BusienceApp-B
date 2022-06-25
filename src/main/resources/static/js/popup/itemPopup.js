@@ -104,6 +104,8 @@ $(document).ready(function(){
 		$("#item_Type").val('24')
 	}else if (urlParams.get('search_value') == "sales"){
 		$("#item_Type").val('28')
+	}else if(urlParams.get('search_value') == "halfItem") {
+		$("#item_Type").val('27')
 	}
 	search();
 })

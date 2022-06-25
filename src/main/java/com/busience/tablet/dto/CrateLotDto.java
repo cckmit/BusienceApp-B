@@ -31,4 +31,5 @@ public class CrateLotDto {
 	private String CL_Item_Material;
 	private String CL_Process_Inspect_Qty;
 	private double CL_Defect_Qty; // 불량수량
+	private double CL_Defect_SumQty; // 불량수량합계
 }

@@ -19,8 +19,8 @@ var crateLotTable = new Tabulator("#crateLotTable", {
 		{ title: "설비코드", field: "cl_MachineCode", headerHozAlign: "center"},
 		{ title: "설비명", field: "cl_EquipName", headerHozAlign: "center"},	
 		{ title: "생산수량", field: "cl_Qty", headerHozAlign: "center", align:"right"},
-		{ title: "불량수량", field: "cl_Defect_Qty", headerHozAlign: "center", align:"right"},
-		{ title: "작업종료일", field: "cl_Create_Date", headerHozAlign: "center"
+		{ title: "불량수량", field: "cl_Defect_SumQty", headerHozAlign: "center", align:"right"},
+		{ title: "작업완료일", field: "cl_Create_Date", headerHozAlign: "center"
 		, formatter:"datetime", formatterParams:{
     		outputFormat:"YYYY-MM-DD HH:mm" }}
 	]
@@ -44,6 +44,8 @@ function DI_Search(selectedRow){
 	var datas = {
 		startDate : $("#startDate").val(),
 		endDate : $("#endDate").val(),
+		lotNo: $("#defectLotNo").val(),
+		itemCode: $("#PRODUCT_ITEM_CODE1").val(),
 		condition : status
 	}
 	crateLotTable.setData("defectInsertRest/DefectList", datas);
@@ -110,13 +112,30 @@ var defectTable = new Tabulator("#defectTable", {
 		{ title: "작업지시 번호", field: "defect_ONo", headerHozAlign: "center", visible: false },
 		{ title: "불량 코드", field: "defect_Code", headerHozAlign: "center" },
 		{ title: "불량 명", field: "defect_Name", headerHozAlign: "center" },
-		{ title: "불량 수량", field: "defect_Qty", headerHozAlign: "center", align:"right", editor: DIS_InputEditor}
+		{ title: "불량 수량", field: "defect_Qty", headerHozAlign: "center", align:"right", editor: DIS_InputEditor,
+		cellEdited: function(cell) {
+				var deptQty = 0;
+
+				for (i = 0; i < defectTable.getDataCount(); i++) {
+					deptQty += parseInt(defectTable.getData()[i].defect_Qty)
+				}
+
+				let selectedRow = crateLotTable.getData("selected")[0];
+				
+				if (parseInt(selectedRow.cl_Defect_SumQty + deptQty) > selectedRow.cl_Qty) {
+					alert("불량수량이 생산량보다 많습니다.");
+					return false;
+				} else {
+					crateLotTable.updateRow(crateLotTable.getRows("selected")[0], {cl_Defect_SumQty: parseInt(crateLotTable.getData()[0].cl_Defect_SumQty + deptQty)})
+					crateLotTable.selectRow(crateLotTable.getRows("selected")[0]);
+				}
+
+			}
+		}
 	]
 });
 
 function DIS_Search(value){
-	
-	
 	
 	defectTable.setData("defectInsertRest/DIS_Search", {"workOrder_ONo" : value})
 	.then(function(){
@@ -142,7 +161,7 @@ function DI_Save(){
 	
 	console.log(defectTable.getData());
 	
- /*   $.ajax({
+    $.ajax({
         method : "post",
         url : "defectInsertRest/DI_Save",
 		data : JSON.stringify(defectTable.getData()),
@@ -157,10 +176,10 @@ function DI_Save(){
 				alert("잘못 입력하였습니다.");
 			} else if (result == 1) {
 				alert("저장되었습니다.");
-				crateLotTable.updateRow(selectedRow,{"cl_Qty" : sum}); 
+				crateLotTable.updateRow(selectedRow,{"cl_Defect_SumQty" : sum}); 
 			}
         }
-    })*/
+    })
 }
 
 $(document).ready(function(){

@@ -118,7 +118,7 @@
 	
 	<select id="defectListDao" resultType="com.busience.tablet.dto.CrateLotDto">
 		SELECT A.*, pit.Product_Item_Name as CL_ItemName, eit.Equipment_Info_Name as CL_EquipName, pit.Product_Info_STND_1 CL_STND_1, pit.Product_Info_STND_2 CL_STND_2,  
-			dt.Child_TBL_Type CL_Item_Clsfc_Name_1, dt2.Child_TBL_Type CL_Item_Clsfc_Name_2, dt3.Child_TBL_Type CL_Item_Material, Defect_Qty CL_Defect_Qty
+			dt.Child_TBL_Type CL_Item_Clsfc_Name_1, dt2.Child_TBL_Type CL_Item_Clsfc_Name_2, dt3.Child_TBL_Type CL_Item_Material, df.Defect_Qty CL_Defect_SumQty
 		FROM (
 		<![CDATA[
 		SELECT * FROM Crate_Lot_tbl clt WHERE clt.CL_Create_Date >= #{startDate} AND clt.CL_Create_Date < #{endDate}
@@ -134,8 +134,12 @@
 		left outer join (
 			SELECT Defect_ONo, sum(Defect_Qty) Defect_Qty FROM Defect_tbl group by Defect_ONo
 		) df on A.CL_LotNo = df.Defect_ONo
-		<if test="Condition != 'All'">
 		WHERE dt4.Child_TBL_No = #{Condition}
+		<if test="LotNo != ''">
+		AND A.CL_LotNo LIKE CONCAT ('%',#{LotNo},'%')
+		</if>
+		<if test="ItemCode != ''">
+		AND A.CL_ItemCode LIKE CONCAT('%',#{ItemCode},'%')
 		</if>
 	</select>
 	
