@@ -2,7 +2,10 @@ var largePackTable = new Tabulator("#largePackTable",{
 	layoutColumnsOnNewData : true,
 	headerFilterPlaceholder: null,
 	height: "calc(100% - 175px)",
-	rowClick: function(e, row) {			
+	rowClick: function(e, row) {
+		smallPackTable.clearData();	
+		crateTable.clearData();
+		rawTable.clearData();				
 		row.getTable().deselectRow();
 		row.select();
 	},
@@ -25,7 +28,9 @@ var smallPackTable = new Tabulator("#smallPackTable", {
 	layoutColumnsOnNewData : true,
 	headerFilterPlaceholder: null,
 	height: "calc(100% - 175px)",
-	rowClick: function(e, row) {			
+	rowClick: function(e, row) {	
+		crateTable.clearData();
+		rawTable.clearData();		
 		row.getTable().deselectRow();
 		row.select();
 	},
@@ -48,7 +53,8 @@ var crateTable = new Tabulator("#crateTable",{
 	layoutColumnsOnNewData : true,
 	headerFilterPlaceholder: null,
 	height: "calc(100% - 175px)",
-	rowClick: function(e, row) {			
+	rowClick: function(e, row) {	
+		rawTable.clearData();			
 		row.getTable().deselectRow();
 		row.select();
 	},
@@ -92,15 +98,19 @@ function LIS_Search() {
 	
 	largePackTable.setData("salesPackingRest/LargeLot_Search", datas);
 	smallPackTable.clearData();
-
+	crateTable.clearData();
+	rawTable.clearData();
 }
 
 function SIS_Search(largeLotNo){
 	smallPackTable.setData("salesPackingRest/SmallLot_Search",{LotNo: largeLotNo})
+	crateTable.clearData();
+	rawTable.clearData();
 }
 
 function CLS_Search(smallLotNo){
 	crateTable.setData("smallPackagingRest/smallPackagingSelect",{LotNo: smallLotNo})
+	rawTable.clearData();
 }
 
 function RIS_Search(LotNo){
