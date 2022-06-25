@@ -79,7 +79,8 @@
 	</select>
 	
 	<select id="salesLargePackingLotNoDao" resultType="com.busience.sales.dto.SalesPackingDto">
-		SELECT spt.Sales_Packing_No, spt.Sales_Large_Packing_LotNo, sum(spt.Sales_Packing_Qty) Sales_Packing_Qty, lmt.LM_ItemCode as Sales_Packing_Code, pit.Product_Item_Name as Sales_Packing_Name, lmt.LM_Create_Date as Sales_Small_Create_Date, 
+		SELECT spt.Sales_Packing_No, spt.Sales_Large_Packing_LotNo, spt.Sales_Small_Packing_LotNo, sum(spt.Sales_Packing_Qty) Sales_Packing_Qty, 
+			lmt.LM_ItemCode as Sales_Packing_Code, pit.Product_Item_Name as Sales_Packing_Name, lmt.LM_Create_Date as Sales_Small_Create_Date, 
 			pit.Product_Info_STND_1 AS Sales_Packing_STND_1, dt4.Child_TBL_Type AS Sales_Packing_Material, 
 			dt.Child_TBL_Type AS Sales_Packing_Item_Clsfc_1, dt3.Child_TBL_Type AS Sales_Packing_Item_Clsfc_2,
 			spt.Sales_Packing_Status, dt2.Child_TBL_Type AS Sales_Packing_Status_Name, spt.Sales_Large_Packing_Time 

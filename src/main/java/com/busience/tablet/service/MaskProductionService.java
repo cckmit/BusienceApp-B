@@ -195,4 +195,9 @@ public class MaskProductionService {
 	public CrateDto CrateStatusCheck(SearchDto searchDto) {
 		return crateDao.crateStatusCheckDao(searchDto);
 	}
+	
+	// 자재 투입 현황
+	public List<CrateLotDto> crateLotSelectList(SearchDto searchDto) {
+		return crateLotDao.crateLotSelectList(searchDto);
+	}
 }

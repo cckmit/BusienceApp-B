@@ -6,7 +6,7 @@ var editCheck = function(cell) {
 	//get row data
 	var data = cell.getRow().getData();
 
-	return data.s_ItemCode == undefined; // only allow the name cell to be edited if the age is over 18
+	return data.s_LotNo == undefined; // only allow the name cell to be edited if the age is over 18
 }
 
 var MSC_inputEditor = function(cell, onRendered, success, cancel, editorParams) {

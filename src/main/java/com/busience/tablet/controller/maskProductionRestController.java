@@ -111,4 +111,9 @@ public class maskProductionRestController {
 	public CrateDto CrateStatusCheck(SearchDto searchDto) {
 		return maskProductionService.CrateStatusCheck(searchDto);
 	}
+	
+	@GetMapping("/crateLotSelect")
+	public List<CrateLotDto> crateLotSelectList(SearchDto searchDto) {
+		return maskProductionService.crateLotSelectList(searchDto);
+	}
 }

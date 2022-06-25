@@ -224,8 +224,8 @@
 				</tr>
 				<tr>
 					<td colspan="2" style="border: 2px; width: 30px;">9</td>
-					<td colspan="3">Bar<br>Code</td>
-					<td colspan="8" id="stndpart" style="font-size: 4px;">종목과 동일하게 인쇄되어 있는지 확인
+					<td colspan="3">BarCode</td>
+					<td colspan="8" id="stndpart" style="font-size: 2px;">종목과 동일하게 인쇄되어 있는지 확인
 					<input type="hidden" id="stnd1" style="width: 20%">
 					<input type="hidden" id="stnd2" style="width: 20%">
 					</td>
@@ -385,14 +385,14 @@
 			</tbody>
 			<tfoot>
 				<tr>
-					<td colspan="16"><b>최종 검사결과</b></td>
-					<td colspan="8">
+					<td colspan="13" style="width: 20px !important;"><b>최종 검사결과</b></td>
+					<td colspan="25">
 						<input type="text" id="subresult">
 					</td>
 				</tr>
 				<tr>
 					<td colspan="5">비고</td>
-					<td colspan="19">
+					<td colspan="33">
 						<textarea id="subprocessRemark" rows="3" cols="60"></textarea>
 					</td>
 				</tr>

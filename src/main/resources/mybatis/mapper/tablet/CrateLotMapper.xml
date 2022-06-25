@@ -122,6 +122,15 @@
 		</if>
 	</select>
 	
+	<select id="crateLotSelectList" resultType="com.busience.tablet.dto.CrateLotDto">
+		SELECT clt.CL_LotNo, clt.CL_ItemCode, pit.Product_Item_Name CL_ItemName, clt.CL_Qty, clt.CL_Create_Date 
+		FROM Crate_Lot_tbl clt
+		INNER JOIN Product_Info_tbl pit on clt.CL_ItemCode = pit.Product_Item_Code
+		<if test="LotNo != ''">
+		WHERE CL_LotNo = #{LotNo}
+		</if>
+	</select>
+	
 	<insert id="crateLotSaveDao">
 		insert ignore into Crate_Lot_tbl(
 			CL_LotNo, CL_ItemCode,

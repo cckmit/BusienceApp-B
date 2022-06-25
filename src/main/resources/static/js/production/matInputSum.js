@@ -10,11 +10,12 @@ var largePackTable = new Tabulator("#largePackTable",{
 		row.select();
 	},
 	rowSelected:function(row){
-		SIS_Search(row.getData().sales_Large_Packing_LotNo)
+		SIS_Search(row.getData().sales_Small_Packing_LotNo)
     },
 	columns: [
 		{ title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
 		{ title: "대포장 LotNo", field: "sales_Large_Packing_LotNo", headerHozAlign: "center"},
+		{ title: "소포장 LotNo", field: "sales_Small_Packing_LotNo", headerHozAlign: "center"},
 		{ title: "제품코드", field: "sales_Packing_Code", headerHozAlign: "center"},
 		{ title: "제품명", field: "sales_Packing_Name", headerHozAlign: "center"},
 		{ title: "수량",	field: "sales_Packing_Qty",	headerHozAlign: "center", hozAlign:"right"},
@@ -35,15 +36,16 @@ var smallPackTable = new Tabulator("#smallPackTable", {
 		row.select();
 	},
 	rowSelected:function(row){
-		CLS_Search(row.getData().sales_Small_Packing_LotNo)
+		CLS_Search(row.getData().production_LotNo)
     },
 	columns: [
 		{ title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
-		{ title: "소포장 LotNo", field: "sales_Small_Packing_LotNo", headerHozAlign: "center"},
-		{ title: "제품코드", field: "sales_Packing_Code", headerHozAlign: "center"},
-		{ title: "제품명", field: "sales_Packing_Name", headerHozAlign: "center"},
-		{ title: "수량",	field: "sales_Packing_Qty",	headerHozAlign: "center", hozAlign:"right"},
-		{ title: "등록일자", field: "sales_Small_Create_Date", headerHozAlign: "center", headerHozAlign: "center", hozAlign: "center"
+		{ title: "소포장 LotNo", field: "small_Packaging_LotNo", headerHozAlign: "center"},
+		{ title: "생산 LotNo", field: "production_LotNo", headerHozAlign: "center"},
+		{ title: "제품코드", field: "itemCode", headerHozAlign: "center"},
+		{ title: "제품명", field: "itemName", headerHozAlign: "center"},
+		{ title: "수량",	field: "qty",	headerHozAlign: "center", hozAlign:"right"},
+		{ title: "등록일자", field: "create_Date", headerHozAlign: "center", headerHozAlign: "center", hozAlign: "center"
 		, formatter:"datetime", formatterParams:{
     		outputFormat:"YYYY-MM-DD HH:mm" }}
 	]
@@ -59,15 +61,15 @@ var crateTable = new Tabulator("#crateTable",{
 		row.select();
 	},
 	rowSelected:function(row){
-		RIS_Search(row.getData().production_LotNo)
+		RIS_Search(row.getData().cl_LotNo)
     },
 	columns: [
 		{ title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
-		{ title: "생산 LotNo", field: "production_LotNo", headerHozAlign: "center"},
-		{ title: "제품코드", field: "itemCode", headerHozAlign: "center"},
-		{ title: "제품명", field: "itemName", headerHozAlign: "center"},
-		{ title: "수량",	field: "qty", headerHozAlign: "center", hozAlign:"right"},
-		{ title: "등록일자", field: "create_Date", headerHozAlign: "center", headerHozAlign: "center", hozAlign: "center"
+		{ title: "생산 LotNo", field: "cl_LotNo", headerHozAlign: "center"},
+		{ title: "제품코드", field: "cl_ItemCode", headerHozAlign: "center"},
+		{ title: "제품명", field: "cl_ItemName", headerHozAlign: "center"},
+		{ title: "수량",	field: "cl_Qty", headerHozAlign: "center", hozAlign:"right"},
+		{ title: "등록일자", field: "cl_Create_Date", headerHozAlign: "center", headerHozAlign: "center", hozAlign: "center"
 		, formatter:"datetime", formatterParams:{
     		outputFormat:"YYYY-MM-DD HH:mm" }}
 	]
@@ -103,13 +105,14 @@ function LIS_Search() {
 }
 
 function SIS_Search(largeLotNo){
-	smallPackTable.setData("salesPackingRest/SmallLot_Search",{LotNo: largeLotNo})
+	smallPackTable.setData("smallPackagingRest/smallPackagingSelect",{LotNo: largeLotNo})
 	crateTable.clearData();
 	rawTable.clearData();
+	
 }
 
 function CLS_Search(smallLotNo){
-	crateTable.setData("smallPackagingRest/smallPackagingSelect",{LotNo: smallLotNo})
+	crateTable.setData("/tablet/maskProductionRest/crateLotSelect",{LotNo: smallLotNo})
 	rawTable.clearData();
 }
 
