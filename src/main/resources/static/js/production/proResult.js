@@ -37,7 +37,7 @@ $('#itemName').keypress(function(e) {
 					$('#itemName').val(data[0].production_Product_Name);
 				} else {
 					//검색어와 일치하는값이 없는경우, 팝업창
-					itemPopup(value, 'input', '', 'material');
+					itemPopup(value, 'input', '', 'halfItem');
 				}
 			}
 		})

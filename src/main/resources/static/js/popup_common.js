@@ -29,11 +29,12 @@ function itemPopup(input_value,type_value,tab_value,search_value) {
 }
 
 //설비 팝업창 			(입력값,input or grid, 탭기능이 있을떄 1부터 없으면 '')
-function machinePopup(input_value,type_value,tab_value){
+function machinePopup(input_value,type_value,tab_value,search_value){
 	//창의 주소
 	var url = "machinePopup?input_value="+input_value
 							+"&type_value="+type_value
-							+"&tab_value="+tab_value;
+							+"&tab_value="+tab_value
+							+"&search_value="+search_value;
 	//창의 이름
 	var name = "machinePopup";
 	//창의 css	

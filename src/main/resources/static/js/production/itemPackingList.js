@@ -79,7 +79,7 @@ $('#PRODUCT_ITEM_NAME').keypress(function(e) {
 					$('#PRODUCT_ITEM_NAME').val(data[0].product_ITEM_NAME);
 				} else {
 					//검색어와 일치하는값이 없는경우, 팝업창
-					itemPopup(value, 'input', '', 'material');
+					itemPopup(value, 'input', '', 'sales');
 				}
 			}
 		})

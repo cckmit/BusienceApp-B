@@ -41,7 +41,7 @@ $('#EQUIPMENT_INFO_NAME').keypress(function(e){
 					$('#EQUIPMENT_INFO_NAME').val(data[0].equipment_INFO_NAME)
 				} else {
 					//검색어와 일치하는값이 없는경우, 팝업창
-					machinePopup(value,'input','')
+					machinePopup(value,'input','','label')
 				}
 			}
 		})

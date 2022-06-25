@@ -81,8 +81,13 @@ $("#machine_Type").change(function(){
 
 $(document).ready(function(){
 	// 팝업창이 뜨면 데이터 받음
-	$('#Machine_Word').val(urlParams.get('input_value'));
-	$("#machine_Type").val('324');
+	if(urlParams.get('search_value') == "label") {
+		$("#machine_Type").val('330');
+	} else {
+		$('#Machine_Word').val(urlParams.get('input_value'));
+		$("#machine_Type").val('324');
+	}
+	
 	// 팝업이 뜨자마자 바로 검색
 	search();
 })

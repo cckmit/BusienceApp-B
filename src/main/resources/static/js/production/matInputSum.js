@@ -15,7 +15,7 @@ var largePackTable = new Tabulator("#largePackTable",{
 	columns: [
 		{ title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
 		{ title: "대포장 LotNo", field: "sales_Large_Packing_LotNo", headerHozAlign: "center"},
-		{ title: "소포장 LotNo", field: "sales_Small_Packing_LotNo", headerHozAlign: "center"},
+		{ title: "소포장 LotNo", field: "sales_Small_Packing_LotNo", headerHozAlign: "center", visible:false},
 		{ title: "제품코드", field: "sales_Packing_Code", headerHozAlign: "center"},
 		{ title: "제품명", field: "sales_Packing_Name", headerHozAlign: "center"},
 		{ title: "수량",	field: "sales_Packing_Qty",	headerHozAlign: "center", hozAlign:"right"},
@@ -41,7 +41,7 @@ var smallPackTable = new Tabulator("#smallPackTable", {
 	columns: [
 		{ title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
 		{ title: "소포장 LotNo", field: "small_Packaging_LotNo", headerHozAlign: "center"},
-		{ title: "생산 LotNo", field: "production_LotNo", headerHozAlign: "center"},
+		{ title: "생산 LotNo", field: "production_LotNo", headerHozAlign: "center", visible:false},
 		{ title: "제품코드", field: "itemCode", headerHozAlign: "center"},
 		{ title: "제품명", field: "itemName", headerHozAlign: "center"},
 		{ title: "수량",	field: "qty",	headerHozAlign: "center", hozAlign:"right"},
