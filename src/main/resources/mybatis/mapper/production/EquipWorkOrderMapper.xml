@@ -36,6 +36,15 @@
 		where A.WorkOrder_ItemCode = #{itemCode}
 	</select>
 	
+	<select id="equipWorkItemCodeSelectDao" resultType="String">
+		select
+			A.Equip_WorkOrder_ItemCode
+		FROM Equip_WorkOrder_tbl A
+		inner join Equipment_Info_tbl B on A.Equip_WorkOrder_Code = B.Equipment_Info_Code
+		inner join Product_Info_tbl C on A.Equip_WorkOrder_ItemCode = C.Product_Item_Code
+		where A.Equip_WorkOrder_Code = #{WorkOrder_EquipCode}
+	</select>
+	
 	<insert id="equipWorkOrderInsert">
 	 	insert into Equip_WorkOrder_tbl (
 	 	Equip_WorkOrder_Code, Equip_WorkOrder_ItemCode, Equip_WorkOrder_Date

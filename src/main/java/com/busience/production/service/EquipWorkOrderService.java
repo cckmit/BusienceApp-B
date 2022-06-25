@@ -34,9 +34,16 @@ public class EquipWorkOrderService {
 					// TODO Auto-generated method stub
 					for (int i = 0; i < workOrderDtoList.size(); i++) {
 						
-						if(workOrderDtoList.get(i).getWorkOrder_ItemCode() == null || workOrderDtoList.get(i).getWorkOrder_ItemCode() == "") {
+						EquipWorkOrderDto equipWorkOrder = new EquipWorkOrderDto();
+						
+						equipWorkOrder.setWorkOrder_EquipCode(workOrderDtoList.get(i).getWorkOrder_EquipCode());
+						
+						// 데이터 있는지 조회
+						String code = equipWorkOrderDao.equipWorkItemCodeSelectDao(equipWorkOrder);
+						
+						if(code == null) {
 							equipWorkOrderDao.equipWorkOrderInsert(workOrderDtoList.get(i));
-						} else {
+						} else if(code != null) {
 							equipWorkOrderDao.equipWorkOrderUpdate(workOrderDtoList.get(i));
 						}
 					}
