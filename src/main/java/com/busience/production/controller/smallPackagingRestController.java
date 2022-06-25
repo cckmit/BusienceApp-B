@@ -22,4 +22,9 @@ public class smallPackagingRestController {
 	public List<Small_Packaging_tbl> smallPackagingListSelect(SearchDto searchDto) {
 		return smallPackagingService.smallPackagingListSelect(searchDto);
 	}
+	
+	@GetMapping("/smallPackagingSelect")
+	public List<Small_Packaging_tbl> smallPackagingSelectDao(SearchDto searchDto) {
+		return smallPackagingService.smallPackagingSelectDao(searchDto);
+	}
 }

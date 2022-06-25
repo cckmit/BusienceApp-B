@@ -12,4 +12,7 @@ public interface SmallPackagingDao {
 
 	// 소포장 현황
 	public List<Small_Packaging_tbl> smallPackagingListSelect(SearchDto searchDto);
+	
+	// 소포장 list 조회
+	public List<Small_Packaging_tbl> smallPackagingSelectDao(SearchDto searchDto);
 }
