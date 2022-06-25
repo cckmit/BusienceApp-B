@@ -56,6 +56,7 @@ $("#packagingBtn").click(function(){
 	.then(function(data){
 		console.log(data);
 		productionPrinter(data);
+		packagingTable.replaceData();
 	})
 })
 
@@ -110,6 +111,7 @@ $("#largePackagingBtn").click(function(){
 	$.when(largePackagingSave())
 	.then(function(data){
 		console.log(data);
+		packagingTable.replaceData();
 		//productionPrinter(data);
 	})
 })
@@ -119,6 +121,6 @@ window.onload = function(){
 	packagingLineListSelect()
 	setup();
 	setInterval(function(){
-		//packagingTable.replaceData();
-	},5000);
+		packagingTable.replaceData();
+	},10000);
 }

@@ -349,6 +349,6 @@ function linkageData(){
 window.onload = function(){
 	workOrderSet();
 	setInterval(function(){
-		//CrateSelect($("#machineCode").val());
+		CrateSelect($("#machineCode").val());
 	},5000);
 }
