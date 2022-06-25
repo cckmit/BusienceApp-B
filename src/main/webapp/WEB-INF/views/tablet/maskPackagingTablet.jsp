@@ -21,6 +21,7 @@
 				<ul id="bundle-list">
 				</ul>
 				<button type="button" id="packagingBtn" class="btn btn-default">포장 발행</button>
+				<select id="selected_device" onchange=onDeviceSelected(this); style="display:none"></select>
 			</div>
 		</div>
 	</div>
@@ -31,12 +32,12 @@
 				<input id="crate-Count" disabled>
 			</div>
 			<div class="item">
-				<label for="crate-LotNo">당일 발행 수량</label>
+				<label for="crate-LotNo">당일 소포장 수량</label>
 				<input id="crate-LotNo" readonly>
 				<input type="hidden" id="crateCode">
 			</div>
 			<div class="item">
-				<label for="crate-Qty">당일 포장 수량</label>
+				<label for="crate-Qty">당일 대포장 수량</label>
 				<input id="crate-Qty" disabled>
 			</div>
 		</div>
@@ -45,7 +46,7 @@
 	<div class="main-c">
 		<div class="main-box tablet-border">
 			<div class="item">
-				<button type="button" class="btn btn-success">대포장 출력</button>
+				<button type="button" id="largePackagingBtn" class="btn btn-success">대포장 출력</button>
 			</div>
 			<div class="item">
 				<input id="selectedItem" placeholder="목록을 선택하세요." disabled>
@@ -58,3 +59,4 @@
 	</div>
 </div>
 <script src="/js/tablet/maskPackagingTablet.js?v=<%=System.currentTimeMillis() %>"></script>
+<script src="/js/labelPrint/paldangLabelPrint.js?v=<%=System.currentTimeMillis() %>"></script>

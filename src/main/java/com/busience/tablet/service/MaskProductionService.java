@@ -9,6 +9,7 @@ import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import com.busience.common.dto.SearchDto;
+import com.busience.material.dao.LotNoDao;
 import com.busience.production.dao.WorkOrderDao;
 import com.busience.standard.dao.ItemDao;
 import com.busience.standard.dto.ItemDto;
@@ -33,6 +34,9 @@ public class MaskProductionService {
 	
 	@Autowired
 	WorkOrderDao workOrderDao;
+	
+	@Autowired
+	LotNoDao lotNoDao;
 	
 	@Autowired
 	RawMaterialMasterDao rawMaterialMasterDao;
@@ -135,7 +139,7 @@ public class MaskProductionService {
 					}
 
 					//그 후 새로운 상자 등록
-					String LotNo = crateLotDao.crateLotNoCreateDao(crateDto.getC_ItemCode());
+					String LotNo = lotNoDao.crateLotNoSelectDao(crateDto.getC_ItemCode());
 					
 					crateDto.setC_Condition("1");
 					crateDto.setC_Production_LotNo(LotNo);

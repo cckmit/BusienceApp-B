@@ -129,6 +129,50 @@ function smallPackagingPrinter(LotNo)
 	selected_device.send(printCode, undefined, errorCallback);
 }
 
+function productionPrinter(jsonDatas)
+{	
+	printerCheck()
+	var printCode = ""
+	
+		printCode += "^XA"
+				+"^CFJ,50^SEE:UHANGUL.DAT^FS"
+				+"^CW1,E:KFONT3.FNT^CI28^FS"
+				+"^FO4,18^GB604,0,1^FS"
+				+"^FO4,18^GB0,370,1^FS"
+				+"^FO608,18^GB0,370,1^FS"
+				+"^FO4,388^GB604,0,1^FS"
+				+"^FO4,88^GB604,0,1^FS"
+				+"^FO4,148^GB450,0,1^FS"
+				+"^FO4,208^GB604,0,1^FS"
+				+"^FO4,268^GB450,0,1^FS"
+				+"^FO4,328^GB450,0,1^FS"
+				
+				+"^FO114,88^GB0,300,1^FS"
+				+"^FO454,88^GB0,300,1^FS"
+				+"^FO229,268^GB0,60,1^FS"
+				+"^FO339,268^GB0,60,1^FS"
+				+"^FT470,380^BQN,3,6"
+				+"^FH^FDLA,"+jsonDatas.small_Packaging_LotNo+"^FS"
+				
+				+"^FT27,130^A1,35,25^FD코 드^FS"
+				+"^FT27,190^A1,35,25^FH^FD규격1^FS"
+				+"^FT27,250^A1,35,25^FH^FD규격2^FS"
+				+"^FT27,310^A1,35,25^FH^FD재 질^FS"
+				+"^FT255,310^A1,35,25^FH^FD분류1^FS"
+				+"^FT27,370^A1,35,25^FH^FD분류2^FS"
+				
+				+"^FT120,68^A1,50,40^FD"+jsonDatas.itemName+"^FS"
+				+"^FT135,130^A1,35,25^FD"+jsonDatas.itemCode+"^FS"
+				+"^FT135,190^A1,35,25^FH^FD"+jsonDatas.itemSTND1+"^FS"
+				+"^FT135,250^A1,35,25^FH^FD"+jsonDatas.itemSTND2+"^FS"
+				+"^FT135,310^A1,35,25^FH^FD"+jsonDatas.itemMaterial_Name+"^FS"
+				+"^FT360,310^A1,35,25^FH^FD"+jsonDatas.itemClsfc1_Name+"^FS"
+				+"^FT135,370^A1,35,25^FH^FD"+jsonDatas.itemClsfc2_Name+"^FS"
+				+"^FT480,165^A1,50,40^FD"+Number(jsonDatas.qty)+"^FS"
+				+"^XZ";
+	selected_device.send(printCode, undefined, errorCallback);
+}
+
 var errorCallback = function(errorMessage){
 	alert(errorMessage+"");	
 }

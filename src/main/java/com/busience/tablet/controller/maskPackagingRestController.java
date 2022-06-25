@@ -9,7 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
-import com.busience.production.dto.WorkOrderDto;
+import com.busience.production.dto.EquipWorkOrderDto;
+import com.busience.production.dto.LabelPrintDto;
+import com.busience.production.dto.Small_Packaging_tbl;
+import com.busience.production.service.EquipWorkOrderService;
+import com.busience.production.service.SmallPackagingService;
+import com.busience.sales.service.SalesPackingService;
 import com.busience.tablet.service.MaskPackagingService;
 
 @RestController("maskPackagingRestController")
@@ -19,23 +24,32 @@ public class maskPackagingRestController {
 	@Autowired
 	MaskPackagingService maskPackagingService;
 	
-	@GetMapping("/maskPackagingSelect")
-	public List<WorkOrderDto> maskPackagingSelect() {
-		return maskPackagingService.maskPackagingSelect();
-	}
+	@Autowired
+	EquipWorkOrderService equipWorkOrderService;
+	
+	@Autowired
+	SmallPackagingService smallPackagingService;
+	
+	@Autowired
+	SalesPackingService salesPackingService;
 	
 	@GetMapping("/packagingLineListSelect")
-	public List<WorkOrderDto> packagingLineListSelect(SearchDto searchDto) {
-		return maskPackagingService.packagingLineListSelect(searchDto);
+	public List<EquipWorkOrderDto> packagingLineListSelect(SearchDto searchDto) {
+		return equipWorkOrderService.packagingLineListSelect(searchDto);
 	}
 	
-	@PostMapping("/smallPackagingSelect")
-	public String smallPackagingSelect(SearchDto searchDto) {
-		return maskPackagingService.smallPackagingSave(searchDto);
+	@GetMapping("/smallPackagingStandbySelect")
+	public List<Small_Packaging_tbl> smallPackagingStandbySelect(SearchDto searchDto) {
+		return smallPackagingService.smallPackagingStandbySelect(searchDto);
 	}
 	
 	@PostMapping("/smallPackagingSave")
-	public String smallPackagingSave(SearchDto searchDto) {
+	public LabelPrintDto smallPackagingSave(SearchDto searchDto) {
 		return maskPackagingService.smallPackagingSave(searchDto);
+	}
+	
+	@PostMapping("/largePackagingSave")
+	public int largePackagingSave(SearchDto searchDto) {
+		return salesPackingService.largePackagingInsert(searchDto);
 	}
 }

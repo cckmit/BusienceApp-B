@@ -14,6 +14,15 @@ public interface LotNoDao {
 	//재고 조정에서 필요한 랏번호 조회
 	public String outMatlotNoSelectDao(OutMatDto outMatDto);
 	
+	//생산LotNo 생성
+	public String crateLotNoSelectDao(String itemCode);
+	
+	//소포장LotNo 생성
+	public String smallLotNoSelectDao(String itemCode);
+	
+	//대포장LotNo 생성
+	public String largeLotNoSelectDao(String itemCode);
+	
 	//Lot번호 업데이트
 	public int lotNoMatUpdateDao();
 	

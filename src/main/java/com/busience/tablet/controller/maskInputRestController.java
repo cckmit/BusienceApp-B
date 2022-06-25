@@ -24,11 +24,6 @@ public class maskInputRestController {
 	@Autowired
 	EquipWorkOrderService equipWorkOrderService;
 	
-	@GetMapping("/crateMachineSelect")
-	public List<CrateLotDto> crateMachineSelect(SearchDto searchDto) {
-		return maskInputService.crateMachineSelect(searchDto);
-	}
-	
 	@GetMapping("/crateLotListSelect")
 	public List<CrateLotDto> crateLotListSelect(SearchDto searchDto) {
 		return maskInputService.crateLotListSelect(searchDto);
@@ -42,15 +37,5 @@ public class maskInputRestController {
 	@PostMapping("/maskInputUpdate")
 	public int maskInputUpdate(CrateLotDto crateLotDto) {
 		return maskInputService.maskInputUpdate(crateLotDto);
-	}
-	
-	@GetMapping("/crateLotUpdate")
-	public int crateLotUpdate(CrateLotDto crateLotDto) {
-		return maskInputService.crateLotUpdate2(crateLotDto);
-	}
-	
-	@GetMapping("/crateLotRefresh")
-	public int crateLotRefresh(CrateLotDto crateLotDto) {
-		return maskInputService.crateLotRefresh(crateLotDto);
 	}
 }

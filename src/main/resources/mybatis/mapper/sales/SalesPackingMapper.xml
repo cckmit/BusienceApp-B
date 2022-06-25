@@ -130,6 +130,13 @@
 	    AND Sales_Packing_Status = #{Sales_Packing_Status}
 	</update>
 
-
+	<insert id="largePackagingInsertDao">
+		insert into Sales_Packing_tbl(
+			Sales_Large_Packing_LotNo, Sales_Small_Packing_LotNo, Sales_Packing_Qty, Sales_Packing_Status
+		) select
+			#{LotNo}, Small_Packaging_LotNo, sum(Qty) Qty, '203'
+		from Small_Packaging_tbl
+		group by Small_Packaging_LotNo;
+	</insert>
 
 </mapper>

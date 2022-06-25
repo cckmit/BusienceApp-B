@@ -10,17 +10,8 @@ import com.busience.tablet.dto.CrateLotDto;
 @Mapper
 public interface CrateLotDao {
 
-	//포장설비 조회
-	public List<CrateLotDto> crateMachineSelectDao(SearchDto searchDto);
-	
 	//조회
-	public List<CrateLotDto> crateLotSelectDao(SearchDto searchDto);
-	
-	//조회
-	public CrateLotDto crateLotSelectDao2(SearchDto searchDto);
-	
-	//랏번호 생성
-	public String crateLotNoCreateDao(String itemCode);
+	public CrateLotDto crateLotSelectDao(SearchDto searchDto);
 	
 	//이력조회
 	public List<CrateLotDto> crateLotRecordSelectDao(SearchDto searchDto);
@@ -50,5 +41,5 @@ public interface CrateLotDao {
 	public int crateLotQtyUpdateDao(CrateLotDto crateLotDto);
 	
 	//수정2
-	public int crateLotUpdateDao2(CrateLotDto crateLotDto);
+	public int crateInputQtyUpdateDao(CrateLotDto crateLotDto);
 }

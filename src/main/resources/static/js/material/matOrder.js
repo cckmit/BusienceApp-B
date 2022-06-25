@@ -442,8 +442,8 @@ var MOL_InputEditor = function(cell, onRendered, success, cancel, editorParams) 
 				//cell.nav().next();
 				//만약 마지막행의 합계금액이 비어있을경우 추가 안됨
 				lastRow = matOrderSubTable.getData()[matOrderSubTable.getDataCount("active") - 1];
-				if (lastRow.order_lPrice == 0) {
-					alert("수량과 단가를 입력해주세요.");
+				if (lastRow.order_lQty == 0) {
+					alert("수량을 입력해주세요.");
 					cell.nav().prev();
 				} else if (lastRow.order_lCode.length != "6") {
 					alert("제품코드를 잘못 입력하였습니다.")
@@ -513,6 +513,9 @@ var matOrderSubTable = new Tabulator("#matOrderSubTable", {
 		{ title: "코드", field: "order_lCode", headerHozAlign: "center", editor: MOL_InputEditor, editable: editCheck },
 		{ title: "제품명", field: "order_lName", headerHozAlign: "center", },
 		{ title: "규격1", field: "order_STND_1", headerHozAlign: "center" },
+		//{ title: "재질", field: "order_Material_Name", headerHozAlign: "center" },
+		//{ title: "분류1", field: "order_CLSFC_1_Name", headerHozAlign: "center" },
+		//{ title: "분류2", field: "order_CLSFC_2_Name", headerHozAlign: "center" },
 		{
 			title: "수량", field: "order_lQty", headerHozAlign: "center", hozAlign: "right", editor: MOL_InputEditor, editable: editCheck,
 			formatter: "money", formatterParams: { precision: false },
@@ -624,7 +627,7 @@ function MOL_Add() {
 	for (i = 0; i < matOrderSubTable.getDataCount("active"); i++) {
 		rowData = matOrderSubTable.getData()[i];
 
-		if (rowData.order_lPrice == 0 || rowData.order_lName == '') {
+		if (rowData.order_lName == '') {
 			alert("작성중인 행이 있습니다.");
 			return false;
 		}

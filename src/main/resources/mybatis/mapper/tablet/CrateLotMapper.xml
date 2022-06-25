@@ -5,41 +5,19 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="com.busience.tablet.dao.CrateLotDao">
-	<select id="crateMachineSelectDao" resultType="com.busience.tablet.dto.CrateLotDto">
-		SELECT
-			CL_LotNo, CL_OrderNo, CL_ItemCode,
-		    CL_CrateCode, CL_Qty, CL_Create_Date
-		FROM Crate_Lot_tbl
-		where CL_OrderNo = #{OrderNo}
-	</select>
-
+	
 	<select id="crateLotSelectDao" resultType="com.busience.tablet.dto.CrateLotDto">
 		SELECT
-			CL_LotNo, CL_OrderNo, CL_ItemCode,
-		    CL_CrateCode, CL_Qty, CL_Create_Date
-		FROM Crate_Lot_tbl
-		where CL_OrderNo = #{OrderNo}
-	</select>
-	
-	<select id="crateLotSelectDao2" resultType="com.busience.tablet.dto.CrateLotDto">
-		SELECT
-			A.CL_LotNo, A.CL_OrderNo, A.CL_ItemCode, B.Product_Item_Name CL_ItemName,
+			A.CL_LotNo, A.CL_ItemCode, B.Product_Item_Name CL_ItemName,
 		    A.CL_CrateCode, A.CL_Qty, A.CL_Create_Date
 		FROM Crate_Lot_tbl A
 		inner join Product_Info_tbl B on A.CL_ItemCode = B.Product_Item_Code
 		where A.CL_MachineCode = #{machineCode}
 	</select>
 	
-	<select id="crateLotNoCreateDao" resultType="String">
-		SELECT
-			concat('N', DATE_FORMAT(NOW(),'%y%m%d'), #{itemCode}, lpad(count(*)+1, 4, 0))
-		FROM Crate_Lot_tbl
-		where CL_Create_Date > current_date();
-	</select>
-	
 	<select id="crateLotRecordSelectDao" resultType="com.busience.tablet.dto.CrateLotDto">
 		SELECT
-			CL_LotNo, CL_OrderNo, CL_ItemCode,
+			CL_LotNo, CL_ItemCode,
 		    CL_CrateCode, CL_Qty, CL_Create_Date
 		FROM Crate_Lot_tbl
 		where CL_MachineCode = #{machineCode}
@@ -50,13 +28,14 @@
 	
 	<select id="crateLotListSelectDao" resultType="com.busience.tablet.dto.CrateLotDto">
 		SELECT
-			A.CL_LotNo, A.CL_OrderNo, A.CL_ItemCode, B.Product_Item_Name CL_ItemName,
+			A.CL_LotNo, A.CL_ItemCode, B.Product_Item_Name CL_ItemName,
 		    A.CL_CrateCode, A.CL_MachineCode, A.CL_MachineCode2,
 		    A.CL_ProductionQty, A.CL_Qty, A.CL_Create_Date
 		FROM Crate_Lot_tbl A
 		inner join Product_Info_tbl B on A.CL_ItemCode = B.Product_Item_Code
+        inner join Crate_tbl C on A.CL_LotNo = C.C_Production_LotNo
 		where A.CL_MachineCode2 = #{machineCode}
-		and A.CL_ProductionQty > 0
+		and C.C_Condition = '3'
 		order by A.CL_Create_Date asc
 
 	</select>
@@ -145,10 +124,10 @@
 	
 	<insert id="crateLotSaveDao">
 		insert ignore into Crate_Lot_tbl(
-			CL_LotNo, CL_OrderNo, CL_ItemCode,
+			CL_LotNo, CL_ItemCode,
 			CL_CrateCode, CL_MachineCode, CL_Qty, CL_Create_Date
 		)values(
-			#{CL_LotNo}, #{CL_OrderNo}, #{CL_ItemCode},
+			#{CL_LotNo}, #{CL_ItemCode},
 			#{CL_CrateCode}, #{CL_MachineCode}, 0, now()
 		)
 	</insert>
@@ -179,11 +158,10 @@
 		);
 	</update>
 	
-	<update id="crateLotUpdateDao2">
+	<update id="crateInputQtyUpdateDao">
 		update Crate_Lot_tbl
 		set
-		CL_MachineCode = #{CL_MachineCode}
-		where CL_CrateCode = #{CL_CrateCode}
-		and CL_ProductionQty > 0
+		CL_ProductionQty = CL_ProductionQty + #{CL_ProductionQty}
+		where CL_LotNo = #{CL_LotNo}
 	</update>
 </mapper>

@@ -37,4 +37,6 @@ public interface SalesPackingDao {
 	// sales_packing_tbl update
 	public int salesPackingUpdateDao(SalesPackingDto salesPackingDto);
 
+	//대포장 lot발행 저장
+	public int largePackagingInsertDao(String LotNo);
 }

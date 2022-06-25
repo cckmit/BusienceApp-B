@@ -41,4 +41,8 @@ public class SmallPackagingService {
 	public List<Small_Packaging_tbl> smallPackagingSelectDao(SearchDto searchDto) {
 		return smallPackagingDao.smallPackagingSelectDao(searchDto);
 	}
+	
+	public List<Small_Packaging_tbl> smallPackagingStandbySelect(SearchDto searchDto) {
+		return smallPackagingDao.smallPackagingStandbySelectDao(searchDto);
+	}
 }

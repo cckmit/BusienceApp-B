@@ -17,6 +17,6 @@ public class ProductionStatusService {
 	public CrateLotDto productionStatusSelect(SearchDto searchDto) {
 		//검색해서 있는지 파악
 		//있으면 해당내용을 뿌림
-		return crateLotDao.crateLotSelectDao2(searchDto);
+		return crateLotDao.crateLotSelectDao(searchDto);
 	}
 }

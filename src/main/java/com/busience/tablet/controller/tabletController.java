@@ -218,7 +218,6 @@ public class tabletController {
 			searchDto.setMachineCode("M301");
 		}
 		List<EquipWorkOrderDto> equipWorkOrderDtoList = equipWorkOrderService.equipWorkOrderSelect(searchDto);
-		
 		model.addAttribute("workOrderInfo", equipWorkOrderDtoList.get(0));
 		
 		return "normal/tablet/maskPackagingTablet";

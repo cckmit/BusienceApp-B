@@ -57,4 +57,8 @@ public class EquipWorkOrderService {
 		}
 		
 	}
+	
+	public List<EquipWorkOrderDto> packagingLineListSelect(SearchDto searchDto) {
+		return equipWorkOrderDao.packagingLineListSelectDao(searchDto);
+	}
 }

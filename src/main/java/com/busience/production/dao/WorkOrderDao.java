@@ -72,8 +72,4 @@ public interface WorkOrderDao {
 	
 	//작업종료
 	public int workOrderFinalUpdate(WorkOrderDto workOrderDto);
-	
-	public List<WorkOrderDto> workOrderTabletSelectDao(String Equipment_Type);
-	
-	public List<WorkOrderDto> packagingLineListSelectDao(SearchDto searchDto);
 }

@@ -30,4 +30,31 @@
 		WHERE spt.Small_Packaging_LotNo = #{LotNo}
 		</if>
 	</select>
+	
+	<select id="smallPackagingStandbySelectDao" resultType="com.busience.production.dto.Small_Packaging_tbl">
+		SELECT
+			A.Small_Packaging_LotNo, A.ItemCode, B.Product_Item_Name ItemName, sum(A.Qty) Qty,
+			B.Product_Info_STND_1 ItemStnd1, B.Product_Info_STND_2 ItemStnd2,
+			C.Child_TBL_Type ItemMaterial_Name,
+			D.Child_TBL_Type ItemClsfc1_Name, E.Child_TBL_Type ItemClsfc2_Name,
+			A.Create_Date
+		FROM Small_Packaging_tbl A
+		left outer join Sales_Packing_tbl Z on A.Small_Packaging_LotNo = Z.Sales_Small_Packing_LotNo
+		inner join Product_Info_tbl B on A.ItemCode = B.Product_Item_Code
+		inner join DTL_TBL C on B.Product_Material = C.Child_TBL_No
+		inner join DTL_TBL D on B.Product_Item_CLSFC_1 = D.Child_TBL_No
+		inner join DTL_TBL E on B.Product_Item_CLSFC_2 = E.Child_TBL_No
+		where Z.Sales_Large_Packing_LotNo is null
+		and A.ItemCode = #{ItemCode}
+		and A.MachineCode = #{MachineCode}
+		group by A.Small_Packaging_LotNo
+	</select>
+	
+	<insert id="smallPackagingInsertDao">
+		insert into Small_Packaging_tbl (
+			Small_Packaging_LotNo, Production_LotNo, MachineCode, ItemCode, Qty
+		) values (
+			#{Small_Packaging_LotNo}, #{Production_LotNo}, #{MachineCode}, #{ItemCode}, #{Qty}
+		)
+	</insert>
 </mapper>	

@@ -13,6 +13,12 @@ public class OrderListDto {
 	private String Order_lCode;
 	private String Order_lName;
 	private String Order_STND_1;
+	private String Order_Material;
+	private String Order_Material_Name;
+	private String Order_CLSFC_1;
+	private String Order_CLSFC_1_Name;
+	private String Order_CLSFC_2;
+	private String Order_CLSFC_2_Name;
 	private int Order_lQty;
 	private int Order_lSum;
 	private int Order_lUnit_Price;

@@ -17,6 +17,24 @@
 			concat('R',DATE_FORMAT(curdate(),"%y%m%d"), #{OM_ItemCode}, lpad(matarial_No,'4',0))
 		from LotNo_tbl
 	</select>
+	
+	<select id="crateLotNoSelectDao" resultType="String">
+		SELECT
+			concat('N', DATE_FORMAT(curdate(),"%y%m%d"), #{itemCode}, lpad(matarial_No,'4',0))
+		from LotNo_tbl
+	</select>
+	
+	<select id="smallLotNoSelectDao" resultType="String">
+		SELECT
+			concat('S', DATE_FORMAT(curdate(),"%y%m%d"), #{itemCode}, lpad(matarial_No,'4',0))
+		from LotNo_tbl
+	</select>
+	
+	<select id="largeLotNoSelectDao" resultType="String">
+		SELECT
+			concat('L', DATE_FORMAT(curdate(),"%y%m%d"), #{itemCode}, lpad(matarial_No,'4',0))
+		from LotNo_tbl
+	</select>
 
 	<update id="lotNoMatUpdateDao">
 		update LotNo_tbl

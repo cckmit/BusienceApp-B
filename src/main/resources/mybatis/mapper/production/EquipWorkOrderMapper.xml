@@ -44,6 +44,16 @@
 		inner join Product_Info_tbl C on A.Equip_WorkOrder_ItemCode = C.Product_Item_Code
 		where A.Equip_WorkOrder_Code = #{WorkOrder_EquipCode}
 	</select>
+			
+	<select id="packagingLineListSelectDao" resultType="com.busience.production.dto.EquipWorkOrderDto">
+		select
+			A.Equip_WorkOrder_Code,	B.Equipment_Info_Name Equip_WorkOrder_Name,
+			A.Equip_WorkOrder_ItemCode, C.Product_Item_Name Equip_WorkOrder_ItemName, B.Equipment_Type
+		FROM Equip_WorkOrder_tbl A
+		inner join Equipment_Info_tbl B on A.Equip_WorkOrder_Code = B.Equipment_Info_Code and B.Equipment_Type = '325'
+		inner join Product_Info_tbl C on A.Equip_WorkOrder_ItemCode = C.Product_Item_Code
+		where A.Equip_WorkOrder_ItemCode = #{itemCode}
+	</select>
 	
 	<insert id="equipWorkOrderInsert">
 	 	insert into Equip_WorkOrder_tbl (
@@ -60,4 +70,5 @@
 			Equip_WorkOrder_Date = now()
 		where Equip_WorkOrder_Code = #{WorkOrder_EquipCode}
 	</update>
+
 </mapper>

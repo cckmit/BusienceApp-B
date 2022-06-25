@@ -5,23 +5,30 @@ $("#machineName").click(function(){
 var packagingTable = new Tabulator("#packagingTable", {
 	layoutColumnsOnNewData : true,
 	height: "100%",
-	ajaxURL:"../itemPackingInspectRest/SIL_Search",
-	ajaxParams: { LotNo: "", startDate: today.toISOString().substring(0, 10), endDate: tomorrow.toISOString().substring(0, 10) },
+	selectable: 1,
+	ajaxURL:"maskPackagingRest/smallPackagingStandbySelect",
+	ajaxParams: {machineCode : $("#machineCode").val(), itemCode : $("#itemCode").val()},
     ajaxConfig:"get",
     ajaxContentType:"json",
-	selectable: true,
 	rowSelected: function(row) {
-		$("#selectedItem").val(row.getData().lm_LotNo);
+		$("#selectedItem").val(row.getData().small_Packaging_LotNo);
 	},
+	ajaxResponse:function(url, params, response){
+		$("#crate-Count").val(response.length);
+		return response
+    },
 	columns:[
-		{ title: "순번", field: "rownum", headerHozAlign: "center", hozAlign: "right", formatter: "rownum"},
-		{ title: "LotNo", field: "lm_LotNo", headerHozAlign: "center"},
-		{ title: "제품코드", field: "lm_ItemCode", headerHozAlign: "center" },
-		{ title: "제품명", field: "lm_ItemName", headerHozAlign: "center", width: 130 },
-		{ title: "규격", field: "lm_STND_1", headerHozAlign: "center", width: 85 },
-		{ title: "분류1", field: "lm_Item_CLSFC_1", headerHozAlign: "center", width: 85 },
-		{ title: "수량", field: "lm_Qty", headerHozAlign: "center", hozAlign: "right", width: 85 },
-		{ title: "입고일자", field: "lm_Create_Date", headerHozAlign: "center", hozAlign: "right",
+		{ title: "", field: "rownum", headerHozAlign: "center", hozAlign: "right", formatter: "rownum"},
+		{ title: "LotNo", field: "small_Packaging_LotNo", headerHozAlign: "center"},
+		{ title: "제품코드", field: "itemCode", headerHozAlign: "center" },
+		{ title: "제품명", field: "itemName", headerHozAlign: "center"},
+		{ title: "규격1", field: "itemSTND1", headerHozAlign: "center"},
+		{ title: "규격2", field: "itemSTND2", headerHozAlign: "center"},
+		{ title: "재질", field: "itemMaterial_Name", headerHozAlign: "center"},
+		{ title: "분류1", field: "itemClsfc1_Name", headerHozAlign: "center"},
+		{ title: "분류2", field: "itemClsfc2_Name", headerHozAlign: "center"},
+		{ title: "수량", field: "qty", headerHozAlign: "center", hozAlign: "right"},
+		{ title: "입고일자", field: "create_Date", headerHozAlign: "center", hozAlign: "right",
 			formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" }
 		}
 	]
@@ -47,22 +54,19 @@ function toggleFullScreen() {
 $("#packagingBtn").click(function(){
 	$.when(smallPackagingSave())
 	.then(function(data){
-		smallPackagingPrinter(data);
+		productionPrinter(data);
 	})
 })
 
 function smallPackagingSave(){
 	var ajaxResult = $.ajax({
 		method: "post",
-		url: "maskInputRestController/smallPackagingSave",
-		data: {machineCode : $("#machineCode").val()},
+		url: "maskPackagingRest/smallPackagingSave",
+		data: {machineCode : $("#machineCode").val(), itemCode : $("#itemCode").val()},
 		beforeSend: function(xhr) {
 			var header = $("meta[name='_csrf_header']").attr("content");
 			var token = $("meta[name='_csrf']").attr("content");
 			xhr.setRequestHeader(header, token);
-		},
-		success: function(result) {
-			console.log(result);
 		}
 	});
 	return ajaxResult;
@@ -75,7 +79,7 @@ function packagingLineListSelect(){
 		data: {itemCode : $("#itemCode").val()},
 		success: function(result) {
 			for(let j=0;j<result.length;j++){
-				$("#bundle-list").append('<li>'+result[j].workOrder_EquipName+'</li>')
+				$("#bundle-list").append('<li>'+result[j].equip_WorkOrder_Name+'</li>')
 			}
 		}
 	});
@@ -84,13 +88,35 @@ function packagingLineListSelect(){
 
 $("#rePrintBtn").click(function(){
 	//프린트
-	smallPackagingPrinter($("#selectedItem").val());
-	$("#selectedItem").val("");
+	productionPrinter(packagingTable.getData("selected")[0])
 })
+
+function largePackagingSave(){
+	var ajaxResult = $.ajax({
+		method: "post",
+		url: "maskPackagingRest/largePackagingSave",
+		data: {itemCode : $("#itemCode").val()},
+		beforeSend: function(xhr) {
+			var header = $("meta[name='_csrf_header']").attr("content");
+			var token = $("meta[name='_csrf']").attr("content");
+			xhr.setRequestHeader(header, token);
+		}
+	});
+	return ajaxResult;
+}
+
+$("#largePackagingBtn").click(function(){
+	$.when(largePackagingSave())
+	.then(function(data){
+		console.log(data);
+		//productionPrinter(data);
+	})
+})
+
 
 window.onload = function(){
 	packagingLineListSelect()
-	
+	setup();
 	setInterval(function(){
 		//packagingTable.replaceData();
 	},5000);
