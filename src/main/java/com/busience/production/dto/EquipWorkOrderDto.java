@@ -25,4 +25,8 @@ public class EquipWorkOrderDto {
 	private String Equip_WorkOrder_Item_CLSFC_2_Name;
 	private String Equip_WorkOrder_Equipment_Type;
 	
+	// 작업지시 등록 프로그램에서 필요
+	
+	private String WorkOrder_EquipCode;
+	private String WorkOrder_ItemCode;
 }

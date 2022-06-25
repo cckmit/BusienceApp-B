@@ -106,6 +106,12 @@ $(document).ready(function(){
 		$("#item_Type").val('28')
 	}else if(urlParams.get('search_value') == "halfItem") {
 		$("#item_Type").val('27')
+	}else if(urlParams.get('search_value') == "workMask") {
+		$("#item_Type").val('27')
+		document.getElementById("item_Type").disabled = true;
+	}else if(urlParams.get('search_value') == "workNonMask") {
+		$("#item_Type").val('28')
+		document.getElementById("item_Type").disabled = true;
 	}
 	search();
 })

@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import com.busience.common.dto.SearchDto;
 import com.busience.standard.dao.MachineDao;
@@ -16,6 +19,9 @@ public class MachineService {
 
 	@Autowired
 	MachineDao machineDao;
+	
+	@Autowired
+	TransactionTemplate transactionTemplate;
 		
 	//조회
 	public List<MachineDto> selectMachineList() {
@@ -36,9 +42,18 @@ public class MachineService {
 	public int insertMachine(MachineDto machineDto) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		machineDto.setEQUIPMENT_MODIFIER(authentication.getName());
-				
+		
 		try {
-			machineDao.insertMachineDao(machineDto);
+			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					// TODO Auto-generated method stub
+					machineDao.insertMachineDao(machineDto);
+				}
+				
+			});
+			
 			return 1;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -56,6 +71,22 @@ public class MachineService {
 	
 	//삭제
 	public int deleteMachine(String machineCode) {
-		return machineDao.deleteMachineDao(machineCode);
+		
+		try {
+			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					// TODO Auto-generated method stub
+					machineDao.deleteMachineDao(machineCode);
+				}
+				
+			});
+			
+			return 1;
+		} catch(Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
 	};
 }

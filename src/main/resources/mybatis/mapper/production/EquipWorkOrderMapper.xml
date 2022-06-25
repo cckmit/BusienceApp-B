@@ -16,10 +16,10 @@
 			B.Equipment_Type Equip_WorkOrder_Equipment_Type
 		from Equip_WorkOrder_tbl A
 		inner join Equipment_Info_tbl B on A.Equip_WorkOrder_Code = B.Equipment_Info_Code
-		inner join Product_Info_tbl C on A.Equip_WorkOrder_ItemCode = C.Product_Item_Code
-		inner join DTL_TBL D on C.Product_Material = D.Child_TBL_No
-		inner join DTL_TBL E on C.Product_Item_CLSFC_1 = E.Child_TBL_No
-		inner join DTL_TBL F on C.Product_Item_CLSFC_2 = F.Child_TBL_No
+		left outer join Product_Info_tbl C on A.Equip_WorkOrder_ItemCode = C.Product_Item_Code
+		left outer join DTL_TBL D on C.Product_Material = D.Child_TBL_No
+		left outer join DTL_TBL E on C.Product_Item_CLSFC_1 = E.Child_TBL_No
+		left outer join DTL_TBL F on C.Product_Item_CLSFC_2 = F.Child_TBL_No
 		<if test="MachineCode != null">
 			where A.Equip_WorkOrder_Code = #{MachineCode}
 		</if>
@@ -35,4 +35,20 @@
 		inner join Product_Info_tbl C on A.Equip_WorkOrder_ItemCode = C.Product_Item_Code
 		where A.WorkOrder_ItemCode = #{itemCode}
 	</select>
+	
+	<insert id="equipWorkOrderInsert">
+	 	insert into Equip_WorkOrder_tbl (
+	 	Equip_WorkOrder_Code, Equip_WorkOrder_ItemCode, Equip_WorkOrder_Date
+	 	) values (
+	 		#{WorkOrder_EquipCode}, #{WorkOrder_ItemCode}, now()
+	 	) 
+	</insert>
+	
+	<update id="equipWorkOrderUpdate">
+		update Equip_WorkOrder_tbl set
+			Equip_WorkOrder_Code = #{WorkOrder_EquipCode},
+			Equip_WorkOrder_ItemCode = #{WorkOrder_ItemCode},
+			Equip_WorkOrder_Date = now()
+		where Equip_WorkOrder_Code = #{WorkOrder_EquipCode}
+	</update>
 </mapper>

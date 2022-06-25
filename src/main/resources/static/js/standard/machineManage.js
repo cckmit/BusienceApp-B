@@ -250,7 +250,8 @@ function machineRemove() {
 				
 				$("#machineManageModal").modal("hide");
 			}else{
-				alert("오류가 발생했습니다.");
+				alert("사용중인 코드는 삭제할 수 없습니다.");
+				location.reload();
 			}
 		},
 		error:function(request,status,error){

@@ -11,4 +11,11 @@ import com.busience.production.dto.EquipWorkOrderDto;
 public interface EquipWorkOrderDao {
 	
 	public List<EquipWorkOrderDto> equipWorkOrderSelectDao(SearchDto searchDto);
+	
+	// insert
+	public int equipWorkOrderInsert(EquipWorkOrderDto equipWorkOrderDto);
+	
+	// update
+	public int equipWorkOrderUpdate(EquipWorkOrderDto equipWorkOrderDto);
+	
 }

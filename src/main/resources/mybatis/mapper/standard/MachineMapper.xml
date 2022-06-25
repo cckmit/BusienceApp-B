@@ -57,30 +57,22 @@
 	</select>
 	
  	<select id="dtlMachineListDao" resultType="com.busience.standard.dto.MachineDto">
- 			select eit.Equipment_info_Code workOrder_EquipCode, eit.Equipment_info_Name workOrder_EquipName, eit.Equipment_info_ABR, eit.Equipment_Type,
-				wott.WorkOrder_ONo, wott.WorkOrder_ItemCode, pit.Product_Item_Name WorkOrder_ItemName, wott.WorkOrder_RegisterTime, wott.WorkOrder_Remark, wott.WorkOrder_WorkStatus, 
-				dt2.Child_TBL_Type WorkOrder_WorkStatus_Name, wott.WorkOrder_Use_Status
+ 			select eit.Equipment_info_Code WorkOrder_EquipCode, eit.Equipment_info_Name WorkOrder_EquipName, 
+ 				pit.Product_Item_Code WorkOrder_ItemCode, pit.Product_Item_Name WorkOrder_ItemName, 
+ 				eit.Equipment_Type
 			from Equipment_Info_tbl eit
-			inner join (
-				select * from DTL_TBL where NEW_TBL_CODE=43
-			) dt on eit.Equipment_Type = dt.CHILD_TBL_NO
-			left outer JOIN (SELECT * FROM
-				(
-					SELECT max(WorkOrder_ONo) AS max_WorkOrder_ONo, max(WorkOrder_RegisterTime) AS max_time from WorkOrder_tbl GROUP BY workOrder_EquipCode
-				) wt 
-					INNER JOIN WorkOrder_tbl wot ON wot.WorkOrder_ONo = wt.max_WorkOrder_ONo AND wot.WorkOrder_RegisterTime = wt.max_time 
-				) wott ON eit.Equipment_Info_Code = wott.WorkOrder_EquipCode
-			left outer join DTL_TBL dt2 ON wott.WorkOrder_WorkStatus = dt2.Child_TBL_No
-			left outer join Product_Info_tbl pit ON wott.WorkOrder_ItemCode = pit.Product_Item_Code
+			left outer join Equip_WorkOrder_tbl ewt ON eit.Equipment_Info_Code = ewt.Equip_WorkOrder_Code
+			left outer join Product_Info_tbl pit on ewt.Equip_WorkOrder_ItemCode = pit.Product_Item_Code
 			<if test="EQUIPMENT_TYPE == 1">
-			where Equipment_Type = 324 
+			where Equipment_Type = 324
 			</if>
 			<if test="EQUIPMENT_TYPE == 2">
 			where Equipment_Type = 325
-			</if>		
+			</if>
 			<if test="EQUIPMENT_TYPE == 3">
 			where Equipment_Type = 330
-			</if>	
+			</if>
+			order by eit.Equipment_info_Code
 	</select> 
 	<insert id="insertMachineDao">
 		insert into Equipment_Info_tbl values(
