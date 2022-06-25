@@ -5,10 +5,10 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.busience.common.dto.SearchDto;
-import com.busience.production.dto.WorkOrderDto;
+import com.busience.production.dto.EquipWorkOrderDto;
 
 @Mapper
 public interface EquipWorkOrderDao {
 	
-	public List<WorkOrderDto> packagingLineListSelectDao(SearchDto searchDto);
+	public List<EquipWorkOrderDto> equipWorkOrderSelectDao(SearchDto searchDto);
 }

@@ -20,6 +20,11 @@ public class ItemService {
 	public List<ItemDto> selectItemList() {
 		return itemDao.selectItemList();
 	}
+	
+	//품목별 조회
+	public ItemDto selectItemCode(String itemCode) {
+		return itemDao.selectItemCode(itemCode);
+	}
 
 	//등록
 	public int insertItemCode(ItemDto itemDto){

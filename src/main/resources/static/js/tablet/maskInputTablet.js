@@ -6,12 +6,12 @@ function tableSetting(value){
 	var tableSetting = {
 		height: "100%",
 		headerVisible: false,
+		layout:"fitColumns",
 		ajaxURL:"maskInputRest/crateLotListSelect",
-		ajaxParams: {machineCode : value.workOrder_EquipCode},
+		ajaxParams: {machineCode : value.equip_WorkOrder_Code},
 	    ajaxConfig:"get",
 	    ajaxContentType:"json",
 		ajaxLoader:false,
-		layout:"fitColumns",
 		columns:[
 			{ title: "코드", field: "cl_CrateCode", headerHozAlign: "center", headerSort:false, widthGrow : 6},
 			{ title: "수량", field: "cl_Qty", headerHozAlign: "center", hozAlign:"right", headerSort:false,
@@ -27,28 +27,30 @@ $.ajax({
 	success : function(data) {
 		machineCodeObj = new Object();
 		for(let i=0;i<data.length;i++){
-			itemCodeObj[data[i].workOrder_EquipCode] = data[i].workOrder_Old_ItemCode
-			machineCodeObj[data[i].workOrder_EquipCode] = "itemTable"+(i)
-			$("#multiTableAdd").append(
-				'<div class="machine-module" id="module-'+data[i].workOrder_EquipCode+'">'
-						+'<div class="m-header m-font">'
-							+'<p><strong>'+data[i].workOrder_EquipName+'</strong></p>'
-							+'<p><strong>'+data[i].workOrder_ItemName.substr(0,data[i].workOrder_ItemName.length-3)+'</strong></p>'
+			if(data[i].equip_WorkOrder_Equipment_Type == '325'){
+				itemCodeObj[data[i].equip_WorkOrder_Code] = data[i].equip_WorkOrder_Old_ItemCode
+				machineCodeObj[data[i].equip_WorkOrder_Code] = "itemTable"+(i)
+				$("#multiTableAdd").append(
+					'<div class="machine-module" id="module-'+data[i].equip_workOrder_Code+'">'
+							+'<div class="m-header m-font">'
+								+'<p><strong>'+data[i].equip_WorkOrder_Name+'</strong></p>'
+								+'<p><strong>'+data[i].equip_WorkOrder_ItemName.substr(0,data[i].equip_WorkOrder_ItemName.length-3)+'</strong></p>'
+							+'</div>'
+							+'<div class="m-main m-font">'
+								+'<p><strong>'+data[i].equip_WorkOrder_ItemCode+'</strong></p>'
+								+'<p><strong>'+data[i].equip_WorkOrder_INFO_STND_1+'</strong></p>'
+								+'<p><strong>'+data[i].equip_WorkOrder_INFO_STND_2+'</strong></p>'
+								+'<p><strong>'+data[i].equip_WorkOrder_Material_Name+'</strong></p>'
+								+'<p><strong>'+data[i].equip_WorkOrder_Item_CLSFC_1_Name+'</strong></p>'
+								+'<p><strong>'+data[i].equip_WorkOrder_Item_CLSFC_2_Name+'</strong></p>'
+							+'</div>'
+						+'<div class="table-container">'
+							+'<div id="itemTable'+(i)+'" class="tablet-Table"></div>'
 						+'</div>'
-						+'<div class="m-main m-font">'
-							+'<p><strong>'+data[i].workOrder_ItemCode+'</strong></p>'
-							+'<p><strong>'+data[i].workOrder_INFO_STND_1+'</strong></p>'
-							+'<p><strong>'+data[i].workOrder_INFO_STND_2+'</strong></p>'
-							+'<p><strong>'+data[i].workOrder_Material_Name+'</strong></p>'
-							+'<p><strong>'+data[i].workOrder_Item_CLSFC_1_Name+'</strong></p>'
-							+'<p><strong>'+data[i].workOrder_Item_CLSFC_2_Name+'</strong></p>'
-						+'</div>'
-					+'<div class="table-container">'
-						+'<div id="itemTable'+(i)+'" class="tablet-Table"></div>'
 					+'</div>'
-				+'</div>'
-			)
-			new Tabulator("#itemTable"+(i), tableSetting(data[i]));
+				)
+				new Tabulator("#itemTable"+(i), tableSetting(data[i]));	
+			}
 		}
 	}
 });
@@ -75,7 +77,7 @@ $("#barcodeInput").keypress(function(e){
 			}
 		}else if(initial == "C"){
 			barcode = barcode.substr(1,-1)
-			console.log("수정모드")
+			//console.log("수정모드")
 			$("#selectedMachine").val(barcode);
 			$(".machine-module").removeClass("selected-module");
 			$("#module-"+barcode).addClass("selected-module");
@@ -84,11 +86,11 @@ $("#barcodeInput").keypress(function(e){
 			then(function(data){
 				//아이템이 설비지정아이템과 맞으면 등록이 되고 맞지않으면 오류 뱉음	
 				if(data instanceof Object){
-					console.log(itemCodeObj[$("#selectedMachine").val()]);
-					console.log(data.c_ItemCode);
+					//console.log(itemCodeObj[$("#selectedMachine").val()]);
+					//console.log(data.c_ItemCode);
 					if(data.c_ItemCode == itemCodeObj[$("#selectedMachine").val()]){
 						crateLotUpdate($("#selectedMachine").val(), data.c_CrateCode);
-						console.log("통과");
+						//console.log("통과");
 					}else{
 						console.log("설비와 품목이 맞지 않습니다.")
 					}
@@ -136,7 +138,7 @@ window.onload = function(){
 	
 	setInterval(function(){
 		for(var key in machineCodeObj){
-			//Tabulator.prototype.findTable("#"+machineCodeObj[key])[0].replaceData();	
+			Tabulator.prototype.findTable("#"+machineCodeObj[key])[0].replaceData();	
 		}
 	},60000);
 }

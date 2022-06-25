@@ -7,26 +7,11 @@ $("#machineName").click(function(){
 var itemTable = new Tabulator("#itemTable", {
 	layoutColumnsOnNewData : true,
 	height: "100%",
-	ajaxURL:"maskProductionRest/workingByMachine",
-	ajaxParams: {machineCode : $("#machineCode").val(), condition: 2},
+	ajaxURL:"../itemManageRest/itemCodeInfo",
+	ajaxParams: {itemCode : $("#itemCode").val()},
     ajaxConfig:"get",
     ajaxContentType:"json",
 	ajaxResponse:function(url, params, response){
-		//작업지시번호로 생산랏을 검색해서 내용이 있는지 여부를 검색
-		//있으면 생산랏에 대한 정보를 검색하고
-		//없으면 봄만 가져옴
-		//상자 랏 번호 탐색
-		$.when(CrateSelect($("#machineCode").val()))
-		.then(function(data){
-			return RawSelect(data.c_Production_LotNo);
-		}).then(function(data1){
-			if(data1.length == 0){
-				BOM_Check(response)
-			}
-		})
-		
-		//현재 작업 품목
-		$("#itemName").text(response.product_ITEM_NAME)
 		return [response]
     },
 	columns:[
@@ -59,6 +44,18 @@ function toggleFullScreen() {
       document.exitFullscreen()
     }
   }
+}
+
+function workOrderSet(){
+	$.when(CrateSelect($("#machineCode").val()))
+	.then(function(data){
+		return RawSelect(data.c_Production_LotNo);
+	}).then(function(data1){
+		if(data1.length == 0){
+			console.log(data1)
+			BOM_Check(response)
+		}
+	})
 }
 
 $(document).keydown(function(){
@@ -350,7 +347,8 @@ function linkageData(){
 }
 
 window.onload = function(){
+	workOrderSet();
 	setInterval(function(){
-		CrateSelect($("#machineCode").val());
+		//CrateSelect($("#machineCode").val());
 	},5000);
 }
