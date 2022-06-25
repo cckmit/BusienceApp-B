@@ -134,8 +134,10 @@
 		insert into Sales_Packing_tbl(
 			Sales_Large_Packing_LotNo, Sales_Small_Packing_LotNo, Sales_Packing_Qty, Sales_Packing_Status
 		) select
-			#{LotNo}, Small_Packaging_LotNo, sum(Qty) Qty, '203'
-		from Small_Packaging_tbl
+			#{LotNo}, A.Small_Packaging_LotNo, sum(A.Qty) Qty, '203'
+		from Small_Packaging_tbl A
+        left outer join Sales_Packing_tbl B on A.Small_Packaging_LotNo = B.Sales_Small_Packing_LotNo
+        where B.Sales_Large_Packing_LotNo is null
 		group by Small_Packaging_LotNo;
 	</insert>
 

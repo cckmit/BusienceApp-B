@@ -54,6 +54,7 @@ function toggleFullScreen() {
 $("#packagingBtn").click(function(){
 	$.when(smallPackagingSave())
 	.then(function(data){
+		console.log(data);
 		productionPrinter(data);
 	})
 })
