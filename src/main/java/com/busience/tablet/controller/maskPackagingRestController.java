@@ -29,6 +29,11 @@ public class maskPackagingRestController {
 		return maskPackagingService.packagingLineListSelect(searchDto);
 	}
 	
+	@PostMapping("/smallPackagingSelect")
+	public String smallPackagingSelect(SearchDto searchDto) {
+		return maskPackagingService.smallPackagingSave(searchDto);
+	}
+	
 	@PostMapping("/smallPackagingSave")
 	public String smallPackagingSave(SearchDto searchDto) {
 		return maskPackagingService.smallPackagingSave(searchDto);

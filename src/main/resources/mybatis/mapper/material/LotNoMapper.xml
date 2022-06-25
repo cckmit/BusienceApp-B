@@ -8,13 +8,13 @@
 
 	<select id="lotNoSelectDao" resultType="String">
 		select
-			concat(DATE_FORMAT(curdate(),"%y%m%d"), #{InMat_Code}, lpad(matarial_No,'4',0))
+			concat('R',DATE_FORMAT(curdate(),"%y%m%d"), #{InMat_Code}, lpad(matarial_No,'4',0))
 		from LotNo_tbl
 	</select>
 	
 	<select id="outMatlotNoSelectDao" resultType="String">
 		select
-			concat(DATE_FORMAT(curdate(),"%y%m%d"), #{OM_ItemCode}, lpad(matarial_No,'4',0))
+			concat('R',DATE_FORMAT(curdate(),"%y%m%d"), #{OM_ItemCode}, lpad(matarial_No,'4',0))
 		from LotNo_tbl
 	</select>
 

@@ -3,10 +3,10 @@
 <div class="container-bs">
 	<header class="global-header">
 		<div class="header-left">
-			<input id="machineCode" type="hidden" value="${machineInfo.EQUIPMENT_INFO_CODE}">
-			<span id="machineName">${machineInfo.EQUIPMENT_INFO_NAME}</span>
-			<input id="itemCode" type="hidden">
-			<span id="itemName">품목명</span>
+			<input id="machineCode" type="hidden" value="${workOrderInfo.equip_WorkOrder_Code}">
+			<span id="machineName">${workOrderInfo.equip_WorkOrder_Name}</span>
+			<input id="itemCode" type="hidden" value="${workOrderInfo.equip_WorkOrder_ItemCode}">
+			<span id="itemName">${workOrderInfo.equip_WorkOrder_ItemName}</span>
 		</div>
 		<div class="title tablet-border">
 			<span>작업 관리 (마스크 포장)</span>
@@ -45,7 +45,7 @@
 	<div class="main-c">
 		<div class="main-box tablet-border">
 			<div class="item">
-				<button type="button" class="btn btn-success">대포장 수동 출력</button>
+				<button type="button" class="btn btn-success">대포장 출력</button>
 			</div>
 			<div class="item">
 				<input id="selectedItem" placeholder="목록을 선택하세요." disabled>

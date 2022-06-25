@@ -3,9 +3,10 @@
 <div class="container-bs">
 	<header class="global-header">
 		<div class="header-left">
-			<input id="machineCode" type="hidden" value="${machineInfo.EQUIPMENT_INFO_CODE}">
-			<span id="machineName">${machineInfo.EQUIPMENT_INFO_NAME}</span>
-			<span id="itemName">품목명</span>
+			<input id="machineCode" type="hidden" value="${workOrderInfo.equip_WorkOrder_Code}">
+			<span id="machineName">${workOrderInfo.equip_WorkOrder_Name}</span>
+			<input id="itemCode" type="hidden" value="${workOrderInfo.equip_WorkOrder_ItemCode}">
+			<span id="itemName">${workOrderInfo.equip_WorkOrder_ItemName}</span>
 		</div>
 		<div class="title tablet-border">
 			<span>작업 관리 (마스크 생산)</span>

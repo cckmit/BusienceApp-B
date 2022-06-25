@@ -5,13 +5,34 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	 
 <mapper namespace="com.busience.production.dao.EquipWorkOrderDao">
-	<select id="packagingLineListSelectDao" resultType="com.busience.production.dto.EquipWorkOrderDto">
-		SELECT 
-			A.WorkOrder_ItemCode, C.Product_Item_Name WorkOrder_ItemName, A.WorkOrder_EquipCode,
-   			B.Equipment_Info_Name WorkOrder_EquipName, B.Equipment_Type
-		FROM WorkOrder_tbl A
-		inner join Equipment_Info_tbl B on A.WorkOrder_EquipCode = B.Equipment_Info_Code and B.Equipment_Type = '325'
-		inner join Product_Info_tbl C on A.WorkOrder_ItemCode = C.Product_Item_Code
+	<select id="equipWorkOrderSelectDao" resultType="com.busience.production.dto.EquipWorkOrderDto">
+		select 
+			A.Equip_WorkOrder_Code, B.Equipment_Info_Name Equip_WorkOrder_Name,
+			A.Equip_WorkOrder_ItemCode, C.Product_Item_Name Equip_WorkOrder_ItemName, C.Product_Old_Item_Code Equip_WorkOrder_Old_ItemCode,
+			C.PRODUCT_INFO_STND_1 Equip_WorkOrder_INFO_STND_1, C.PRODUCT_INFO_STND_2 Equip_WorkOrder_INFO_STND_2,
+			C.Product_Material Equip_WorkOrder_Material, D.Child_TBL_Type Equip_WorkOrder_Material_Name,
+			C.Product_Item_CLSFC_1 Equip_WorkOrder_Item_CLSFC_1, E.Child_TBL_Type Equip_WorkOrder_Item_CLSFC_1_Name,
+			C.Product_Item_CLSFC_2 Equip_WorkOrder_Item_CLSFC_2, F.Child_TBL_Type Equip_WorkOrder_Item_CLSFC_2_Name,
+			B.Equipment_Type Equip_WorkOrder_Equipment_Type
+		from Equip_WorkOrder_tbl A
+		inner join Equipment_Info_tbl B on A.Equip_WorkOrder_Code = B.Equipment_Info_Code
+		inner join Product_Info_tbl C on A.Equip_WorkOrder_ItemCode = C.Product_Item_Code
+		inner join DTL_TBL D on C.Product_Material = D.Child_TBL_No
+		inner join DTL_TBL E on C.Product_Item_CLSFC_1 = E.Child_TBL_No
+		inner join DTL_TBL F on C.Product_Item_CLSFC_2 = F.Child_TBL_No
+		<if test="MachineCode != null">
+			where A.Equip_WorkOrder_Code = #{MachineCode}
+		</if>
+		order by Equip_WorkOrder_Code
+	</select>
+	
+	<select id="equipWorkOrderSelectDao2" resultType="com.busience.production.dto.EquipWorkOrderDto">
+		select
+			A.Equip_WorkOrder_Code,	B.Equipment_Info_Name Equip_WorkOrder_Name,
+			A.Equip_WorkOrder_ItemCode, C.Product_Item_Name Equip_WorkOrder_ItemName, B.Equipment_Type
+		FROM Equip_WorkOrder_tbl A
+		inner join Equipment_Info_tbl B on A.Equip_WorkOrder_Code = B.Equipment_Info_Code and B.Equipment_Type = '325'
+		inner join Product_Info_tbl C on A.Equip_WorkOrder_ItemCode = C.Product_Item_Code
 		where A.WorkOrder_ItemCode = #{itemCode}
 	</select>
 </mapper>

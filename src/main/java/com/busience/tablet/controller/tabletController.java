@@ -2,6 +2,7 @@ package com.busience.tablet.controller;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.busience.common.dto.SearchDto;
 import com.busience.common.service.DtlService;
+import com.busience.production.dto.EquipWorkOrderDto;
+import com.busience.production.service.EquipWorkOrderService;
 import com.busience.standard.dto.DTL_TBL;
 import com.busience.standard.dto.EQUIPMENT_INFO_TBL;
 import com.busience.standard.dto.MachineDto;
@@ -36,6 +39,9 @@ public class tabletController {
 	@Autowired
 	MaskPackagingService maskPackagingService;
 
+	@Autowired
+	EquipWorkOrderService equipWorkOrderService;
+		
 	//workOrderTablet
 	@GetMapping("/tablet/workOrderTablet")
 	public String workOrderTablet(Model model, SearchDto searchDto) {
@@ -186,9 +192,10 @@ public class tabletController {
 		if(searchDto.getMachineCode() == null) {
 			searchDto.setMachineCode("M001");
 		}
-		MachineDto machineDto = machineService.selectMachineInfo(searchDto);
 		
-		model.addAttribute("machineInfo", machineDto);
+		List<EquipWorkOrderDto> equipWorkOrderDtoList = equipWorkOrderService.equipWorkOrderSelect(searchDto);
+				
+		model.addAttribute("workOrderInfo", equipWorkOrderDtoList.get(0));
 		
 		return "normal/tablet/maskProductionTablet";
 	}
@@ -210,11 +217,9 @@ public class tabletController {
 		if(searchDto.getMachineCode() == null) {
 			searchDto.setMachineCode("M301");
 		}
-		MachineDto machineDto = machineService.selectMachineInfo(searchDto);
+		List<EquipWorkOrderDto> equipWorkOrderDtoList = equipWorkOrderService.equipWorkOrderSelect(searchDto);
 		
-		//List<WorkOrderDto> workOrderDtoList = maskPackagingService.maskPackagingSelect();
-		
-		model.addAttribute("machineInfo", machineDto);
+		model.addAttribute("workOrderInfo", equipWorkOrderDtoList.get(0));
 		
 		return "normal/tablet/maskPackagingTablet";
 	}

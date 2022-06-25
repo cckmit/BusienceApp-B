@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
-import com.busience.production.dto.WorkOrderDto;
+import com.busience.production.dto.EquipWorkOrderDto;
+import com.busience.production.service.EquipWorkOrderService;
 import com.busience.tablet.dto.CrateLotDto;
 import com.busience.tablet.service.MaskInputService;
 
@@ -20,6 +21,9 @@ public class maskInputRestController {
 	@Autowired
 	MaskInputService maskInputService;
 		
+	@Autowired
+	EquipWorkOrderService equipWorkOrderService;
+	
 	@GetMapping("/crateMachineSelect")
 	public List<CrateLotDto> crateMachineSelect(SearchDto searchDto) {
 		return maskInputService.crateMachineSelect(searchDto);
@@ -31,8 +35,8 @@ public class maskInputRestController {
 	}
 	
 	@GetMapping("/maskInputSelect")
-	public List<WorkOrderDto> maskInputSelect() {
-		return maskInputService.maskInputSelect();
+	public List<EquipWorkOrderDto> maskInputSelect(SearchDto searchDto) {
+		return equipWorkOrderService.equipWorkOrderSelect(searchDto);
 	}
 	
 	@PostMapping("/maskInputUpdate")
