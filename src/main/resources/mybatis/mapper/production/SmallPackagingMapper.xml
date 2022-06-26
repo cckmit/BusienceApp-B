@@ -50,6 +50,15 @@
 		group by A.Small_Packaging_LotNo
 	</select>
 	
+	<select id="smallPackagingQtySelectDao" resultType="int">
+		SELECT
+			count(distinct Small_Packaging_LotNo)
+		FROM Small_Packaging_tbl 
+		where ItemCode = #{ItemCode}
+		and MachineCode = #{MachineCode}
+		and Create_Date >= current_date()
+	</select>
+	
 	<insert id="smallPackagingInsertDao">
 		insert into Small_Packaging_tbl (
 			Small_Packaging_LotNo, Production_LotNo, MachineCode, ItemCode, Qty

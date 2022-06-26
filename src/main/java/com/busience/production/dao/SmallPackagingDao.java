@@ -18,6 +18,7 @@ public interface SmallPackagingDao {
 	
 	public List<Small_Packaging_tbl> smallPackagingStandbySelectDao(SearchDto searchDto);
 	
+	public int smallPackagingQtySelectDao(SearchDto searchDto);
 	//소포장 등록
 	public int smallPackagingInsertDao(Small_Packaging_tbl small_Packaging_tbl);
 }

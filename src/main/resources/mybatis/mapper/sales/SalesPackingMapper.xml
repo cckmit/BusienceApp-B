@@ -114,6 +114,15 @@
 		</if>
 	</select>
 	
+	<select id="largePackagingQtySelectDao" resultType="int">
+		select
+			count(distinct Sales_Large_Packing_LotNo)
+		from Sales_Packing_tbl 
+		where Sales_MachineCode = #{MachineCode}
+		and Sales_ItemCode = #{ItemCode}
+		and Sales_Large_Packing_Time >= current_date();
+	</select>
+	
 	<insert id="salesPackingInsertDao">
 		INSERT INTO Sales_Packing_tbl (
 			Sales_Packing_No, Sales_Large_Packing_LotNo,
@@ -133,9 +142,13 @@
 
 	<insert id="largePackagingInsertDao">
 		insert into Sales_Packing_tbl(
-			Sales_Large_Packing_LotNo, Sales_Small_Packing_LotNo, Sales_Packing_Qty, Sales_Packing_Status
+			Sales_Large_Packing_LotNo, Sales_Small_Packing_LotNo,
+			Sales_ItemCode, Sales_MachineCode,
+			Sales_Packing_Qty, Sales_Packing_Status
 		) select
-			#{LotNo}, A.Small_Packaging_LotNo, sum(A.Qty) Qty, '203'
+			#{LotNo}, A.Small_Packaging_LotNo,
+			#{ItemCode}, #{MachineCode},
+			sum(A.Qty) Qty, '203'
 		from Small_Packaging_tbl A
         left outer join Sales_Packing_tbl B on A.Small_Packaging_LotNo = B.Sales_Small_Packing_LotNo
         where B.Sales_Large_Packing_LotNo is null

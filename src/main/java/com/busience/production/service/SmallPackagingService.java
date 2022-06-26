@@ -45,4 +45,10 @@ public class SmallPackagingService {
 	public List<Small_Packaging_tbl> smallPackagingStandbySelect(SearchDto searchDto) {
 		return smallPackagingDao.smallPackagingStandbySelectDao(searchDto);
 	}
+	
+	//당일 소포장 발행 횟수
+	public int smallPackagingQtySelect(SearchDto searchDto) {
+		return smallPackagingDao.smallPackagingQtySelectDao(searchDto);
+	}
+		
 }

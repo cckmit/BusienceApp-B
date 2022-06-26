@@ -32,13 +32,13 @@
 				<input id="crate-Count" disabled>
 			</div>
 			<div class="item">
-				<label for="crate-LotNo">당일 소포장 수량</label>
-				<input id="crate-LotNo" readonly>
+				<label for="smallPackaging-Qty">당일 소포장 수량</label>
+				<input id="smallPackaging-Qty" readonly>
 				<input type="hidden" id="crateCode">
 			</div>
 			<div class="item">
-				<label for="crate-Qty">당일 대포장 수량</label>
-				<input id="crate-Qty" disabled>
+				<label for="largePackaging-Qty">당일 대포장 수량</label>
+				<input id="largePackaging-Qty" disabled>
 			</div>
 		</div>
 	</div>
@@ -49,8 +49,8 @@
 				<button type="button" id="largePackagingBtn" class="btn btn-success">대포장 출력</button>
 			</div>
 			<div class="item">
-				<input id="selectedItem" placeholder="목록을 선택하세요." disabled>
-				<button type="button" id="rePrintBtn" class="btn btn-primary">소포장 재 발행</button>
+				<input id="selectedItem" placeholder="목록을 선택하세요." style="width: 60%" disabled>
+				<button type="button" id="rePrintBtn" class="btn btn-primary" style="width: 30%">소포장 재 발행</button>
 			</div>
 		</div>
 	</div>
