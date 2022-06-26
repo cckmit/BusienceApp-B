@@ -52,7 +52,6 @@ function workOrderSet(){
 		return RawSelect(data.c_Production_LotNo);
 	}).then(function(data1){
 		if(data1.length == 0){
-			console.log(data1)
 			BOM_Check(response)
 		}
 	})
@@ -133,20 +132,39 @@ function rawMaterialLotInput(value){
 		//품목코드와 동일한 값을 찾은 후, 랏번호가 같지 않다면 변경됨
 		if(currentValue.rms_ItemCode == itemCode){
 			if(currentValue.rms_LotNo != value){
-				//반복문 실행하여 LotList 에 정보만 넣고
-				//LotList의 정보를 화면에 보여주는 함수 따로 만들면 좋을듯
-				$(".main-c .item:nth-of-type("+(i+2)+") .LotNo").val(value);
-				currentValue.rms_LotNo = value
+				$.when(rawMaterialCheck(value))
+				.then(function(data){
+					if(data.length>0){
+						//반복문 실행하여 LotList 에 정보만 넣고
+						//LotList의 정보를 화면에 보여주는 함수 따로 만들면 좋을듯
+						$(".main-c .item:nth-of-type("+(i+2)+") .LotNo").val(value);
+						currentValue.rms_LotNo = value
+					}else{
+						console.log("창고에 없는 원자재 입니다.")
+					}			
+				})				
 			}
 			return false;
 		}
 		return true;
 	})
 	if(result){
-		alert("제품과 맞지않는 원자재 입니다.");
+		console.log("제품과 맞지않는 원자재 입니다.")
 	}
 	return 
 }
+function rawMaterialCheck(value){
+	var ajaxResult = $.ajax({
+		method : "get",
+		url : "/matOutReturnRest/MORI_Search",
+		data : {lotNo : value, warehouse : "51"},
+		success : function(data) {
+			console.log(data)
+		}
+	})
+	return ajaxResult;
+}
+
 function inputCheck(){
 	var result = LotList.every(x => {
 		return x.rms_LotNo != null

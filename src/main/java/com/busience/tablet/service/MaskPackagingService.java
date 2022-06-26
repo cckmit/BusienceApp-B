@@ -46,7 +46,6 @@ public class MaskPackagingService {
 	
 	@Transactional
 	public LabelPrintDto smallPackagingSave(SearchDto searchDto) {
-		System.out.println("시작");
 		String itemCode = searchDto.getItemCode();
 		
 		//소포장 LotNo
@@ -60,19 +59,22 @@ public class MaskPackagingService {
 		//포장설비 리스트를 가져옴
 		List<EquipWorkOrderDto> packagingLine = equipWorkOrderDao.packagingLineListSelectDao(searchDto);
 		
-		System.out.println("포장설비");
-		System.out.println(packagingLine);
 		//포장수량/설비갯수
 		double divideQty = 1000/packagingLine.size();
+		double restQty = 1000%packagingLine.size();
+		
 		//분배된 포장수량을 설비별로 랏저장
 		for(int i=0;i<packagingLine.size();i++) {
 			SearchDto machineList = new SearchDto();
 			machineList.setMachineCode(packagingLine.get(i).getEquip_WorkOrder_Code());
 			
 			List<CrateLotDto> CrateLotDtoList = crateLotDao.crateLotListSelectDao(machineList);
-			System.out.println("랏리스트");
-			System.out.println(CrateLotDtoList);
+			
 			double packagingQty = divideQty;
+			if(restQty > 0) {
+				packagingQty++;
+				restQty--;
+			}
 			
 			for(int j=0;j<CrateLotDtoList.size();j++) {
 				double crateQty = CrateLotDtoList.get(j).getCL_ProductionQty();
@@ -100,17 +102,13 @@ public class MaskPackagingService {
 				small_Packaging_tbl.setMachineCode(machineCode);
 				small_Packaging_tbl.setItemCode(itemCode);
 				small_Packaging_tbl.setQty(qty);
-				System.out.println(small_Packaging_tbl);
 				smallPackagingDao.smallPackagingInsertDao(small_Packaging_tbl);
 
 				if(packagingQty == 0) {								
 					break;
 				}
-				//packagingQty가 큰경우 다음 상자 계산
-				//crateQty가 큰경우 지금 끝나고 다음 라인 계산
 			}
 		}
-		System.out.println("끝");
 		return labelPrintDao.smallPackagingLabelSelectDao(small_Packaging_LotNo);
 	}
 }
