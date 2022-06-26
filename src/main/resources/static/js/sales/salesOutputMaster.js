@@ -9,8 +9,11 @@ var salesOutputListTable = new Tabulator("#salesOutputListTable", {
 	{title:"거래처명", field:"sales_OutMat_Client_Name", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
  	{title:"품목코드", field:"sales_OutMat_Code", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
  	{title:"품명", field:"sales_OutMat_Name", headerHozAlign:"center", headerFilter:true, hozAlign:"left", width:170},
- 	{title:"규격", field:"sales_OutMat_STND_1", headerHozAlign:"center", headerFilter:true, hozAlign:"left", width:80},
+ 	{title:"규격1", field:"sales_OutMat_STND_1", headerHozAlign:"center", headerFilter:true, hozAlign:"left", width:80},
+ 	{title:"규격2", field:"sales_OutMat_STND_2", headerHozAlign:"center", headerFilter:true, hozAlign:"left", width:80},
  	{title:"분류1", field:"sales_OutMat_Item_Clsfc_Name_1", headerHozAlign:"center", headerFilter:true, hozAlign:"left", width:80},
+ 	{title:"분류2", field:"sales_OutMat_Item_Clsfc_Name_2", headerHozAlign:"center", headerFilter:true, hozAlign:"left", width:80},
+ 	{title:"재질", field:"sales_OutMat_Material", headerHozAlign:"center", headerFilter:true, hozAlign:"left", width:80},
  	{title:"단위", field:"sales_OutMat_UNIT", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
  	{title:"수량", field:"sales_OutMat_Qty", headerHozAlign:"center", headerFilter:true, hozAlign:"right"},
 	{title:"등록자", field:"sales_OutMat_Modifier", headerHozAlign:"center", headerFilter:true, hozAlign:"left", width:80},
@@ -53,8 +56,11 @@ var salesOutputItemViewTable = new Tabulator("#salesOutputItemViewTable", {
  	{title:"출고구분", field:"sales_OutMat_Send_Clsfc", headerHozAlign:"center" ,hozAlign:"left"},
  	{title:"품목코드", field:"sales_OutMat_Code", headerHozAlign:"center",hozAlign:"left"},
  	{title:"품명", field:"sales_OutMat_Name", headerHozAlign:"center",hozAlign:"left", width:170},
- 	{title:"규격", field:"sales_OutMat_STND_1", headerHozAlign:"center",hozAlign:"left", width:80},
+ 	{title:"규격1", field:"sales_OutMat_STND_1", headerHozAlign:"center",hozAlign:"left", width:80},
+ 	{title:"규격2", field:"sales_OutMat_STND_2", headerHozAlign:"center",hozAlign:"left", width:80},
  	{title:"분류1", field:"sales_OutMat_Item_Clsfc_Name_1", headerHozAlign:"center", hozAlign:"left", width:80},
+ 	{title:"분류2", field:"sales_OutMat_Item_Clsfc_Name_2", headerHozAlign:"center", hozAlign:"left", width:80},
+ 	{title:"재질", field:"sales_OutMat_Material", headerHozAlign:"center", hozAlign:"left", width:80},
  	{title:"단위", field:"sales_OutMat_UNIT", headerHozAlign:"center",hozAlign:"left", width:60},
  	{title:"수량", field:"sales_OutMat_Qty", headerHozAlign:"center",hozAlign:"right"}
  	],
@@ -90,15 +96,15 @@ var salesOutputCustomerViewTable = new Tabulator("#salesOutputCustomerViewTable"
 	layoutColumnsOnNewData : true,
 	//Sub Total 색상
 	rowFormatter: function(row) {
-		if (row.getData().inMat_Lot_No == "Sub Total") {
+		if (row.getData().sales_OutMat_Lot_No == "Sub Total") {
 			row.getElement().style.backgroundColor = "#c0c0c0";
 		}
 	},
 	height: "calc(100% - 175px)",
 	columns: [
 		{ title: "순번", field: "rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum"},
-		{ title: "수주번호", field: "inMat_Order_No", headerHozAlign: "center", hozAlign: "left"},
-		{ title: "Lot번호", field: "sales_OutMat_Lot_No", headerHozAlign: "center", hozAlign: "left"},
+		{ title: "수주번호", field: "sales_OutMat_Cus_No", headerHozAlign: "center", hozAlign:"center"},
+		{ title: "Lot번호", field: "sales_OutMat_Lot_No", headerHozAlign: "center", hozAlign:"center"},
 		{ title: "거래처명", field: "sales_OutMat_Client_Name", headerHozAlign: "center", hozAlign: "left"},
 		{ title: "품목코드", field: "sales_OutMat_Code", headerHozAlign: "center", hozAlign: "left" },
 		{ title: "품명", field: "sales_OutMat_Name", headerHozAlign: "center", hozAlign: "left"},
@@ -115,22 +121,24 @@ var salesOutputCustomerViewTable = new Tabulator("#salesOutputCustomerViewTable"
 			formatter: "money", formatterParams: { precision: false } },
 		{ title: "일자", field: "sales_OutMat_Date", headerHozAlign: "center", hozAlign: "left",
 			formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" } },
-		{ title: "출고구분", field: "sales_OutMat_Send_Clsfc_Name", headerHozAlign: "center", hozAlign: "left" }
+		{ title: "출고구분", field: "sales_OutMat_Send_Clsfc", headerHozAlign: "center", hozAlign: "left" }
 	]
 });
 
-$("#MICL_SearchBtn").click(function(){
-	MICL_Search();
+$("#SOCV_SearchBtn").click(function(){
+	SOCV_Search();
 })
 
-function MICL_Search(){
+function SOCV_Search(){
 	var datas = {
-		startDate: $("#matInputCustomerView_startDate").val(),
-		endDate: $("#matInputCustomerView_endDate").val(),
-		ClientCode: $("#InMat_Client_Code2").val(),
-		ItemSendClsfc: $("#inMatTypeCustomerViewSelectBox option:selected").val()
+		startDate: $("#salesOutputCustomerView_startDate").val(),
+		endDate: $("#salesOutputCustomerView_endDate").val(),
+		Sales_OutMat_Client_Code: $("#Sales_InMat_Client_Code").val(),
+		Sales_OutMat_Send_Clsfc: $("#outMatTypeCustomerViewSelectBox option:selected").val()
 	}
-	matInputCustomerViewTable.setData("matInputRest/MIOL_Search", datas)
+	
+	console.log(datas);
+	salesOutputCustomerViewTable.setData("salesOutputRest/SOCV_Search", datas)
 }
 
 var salesOutputDeliveryListTable = new Tabulator("#salesOutputDeliveryListTable", {
@@ -161,6 +169,8 @@ $("#MIDM_SearchBtn").click(function(){
 	matInputDeliveryItemTable.clearData();
 	MIDM_Search();
 })
+
+
 
 function MIDM_Search() {
 

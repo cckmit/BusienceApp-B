@@ -41,10 +41,10 @@
 		<![CDATA[
 		where A.Sales_InMat_Date >= #{startDate} and A.Sales_InMat_Date < #{endDate} 
 		]]>
-		<if test="Sales_InMat_Code != null">
+		<if test="Sales_InMat_Code != ''">
 		AND Sales_InMat_Code LIKE CONCAT('%',#{Sales_InMat_Code},'%')
 		</if>
-		<if test="Sales_InMat_Lot_No != null">
+		<if test="Sales_InMat_Lot_No != ''">
 		AND Sales_InMat_Lot_No LIKE CONCAT('%',#{Sales_InMat_Lot_No},'%')
 		</if>
 		<if test='Sales_InMat_Rcv_Clsfc != "all"'>

@@ -279,11 +279,11 @@ var salesLotMasterTable = new Tabulator("#salesLotMasterTable", {
 		{ title: "LotNo", field: "lm_LotNo", headerHozAlign: "center", width: 145 },
 		{ title: "품목코드", field: "lm_ItemCode", headerHozAlign: "center", width: 100 },
 		{ title: "품목명", field: "lm_ItemName", headerHozAlign: "center", width: 145 },
-		{ title: "규격1", field: "s_Item_Standard_1", headerHozAlign: "center" },
-		{ title: "규격2", field: "s_Item_Standard_2", headerHozAlign: "center" },
-		{ title: "분류1", field: "s_Item_Classfy_1_Name", headerHozAlign: "center" },
-		{ title: "분류2", field: "s_Item_Classfy_2_Name", headerHozAlign: "center" },
-		{ title: "재질", field: "s_Item_Material", headerHozAlign: "center" },
+		{ title: "규격1", field: "lm_STND_1", headerHozAlign: "center" },
+		{ title: "규격2", field: "lm_STND_2", headerHozAlign: "center" },
+		{ title: "분류1", field: "lm_Item_CLSFC_1", headerHozAlign: "center" },
+		{ title: "분류2", field: "lm_Item_CLSFC_2", headerHozAlign: "center" },
+		{ title: "재질", field: "lm_Item_Material", headerHozAlign: "center" },
 		{
 			title: "수량", field: "lm_Qty", headerHozAlign: "center", hozAlign: "right",
 			formatter: "money", formatterParams: { precision: false }
@@ -435,6 +435,7 @@ function LotNoSearch() {
 								salesLotMasterTable.deleteRow(row[j]);
 								return;
 							} else {
+								salesLotMasterTable.selectRow(row[j]);
 								alert("출고가능한 수량보다 많습니다.");
 								return;
 							}
