@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.busience.common.dto.SearchDto;
 import com.busience.material.dao.LotNoDao;
+import com.busience.production.dao.LabelPrintDao;
+import com.busience.production.dto.LabelPrintDto;
 import com.busience.sales.dao.SalesPackingDao;
 import com.busience.sales.dto.SalesPackingDto;
 
@@ -19,6 +21,9 @@ public class SalesPackingService {
 	
 	@Autowired
 	LotNoDao lotNoDao;
+	
+	@Autowired
+	LabelPrintDao labelPrintDao;
 	
 	// sales_packing_select
 	public List<SalesPackingDto> salesPackingListSelectDao(SearchDto searchDto) {
@@ -52,9 +57,15 @@ public class SalesPackingService {
 	
 	// 대포장 Lot 발행 저장
 	@Transactional
-	public int largePackagingInsert(SearchDto searchDto) {
+	public LabelPrintDto largePackagingInsert(SearchDto searchDto) {
 		String LotNo = lotNoDao.largeLotNoSelectDao(searchDto.getItemCode());
+		searchDto.setLotNo(LotNo);
 		lotNoDao.lotNoMatUpdateDao();
-		return salesPackingDao.largePackagingInsertDao(LotNo);
+		salesPackingDao.largePackagingInsertDao(searchDto);
+		return labelPrintDao.largePackagingLabelSelectDao(LotNo);
+	}
+	
+	public int largePackagingQtySelect(SearchDto searchDto) {
+		return salesPackingDao.largePackagingQtySelectDao(searchDto);
 	}
 }

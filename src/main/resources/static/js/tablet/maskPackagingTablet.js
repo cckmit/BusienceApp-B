@@ -54,9 +54,9 @@ function toggleFullScreen() {
 $("#packagingBtn").click(function(){
 	$.when(smallPackagingSave())
 	.then(function(data){
-		console.log(data);
 		productionPrinter(data);
 		packagingTable.replaceData();
+		smallPackagingQty()
 	})
 })
 
@@ -88,6 +88,30 @@ function packagingLineListSelect(){
 	return ajaxResult;
 }
 
+function smallPackagingQty(){
+	var ajaxResult = $.ajax({
+		method: "get",
+		url: "maskPackagingRest/smallPackagingQtySelect",
+		data: {machineCode : $("#machineCode").val(), itemCode : $("#itemCode").val()},
+		success: function(result) {
+			$("#smallPackaging-Qty").val(result);
+		}
+	});
+	return ajaxResult;
+}
+
+function largePackagingQty(){
+	var ajaxResult = $.ajax({
+		method: "get",
+		url: "maskPackagingRest/largePackagingQtySelect",
+		data: {machineCode : $("#machineCode").val(), itemCode : $("#itemCode").val()},
+		success: function(result) {
+			$("#largePackaging-Qty").val(result);
+		}
+	});
+	return ajaxResult;
+}
+
 $("#rePrintBtn").click(function(){
 	//프린트
 	productionPrinter(packagingTable.getData("selected")[0])
@@ -97,7 +121,7 @@ function largePackagingSave(){
 	var ajaxResult = $.ajax({
 		method: "post",
 		url: "maskPackagingRest/largePackagingSave",
-		data: {itemCode : $("#itemCode").val()},
+		data: {machineCode : $("#machineCode").val(), itemCode : $("#itemCode").val()},
 		beforeSend: function(xhr) {
 			var header = $("meta[name='_csrf_header']").attr("content");
 			var token = $("meta[name='_csrf']").attr("content");
@@ -110,9 +134,9 @@ function largePackagingSave(){
 $("#largePackagingBtn").click(function(){
 	$.when(largePackagingSave())
 	.then(function(data){
-		console.log(data);
+		productionPrinter(data);
 		packagingTable.replaceData();
-		//productionPrinter(data);
+		largePackagingQty();
 	})
 })
 
@@ -120,6 +144,8 @@ $("#largePackagingBtn").click(function(){
 window.onload = function(){
 	packagingLineListSelect()
 	setup();
+	smallPackagingQty();
+	largePackagingQty();
 	setInterval(function(){
 		packagingTable.replaceData();
 	},10000);

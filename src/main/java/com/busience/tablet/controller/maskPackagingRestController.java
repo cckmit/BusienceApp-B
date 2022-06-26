@@ -49,7 +49,17 @@ public class maskPackagingRestController {
 	}
 	
 	@PostMapping("/largePackagingSave")
-	public int largePackagingSave(SearchDto searchDto) {
+	public LabelPrintDto largePackagingSave(SearchDto searchDto) {
 		return salesPackingService.largePackagingInsert(searchDto);
+	}
+	
+	@GetMapping("/smallPackagingQtySelect")
+	public int smallPackagingQtySelect(SearchDto searchDto) {
+		return smallPackagingService.smallPackagingQtySelect(searchDto);
+	}
+	
+	@GetMapping("/largePackagingQtySelect")
+	public int largePackagingQtySelect(SearchDto searchDto) {
+		return salesPackingService.largePackagingQtySelect(searchDto);
 	}
 }
