@@ -12,7 +12,10 @@ var salesInReturnInsertTable = new Tabulator("#salesInReturnInsertTable", {
 		{ title: "품목코드", field: "sales_Packing_Code", headerHozAlign: "center" },
 		{ title: "품목명", field: "sales_Packing_Name", headerHozAlign: "center" },
 		{ title: "규격", field: "sales_Packing_STND_1", headerHozAlign: "center", hozAlign: "left" },
+		{ title: "규격2", field: "sales_Packing_STND_2", headerHozAlign: "center", hozAlign: "left" },
 		{ title: "분류1", field: "sales_Packing_Item_Clsfc_1", headerHozAlign: "center", hozAlign: "left" },
+		{ title: "분류2", field: "sales_Packing_Item_Clsfc_2", headerHozAlign: "center", hozAlign: "left" },
+		{ title: "재질", field: "sales_Packing_Item_Material", headerHozAlign: "center", hozAlign: "left" },
 		{ title: "입고수량", field: "sales_Packing_Qty", align: "right", headerHozAlign: "center" },
 		{ title: "반품수량", field: "sales_Packing_Qty", align: "right", headerHozAlign: "center" },
 		{ title: "입고구분", field: "sales_Packing_Status", visible: false },
@@ -69,6 +72,8 @@ function SIRI_Save() {
 	});
 }
 
+
+
 var salesInReturnSearchTable = new Tabulator("#salesInReturnSearchTable", {
 	height: "calc(100% - 175px)",
 	//복사하여 엑셀 붙여넣기 가능
@@ -79,7 +84,10 @@ var salesInReturnSearchTable = new Tabulator("#salesInReturnSearchTable", {
 		{ title: "품목코드", field: "sales_Packing_Code", headerHozAlign: "center" },
 		{ title: "품목명", field: "sales_Packing_Name", headerHozAlign: "center" },
 		{ title: "규격", field: "sales_Packing_STND_1", headerHozAlign: "center", hozAlign: "left" },
+		{ title: "규격2", field: "sales_Packing_STND_2", headerHozAlign: "center", hozAlign: "left" },
 		{ title: "분류1", field: "sales_Packing_Item_Clsfc_1", headerHozAlign: "center", hozAlign: "left" },
+		{ title: "분류2", field: "sales_Packing_Item_Clsfc_2", headerHozAlign: "center", hozAlign: "left" },
+		{ title: "재질", field: "sales_Packing_Item_Material", headerHozAlign: "center", hozAlign: "left" },
 		{ title: "단위", field: "sales_Packing_Unit", headerHozAlign: "center", hozAlign: "left" },
 		{ title: "반품수량", field: "sales_Packing_Qty", align: "right", headerHozAlign: "center" },
 		{ title: "입고구분", field: "sales_Packing_Status_Name", headerHozAlign: "center" },

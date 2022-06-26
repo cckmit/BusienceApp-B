@@ -11,6 +11,10 @@
 			<li class="two">
 				<a href="#div2">출고현황(품목)</a>
 			</li>
+			<li class="two">
+				<a href="#div2">출고현황(거래처)</a>
+			</li>
+			<li class="three"><a href="#div3">납품명세서</a></li>
 			<li class="shadow"></li>
 		</ul>
 		<div id="content">
@@ -25,9 +29,15 @@
 						<jsp:include page="salesOutputItemView.jsp" />
 					</div>
 				</li>
-							
 				<li>
-					<div id="div3"></div>
+					<div id="div3">
+						<jsp:include page="salesOutputCustomerView.jsp" />
+					</div>
+				</li>
+				<li>
+					<div id="div4">
+						<jsp:include page="salesOutputDeliveryList.jsp" />
+					</div>
 				</li>
 			</ol>
 		</div>

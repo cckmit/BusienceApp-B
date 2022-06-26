@@ -26,7 +26,9 @@
 			A.Sales_InMat_Lot_No, A.Sales_InMat_Date,
 			D.CHILD_TBL_TYPE Sales_InMat_Rcv_Clsfc,
 			A.Sales_InMat_Code, B.Product_Item_Name Sales_InMat_Name,
-			B.Product_Info_STND_1 Sales_InMat_STND_1, E.Child_TBL_Type as Sales_InMat_Item_Clsfc_1,
+			B.Product_Info_STND_1 Sales_InMat_STND_1, B.Product_Info_STND_2 Sales_InMat_STND_2,
+			E.Child_TBL_Type as Sales_InMat_Item_Clsfc_1,
+			dt2.Child_TBL_Type Sales_InMat_Item_Clsfc_2, dt3.Child_TBL_Type Sales_InMat_Item_Material,
 			C.CHILD_TBL_TYPE Sales_InMat_UNIT,
 			A.Sales_InMat_Qty, A.Sales_InMat_Modifier, A.Sales_InMat_dInsert_Time
 		from Sales_InMat_tbl A
@@ -34,6 +36,8 @@
 		left outer join DTL_TBL C on B.PRODUCT_UNIT = C.CHILD_TBL_NO
 		left outer join DTL_TBL D on A.Sales_InMat_Rcv_Clsfc = D.CHILD_TBL_NO
 		left outer join DTL_TBL E on B.Product_Item_CLSFC_1 = E.CHILD_TBL_NO
+ 		left outer join DTL_TBL dt2 ON B.Product_Item_CLSFC_2 = dt2.Child_TBL_No
+		left outer join DTL_TBL dt3 ON B.Product_Material = dt3.Child_TBL_No
 		<![CDATA[
 		where A.Sales_InMat_Date >= #{startDate} and A.Sales_InMat_Date < #{endDate} 
 		]]>
@@ -54,7 +58,9 @@
  			A.Sales_InMat_Lot_No, A.Sales_InMat_Date, 
  			C.CHILD_TBL_TYPE Sales_InMat_Rcv_Clsfc, 
  			A.Sales_InMat_Code, B.Product_Item_Name Sales_InMat_Name, 
- 			B.Product_Info_STND_1 Sales_InMat_STND_1, E.Child_TBL_Type as Sales_InMat_Item_Clsfc_1,
+ 			B.Product_Info_STND_1 Sales_InMat_STND_1, B.Product_Info_STND_2 Sales_InMat_STND_2,
+ 			E.Child_TBL_Type as Sales_InMat_Item_Clsfc_1,
+ 			dt2.Child_TBL_Type Sales_InMat_Item_Clsfc_2, dt3.Child_TBL_Type Sales_InMat_Item_Material,
  			D.CHILD_TBL_TYPE Sales_InMat_UNIT, 
  			sum(A.Sales_InMat_Qty) Sales_InMat_Qty 
  		from Sales_InMat_tbl A 
@@ -62,10 +68,12 @@
  		left outer join DTL_TBL C on A.Sales_InMat_Rcv_Clsfc = C.CHILD_TBL_NO
  		left outer join DTL_TBL D on B.PRODUCT_UNIT = D.CHILD_TBL_NO
  		left outer join DTL_TBL E on B.Product_Item_CLSFC_1 = E.CHILD_TBL_NO
+ 		left outer join DTL_TBL dt2 ON B.Product_Item_CLSFC_2 = dt2.Child_TBL_No
+		left outer join DTL_TBL dt3 ON B.Product_Material = dt3.Child_TBL_No
  		<![CDATA[
  		where A.Sales_InMat_Date >= #{startDate} and A.Sales_InMat_Date < #{endDate}
  		]]>
- 		<if test="Sales_InMat_Code != null">
+ 		<if test="Sales_InMat_Code != ''">
  		AND Sales_InMat_Code LIKE CONCAT('%',#{Sales_InMat_Code},'%')
  		</if>
  		<if test='Sales_InMat_Rcv_Clsfc != "all"'>

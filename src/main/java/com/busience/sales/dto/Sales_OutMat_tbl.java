@@ -25,6 +25,7 @@ public class Sales_OutMat_tbl {
 
 	// add column
 	private String Sales_OutMat_STND_1;
+	private String Sales_OutMat_STND_2;
 	private String Sales_OutMat_UNIT;
 	private String Sales_OutMat_Name; // 제품명
 	private int Sales_OutReturn_Qty; // 판매 반품

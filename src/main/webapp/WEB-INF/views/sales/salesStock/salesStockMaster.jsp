@@ -1,26 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<!-- css -->
+<link href="/css/tabMenu.css" rel="stylesheet" />
+
 <div class="soloView">
-	<div class="main">
-		<div class="top-var">
-			<!-- 버튼 -->
-			<div class="input-button">
-				<img src="images/button/Search.png" onclick="FS_ItemListViewSearchBtn()" /> 
-				<img src="images/button/Excel.png" onclick="excel_download(salesStockItemListTable)" />
-			</div>
-			<!-- 버튼 -->
-			<div class="input-box">
-				<div>
-					<span><strong>품목코드</strong></span> <input id="PRODUCT_ITEM_CODE2"
-						class="Item_Code2" type="text" disabled> <span><strong>품목명</strong></span>
-					<input id="PRODUCT_ITEM_NAME2" class="Item_Name2 clearInput" type="text" onkeypress="javascript:if(event.keyCode==13) {itemPopup($(this).val(),'input','2','sales')}">
-					<span style="color: red;"><strong>&nbsp;수량&nbsp;&nbsp;>&nbsp;&nbsp;0</strong></span>
-					<input type="checkbox" id="Sales_Stock_Qty_Checked" checked="checked" style="width: 20px;">
-				</div>
-			</div>
+	<div class="tabs-wrap">
+		<ul id="navigation">
+			<li class="one selected"><a href="#div1">재고현황(품목)</a></li>
+			<li class="two"><a href="#div2">재고현황(Lot)</a></li>
+			<!-- <li class="five"><a href="#div5">납품명세서(전월)</a></li> -->
+			<li class="shadow"></li>
+		</ul>
+
+		<div id="content">
+			<ol>
+				<li><div id="div1"><jsp:include page="salesStockItemList.jsp" /></div></li>
+				<li><div id="div2"><jsp:include page="salesStockLotList.jsp" /></div></li>
+				<%-- <li><div id="div5"><jsp:include page="matInputDeliveryLastList.jsp" /></div></li> --%>
+			</ol>
 		</div>
-		<div id="salesStockItemListTable"></div>
+		<!-- .demo-nav -->
 	</div>
+	<!-- inline wrapper -->
 </div>
+
 <!-- Javascript -->
-<script src="/js/sales/salesStockList.js"></script>
+<script src="/js/sales/salesStockList.js?v=<%=System.currentTimeMillis() %>"></script>
+<script src="/js/tabMenu.js?v=<%=System.currentTimeMillis() %>"></script>

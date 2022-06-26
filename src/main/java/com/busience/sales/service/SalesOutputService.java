@@ -221,10 +221,31 @@ public class SalesOutputService {
 
 			if (itemCode == null && clientCode != null) {
 				salesOutMatDtoList.get(i).setSales_OutMat_Send_Clsfc("Sub Total");
+				salesOutMatDtoList.get(i).setSales_OutMat_Lot_No("");
+				salesOutMatDtoList.get(i).setSales_OutMat_Date("");
+				salesOutMatDtoList.get(i).setSales_OutMat_Name("");
+				salesOutMatDtoList.get(i).setSales_OutMat_STND_1("");
+				salesOutMatDtoList.get(i).setSales_OutMat_STND_2("");
+				salesOutMatDtoList.get(i).setSales_OutMat_Item_Clsfc_Name_1("");
+				salesOutMatDtoList.get(i).setSales_OutMat_Item_Clsfc_Name_2("");
+				salesOutMatDtoList.get(i).setSales_OutMat_Material("");
+				salesOutMatDtoList.get(i).setSales_OutMat_UNIT("");
 			}
 
 			else if (itemCode == null && clientCode == null) {
 				salesOutMatDtoList.get(i).setSales_OutMat_Send_Clsfc("Grand Total");
+				salesOutMatDtoList.get(i).setSales_OutMat_Lot_No("");
+				salesOutMatDtoList.get(i).setSales_OutMat_Date("");
+				salesOutMatDtoList.get(i).setSales_OutMat_Name("");
+				salesOutMatDtoList.get(i).setSales_OutMat_Client_Code("");
+				salesOutMatDtoList.get(i).setSales_OutMat_Client_Name("");
+				salesOutMatDtoList.get(i).setSales_OutMat_STND_1("");
+				salesOutMatDtoList.get(i).setSales_OutMat_STND_2("");
+				salesOutMatDtoList.get(i).setSales_OutMat_Item_Clsfc_Name_1("");
+				salesOutMatDtoList.get(i).setSales_OutMat_Item_Clsfc_Name_2("");
+				salesOutMatDtoList.get(i).setSales_OutMat_Material("");
+				salesOutMatDtoList.get(i).setSales_OutMat_UNIT("");
+				
 			}
 
 			else {
@@ -267,6 +288,15 @@ public class SalesOutputService {
 			String itemCode = salesOutMatDtoList.get(i).getSales_OutMat_Code();
 			if(itemCode == null) {
 				salesOutMatDtoList.get(i).setSales_OutMat_Send_Clsfc_Name("Sub Total");
+				salesOutMatDtoList.get(i).setSales_OutMat_Cus_No("");
+				salesOutMatDtoList.get(i).setSales_OutMat_Date("");
+				salesOutMatDtoList.get(i).setSales_OutMat_Name("");
+				salesOutMatDtoList.get(i).setSales_OutMat_STND_1("");
+				salesOutMatDtoList.get(i).setSales_OutMat_STND_2("");
+				salesOutMatDtoList.get(i).setSales_OutMat_Item_Clsfc_Name_1("");
+				salesOutMatDtoList.get(i).setSales_OutMat_Item_Clsfc_Name_2("");
+				salesOutMatDtoList.get(i).setSales_OutMat_Material("");
+				salesOutMatDtoList.get(i).setSales_OutMat_UNIT("");
 			}
 		}
 		

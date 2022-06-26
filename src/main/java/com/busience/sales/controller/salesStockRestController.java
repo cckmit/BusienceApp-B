@@ -17,19 +17,25 @@ public class salesStockRestController {
 
 	@Autowired
 	StockService stockService;
-	
+
 	// stock select
 	@GetMapping("salesStockSelect")
 	public List<StockDto> salesStockSelect(SearchDto searchDto) {
 		return stockService.salesStockSelectDao(searchDto);
 	}
-	
+
+	// 재고 Lot- 품목 조회
+	@GetMapping("salesStockLotSelect")
+	public List<StockDto> salesstockLotSelectDao(SearchDto searchDto) {
+		return stockService.salesStockLotSelectDao(searchDto);
+	}
+
 	// salesOutputStock select
 	@GetMapping("salesOutputStockSelect")
 	public List<StockDto> salesOutputStockDao(SearchDto searchDto) {
 		return stockService.salesOutputStockDao(searchDto);
 	}
-	
+
 	// salesOutputOrderStock select
 	@GetMapping("/SOSS_Search")
 	public List<StockDto> salesOutputOrderStockDao(SearchDto searchDto) {
