@@ -77,6 +77,7 @@ oqcInspectTable = new Tabulator("#oqcInspectTable", {
 	rowSelected: function(row) {
 		formClearFunc();
 		row.select();
+		SOILForm_subSearch(row.getData().oqc_Inspect_Customer, row.getData().oqc_Inspect_ItemName, row.getData().sales_OutMat_Qty, row.getData().oqc_Inspect_STND_1, row.getData().oqc_Inspect_Qty, row.getData().oqc_Inspect_Date);
 		//LotNo 검색
 		OIF_Search(row.getData().oqc_Inspect_LotNo);
 		ResetBtn();
@@ -123,12 +124,11 @@ function OIL_Search() {
 }
 
 //oqcInspect 정보 삽입
-function SOILForm_Search(CusName, ItemName, OutmatQty, ItemStnd) {
+function SOILForm_Search(CusName, ItemName, OutmatQty, ItemStnd, inspectQty, inspectDate) {
 	var now = moment();
 	$("#oqcCusName").val(CusName);
 	$("#oqcItemName").val(ItemName);
 	$("#oqcOutMatQty").val(OutmatQty.toLocaleString('ko-KR'));
-	$("#oqcItemSTND_1").val(ItemStnd);
 	$("#oqcDate").val(now.format("YYYY-MM-DD"));
 	// 셋째 자리 콤마 넣기
 	const input = document.querySelector('#oqcQty');
@@ -142,6 +142,17 @@ function SOILForm_Search(CusName, ItemName, OutmatQty, ItemStnd) {
 			input.value = formatValue;
 		}
 	})
+
+}
+
+//oqcInspect 정보 삽입
+function SOILForm_subSearch(CusName, ItemName, OutmatQty, ItemStnd, inspectQty, inspectDate) {
+	var now = moment();
+	$("#oqcCusName").val(CusName);
+	$("#oqcItemName").val(ItemName);
+	$("#oqcQty").val(inspectQty);
+	$("#oqcItemSTND_1").val(ItemStnd);
+	$("#oqcDate").val(inspectDate);
 
 }
 

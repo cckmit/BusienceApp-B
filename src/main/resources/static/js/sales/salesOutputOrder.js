@@ -1,7 +1,7 @@
 // salesOrderMaster
 var salesOrderTable = new Tabulator("#salesOrderTable", {
 	headerFilterPlaceholder: null,
-    height: "calc(100% - 175px)",
+    height: "calc(50% - 125px)",
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
 	rowFormatter:function(row){
@@ -104,7 +104,7 @@ $.ajax({
 });
 // salesOrderList
 var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
-	height: "calc(90% - 175px)",
+	height: "calc(50% - 125px)",
 	selectable: true,
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
@@ -201,7 +201,7 @@ var salesOutputOrderTable = new Tabulator("#salesOutputOrderTable", {
 	ajaxConfig : "get",
 	ajaxContentType:"json",
 	ajaxURL : "salesOutputOrderRest/SOO_Search",
-	height:"calc(50% - 124px)",
+	height:"calc(50% - 125px)",
 	headerFilterPlaceholder: null,
 	//행클릭 이벤트
 	rowClick:function(e, row){
@@ -433,7 +433,7 @@ function SOOS_Search(sales_Output_Order_mOrder_No){
 
 var salesOutputStockTable = new Tabulator("#salesOutputStockTable", {
 	selectable: 1,
-	height: "10%",
+	height: "102.21px",
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
 	columns: [

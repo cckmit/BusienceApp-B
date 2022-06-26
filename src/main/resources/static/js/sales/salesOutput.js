@@ -218,7 +218,8 @@ var salesLotMasterTable = new Tabulator("#salesLotMasterTable", {
 	height: "calc(50% - 124.1px)",
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
-	/*	rowClick: function(e, row) {
+	selectable: true,
+	/*rowClick: function(e, row) {
 			//salesOutputOrderSubTable에서 선택된 행
 			FOS_selectedRow = salesOutputOrderSubTable.getData("selected")[0]
 	

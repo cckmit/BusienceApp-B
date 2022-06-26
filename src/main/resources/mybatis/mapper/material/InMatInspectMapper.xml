@@ -30,7 +30,6 @@
 			#{InMat_Inspect_Value_5}, #{InMat_Inspect_STND_1}, #{inMat_Inspect_STND_2}, #{InMat_Inspect_Remark},
 			#{InMat_Inspect_Status}
 		) 
-	
 	</insert>
 
 </mapper>
