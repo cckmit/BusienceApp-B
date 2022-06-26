@@ -6,16 +6,19 @@
 		<div class="top-var">
 			<!-- 버튼 -->
 			<div class="input-button">
-				<img src="images/button/Print.png" id="MO_PrintBtn"/>
+				<img src="images/button/Search.png" id="SI_SearchBtn"  />
+				<img src="images/button/Print.png" id="SI_PrintBtn"/>
+					<%-- <img id="SOO_Print" src="${contextPath}/resources/assets/img/Print.png"/> --%>
 			</div>
-			
 			<!-- 버튼 -->				
 			<div class="input-box">
 				<div>
+					<span><strong>입고일</strong></span> 
+					<input id="startDate" class="today" type="date"> 
+					<span style="text-align: center"><strong>~</strong></span> 
+					<input id="endDate" class="tomorrow" type="date"> <span></span>
 					<span><strong>LotNo</strong></span>
 					<input id="fgoodsLotNo" class="fgoodsLotNo" type="text" style="width: 230px;" onclick="$(this).val('')" onkeypress="javascript:if(event.keyCode==13) {InspectionWorkONo()}" autofocus>
-					<span style="width:100px;"><strong>총 수량</strong></span>
-					<input id="fgoodsTotal" class="fgoodsTotal" style="width: 80px;" type="text" readonly>
 				</div>
 			</div>
 		</div>

@@ -1,7 +1,7 @@
 // salesOrderMaster
 var salesOrderTable = new Tabulator("#salesOrderTable", {
 	headerFilterPlaceholder: null,
-    height:"calc(50% - 124px)",
+    height: "calc(100% - 175px)",
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
 	rowFormatter:function(row){
@@ -104,7 +104,7 @@ $.ajax({
 });
 // salesOrderList
 var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
-	height:"calc(50% - 124px)",
+	height: "calc(90% - 175px)",
 	selectable: true,
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
@@ -163,7 +163,6 @@ var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
 		 });
     	return calc;
 	}, topCalcFormatter: "money", topCalcFormatterParams: { precision: false }},
-	{title:"미출고", field:"sales_Order_lNot_Stocked", headerHozAlign:"center", hozAlign:"right", width:75},
 	{title: "비고", field: "sales_Order_lInfo_Remark", headerHozAlign: "center", width: 70 },
 	{title: "구분", field: "sales_Order_Send_Clsfc", headerHozAlign: "center", width: 70,
 		formatter: function(cell, formatterParams) {
@@ -434,7 +433,7 @@ function SOOS_Search(sales_Output_Order_mOrder_No){
 
 var salesOutputStockTable = new Tabulator("#salesOutputStockTable", {
 	selectable: 1,
-	height: "103.13px",
+	height: "10%",
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
 	columns: [

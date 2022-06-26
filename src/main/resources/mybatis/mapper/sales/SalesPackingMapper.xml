@@ -100,7 +100,7 @@
 		WHERE spt.Sales_Large_Packing_Time >= #{startDate} and spt.Sales_Large_Packing_Time < #{endDate}
 		]]>
 		<if test="LotNo != '' and LotNo != null">
-		AND Sales_Large_Packing_LotNo = #{LotNo}
+		AND Sales_Large_Packing_LotNo like concat('%',#{LotNo},'%') 
 		</if>
 		<if test="ItemCode != '' and ItemCode != null">
 		AND lmt.LM_ItemCode LIKE CONCAT('%',#{ItemCode},'%')
