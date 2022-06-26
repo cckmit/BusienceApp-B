@@ -156,7 +156,10 @@ var salesOutputOrderReportStockTable = new Tabulator("#salesOutputOrderReportSto
 		{ title: "제품코드", field: "s_ItemCode", headerHozAlign: "center" },
 		{ title: "제품명", field: "s_ItemName", headerHozAlign: "center" },
 		{ title: "규격1", field: "s_Item_Standard_1", headerHozAlign: "center" },
+		{ title: "규격2", field: "s_Item_Standard_2", headerHozAlign: "center" },
 		{ title: "분류1", field: "s_Item_Classfy_1_Name", headerHozAlign: "center" },
+		{ title: "분류2", field: "s_Item_Classfy_2_Name", headerHozAlign: "center" },
+		{ title: "재질", field: "s_Item_Material", headerHozAlign: "center" },
 		{ title: "수량", field: "s_Qty", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false }, }
 	]
 });
