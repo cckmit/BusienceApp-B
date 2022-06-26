@@ -24,6 +24,7 @@ public class EQUIPMENT_INFO_TBL {
 	private String EQUIPMENT_MODIFIER; // ������
 	private String EQUIPMENT_FilePath; // ���� ����
 	private Integer EQUIPMENT_CheckList_Count;
+	private String EQUIPMENT_TYPE;
 	public int getId() {
 		return id;
 	}
@@ -156,6 +157,13 @@ public class EQUIPMENT_INFO_TBL {
 	public void setEQUIPMENT_CheckList_Count(Integer eQUIPMENT_CheckList_Count) {
 		EQUIPMENT_CheckList_Count = eQUIPMENT_CheckList_Count;
 	}
+	
+	public String getEQUIPMENT_TYPE() {
+		return EQUIPMENT_TYPE;
+	}
+	public void setEQUIPMENT_TYPE(String eQUIPMENT_TYPE) {
+		EQUIPMENT_TYPE = eQUIPMENT_TYPE;
+	}
 	@Override
 	public String toString() {
 		return "EQUIPMENT_INFO_TBL [id=" + id + ", EQUIPMENT_BUSINESS_PLACE=" + EQUIPMENT_BUSINESS_PLACE
@@ -169,7 +177,7 @@ public class EQUIPMENT_INFO_TBL {
 				+ EQUIPMENT_STATUS_NAME + ", EQUIPMENT_INFO_RMARK=" + EQUIPMENT_INFO_RMARK + ", EQUIPMENT_USE_STATUS="
 				+ EQUIPMENT_USE_STATUS + ", EQUIPMENT_MODIFY_D=" + EQUIPMENT_MODIFY_D + ", EQUIPMENT_MODIFIER="
 				+ EQUIPMENT_MODIFIER + ", EQUIPMENT_FilePath=" + EQUIPMENT_FilePath + ", EQUIPMENT_CheckList_Count="
-				+ EQUIPMENT_CheckList_Count + "]";
+				+ EQUIPMENT_CheckList_Count + ", EQUIPMENT_TYPE=" + EQUIPMENT_TYPE + "]";
 	}
-
+	
 }

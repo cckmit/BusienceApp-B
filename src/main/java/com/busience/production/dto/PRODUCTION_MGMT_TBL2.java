@@ -10,14 +10,14 @@ public class PRODUCTION_MGMT_TBL2 {
 		return "PRODUCTION_MGMT_TBL2 [PRODUCTION_WorkOrder_No=" + PRODUCTION_WorkOrder_No
 				+ ", PRODUCTION_WorkOrder_ONo=" + PRODUCTION_WorkOrder_ONo + ", PRODUCTION_Equipment_Code="
 				+ PRODUCTION_Equipment_Code + ", PRODUCTION_Volume=" + PRODUCTION_Volume + ", PRODUCTION_Date="
-				+ PRODUCTION_Date + ", PRODUCTION_Item_Code=" + PRODUCTION_Item_Code + ", percent=" + percent
-				+ ", WorkOrder_StartTime=" + WorkOrder_StartTime + ", ym=" + ym + ", PRODUCTION_REF_CUM_AMT="
-				+ PRODUCTION_REF_CUM_AMT + ", PRODUCTION_CALC_CUM_AMT=" + PRODUCTION_CALC_CUM_AMT + ", _children="
-				+ _children + "]";
+				+ PRODUCTION_Date + ", PRODUCTION_Item_Code=" + PRODUCTION_Item_Code + ", PRODUCTION_Equip_TYPE="
+				+ PRODUCTION_Equip_TYPE + ", percent=" + percent + ", WorkOrder_StartTime=" + WorkOrder_StartTime
+				+ ", ym=" + ym + ", PRODUCTION_REF_CUM_AMT=" + PRODUCTION_REF_CUM_AMT + ", PRODUCTION_CALC_CUM_AMT="
+				+ PRODUCTION_CALC_CUM_AMT + ", _children=" + _children + "]";
 	}
 
 	String PRODUCTION_WorkOrder_No, PRODUCTION_WorkOrder_ONo, PRODUCTION_Equipment_Code, PRODUCTION_Volume,
-			PRODUCTION_Date, PRODUCTION_Item_Code;
+			PRODUCTION_Date, PRODUCTION_Item_Code, PRODUCTION_Equip_TYPE;
 
 	String percent, WorkOrder_StartTime, ym;
 
@@ -134,4 +134,12 @@ public class PRODUCTION_MGMT_TBL2 {
 		PRODUCTION_Item_Code = pRODUCTION_Item_Code;
 	}
 
+	public String getPRODUCTION_Equip_TYPE() {
+		return PRODUCTION_Equip_TYPE;
+	}
+
+	public void setPRODUCTION_Equip_TYPE(String pRODUCTION_Equip_TYPE) {
+		PRODUCTION_Equip_TYPE = pRODUCTION_Equip_TYPE;
+	}
+	
 }

@@ -44,7 +44,9 @@ var EQUIPMENT_INFO_TBL1 = new Tabulator(
 						+ $("#year1").val() + "&year2="
 						+ $("#year2").val()
 						+ "&equipment_INFO_CODE="
-						+ row.getData().equipment_INFO_CODE,
+						+ row.getData().equipment_INFO_CODE
+						+ "&equipment_TYPE="
+						+ row.getData().equipment_TYPE,
 					success: function(datas) {
 						console.log(datas);
 						WorkOrder_tbl1.setData(datas);
@@ -124,6 +126,12 @@ var EQUIPMENT_INFO_TBL1 = new Tabulator(
 		}, {
 			title: "설비이름",
 			field: "equipment_INFO_NAME",
+			headerHozAlign: "center",
+			width: 150,
+			visible: true
+		}, {
+			title: "설비종류",
+			field: "equipment_TYPE",
 			headerHozAlign: "center",
 			width: 150,
 			visible: true

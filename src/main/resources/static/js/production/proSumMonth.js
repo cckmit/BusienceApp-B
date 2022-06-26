@@ -28,7 +28,9 @@ var EQUIPMENT_INFO_TBL1 = new Tabulator("#EQUIPMENT_INFO_TBL1", {
 			async: true,
 			url: "worktdListRest/Month_Select?year=" + $("#year1").val()
 				+ "&equipment_INFO_CODE="
-				+ row.getData().equipment_INFO_CODE,
+				+ row.getData().equipment_INFO_CODE
+				+ "&equipment_TYPE="
+				+ row.getData().equipment_TYPE,
 			success: function(datas) {
 				console.log(datas);
 				WorkOrder_tbl1.setData(datas);
@@ -51,7 +53,9 @@ var EQUIPMENT_INFO_TBL1 = new Tabulator("#EQUIPMENT_INFO_TBL1", {
 					async: false,
 					url: "worktdListRest/Month_Select_Detail?year="
 						+ $("#year1").val() + "&equipment_INFO_CODE="
-						+ row.getData().equipment_INFO_CODE,
+						+ row.getData().equipment_INFO_CODE
+						+ "&equipment_TYPE="
+						+ row.getData().equipment_TYPE,
 					success: function(datas) {
 						console.log("OK?");
 						console.log(datas);
@@ -71,6 +75,12 @@ var EQUIPMENT_INFO_TBL1 = new Tabulator("#EQUIPMENT_INFO_TBL1", {
 	}, {
 		title: "설비이름",
 		field: "equipment_INFO_NAME",
+		headerHozAlign: "center",
+		width: 150,
+		visible: true
+	},  {
+		title: "설비종류",
+		field: "equipment_TYPE",
 		headerHozAlign: "center",
 		width: 150,
 		visible: true
@@ -100,7 +110,9 @@ var WorkOrder_tbl1 = new Tabulator("#WorkOrder_tbl1", {
 					+ $("#year1").val() + "&production_Equipment_Code="
 					+ row.getData().production_Equipment_Code
 					+ "&production_Item_Code="
-					+ row.getData().production_Item_Code,
+					+ row.getData().production_Item_Code
+					+ "&production_equipment_TYPE="
+					+ row.getData().production_Equip_TYPE,
 				success: function(datas) {
 					drawArray = [];
 					drawArray.push(['Year', '생산량']);
