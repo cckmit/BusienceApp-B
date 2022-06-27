@@ -87,7 +87,22 @@ public class StockService {
 
 	// 영업 재고테이블 조회
 	public List<StockDto> salesStockSelectDao(SearchDto searchDto) {
-		return stockDao.salesStockSelectDao(searchDto);
+		
+		List<StockDto> salesStockList = stockDao.salesStockSelectDao(searchDto);
+
+		for (StockDto dto : salesStockList) {
+			if (dto.getS_ItemCode() == null || dto.getS_ItemCode() == "") {
+				dto.setS_ItemCode("Grand Total");
+				dto.setS_ItemName("");
+				dto.setS_Item_Standard_1("");
+				dto.setS_Item_Classfy_1_Name("");
+				dto.setS_Item_Classfy_2_Name("");
+				dto.setS_Item_Material("");
+				dto.setS_Item_Unit("");
+			}
+		}
+		return salesStockList;
+		
 	}
 
 	// 영업 재고 Lot-품목 조회
@@ -115,8 +130,6 @@ public class StockService {
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
 					List<DtlDto> WarehouseList = dtlDao.findByCode(10);
-
-					System.out.println(stockDtoList);
 
 					for (int i = 0; i < stockDtoList.size(); i++) {
 						StockDto stockDto = stockDtoList.get(i);

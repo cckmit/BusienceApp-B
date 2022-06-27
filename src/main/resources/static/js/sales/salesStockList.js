@@ -7,9 +7,9 @@ var salesStockItemListTable = new Tabulator("#salesStockItemListTable", {
  	{title:"품명", field:"s_ItemName", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
  	{title:"규격1", field:"s_Item_Standard_1", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
  	{title:"규격2", field:"s_Item_Standard_2", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
-	{title:"분류1", field:"s_Item_Classfy_1_Name", headerHozAlign:"center", headerFilter:true, hozAlign:"center"},
-	{title:"분류2", field:"s_Item_Classfy_2_Name", headerHozAlign:"center", headerFilter:true, hozAlign:"center"},
-	{title:"재질", field:"S_Item_Material", headerHozAlign:"center", headerFilter:true, hozAlign:"center"},
+	{title:"분류1", field:"s_Item_Classfy_1_Name", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
+	{title:"분류2", field:"s_Item_Classfy_2_Name", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
+	{title:"재질", field:"s_Item_Material", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
  	{title:"단위", field:"s_Item_Unit", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
  	{title:"재고수량", field:"s_Qty", headerHozAlign:"center", headerFilter:true, hozAlign:"right"}
  	]
@@ -37,9 +37,9 @@ var salesStockLotListTable = new Tabulator("#salesStockLotListTable", {
  	{title:"품목코드", field:"s_ItemCode", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
  	{title:"품명", field:"s_ItemName", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
  	{title:"규격1", field:"s_Item_Standard_1", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
-	{title:"분류1", field:"s_Item_Classfy_1_Name", headerHozAlign:"center", headerFilter:true, hozAlign:"center"},
-	{title:"분류2", field:"s_Item_Classfy_2_Name", headerHozAlign:"center", headerFilter:true, hozAlign:"center"},
-	{title:"재질", field:"S_Item_Material", headerHozAlign:"center", headerFilter:true, hozAlign:"center"},
+	{title:"분류1", field:"s_Item_Classfy_1_Name", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
+	{title:"분류2", field:"s_Item_Classfy_2_Name", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
+	{title:"재질", field:"s_Item_Material", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
  	{title:"단위", field:"s_Item_Unit", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
  	{title:"재고수량", field:"s_Qty", headerHozAlign:"center", headerFilter:true, hozAlign:"right"}
  	]
