@@ -22,6 +22,8 @@ import com.busience.common.dto.SearchDto;
 import com.busience.monitoring.dao.TemperatureMonitoringDao;
 import com.busience.monitoring.dto.EquipMonitoringDto;
 import com.busience.monitoring.dto.EquipTemperatureHistoryDto;
+import com.busience.production.dao.EquipWorkOrderDao;
+import com.busience.production.dto.EquipWorkOrderDto;
 import com.busience.production.dto.WorkOrderDto;
 import com.busience.standard.dao.ItemDao;
 import com.busience.standard.dto.ItemDto;
@@ -50,6 +52,9 @@ public class ProductionService {
 	
 	@Autowired
 	MaskProductionService maskProductionService;
+	
+	@Autowired
+	EquipWorkOrderDao equipWorkOrderDao;
 	
 	@Autowired
 	TransactionTemplate transactionTemplate;
@@ -135,11 +140,14 @@ public class ProductionService {
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
 					
-					List<WorkOrderDto> workOrderDtoList = productionDao.selectWorkOrderDao(equip);
+					SearchDto searchDto = new SearchDto();
+					searchDto.setMachineCode(equip);
 					
-					//해당 품목의 정보를 가져옴
-					ItemDto itemDto = itemDao.selectItemCode(workOrderDtoList.get(0).getWorkOrder_ItemCode());	
+					List<EquipWorkOrderDto> EquipWorkOrderDtoList = equipWorkOrderDao.equipWorkOrderSelectDao(searchDto);
 					
+					//해당 품목의 정보를 가져
+					ItemDto itemDto = itemDao.selectItemCode(EquipWorkOrderDtoList.get(0).getEquip_WorkOrder_ItemCode());	
+					System.out.println("equip : "+equip+" value : "+value);
 					//자재식별코드, crate 수량 저장
 					maskProductionService.wholeQtyUpdate(equip, value*itemDto.getPRODUCT_MULTIPLE());
 				}

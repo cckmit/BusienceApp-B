@@ -82,7 +82,7 @@ function RawMaterialPrinter(jsonDatas)
 					+"^CW1,E:KFONT3.FNT^CI28^FS"
 					+"^FT150,40^A1N,30,20^FD"+jsonDatas[j].inMat_Name+"^FS"
 					+"^FO250,60^BQN,2,5"
-					+"^FH^FDLA,R"+jsonDatas[j].inMat_Lot_No+"^FS"
+					+"^FH^FDLA,"+jsonDatas[j].inMat_Lot_No+"^FS"
 					+"^XZ"
 	}
 	selected_device.send(printCode, undefined, errorCallback);

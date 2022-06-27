@@ -52,7 +52,6 @@ function workOrderSet(){
 		return RawSelect(data.c_Production_LotNo);
 	}).then(function(data1){
 		if(data1.length == 0){
-			console.log("실행")
 			BOM_Check($("#itemCode").val())
 		}
 	})
@@ -71,10 +70,21 @@ $("#barcodeInput").change(function(){
 	if(initial == 'R'){
 		//상자가 있으면 저장하고 없으면 저장하지 않는다.
 		//코드가 안맞을경우 안맞는다고 알림
-		rawMaterialLotInput(barcode);
 		
-		if(inputCheck()){			
-			rawMaterialSave($("#crate-LotNo").val());		
+		rawMaterialLotInput(barcode);
+		/*
+		$.when(rawMaterialCheck(value))
+			.then(function(data){
+			if(data.length>0){
+				
+			}else{
+				console.log("창고에 없는 원자재 입니다.")
+			}			
+		})*/	
+		
+		if(inputCheck()){
+			console.log("저장")
+			rawMaterialSave($("#crate-LotNo").val());	
 		}
 		
 		$("#barcodeInput").val("");
@@ -92,6 +102,7 @@ $("#barcodeInput").change(function(){
 		.then(function(data){
 			$("#crateCode").val(data.c_CrateCode);
 			$("#crate-LotNo").val(data.c_Production_LotNo);
+			console.log(data)
 			if(inputCheck()){
 				rawMaterialSave(data.c_Production_LotNo);
 			}
@@ -133,17 +144,11 @@ function rawMaterialLotInput(value){
 		//품목코드와 동일한 값을 찾은 후, 랏번호가 같지 않다면 변경됨
 		if(currentValue.rms_ItemCode == itemCode){
 			if(currentValue.rms_LotNo != value){
-				$.when(rawMaterialCheck(value))
-				.then(function(data){
-					if(data.length>0){
-						//반복문 실행하여 LotList 에 정보만 넣고
-						//LotList의 정보를 화면에 보여주는 함수 따로 만들면 좋을듯
-						$(".main-c .item:nth-of-type("+(i+2)+") .LotNo").val(value);
-						currentValue.rms_LotNo = value
-					}else{
-						console.log("창고에 없는 원자재 입니다.")
-					}			
-				})				
+				//반복문 실행하여 LotList 에 정보만 넣고
+				//LotList의 정보를 화면에 보여주는 함수 따로 만들면 좋을듯
+				$(".main-c .item:nth-of-type("+(i+2)+") .LotNo").val(value);
+				currentValue.rms_LotNo = value
+							
 			}
 			return false;
 		}
@@ -167,9 +172,12 @@ function rawMaterialCheck(value){
 }
 
 function inputCheck(){
+	console.log(LotList)
 	var result = LotList.every(x => {
 		return x.rms_LotNo != null
 	})
+	console.log(result)
+	console.log($("#crate-LotNo").val().length)
 	if($("#crate-LotNo").val().length > 0 && result){
 		return true;
 	}
