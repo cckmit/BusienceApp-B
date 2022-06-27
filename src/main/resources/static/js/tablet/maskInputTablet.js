@@ -31,7 +31,7 @@ $.ajax({
 				itemCodeObj[data[i].equip_WorkOrder_Code] = data[i].equip_WorkOrder_Old_ItemCode
 				machineCodeObj[data[i].equip_WorkOrder_Code] = "itemTable"+(i)
 				$("#multiTableAdd").append(
-					'<div class="machine-module" id="module-'+data[i].equip_workOrder_Code+'">'
+					'<div class="machine-module" id="module-'+data[i].equip_WorkOrder_Code+'">'
 							+'<div class="m-header m-font">'
 								+'<p><strong>'+data[i].equip_WorkOrder_Name+'</strong></p>'
 								+'<p><strong>'+data[i].equip_WorkOrder_ItemName.substr(0,data[i].equip_WorkOrder_ItemName.length-3)+'</strong></p>'
@@ -71,6 +71,7 @@ $("#barcodeInput").keypress(function(e){
 				return x == barcode
 			})
 			if(result){
+				console.log("빨강")
 				$("#selectedMachine").val(barcode);
 				$(".machine-module").removeClass("selected-module");
 				$("#module-"+barcode).addClass("selected-module");

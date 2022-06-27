@@ -7,16 +7,12 @@
 .machineTable {
 	float: left;
 	margin-left: 15px;
-	width: 32%;
+	width: calc(33% - 15px);
 	border: 1px solid;
 }
 
 #maskEquipTable {
-	margin-left: 8px !important;
-}
-
-#labelEquipTable {
-	width: 33% !important;
+	margin-left: 15px !important;
 }
 
 
