@@ -3,7 +3,7 @@ var salesInputListTable = new Tabulator("#salesInputListTable", {
 	height:"calc(100% - 175px)",
  	columns:[ //Define Table Columns
  	{title:"순번", field:"rownum", headerHozAlign: "center", headerFilter:true, hozAlign: "center", formatter:"rownum"},
-	{title:"LotNo", field:"sales_InMat_Lot_No", headerHozAlign:"center", headerFilter:true, hozAlign:"center", width:130},
+	{title:"LotNo", field:"sales_InMat_Lot_No", headerHozAlign:"center", headerFilter:true, hozAlign:"center", width:160},
 	{title:"입고일자", field:"sales_InMat_Date", headerHozAlign:"center", headerFilter:true, hozAlign:"left", width:130, formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
  	{title:"입고구분", field:"sales_InMat_Rcv_Clsfc", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},
  	{title:"품목코드", field:"sales_InMat_Code", headerHozAlign:"center", headerFilter:true, hozAlign:"left"},

@@ -194,12 +194,17 @@ public class SalesInputService {
 				salesInMatList.get(i).setSales_InMat_STND_1("");
 				salesInMatList.get(i).setSales_InMat_UNIT("");
 				salesInMatList.get(i).setSales_InMat_Item_Clsfc_1("");
+				salesInMatList.get(i).setSales_InMat_Item_Clsfc_2("");
+				salesInMatList.get(i).setSales_InMat_Item_Material("");
 			} 
 			
 			if(itemCode == null && salesInMatDate == null) {
 				salesInMatList.get(i).setSales_InMat_Lot_No("Grand Total");
 				salesInMatList.get(i).setSales_InMat_Rcv_Clsfc("");
 				salesInMatList.get(i).setSales_InMat_Name("");
+				salesInMatList.get(i).setSales_InMat_Item_Clsfc_1("");
+				salesInMatList.get(i).setSales_InMat_Item_Clsfc_2("");
+				salesInMatList.get(i).setSales_InMat_Item_Material("");
 			}
 		}
 		

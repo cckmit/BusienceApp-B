@@ -68,7 +68,7 @@ var salesOutReturnInsertTable = new Tabulator("#salesOutReturnInsertTable", {
 	height: "calc(100% - 175px)",
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
-	rowDblClick: function(e, row) {
+	rowClick: function(e, row) {
 		row.toggleSelect();
 	},
 	columns: [
@@ -84,7 +84,7 @@ var salesOutReturnInsertTable = new Tabulator("#salesOutReturnInsertTable", {
 		{ title: "분류2", field: "sales_OutMat_Item_Clsfc_Name_2", headerHozAlign: "center", hozAlign: "left" },
 		{ title: "재질", field: "sales_OutMat_Material", headerHozAlign: "center", hozAlign: "left" },
 		{ title: "출고수량", field: "sales_OutMat_Qty", align: "right", headerHozAlign: "center" },
-		{ title: "반품수량", field: "sales_OutReturn_Qty", align: "right", editor:SORI_InputEditor, headerHozAlign: "center" },
+		{ title: "반품수량", field: "sales_OutMat_Qty", align: "right", headerHozAlign: "center" },
 		{ title: "단가", field: "sales_OutMat_Unit_Price", align: "right", headerHozAlign: "center" },
 		{ title: "금액", field: "sales_OutMat_Price", align: "right", headerHozAlign: "center", formatter: "money", formatterParams: { precision: false }, width: 100 },
 		{ title: "거래처코드", field: "sales_OutMat_Client_Code", headerHozAlign: "center" },
