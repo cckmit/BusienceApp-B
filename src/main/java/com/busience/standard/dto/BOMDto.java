@@ -13,6 +13,8 @@ public class BOMDto {
 	private String BOM_ItemCode;
 	private String BOM_ItemName;
 	private String BOM_STND_1;
+	private String BOM_CLSFC_1_NAME;
+	private String BOM_CLSFC_2_NAME;
 	private double BOM_Qty;
 	private String BOM_Unit_Name;
 	private String BOM_State;

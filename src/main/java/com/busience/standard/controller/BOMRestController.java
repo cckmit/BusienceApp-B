@@ -45,10 +45,14 @@ public class BOMRestController {
 				+ " A.PRODUCT_ITEM_NAME,"
 				+ " B.CHILD_TBL_TYPE PRODUCT_MTRL_CLSFC_NAME,\r\n"
 				+ " A.PRODUCT_INFO_STND_1,\r\n"
+				+ "	F.CHILD_TBL_TYPE PRODUCT_ITEM_CLSFC_1_NAME,\r\n"
+				+ "	G.CHILD_TBL_TYPE PRODUCT_ITEM_CLSFC_2_NAME,"
 				+ " C.CHILD_TBL_TYPE PRODUCT_UNIT_NAME\r\n"
 				+ " from Product_Info_tbl A\r\n"
 				+ " inner join DTL_TBL B on A.PRODUCT_MTRL_CLSFC = B.CHILD_TBL_NO\r\n"
-				+ " inner join DTL_TBL C on A.PRODUCT_UNIT = C.CHILD_TBL_NO";
+				+ " inner join DTL_TBL C on A.PRODUCT_UNIT = C.CHILD_TBL_NO"
+		+ " inner join DTL_TBL F on A.PRODUCT_ITEM_CLSFC_1 = F.CHILD_TBL_NO"
+		+ " inner join DTL_TBL G on A.PRODUCT_ITEM_CLSFC_2 = G.CHILD_TBL_NO";
 		
 		String where = "";
 		
@@ -81,8 +85,10 @@ public class BOMRestController {
 			data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
 			data.setPRODUCT_MTRL_CLSFC_NAME(rs.getString("PRODUCT_MTRL_CLSFC_NAME"));
 			data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
+			data.setPRODUCT_ITEM_CLSFC_1_NAME(rs.getString("PRODUCT_ITEM_CLSFC_1_NAME"));
+			data.setPRODUCT_ITEM_CLSFC_2_NAME(rs.getString("PRODUCT_ITEM_CLSFC_2_NAME"));
 			data.setPRODUCT_UNIT_NAME(rs.getString("PRODUCT_UNIT_NAME"));
-
+			
 			list.add(data);
 		}
 		rs.close();
@@ -103,6 +109,8 @@ public class BOMRestController {
 				+ " A.BOM_ItemCode,\r\n"
 				+ " B.PRODUCT_ITEM_NAME,\r\n"
 				+ " B.PRODUCT_INFO_STND_1,\r\n"
+				+ " E.CHILD_TBL_TYPE BOM_CLSFC_1_NAME,\r\n"
+				+ "	F.CHILD_TBL_TYPE BOM_CLSFC_2_NAME,"
 				+ " C.CHILD_TBL_TYPE BOM_State,\r\n"
 				+ " A.BOM_Qty,\r\n"
 				+ " D.CHILD_TBL_TYPE BOM_Unit_Name,\r\n"
@@ -113,6 +121,8 @@ public class BOMRestController {
 				+ " inner join Product_Info_tbl B on A.BOM_ItemCode = B.PRODUCT_ITEM_CODE\r\n"
 				+ " inner join DTL_TBL C on B.PRODUCT_MTRL_CLSFC = C.CHILD_TBL_NO\r\n"
 				+ " inner join DTL_TBL D on B.PRODUCT_UNIT = D.CHILD_TBL_NO\r\n"
+				+ " inner join DTL_TBL E on B.PRODUCT_ITEM_CLSFC_1 = E.CHILD_TBL_NO\r\n"
+				+ " inner join DTL_TBL F on B.PRODUCT_ITEM_CLSFC_2 = F.CHILD_TBL_NO\r\n"
 				+ " where BOM_Parent_ItemCode = '"+BOM_ItemCode+"'";
 		
 		System.out.println("BOMitemList =" + sql);
@@ -131,6 +141,8 @@ public class BOMRestController {
 			data.setBOM_ItemCode(rs.getString("BOM_ItemCode"));
 			data.setBOM_ItemName(rs.getString("PRODUCT_ITEM_NAME"));
 			data.setBOM_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
+			data.setBOM_CLSFC_1_NAME(rs.getString("BOM_CLSFC_1_NAME"));
+			data.setBOM_CLSFC_2_NAME(rs.getString("BOM_CLSFC_2_NAME"));
 			data.setBOM_Qty(rs.getFloat("BOM_Qty"));
 			data.setBOM_Unit_Name(rs.getString("BOM_Unit_Name"));
 			data.setBOM_State(rs.getString("BOM_State"));

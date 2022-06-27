@@ -35,7 +35,10 @@ var itemPopupTable = new Tabulator("#itemPopupTable", {
 	{title:"", field:"rownum", formatter:"rownum", hozAlign:"center"},
 	{title:"품목코드", field:"product_ITEM_CODE", headerHozAlign:"center"},
 	{title:"품목이름", field:"product_ITEM_NAME", headerHozAlign:"center"},
+	{title:"분류1", field:"product_ITEM_CLSFC_1_NAME", headerHozAlign:"center"},
+	{title:"분류2", field:"product_ITEM_CLSFC_2_NAME", headerHozAlign:"center"},
 	{title:"규격1", field:"product_INFO_STND_1", headerHozAlign:"center"},
+	{title:"규격2", field:"product_INFO_STND_2", headerHozAlign:"center"},
 	{title:"자재분류", field:"product_MTRL_CLSFC", headerHozAlign:"center"},
 	{title:"재질", field:"product_UNIT_NAME", headerHozAlign:"center"},
 	{title:"단위", field:"product_MATERIAL_NAME", headerHozAlign:"center"}

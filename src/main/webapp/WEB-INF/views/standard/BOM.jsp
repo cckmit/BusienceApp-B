@@ -31,8 +31,8 @@
 					</div>
 					<span style="color: red; margin-left: 30px"><strong>level 1 데이터만 저장, 삭제 할 수 있습니다.</strong></span>
 				</div>
-				<div id="BOMitemListTable" class="itemMaster"></div>
-				<div id="BOMBOMListTable" class="itemSub"></div>
+				<div id="BOMitemListTable" class="itemMaster" style="width:calc(40%)"></div>
+				<div id="BOMBOMListTable" class="itemSub" style="width:calc(59% - 10px)"></div>
 			</div>
 			<!-- END MAIN -->
 		</div>

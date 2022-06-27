@@ -16,6 +16,8 @@ var BOMitemListTable = new Tabulator("#BOMitemListTable", {
 		{ title: "순번", field: "id", headerHozAlign: "center", hozAlign: "center"},
 		{ title: "품목코드", field: "product_ITEM_CODE", headerHozAlign: "center" },
 		{ title: "품목명", field: "product_ITEM_NAME", headerHozAlign: "center" },
+		{ title: "분류1", field: "product_ITEM_CLSFC_1_NAME", headerHozAlign: "center"},
+		{ title: "분류2", field: "product_ITEM_CLSFC_2_NAME", headerHozAlign: "center"},
 		{ title: "품목종류", field: "product_MTRL_CLSFC_NAME", headerHozAlign: "center"},
 		{ title: "규격1", field: "product_INFO_STND_1", visible:false},
 		{ title: "단위", field: "product_UNIT_NAME", visible:false}
@@ -65,6 +67,8 @@ var BOMBOMListTable = new Tabulator("#BOMBOMListTable", {
 		{ title: "품목코드", field: "bom_ItemCode", headerHozAlign: "center" },
 		{ title: "품목명", field: "bom_ItemName", headerHozAlign: "center" },
 		{ title: "규격1", field: "bom_STND_1", headerHozAlign: "center"},
+		{ title: "분류1", field: "bom_CLSFC_1_NAME", headerHozAlign: "center"},
+		{ title: "분류2", field: "bom_CLSFC_2_NAME", headerHozAlign: "center"},
 		{ title: "수량", field: "bom_Qty", headerHozAlign: "center", hozAlign: "right", editor:"input", editable:editCheck},
 		{ title: "단위", field: "bom_Unit_Name", headerHozAlign: "center"},
 		{ title: "품목종류", field: "bom_State", headerHozAlign: "center"},

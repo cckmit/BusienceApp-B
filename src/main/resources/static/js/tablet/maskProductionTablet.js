@@ -52,7 +52,8 @@ function workOrderSet(){
 		return RawSelect(data.c_Production_LotNo);
 	}).then(function(data1){
 		if(data1.length == 0){
-			BOM_Check(response)
+			console.log("실행")
+			BOM_Check($("#itemCode").val())
 		}
 	})
 }
@@ -196,16 +197,19 @@ function rawMaterialSave(value){
 	});
 }
 
-function BOM_Check(values){
+function BOM_Check(value){
+	console.log(LotList)
 	var result = LotList.every(x => {
 		return x.rms_LotNo == null
 	})
+	console.log(result)
 	if(result){
 		var ajaxResult = $.ajax({
 			method : "get",
 			url : "maskProductionRest/BOMBOMList",
-			data : {itemCode : values.product_ITEM_CODE},
+			data : {itemCode : value},
 			success : function(data) {
+				console.log(data)
 				LotList = new Array();
 				
 				//BOM을 가져와서 그수만큼 리스트에 담는다			
