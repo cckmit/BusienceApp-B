@@ -14,6 +14,7 @@ var salesInoutListTable = new Tabulator("#salesInoutListTable", {
 	{title:"규격2", field:"lt_Item_Stnd_2", headerHozAlign:"center", hozAlign:"center", headerSort:false},
 	{title:"분류1", field:"lt_ITEM_CLSFC_1", headerHozAlign:"center", hozAlign:"center", headerSort:false},
 	{title:"분류2", field:"lt_ITEM_CLSFC_2", headerHozAlign:"center", hozAlign:"center", headerSort:false},
+	{title:"재질", field:"lt_ITEM_MATERIAL", headerHozAlign:"center", hozAlign:"center", headerSort:false},
 	{title:"입고", field:"lt_InQty", headerHozAlign:"center", hozAlign:"right", headerSort:false},
  	{title:"입고반품", field:"lt_InReturn_Qty", headerHozAlign:"center", hozAlign:"right", headerSort:false},
 	{title:"그외 입고", field:"lt_InOther_Qty", headerHozAlign:"center", hozAlign:"right", headerSort:false}, 	

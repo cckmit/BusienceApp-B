@@ -32,5 +32,6 @@ public class LotTransDto {
 	private String LT_Classify_Name;
 	private String LT_Modifier;
 	private String LT_WareHouse;
+	private String LT_ITEM_MATERIAL;
 	
 }

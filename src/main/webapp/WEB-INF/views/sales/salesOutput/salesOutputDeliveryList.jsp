@@ -3,8 +3,8 @@
 	<div class="top-var">
 		<!-- 버튼 -->
 		<div class="input-button">
-			<img src="/images/button/Search.png" id="MIDM_SearchBtn" />
-			<img src="/images/button/Excel.png" onclick="excel_download(matInputDeliveryItemTable)"/>
+			<img src="/images/button/Search.png" id="SODM_SearchBtn" />
+			<img src="/images/button/Excel.png" onclick="excel_download(salesOutputDeliveryItemTable)"/>
 		</div>
 		<!-- 버튼 -->
 		<div class="input-box">

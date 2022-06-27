@@ -241,7 +241,9 @@ var salesLotMasterTable = new Tabulator("#salesLotMasterTable", {
 		//출고수량 정하기
 		//미출고재고 - 현재 출고합계수량 < LotMaster 수량
 		if (FOS_selectedRow.sales_Output_Order_lNot_Stocked - SSM_total < row.getData().lm_Qty) {
-			FO_QTY = FOS_selectedRow.sales_Output_Order_lNot_Stocked - SSM_total
+			alert("출고가능한 수량보다 많습니다.");
+			row.deselect();
+			return;
 		} else {
 			FO_QTY = row.getData().lm_Qty
 		}

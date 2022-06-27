@@ -5,16 +5,9 @@
 	<div class="soloView">
 		<div class="tabs-wrap">
 			<ul id="navigation">
-			<li class="one selected">
-				<a href="#div1">출고조회</a>
-			</li>
-			<li class="two">
-				<a href="#div2">출고현황(품목)</a>
-			</li>
-			<li class="two">
-				<a href="#div2">출고현황(거래처)</a>
-			</li>
-			<!-- <li class="three"><a href="#div3">납품명세서</a></li> -->
+			<li class="one selected"><a href="#div1">출고조회</a></li>
+			<li class="two"><a href="#div2">출고현황(품목)</a></li>
+			<li class="two"><a href="#div2">출고현황(거래처)</a></li>
 			<li class="shadow"></li>
 		</ul>
 		<div id="content">

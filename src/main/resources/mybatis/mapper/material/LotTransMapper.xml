@@ -60,6 +60,7 @@
 			B.Product_Info_STND_2 LT_Item_Stnd_2,
 			D.CHILD_TBL_TYPE LT_ITEM_CLSFC_1, 
 			E.CHILD_TBL_TYPE LT_ITEM_CLSFC_2, 
+			F.CHILD_TBL_TYPE LT_ITEM_MATERIAL, 
 		    case when A.LT_Classify='203' then A.LT_Qty ELSE 0 END AS LT_InQty,
 			case when A.LT_Classify='207' then A.LT_Qty ELSE 0 END AS LT_InReturn_Qty,
 			case when A.LT_Classify IN (204, 205, 206) then A.LT_Qty ELSE 0 END AS LT_InOther_Qty,
@@ -72,6 +73,7 @@
 		INNER JOIN DTL_TBL C ON A.LT_Classify = C.CHILD_TBL_NO
 		INNER JOIN DTL_TBL D ON B.PRODUCT_ITEM_CLSFC_1 = D.CHILD_TBL_NO
 		INNER JOIN DTL_TBL E ON B.PRODUCT_ITEM_CLSFC_2 = E.CHILD_TBL_NO
+		INNER JOIN DTL_TBL F ON B.Product_Material = F.CHILD_TBL_NO
 		<![CDATA[
 			where A.LT_Create_Date >= #{startDate} and A.LT_Create_Date < #{endDate}
 		]]>
