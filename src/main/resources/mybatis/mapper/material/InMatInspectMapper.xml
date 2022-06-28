@@ -29,7 +29,12 @@
 			#{InMat_Inspect_Value_2}, #{InMat_Inspect_Value_3}, #{InMat_Inspect_Value_4},
 			#{InMat_Inspect_Value_5}, #{InMat_Inspect_STND_1}, #{inMat_Inspect_STND_2}, #{InMat_Inspect_Remark},
 			#{InMat_Inspect_Status}
-		) 
+		) on duplicate key update
+		InMat_Inspect_Date = now(), InMat_Inspect_Worker = #{InMat_Inspect_Worker}, InMat_Inspect_Text = #{InMat_Inspect_Text}, InMat_Inspect_Value_1 = #{InMat_Inspect_Value_1},
+		InMat_Inspect_Value_2 = #{InMat_Inspect_Value_2}, InMat_Inspect_Value_3 = #{InMat_Inspect_Value_3},
+		InMat_Inspect_Value_4 = #{InMat_Inspect_Value_4}, InMat_Inspect_Value_5 = #{InMat_Inspect_Value_5},
+		InMat_Inspect_STND_1 = #{InMat_Inspect_STND_1}, inMat_Inspect_STND_2 = #{inMat_Inspect_STND_2},
+		InMat_Inspect_Remark = #{InMat_Inspect_Remark}, InMat_Inspect_Status = #{InMat_Inspect_Status}
 	</insert>
 
 </mapper>

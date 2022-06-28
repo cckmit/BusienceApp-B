@@ -9,6 +9,7 @@ var tempStorageTable = new Tabulator("#tempStorageTable", {
 	},
 	rowSelected: function(row) {
 		formClearFunc();
+		matInputTable.deselectRow();
 		row.select();
 		MIForm_Search(row.getData().inMat_Name, row.getData().inMat_Qty, row.getData().inMat_Client_Name);
 		UseBtn();
@@ -41,7 +42,8 @@ function MII_Search() {
 		ItemCode: $("#PRODUCT_ITEM_CODE1").val(),
 		ClientCode: $("#Temp_InMat_Client_Code").val(),
 		ItemSendClsfc: "all",
-		Condition: "N"
+		Condition: "N",
+		returnStatus: "Y"
 	}
 
 	tempStorageTable.setData("matInputInspectionRest/MII_Search", datas)
@@ -69,10 +71,11 @@ var matInputTable = new Tabulator("#matInputTable", {
 	},
 	rowSelected: function(row) {
 		formClearFunc();
+		tempStorageTable.deselectRow();
 		row.select();
 		//발주번호, 품목코드로 검색
 		MIF_Search(row.getData().inMat_Order_No, row.getData().inMat_Code);
-		ResetBtn();
+		UseBtn();
 	},
 	columns: [
 		{ title: "순번", field: "rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum" },
@@ -276,6 +279,104 @@ function MIF_Save() {
 	});
 }
 
+function MIF_Update() {
+	// 배열 선언
+	var value1 = new Array();
+	var value2 = new Array();
+	var value3 = new Array();
+	var value4 = new Array();
+	var value5 = new Array();
+	var stnd1 = new Array();
+	var stnd2 = new Array();
+	var status = new Array();
+	var value = 10;
+
+	if ($("#matInspectItemName").val() == "") {
+		alert("검사할 행을 선택해주세요.");
+		return false;
+	}
+
+	if ($("#matInspectWorker").val() == "") {
+		alert("검사자를 입력해주세요.");
+		return false;
+	}
+
+	for (var i = 1; i < 10; i++) {
+		standardDatas = {
+			inMat_Inspect_Order_No: matInputTable.getData()[0].inMat_Order_No,
+			inMat_Inspect_Number: i,
+			inMat_Inspect_ItemCode: matInputTable.getData()[0].inMat_Code,
+			inMat_Inspect_Qty: matInputTable.getData()[0].inMat_Qty,
+			inMat_Inspect_UnitPrice: matInputTable.getData()[0].inMat_Unit_Price,
+			inMat_Inspect_Worker: document.querySelector('#matInspectWorker > option:checked').value,
+			inMat_Inspect_Customer: matInputTable.getData()[0].inMat_Client_Code,
+			inMat_Inspect_Text: $("#inspectionText").val(),
+			inMat_Inspect_Classfy: matInputTable.getData()[0].inMat_Rcv_Clsfc,
+			inMat_Inspect_Remark: $("#inspectionRemark").val()
+		}
+	}
+
+	inMatDatas = {
+		inMat_No: matInputTable.getData()[0].inMat_No,
+		inMat_Lot_No: matInputTable.getData()[0].inMat_Lot_No
+	}
+
+	// 측정 데이터
+	for (var j = 0; j < value; j++) {
+
+		value1.push({ inMat_Inspect_Value_1: $("input[name='Inspect_Value_1[]']")[j].value });
+
+		value2.push({ inMat_Inspect_Value_2: $("input[name='Inspect_Value_2[]']")[j].value });
+
+		value3.push({ inMat_Inspect_Value_3: $("input[name='Inspect_Value_3[]']")[j].value });
+
+		value4.push({ inMat_Inspect_Value_4: $("input[name='Inspect_Value_4[]']")[j].value });
+
+		value5.push({ inMat_Inspect_Value_5: $("input[name='Inspect_Value_5[]']")[j].value });
+
+	}
+
+	// 규격 데이터 
+	var stndLength = 3;
+	for (var i = 0; i < stndLength; i++) {
+		stnd1.push({ inMat_Inspect_STND_1: $("input[name='Inspect_STND_1[]']")[i].value });
+		stnd2.push({ inMat_Inspect_STND_2: $("input[name='Inspect_STND_2[]']")[i].value });
+	}
+
+	// 판정 데이터
+	var statusLength = 10;
+
+	for (var i = 0; i < statusLength; i++) {
+		status.push({ inMat_Inspect_Status: $("select[name='status[]'] option:selected")[i].value })
+	};
+
+	//OrderSub 저장부분
+	$.ajax({
+		method: "post",
+		url: "matInputInspectionRest/MII_Save",
+		data: {
+			standard: JSON.stringify(standardDatas), value1: JSON.stringify(value1), value2: JSON.stringify(value2), value3: JSON.stringify(value3),
+			value4: JSON.stringify(value4), value5: JSON.stringify(value5), stnd1: JSON.stringify(stnd1), stnd2: JSON.stringify(stnd2),
+			status: JSON.stringify(status), inMatData: JSON.stringify(inMatDatas)
+		},
+		beforeSend: function(xhr) {
+			var header = $("meta[name='_csrf_header']").attr("content");
+			var token = $("meta[name='_csrf']").attr("content");
+			xhr.setRequestHeader(header, token);
+		},
+		success: function(result) {
+			if (result) {
+				alert("저장되었습니다.");
+				formClearFunc();
+				MII_Search();
+				MIS_Search();
+			} else {
+				alert("중복된 값이 존재합니다.")
+			}
+		}
+	});
+}
+
 // 입력 폼 clear
 function formClearFunc() {
 	$("#matInspectItemName").val("");
@@ -283,6 +384,7 @@ function formClearFunc() {
 	$("#matInspectQty").val("");
 	$("#matInspectCustomer").val("");
 	$("#inspectionText").val("");
+	$("#inspectionRemark").val("");
 	$("input[name='Inspect_Value_1[]']").each(function(index, item) {
 		$(item).val("");
 	});
@@ -321,7 +423,12 @@ function formClearFunc() {
 
 //SOM_SaveBtn
 $('#MIF_SaveBtn').click(function() {
-	MIF_Save();
+	if(tempStorageTable.getData("selected").length > 0) {
+		MIF_Save();
+	} else if(matInputTable.getData("selected").length > 0) {
+		MIF_Update();
+	}
+	
 })
 
 //MO_PrintBtn

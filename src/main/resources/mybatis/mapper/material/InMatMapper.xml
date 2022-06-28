@@ -53,6 +53,9 @@
 		<if test='"Y".equals(Condition)'>
 			and C.Product_WRHSN_INSPC = 'true' and A.InMat_Check_1 = 'true'
 		</if>
+		<if test='"Y".equals(returnStatus)'>
+			and A.InMat_Rcv_Clsfc != '207'
+		</if>
 		order by A.InMat_Date
 	</select>
 	

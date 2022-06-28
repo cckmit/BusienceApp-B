@@ -15,6 +15,7 @@ public class ItemDto {
 	private String PRODUCT_ITEM_NAME; // 품명
 	private String PRODUCT_INFO_STND_1; // 규격1
 	private String PRODUCT_INFO_STND_2; // 규격2
+	private String PRODUCT_INFO_SUB_STND_2; // 규격 서브2
 	private int PRODUCT_UNIT_PRICE; // 단가
 	private int PRODUCT_MULTIPLE;
 	private String PRODUCT_UNIT; // 단위코드(세부코드)

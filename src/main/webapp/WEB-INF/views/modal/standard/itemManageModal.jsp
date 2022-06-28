@@ -61,11 +61,19 @@
 							</div>
 						</div>
 						<br> <br>
-						<div>
+						<div id="standard">
 							<label class="col-sm-3 control-label">&nbsp;&nbsp;규&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;격&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2</label>
 							<div class="col-sm-5">
 								<input type="text" style="width: 80%; height: 25px;"
 									class="form-control-plaintext" id="product_INFO_STND_2"
+									OnKeyDown="nextFocus('product_UNIT_PRICE')">
+							</div>
+						</div>
+						<div id="copyStnd">
+							<label class="col-sm-3 control-label">&nbsp;&nbsp;규&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;격&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2</label>
+							<div class="col-sm-5">
+								<input type="text" style="width: 80%; height: 25px;"
+									class="form-control-plaintext" id="product_SUB_INFO_STND_2"
 									OnKeyDown="nextFocus('product_UNIT_PRICE')">
 							</div>
 						</div>
@@ -199,7 +207,7 @@
 					</fieldset>
 					<br>
 					<button type="button" class="btn btn-primary insert" id="itemRegisterBtn">저장</button>
-					
+					<button type="button" class="btn btn-primary copy" id="itemCopyBtn">저장</button>
 					<button type="button" class="btn btn-primary modify" id="itemModifyBtn">수정</button>
 					<button type="button" class="btn btn-warning modify" id="itemRemoveBtn">삭제</button>
 					<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>

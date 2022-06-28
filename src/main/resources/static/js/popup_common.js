@@ -82,3 +82,15 @@ function hometaxApiPopup(ym){
 	
 	openWin = window.open(url, name, option);
 }
+
+//엑셀 업로드 팝업창 		(해당 년월)
+function paldangPackagingPopup(){
+	//창의 주소
+	var url = "paldangPackagingPopup";
+	//창의 이름
+	var name = "paldangPackagingPopup";
+	//창의 css	
+	var option = "width = 1000, height = 500, top = 100, left = 200, location = no"
+	
+	openWin = window.open(url, name, option);
+}

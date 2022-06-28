@@ -24,6 +24,8 @@ import com.busience.standard.dto.Customer_tbl;
 import com.busience.standard.dto.DEFECT_INFO_TBL;
 import com.busience.standard.dto.EQUIPMENT_INFO_TBL;
 import com.busience.standard.dto.PRODUCT_INFO_TBL;
+import com.busience.standard.dto.PaldangPackagingStandardDto;
+import com.busience.standard.service.PaldangPackagingStandardService;
 
 @RestController
 public class popupRestController {
@@ -36,6 +38,9 @@ public class popupRestController {
 	
 	@Autowired
 	JdbcTemplate jdbctemplate;
+	
+	@Autowired
+	PaldangPackagingStandardService paldangPackagingService;
 	
 	//itemPopup
 	@GetMapping("/itemPopupSelect")
@@ -522,5 +527,10 @@ public class popupRestController {
 	@GetMapping("/hometaxApiPopupSelect")
 	public List<HometaxApiDto> hometaxApiPopupSelect(){
 		return hometaxApiService.hometaxApiDataSearch();
+	}
+	
+	@GetMapping("/paldangPackagingListSelect")
+	public List<PaldangPackagingStandardDto> paldangPackagingListDao() {
+		return paldangPackagingService.paldangPackagingListDao();
 	}
 }

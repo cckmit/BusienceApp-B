@@ -15,6 +15,8 @@
 			 	<img src="/images/button/Delete.png" id="itemDeleteBtn"/>
 			 	
 			 	<img src="/images/button/Excel.png" onclick="excel_download(itemManageTable)"/>
+			 	
+			 	<img src="/images/button/Copy.png" id="itemCOPYBtn"/>
 			</div>
 		</div>
 

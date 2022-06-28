@@ -65,4 +65,10 @@ public class popupController {
 	public String MO_print() {
 		return "normal/material/matOrderPrint";
 	}
+	
+	// 팔당 포장 규격
+	@GetMapping("/paldangPackagingPopup")
+	public String paldangPackagingPopup() {
+		return "normal/popup/paldangPackagingPopup";
+	}
 }
