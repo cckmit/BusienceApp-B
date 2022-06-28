@@ -10,7 +10,6 @@
 			<div class="input-button">
 				<img src="/images/button/Search.png" id="PM_SearchBtn"/>
 				<img src="/images/button/New.png" id="PM_NewBtn"/>
-				<img src="/images/button/ADD.png" id="PM_AddBtn" class="unUseBtn BtnStatus"/>
 				<img src="/images/button/Save.png" id="PM_SaveBtn"/>
 				<img src="/images/button/Delete.png" id="PM_DeleteBtn"/>
 			</div>

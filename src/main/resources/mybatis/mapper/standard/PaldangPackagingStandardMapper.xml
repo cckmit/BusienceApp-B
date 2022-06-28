@@ -6,5 +6,22 @@
 	<select id="paldangPackagingListDao" resultType="com.busience.standard.dto.PaldangPackagingStandardDto">
 		select * from Paldang_Packaging_Standard_tbl
 	</select>	
+	<insert id="paldangPackaingInsertDao">
+		insert into Paldang_Packaging_Standard_tbl 
+		(
+			packaging_No, packaging_Clsfc, packaging_Type, packaging_Size, packaging_Item, packaging_Small, packaging_Large
+		) values (
+			#{packaging_No}, #{packaging_Clsfc}, #{packaging_Type}, #{packaging_Size}, #{packaging_Item}, #{packaging_Small}, #{packaging_Large}
+		) on duplicate key update
+		packaging_Clsfc = #{packaging_Clsfc}, 
+		packaging_Type = #{packaging_Type},
+		packaging_Size = #{packaging_Size},
+		packaging_Item = #{packaging_Item},
+		packaging_Small = #{packaging_Small},
+		packaging_Large = #{packaging_Large}
+	</insert>
+	<delete id="paldangPackaingDeleteDao">
+		delete from Paldang_Packaging_Standard_tbl where packaging_No = #{packaging_No}
+	</delete>	
 </mapper>	
 

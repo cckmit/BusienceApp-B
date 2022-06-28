@@ -10,4 +10,8 @@ import com.busience.standard.dto.PaldangPackagingStandardDto;
 public interface paldangPackagingStandardDao {
 
 	public List<PaldangPackagingStandardDto> paldangPackagingListDao();
+	
+	public int paldangPackaingInsertDao(PaldangPackagingStandardDto paldangPackagingStandardDto);
+	
+	public int paldangPackaingDeleteDao(PaldangPackagingStandardDto paldangPackagingStandardDto);
 }
