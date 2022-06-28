@@ -68,4 +68,39 @@ public class MaskInputService {
 			return 0;
 		}
 	}
+	
+	public int maskInputRollback(CrateLotDto crateLotDto) {
+		try {
+			
+			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+				
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					CrateDto crateDto = new CrateDto();
+					CrateLotDto crateLotDtoTemp = new CrateLotDto();
+					SearchDto searchDto = new SearchDto();
+					
+					//Crate_tbl 업데이트
+					crateDto.setC_CrateCode(crateLotDto.getCL_CrateCode());
+					crateDto.setC_Condition("2");
+					crateDao.crateUpdateDao(crateDto);
+					
+					//LotNo 탐색
+					searchDto.setCrateCode(crateDto.getC_CrateCode());
+					searchDto.setCondition(crateDto.getC_Condition());
+					String LotNo = crateDao.crateStatusCheckDao(searchDto).getC_Production_LotNo();
+					
+					//Crate_Lot_tbl 업데이트
+					crateLotDtoTemp.setCL_LotNo(LotNo);
+					crateLotDtoTemp.setCL_MachineCode2(null);
+					crateLotDao.crateLotUpdateDao(crateLotDtoTemp);
+				}
+			});
+			
+			return 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
 }

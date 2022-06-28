@@ -26,8 +26,8 @@ var packagingTable = new Tabulator("#packagingTable", {
 		{ title: "규격2", field: "itemSTND2", headerHozAlign: "center"},
 		{ title: "재질", field: "itemMaterial_Name", headerHozAlign: "center"},
 		{ title: "분류1", field: "itemClsfc1_Name", headerHozAlign: "center"},
-		{ title: "분류2", field: "itemClsfc2_Name", headerHozAlign: "center"},
-		{ title: "수량", field: "qty", headerHozAlign: "center", hozAlign: "right"},
+		{ title: "분류2", field: "itemClsfc2_Name", headerHozAlign: "center", topCalc:function(){return "합계"}},
+		{ title: "수량", field: "qty", headerHozAlign: "center", hozAlign: "right", topCalc:"sum"},
 		{ title: "입고일자", field: "create_Date", headerHozAlign: "center", hozAlign: "right",
 			formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" }
 		}
@@ -52,19 +52,19 @@ function toggleFullScreen() {
 
 //소포장발행
 $("#packagingBtn").click(function(){
-	$.when(smallPackagingSave())
+	$.when(smallPackagingSave($("#machineCode").val(), $("#itemCode").val()))
 	.then(function(data){
-		//productionPrinter(data);
+		productionPrinter(data);
 		packagingTable.replaceData();
-		smallPackagingQty()
+		smallPackagingQty($("#machineCode").val(), $("#itemCode").val())
 	})
 })
 
-function smallPackagingSave(){
+function smallPackagingSave(machineCode, itemCode){
 	var ajaxResult = $.ajax({
 		method: "post",
 		url: "maskPackagingRest/smallPackagingSave",
-		data: {machineCode : $("#machineCode").val(), itemCode : $("#itemCode").val()},
+		data: {machineCode : machineCode, itemCode : itemCode},
 		beforeSend: function(xhr) {
 			var header = $("meta[name='_csrf_header']").attr("content");
 			var token = $("meta[name='_csrf']").attr("content");
@@ -74,11 +74,11 @@ function smallPackagingSave(){
 	return ajaxResult;
 }
 
-function packagingLineListSelect(){
+function packagingLineListSelect(itemCode){
 	var ajaxResult = $.ajax({
 		method: "get",
 		url: "maskPackagingRest/packagingLineListSelect",
-		data: {itemCode : $("#itemCode").val()},
+		data: {itemCode : itemCode},
 		success: function(result) {
 			for(let j=0;j<result.length;j++){
 				$("#bundle-list").append('<li>'+result[j].equip_WorkOrder_Name+'</li>')
@@ -88,11 +88,11 @@ function packagingLineListSelect(){
 	return ajaxResult;
 }
 
-function smallPackagingQty(){
+function smallPackagingQty(machineCode, itemCode){
 	var ajaxResult = $.ajax({
 		method: "get",
 		url: "maskPackagingRest/smallPackagingQtySelect",
-		data: {machineCode : $("#machineCode").val(), itemCode : $("#itemCode").val()},
+		data: {machineCode : machineCode, itemCode : itemCode},
 		success: function(result) {
 			$("#smallPackaging-Qty").val(result);
 		}
@@ -100,11 +100,11 @@ function smallPackagingQty(){
 	return ajaxResult;
 }
 
-function largePackagingQty(){
+function largePackagingQty(machineCode, itemCode){
 	var ajaxResult = $.ajax({
 		method: "get",
 		url: "maskPackagingRest/largePackagingQtySelect",
-		data: {machineCode : $("#machineCode").val(), itemCode : $("#itemCode").val()},
+		data: {machineCode : machineCode, itemCode : itemCode},
 		success: function(result) {
 			$("#largePackaging-Qty").val(result);
 		}
@@ -119,11 +119,11 @@ $("#rePrintBtn").click(function(){
 	packagingTable.deselectRow();
 })
 
-function largePackagingSave(){
+function largePackagingSave(machineCode, itemCode){
 	var ajaxResult = $.ajax({
 		method: "post",
 		url: "maskPackagingRest/largePackagingSave",
-		data: {machineCode : $("#machineCode").val(), itemCode : $("#itemCode").val()},
+		data: {machineCode : machineCode, itemCode : itemCode},
 		beforeSend: function(xhr) {
 			var header = $("meta[name='_csrf_header']").attr("content");
 			var token = $("meta[name='_csrf']").attr("content");
@@ -134,21 +134,18 @@ function largePackagingSave(){
 }
 
 $("#largePackagingBtn").click(function(){
-	$.when(largePackagingSave())
+	$.when(largePackagingSave($("#machineCode").val(), $("#itemCode").val()))
 	.then(function(data){
 		productionPrinter(data);
 		packagingTable.replaceData();
-		largePackagingQty();
+		largePackagingQty($("#machineCode").val(), $("#itemCode").val());
 	})
 })
 
 
 window.onload = function(){
-	packagingLineListSelect()
+	packagingLineListSelect($("#itemCode").val())
 	setup();
-	smallPackagingQty();
-	largePackagingQty();
-	setInterval(function(){
-		packagingTable.replaceData();
-	},10000);
+	smallPackagingQty($("#machineCode").val(), $("#itemCode").val());
+	largePackagingQty($("#machineCode").val(), $("#itemCode").val());
 }

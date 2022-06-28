@@ -15,6 +15,8 @@ import com.busience.production.dao.SmallPackagingDao;
 import com.busience.production.dto.EquipWorkOrderDto;
 import com.busience.production.dto.LabelPrintDto;
 import com.busience.production.dto.Small_Packaging_tbl;
+import com.busience.standard.dao.ItemDao;
+import com.busience.standard.dto.ItemDto;
 import com.busience.tablet.dao.CrateDao;
 import com.busience.tablet.dao.CrateLotDao;
 import com.busience.tablet.dto.CrateDto;
@@ -22,6 +24,9 @@ import com.busience.tablet.dto.CrateLotDto;
 
 @Service
 public class MaskPackagingService {
+	
+	@Autowired
+	ItemDao itemDao;
 	
 	@Autowired
 	EquipWorkOrderDao equipWorkOrderDao;
@@ -47,6 +52,11 @@ public class MaskPackagingService {
 	@Transactional
 	public LabelPrintDto smallPackagingSave(SearchDto searchDto) {
 		String itemCode = searchDto.getItemCode();
+		
+		//품목정보에서 규격2를 가져옴
+		ItemDto itemDto = itemDao.selectItemCode(itemCode);
+		//규격2로 포장규격을 가져옴
+		itemDto.getPRODUCT_INFO_STND_2();
 		
 		//소포장 LotNo
 		String small_Packaging_LotNo = lotNoDao.smallLotNoSelectDao(itemCode);

@@ -38,4 +38,9 @@ public class maskInputRestController {
 	public int maskInputUpdate(CrateLotDto crateLotDto) {
 		return maskInputService.maskInputUpdate(crateLotDto);
 	}
+	
+	@PostMapping("/maskInputRollback")
+	public int maskInputRollback(CrateLotDto crateLotDto) {
+		return maskInputService.maskInputRollback(crateLotDto);
+	}
 }

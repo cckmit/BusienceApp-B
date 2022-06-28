@@ -1,6 +1,5 @@
 var machineCodeObj = new Object();
 var itemCodeObj = new Object();
-var inputMode = '';
 
 function tableSetting(value){
 	var tableSetting = {
@@ -73,32 +72,41 @@ $("#barcodeInput").change(function(e){
 		if(result){
 			$("#selectedMachine").val(barcode);
 			$(".machine-module").removeClass("selected-module");
+			$(".machine-module").removeClass("selected-module-Y");
 			$("#module-"+barcode).addClass("selected-module");
 		}
+	//머신코드에 C가 붙으면 수정모드
 	}else if(initial == "C"){
-		barcode = barcode.substr(1,-1)
-		//console.log("수정모드")
 		$("#selectedMachine").val(barcode);
 		$(".machine-module").removeClass("selected-module");
-		$("#module-"+barcode).addClass("selected-module");
+		$(".machine-module").removeClass("selected-module-Y");
+		$("#module-"+barcode.substr(1,barcode.length)).addClass("selected-module-Y");
 	}else if(initial == "N"){
-		$.when(CrateStatusCheck(barcode)).
-		then(function(data){
-			//아이템이 설비지정아이템과 맞으면 등록이 되고 맞지않으면 오류 뱉음	
-			if(data instanceof Object){
-				//console.log(itemCodeObj[$("#selectedMachine").val()]);
-				//console.log(data.c_ItemCode);
-				if(data.c_ItemCode == itemCodeObj[$("#selectedMachine").val()]){
-					crateLotUpdate($("#selectedMachine").val(), data.c_CrateCode);
-					//console.log("통과");
+		
+		var machine_initial = $("#selectedMachine").val().substr(0,1);
+		
+		if(machine_initial != "C"){
+			$.when(CrateStatusCheck(barcode)).
+			then(function(data){
+				//아이템이 설비지정아이템과 맞으면 등록이 되고 맞지않으면 오류 뱉음	
+				if(data instanceof Object){
+					//console.log(itemCodeObj[$("#selectedMachine").val()]);
+					//console.log(data.c_ItemCode);
+					if(data.c_ItemCode == itemCodeObj[$("#selectedMachine").val()]){
+						crateLotUpdate($("#selectedMachine").val(), data.c_CrateCode);
+						//console.log("통과");
+					}else{
+						console.log("설비와 품목이 맞지 않습니다.")
+					}
 				}else{
-					console.log("설비와 품목이 맞지 않습니다.")
+					console.log("잘못된 박스입니다.")
 				}
-			}else{
-				console.log("잘못된 박스입니다.")
-			}
-			
-		})
+				
+			})
+		}else{
+			var machineCode = $("#selectedMachine").val().substr(1,barcode.length);
+			console.log(machineCode)
+		}		
 	}
 });
 
@@ -116,11 +124,27 @@ function CrateStatusCheck(value){
 	return ajaxResult;
 }
 
-function crateLotUpdate(machineCode, CrateCode){
+function crateLotUpdate(machineCode, crateCode){
 	$.ajax({
 		method : "post",
 		url : "maskInputRest/maskInputUpdate",
-		data: {CL_MachineCode : machineCode, CL_CrateCode : CrateCode},
+		data: {CL_MachineCode : machineCode, CL_CrateCode : crateCode},
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
+		success : function(data) {
+			Tabulator.prototype.findTable("#"+machineCodeObj[machineCode])[0].replaceData();
+		}
+	});
+}
+
+function maskInputRollback(machineCode, crateCode){
+	$.ajax({
+		method : "post",
+		url : "maskInputRest/maskInputRollback",
+		data: {CL_CrateCode : crateCode},
 		beforeSend: function (xhr) {
            var header = $("meta[name='_csrf_header']").attr("content");
            var token = $("meta[name='_csrf']").attr("content");

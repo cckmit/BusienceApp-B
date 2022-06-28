@@ -131,3 +131,6 @@
 .selected-module{
 	border: solid 10px red !important;
 }
+.selected-module-Y{
+	border: solid 10px yellow !important;
+}

@@ -57,6 +57,22 @@
 	<div class="main-d">
 		<div id="packagingTable" class="tablet-border tablet-Table"></div>
 	</div>
+	<div class="main-e">
+		<div class="main-box tablet-border">
+			<div class="item">
+				<label for="packaging-No" >No</label>
+				<input id="packaging-No" disabled>
+				<label for="packaging-Item">포장명</label>
+				<input id="packaging-Item" style="width:auto;" disabled>
+			</div>
+			<div class="item">
+				<label for="packaging-small">소포장 규격</label>
+				<input id="packaging-small" disabled>
+				<label for="packaging-large">대포장 규격</label>
+				<input id="packaging-large" disabled>
+			</div>
+		</div>
+	</div>
 </div>
 <script src="/js/tablet/maskPackagingTablet.js?v=<%=System.currentTimeMillis() %>"></script>
 <script src="/js/labelPrint/paldangLabelPrint.js?v=<%=System.currentTimeMillis() %>"></script>
