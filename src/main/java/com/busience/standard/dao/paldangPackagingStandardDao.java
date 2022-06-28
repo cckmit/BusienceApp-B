@@ -11,6 +11,8 @@ public interface paldangPackagingStandardDao {
 
 	public List<PaldangPackagingStandardDto> paldangPackagingListDao();
 	
+	public List<PaldangPackagingStandardDto> paldangPackagingCheckNo(PaldangPackagingStandardDto paldangPackagingStandardDto);
+	
 	public int paldangPackaingInsertDao(PaldangPackagingStandardDto paldangPackagingStandardDto);
 	
 	public int paldangPackaingDeleteDao(PaldangPackagingStandardDto paldangPackagingStandardDto);

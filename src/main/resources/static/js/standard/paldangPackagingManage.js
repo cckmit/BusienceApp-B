@@ -7,6 +7,8 @@ var editCheck = function(cell) {
 	return data.packaging_ModifyDate == undefined || data.packaging_ModifyDate == ""; // only allow the name cell to be edited if the age is over 18
 }
 
+let checkNo;
+
 //커스텀 기능설정
 var PM_InputEditor = function(cell, onRendered, success, cancel, editorParams) {
 	//cell - 편집 가능한 셀의 셀 구성 요소
@@ -51,46 +53,9 @@ var PM_InputEditor = function(cell, onRendered, success, cancel, editorParams) {
 	//키버튼 이벤트
 	PM_Input.addEventListener("keydown", function(e, row) {
 		//코드 셀에서 백스페이스를 눌렀을경우 명이 사라지게함
-		if (e.keyCode == 8) {
-			if (cell.getField() == "packaging_Cus_Code") {
-				cell.getRow().update({ "packaging_Cus_Name": '' })
-			}
-			if (cell.getField() == "packaging_ItemCode") {
-				cell.getRow().update({ "packaging_ItemName": '' })
-			}
-		}
+	
 		if (e.keyCode == 13) {
-			//거래처코드셀 체크
-			//품목코드셀체크
-			if (cell.getField() == "packaging_ItemCode") {
-				//내용이 있을경우 검색해서 값이 하나일경우 생략, 아닐경우 팝업창
-				//쿼리실행
-				$.ajax({
-					method: "GET",
-					url: "product_check?PRODUCT_ITEM_CODE=" + PM_Input.value,
-					dataType: "json",
-					success: function(data) {
-						console.log("쿼리실행");
-						if (data.length == 1) {
-							//검색어와 일치하는값이 있는경우
-							cell.getRow().update({
-								"packaging_ItemCode": data[0].product_ITEM_CODE,
-								"packaging_ItemName": data[0].product_ITEM_NAME
-							})
-						} else {
-							//검색어와 일치하는값이 없는경우, 팝업창
-							itemPopup(PM_Input.value,'grid','','all');
-						}
-					}
-				})
-			}
-			//비율셀 체크
-			if (cell.getField() == "packaging_Rate") {
-				cell.getRow().select();
-				//사용구분과 거래처구분을 넘긴다.
-				cell.nav().next();
-				cell.nav().next();
-			}
+		
 		}
 	});
 	//반환
@@ -143,7 +108,6 @@ var paldangPackagingManageTable = new Tabulator("#paldangPackagingManageTable", 
 		//console.log(row.getElement());
 	},
 	rowAdded: function(row) {
-
 		//행이 추가되면 첫셀에 포커스
 		do {
 			setTimeout(function() {
@@ -159,9 +123,17 @@ var paldangPackagingManageTable = new Tabulator("#paldangPackagingManageTable", 
 	columns: [
 		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
 		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center", headerHozAlign: "center" },
-		{ title: "코드", field: "packaging_No", hozAlign: "left", headerHozAlign: "center", headerFilter: "input", editor:PM_InputEditor, editable: editCheck},
-		{ title: "구분", field: "packaging_Clsfc", headerHozAlign: "center", headerFilter: "input", editor:PM_InputEditor, width: 100},
-		{ title: "타입", field: "packaging_Type", headerHozAlign: "center", headerFilter: "input", headerFilterParams: dtl_arr_material, width: 100, editor: "select",
+		{
+			title: "코드", field: "packaging_No", hozAlign: "left", headerHozAlign: "center", headerFilter: "input", editor:  PM_InputEditor, editable: editCheck,
+			cellEdited: function(cell) {
+				//행추가할때 첫번째행을 복사하므로 첫번째행과
+				checkNo = cell.getValue();
+				let resultData = item_Code_Check(checkNo);
+			}
+		},
+		{ title: "구분", field: "packaging_Clsfc", headerHozAlign: "center", headerFilter: "input", editor: PM_InputEditor, width: 100 },
+		{
+			title: "타입", field: "packaging_Type", headerHozAlign: "center", headerFilter: "input", headerFilterParams: dtl_arr_material, width: 100, editor: "select",
 			formatter: function(cell, formatterParams) {
 				var value = cell.getValue();
 				if (dtl_arr_material[value] != null) {
@@ -172,9 +144,10 @@ var paldangPackagingManageTable = new Tabulator("#paldangPackagingManageTable", 
 				return value;
 			},
 			editorParams: { values: dtl_arr_material }
-			
+
 		},
-		{ title: "규격", field: "packaging_Size", headerHozAlign: "center", headerFilter: "input", hozAlign: "left", headerFilterParams: dtl_arr, width: 120, editor: "select",
+		{
+			title: "규격", field: "packaging_Size", headerHozAlign: "center", headerFilter: "input", hozAlign: "left", headerFilterParams: dtl_arr, width: 120, editor: "select",
 			formatter: function(cell, formatterParams) {
 				var value = cell.getValue();
 				if (dtl_arr[value] != null) {
@@ -186,9 +159,9 @@ var paldangPackagingManageTable = new Tabulator("#paldangPackagingManageTable", 
 			},
 			editorParams: { values: dtl_arr }
 		},
-		{ title: "품목", field: "packaging_Item", headerHozAlign: "center", headerFilter: "input", editor: PM_InputEditor, width: 300},
-		{ title: "소포장", field: "packaging_Small", headerHozAlign: "center", editor: PM_InputEditor, hozAlign: "right", width: 80},
-		{ title: "대포장", field: "packaging_Large", headerHozAlign: "center", editor: PM_InputEditor, hozAlign: "right", width: 80},
+		{ title: "품목", field: "packaging_Item", headerHozAlign: "center", headerFilter: "input", editor: PM_InputEditor, width: 300 },
+		{ title: "소포장", field: "packaging_Small", headerHozAlign: "center", editor: PM_InputEditor, hozAlign: "right", width: 80 },
+		{ title: "대포장", field: "packaging_Large", headerHozAlign: "center", editor: PM_InputEditor, hozAlign: "right", width: 80 },
 		{ title: "저장시간", field: "packaging_ModifyDate", headerHozAlign: "center", hozAlign: "left", visible: false },
 	]
 });
@@ -261,11 +234,6 @@ function PM_Save() {
 		alert("저장할 선택한 데이터가 없습니다.");
 		return false;
 	}
-	//행추가할때 첫번째행을 복사하므로 첫번째행과
-	/*if(item_Code_Check(rowCount)){
-		alert("중복된 품목이 있습니다.");
-		return false;
-	}*/
 	//목록의 구분, 거래처명, 제품명을 검사하여 입력하지 않았을 경우 저장 안됨
 	for (i = 0; i < rowCount; i++) {
 		rowData = selectedRow[i];
@@ -351,35 +319,22 @@ $('#PM_DeleteBtn').click(function() {
 	PM_Delete();
 })
 
-/*//list에서 같은 품목을 추가할때 경고 알리고 추가안됨
-function item_Code_Check(rowCount) {
-	cus_Status = packagingManageTable.getColumn("packaging_Cus_Status").getCells();
-	cus_Code = packagingManageTable.getColumn("packaging_Cus_Code").getCells();
-	itemCode = packagingManageTable.getColumn("packaging_ItemCode").getCells();
+//list에서 같은 품목을 추가할때 경고 알리고 추가안됨
+function item_Code_Check(checkNo) {
+	datas = {
+		packaging_No: checkNo
+	}
 
-	//컬럼값을 검색해서 입력값을 포함하는 값이 있으면 선택한다.
-	for (i=0;i<rowCount-1;i++) {
-		count = 0;
-		for(j=i+1;j<rowCount;j++){
-			//거래처구분 체크
-			if(cus_Status[i].getValue() == cus_Status[j].getValue()){
-				count++
-			}
-			//거래처코드 체크
-			if(cus_Code[i].getValue() == cus_Code[j].getValue()){
-				count++
-			}
-			//품목코드 체크
-			if(itemCode[i].getValue() == itemCode[j].getValue()){
-				count++
-			}
-			//중복일경우
-			if(count==3){
-				itemCode[i].getRow().deselect();
-				itemCode[j].getRow().deselect();
-				return true;
+	$.ajax({
+		method: "get",
+		url: "paldangPackagingRest/paldangPackagingCheck",
+		data: datas,
+		success: function(result) {
+			console.log(result);
+			if (result.length > 0) {
+				alert("사용중인 코드입니다.")
 			}
 		}
-	}
-	return false;
-}*/
+	});
+
+}

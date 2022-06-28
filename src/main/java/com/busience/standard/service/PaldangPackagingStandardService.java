@@ -25,6 +25,10 @@ public class PaldangPackagingStandardService {
 		return paldangPackagingDao.paldangPackagingListDao();
 	}
 	
+	public List<PaldangPackagingStandardDto> paldangPackagingCheckNo(PaldangPackagingStandardDto paldangPackagingStandardDto) {
+		return paldangPackagingDao.paldangPackagingCheckNo(paldangPackagingStandardDto);
+	}
+	
 	public int paldangPackaingInsertDao(List<PaldangPackagingStandardDto> dataList, PaldangPackagingStandardDto paldangPackagingStandardDto) {
 		
 		try {

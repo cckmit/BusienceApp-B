@@ -24,6 +24,11 @@ public class paldangPackagingRestController {
 		return paldangPackagingService.paldangPackagingListDao();
 	}
 	
+	@GetMapping("/paldangPackagingCheck")
+	public List<PaldangPackagingStandardDto> paldangPackagingCheckNo(PaldangPackagingStandardDto paldangPackagingStandardDto) {
+		return paldangPackagingService.paldangPackagingCheckNo(paldangPackagingStandardDto);
+	}
+	
 	@PostMapping("/paldangPackaginInsert")
 	public int paldangPackaingInsertDao(@RequestBody List<PaldangPackagingStandardDto> dataList, PaldangPackagingStandardDto paldangPackagingStandardDto) {
 		return paldangPackagingService.paldangPackaingInsertDao(dataList, paldangPackagingStandardDto);
