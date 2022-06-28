@@ -67,6 +67,20 @@ public class MachineDto {
 	
 	private String WorkOrder_ItemName;
 	
+	private String WorkOrder_STND_1;
+	
+	private String WorkOrder_STND_2;
+	
+	private String WorkOrder_Unit;
+	
+	private String WorkOrder_Material;
+	
+	private String WorkOrder_MTRL_CLSFC;
+	
+	private String WorkOrder_Item_CLSFC_1;
+	
+	private String WorkOrder_Item_CLSFC_2;
+	
 	private String WorkOrder_RegisterTime;
 	
 	private String WorkOrder_Remark;

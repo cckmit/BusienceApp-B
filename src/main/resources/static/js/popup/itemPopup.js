@@ -61,6 +61,16 @@ function list_select(row){
 									row.getData().product_UNIT_NAME,
 									row.getData().product_MATERIAL_NAME,
 									urlParams.get('save_value'));
+	}else if(urlParams.get('type_value') == 'workOrder') {
+		window.opener.item_gridInit(row.getData().product_ITEM_CODE,
+									row.getData().product_ITEM_NAME, 
+									row.getData().product_ITEM_CLSFC_1_NAME,
+									row.getData().product_ITEM_CLSFC_2_NAME,
+									row.getData().product_INFO_STND_1,
+									row.getData().product_INFO_STND_2,
+									row.getData().product_UNIT_NAME,
+									row.getData().product_MATERIAL_NAME,
+									urlParams.get('save_value'));
 	}	
 	exitfrn()
 }

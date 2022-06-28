@@ -29,6 +29,11 @@ public class itemManageRestController {
 	public ItemDto itemCodeInfo(String itemCode) {
 		return itemService.selectItemCode(itemCode);
 	}
+	
+	@GetMapping("/nextCodeSelect")
+	public ItemDto itemCodeNextVal() {
+		return itemService.itemCodeNextVal();
+	}
 
 	// insert
 	@PostMapping("/itemManageInsert")

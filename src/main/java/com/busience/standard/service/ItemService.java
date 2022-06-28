@@ -25,6 +25,11 @@ public class ItemService {
 	public ItemDto selectItemCode(String itemCode) {
 		return itemDao.selectItemCode(itemCode);
 	}
+	
+	//완제품 코드 다음 값 검색
+	public ItemDto itemCodeNextVal() {
+		return itemDao.itemCodeNextVal();
+	}
 
 	//등록
 	public int insertItemCode(ItemDto itemDto){

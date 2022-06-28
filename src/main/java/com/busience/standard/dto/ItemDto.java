@@ -42,6 +42,7 @@ public class ItemDto {
 	private String PRODUCT_MODIFY_D; // 수정일자
 	private String PRODUCT_MODIFIER; // 수정자
 	private boolean BOM_Registered; // Bom 등록 여부
+	private int NEXT_CODE_VAL; // 완제품 코드 다음 값 가져오는 컬럼
 	
 	private int PRODUCT_Qty;
 }

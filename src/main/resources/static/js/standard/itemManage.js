@@ -1,3 +1,5 @@
+let resultCode;
+
 function nextFocus(next) {
 	if (event.keyCode == 13) {
 		console.log(next);
@@ -239,6 +241,9 @@ function modifyModalShow() {
 }
 
 function copyModalShow() {
+	
+	let next = nextCode(resultCode);
+	console.log(String(next.next_CODE_VAL));
 
 	$('.modify').addClass('none');
 	$('.insert').addClass('none');
@@ -284,6 +289,25 @@ $("#itemModifyBtn").click(function() {
 		itemModify();
 	}
 })
+
+function nextCode() {
+	resultCode = $.ajax({
+		method: "get",
+		url: "itemManageRest/nextCodeSelect",
+		success: function(data) {
+			if (data) {
+				
+				console.log(data);
+				
+				//$("#itemManageModal").modal("hide");
+			} else {
+				alert("오류가 발생했습니다.");
+			}
+		}
+	});
+	
+	return resultCode;
+}
 
 //모달창내 등록버튼
 $("#itemCopyBtn").click(function() {

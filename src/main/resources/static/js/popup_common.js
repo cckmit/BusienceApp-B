@@ -24,7 +24,7 @@ function itemPopup(input_value,type_value,tab_value,search_value) {
 	//창의 이름
 	var name = "itemPopup";
 	//창의 css
-	var option = "width = 500, height = 500, top = 100, left = 200, location = no"
+	var option = "width = 1000, height = 600, top = 100, left = 200, location = no"
 	openWin = window.open(url, name, option);
 }
 

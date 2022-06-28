@@ -172,4 +172,15 @@
 		select * from Product_Info_tbl
 		where Product_WRHSN_INSPC = 'false'
 	</select>
+	
+	<select id="itemCodeNextVal" resultType="com.busience.standard.dto.ItemDto">
+		SELECT DISTINCT
+		(SUBSTRING(
+			(SELECT Product_Item_Code 
+				FROM Product_Info_tbl 
+				WHERE Product_Item_Code LIKE 'P%' 
+				ORDER BY Product_Item_Code DESC LIMIT 1
+			), 2)
+		)+1 AS NEXT_CODE_VAL FROM Product_Info_tbl
+	</select>
 </mapper>
