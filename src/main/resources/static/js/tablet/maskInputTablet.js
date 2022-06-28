@@ -106,6 +106,7 @@ $("#barcodeInput").change(function(e){
 		}else{
 			var machineCode = $("#selectedMachine").val().substr(1,barcode.length);
 			console.log(machineCode)
+			maskInputRollback(machineCode, barcode)
 		}		
 	}
 });

@@ -8,7 +8,7 @@ var itemTable = new Tabulator("#itemTable", {
 	layoutColumnsOnNewData : true,
 	height: "100%",
 	ajaxURL:"../itemManageRest/itemCodeInfo",
-	ajaxParams: {itemCode : $("#itemCode").val()},
+	ajaxParams: {itemCode : nowItemCode($("#machineCode").val())},
     ajaxConfig:"get",
     ajaxContentType:"json",
 	ajaxResponse:function(url, params, response){
@@ -52,7 +52,8 @@ function workOrderSet(){
 		return RawSelect(data.c_Production_LotNo);
 	}).then(function(data1){
 		if(data1.length == 0){
-			BOM_Check($("#itemCode").val())
+			
+			BOM_Check(nowItemCode($("#machineCode").val()))
 		}
 	})
 }
@@ -88,8 +89,7 @@ $("#barcodeInput").change(function(){
 			}			
 		})*/	
 		
-		if(inputCheck()){
-			console.log("저장")
+		if(inputCheck($("#crate-LotNo").val())){
 			rawMaterialSave($("#crate-LotNo").val());	
 		}
 		
@@ -108,11 +108,14 @@ $("#barcodeInput").change(function(){
 		.then(function(data){
 			$("#crateCode").val(data.c_CrateCode);
 			$("#crate-LotNo").val(data.c_Production_LotNo);
-			console.log(data)
-			if(inputCheck()){
-				rawMaterialSave(data.c_Production_LotNo);
+			return BOM_Check(value)
+		})
+		.then(function(data){
+			console.log(data);
+			if(inputCheck($("#crate-LotNo").val())){
+				rawMaterialSave($("#crate-LotNo").val());
 			}
-		})		
+		})	
 	}
 });
 /*
@@ -175,11 +178,11 @@ function rawMaterialCheck(value){
 	return ajaxResult;
 }
 
-function inputCheck(){
+function inputCheck(LotNo){
 	var result = LotList.every(x => {
 		return x.rms_LotNo != null
 	})
-	if($("#crate-LotNo").val().length > 0 && result){
+	if(LotNo.length > 0 && result){
 		return true;
 	}
 	return false;
@@ -216,19 +219,31 @@ function BOM_Check(value){
 			url : "maskProductionRest/BOMBOMList",
 			data : {itemCode : value},
 			success : function(data) {
-				LotList = new Array();
-				
-				//BOM을 가져와서 그수만큼 리스트에 담는다			
-				for(let i=0;i<data.length;i++){
-					
-					LotList.push({
-						rms_LotNo : null,
-						rms_ItemCode : data[i].bom_ItemCode
-					})
-					
-					$(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Code").val(data[i].bom_ItemCode);
-					$(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Name").val(data[i].bom_ItemName);
+				//가져온 bom과 lotlist랑 비교해서 변동이 있는지 확인
+				let z=0;
+				for(let j=0;j<data.length;j++){
+					for(let k=0;k<LotList.length;k++){
+						if(data[i].bom_ItemCode = LotList.rms_ItemCode){
+							z++
+						}
+					}
 				}
+				if(z != data.length){
+					//변동이 있으면 초기화하여 뿌려줌
+					LotList = new Array();
+					//BOM을 가져와서 그수만큼 리스트에 담는다			
+					for(let i=0;i<data.length;i++){
+						
+						LotList.push({
+							rms_LotNo : null,
+							rms_ItemCode : data[i].bom_ItemCode
+						})
+						
+						$(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Code").val(data[i].bom_ItemCode);
+						$(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Name").val(data[i].bom_ItemName);
+					}
+				}
+				//변동이 없으면 아무것도 안해도됨				
 			}
 		});
 	}	
@@ -291,7 +306,7 @@ function CrateSave(before, after){
 		data : {
 			C_Before_CrateCode : before,
 			C_CrateCode : after,
-			C_ItemCode : itemTable.getData()[0].product_ITEM_CODE,
+			C_ItemCode : nowItemCode($("#machineCode").val()),
 			C_MachineCode : $("#machineCode").val()
 		},
 		beforeSend: function (xhr) {
@@ -347,39 +362,53 @@ function crateTableSelect(value){
 }
 
 $("#completeBtn").click(function(){
-	var datas = {
-		c_CrateCode : $("#crateCode").val(),
-		c_Condition : '2',
+	if(confirm("완료버튼을 누르면 현재 작업이 완료 되고 화면이 초기화 됩니다. 하시겠습니까?")){
+		crateUpdate($("#crateCode").val())
 	}
-	$.when(crateUpdate(datas))
-	.then(function(){
-		location.reload();
-	})
 })
 
-function crateUpdate(values){
+function crateUpdate(crateCode){
 	var ajaxResult = $.ajax({
 		method : "post",
 		url : "/crateRest/crateUpdate",
-		data : values,
+		data : { c_CrateCode : crateCode, c_Condition : '2'},
 		beforeSend: function (xhr) {
            var header = $("meta[name='_csrf_header']").attr("content");
            var token = $("meta[name='_csrf']").attr("content");
            xhr.setRequestHeader(header, token);
+		},
+		success: function (){
+			location.reload();
 		}
 	});
 	return ajaxResult;
 }
 
-function linkageData(){
-	//작업지시를 완료를 시킨 후에 새로운 작업지시에서 봄을 가져옴
-	//가져온 봄과 기존 데이터를 비교하여 같은 원자재는 그대로 연동
-	//다른 원자재는 빈칸으로 하며 
+function nowItemCode(machineCode){
+	var result;
+	
+	$.ajax({
+		method : "get",
+		url : "/equipWorkOrderRest/equipOrderList",
+		data : {machineCode : machineCode},
+		async: false,
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
+		success: function (data){
+			result = data[0].equip_WorkOrder_ItemCode;
+		}
+	});
+	
+	return result
 }
 
 window.onload = function(){
 	workOrderSet();
 	setInterval(function(){
+		itemTable.replaceData();
 		CrateSelect($("#machineCode").val());
 	},5000);
 }

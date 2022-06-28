@@ -56,7 +56,16 @@ $("#packagingBtn").click(function(){
 	.then(function(data){
 		productionPrinter(data);
 		packagingTable.replaceData();
-		smallPackagingQty($("#machineCode").val(), $("#itemCode").val())
+		return smallPackagingQty($("#machineCode").val(), $("#itemCode").val());
+	})
+	.then(function(data){
+		if($("#packaging-large").val()/$("#packaging-small").val() == $("#crate-Count").val()){
+			$.when(largePackagingSave($("#machineCode").val(), $("#itemCode").val()))
+			.then(function(data){
+				productionPrinter(data);
+				location.reload();
+			})
+		}
 	})
 })
 
@@ -95,6 +104,7 @@ function smallPackagingQty(machineCode, itemCode){
 		data: {machineCode : machineCode, itemCode : itemCode},
 		success: function(result) {
 			$("#smallPackaging-Qty").val(result);
+			
 		}
 	});
 	return ajaxResult;
@@ -158,14 +168,6 @@ function packagingOption(packaging_No){
 		}
 	});
 	return ajaxResult;
-}
-
-function autoLargePrint(){
-	console.log($("#packaging-large").val()/$("#packaging-small").val())
-	if($("#packaging-large").val()/$("#packaging-small").val() == $("#crate-Count").val()){
-		console.log("대포장 출력");
-		$("#largePackagingBtn").click();
-	}
 }
 
 window.onload = function(){

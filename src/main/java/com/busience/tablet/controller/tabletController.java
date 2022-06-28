@@ -21,7 +21,9 @@ import com.busience.standard.dto.DTL_TBL;
 import com.busience.standard.dto.EQUIPMENT_INFO_TBL;
 import com.busience.standard.dto.MachineDto;
 import com.busience.standard.dto.PRODUCT_INFO_TBL;
+import com.busience.standard.dto.PaldangPackagingStandardDto;
 import com.busience.standard.service.MachineService;
+import com.busience.standard.service.PaldangPackagingStandardService;
 import com.busience.tablet.service.MaskPackagingService;
 
 @Controller
@@ -41,6 +43,9 @@ public class tabletController {
 
 	@Autowired
 	EquipWorkOrderService equipWorkOrderService;
+	
+	@Autowired
+	PaldangPackagingStandardService paldangPackagingStandardService;
 		
 	//workOrderTablet
 	@GetMapping("/tablet/workOrderTablet")

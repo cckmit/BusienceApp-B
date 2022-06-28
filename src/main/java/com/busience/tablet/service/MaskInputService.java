@@ -92,7 +92,7 @@ public class MaskInputService {
 					
 					//Crate_Lot_tbl 업데이트
 					crateLotDtoTemp.setCL_LotNo(LotNo);
-					crateLotDtoTemp.setCL_MachineCode2(null);
+					crateLotDtoTemp.setCL_MachineCode2("");
 					crateLotDao.crateLotUpdateDao(crateLotDtoTemp);
 				}
 			});
