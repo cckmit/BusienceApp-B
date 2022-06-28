@@ -140,7 +140,7 @@ public class MaskProductionService {
 
 					//그 후 새로운 상자 등록
 					String LotNo = lotNoDao.crateLotNoSelectDao(crateDto.getC_ItemCode());
-					
+					lotNoDao.lotNoMatUpdateDao();
 					crateDto.setC_Condition("1");
 					crateDto.setC_Production_LotNo(LotNo);
 					crateDao.crateUpdateDao(crateDto);
