@@ -124,7 +124,7 @@ var paldangPackagingManageTable = new Tabulator("#paldangPackagingManageTable", 
 		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
 		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center", headerHozAlign: "center" },
 		{
-			title: "코드", field: "packaging_No", hozAlign: "left", headerHozAlign: "center", headerFilter: "input", editor:  PM_InputEditor, editable: editCheck,
+			title: "코드", field: "packaging_No", hozAlign: "left", headerHozAlign: "center", headerFilter: "input", editor: PM_InputEditor, editable: editCheck,
 			cellEdited: function(cell) {
 				//행추가할때 첫번째행을 복사하므로 첫번째행과
 				checkNo = cell.getValue();

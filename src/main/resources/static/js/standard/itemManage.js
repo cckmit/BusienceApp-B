@@ -197,6 +197,8 @@ $("#itemCOPYBtn").click(function() {
 		console.log(copyCode.charAt(0));
 		if (copyCode.charAt(0) == 'P') {
 			copyModalShow();
+		} else {
+			alert("완제품만 복사 가능합니다.");
 		}
 	}
 });

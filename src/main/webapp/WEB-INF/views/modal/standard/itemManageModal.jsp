@@ -6,9 +6,11 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<img src="/images/modal/inputHeader.jpg" class="insert" style="width: 40%;">
+				<img src="/images/modal/inputHeader.JPG" class="insert" style="width: 40%;">
 				
-				<img src="/images/modal/updateDeleteHeader.jpg" class="modify" style="width: 40%;">
+				<img src="/images/modal/updateDeleteHeader.JPG" class="modify" style="width: 40%;">
+				
+				<img src="/images/modal/copyHeader.JPG" class="copy" style="width: 40%;">
 			</div>
 			<div class="modal-body">
 				<form>
