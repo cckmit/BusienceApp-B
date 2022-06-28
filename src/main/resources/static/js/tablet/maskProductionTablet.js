@@ -61,10 +61,16 @@ $(document).keydown(function(){
 	$("#barcodeInput").focus();
 });
 
+
+$("#barcodeInput").keyup(function(){
+	$(this).val($(this).val().toUpperCase());
+})
+
 $("#barcodeInput").change(function(){
 	//바코드를 읽었을때
 	//이니셜값 비교하여 맞는 칸에 값을 넣는다.
 	var barcode = $(this).val();
+	$("#barcodeInput").val("");
 	var initial = barcode.substring(0,1);
 	
 	if(initial == 'R'){
@@ -106,7 +112,6 @@ $("#barcodeInput").change(function(){
 			if(inputCheck()){
 				rawMaterialSave(data.c_Production_LotNo);
 			}
-			$("#barcodeInput").val("");
 		})		
 	}
 });
@@ -165,19 +170,15 @@ function rawMaterialCheck(value){
 		url : "/matOutReturnRest/MORI_Search",
 		data : {lotNo : value, warehouse : "51"},
 		success : function(data) {
-			console.log(data)
 		}
 	})
 	return ajaxResult;
 }
 
 function inputCheck(){
-	console.log(LotList)
 	var result = LotList.every(x => {
 		return x.rms_LotNo != null
 	})
-	console.log(result)
-	console.log($("#crate-LotNo").val().length)
 	if($("#crate-LotNo").val().length > 0 && result){
 		return true;
 	}
@@ -206,18 +207,15 @@ function rawMaterialSave(value){
 }
 
 function BOM_Check(value){
-	console.log(LotList)
 	var result = LotList.every(x => {
 		return x.rms_LotNo == null
 	})
-	console.log(result)
 	if(result){
 		var ajaxResult = $.ajax({
 			method : "get",
 			url : "maskProductionRest/BOMBOMList",
 			data : {itemCode : value},
 			success : function(data) {
-				console.log(data)
 				LotList = new Array();
 				
 				//BOM을 가져와서 그수만큼 리스트에 담는다			
@@ -353,7 +351,10 @@ $("#completeBtn").click(function(){
 		c_CrateCode : $("#crateCode").val(),
 		c_Condition : '2',
 	}
-	crateUpdate(datas);
+	$.when(crateUpdate(datas))
+	.then(function(){
+		location.reload();
+	})
 })
 
 function crateUpdate(values){

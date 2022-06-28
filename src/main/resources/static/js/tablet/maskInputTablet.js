@@ -59,49 +59,46 @@ $(document).keydown(function(){
 	$("#barcodeInput").focus();
 });
 
-$("#barcodeInput").keypress(function(e){
-	if(e.keyCode == 13){
+$("#barcodeInput").change(function(e){
 			
-		var barcode = $(this).val();
-		var initial = barcode.substr(0,1);
-		//코드가 무엇인지 확인
-		if(initial == "M"){
-			//포장설비코드만 걸러냄
-			let result = Object.keys(machineCodeObj).some(x => {
-				return x == barcode
-			})
-			if(result){
-				console.log("빨강")
-				$("#selectedMachine").val(barcode);
-				$(".machine-module").removeClass("selected-module");
-				$("#module-"+barcode).addClass("selected-module");
-			}
-		}else if(initial == "C"){
-			barcode = barcode.substr(1,-1)
-			//console.log("수정모드")
+	var barcode = $(this).val();
+	$("#barcodeInput").val("");
+	var initial = barcode.substr(0,1);
+	//코드가 무엇인지 확인
+	if(initial == "M"){
+		//포장설비코드만 걸러냄
+		let result = Object.keys(machineCodeObj).some(x => {
+			return x == barcode
+		})
+		if(result){
 			$("#selectedMachine").val(barcode);
 			$(".machine-module").removeClass("selected-module");
 			$("#module-"+barcode).addClass("selected-module");
-		}else if(initial == "N"){
-			$.when(CrateStatusCheck(barcode)).
-			then(function(data){
-				//아이템이 설비지정아이템과 맞으면 등록이 되고 맞지않으면 오류 뱉음	
-				if(data instanceof Object){
-					//console.log(itemCodeObj[$("#selectedMachine").val()]);
-					//console.log(data.c_ItemCode);
-					if(data.c_ItemCode == itemCodeObj[$("#selectedMachine").val()]){
-						crateLotUpdate($("#selectedMachine").val(), data.c_CrateCode);
-						//console.log("통과");
-					}else{
-						console.log("설비와 품목이 맞지 않습니다.")
-					}
-				}else{
-					console.log("잘못된 박스입니다.")
-				}
-				
-			})
 		}
-		$(this).val("");
+	}else if(initial == "C"){
+		barcode = barcode.substr(1,-1)
+		//console.log("수정모드")
+		$("#selectedMachine").val(barcode);
+		$(".machine-module").removeClass("selected-module");
+		$("#module-"+barcode).addClass("selected-module");
+	}else if(initial == "N"){
+		$.when(CrateStatusCheck(barcode)).
+		then(function(data){
+			//아이템이 설비지정아이템과 맞으면 등록이 되고 맞지않으면 오류 뱉음	
+			if(data instanceof Object){
+				//console.log(itemCodeObj[$("#selectedMachine").val()]);
+				//console.log(data.c_ItemCode);
+				if(data.c_ItemCode == itemCodeObj[$("#selectedMachine").val()]){
+					crateLotUpdate($("#selectedMachine").val(), data.c_CrateCode);
+					//console.log("통과");
+				}else{
+					console.log("설비와 품목이 맞지 않습니다.")
+				}
+			}else{
+				console.log("잘못된 박스입니다.")
+			}
+			
+		})
 	}
 });
 

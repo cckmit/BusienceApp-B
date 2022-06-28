@@ -25,6 +25,6 @@ public class LabelPrintDto {
 	private String ItemClsfc1_Name;
 	private String ItemClsfc2;
 	private String ItemClsfc2_Name;
-	private String Qty;
+	private double Qty;
 	
 }

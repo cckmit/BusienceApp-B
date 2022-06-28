@@ -54,7 +54,7 @@ function toggleFullScreen() {
 $("#packagingBtn").click(function(){
 	$.when(smallPackagingSave())
 	.then(function(data){
-		productionPrinter(data);
+		//productionPrinter(data);
 		packagingTable.replaceData();
 		smallPackagingQty()
 	})
@@ -115,6 +115,8 @@ function largePackagingQty(){
 $("#rePrintBtn").click(function(){
 	//프린트
 	productionPrinter(packagingTable.getData("selected")[0])
+	$("#selectedItem").val("")
+	packagingTable.deselectRow();
 })
 
 function largePackagingSave(){

@@ -20,7 +20,9 @@
 	</select>
 	<select id="largePackagingLabelSelectDao" resultType="com.busience.production.dto.LabelPrintDto">
 		SELECT
-			A.Sales_Large_Packing_LotNo Small_Packaging_LotNo, A.Sales_ItemCode ItemCode, B.Product_Item_Name ItemName, A.Sales_Packing_Qty Qty,
+			A.Sales_Large_Packing_LotNo Small_Packaging_LotNo,
+			A.Sales_ItemCode ItemCode, B.Product_Item_Name ItemName,
+			sum(A.Sales_Packing_Qty) Qty,
 			B.Product_Info_STND_1 ItemSTND1, B.Product_Info_STND_2 ItemSTND2,
 			C.Child_TBL_Type ItemMaterial_Name,
 			D.Child_TBL_Type ItemClsfc1_Name, E.Child_TBL_Type ItemClsfc2_Name
@@ -30,5 +32,6 @@
 		inner join DTL_TBL D on B.Product_Item_CLSFC_1 = D.Child_TBL_No
 		inner join DTL_TBL E on B.Product_Item_CLSFC_2 = E.Child_TBL_No
 		where A.Sales_Large_Packing_LotNo = #{Sales_Large_Packing_LotNo}
+		group by A.Sales_Large_Packing_LotNo
 	</select>	
 </mapper>
