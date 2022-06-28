@@ -62,5 +62,7 @@ public class SearchDto {
 	private String SubType;
 	
 	private String returnStatus;
+	
+	private int packagingQty;
 
 }

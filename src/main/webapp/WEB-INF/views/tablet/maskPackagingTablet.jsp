@@ -61,7 +61,7 @@
 		<div class="main-box tablet-border">
 			<div class="item">
 				<label for="packaging-No" >No</label>
-				<input id="packaging-No" disabled>
+				<input id="packaging-No" value="${workOrderInfo.equip_WorkOrder_INFO_STND_2}" disabled>
 				<label for="packaging-Item">포장명</label>
 				<input id="packaging-Item" style="width:auto;" disabled>
 			</div>

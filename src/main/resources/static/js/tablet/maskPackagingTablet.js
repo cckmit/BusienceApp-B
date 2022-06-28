@@ -52,7 +52,7 @@ function toggleFullScreen() {
 
 //소포장발행
 $("#packagingBtn").click(function(){
-	$.when(smallPackagingSave($("#machineCode").val(), $("#itemCode").val()))
+	$.when(smallPackagingSave($("#machineCode").val(), $("#itemCode").val(), $("#packaging-small").val()))
 	.then(function(data){
 		productionPrinter(data);
 		packagingTable.replaceData();
@@ -60,11 +60,11 @@ $("#packagingBtn").click(function(){
 	})
 })
 
-function smallPackagingSave(machineCode, itemCode){
+function smallPackagingSave(machineCode, itemCode, packagingQty){
 	var ajaxResult = $.ajax({
 		method: "post",
 		url: "maskPackagingRest/smallPackagingSave",
-		data: {machineCode : machineCode, itemCode : itemCode},
+		data: {machineCode : machineCode, itemCode : itemCode, packagingQty : packagingQty},
 		beforeSend: function(xhr) {
 			var header = $("meta[name='_csrf_header']").attr("content");
 			var token = $("meta[name='_csrf']").attr("content");
@@ -137,13 +137,39 @@ $("#largePackagingBtn").click(function(){
 	$.when(largePackagingSave($("#machineCode").val(), $("#itemCode").val()))
 	.then(function(data){
 		productionPrinter(data);
-		packagingTable.replaceData();
-		largePackagingQty($("#machineCode").val(), $("#itemCode").val());
+		location.reload();
 	})
 })
 
+function packagingOption(packaging_No){
+	var ajaxResult = $.ajax({
+		method: "get",
+		data: {packaging_No : packaging_No},
+		url: "/paldangPackagingRest/paldangPackagingCheck",
+		beforeSend: function(xhr) {
+			var header = $("meta[name='_csrf_header']").attr("content");
+			var token = $("meta[name='_csrf']").attr("content");
+			xhr.setRequestHeader(header, token);
+		},
+		success: function(result) {
+			$("#packaging-Item").val(result[0].packaging_Item);
+			$("#packaging-small").val(result[0].packaging_Small);
+			$("#packaging-large").val(result[0].packaging_Large);
+		}
+	});
+	return ajaxResult;
+}
+
+function autoLargePrint(){
+	console.log($("#packaging-large").val()/$("#packaging-small").val())
+	if($("#packaging-large").val()/$("#packaging-small").val() == $("#crate-Count").val()){
+		console.log("대포장 출력");
+		$("#largePackagingBtn").click();
+	}
+}
 
 window.onload = function(){
+	packagingOption($("#packaging-No").val());
 	packagingLineListSelect($("#itemCode").val())
 	setup();
 	smallPackagingQty($("#machineCode").val(), $("#itemCode").val());

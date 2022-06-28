@@ -70,8 +70,8 @@ public class MaskPackagingService {
 		List<EquipWorkOrderDto> packagingLine = equipWorkOrderDao.packagingLineListSelectDao(searchDto);
 		
 		//포장수량/설비갯수
-		double divideQty = 1000/packagingLine.size();
-		double restQty = 1000%packagingLine.size();
+		double divideQty = searchDto.getPackagingQty()/packagingLine.size();
+		double restQty = searchDto.getPackagingQty()%packagingLine.size();
 		
 		//분배된 포장수량을 설비별로 랏저장
 		for(int i=0;i<packagingLine.size();i++) {
