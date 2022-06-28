@@ -201,7 +201,7 @@ $("#itemCOPYBtn").click(function() {
 		console.log(copyCode.charAt(0));
 		if (copyCode.charAt(0) == 'P') {
 			copyModalShow();
-		} 
+		}
 	}
 });
 
@@ -241,7 +241,7 @@ function modifyModalShow() {
 }
 
 function copyModalShow() {
-	
+
 	let next = nextCode(resultCode);
 	console.log(String(next.next_CODE_VAL));
 
@@ -261,7 +261,7 @@ function copyModalShow() {
 	$("#product_ITEM_CODE").val("완제품");
 	$("#product_OLD_ITEM_CODE").val("");
 	$("#product_SUB_INFO_STND_2").val("");
-	
+
 	$("#itemManageModal").modal("show").on("shown.bs.modal", function() {
 		$("#product_SUB_INFO_STND_2").focus();
 	});
@@ -277,11 +277,13 @@ function copyModalShow() {
 			paldangPackagingPopup();
 		}
 	}
+
+	$("#itemManageModal").modal("show").on("shown.bs.modal", function() {
+		$("#product_SUB_INFO_STND_2").focus();
+	});
 }
 
-$("#itemManageModal").modal("show").on("shown.bs.modal", function() {
-	$("#product_SUB_INFO_STND_2").focus();
-});
+
 
 //모달창내 수정버튼
 $("#itemModifyBtn").click(function() {
@@ -296,16 +298,16 @@ function nextCode() {
 		url: "itemManageRest/nextCodeSelect",
 		success: function(data) {
 			if (data) {
-				
+
 				console.log(data);
-				
+
 				//$("#itemManageModal").modal("hide");
 			} else {
 				alert("오류가 발생했습니다.");
 			}
 		}
 	});
-	
+
 	return resultCode;
 }
 
