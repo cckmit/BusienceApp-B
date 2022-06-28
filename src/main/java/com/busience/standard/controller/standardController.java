@@ -164,6 +164,12 @@ public class standardController {
 		return "standard/packagingManage";
 	}
 	
+	@GetMapping("paldangPackagingManage")
+	public String paldangPackagingManage(Model model) {
+		model.addAttribute("pageName", "팔당 포장 규격 관리");
+		return "standard/paldangPackagingManage";
+	}
+	
 	@GetMapping("routingInput")
 	public String routingInput(Model model) {
 		model.addAttribute("pageName", "라우팅 등록");

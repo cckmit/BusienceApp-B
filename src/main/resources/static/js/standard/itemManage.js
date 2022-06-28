@@ -123,6 +123,7 @@ function itemRegister() {
 		PRODUCT_ITEM_NAME: $("#product_ITEM_NAME").val(),
 		PRODUCT_INFO_STND_1: $("#product_INFO_STND_1").val(),
 		PRODUCT_INFO_STND_2: $("#product_INFO_STND_2").val(),
+		PRODUCT_INFO_SUB_STND_2: $("#product_INFO_SUB_STND_2").val(),
 		PRODUCT_UNIT: $("#product_UNIT").val(),
 		PRODUCT_MATERIAL: $("#product_MATERIAL").val(),
 		PRODUCT_MTRL_CLSFC: $("#product_MTRL_CLSFC").val(),
@@ -179,14 +180,9 @@ $("#itemUpdateBtn").click(function() {
 	if (selectedRow.length == 0) {
 		alert("수정할 행을 선택하세요.");
 	} else {
-		let copyCode = itemManageTable.getData("selected")[0].product_ITEM_CODE;
-		console.log(copyCode.charAt(0));
-		if (copyCode.charAt(0) == 'P') {
-			copyModalShow();
-		} else {
-			modifyModalShow();
-		}
+		modifyModalShow();
 	}
+	
 });
 
 // update버튼을 클릭을 할때 모달창을 여는 이벤트
@@ -205,8 +201,6 @@ $("#itemCOPYBtn").click(function() {
 	}
 });
 
-
-
 function modifyModalShow() {
 
 	$('.insert').addClass('none');
@@ -223,27 +217,15 @@ function modifyModalShow() {
 
 	$("#product_ITEM_CODE").attr('readonly', 'readonly');
 
-	/*document.getElementById("product_SUB_INFO_STND_2").onkeydown = function() {
-		if (event.keyCode == 13) {
-			event.preventDefault();
-
-			data = {
-				PRODUCT_ITEM_CODE: document.getElementById("product_SUB_INFO_STND_2").value
-			}
-
-			paldangPackagingPopup();
-		}
-
-		$("#itemManageModal").modal("show").on("shown.bs.modal", function() {
-			$("#product_OLD_ITEM_CODE").focus();
-		});
-	}*/
+	$("#itemManageModal").modal("show").on("shown.bs.modal", function() {
+		$("#product_OLD_ITEM_CODE").focus();
+	});
 }
 
 function copyModalShow() {
 
 	let next = nextCode(resultCode);
-	console.log(String(next.next_CODE_VAL));
+	let nextCodeName = 'P' + next;
 
 	$('.modify').addClass('none');
 	$('.insert').addClass('none');
@@ -258,13 +240,9 @@ function copyModalShow() {
 	}
 
 	$("#product_ITEM_CODE").attr('readonly', 'readonly');
-	$("#product_ITEM_CODE").val("완제품");
+	$("#product_ITEM_CODE").val(nextCodeName);
 	$("#product_OLD_ITEM_CODE").val("");
 	$("#product_SUB_INFO_STND_2").val("");
-
-	$("#itemManageModal").modal("show").on("shown.bs.modal", function() {
-		$("#product_SUB_INFO_STND_2").focus();
-	});
 
 	document.getElementById("product_SUB_INFO_STND_2").onkeydown = function() {
 		if (event.keyCode == 13) {
@@ -293,28 +271,31 @@ $("#itemModifyBtn").click(function() {
 })
 
 function nextCode() {
-	resultCode = $.ajax({
+
+	let result;
+
+	$.ajax({
 		method: "get",
 		url: "itemManageRest/nextCodeSelect",
+		async: false,
 		success: function(data) {
 			if (data) {
+				result = data.next_CODE_VAL;
 
-				console.log(data);
-
-				//$("#itemManageModal").modal("hide");
 			} else {
-				alert("오류가 발생했습니다.");
+				alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+				return;
 			}
 		}
 	});
 
-	return resultCode;
+	return result;
 }
 
 //모달창내 등록버튼
 $("#itemCopyBtn").click(function() {
 	if (confirm("저장 하시겠습니까?")) {
-		itemModify();
+		itemRegister();
 	}
 })
 
@@ -328,7 +309,6 @@ function itemModify() {
 		PRODUCT_ITEM_NAME: $("#product_ITEM_NAME").val(),
 		PRODUCT_INFO_STND_1: $("#product_INFO_STND_1").val(),
 		PRODUCT_INFO_STND_2: $("#product_INFO_STND_2").val(),
-		PRODUCT_INFO_SUB_STND_2: $("#product_INFO_SUB_STND_2").val(),
 		PRODUCT_UNIT: $("#product_UNIT").val(),
 		PRODUCT_MATERIAL: $("#product_MATERIAL").val(),
 		PRODUCT_MTRL_CLSFC: $("#product_MTRL_CLSFC").val(),
@@ -348,6 +328,7 @@ function itemModify() {
 		alert("단가를 입력해야 합니다.");
 		return $("#product_UNIT_PRICE").focus();
 	}
+
 
 	$.ajax({
 		method: "put",

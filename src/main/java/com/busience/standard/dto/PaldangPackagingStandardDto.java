@@ -12,6 +12,6 @@ public class PaldangPackagingStandardDto {
 	private String packaging_Type;
 	private String packaging_Size;
 	private String packaging_Item;
-	private String packaging_Small;
-	private String packaging_Large;
+	private double packaging_Small;
+	private double packaging_Large;
 }
