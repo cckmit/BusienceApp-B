@@ -72,6 +72,7 @@ public class popupRestController {
 		sql = " select A.PRODUCT_ITEM_CODE,\r\n"
 				+ " A.PRODUCT_ITEM_NAME,\r\n"
 				+ " A.PRODUCT_INFO_STND_1,\r\n"
+				+ " A.PRODUCT_INFO_STND_2,\r\n"
 				+ " B.CHILD_TBL_TYPE PRODUCT_MTRL_CLSFC,\r\n"
 				+ " C.CHILD_TBL_TYPE PRODUCT_ITEM_CLSFC_1_NAME,\r\n"
 				+ " D.CHILD_TBL_TYPE PRODUCT_ITEM_CLSFC_2_NAME,\r\n"
@@ -101,6 +102,7 @@ public class popupRestController {
 			data.setPRODUCT_ITEM_CODE(rs.getString("PRODUCT_ITEM_CODE"));
 			data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
 			data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
+			data.setPRODUCT_INFO_STND_2(rs.getString("PRODUCT_INFO_STND_2"));
 			data.setPRODUCT_MTRL_CLSFC(rs.getString("PRODUCT_MTRL_CLSFC"));
 			data.setPRODUCT_UNIT_NAME(rs.getString("PRODUCT_UNIT_NAME"));
 			data.setPRODUCT_MATERIAL_NAME(rs.getString("PRODUCT_MATERIAL_NAME"));

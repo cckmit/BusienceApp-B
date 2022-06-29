@@ -411,4 +411,7 @@ window.onload = function(){
 		itemTable.replaceData();
 		CrateSelect($("#machineCode").val());
 	},5000);
+	setInterval(function(){
+		location.reload();
+	},1800000);
 }
