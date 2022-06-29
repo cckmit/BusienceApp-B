@@ -168,6 +168,39 @@ $('#PRODUCT_ITEM_NAME').keypress(function(e) {
 	}
 })
 
+$('#PRODUCT_ITEM_NAME2').keypress(function(e) {
+	if (e.keyCode == 13) {
+		let value = $(this).val()
+
+		let labelSelectedData = labelEquipTable.getData("selected");
+
+		if (labelSelectedData.length < 1) {
+			alert("라벨 프린터를 선택하세요.");
+			return
+		} else {
+
+			//내용이 있을경우 검색해서 값이 하나일경우 생략, 아닐경우 팝업창
+			$.ajax({
+				method: "GET",
+				url: "product_stnd2_check?Product_Stnd2=" + value,
+				dataType: "json",
+				success: function(data) {
+					if (data.length == 1) {
+						//검색어와 일치하는값이 있는경우
+						$('#itemCode').val(data[0].product_ITEM_CODE);
+						$('#itemName').val(data[0].production_Product_Name);
+					} else {
+						//검색어와 일치하는값이 없는경우, 팝업창
+						if (labelSelectedData.length > 0) {
+							itemPopup(value, 'workOrder', '', 'workLabel');
+						}
+					}
+				}
+			})
+		}
+	}
+})
+
 //품목선택시 자동 입력
 function item_gridInit(code, name, clsfc1, clsfc2, stnd1, stnd2, unit, material) {
 

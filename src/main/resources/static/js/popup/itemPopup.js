@@ -71,7 +71,7 @@ function list_select(row){
 									row.getData().product_UNIT_NAME,
 									row.getData().product_MATERIAL_NAME,
 									urlParams.get('save_value'));
-	}	
+	}
 	exitfrn()
 }
 
@@ -88,8 +88,28 @@ function search(){
 	});
 }
 
+//규격2로 검색
+function stndSearch(){
+	itemPopupTable.setData("itemPopupSTND",
+		{item_Word:$('#Item_Word').val(),search_value:$("#item_Type").val()})
+	.then(function(){
+		if(itemPopupTable.getDataCount()>0){
+			console.log(itemPopupTable.getRows()[0]);
+			itemPopupTable.getRows()[0].select();
+			$("#itemPopupTable").focus();
+		}
+	});
+}
+
+
+
 $('#searchBtn').click(function(){
-	search()
+	if ($("#Item_STND").val() == 'stnd2') {
+		stndSearch();
+		return;
+	} else {
+		search();
+	}
 })
 
 $("#itemPopupTable").keypress(function(e){
@@ -100,12 +120,22 @@ $("#itemPopupTable").keypress(function(e){
 
 $("#Item_Word").keypress(function(e){
 	if(e.keyCode == 13){
-		search();
+		if ($("#Item_STND").val() == 'stnd2') {
+			stndSearch();
+			return;
+		} else {
+			search();
+		}
 	}
 })
 
 $("#item_Type").change(function(){
-	search();
+	if ($("#Item_STND").val() == 'stnd2') {
+		stndSearch();
+		return;
+	} else {
+		search();
+	}
 })
 
 $(document).ready(function(){
@@ -125,6 +155,12 @@ $(document).ready(function(){
 	}else if(urlParams.get('search_value') == "workNonMask") {
 		$("#item_Type").val('28')
 		document.getElementById("item_Type").disabled = true;
+	}else if (urlParams.get('search_value') == "workLabel") {
+		$("#item_Type").val('28')
+		$("#Item_STND").val('stnd2');
+		document.getElementById("item_Type").disabled = true;
+		stndSearch();
+		return;
 	}
 	search();
 })

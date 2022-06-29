@@ -7,6 +7,7 @@
 		<div class="popup-box">
 			<span>검색</span>
 			<input type="text" id="Item_Word"/>
+			<input type="hidden" id="Item_STND"/>
 			<select id="item_Type">
 				<option value="">품목분류</option>
 				<c:forEach var="data" items="${itemTypeList}">

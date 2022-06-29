@@ -23,8 +23,10 @@ import com.busience.common.service.HometaxApiService;
 import com.busience.standard.dto.Customer_tbl;
 import com.busience.standard.dto.DEFECT_INFO_TBL;
 import com.busience.standard.dto.EQUIPMENT_INFO_TBL;
+import com.busience.standard.dto.ItemDto;
 import com.busience.standard.dto.PRODUCT_INFO_TBL;
 import com.busience.standard.dto.PaldangPackagingStandardDto;
+import com.busience.standard.service.ItemService;
 import com.busience.standard.service.PaldangPackagingStandardService;
 
 @RestController
@@ -35,6 +37,9 @@ public class popupRestController {
 	
 	@Autowired
 	HometaxApiService hometaxApiService;
+	
+	@Autowired
+	ItemService itemService;
 	
 	@Autowired
 	JdbcTemplate jdbctemplate;
@@ -119,6 +124,69 @@ public class popupRestController {
 
 		return list;
 	}
+	
+	//itemPopup
+		@GetMapping("/itemPopupSTND")
+		public List<PRODUCT_INFO_TBL> itemPopupSTND(
+				@RequestParam(value = "item_Word", required = false) String item_Word,
+				@RequestParam(value = "search_value", required = false) String search_value) throws SQLException {
+			
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			
+			conn = dataSource.getConnection();
+			String sql = "";
+			
+			sql = " select A.PRODUCT_ITEM_CODE,\r\n"
+					+ " A.PRODUCT_ITEM_NAME,\r\n"
+					+ " A.PRODUCT_INFO_STND_1,\r\n"
+					+ " A.PRODUCT_INFO_STND_2,\r\n"
+					+ " B.CHILD_TBL_TYPE PRODUCT_MTRL_CLSFC,\r\n"
+					+ " C.CHILD_TBL_TYPE PRODUCT_ITEM_CLSFC_1_NAME,\r\n"
+					+ " D.CHILD_TBL_TYPE PRODUCT_ITEM_CLSFC_2_NAME,\r\n"
+					+ " E.CHILD_TBL_TYPE PRODUCT_UNIT_NAME,\r\n"
+					+ " F.CHILD_TBL_TYPE PRODUCT_MATERIAL_NAME,\r\n"
+					+ " A.PRODUCT_UNIT_PRICE\r\n"
+					+ " from Product_Info_tbl A\r\n"
+					+ " inner join DTL_TBL B on A.PRODUCT_MTRL_CLSFC = B.CHILD_TBL_NO\r\n"
+					+ " inner join DTL_TBL C on A.Product_Item_CLSFC_1 = C.CHILD_TBL_NO\r\n"
+					+ " inner join DTL_TBL D on A.Product_Item_CLSFC_2 = D.CHILD_TBL_NO\r\n"
+					+ " inner join DTL_TBL E on A.Product_Unit = E.CHILD_TBL_NO\r\n"
+					+ " inner join DTL_TBL F on A.Product_Material = F.CHILD_TBL_NO\r\n"
+					+ " where (A.PRODUCT_INFO_STND_2 like '%"+item_Word+"%')\r\n"
+					+ " and A.PRODUCT_MTRL_CLSFC like '%" + search_value + "%'\r\n"
+					+ " and A.PRODUCT_USE_STATUS='true'";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			System.out.println("itemPopupSTND =" + sql);
+			
+			List<PRODUCT_INFO_TBL> list = new ArrayList<PRODUCT_INFO_TBL>();
+
+			while (rs.next()) {
+				PRODUCT_INFO_TBL data = new PRODUCT_INFO_TBL();
+
+				data.setPRODUCT_ITEM_CODE(rs.getString("PRODUCT_ITEM_CODE"));
+				data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
+				data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
+				data.setPRODUCT_INFO_STND_2(rs.getString("PRODUCT_INFO_STND_2"));
+				data.setPRODUCT_MTRL_CLSFC(rs.getString("PRODUCT_MTRL_CLSFC"));
+				data.setPRODUCT_UNIT_NAME(rs.getString("PRODUCT_UNIT_NAME"));
+				data.setPRODUCT_MATERIAL_NAME(rs.getString("PRODUCT_MATERIAL_NAME"));
+				data.setPRODUCT_ITEM_CLSFC_1_NAME(rs.getString("PRODUCT_ITEM_CLSFC_1_NAME"));
+				data.setPRODUCT_ITEM_CLSFC_2_NAME(rs.getString("PRODUCT_ITEM_CLSFC_2_NAME"));
+				
+				data.setPRODUCT_UNIT_PRICE(rs.getInt("PRODUCT_UNIT_PRICE"));
+				list.add(data);
+			}	
+		
+			rs.close();
+			pstmt.close();
+			conn.close();
+
+			return list;
+		}
 	
 	//itemPopup
 	@GetMapping("/tablet/itemPopupSelect")
@@ -449,6 +517,50 @@ public class popupRestController {
 
 		return list;
 	}
+	
+	//product_check
+		@RequestMapping(value = "/product_stnd2_check", method = RequestMethod.GET)
+		public List<PRODUCT_INFO_TBL> product_stnd2_check(
+				@RequestParam(value = "Product_Stnd2", required = false) String Product_Stnd2) throws SQLException {
+			
+			String sql = "";
+			
+			//첫 select 결과가 없으면 두번쨰 select로 대체함
+			sql = "select PRODUCT_ITEM_CODE, PRODUCT_ITEM_NAME, PRODUCT_INFO_STND_1, PRODUCT_UNIT_PRICE \r\n"
+					+ "from Product_Info_tbl \r\n"
+					+ " where (PRODUCT_INFO_STND_2 = '" + Product_Stnd2 + "')\r\n"
+					+ "union\r\n"
+					+ "select PRODUCT_ITEM_CODE, PRODUCT_ITEM_NAME, PRODUCT_INFO_STND_1, PRODUCT_UNIT_PRICE \r\n"
+					+ "from Product_Info_tbl \r\n"
+					+ " where (PRODUCT_INFO_STND_2 like '%" + Product_Stnd2 + "%')\r\n"
+					+ "and not exists (\r\n"
+					+ "	select PRODUCT_ITEM_CODE, PRODUCT_ITEM_NAME, PRODUCT_INFO_STND_1, PRODUCT_UNIT_PRICE \r\n"
+						+ " from Product_Info_tbl \r\n"
+						+ " where (PRODUCT_INFO_STND_2 = '" + Product_Stnd2 + "'));";		
+
+			Connection conn = dataSource.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+
+			List<PRODUCT_INFO_TBL> list = new ArrayList<PRODUCT_INFO_TBL>();
+			
+			int i = 0;
+			while (rs.next()) {
+				PRODUCT_INFO_TBL data = new PRODUCT_INFO_TBL();
+				i++;
+				data.setId(i);
+				data.setPRODUCT_ITEM_CODE(rs.getString("PRODUCT_ITEM_CODE"));
+				data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
+				data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
+				data.setPRODUCT_UNIT_PRICE(rs.getInt("PRODUCT_UNIT_PRICE"));
+				list.add(data);
+			}
+			rs.close();
+			pstmt.close();
+			conn.close();
+
+			return list;
+		}
 	
 	//customer_check
 	@RequestMapping(value = "/customer_check", method = RequestMethod.GET)
