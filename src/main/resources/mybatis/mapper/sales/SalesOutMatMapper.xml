@@ -131,35 +131,34 @@
 </select>
 
 <select id="salesOutMatReturnSelectDao" resultType="com.busience.sales.dto.Sales_OutMat_tbl">
-    SELECT
- 		A.Sales_OutMat_No, A.Sales_OutMat_Cus_No, A.Sales_OutMat_Lot_No,
- 		A.Sales_OutMat_Code, sum(A.Sales_OutMat_Qty) Sales_OutMat_Qty,
- 		A.Sales_OutMat_Unit_Price, A.Sales_OutMat_Price, B.Product_Item_Name Sales_OutMat_Name,
- 		B.Product_Info_STND_1 Sales_OutMat_STND_1, B.Product_Info_STND_2 Sales_OutMat_STND_2, 
- 		dt.Child_TBL_Type Sales_OutMat_Item_Clsfc_Name_1, dt2.Child_TBL_Type Sales_OutMat_Item_Clsfc_Name_2, 
- 		dt3.Child_TBL_Type Sales_OutMat_Material,
- 		A.Sales_OutMat_Client_Code, C.Cus_Name Sales_OutMat_Client_Name,
- 		A.Sales_OutMat_Send_Clsfc, D.CHILD_TBL_TYPE Sales_OutMat_Send_Clsfc_Name,
- 		A.Sales_OutMat_Date, A.Sales_OutMat_dInsert_Time,
- 		A.Sales_OutMat_Modifier
- 	FROM Sales_OutMat_tbl A
- 	inner join Product_Info_tbl B on A.Sales_OutMat_Code = B.Product_Item_Code
- 	inner join Customer_tbl C on A.Sales_OutMat_Client_Code = C.Cus_Code
- 	inner join DTL_TBL D on A.Sales_OutMat_Send_Clsfc = D.CHILD_TBL_NO
- 	inner join DTL_TBL dt ON B.Product_Item_CLSFC_1 = dt.Child_TBL_No
- 	inner join DTL_TBL dt2 ON B.Product_Item_CLSFC_2 = dt2.Child_TBL_No
-	inner join DTL_TBL dt3 ON B.Product_Material = dt3.Child_TBL_No
+    	SELECT
+			A.Sales_OutMat_Cus_No, A.Sales_OutMat_Lot_No, A.Sales_OutMat_No, 
+		    A.Sales_OutMat_Code, C.Product_Item_Name Sales_OutMat_Name, B.LM_Qty Sales_OutMat_Qty, A.Sales_OutMat_Unit_Price, A.Sales_OutMat_Price,
+		    C.Product_Info_STND_1 Sales_OutMat_STND_1, C.Product_Info_STND_2 Sales_OutMat_STND_2,
+		    dt.Child_TBL_Type Sales_OutMat_Item_Clsfc_Name_1, dt2.Child_TBL_Type Sales_OutMat_Item_Clsfc_Name_2, dt3.Child_TBL_Type Sales_OutMat_Material,
+		    A.Sales_OutMat_Client_Code, D.Cus_Name Sales_OutMat_Client_Name, A.Sales_OutMat_Date, A.Sales_OutMat_dInsert_Time,
+			A.Sales_OutMat_Send_Clsfc, E.Child_TBL_Type Sales_OutMat_Send_Clsfc_Name, A.Sales_OutMat_Modifier
+		FROM Sales_OutMat_tbl A
+		inner join LotMaster_tbl B ON A.Sales_OutMat_Lot_No = B.LM_LotNo
+		inner join Product_Info_tbl C ON A.Sales_OutMat_Code = C.Product_Item_Code
+        inner join Customer_tbl D on A.Sales_OutMat_Client_Code = D.Cus_Code
+        inner join DTL_TBL E ON A.Sales_OutMat_Send_Clsfc = E.Child_TBL_No
+        inner join DTL_TBL dt ON C.Product_Item_CLSFC_1 = dt.Child_TBL_No
+		inner join DTL_TBL dt2 ON C.Product_Item_CLSFC_2 = dt2.Child_TBL_No
+		inner join DTL_TBL dt3 ON C.Product_Material = dt3.Child_TBL_No
+		where B.LM_Qty > 0
+	   	AND B.LM_WareHouse = (select Child_TBL_No from DTL_TBL where New_TBL_Code = 10 and Child_TBL_Type = '제품창고')
+		AND A.Sales_OutMat_Send_Clsfc != (select Child_TBL_No from DTL_TBL where New_TBL_Code = 19 and Child_TBL_Type = '출하반품')
  	<![CDATA[
- 	where A.Sales_OutMat_Date >= #{startDate} and A.Sales_OutMat_Date < #{endDate}
+ 		AND A.Sales_OutMat_Date >= #{startDate} and A.Sales_OutMat_Date < #{endDate}
  	]]>
- 	<if test="ItemCode != ''">
- 	and A.Sales_OutMat_Code like concat('%',#{ItemCode},'%')
- 	</if>
- 	<if test="ClientCode != ''">
- 	and A.Sales_OutMat_Client_Code like concat('%',#{ClientCode},'%')
- 	</if>
- 	group by A.Sales_OutMat_Cus_No, A.Sales_OutMat_Lot_No
- 	having Sales_OutMat_Qty>0
+ 		<if test="ItemCode != ''">
+ 		AND A.Sales_OutMat_Code like concat('%',#{ItemCode},'%')
+ 		</if>
+ 		<if test="ClientCode != ''">
+ 		AND A.Sales_OutMat_Client_Code like concat('%',#{ClientCode},'%')
+ 		</if>
+ 		group by A.Sales_OutMat_Cus_No, A.Sales_OutMat_Lot_No
 </select>
 <select id="salesOutMatReturnListDao" resultType="com.busience.sales.dto.Sales_OutMat_tbl">
 	SELECT
