@@ -33,7 +33,7 @@ var paldangPackagingPopupTable = new Tabulator("#paldangPackagingPopupTable", {
 	height: "100%",
 	columns: [
 		{ title: "", field: "rownum", formatter: "rownum", hozAlign: "center" },
-		{ title: "No", field: "no", headerHozAlign: "center" },
+		{ title: "No", field: "packaging_No", headerHozAlign: "center" },
 		{ title: "구분", field: "packaging_Clsfc", headerHozAlign: "center" },
 		{ title: "타입", field: "packaging_Type", headerHozAlign: "center" },
 		{ title: "규격", field: "packaging_Size", headerHozAlign: "center" },
@@ -46,7 +46,7 @@ var paldangPackagingPopupTable = new Tabulator("#paldangPackagingPopupTable", {
 
 function list_select(row) {
 
-	window.opener.paldangPackaging_gridInit(row.getData().no);
+	window.opener.paldangPackaging_gridInit(row.getData().packaging_No);
 
 	exitfrn()
 }
