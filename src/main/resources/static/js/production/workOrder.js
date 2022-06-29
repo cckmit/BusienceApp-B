@@ -24,7 +24,7 @@ let maskEquipTable = new Tabulator("#maskEquipTable", {
 	ajaxContentType: "json",
 	columns: [
 		{
-			title: "마스크", field: "machineType", headerHozAlign: "center", 
+			title: "마스크", field: "machineType", headerHozAlign: "center",
 			columns: [
 				{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
 				{ title: "코드", field: "workOrder_EquipCode", headerHozAlign: "center" },
@@ -34,9 +34,9 @@ let maskEquipTable = new Tabulator("#maskEquipTable", {
 				{ title: "분류1", field: "workOrder_Item_CLSFC_1", headerHozAlign: "center" },
 				{ title: "분류2", field: "workOrder_Item_CLSFC_2", headerHozAlign: "center", hozAlign: "left" },
 				{ title: "규격1", field: "workOrder_STND_1", headerHozAlign: "center" },
-				{ title: "규격2", field: "workOrder_STND_2", headerHozAlign: "center"},
-				{ title: "재질", field: "workOrder_Material", headerHozAlign: "center"},
-				{ title: "단위", field: "workOrder_Unit", headerHozAlign: "center"},
+				{ title: "규격2", field: "workOrder_STND_2", headerHozAlign: "center" },
+				{ title: "재질", field: "workOrder_Material", headerHozAlign: "center" },
+				{ title: "단위", field: "workOrder_Unit", headerHozAlign: "center" },
 				{ title: "상태", field: "status", headerHozAlign: "center", visible: false }
 			]
 		},
@@ -77,9 +77,9 @@ let packEquipTable = new Tabulator("#packEquipTable", {
 				{ title: "분류1", field: "workOrder_Item_CLSFC_1", headerHozAlign: "center" },
 				{ title: "분류2", field: "workOrder_Item_CLSFC_2", headerHozAlign: "center", hozAlign: "left" },
 				{ title: "규격1", field: "workOrder_STND_1", headerHozAlign: "center" },
-				{ title: "규격2", field: "workOrder_STND_2", headerHozAlign: "center"},
-				{ title: "재질", field: "workOrder_Material", headerHozAlign: "center"},
-				{ title: "단위", field: "workOrder_Unit", headerHozAlign: "center"},
+				{ title: "규격2", field: "workOrder_STND_2", headerHozAlign: "center" },
+				{ title: "재질", field: "workOrder_Material", headerHozAlign: "center" },
+				{ title: "단위", field: "workOrder_Unit", headerHozAlign: "center" },
 				{ title: "상태", field: "status", headerHozAlign: "center", visible: false }
 			]
 		}
@@ -120,9 +120,9 @@ let labelEquipTable = new Tabulator("#labelEquipTable", {
 				{ title: "분류1", field: "workOrder_Item_CLSFC_1", headerHozAlign: "center" },
 				{ title: "분류2", field: "workOrder_Item_CLSFC_2", headerHozAlign: "center", hozAlign: "left" },
 				{ title: "규격1", field: "workOrder_STND_1", headerHozAlign: "center" },
-				{ title: "규격2", field: "workOrder_STND_2", headerHozAlign: "center"},
-				{ title: "재질", field: "workOrder_Material", headerHozAlign: "center"},
-				{ title: "단위", field: "workOrder_Unit", headerHozAlign: "center"},
+				{ title: "규격2", field: "workOrder_STND_2", headerHozAlign: "center" },
+				{ title: "재질", field: "workOrder_Material", headerHozAlign: "center" },
+				{ title: "단위", field: "workOrder_Unit", headerHozAlign: "center" },
 				{ title: "상태", field: "status", headerHozAlign: "center", visible: false }
 			]
 		}
@@ -148,20 +148,15 @@ $('#PRODUCT_ITEM_NAME').keypress(function(e) {
 				url: "product_check?PRODUCT_ITEM_CODE=" + value,
 				dataType: "json",
 				success: function(data) {
-					if (data.length == 1) {
-						//검색어와 일치하는값이 있는경우
-						$('#itemCode').val(data[0].product_ITEM_CODE);
-						$('#itemName').val(data[0].production_Product_Name);
-					} else {
-						//검색어와 일치하는값이 없는경우, 팝업창
-						if (maskSelectedData.length > 0) {
-							itemPopup(value, 'workOrder', '', 'workMask');
-						} else if (packSelectedData.length > 0) {
-							itemPopup(value, 'workOrder', '', 'workNonMask');
-						} else if (labelSelectedData.length > 0) {
-							itemPopup(value, 'workOrder', '', 'workNonMask');
-						}
+					//검색어와 일치하는값이 없는경우, 팝업창
+					if (maskSelectedData.length > 0) {
+						itemPopup(value, 'workOrder', '', 'workMask');
+					} else if (packSelectedData.length > 0) {
+						itemPopup(value, 'workOrder', '', 'workNonMask');
+					} else if (labelSelectedData.length > 0) {
+						itemPopup(value, 'workOrder', '', 'workNonMask');
 					}
+
 				}
 			})
 		}
@@ -178,22 +173,15 @@ $('#PRODUCT_ITEM_NAME2').keypress(function(e) {
 			alert("라벨 프린터를 선택하세요.");
 			return
 		} else {
-
 			//내용이 있을경우 검색해서 값이 하나일경우 생략, 아닐경우 팝업창
 			$.ajax({
 				method: "GET",
 				url: "product_stnd2_check?Product_Stnd2=" + value,
 				dataType: "json",
 				success: function(data) {
-					if (data.length == 1) {
-						//검색어와 일치하는값이 있는경우
-						$('#itemCode').val(data[0].product_ITEM_CODE);
-						$('#itemName').val(data[0].production_Product_Name);
-					} else {
-						//검색어와 일치하는값이 없는경우, 팝업창
-						if (labelSelectedData.length > 0) {
-							itemPopup(value, 'workOrder', '', 'workLabel');
-						}
+					//검색어와 일치하는값이 없는경우, 팝업창
+					if (labelSelectedData.length > 0) {
+						itemPopup(value, 'workOrder', '', 'workLabel');
 					}
 				}
 			})
