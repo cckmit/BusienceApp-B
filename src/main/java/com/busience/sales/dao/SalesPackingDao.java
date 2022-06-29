@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.busience.common.dto.SearchDto;
 import com.busience.sales.dto.SalesPackingDto;
+import com.busience.sales.dto.Sales_InMat_tbl;
 
 @Mapper
 public interface SalesPackingDao {
@@ -38,7 +39,7 @@ public interface SalesPackingDao {
 	public int salesPackingInsertDao(SalesPackingDto salesPackingDto);
 	
 	// sales_packing_tbl update
-	public int salesPackingUpdateDao(SalesPackingDto salesPackingDto);
+	public int salesPackingUpdateDao(Sales_InMat_tbl sales_InMat_tbl);
 
 	//대포장 lot발행 저장
 	public int largePackagingInsertDao(SearchDto searchDto);

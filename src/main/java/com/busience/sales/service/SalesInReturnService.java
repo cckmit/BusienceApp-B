@@ -44,7 +44,7 @@ public class SalesInReturnService {
 	}
 	
 	// 입고 반품 저장
-	public int salesInReturnInsert(List<SalesPackingDto> salesInReturnDtoList, String Modifier) {
+	public int salesInReturnInsert(List<Sales_InMat_tbl> salesInReturnDtoList, String Modifier) {
 		try {
 			
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
@@ -71,7 +71,8 @@ public class SalesInReturnService {
 					LT_Before = "51";
 					LT_After = "52";
 					
-					for (int i=0; i<salesInReturnDtoList.size(); i++) {
+					/*
+					 * for (int i=0; i<salesInReturnDtoList.size(); i++) {
 						LM_LotNo = salesInReturnDtoList.get(i).getSales_Small_Packing_LotNo();
 						LM_Qty = (double) salesInReturnDtoList.get(i).getSales_Packing_Qty();
 						LT_Qty = (double) salesInReturnDtoList.get(i).getSales_Packing_Qty();
@@ -92,6 +93,31 @@ public class SalesInReturnService {
 						LM_SumQty += LM_Qty;
 						LT_SumQty += LT_Qty;
 					}
+					 * 
+					 * 
+					 */
+					
+					for (int i=0; i<salesInReturnDtoList.size(); i++) {
+						LM_LotNo = salesInReturnDtoList.get(i).getSales_InMat_Lot_No();
+						LM_Qty = (double) salesInReturnDtoList.get(i).getSales_InMat_Qty();
+						LT_Qty = (double) salesInReturnDtoList.get(i).getSales_InMat_Qty();
+						Sales_InMat_Qty += salesInReturnDtoList.get(i).getSales_InMat_Qty();
+						
+						LM_ItemCode = salesInReturnDtoList.get(i).getSales_InMat_Code();
+						LT_ItemCode = salesInReturnDtoList.get(i).getSales_InMat_Code();
+						
+						// lotMaster 소포장 생산창고 +
+						lotMasterDao.lotMasterUpdateDao(LM_Qty, LM_LotNo);;
+						// stock 소포장 반품수량 +
+						stockDao.stockReturnUpdateDao(LM_Qty, LM_ItemCode, LT_Before);
+						// sales_packing_tbl 상태 '입고반품'
+						salesPackingDao.salesPackingUpdateDao(salesInReturnDtoList.get(i));
+						LM_LotNo = salesInReturnDtoList.get(i).getSales_InMat_Lot_No();
+						LT_LotNo = salesInReturnDtoList.get(i).getSales_InMat_Lot_No();
+					
+						LM_SumQty += LM_Qty;
+						LT_SumQty += LT_Qty;
+					}
 					
 					// 영업에는 소박스 제품 수량 합계가 들어가야하기 때문에 sum을 해준다.
 					LM_Qty = LM_SumQty;
@@ -99,7 +125,7 @@ public class SalesInReturnService {
 					LT_Send_Clsfc = "207";
 					
 					// lotMaster 대포장 영업창고 -
-					lotMasterDao.lotMasterUpdateDao(-1*LM_Qty, LM_LotNo);
+					lotMasterDao.lotMasterUpdateDao((-1)*LM_Qty, LM_LotNo);
 					// lotTrans 순번 조회
 					int LT_No = lotTransDao.lotTransNoSelectDao2(LM_LotNo);
 					// 대포장 영업 -> 생산
@@ -111,7 +137,7 @@ public class SalesInReturnService {
 					LT_After = "52";
 					LT_Before = "51";
 					// stock 대포장 반품수량 -
-					stockDao.stockUpdateDao((-1)*LM_Qty, LM_ItemCode, LT_After);
+					stockDao.stockUpdateDao(LM_Qty, LM_ItemCode, LT_After);
 					
 					sales_InMat_tbl.setSales_InMat_No(LT_No);
 					sales_InMat_tbl.setSales_InMat_Qty(-1*Sales_InMat_Qty);

@@ -10,6 +10,15 @@ var editCheck = function(cell) {
 	return data.c_Create_Date == undefined; // only allow the name cell to be edited if the age is over 18
 }
 
+var editCheckStatus = function(cell) {
+	//cell - the cell component for the editable cell
+
+	//get row data
+	var data = cell.getRow().getData();
+
+	return data.c_Condition != 0; // only allow the name cell to be edited if the age is over 18
+}
+
 //입력 및 업데이트 할 리스트
 var MO_inputEditor = function(cell, onRendered, success, cancel, editorParams) {
 	//cell - 편집 가능한 셀의 셀 구성 요소
@@ -62,14 +71,20 @@ var crateManageTable = new Tabulator("#crateManageTable", {
 	layoutColumnsOnNewData: true,
 	selectable: true,
 	height: "calc(100% - 175px)",
-	rowClick: function(e, row) {
-		row.select();
-	},
 	rowSelected: function(row) {
 		UseBtn();
 	},
 	//행추가시 기능
 	rowAdded: function(row) {
+
+		//행이 추가되면 첫셀에 포커스
+		do {
+			setTimeout(function() {
+				row.getCell("c_CrateCode").edit();
+			}, 100);
+		}
+		while (row.getData().c_Create_Date === "undefined");
+
 		row.getTable().deselectRow();
 		row.select();
 
@@ -79,18 +94,13 @@ var crateManageTable = new Tabulator("#crateManageTable", {
 		}
 
 		row.update({
-			"c_Use_Status": "true"
+			"c_Use_Status": "true",
+			"c_Condition": 0
 		});
 
 		UseBtn();
 
-		//행이 추가되면 첫셀에 포커스
-		do {
-			setTimeout(function() {
-				row.getCell("c_CrateCode").edit();
-			}, 100);
-		}
-		while (row.getData().c_Create_Date === "undefined");
+
 	},
 	cellEditing: function(cell) {
 		//셀위치 저장하여 포커싱부여
@@ -105,8 +115,16 @@ var crateManageTable = new Tabulator("#crateManageTable", {
 
 			}
 		},
-		{ title: "상태", field: "c_Condition", headerHozAlign: "center", headerFilter: "input", visible: false },
 		{ title: "생성일자", field: "c_Create_Date", headerHozAlign: "center" },
+		{
+			title: "상태", field: "c_Condition", headerHozAlign: "center", headerFilter: "input", editable: editCheckStatus, editor: "select",
+			editorParams: { values: { "0": "미사용", "1": "마스크 투입", "2": "마스크 생산 완료", "3": "포장 투입" } }, width: 80,
+			cellEdited: function(cell) {
+
+				cell.getRow().select();
+			}
+		},
+		{ title: "LotNo", field: "c_Production_LotNo", headerHozAlign: "center", headerFilter: "input" },
 		{
 			title: "사용유무", field: "c_Use_Status", headerHozAlign: "center", hozAlign: "center",
 			formatter: "tickCross", editor: 'select', editorParams: { values: { "true": "사용", "false": "미사용" } }
@@ -124,6 +142,7 @@ function crateSave() {
 	$.when(saveChk())
 		.then(function(data) {
 			console.log(data);
+			let status = 0;
 			if (data.length > 0) {
 				for (var i = 0; i < data.length; i++) {
 
@@ -132,10 +151,19 @@ function crateSave() {
 					} else if (data[i].c_Use_Status == 'false') {
 						status = 0;
 					}
+
+					if (data[i].c_Condition == 0) {
+						data[i].c_Production_LotNo = "";
+					}
+
 					var datas = {
 						C_CrateCode: data[i].c_CrateCode,
-						C_Use_Status: status
+						C_Use_Status: status,
+						C_Condition: data[i].c_Condition,
+						c_Production_LotNo: data[i].c_Production_LotNo
 					}
+
+					console.log(datas);
 
 					$.ajax({
 						method: "POST",
@@ -147,18 +175,13 @@ function crateSave() {
 							xhr.setRequestHeader(header, token);
 						},
 						success: function(result) {
-							if (result == 1) {
-								$(function() {
-									alert("저장되었습니다.");
-									CratePrinter(crateManageTable.getData("selected"))
-									$(this).off();
-								})
-								location.reload();
-							} else {
-								alert("저장 중 오류가 발생했습니다. 다시 시도해주세요.");
-								location.reload();
-							}
+							alert("저장되었습니다.");
+							CratePrinter(crateManageTable.getData("selected"))
+							$(this).off();
 
+							location.reload();
+						}, error: function() {
+							alert("저장 중 오류가 발생했습니다. 다시 시도해주세요.");
 						}
 					});
 				}
@@ -186,7 +209,7 @@ function saveChk() {
 					alert("작성중인 행이 있습니다.");
 					return;
 				}
-				
+
 				k += 1;
 				if (k > 1) {
 					if (crateManageTable.getRows()[j].getPosition() == index) {
@@ -210,13 +233,15 @@ $("#crateSaveBtn").click(function() {
 
 });
 
-$("#cratePrintBtn").click(function(){
+$("#cratePrintBtn").click(function() {
 	CratePrinter(crateManageTable.getData("selected"))
 })
 
 $(document).ready(function() {
 
 	crateManageTable.setData("crateRest/crateSelect");
+
+	console.log(crateManageTable);
 
 });
 

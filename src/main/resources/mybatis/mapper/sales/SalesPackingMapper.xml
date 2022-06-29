@@ -140,9 +140,9 @@
 	<update id="salesPackingUpdateDao">
 	    UPDATE Sales_Packing_tbl 
 	    SET Sales_Packing_Status = '207'
-	    WHERE Sales_Small_Packing_LotNo = #{Sales_Small_Packing_LotNo}
-	    AND Sales_Packing_Qty = #{Sales_Packing_Qty}
-	    AND Sales_Packing_Status = #{Sales_Packing_Status}
+	    WHERE Sales_Large_Packing_LotNo = #{Sales_InMat_Lot_No}
+	    AND Sales_Packing_Qty = #{Sales_InMat_Qty}
+	    AND Sales_Packing_Status = #{Sales_InMat_Rcv_Clsfc}
 	</update>
 
 	<insert id="largePackagingInsertDao">

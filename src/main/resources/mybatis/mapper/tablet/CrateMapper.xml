@@ -6,9 +6,7 @@
 	
 <mapper namespace="com.busience.tablet.dao.CrateDao">
 	<select id="crateSelectDao" resultType="com.busience.tablet.dto.CrateDto">
-		SELECT
-			C_CrateCode, C_Condition,
-		    C_Create_Date
+		SELECT *
 		FROM Crate_tbl
 	</select>
 	
@@ -42,11 +40,15 @@
 	<insert id="crateSaveDao">
 		insert into Crate_tbl(
 			C_CrateCode, C_Condition,
-		    C_Create_Date
+		    C_Create_Date, C_Use_Status, C_Production_LotNo
 		)values(
-			#{C_CrateCode}, 0,
-		    now()
-		)
+			#{C_CrateCode}, #{C_Condition},
+		    now(), #{C_Use_Status}, #{c_Production_LotNo}
+		) on duplicate key update
+		C_Condition = #{C_Condition},
+		C_Create_Date = now(),
+		C_Use_Status = #{C_Use_Status},
+		C_Production_LotNo = #{C_Production_LotNo}
 	</insert>
 	
 	<update id="crateUpdateDao">

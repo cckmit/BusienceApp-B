@@ -39,7 +39,7 @@ public class salesInReturnRestController {
 		
 		try {
 			
-			List<SalesPackingDto> salesInReturnDtoList = Arrays.asList(mapper.readValue(dataList, SalesPackingDto[].class));
+			List<Sales_InMat_tbl> salesInReturnDtoList = Arrays.asList(mapper.readValue(dataList, Sales_InMat_tbl[].class));
 			
 			return salesInReturnService.salesInReturnInsert(salesInReturnDtoList, principal.getName());
 			
