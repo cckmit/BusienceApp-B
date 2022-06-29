@@ -24,11 +24,13 @@ public class salesPackingRestController {
 		return salesPackingService.salesPackingListSelectDao(searchDto);
 	}
 	
-	// 입고 반품 조회
-	@GetMapping("/SIRI_Search")
-	public List<SalesPackingDto> salesInMatReturnSelectDao(SearchDto searchDto) {
-		return salesPackingService.salesInMatReturnSelectDao(searchDto);
-	}
+	/*
+	 * // 입고 반품 조회
+	 * 
+	 * @GetMapping("/SIRI_Search") public List<SalesPackingDto>
+	 * salesInMatReturnSelectDao(SearchDto searchDto) { return
+	 * salesPackingService.salesInMatReturnSelectDao(searchDto); }
+	 */
 	
 	// 입고 반품 리스트
 	@GetMapping("/SIL_Search")

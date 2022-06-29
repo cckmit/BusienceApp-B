@@ -39,8 +39,8 @@ public class SalesInReturnService {
 	TransactionTemplate transactionTemplate;
 	
 	// 입고 반품 조회
-	public List<Sales_InMat_tbl> salesInMatReturnSelectDao(SearchDto searchDto) {
-		return salesInputDao.salesInMatReturnSelectDao(searchDto);
+	public List<Sales_InMat_tbl> salesInMatReturnListDao(SearchDto searchDto) {
+		return salesInputDao.salesInMatReturnListDao(searchDto);
 	}
 	
 	// 입고 반품 저장
@@ -111,7 +111,7 @@ public class SalesInReturnService {
 					LT_After = "52";
 					LT_Before = "51";
 					// stock 대포장 반품수량 -
-					stockDao.stockUpdateDao(LM_Qty, LM_ItemCode, LT_After);
+					stockDao.stockUpdateDao((-1)*LM_Qty, LM_ItemCode, LT_After);
 					
 					sales_InMat_tbl.setSales_InMat_No(LT_No);
 					sales_InMat_tbl.setSales_InMat_Qty(-1*Sales_InMat_Qty);

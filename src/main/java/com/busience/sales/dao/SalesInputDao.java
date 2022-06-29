@@ -31,7 +31,7 @@ public interface SalesInputDao {
 	public List<Sales_InMat_tbl> salesInputItemViewDao(@Param("Sales_InMat_Code") String Sales_InMat_Code, @Param("Sales_InMat_Rcv_Clsfc") String Sales_InMat_Rcv_Clsfc, @Param("startDate") String startDate, @Param("endDate") String endDate);
 	
 	//영업 반품 조회
-	public List<Sales_InMat_tbl> salesInMatReturnSelectDao(SearchDto searchDto);
+	public List<Sales_InMat_tbl> salesInMatReturnListDao(SearchDto searchDto);
 	
 	//salesInMat update
 	public int salesInMatUpdateDao(Sales_InMat_tbl sales_InMat_tbl);

@@ -149,6 +149,8 @@ function itemRegister() {
 		alert("단가를 입력해야 합니다.");
 		return $("#product_UNIT_PRICE").focus();
 	}
+	
+	console.log(datas);
 
 	$.ajax({
 		method: "post",
@@ -207,14 +209,14 @@ function modifyModalShow() {
 
 	$('.insert').addClass('none');
 	$('.copy').addClass('none');
-	$('#standard').addClass('none');
+	$('#copyStnd').addClass('none');
 
 	if ($('.modify').hasClass('none')) {
 		$('.modify').removeClass('none');
 	}
 
-	if ($('#copyStnd').hasClass('none')) {
-		$('#copyStnd').removeClass('none');
+	if ($('#standard').hasClass('none')) {
+		$('#standard').removeClass('none');
 	}
 
 	$("#product_ITEM_CODE").attr('readonly', 'readonly');
@@ -244,23 +246,23 @@ function copyModalShow() {
 	$("#product_ITEM_CODE").attr('readonly', 'readonly');
 	$("#product_ITEM_CODE").val(nextCodeName);
 	$("#product_OLD_ITEM_CODE").val("");
-	$("#product_SUB_INFO_STND_2").val("");
-
-	document.getElementById("product_SUB_INFO_STND_2").onkeydown = function() {
+	$("#product_INFO_STND_2").val("");
+	$("#product_INFO_SUB_STND_2").val("");
+	
+	document.getElementById("product_INFO_SUB_STND_2").onkeydown = function() {
 		if (event.keyCode == 13) {
 			event.preventDefault();
 
-			data = {
-				PRODUCT_ITEM_CODE: document.getElementById("product_SUB_INFO_STND_2").value
-			}
-
 			paldangPackagingPopup();
+			
+			
 		}
 	}
-
-	$("#itemManageModal").modal("show").on("shown.bs.modal", function() {
-		$("#product_SUB_INFO_STND_2").focus();
+	
+		$("#itemManageModal").modal("show").on("shown.bs.modal", function() {
+		$("#product_INFO_SUB_STND_2").focus();
 	});
+
 }
 
 
@@ -331,7 +333,6 @@ function itemModify() {
 		return $("#product_UNIT_PRICE").focus();
 	}
 
-
 	$.ajax({
 		method: "put",
 		data: datas,
@@ -342,14 +343,17 @@ function itemModify() {
 			xhr.setRequestHeader(header, token);
 		},
 		success: function(data) {
+			console.log(data);
 			if (data) {
 				alert("저장 되었습니다.");
 				itemManageTable.replaceData();
 
 				$("#itemManageModal").modal("hide");
 			} else {
-				alert("오류가 발생했습니다.");
+				
 			}
+		}, error: function(){
+			alert("해당하는 규격2 코드가 없습니다.");
 		}
 	});
 }
@@ -404,5 +408,5 @@ function itemRemove() {
 }
 
 function paldangPackaging_gridInit(code) {
-	$("#product_SUB_INFO_STND_2").val(code);
+	$("#product_INFO_SUB_STND_2").val(code);
 }

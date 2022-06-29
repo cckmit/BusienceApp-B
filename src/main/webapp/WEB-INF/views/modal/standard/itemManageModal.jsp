@@ -75,7 +75,7 @@
 							<label class="col-sm-3 control-label">&nbsp;&nbsp;규&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;격&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2</label>
 							<div class="col-sm-5">
 								<input type="text" style="width: 80%; height: 25px;"
-									class="form-control-plaintext" id="product_SUB_INFO_STND_2"
+									class="form-control-plaintext" id="product_INFO_SUB_STND_2"
 									OnKeyDown="nextFocus('product_UNIT_PRICE')">
 							</div>
 						</div>

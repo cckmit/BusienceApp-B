@@ -49,10 +49,10 @@
 		) values(
 			#{PRODUCT_BUSINESS_PLACE}, #{PRODUCT_ITEM_CODE}, #{PRODUCT_OLD_ITEM_CODE},
 			#{PRODUCT_ITEM_NAME}, #{PRODUCT_INFO_STND_1}, 
-			<if test="PRODUCT_INFO_STND_2 != ''">
+			<if test="PRODUCT_INFO_STND_2 != null and PRODUCT_INFO_STND_2 != ''">
 			#{PRODUCT_INFO_STND_2},
 			</if>
-			<if test="PRODUCT_INFO_SUB_STND_2 != ''">
+			<if test="PRODUCT_INFO_SUB_STND_2 != null and PRODUCT_INFO_SUB_STND_2 != ''">
 			#{PRODUCT_INFO_SUB_STND_2},
 			</if>
 			#{PRODUCT_UNIT}, #{PRODUCT_MATERIAL}, #{PRODUCT_MTRL_CLSFC},
