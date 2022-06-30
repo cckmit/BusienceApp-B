@@ -2,7 +2,6 @@ let resultCode;
 
 function nextFocus(next) {
 	if (event.keyCode == 13) {
-		console.log(next);
 		$('#' + next).focus();
 	}
 }
@@ -162,8 +161,6 @@ function itemRegister() {
 		alert("단가를 입력해야 합니다.");
 		return $("#product_UNIT_PRICE").focus();
 	}
-
-	console.log(datas);
 
 	$.ajax({
 		method: "post",

@@ -134,11 +134,9 @@ $('#PRODUCT_ITEM_NAME').keypress(function(e) {
 		let value = $(this).val()
 
 		let maskSelectedData = maskEquipTable.getData("selected");
-		let packSelectedData = packEquipTable.getData("selected");
-		let labelSelectedData = labelEquipTable.getData("selected");
-
-		if (maskSelectedData.length < 1 && packSelectedData.length < 1 && labelSelectedData.length < 1) {
-			alert("설비를 선택하세요.");
+		
+		if (maskSelectedData.length < 1) {
+			alert("마스크 설비를 선택하세요.");
 			return
 		} else {
 
@@ -151,12 +149,7 @@ $('#PRODUCT_ITEM_NAME').keypress(function(e) {
 					//검색어와 일치하는값이 없는경우, 팝업창
 					if (maskSelectedData.length > 0) {
 						itemPopup(value, 'workOrder', '', 'workMask');
-					} else if (packSelectedData.length > 0) {
-						itemPopup(value, 'workOrder', '', 'workNonMask');
-					} else if (labelSelectedData.length > 0) {
-						itemPopup(value, 'workOrder', '', 'workNonMask');
-					}
-
+					} 
 				}
 			})
 		}
@@ -167,10 +160,11 @@ $('#PRODUCT_ITEM_NAME2').keypress(function(e) {
 	if (e.keyCode == 13) {
 		let value = $(this).val()
 
+		let packSelectedData = packEquipTable.getData("selected");
 		let labelSelectedData = labelEquipTable.getData("selected");
 
-		if (labelSelectedData.length < 1) {
-			alert("라벨 프린터를 선택하세요.");
+		if (packSelectedData.length < 1 && labelSelectedData.length < 1) {
+			alert("포장 설비나 라벨 프린터를 선택하세요.");
 			return
 		} else {
 			//내용이 있을경우 검색해서 값이 하나일경우 생략, 아닐경우 팝업창
@@ -181,8 +175,10 @@ $('#PRODUCT_ITEM_NAME2').keypress(function(e) {
 				success: function(data) {
 					//검색어와 일치하는값이 없는경우, 팝업창
 					if (labelSelectedData.length > 0) {
-						itemPopup(value, 'workOrder', '', 'workLabel');
-					}
+						itemPopup(value, 'workOrder', '', 'workNonMask');
+					} else if (packSelectedData.length > 0) {
+						itemPopup(value, 'workOrder', '', 'workNonMask');
+					} 
 				}
 			})
 		}

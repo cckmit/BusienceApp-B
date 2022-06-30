@@ -92,7 +92,7 @@ public class popupRestController {
 				+ " inner join DTL_TBL F on A.Product_Material = F.CHILD_TBL_NO\r\n"
 				+ " where (A.PRODUCT_ITEM_CODE like '%"+item_Word+"%' or A.PRODUCT_ITEM_NAME like '%"+item_Word+"%')\r\n"
 				+ " and A.PRODUCT_MTRL_CLSFC like '%" + search_value + "%'\r\n"
-				+ " and A.PRODUCT_USE_STATUS='true'";
+				+ " and A.PRODUCT_USE_STATUS='1'";
 		
 		pstmt = conn.prepareStatement(sql);
 		rs = pstmt.executeQuery();
@@ -147,16 +147,18 @@ public class popupRestController {
 					+ " D.CHILD_TBL_TYPE PRODUCT_ITEM_CLSFC_2_NAME,\r\n"
 					+ " E.CHILD_TBL_TYPE PRODUCT_UNIT_NAME,\r\n"
 					+ " F.CHILD_TBL_TYPE PRODUCT_MATERIAL_NAME,\r\n"
-					+ " A.PRODUCT_UNIT_PRICE\r\n"
+					+ " A.PRODUCT_UNIT_PRICE, \r\n"
+					+ " ppst.packaging_Item PRODUCT_Packaging_Item, ppst.packaging_Small PRODUCT_Packaging_Small, ppst.packaging_Large PRODUCT_Packaging_Large\r\n"
 					+ " from Product_Info_tbl A\r\n"
 					+ " inner join DTL_TBL B on A.PRODUCT_MTRL_CLSFC = B.CHILD_TBL_NO\r\n"
 					+ " inner join DTL_TBL C on A.Product_Item_CLSFC_1 = C.CHILD_TBL_NO\r\n"
 					+ " inner join DTL_TBL D on A.Product_Item_CLSFC_2 = D.CHILD_TBL_NO\r\n"
 					+ " inner join DTL_TBL E on A.Product_Unit = E.CHILD_TBL_NO\r\n"
 					+ " inner join DTL_TBL F on A.Product_Material = F.CHILD_TBL_NO\r\n"
+					+ " inner join Paldang_Packaging_Standard_tbl ppst ON A.Product_Info_STND_2 = ppst.packaging_No \r\n"
 					+ " where (A.PRODUCT_INFO_STND_2 like '%"+item_Word+"%')\r\n"
 					+ " and A.PRODUCT_MTRL_CLSFC like '%" + search_value + "%'\r\n"
-					+ " and A.PRODUCT_USE_STATUS='true'";
+					+ " and A.PRODUCT_USE_STATUS='1'";
 			
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -178,6 +180,9 @@ public class popupRestController {
 				data.setPRODUCT_ITEM_CLSFC_2_NAME(rs.getString("PRODUCT_ITEM_CLSFC_2_NAME"));
 				
 				data.setPRODUCT_UNIT_PRICE(rs.getInt("PRODUCT_UNIT_PRICE"));
+				data.setPRODUCT_Packaging_Item(rs.getString("PRODUCT_Packaging_Item"));
+				data.setPRODUCT_Packaging_Small(rs.getDouble("PRODUCT_Packaging_Small"));
+				data.setPRODUCT_Packaging_Large(rs.getDouble("PRODUCT_Packaging_Large"));
 				list.add(data);
 			}	
 		

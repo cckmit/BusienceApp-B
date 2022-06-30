@@ -124,11 +124,7 @@ var crateManageTable = new Tabulator("#crateManageTable", {
 				cell.getRow().select();
 			}
 		},
-		{ title: "LotNo", field: "c_Production_LotNo", headerHozAlign: "center", headerFilter: "input" },
-		{
-			title: "사용유무", field: "c_Use_Status", headerHozAlign: "center", hozAlign: "center",
-			formatter: "tickCross", editor: 'select', editorParams: { values: { "true": "사용", "false": "미사용" } }
-		}
+		{ title: "LotNo", field: "c_Production_LotNo", headerHozAlign: "center", headerFilter: "input" }
 	]
 });
 

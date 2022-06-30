@@ -42,4 +42,7 @@ public class PRODUCT_INFO_TBL {
 	private String PRODUCT_MODIFY_D; // 수정일자
 	private String PRODUCT_MODIFIER; // 수정자
 	private boolean BOM_Registered; // Bom 등록 여부
+	private String PRODUCT_Packaging_Item; // 포장 규격 품목
+	private double PRODUCT_Packaging_Small; // 포장 규격 소포장
+	private double PRODUCT_Packaging_Large; // 포장 규격 대포장
 }

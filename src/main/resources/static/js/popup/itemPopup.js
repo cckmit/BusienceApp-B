@@ -41,7 +41,10 @@ var itemPopupTable = new Tabulator("#itemPopupTable", {
 	{title:"규격2", field:"product_INFO_STND_2", headerHozAlign:"center"},
 	{title:"자재분류", field:"product_MTRL_CLSFC", headerHozAlign:"center"},
 	{title:"재질", field:"product_UNIT_NAME", headerHozAlign:"center"},
-	{title:"단위", field:"product_MATERIAL_NAME", headerHozAlign:"center"}
+	{title:"단위", field:"product_MATERIAL_NAME", headerHozAlign:"center"},
+	{title:"포장규격품명", field:"product_Packaging_Item", headerHozAlign:"center"},
+	{title:"소포장", field:"product_Packaging_Small", headerHozAlign:"center"},
+	{title:"대포장", field:"product_Packaging_Large", headerHozAlign:"center"}
 	]
 	
 })
@@ -152,10 +155,7 @@ $(document).ready(function(){
 	}else if(urlParams.get('search_value') == "workMask") {
 		$("#item_Type").val('27')
 		document.getElementById("item_Type").disabled = true;
-	}else if(urlParams.get('search_value') == "workNonMask") {
-		$("#item_Type").val('28')
-		document.getElementById("item_Type").disabled = true;
-	}else if (urlParams.get('search_value') == "workLabel") {
+	}else if (urlParams.get('search_value') == "workNonMask") {
 		$("#item_Type").val('28')
 		$("#Item_STND").val('stnd2');
 		document.getElementById("item_Type").disabled = true;

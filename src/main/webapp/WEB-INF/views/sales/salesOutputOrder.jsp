@@ -33,7 +33,8 @@
 			</div>
 			<!-- 그리드 생성 장소 -->
 			<div id="salesOrderTable"></div>
-			<div class="mid-var">
+			<br>
+			<div class="mid-var" style="margin-top: 12px;">
 				<div class="input-button">
 					<img id="SOO_SaveBtn" class="unUseBtn BtnStatus" src="images/button/Save.png" />
 				</div>
@@ -56,8 +57,8 @@
 			</div>
 			<!-- 그리드 생성 장소 -->
 			<div id="salesOrderSubTable"></div>
-			<div id="salesOutputOrderSubTable"></div>
 			<div id="salesOutputStockTable"></div>
+			<div id="salesOutputOrderSubTable"></div>
 		</div>
 		<!-- matOrderSub -->
 	</div>

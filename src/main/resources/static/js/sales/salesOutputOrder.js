@@ -201,7 +201,7 @@ var salesOutputOrderTable = new Tabulator("#salesOutputOrderTable", {
 	ajaxConfig : "get",
 	ajaxContentType:"json",
 	ajaxURL : "salesOutputOrderRest/SOO_Search",
-	height:"calc(50% - 125px)",
+	height:"calc(47% - 129px)",
 	headerFilterPlaceholder: null,
 	//행클릭 이벤트
 	rowClick:function(e, row){
