@@ -176,4 +176,8 @@ window.onload = function(){
 	setup();
 	smallPackagingQty($("#machineCode").val(), $("#itemCode").val());
 	largePackagingQty($("#machineCode").val(), $("#itemCode").val());
+	
+	setInterval(function(){
+		location.reload();
+	},1800000);
 }

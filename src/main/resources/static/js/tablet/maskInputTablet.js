@@ -164,4 +164,8 @@ window.onload = function(){
 			Tabulator.prototype.findTable("#"+machineCodeObj[key])[0].replaceData();	
 		}
 	},60000);
+	
+	setInterval(function(){
+		location.reload();
+	},1800000);
 }
