@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
 import com.busience.production.dto.WorkOrderDto;
+import com.busience.production.service.CrateService;
 import com.busience.production.service.WorkOrderService;
 import com.busience.standard.dto.BOMDto;
 import com.busience.standard.dto.ItemDto;
@@ -37,6 +38,9 @@ public class maskProductionRestController {
 
 	@Autowired
 	BOMService bomService;
+	
+	@Autowired
+	CrateService crateService;
 
 	@GetMapping("/rawMaterialMasterSelect")
 	public List<RawMaterialMasterDto> rawMaterialMasterSelect(SearchDto searchDto) {
@@ -82,9 +86,9 @@ public class maskProductionRestController {
 		}
 	}
 
-	@GetMapping("/crateSelect")
-	public CrateDto crateSelect(SearchDto searchDto) {
-		return maskProductionService.crateSelect(searchDto);
+	@GetMapping("/crateSelectByMachine")
+	public CrateDto crateSelectByMachine(SearchDto searchDto) {
+		return crateService.crateSelectByMachine(searchDto);
 	}
 
 	@GetMapping("/crateLotRecordSelect")

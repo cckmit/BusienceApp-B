@@ -234,21 +234,22 @@
 
 <script src="/js/monitoring/productionStatus.js?v=<%=System.currentTimeMillis() %>"></script>
 <script>
-var machineList = ["M001","M002","M003","M004","M005",
-	"M006","M007","M008","M009","M010",
-	"M101","M102","M103","M104","M105",
-	"M106","M107","M108"]
+var productionList = ["M001","M002","M003","M004","M005","M006","M007","M008","M009","M010"]
+	
+var inputList = ["M101","M102","M103","M104","M105","M106","M107","M108"]
 
-function productStatus(machineCode){
+function productStatus(machineCode, condition){
+	$("#"+machineCode).val(machineCode)
+	
 	var ajaxResult = $.ajax({
 		method : "get",
-		data : {machineCode : machineCode},
-		url : "/productionStatusRest/productionStatusSelect",
+		data : {machineCode : machineCode, condition : condition},
+		url : "maskProductionRest/crateSelectByMachine",
 		success : function(result) {
+			console.log(result);
 			if(result instanceof Object){
-				$("#"+machineCode).val(machineCode)
-				$("#itemCode_"+machineCode).val(result.cl_ItemCode)
-				$("#qty_"+machineCode).val(result.cl_Qty)
+				$("#itemCode_"+machineCode).val(result.c_ItemCode)
+				$("#qty_"+machineCode).val(result.c_Qty)
 				
 				//대기수량
 				var standby_qty = machineCode.replace('M','T');
@@ -265,11 +266,13 @@ function productStatus(machineCode){
 }
 	
 window.onload = function(){
-	for(let i=0; i<machineList.length;i++){
-		productStatus(machineList[i])
+	for(let i=0; i<productionList.length;i++){		
+		productStatus(productionList[i],1)
+		productStatus(inputList[i],3)
 	
 		setInterval(function(){
-			productStatus(machineList[i]);
+			productStatus(productionList[i],1);
+			productStatus(inputList[i],3);
 		},10000);
 	}
 }

@@ -286,7 +286,7 @@ function CrateStatusCheck(value){
 function CrateSelect(value){
 	var ajaxResult = $.ajax({
 		method : "get",
-		url : "maskProductionRest/crateSelect",
+		url : "maskProductionRest/crateSelectByMachine",
 		data : {machineCode : value, condition : 1},
 		success : function(data) {
 			if(data instanceof Object){
