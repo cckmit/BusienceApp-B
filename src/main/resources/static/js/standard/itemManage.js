@@ -13,6 +13,19 @@ $("#product_ITEM_CODE").on("keyup", function() {
 
 });
 
+$("#product_ITEM_NAME").on("keyup", function() {
+
+	if ($("#product_ITEM_CODE").val().charAt(0) == 'P') {
+		if ($("#product_OLD_ITEM_CODE").val().charAt(0) != 'D') {
+			alert("구품목 코드는 D로 시작해야 합니다.");
+			$("#product_ITEM_NAME").val("");
+			$("#product_OLD_ITEM_CODE").focus();
+		};
+	}
+
+});
+
+
 //입력 및 업데이트 할 리스트
 var pickValue = ["product_BUSINESS_PLACE", "product_ITEM_CODE", "product_OLD_ITEM_CODE",
 	"product_ITEM_NAME", "product_INFO_STND_1", "product_INFO_STND_2",
@@ -149,7 +162,7 @@ function itemRegister() {
 		alert("단가를 입력해야 합니다.");
 		return $("#product_UNIT_PRICE").focus();
 	}
-	
+
 	console.log(datas);
 
 	$.ajax({
@@ -184,7 +197,7 @@ $("#itemUpdateBtn").click(function() {
 	} else {
 		modifyModalShow();
 	}
-	
+
 });
 
 // update버튼을 클릭을 할때 모달창을 여는 이벤트
@@ -248,18 +261,18 @@ function copyModalShow() {
 	$("#product_OLD_ITEM_CODE").val("");
 	$("#product_INFO_STND_2").val("");
 	$("#product_INFO_SUB_STND_2").val("");
-	
+
 	document.getElementById("product_INFO_SUB_STND_2").onkeydown = function() {
 		if (event.keyCode == 13) {
 			event.preventDefault();
 
 			paldangPackagingPopup();
-			
-			
+
+
 		}
 	}
-	
-		$("#itemManageModal").modal("show").on("shown.bs.modal", function() {
+
+	$("#itemManageModal").modal("show").on("shown.bs.modal", function() {
 		$("#product_INFO_SUB_STND_2").focus();
 	});
 
@@ -350,9 +363,9 @@ function itemModify() {
 
 				$("#itemManageModal").modal("hide");
 			} else {
-				
+
 			}
-		}, error: function(){
+		}, error: function() {
 			alert("해당하는 규격2 코드가 없습니다.");
 		}
 	});
