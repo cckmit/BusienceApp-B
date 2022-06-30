@@ -1,13 +1,15 @@
 var crateLotTable = new Tabulator("#crateLotTable", {
 	height:"calc(100% - 175px)",
 	layoutColumnsOnNewData : true,
+	selectable: 1,
 	rowClick:function(e, row){
-		row.getTable().deselectRow();
 		row.select();
 		DIS_Search(row.getData().cl_LotNo);
 	},
+	headerFilterPlaceholder: null,
 	columns:[
 		{ title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
+		{ title: "상자코드", field: "cl_CrateCode", headerHozAlign: "center", headerFilter: true},
 		{ title: "LotNo", field: "cl_LotNo", headerHozAlign: "center"},
 		{ title: "제품코드", field: "cl_ItemCode", headerHozAlign: "center"},
 		{ title: "제품명", field: "cl_ItemName", headerHozAlign: "center"},
@@ -115,18 +117,17 @@ var defectTable = new Tabulator("#defectTable", {
 		{ title: "불량 수량", field: "defect_Qty", headerHozAlign: "center", align:"right", editor: DIS_InputEditor,
 		cellEdited: function(cell) {
 				var deptQty = 0;
+				let selectedRow = crateLotTable.getData("selected")[0];
 
 				for (i = 0; i < defectTable.getDataCount(); i++) {
-					deptQty += parseInt(defectTable.getData()[i].defect_Qty)
+					deptQty += parseInt(defectTable.getData()[i].defect_Qty);
 				}
 
-				let selectedRow = crateLotTable.getData("selected")[0];
-				
 				if (parseInt(selectedRow.cl_Defect_SumQty + deptQty) > selectedRow.cl_Qty) {
 					alert("불량수량이 생산량보다 많습니다.");
 					return false;
 				} else {
-					crateLotTable.updateRow(crateLotTable.getRows("selected")[0], {cl_Defect_SumQty: parseInt(crateLotTable.getData()[0].cl_Defect_SumQty + deptQty)})
+					crateLotTable.updateRow(crateLotTable.getRows("selected")[0], {cl_Defect_SumQty: parseInt((deptQty) )})
 					crateLotTable.selectRow(crateLotTable.getRows("selected")[0]);
 				}
 
@@ -161,11 +162,19 @@ function DI_Save(){
 	
 	console.log(defectTable.getData());
 	
+	let rowArray = new Array();
+	
+	for(let i=0; i<defectTable.getData().length; i++) {
+		rowArray.push(defectTable.getData()[i]);
+	}
+	
+	console.log(rowArray);
+	
+	
     $.ajax({
         method : "post",
         url : "defectInsertRest/DI_Save",
-		data : JSON.stringify(defectTable.getData()),
-		contentType:'application/json',
+		data : { defectList: JSON.stringify(defectTable.getData()), crateLotList: JSON.stringify(selectedRow.getData())},
 		beforeSend: function (xhr) {
            var header = $("meta[name='_csrf_header']").attr("content");
            var token = $("meta[name='_csrf']").attr("content");
@@ -177,6 +186,7 @@ function DI_Save(){
 			} else if (result == 1) {
 				alert("저장되었습니다.");
 				crateLotTable.updateRow(selectedRow,{"cl_Defect_SumQty" : sum}); 
+				DI_Search();
 			}
         }
     })

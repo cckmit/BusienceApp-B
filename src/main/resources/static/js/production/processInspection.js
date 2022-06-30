@@ -257,7 +257,14 @@ function PI_Save() {
 }
 
 function PI_SaveBtn() {
-	PI_Save();
+	if(crateInspectTable.getData("selected").length > 0) {
+		PI_Save();
+	} else if(processInspectTable.getData("selected").length > 0) {
+		MIF_Update();
+	}
+	
+	
+	
 }
 
 

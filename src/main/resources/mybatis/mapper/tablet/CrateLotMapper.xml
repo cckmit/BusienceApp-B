@@ -131,6 +131,10 @@
 		</if>
 	</select>
 	
+	<select id="crateQtySelect" resultType="Integer">
+		select count(*) from Crate_Lot_tbl where CL_LotNo = #{CL_LotNo} and CL_Qty = 0
+	</select>
+
 	<insert id="crateLotSaveDao">
 		insert ignore into Crate_Lot_tbl(
 			CL_LotNo, CL_ItemCode,
@@ -171,6 +175,13 @@
 		update Crate_Lot_tbl
 		set
 		CL_ProductionQty = CL_ProductionQty + #{CL_ProductionQty}
+		where CL_LotNo = #{CL_LotNo}
+	</update>
+	
+	<update id="crateQtyUpdateDao">
+		update Crate_Lot_tbl
+		set
+		CL_Qty = CL_Qty - #{CL_Defect_Qty} 
 		where CL_LotNo = #{CL_LotNo}
 	</update>
 </mapper>
