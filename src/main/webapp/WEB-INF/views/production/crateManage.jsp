@@ -12,6 +12,7 @@
 					
 					<img src="/images/button/Print.png" id="cratePrintBtn"/>
 					<select id="selected_device" onchange=onDeviceSelected(this); style="display:none"></select>
+					<span style="color: red; margin-left: 30px"><strong>상태 - 0: 미사용, 1: 마스크 투입, 2: 마스크 생산완료, 3: 포장 투입</strong></span>
 				</div>
 			</div>
 
