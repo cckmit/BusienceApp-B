@@ -124,7 +124,8 @@ var crateManageTable = new Tabulator("#crateManageTable", {
 				cell.getRow().select();
 			}
 		},
-		{ title: "LotNo", field: "c_Production_LotNo", headerHozAlign: "center", headerFilter: "input" }
+		{ title: "LotNo", field: "c_Production_LotNo", headerHozAlign: "center", headerFilter: "input", width: 130 },
+		{ title: "수량", field: "c_ProductionQty", headerHozAlign: "center", hozAlign: "right" }
 	]
 });
 

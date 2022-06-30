@@ -19,5 +19,6 @@ public class CrateDto {
 	private String C_ItemCode;
 	private double C_Qty;
 	private String C_MachineCode;
+	private double C_ProductionQty;
 }
 

@@ -6,8 +6,8 @@
 	
 <mapper namespace="com.busience.tablet.dao.CrateDao">
 	<select id="crateSelectDao" resultType="com.busience.tablet.dto.CrateDto">
-		SELECT *
-		FROM Crate_tbl
+		SELECT ct.*, clt.CL_ProductionQty C_ProductionQty FROM Crate_tbl ct
+		LEFT OUTER JOIN Crate_Lot_tbl clt ON ct.C_Production_LotNo = clt.CL_LotNo
 	</select>
 	
 	<select id="crateStatusCheckDao" resultType="com.busience.tablet.dto.CrateDto">
