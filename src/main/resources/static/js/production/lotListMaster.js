@@ -11,13 +11,13 @@ var crateTable = new Tabulator("#crateTable",{
     },
 	columns: [
 		{ title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
-		{ title: "생산 LotNo", field: "cl_LotNo", headerHozAlign: "center"},
-		{ title: "제품코드", field: "cl_ItemCode", headerHozAlign: "center"},
-		{ title: "제품명", field: "cl_ItemName", headerHozAlign: "center"},
-		{ title: "규격1", field: "cl_STND_1", headerHozAlign: "center"},
-		{ title: "품목분류1", field: "cl_Item_Clsfc_Name_1", headerHozAlign: "center"},
-		{ title: "품목분류2", field: "cl_Item_Clsfc_Name_2", headerHozAlign: "center"},
-		{ title: "재질", field: "cl_Item_Material", headerHozAlign: "center"},
+		{ title: "생산 LotNo", field: "cl_LotNo", headerHozAlign: "center", headerFilter: true},
+		{ title: "제품코드", field: "cl_ItemCode", headerHozAlign: "center", headerFilter: true},
+		{ title: "제품명", field: "cl_ItemName", headerHozAlign: "center", headerFilter: true},
+		{ title: "규격1", field: "cl_STND_1", headerHozAlign: "center", headerFilter: true},
+		{ title: "품목분류1", field: "cl_Item_Clsfc_Name_1", headerHozAlign: "center", headerFilter: true},
+		{ title: "품목분류2", field: "cl_Item_Clsfc_Name_2", headerHozAlign: "center", headerFilter: true},
+		{ title: "재질", field: "cl_Item_Material", headerHozAlign: "center", headerFilter: true},
 		{ title: "수량",	field: "cl_Qty", headerHozAlign: "center", hozAlign:"right"}
 	]
 });

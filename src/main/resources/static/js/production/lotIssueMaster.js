@@ -6,18 +6,19 @@ var lotIssueMasterTable = new Tabulator("#lotIssueMasterTable", {
             row.getElement().style.backgroundColor = "#D8D8D8";
             }
     },
+    headerFilterPlaceholder: null,
 	height:"calc(100% - 175px)",
  	columns:[ //Define Table Columns
 	{title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
-	{title:"LotNo", field:"li_LotNo", headerHozAlign:"center"},
- 	{title:"제품 코드", field:"li_ItemCode", headerHozAlign:"center"},
- 	{title:"제품 명", field:"li_ItemName", headerHozAlign:"center"},
+	{title:"LotNo", field:"li_LotNo", headerHozAlign:"center", headerFilter: true},
+ 	{title:"제품 코드", field:"li_ItemCode", headerHozAlign:"center", headerFilter: true},
+ 	{title:"제품 명", field:"li_ItemName", headerHozAlign:"center", headerFilter: true},
  	{title:"수량", field:"li_Qty", headerHozAlign:"center",hozAlign:"right"},
- 	{title:"규격 1", field:"li_Item_STND_1", headerHozAlign:"center"},
- 	{title:"품목분류 1", field:"li_Item_Clsfc_1", headerHozAlign:"center"},
- 	{title:"품목분류 2", field:"li_Item_Clsfc_2", headerHozAlign:"center"},
- 	{title:"재질", field:"li_Item_Material", headerHozAlign:"center"},
- 	{title:"상태", field:"li_Status", headerHozAlign:"center"},
+ 	{title:"규격 1", field:"li_Item_STND_1", headerHozAlign:"center", headerFilter: true},
+ 	{title:"품목분류 1", field:"li_Item_Clsfc_1", headerHozAlign:"center", headerFilter: true},
+ 	{title:"품목분류 2", field:"li_Item_Clsfc_2", headerHozAlign:"center", headerFilter: true},
+ 	{title:"재질", field:"li_Item_Material", headerHozAlign:"center", headerFilter: true},
+ 	{title:"상태", field:"li_Status", headerHozAlign:"center", headerFilter: true},
  	{title:"발행일", field:"li_Create_Date", headerHozAlign:"center"
  	, formatter:"datetime", formatterParams:{
     		outputFormat:"YYYY-MM-DD HH:mm" }}

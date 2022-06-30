@@ -56,19 +56,20 @@ var proPackingTable = new Tabulator("#proPackingTable", {
             row.getElement().style.backgroundColor = "#D8D8D8";
             }
     },
+    headerFilterPlaceholder: null,
 	height:"calc(100% - 175px)",
  	columns:[ //Define Table Columns
 		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center" },
-		{ title: "LotNo", field: "small_Packaging_LotNo", headerHozAlign: "center"},
-		{ title: "설비 코드", field: "machineCode", headerHozAlign: "center"},
-		{ title: "설비 명", field: "machineName", headerHozAlign: "center" },
-		{ title: "제품 코드", field: "itemCode", headerHozAlign: "center"},
-		{ title: "제품명", field: "itemName", headerHozAlign: "center" },
-		{ title: "규격1", field: "itemSTND1", headerHozAlign: "center"},
-		{ title: "규격2", field: "itemSTND2", headerHozAlign: "center"},
-		{ title: "품목 분류1", field: "itemClsfc1", headerHozAlign: "center" },
-		{ title: "품목 분류2", field: "itemClsfc2", headerHozAlign: "center" },
-		{ title: "재질", field: "itemMaterial", headerHozAlign: "center" },
+		{ title: "LotNo", field: "small_Packaging_LotNo", headerHozAlign: "center", headerFilter: true},
+		{ title: "설비 코드", field: "machineCode", headerHozAlign: "center", headerFilter: true},
+		{ title: "설비 명", field: "machineName", headerHozAlign: "center", headerFilter: true },
+		{ title: "제품 코드", field: "itemCode", headerHozAlign: "center", headerFilter: true},
+		{ title: "제품명", field: "itemName", headerHozAlign: "center", headerFilter: true },
+		{ title: "규격1", field: "itemSTND1", headerHozAlign: "center", headerFilter: true},
+		{ title: "규격2", field: "itemSTND2", headerHozAlign: "center", headerFilter: true},
+		{ title: "품목 분류1", field: "itemClsfc1", headerHozAlign: "center", headerFilter: true },
+		{ title: "품목 분류2", field: "itemClsfc2", headerHozAlign: "center", headerFilter: true },
+		{ title: "재질", field: "itemMaterial", headerHozAlign: "center", headerFilter: true },
 		{ title: "생산 수량", field: "qty", headerHozAlign: "center", hozAlign: "right" },
 		{ title: "시간", field: "create_Date", headerHozAlign: "center", formatter:"datetime", formatterParams:{
     		outputFormat:"YYYY-MM-DD HH:mm" } }
