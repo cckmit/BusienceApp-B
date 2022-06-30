@@ -64,7 +64,9 @@
 	 	Equip_WorkOrder_Code, Equip_WorkOrder_ItemCode, Equip_WorkOrder_Date
 	 	) values (
 	 		#{WorkOrder_EquipCode}, #{WorkOrder_ItemCode}, now()
-	 	) 
+	 	) on duplicate key update
+	 	Equip_WorkOrder_ItemCode = #{WorkOrder_ItemCode},
+	 	Equip_WorkOrder_Date = now()
 	</insert>
 	
 	<update id="equipWorkOrderUpdate">

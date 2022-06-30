@@ -160,17 +160,6 @@ function DI_Save(){
 		return false;
 	}
 	
-	console.log(defectTable.getData());
-	
-	let rowArray = new Array();
-	
-	for(let i=0; i<defectTable.getData().length; i++) {
-		rowArray.push(defectTable.getData()[i]);
-	}
-	
-	console.log(rowArray);
-	
-	
     $.ajax({
         method : "post",
         url : "defectInsertRest/DI_Save",

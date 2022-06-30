@@ -331,3 +331,58 @@ $('#WO_SaveBtn').click(function() {
 	WO_Save();
 })
 
+function itemDelBtn() {
+	// 보낼 데이터를 전부 담을 배열(조건에 부합하는 데이터 전부)
+	let selectedData = new Array();
+
+	// 검증
+	let packData = packEquipTable.getRows("selected");
+	let labelData = labelEquipTable.getRows("selected");
+	let maskData = maskEquipTable.getRows("selected");
+
+	// 배열에 데이터 담기
+	for (let i = 0; i < maskData.length; i++) {
+		maskEquipTable.updateRow(maskEquipTable.getRows("selected")[i], {"workOrder_ItemCode" : null});
+		selectedData.push(maskEquipTable.getData("selected")[i]);
+	}
+
+	for (let k = 0; k < packData.length; k++) {
+		packEquipTable.updateRow(packEquipTable.getRows("selected")[k], {"workOrder_ItemCode" : null});
+		selectedData.push(packEquipTable.getData("selected")[k]);
+	}
+
+	for (let j = 0; j < labelData.length; j++) {
+		labelEquipTable.updateRow(labelEquipTable.getRows("selected")[j], {"workOrder_ItemCode" : null});
+		selectedData.push(labelEquipTable.getData("selected")[j]);
+	}
+	
+	if (selectedData.length == 0) {
+		alert("삭제할 행이 없습니다.");
+		return;
+	}
+
+	//작업지시 등록된 제품 삭제
+	$.ajax({
+		method: "post",
+		url: "equipWorkOrderRest/equipOrderUpdate",
+		data: JSON.stringify(selectedData),
+		contentType: 'application/json',
+		beforeSend: function(xhr) {
+			var header = $("meta[name='_csrf_header']").attr("content");
+			var token = $("meta[name='_csrf']").attr("content");
+			xhr.setRequestHeader(header, token);
+		},
+		success: function(result) {
+			//console.log(result);
+			if (result == 0) {
+				alert("오류가 발생했습니다. 다시 선택해주세요.");
+			} else if (result == 1) {
+				alert("저장되었습니다.");
+				maskEquipTable.replaceData();
+				packEquipTable.replaceData();
+				labelEquipTable.replaceData();
+			}
+		}
+	});
+}
+

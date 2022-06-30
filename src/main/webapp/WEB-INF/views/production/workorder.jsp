@@ -20,7 +20,7 @@
 				<input id="PRODUCT_ITEM_CODE2" class="Item_Code2" type="text" disabled>
 				<span><strong>규격코드명</strong></span>
 				<input id="PRODUCT_ITEM_NAME2" class="Item_Name2 clearInput" type="text" autofocus>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<button id="allInput" class="btn btn-primary">제품삭제</button>
+				<button id="itemDelete" class="btn btn-primary" onclick="itemDelBtn()">제품삭제</button>
 			</div>
 		</div>
 		<!-- 그리드 생성 장소 -->

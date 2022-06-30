@@ -41,11 +41,7 @@ public class EquipWorkOrderService {
 						// 데이터 있는지 조회
 						String code = equipWorkOrderDao.equipWorkItemCodeSelectDao(equipWorkOrder);
 						
-						if(code == null) {
-							equipWorkOrderDao.equipWorkOrderInsert(workOrderDtoList.get(i));
-						} else if(code != null) {
-							equipWorkOrderDao.equipWorkOrderUpdate(workOrderDtoList.get(i));
-						}
+						equipWorkOrderDao.equipWorkOrderInsert(workOrderDtoList.get(i));
 					}
 				}
 			});
