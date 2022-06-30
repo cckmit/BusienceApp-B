@@ -65,13 +65,14 @@ public class MaskPackagingService {
 		String production_LotNo;
 		String machineCode = searchDto.getMachineCode();
 		double qty;
-		
-		//포장설비 리스트를 가져옴
+				
+		//포장설비 리스트를 가져옴 수량이 적은 순서대로
 		List<EquipWorkOrderDto> packagingLine = equipWorkOrderDao.packagingLineListSelectDao(searchDto);
 		
 		//포장수량/설비갯수
 		double divideQty = searchDto.getPackagingQty()/packagingLine.size();
 		double restQty = searchDto.getPackagingQty()%packagingLine.size();
+		double packagingQty = 0;
 		
 		//분배된 포장수량을 설비별로 랏저장
 		for(int i=0;i<packagingLine.size();i++) {
@@ -80,7 +81,7 @@ public class MaskPackagingService {
 			
 			List<CrateLotDto> CrateLotDtoList = crateLotDao.crateLotListSelectDao(machineList);
 			
-			double packagingQty = divideQty;
+			packagingQty = divideQty + packagingQty;
 			if(restQty > 0) {
 				packagingQty++;
 				restQty--;
