@@ -108,10 +108,9 @@ $("#barcodeInput").change(function(){
 		.then(function(data){
 			$("#crateCode").val(data.c_CrateCode);
 			$("#crate-LotNo").val(data.c_Production_LotNo);
-			return BOM_Check(value)
+			return BOM_Check(data.c_ItemCode)
 		})
 		.then(function(data){
-			console.log(data);
 			if(inputCheck($("#crate-LotNo").val())){
 				rawMaterialSave($("#crate-LotNo").val());
 			}
