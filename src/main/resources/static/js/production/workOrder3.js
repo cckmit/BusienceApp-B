@@ -34,6 +34,7 @@ let maskEquipTable = new Tabulator("#maskEquipTable", {
 				{ title: "분류1", field: "workOrder_Item_CLSFC_1", headerHozAlign: "center" },
 				{ title: "분류2", field: "workOrder_Item_CLSFC_2", headerHozAlign: "center", hozAlign: "left" },
 				{ title: "규격1", field: "workOrder_STND_1", headerHozAlign: "center" },
+				{ title: "규격2", field: "workOrder_STND_2", headerHozAlign: "center" },
 				{ title: "재질", field: "workOrder_Material", headerHozAlign: "center" },
 				{ title: "단위", field: "workOrder_Unit", headerHozAlign: "center" },
 				{ title: "상태", field: "status", headerHozAlign: "center", visible: false }
@@ -72,11 +73,11 @@ let packEquipTable = new Tabulator("#packEquipTable", {
 				{ title: "코드", field: "workOrder_EquipCode", headerHozAlign: "center" },
 				{ title: "설비명", field: "workOrder_EquipName", headerHozAlign: "center", hozAlign: "left" },
 				{ title: "코드", field: "workOrder_ItemCode", headerHozAlign: "center" },
-				{ title: "규격2", field: "workOrder_STND_2", headerHozAlign: "center" },
 				{ title: "제품명", field: "workOrder_ItemName", headerHozAlign: "center", width: 170 },
 				{ title: "분류1", field: "workOrder_Item_CLSFC_1", headerHozAlign: "center" },
 				{ title: "분류2", field: "workOrder_Item_CLSFC_2", headerHozAlign: "center", hozAlign: "left" },
 				{ title: "규격1", field: "workOrder_STND_1", headerHozAlign: "center" },
+				{ title: "규격2", field: "workOrder_STND_2", headerHozAlign: "center" },
 				{ title: "재질", field: "workOrder_Material", headerHozAlign: "center" },
 				{ title: "단위", field: "workOrder_Unit", headerHozAlign: "center" },
 				{ title: "상태", field: "status", headerHozAlign: "center", visible: false }
@@ -115,11 +116,11 @@ let labelEquipTable = new Tabulator("#labelEquipTable", {
 				{ title: "코드", field: "workOrder_EquipCode", headerHozAlign: "center" },
 				{ title: "설비명", field: "workOrder_EquipName", headerHozAlign: "center", hozAlign: "left" },
 				{ title: "코드", field: "workOrder_ItemCode", headerHozAlign: "center" },
-				{ title: "규격2", field: "workOrder_STND_2", headerHozAlign: "center" },
 				{ title: "제품명", field: "workOrder_ItemName", headerHozAlign: "center", width: 170 },
 				{ title: "분류1", field: "workOrder_Item_CLSFC_1", headerHozAlign: "center" },
 				{ title: "분류2", field: "workOrder_Item_CLSFC_2", headerHozAlign: "center", hozAlign: "left" },
 				{ title: "규격1", field: "workOrder_STND_1", headerHozAlign: "center" },
+				{ title: "규격2", field: "workOrder_STND_2", headerHozAlign: "center" },
 				{ title: "재질", field: "workOrder_Material", headerHozAlign: "center" },
 				{ title: "단위", field: "workOrder_Unit", headerHozAlign: "center" },
 				{ title: "상태", field: "status", headerHozAlign: "center", visible: false }
