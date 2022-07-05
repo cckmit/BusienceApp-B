@@ -1,6 +1,28 @@
 //셀위치저장
 var cellPos = new Array();
 
+//공통
+function dtlSelectList() {
+	var label_arr = new Object();
+
+	$.ajax({
+		method: "get",
+		async: false,
+		url: "machineManageRest/labelMachineList",
+		success: function(datas) {
+			console.log(datas);
+			for (i = 0; i < datas.length; i++) {
+				label_arr[datas[i].equipment_INFO_CODE] = datas[i].equipment_INFO_CODE;
+
+			}
+		}
+	});
+
+	return label_arr;
+}
+
+let dtl_arr_material = dtlSelectList();
+
 let maskEquipTable = new Tabulator("#maskEquipTable", {
 	//페이징
 	height: "calc(100% - 175px)",
@@ -12,11 +34,10 @@ let maskEquipTable = new Tabulator("#maskEquipTable", {
 	},
 	rowClick: function(e, row) {
 		packEquipTable.deselectRow();
-		labelEquipTable.deselectRow();
 		row.select();
 	},
 	rowSelected: function(row, cell) {
-		cellPos.push(row.getCell("equip_WorkOrder_Code"));
+		cellPos.push(row.getCell("workOrder_EquipCode"));
 	},
 	ajaxURL: "machineManageRest/dtlMachineList",
 	ajaxParams: { "EQUIPMENT_TYPE": 1 },
@@ -54,11 +75,10 @@ let packEquipTable = new Tabulator("#packEquipTable", {
 	},
 	rowClick: function(e, row) {
 		maskEquipTable.deselectRow();
-		labelEquipTable.deselectRow();
 		row.select();
 	},
 	rowSelected: function(row, cell) {
-		cellPos.push(row.getCell("equip_WorkOrder_Code"));
+		cellPos.push(row.getCell("workOrder_EquipCode"));
 	},
 	ajaxURL: "machineManageRest/dtlMachineList",
 	ajaxParams: { "EQUIPMENT_TYPE": 2 },
@@ -71,6 +91,41 @@ let packEquipTable = new Tabulator("#packEquipTable", {
 				{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
 				{ title: "코드", field: "workOrder_EquipCode", headerHozAlign: "center" },
 				{ title: "설비명", field: "workOrder_EquipName", headerHozAlign: "center", hozAlign: "left" },
+				{
+					title: "라벨코드", field: "workOrder_SubCode", headerHozAlign: "center", editor: "select", headerFilterParams: dtl_arr_material,
+					formatter: function(cell, formatterParams) {
+						var value = cell.getValue();
+						if (dtl_arr_material[value] != null) {
+							value = dtl_arr_material[value];
+
+							// 라벨 코드가 같은 것이 있는 지 검색
+							for (let i = 0; i < packEquipTable.getDataCount("active"); i++) {
+								if (packEquipTable.getData()[i].workOrder_SubCode == cell.getRow().getData().workOrder_SubCode) {
+									if (packEquipTable.getData()[i].workOrder_ItemCode != cell.getRow().getData().workOrder_ItemCode) {
+										alert("동일한 라벨 프린터는 제품이 같아야 합니다.");
+										packEquipTable.getRows("selected")[0].update({
+											"workOrder_SubName": null
+										});
+										return;
+									}
+								}
+							}
+
+							if (cell.getRow().getData().status != 1 && cell.getRow().getData().workOrder_ItemCode == undefined) {
+								alert("제품을 먼저 선택하세요.");
+								return;
+							} else if (cell.getRow().getData().workOrder_ItemCode != undefined) {
+								machineSelect(value);
+							}
+						} else {
+							value = value;
+						}
+
+						return value;
+					},
+					editorParams: { values: dtl_arr_material }
+				},
+				{ title: "설비명", field: "workOrder_SubName", headerHozAlign: "center", hozAlign: "left", width: 100 },
 				{ title: "코드", field: "workOrder_ItemCode", headerHozAlign: "center" },
 				{ title: "규격2", field: "workOrder_STND_2", headerHozAlign: "center" },
 				{ title: "제품명", field: "workOrder_ItemName", headerHozAlign: "center", width: 170 },
@@ -86,54 +141,34 @@ let packEquipTable = new Tabulator("#packEquipTable", {
 });
 
 
+function machineSelect(val) {
 
-let labelEquipTable = new Tabulator("#labelEquipTable", {
-	height: "calc(100% - 175px)",
-	layoutColumnsOnNewData: true,
-	selectable: true,
-	rowFormatter: function(row) {
-		if (row.getData().status == '1')
-			row.getElement().style.color = "blue";
-	},
-	rowClick: function(e, row) {
-		packEquipTable.deselectRow();
-		maskEquipTable.deselectRow();
-		row.select();
-	},
-	rowSelected: function(row, cell) {
-		cellPos.push(row.getCell("equip_WorkOrder_Code"));
-	},
-	ajaxURL: "machineManageRest/dtlMachineList",
-	ajaxParams: { "EQUIPMENT_TYPE": 3 },
-	ajaxConfig: "get",
-	ajaxContentType: "json",
-	columns: [
-		{
-			title: "라벨", field: "machineType", headerHozAlign: "center",
-			columns: [
-				{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
-				{ title: "코드", field: "workOrder_EquipCode", headerHozAlign: "center" },
-				{ title: "설비명", field: "workOrder_EquipName", headerHozAlign: "center", hozAlign: "left" },
-				{ title: "코드", field: "workOrder_ItemCode", headerHozAlign: "center" },
-				{ title: "규격2", field: "workOrder_STND_2", headerHozAlign: "center" },
-				{ title: "제품명", field: "workOrder_ItemName", headerHozAlign: "center", width: 170 },
-				{ title: "분류1", field: "workOrder_Item_CLSFC_1", headerHozAlign: "center" },
-				{ title: "분류2", field: "workOrder_Item_CLSFC_2", headerHozAlign: "center", hozAlign: "left" },
-				{ title: "규격1", field: "workOrder_STND_1", headerHozAlign: "center" },
-				{ title: "재질", field: "workOrder_Material", headerHozAlign: "center" },
-				{ title: "단위", field: "workOrder_Unit", headerHozAlign: "center" },
-				{ title: "상태", field: "status", headerHozAlign: "center", visible: false }
-			]
+	datas = {
+		machineCode: val
+	}
+
+	$.ajax({
+		method: "get",
+		url: "machineManageRest/selectMachineInfo",
+		data: datas,
+		contentType: 'application/json',
+		success: function(result) {
+			console.log(result);
+			packEquipTable.getRows("selected")[0].update({
+				"workOrder_SubName": result.equipment_INFO_NAME
+			});
+			packEquipTable.deselectRow();
+
 		}
-	]
-});
+	});
+}
 
 $('#PRODUCT_ITEM_NAME').keypress(function(e) {
 	if (e.keyCode == 13) {
 		let value = $(this).val()
 
 		let maskSelectedData = maskEquipTable.getData("selected");
-		
+
 		if (maskSelectedData.length < 1) {
 			alert("마스크 설비를 선택하세요.");
 			return
@@ -148,7 +183,7 @@ $('#PRODUCT_ITEM_NAME').keypress(function(e) {
 					//검색어와 일치하는값이 없는경우, 팝업창
 					if (maskSelectedData.length > 0) {
 						itemPopup(value, 'workOrder', '', 'workMask');
-					} 
+					}
 				}
 			})
 		}
@@ -160,7 +195,6 @@ $('#PRODUCT_ITEM_NAME2').keypress(function(e) {
 		let value = $(this).val()
 
 		let packSelectedData = packEquipTable.getData("selected");
-		let labelSelectedData = labelEquipTable.getData("selected");
 
 		if (packSelectedData.length < 1 && labelSelectedData.length < 1) {
 			alert("포장 설비나 라벨 프린터를 선택하세요.");
@@ -173,11 +207,9 @@ $('#PRODUCT_ITEM_NAME2').keypress(function(e) {
 				dataType: "json",
 				success: function(data) {
 					//검색어와 일치하는값이 없는경우, 팝업창
-					if (labelSelectedData.length > 0) {
+					if (packSelectedData.length > 0) {
 						itemPopup(value, 'workOrder', '', 'workNonMask');
-					} else if (packSelectedData.length > 0) {
-						itemPopup(value, 'workOrder', '', 'workNonMask');
-					} 
+					}
 				}
 			})
 		}
@@ -218,22 +250,6 @@ function item_gridInit(code, name, clsfc1, clsfc2, stnd1, stnd2, unit, material)
 		})
 	}
 	packEquipTable.deselectRow();
-
-	let labelSelectedRows = labelEquipTable.getRows("selected");
-	for (let i = 0; i < labelSelectedRows.length; i++) {
-		labelSelectedRows[i].update({
-			"workOrder_ItemCode": code,
-			"workOrder_ItemName": name,
-			"workOrder_Item_CLSFC_1": clsfc1,
-			"workOrder_Item_CLSFC_2": clsfc2,
-			"workOrder_STND_1": stnd1,
-			"workOrder_STND_2": stnd2,
-			"workOrder_Unit": unit,
-			"workOrder_Material": material,
-			"status": 1
-		})
-	}
-	labelEquipTable.deselectRow();
 }
 
 /*function ppCheck(){
@@ -274,8 +290,21 @@ function WO_Save() {
 
 	// 검증
 	let packData = packEquipTable.getDataCount();
-	let labelData = labelEquipTable.getDataCount("active");
 	let maskData = maskEquipTable.getDataCount();
+
+	// 라벨 코드가 같은 것이 있는 지 검색
+	for (let i = 0; i < packEquipTable.getDataCount("active"); i++) {
+		for (let j = 0; j < packEquipTable.getDataCount("active"); j++) {
+			if (packEquipTable.getData()[i].workOrder_SubCode == packEquipTable.getData()[j].workOrder_SubCode) {
+				if (packEquipTable.getData()[i].workOrder_SubCode != undefined) {
+					if (packEquipTable.getData()[i].workOrder_ItemCode != packEquipTable.getData()[j].workOrder_ItemCode) {
+						alert("동일한 라벨 프린터는 제품이 같아야 합니다.");
+						return;
+					}
+				}
+			}
+		}
+	}
 
 	// 배열에 데이터 담기
 	for (let i = 0; i < maskData; i++) {
@@ -287,12 +316,6 @@ function WO_Save() {
 	for (let k = 0; k < packData; k++) {
 		if (packEquipTable.getData()[k].status == 1) {
 			selectedData.push(packEquipTable.getData()[k]);
-		}
-	}
-
-	for (let j = 0; j < labelData; j++) {
-		if (labelEquipTable.getData()[j].status == 1) {
-			selectedData.push(labelEquipTable.getData()[j]);
 		}
 	}
 
@@ -320,7 +343,6 @@ function WO_Save() {
 				alert("저장되었습니다.");
 				maskEquipTable.replaceData();
 				packEquipTable.replaceData();
-				labelEquipTable.replaceData();
 			}
 		}
 	});
@@ -336,25 +358,19 @@ function itemDelBtn() {
 
 	// 검증
 	let packData = packEquipTable.getRows("selected");
-	let labelData = labelEquipTable.getRows("selected");
 	let maskData = maskEquipTable.getRows("selected");
 
 	// 배열에 데이터 담기
 	for (let i = 0; i < maskData.length; i++) {
-		maskEquipTable.updateRow(maskEquipTable.getRows("selected")[i], {"workOrder_ItemCode" : null});
+		maskEquipTable.updateRow(maskEquipTable.getRows("selected")[i], { "workOrder_ItemCode": null });
 		selectedData.push(maskEquipTable.getData("selected")[i]);
 	}
 
 	for (let k = 0; k < packData.length; k++) {
-		packEquipTable.updateRow(packEquipTable.getRows("selected")[k], {"workOrder_ItemCode" : null});
+		packEquipTable.updateRow(packEquipTable.getRows("selected")[k], { "workOrder_ItemCode": null });
 		selectedData.push(packEquipTable.getData("selected")[k]);
 	}
 
-	for (let j = 0; j < labelData.length; j++) {
-		labelEquipTable.updateRow(labelEquipTable.getRows("selected")[j], {"workOrder_ItemCode" : null});
-		selectedData.push(labelEquipTable.getData("selected")[j]);
-	}
-	
 	if (selectedData.length == 0) {
 		alert("삭제할 행이 없습니다.");
 		return;
@@ -379,7 +395,6 @@ function itemDelBtn() {
 				alert("저장되었습니다.");
 				maskEquipTable.replaceData();
 				packEquipTable.replaceData();
-				labelEquipTable.replaceData();
 			}
 		}
 	});

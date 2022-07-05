@@ -25,8 +25,7 @@
 		</div>
 		<!-- 그리드 생성 장소 -->
 		<div id="maskEquipTable" class="machineTable"></div>
-		<div id="packEquipTable" class="machineTable"></div>
-		<div id="labelEquipTable" class="machineTable"></div>
+		<div id="packEquipTable" class="packmachineTable"></div>
 		<!-- 그리드 생성 장소 -->
 		<!-- matOutput -->
 	</div>

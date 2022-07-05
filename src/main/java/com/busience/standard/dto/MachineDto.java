@@ -61,6 +61,10 @@ public class MachineDto {
 	
 	private String WorkOrder_EquipName;
 	
+	private String WorkOrder_SubCode;
+	
+	private String WorkOrder_SubName;
+	
 	private String WorkOrder_ONo;
 	
 	private String WorkOrder_ItemCode;

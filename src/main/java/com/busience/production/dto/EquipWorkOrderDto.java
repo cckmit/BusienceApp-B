@@ -29,4 +29,6 @@ public class EquipWorkOrderDto {
 	
 	private String WorkOrder_EquipCode;
 	private String WorkOrder_ItemCode;
+	private String WorkOrder_SubCode;
+	private String WorkOrder_SubName;
 }

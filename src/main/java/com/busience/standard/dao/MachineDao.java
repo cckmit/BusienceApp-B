@@ -19,6 +19,9 @@ public interface MachineDao {
 	//설비 종류에 따라 조회
 	public List<MachineDto> dtlMachineListDao(MachineDto machineDto);
 	
+	//라벨 프린터 리스트 조회
+	public List<MachineDto> labelMachineListDao();
+	
 	//등록
 	public int insertMachineDao(MachineDto machineDto);
 	

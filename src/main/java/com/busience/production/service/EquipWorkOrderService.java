@@ -41,6 +41,7 @@ public class EquipWorkOrderService {
 						EquipWorkOrderDto equipWorkOrder = new EquipWorkOrderDto();
 						
 						equipWorkOrder.setWorkOrder_EquipCode(workOrderDtoList.get(i).getWorkOrder_EquipCode());
+						equipWorkOrder.setWorkOrder_SubCode(workOrderDtoList.get(i).getWorkOrder_SubCode());
 						
 						// 데이터 있는지 조회
 						String code = equipWorkOrderDao.equipWorkItemCodeSelectDao(equipWorkOrder);

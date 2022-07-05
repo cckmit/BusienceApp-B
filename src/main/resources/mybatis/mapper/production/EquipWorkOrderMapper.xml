@@ -61,11 +61,12 @@
 	
 	<insert id="equipWorkOrderInsert">
 	 	insert into Equip_WorkOrder_tbl (
-	 	Equip_WorkOrder_Code, Equip_WorkOrder_ItemCode, Equip_WorkOrder_Date
+	 	Equip_WorkOrder_Code, Equip_WorkOrder_SubCode, Equip_WorkOrder_ItemCode, Equip_WorkOrder_Date
 	 	) values (
-	 		#{WorkOrder_EquipCode}, #{WorkOrder_ItemCode}, now()
+	 		#{WorkOrder_EquipCode}, #{WorkOrder_SubCode}, #{WorkOrder_ItemCode}, now()
 	 	) on duplicate key update
 	 	Equip_WorkOrder_ItemCode = #{WorkOrder_ItemCode},
+	 	Equip_WorkOrder_SubCode = #{WorkOrder_SubCode},
 	 	Equip_WorkOrder_Date = now()
 	</insert>
 	

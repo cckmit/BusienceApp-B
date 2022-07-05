@@ -33,12 +33,18 @@ public class MachineManageRestController {
 	
 	@GetMapping("/selectMachineInfo")
 	public MachineDto selectMachineInfo(SearchDto searchDto) {
+		System.out.println(searchDto);
 		return machineService.selectMachineInfo(searchDto);
 	}
 	
 	@GetMapping("/dtlMachineList")
 	public List<MachineDto> dtlMachineList(MachineDto machineDto) {
 		return machineService.dtlMachineList(machineDto);
+	}
+	
+	@GetMapping("/labelMachineList")
+	public List<MachineDto> labelMachineListDao() {
+		return machineService.labelMachineListDao();
 	}
 	
 	@PostMapping("/machineManageInsert")

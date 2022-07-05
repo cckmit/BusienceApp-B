@@ -7,7 +7,14 @@
 .machineTable {
 	float: left;
 	margin-left: 15px;
-	width: calc(33% - 15px);
+	width: calc(40% - 15px);
+	border: 1px solid;
+}
+
+.packmachineTable {
+	float: left;
+	margin-left: 15px;
+	width: calc(59% - 13px);
 	border: 1px solid;
 }
 
