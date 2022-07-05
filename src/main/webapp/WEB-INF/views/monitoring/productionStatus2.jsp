@@ -1,52 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="com.busience.tablet.dto.CrateDto"%>
-<%@ page import="java.util.ArrayList"%>
-<%@ page import="java.util.List"%>
-<%@ page import="java.sql.ResultSet"%>
-<%@ page import="java.sql.PreparedStatement"%>
-<%@ page import="java.sql.DriverManager"%>
-<%@ page import="java.sql.Connection"%>
 <%
 	Date nowTime = new Date();
 	SimpleDateFormat sf = new SimpleDateFormat("yyyy년 MM월 dd일 a hh:mm:ss");
 %>
-	
-<%	
-	Class.forName("com.mysql.jdbc.Driver");
-	Connection con = DriverManager.getConnection("jdbc:mysql://paldang2.cafe24.com:3306/paldang2","paldang2","business13!");
-	String machineCode = "'M001'";
-	String condition = "'1'";
-	String sql = "SELECT"
-			+" A.C_CrateCode, A.C_Condition,"
-			+" A.C_Create_Date, A.C_Production_LotNo,"
-			+" B.CL_MachineCode C_MachineCode, B.CL_Qty C_Qty,"
-			+" B.CL_ItemCode C_ItemCode, C.Product_Item_Name C_ItemName"
-			+" FROM Crate_tbl A"
-			+" inner join Crate_Lot_tbl B on A.C_Production_LotNo = B.CL_LotNo and B.CL_MachineCode = "+machineCode
-			+" inner join Product_Info_tbl C on B.CL_ItemCode = C.Product_Item_Code"
-			+" where A.C_Condition = "+condition+";";
 
-	PreparedStatement pstmt = con.prepareStatement(sql);
-	ResultSet rs = pstmt.executeQuery();
-	List<CrateDto> detail_list = new ArrayList<CrateDto>();
-	
-	CrateDto detail;
-	while(rs.next())
-	{
-		detail = new CrateDto();
-		detail.setC_CrateCode(rs.getString("C_CrateCode"));
-		detail.setC_MachineCode(rs.getString("C_MachineCode"));
-		detail.setC_Qty(rs.getDouble("C_Qty"));
-		detail.setC_ItemCode(rs.getString("C_ItemCode"));
-		detail_list.add(detail);
-	}
-	
-	rs.close();
-	pstmt.close();
-	con.close();
-%>
 
 <!DOCTYPE html>
 <html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -91,10 +50,7 @@
 <!--  <body style="background-color:#001000"> -->
  
 <body style="background-color:#303030">
-<script>
-console.log("<%=detail_list%>");
-console.log("<%=detail_list.get(0).getC_Qty()%>");
-</script>
+
 
 <center>
 <br>
@@ -290,7 +246,7 @@ function productStatus(machineCode, condition){
 		data : {machineCode : machineCode, condition : condition},
 		url : "maskProductionRest/crateSelectByMachine",
 		success : function(result) {
-			//console.log(result);
+			console.log(result);
 			if(result instanceof Object){
 				$("#itemCode_"+machineCode).val(result.c_ItemCode)
 				$("#qty_"+machineCode).val(result.c_Qty)
