@@ -19,7 +19,10 @@ var BOMitemListTable1 = new Tabulator("#BOMitemListTable1", {
 		{ title: "품목코드", field: "product_ITEM_CODE", headerHozAlign: "center" },
 		{ title: "품목명", field: "product_ITEM_NAME", headerHozAlign: "center", width: 145},
 		{ title: "품목종류", field: "product_MTRL_CLSFC_NAME", headerHozAlign: "center"},
-		{ title: "규격1", field: "product_INFO_STND_1", visible:false},
+		{ title: "규격1", field: "product_INFO_STND_1", headerHozAlign: "center"},
+		{ title: "규격2", field: "product_INFO_STND_2", headerHozAlign: "center"},
+		{ title: "분류1", field: "product_ITEM_CLSFC_1_NAME", headerHozAlign: "center"},
+		{ title: "분류2", field: "product_ITEM_CLSFC_2_NAME", headerHozAlign: "center"},
 		{ title: "단위", field: "product_UNIT_NAME", visible:false}
 	],
 });
@@ -53,6 +56,9 @@ var BOMExpListTable = new Tabulator("#BOMExpListTable", {
 		{ title: "품목코드", field: "bom_ItemCode", headerHozAlign: "center" },
 		{ title: "품목명", field: "bom_ItemName", headerHozAlign: "center" },
 		{ title: "규격1", field: "bom_STND_1", headerHozAlign: "center"},
+		{ title: "규격1", field: "bom_STND_2", headerHozAlign: "center"},
+		{ title: "분류1", field: "bom_CLSFC_1_NAME", headerHozAlign: "center"},
+		{ title: "분류2", field: "bom_CLSFC_2_NAME", headerHozAlign: "center"},
 		{ title: "수량", field: "bom_Qty", headerHozAlign: "center", hozAlign: "right"},
 		{ title: "단위", field: "bom_Unit_Name", headerHozAlign: "center"},
 		{ title: "품목종류", field: "bom_State", headerHozAlign: "center"},
@@ -177,7 +183,11 @@ var BOMitemListTable2 = new Tabulator("#BOMitemListTable2", {
 		{ title: "품목코드", field: "product_ITEM_CODE", headerHozAlign: "center" },
 		{ title: "품목명", field: "product_ITEM_NAME", headerHozAlign: "center", width: 145},
 		{ title: "품목종류", field: "product_MTRL_CLSFC_NAME", headerHozAlign: "center"},
-		{ title: "규격1", field: "product_INFO_STND_1", visible:false}
+		{ title: "규격1", field: "product_INFO_STND_1", headerHozAlign: "center"},
+		{ title: "규격2", field: "product_INFO_STND_2", headerHozAlign: "center"},
+		{ title: "분류1", field: "product_ITEM_CLSFC_1_NAME", headerHozAlign: "center"},
+		{ title: "분류2", field: "product_ITEM_CLSFC_2_NAME", headerHozAlign: "center"},
+		{ title: "단위", field: "product_UNIT_NAME", visible:false}
 	],
 });
 
@@ -209,8 +219,11 @@ var BOMImpListTable = new Tabulator("#BOMImpListTable", {
 		{ title: "부모품목코드", field: "bom_Parent_ItemCode", visible:false},
 		{ title: "품목코드", field: "bom_ItemCode", headerHozAlign: "center" },
 		{ title: "품목명", field: "bom_ItemName", headerHozAlign: "center" },
-		{ title: "규격1", field: "bom_STND_1", headerHozAlign: "center"},
 		{ title: "품목종류", field: "bom_State", headerHozAlign: "center"},
+		{ title: "규격1", field: "bom_STND_1", headerHozAlign: "center"},
+		{ title: "규격1", field: "bom_STND_2", headerHozAlign: "center"},
+		{ title: "분류1", field: "bom_CLSFC_1_NAME", headerHozAlign: "center"},
+		{ title: "분류2", field: "bom_CLSFC_2_NAME", headerHozAlign: "center"},
 		{ title: "작업자", field: "bom_Modifier", headerHozAlign: "center" },
 		{ title: "작업날짜", field: "bom_Modify_Date", headerHozAlign: "center", formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}}
 	],

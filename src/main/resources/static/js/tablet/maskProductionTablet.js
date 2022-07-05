@@ -7,7 +7,7 @@ $("#machineName").click(function(){
 var itemTable = new Tabulator("#itemTable", {
 	layoutColumnsOnNewData : true,
 	height: "100%",
-	ajaxURL:"../itemManageRest/itemCodeInfo",
+	ajaxURL:"/itemManageRest/itemCodeInfo",
 	ajaxParams: {itemCode : nowItemCode($("#machineCode").val())},
     ajaxConfig:"get",
     ajaxContentType:"json",
@@ -195,7 +195,7 @@ function rawMaterialSave(value){
 		
 	$.ajax({
 		method : "post",
-		url : "maskProductionRest/rawMaterialSave",
+		url : "/tablet/maskProductionRest/rawMaterialSave",
 		data: {masterData : JSON.stringify(masterData), subData: JSON.stringify(LotList)},
 		beforeSend: function (xhr) {
            var header = $("meta[name='_csrf_header']").attr("content");
@@ -215,7 +215,7 @@ function BOM_Check(value){
 	if(result){
 		var ajaxResult = $.ajax({
 			method : "get",
-			url : "maskProductionRest/BOMBOMList",
+			url : "/tablet/maskProductionRest/BOMBOMList",
 			data : {itemCode : value},
 			success : function(data) {
 				//가져온 bom과 lotlist랑 비교해서 변동이 있는지 확인
@@ -252,7 +252,7 @@ function BOM_Check(value){
 function RawSelect(value){
 	var ajaxResult = $.ajax({
 	method : "get",
-		url : "maskProductionRest/rawMaterialSelect",
+		url : "/tablet/maskProductionRest/rawMaterialSelect",
 		data : {lotNo : value},
 		success : function(data) {
 			LotList = new Array();
@@ -274,7 +274,7 @@ function RawSelect(value){
 function CrateStatusCheck(value){
 	var ajaxResult = $.ajax({
 		method : "get",
-		url : "maskProductionRest/CrateStatusCheck",
+		url : "/tablet/maskProductionRest/CrateStatusCheck",
 		data : {crateCode : value, condition : 0},
 		success : function() {
 		}
@@ -285,7 +285,7 @@ function CrateStatusCheck(value){
 function CrateSelect(value){
 	var ajaxResult = $.ajax({
 		method : "get",
-		url : "maskProductionRest/crateSelectByMachine",
+		url : "/tablet/maskProductionRest/crateSelectByMachine",
 		data : {machineCode : value, condition : 1},
 		success : function(data) {
 			if(data instanceof Object){
@@ -301,7 +301,7 @@ function CrateSelect(value){
 function CrateSave(before, after){
 	var ajaxResult = $.ajax({
 		method : "post",
-		url : "maskProductionRest/crateSave",
+		url : "/tablet/maskProductionRest/crateSave",
 		data : {
 			C_Before_CrateCode : before,
 			C_CrateCode : after,
@@ -326,7 +326,7 @@ function CrateSave(before, after){
 function CrateProductionSave(lotNo, production_ID){
 	var ajaxResult = $.ajax({
 		method : "post",
-		url : "maskProductionRest/crateProductionSave",
+		url : "/tablet/maskProductionRest/crateProductionSave",
 		data : {
 			CP_LotNo : lotNo,
 			CP_Production_ID : production_ID

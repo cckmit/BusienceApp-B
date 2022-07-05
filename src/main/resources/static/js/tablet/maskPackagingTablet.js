@@ -6,7 +6,7 @@ var packagingTable = new Tabulator("#packagingTable", {
 	layoutColumnsOnNewData : true,
 	height: "100%",
 	selectable: 1,
-	ajaxURL:"maskPackagingRest/smallPackagingStandbySelect",
+	ajaxURL:"/tablet/maskPackagingRest/smallPackagingStandbySelect",
 	ajaxParams: {machineCode : $("#machineCode").val(), itemCode : $("#itemCode").val()},
     ajaxConfig:"get",
     ajaxContentType:"json",
@@ -72,7 +72,7 @@ $("#packagingBtn").click(function(){
 function smallPackagingSave(machineCode, itemCode, packagingQty){
 	var ajaxResult = $.ajax({
 		method: "post",
-		url: "maskPackagingRest/smallPackagingSave",
+		url: "/tablet/maskPackagingRest/smallPackagingSave",
 		data: {machineCode : machineCode, itemCode : itemCode, packagingQty : packagingQty},
 		beforeSend: function(xhr) {
 			var header = $("meta[name='_csrf_header']").attr("content");
@@ -86,7 +86,7 @@ function smallPackagingSave(machineCode, itemCode, packagingQty){
 function packagingLineListSelect(itemCode){
 	var ajaxResult = $.ajax({
 		method: "get",
-		url: "maskPackagingRest/packagingLineListSelect",
+		url: "/tablet/maskPackagingRest/packagingLineListSelect",
 		data: {itemCode : itemCode},
 		success: function(result) {
 			for(let j=0;j<result.length;j++){
@@ -100,7 +100,7 @@ function packagingLineListSelect(itemCode){
 function smallPackagingQty(machineCode, itemCode){
 	var ajaxResult = $.ajax({
 		method: "get",
-		url: "maskPackagingRest/smallPackagingQtySelect",
+		url: "/tablet/maskPackagingRest/smallPackagingQtySelect",
 		data: {machineCode : machineCode, itemCode : itemCode},
 		success: function(result) {
 			$("#smallPackaging-Qty").val(result);
@@ -113,7 +113,7 @@ function smallPackagingQty(machineCode, itemCode){
 function largePackagingQty(machineCode, itemCode){
 	var ajaxResult = $.ajax({
 		method: "get",
-		url: "maskPackagingRest/largePackagingQtySelect",
+		url: "/tablet/maskPackagingRest/largePackagingQtySelect",
 		data: {machineCode : machineCode, itemCode : itemCode},
 		success: function(result) {
 			$("#largePackaging-Qty").val(result);
@@ -132,7 +132,7 @@ $("#rePrintBtn").click(function(){
 function largePackagingSave(machineCode, itemCode){
 	var ajaxResult = $.ajax({
 		method: "post",
-		url: "maskPackagingRest/largePackagingSave",
+		url: "/tablet/maskPackagingRest/largePackagingSave",
 		data: {machineCode : machineCode, itemCode : itemCode},
 		beforeSend: function(xhr) {
 			var header = $("meta[name='_csrf_header']").attr("content");
@@ -156,11 +156,6 @@ function packagingOption(packaging_No){
 		method: "get",
 		data: {packaging_No : packaging_No},
 		url: "/paldangPackagingRest/paldangPackagingCheck",
-		beforeSend: function(xhr) {
-			var header = $("meta[name='_csrf_header']").attr("content");
-			var token = $("meta[name='_csrf']").attr("content");
-			xhr.setRequestHeader(header, token);
-		},
 		success: function(result) {
 			$("#packaging-Item").val(result[0].packaging_Item);
 			$("#packaging-small").val(result[0].packaging_Small);

@@ -232,11 +232,12 @@ public class tabletController {
 		if(searchDto.getMachineCode() == null) {
 			searchDto.setMachineCode("M301");
 		}
-
+		
 		List<EquipWorkOrderDto> equipWorkOrderDtoList = equipWorkOrderService.equipWorkOrderSelect(searchDto);
 		
 		model.addAttribute("workOrderInfo", equipWorkOrderDtoList.get(0));
 		model.addAttribute("machineList", equipWorkOrderService.equipWorkOrderSelect2(searchDto));
+		model.addAttribute("machineCode", searchDto.getMachineCode());
 		
 		return "normal/tablet/maskPackagingMaster";
 	}
