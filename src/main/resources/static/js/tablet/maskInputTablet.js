@@ -29,19 +29,29 @@ $.ajax({
 			if(data[i].equip_WorkOrder_Equipment_Type == '325'){
 				itemCodeObj[data[i].equip_WorkOrder_Code] = data[i].equip_WorkOrder_Old_ItemCode
 				machineCodeObj[data[i].equip_WorkOrder_Code] = "itemTable"+(i)
+				let machineCode = data[i].equip_WorkOrder_Code != null ? data[i].equip_WorkOrder_Code : "";
+				let machineName = data[i].equip_WorkOrder_Name != null ? data[i].equip_WorkOrder_Name : "";
+				let itemCode = data[i].equip_WorkOrder_ItemCode != null ? data[i].equip_WorkOrder_ItemCode : "";
+				let itemName = data[i].equip_WorkOrder_ItemName != null ? data[i].equip_WorkOrder_ItemName.substr(0,data[i].equip_WorkOrder_ItemName.length-3) : "작업지시 없음";
+				let stnd_1 = data[i].equip_WorkOrder_INFO_STND_1 != null ? data[i].equip_WorkOrder_INFO_STND_1 : "";
+				let stnd_2 = data[i].equip_WorkOrder_INFO_STND_2 != null ? data[i].equip_WorkOrder_INFO_STND_2 : "";
+				let material_Name = data[i].equip_WorkOrder_Material_Name != null ? data[i].equip_WorkOrder_Material_Name : "";
+				let clsfc_1 = data[i].equip_WorkOrder_Item_CLSFC_1_Name != null ? data[i].equip_WorkOrder_Item_CLSFC_1_Name : "";
+				let clsfc_2 = data[i].equip_WorkOrder_Item_CLSFC_2_Name != null ? data[i].equip_WorkOrder_Item_CLSFC_2_Name : "";
+				
 				$("#multiTableAdd").append(
-					'<div class="machine-module" id="module-'+data[i].equip_WorkOrder_Code+'">'
+					'<div class="machine-module" id="module-'+machineCode+'">'
 							+'<div class="m-header m-font">'
-								+'<p><strong>'+data[i].equip_WorkOrder_Name+'</strong></p>'
-								+'<p><strong>'+data[i].equip_WorkOrder_ItemName.substr(0,data[i].equip_WorkOrder_ItemName.length-3)+'</strong></p>'
+								+'<p><strong>'+machineName+'</strong></p>'
+								+'<p><strong>'+itemName+'</strong></p>'
 							+'</div>'
 							+'<div class="m-main m-font">'
-								+'<p><strong>'+data[i].equip_WorkOrder_ItemCode+'</strong></p>'
-								+'<p><strong>'+data[i].equip_WorkOrder_INFO_STND_1+'</strong></p>'
-								+'<p><strong>'+data[i].equip_WorkOrder_INFO_STND_2+'</strong></p>'
-								+'<p><strong>'+data[i].equip_WorkOrder_Material_Name+'</strong></p>'
-								+'<p><strong>'+data[i].equip_WorkOrder_Item_CLSFC_1_Name+'</strong></p>'
-								+'<p><strong>'+data[i].equip_WorkOrder_Item_CLSFC_2_Name+'</strong></p>'
+								+'<p><strong>'+itemCode+'</strong></p>'
+								+'<p><strong>'+stnd_1+'</strong></p>'
+								+'<p><strong>'+stnd_2+'</strong></p>'
+								+'<p><strong>'+material_Name+'</strong></p>'
+								+'<p><strong>'+clsfc_1+'</strong></p>'
+								+'<p><strong>'+clsfc_2+'</strong></p>'
 							+'</div>'
 						+'<div class="table-container">'
 							+'<div id="itemTable'+(i)+'" class="tablet-Table"></div>'
