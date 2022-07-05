@@ -1,13 +1,13 @@
 .container-bs{
 	display: grid;
 	grid-template-columns: 2fr 3fr;
-	grid-template-rows: 10vh 25vh 35vh 30vh;
+	grid-template-rows: 10% 25% 35% 30%;
 	grid-template-areas:
 		"header header"
 		"main-a main-d"
 		"main-b main-d"
 		"main-c main-e";
-	height: 100vh;
+	height: 100%;
 }
 .global-header{
 	grid-area: header;

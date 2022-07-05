@@ -64,8 +64,8 @@ public class MaskPackagingService {
 		
 		String production_LotNo;
 		String machineCode = searchDto.getMachineCode();
-		double qty;
-				
+		double Qty = 0;
+
 		//포장설비 리스트를 가져옴 수량이 적은 순서대로
 		List<EquipWorkOrderDto> packagingLine = equipWorkOrderDao.packagingLineListSelectDao(searchDto);
 		
@@ -81,7 +81,11 @@ public class MaskPackagingService {
 			
 			List<CrateLotDto> CrateLotDtoList = crateLotDao.crateLotListSelectDao(machineList);
 			
-			packagingQty = divideQty + packagingQty;
+			System.out.println("시작1 "+Qty);
+			
+			packagingQty = divideQty + Qty;
+			System.out.println("시작2 "+packagingQty);
+			
 			if(restQty > 0) {
 				packagingQty++;
 				restQty--;
@@ -101,9 +105,9 @@ public class MaskPackagingService {
 					crateDto.setC_Condition("0");
 					crateDao.crateUpdateDao(crateDto);
 				}
-				qty = crateQty;
-				CrateLotDtoList.get(j).setCL_ProductionQty(-1 * qty);
-				packagingQty = packagingQty - qty;		
+				
+				CrateLotDtoList.get(j).setCL_ProductionQty(-1 * crateQty);
+				packagingQty = packagingQty - crateQty;		
 
 				crateLotDao.crateInputQtyUpdateDao(CrateLotDtoList.get(j));
 				
@@ -112,9 +116,11 @@ public class MaskPackagingService {
 				small_Packaging_tbl.setProduction_LotNo(production_LotNo);
 				small_Packaging_tbl.setMachineCode(machineCode);
 				small_Packaging_tbl.setItemCode(itemCode);
-				small_Packaging_tbl.setQty(qty);
+				small_Packaging_tbl.setQty(crateQty);
 				smallPackagingDao.smallPackagingInsertDao(small_Packaging_tbl);
 
+				System.out.println("끝 "+packagingQty);
+				Qty = packagingQty;
 				if(packagingQty == 0) {								
 					break;
 				}

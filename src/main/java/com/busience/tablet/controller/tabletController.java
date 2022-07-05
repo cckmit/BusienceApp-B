@@ -21,7 +21,6 @@ import com.busience.standard.dto.DTL_TBL;
 import com.busience.standard.dto.EQUIPMENT_INFO_TBL;
 import com.busience.standard.dto.MachineDto;
 import com.busience.standard.dto.PRODUCT_INFO_TBL;
-import com.busience.standard.dto.PaldangPackagingStandardDto;
 import com.busience.standard.service.MachineService;
 import com.busience.standard.service.PaldangPackagingStandardService;
 import com.busience.tablet.service.MaskPackagingService;
@@ -226,5 +225,19 @@ public class tabletController {
 		model.addAttribute("workOrderInfo", equipWorkOrderDtoList.get(0));
 		
 		return "normal/tablet/maskPackagingTablet";
+	}
+	
+	@GetMapping("/tablet/maskPackagingMaster")
+	public String maskPackagingMaster(Model model, SearchDto searchDto) {
+		if(searchDto.getMachineCode() == null) {
+			searchDto.setMachineCode("M301");
+		}
+
+		List<EquipWorkOrderDto> equipWorkOrderDtoList = equipWorkOrderService.equipWorkOrderSelect(searchDto);
+		
+		model.addAttribute("workOrderInfo", equipWorkOrderDtoList.get(0));
+		model.addAttribute("machineList", equipWorkOrderService.equipWorkOrderSelect2(searchDto));
+		
+		return "normal/tablet/maskPackagingMaster";
 	}
 }

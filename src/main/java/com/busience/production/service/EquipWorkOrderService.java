@@ -25,6 +25,10 @@ public class EquipWorkOrderService {
 		return equipWorkOrderDao.equipWorkOrderSelectDao(searchDto);
 	}
 	
+	public List<EquipWorkOrderDto> equipWorkOrderSelect2(SearchDto searchDto) {
+		return equipWorkOrderDao.equipWorkOrderSelectDao2(searchDto);
+	}
+	
 	public int equipWorkOrderUpdate(List<EquipWorkOrderDto> workOrderDtoList) {
 		
 		try {

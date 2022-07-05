@@ -25,6 +25,11 @@ public class equipWorkOrderRestController {
 		return equipWorkOrderService.equipWorkOrderSelect(searchDto);
 	}
 	
+	@GetMapping("/equipWorkOrderSelect2")
+	public List<EquipWorkOrderDto> equipWorkOrderSelect2(SearchDto searchDto) {
+		return equipWorkOrderService.equipWorkOrderSelect2(searchDto);
+	}
+	
 	@PostMapping("/equipOrderUpdate")
 	public int equipWorkOrderUpdate(@RequestBody List<EquipWorkOrderDto> workOrderDtoList) {
 		return equipWorkOrderService.equipWorkOrderUpdate(workOrderDtoList);

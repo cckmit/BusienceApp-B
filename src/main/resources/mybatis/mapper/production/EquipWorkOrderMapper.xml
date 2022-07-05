@@ -31,9 +31,9 @@
 			A.Equip_WorkOrder_Code,	B.Equipment_Info_Name Equip_WorkOrder_Name,
 			A.Equip_WorkOrder_ItemCode, C.Product_Item_Name Equip_WorkOrder_ItemName, B.Equipment_Type
 		FROM Equip_WorkOrder_tbl A
-		inner join Equipment_Info_tbl B on A.Equip_WorkOrder_Code = B.Equipment_Info_Code and B.Equipment_Type = '325'
+		inner join Equipment_Info_tbl B on A.Equip_WorkOrder_Code = B.Equipment_Info_Code and B.Equipment_Type = '330'
 		inner join Product_Info_tbl C on A.Equip_WorkOrder_ItemCode = C.Product_Item_Code
-		where A.WorkOrder_ItemCode = #{itemCode}
+		order by A.Equip_WorkOrder_Code
 	</select>
 	
 	<select id="equipWorkItemCodeSelectDao" resultType="String">
