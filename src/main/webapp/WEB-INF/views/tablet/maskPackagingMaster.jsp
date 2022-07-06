@@ -11,7 +11,7 @@
 			</c:forEach>
 		</ul>	
 		<div id="content">
-			<jsp:include page="maskPackagingTablet.jsp?v=<%=System.currentTimeMillis() %>"/>
+			<jsp:include page="maskPackagingTablet2.jsp?v=<%=System.currentTimeMillis() %>"/>
 		</div>
 	</div>
 </div>

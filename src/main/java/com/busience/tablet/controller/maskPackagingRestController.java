@@ -38,6 +38,11 @@ public class maskPackagingRestController {
 		return equipWorkOrderService.packagingLineListSelect(searchDto);
 	}
 	
+	@GetMapping("/packagingLineListSelect2")
+	public List<EquipWorkOrderDto> packagingLineListSelect2(SearchDto searchDto) {
+		return equipWorkOrderService.packagingLineListSelect2(searchDto);
+	}
+	
 	@GetMapping("/smallPackagingStandbySelect")
 	public List<Small_Packaging_tbl> smallPackagingStandbySelect(SearchDto searchDto) {
 		return smallPackagingService.smallPackagingStandbySelect(searchDto);

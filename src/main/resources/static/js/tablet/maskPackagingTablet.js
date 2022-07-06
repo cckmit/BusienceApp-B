@@ -86,7 +86,7 @@ function smallPackagingSave(machineCode, itemCode, packagingQty){
 function packagingLineListSelect(itemCode){
 	var ajaxResult = $.ajax({
 		method: "get",
-		url: "/tablet/maskPackagingRest/packagingLineListSelect",
+		url: "/tablet/maskPackagingRest/packagingLineListSelect2",
 		data: {itemCode : itemCode},
 		success: function(result) {
 			for(let j=0;j<result.length;j++){

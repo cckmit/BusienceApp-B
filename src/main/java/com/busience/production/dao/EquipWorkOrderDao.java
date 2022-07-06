@@ -24,4 +24,6 @@ public interface EquipWorkOrderDao {
 	public int equipWorkOrderUpdate(EquipWorkOrderDto equipWorkOrderDto);
 	
 	public List<EquipWorkOrderDto> packagingLineListSelectDao(SearchDto searchDto);
+	
+	public List<EquipWorkOrderDto> packagingLineListSelect2Dao(SearchDto searchDto);
 }
