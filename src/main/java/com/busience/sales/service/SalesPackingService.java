@@ -99,7 +99,7 @@ public class SalesPackingService {
 		sales_InMat_tbl.setSales_InMat_Before("");
 		sales_InMat_tbl.setSales_InMat_After(wareHouseList.get(2).getCHILD_TBL_NO());
 		sales_InMat_tbl.setSales_InMat_WareHouse(wareHouseList.get(2).getCHILD_TBL_NO());
-		sales_InMat_tbl.setSales_InMat_Rcv_Clsfc("211");
+		sales_InMat_tbl.setSales_InMat_Rcv_Clsfc("203");
 		
 		String ItemCode = LabelPrintDto.getItemCode();
 		double Qty = LabelPrintDto.getQty();
