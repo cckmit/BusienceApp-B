@@ -1,28 +1,6 @@
 //셀위치저장
 var cellPos = new Array();
 
-//공통
-function dtlSelectList() {
-	var label_arr = new Object();
-
-	$.ajax({
-		method: "get",
-		async: false,
-		url: "machineManageRest/labelMachineList",
-		success: function(datas) {
-			console.log(datas);
-			for (i = 0; i < datas.length; i++) {
-				label_arr[datas[i].equipment_INFO_CODE] = datas[i].equipment_INFO_CODE;
-
-			}
-		}
-	});
-
-	return label_arr;
-}
-
-let dtl_arr_material = dtlSelectList();
-
 let maskEquipTable = new Tabulator("#maskEquipTable", {
 	//페이징
 	height: "calc(100% - 175px)",
@@ -72,6 +50,8 @@ let packEquipTable = new Tabulator("#packEquipTable", {
 	rowFormatter: function(row) {
 		if (row.getData().status == '1')
 			row.getElement().style.color = "blue";
+		if (row.getData().status != '1')
+			row.getElement().style.color = "black";
 	},
 	rowClick: function(e, row) {
 		maskEquipTable.deselectRow();
@@ -79,6 +59,14 @@ let packEquipTable = new Tabulator("#packEquipTable", {
 	},
 	rowSelected: function(row, cell) {
 		cellPos.push(row.getCell("workOrder_EquipCode"));
+		packEquipTable.getRows("selected")[0].update({
+			"status": 1
+		});
+	},
+	rowDeselected: function(row, cell) {
+		row.update({
+			"status": null
+		});
 	},
 	ajaxURL: "machineManageRest/dtlMachineList",
 	ajaxParams: { "EQUIPMENT_TYPE": 2 },
@@ -91,36 +79,7 @@ let packEquipTable = new Tabulator("#packEquipTable", {
 				{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
 				{ title: "코드", field: "workOrder_EquipCode", headerHozAlign: "center" },
 				{ title: "설비명", field: "workOrder_EquipName", headerHozAlign: "center", hozAlign: "left" },
-				{
-					title: "라벨코드", field: "workOrder_SubCode", headerHozAlign: "center", editor: "select", headerFilterParams: dtl_arr_material,
-					formatter: function(cell, formatterParams) {
-						var value = cell.getValue();
-						if (dtl_arr_material[value] != null) {
-							value = dtl_arr_material[value];
-
-							// 라벨 코드가 같은 것이 있는 지 검색
-							for (let i = 0; i < packEquipTable.getDataCount("active"); i++) {
-								if (packEquipTable.getData()[i].workOrder_SubCode == cell.getRow().getData().workOrder_SubCode) {
-									if (packEquipTable.getData()[i].workOrder_ItemCode != cell.getRow().getData().workOrder_ItemCode) {
-										alert("동일한 라벨 프린터는 제품이 같아야 합니다.");
-										packEquipTable.getRows("selected")[0].update({
-											"workOrder_SubName": null
-										});
-										return;
-									}
-								}
-							}
-
-							machineSelect(value);
-							
-						} else {
-							value = value;
-						}
-
-						return value;
-					},
-					editorParams: { values: dtl_arr_material }
-				},
+				{ title: "라벨코드", field: "workOrder_SubCode", headerHozAlign: "center" },
 				{ title: "설비명", field: "workOrder_SubName", headerHozAlign: "center", hozAlign: "left", width: 100 },
 				{ title: "코드", field: "workOrder_ItemCode", headerHozAlign: "center" },
 				{ title: "규격2", field: "workOrder_STND_2", headerHozAlign: "center" },
@@ -135,30 +94,6 @@ let packEquipTable = new Tabulator("#packEquipTable", {
 		}
 	]
 });
-
-
-function machineSelect(val) {
-
-	datas = {
-		machineCode: val
-	}
-
-	$.ajax({
-		method: "get",
-		url: "machineManageRest/selectMachineInfo",
-		data: datas,
-		contentType: 'application/json',
-		success: function(result) {
-			console.log(result);
-			packEquipTable.getRows("selected")[0].update({
-				"workOrder_SubName": result.equipment_INFO_NAME,
-				"status": 1
-			});
-			packEquipTable.deselectRow();
-
-		}
-	});
-}
 
 $('#PRODUCT_ITEM_NAME').keypress(function(e) {
 	if (e.keyCode == 13) {
@@ -289,20 +224,6 @@ function WO_Save() {
 	let packData = packEquipTable.getDataCount();
 	let maskData = maskEquipTable.getDataCount();
 
-	// 라벨 코드가 같은 것이 있는 지 검색
-	for (let i = 0; i < packEquipTable.getDataCount("active"); i++) {
-		for (let j = 0; j < packEquipTable.getDataCount("active"); j++) {
-			if (packEquipTable.getData()[i].workOrder_SubCode == packEquipTable.getData()[j].workOrder_SubCode) {
-				if (packEquipTable.getData()[i].workOrder_SubCode != undefined) {
-					if (packEquipTable.getData()[i].workOrder_ItemCode != packEquipTable.getData()[j].workOrder_ItemCode) {
-						alert("동일한 라벨 프린터는 제품이 같아야 합니다.");
-						return;
-					}
-				}
-			}
-		}
-	}
-
 	// 배열에 데이터 담기
 	for (let i = 0; i < maskData; i++) {
 		if (maskEquipTable.getData()[i].status == 1) {
@@ -314,11 +235,6 @@ function WO_Save() {
 		if (packEquipTable.getData()[k].status == 1) {
 			selectedData.push(packEquipTable.getData()[k]);
 		}
-	}
-
-	if (selectedData.length == 0) {
-		alert("제품이 등록된 행이 없습니다.");
-		return;
 	}
 
 	//작업지시 등록 저장
@@ -364,7 +280,7 @@ function itemDelBtn() {
 	}
 
 	for (let k = 0; k < packData.length; k++) {
-		packEquipTable.updateRow(packEquipTable.getRows("selected")[k], { "workOrder_ItemCode": null, "workOrder_SubCode": null, "workOrder_SubName": null });
+		packEquipTable.updateRow(packEquipTable.getRows("selected")[k], { "workOrder_ItemCode": null });
 		selectedData.push(packEquipTable.getData("selected")[k]);
 	}
 
