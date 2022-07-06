@@ -111,12 +111,8 @@ let packEquipTable = new Tabulator("#packEquipTable", {
 								}
 							}
 
-							if (cell.getRow().getData().status != 1 && cell.getRow().getData().workOrder_ItemCode == undefined) {
-								alert("제품을 먼저 선택하세요.");
-								return;
-							} else if (cell.getRow().getData().workOrder_ItemCode != undefined) {
-								machineSelect(value);
-							}
+							machineSelect(value);
+							
 						} else {
 							value = value;
 						}
@@ -155,7 +151,8 @@ function machineSelect(val) {
 		success: function(result) {
 			console.log(result);
 			packEquipTable.getRows("selected")[0].update({
-				"workOrder_SubName": result.equipment_INFO_NAME
+				"workOrder_SubName": result.equipment_INFO_NAME,
+				"status": 1
 			});
 			packEquipTable.deselectRow();
 
@@ -367,7 +364,7 @@ function itemDelBtn() {
 	}
 
 	for (let k = 0; k < packData.length; k++) {
-		packEquipTable.updateRow(packEquipTable.getRows("selected")[k], { "workOrder_ItemCode": null });
+		packEquipTable.updateRow(packEquipTable.getRows("selected")[k], { "workOrder_ItemCode": null, "workOrder_SubCode": null, "workOrder_SubName": null });
 		selectedData.push(packEquipTable.getData("selected")[k]);
 	}
 
