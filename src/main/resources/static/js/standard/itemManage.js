@@ -161,6 +161,11 @@ function itemRegister() {
 		alert("단가를 입력해야 합니다.");
 		return $("#product_UNIT_PRICE").focus();
 	}
+	
+	if (datas.PRODUCT_INFO_STND_2 == "") {
+		datas.PRODUCT_INFO_STND_2 = 0;
+	}
+	
 
 	$.ajax({
 		method: "post",
