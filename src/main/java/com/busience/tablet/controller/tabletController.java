@@ -21,6 +21,7 @@ import com.busience.standard.dto.DTL_TBL;
 import com.busience.standard.dto.EQUIPMENT_INFO_TBL;
 import com.busience.standard.dto.MachineDto;
 import com.busience.standard.dto.PRODUCT_INFO_TBL;
+import com.busience.standard.dto.PaldangPackagingStandardDto;
 import com.busience.standard.service.MachineService;
 import com.busience.standard.service.PaldangPackagingStandardService;
 import com.busience.tablet.service.MaskPackagingService;
@@ -221,8 +222,15 @@ public class tabletController {
 		if(searchDto.getMachineCode() == null) {
 			searchDto.setMachineCode("M301");
 		}
-		List<EquipWorkOrderDto> equipWorkOrderDtoList = equipWorkOrderService.equipWorkOrderSelect(searchDto);
-		model.addAttribute("workOrderInfo", equipWorkOrderDtoList.get(0));
+		model.addAttribute("machineList", machineService.labelMachineListDao());
+		List<EquipWorkOrderDto> equipWorkOrderDtoList = equipWorkOrderService.packagingLineListSelect2(searchDto);
+		
+		if(equipWorkOrderDtoList.size() >0) {
+			model.addAttribute("workOrderInfo", equipWorkOrderDtoList.get(0));
+			PaldangPackagingStandardDto paldangPackagingStandardDto = new PaldangPackagingStandardDto();
+			paldangPackagingStandardDto.setPackaging_No(equipWorkOrderDtoList.get(0).getEquip_WorkOrder_INFO_STND_2());
+			model.addAttribute("packagingInfo", paldangPackagingStandardService.paldangPackagingCheckNo(paldangPackagingStandardDto).get(0));
+		}
 		
 		return "normal/tablet/maskPackagingTablet";
 	}
@@ -232,13 +240,17 @@ public class tabletController {
 		if(searchDto.getMachineCode() == null) {
 			searchDto.setMachineCode("M301");
 		}
-		
-		List<EquipWorkOrderDto> equipWorkOrderDtoList = equipWorkOrderService.equipWorkOrderSelect(searchDto);
-		
-		model.addAttribute("workOrderInfo", equipWorkOrderDtoList.get(0));
-		model.addAttribute("machineList", equipWorkOrderService.equipWorkOrderSelect2(searchDto));
 		model.addAttribute("machineCode", searchDto.getMachineCode());
+		model.addAttribute("machineList", machineService.labelMachineListDao());
+		List<EquipWorkOrderDto> equipWorkOrderDtoList = equipWorkOrderService.packagingLineListSelect2(searchDto);
 		
+		if(equipWorkOrderDtoList.size() >0) {
+			model.addAttribute("workOrderInfo", equipWorkOrderDtoList.get(0));
+			PaldangPackagingStandardDto paldangPackagingStandardDto = new PaldangPackagingStandardDto();
+			paldangPackagingStandardDto.setPackaging_No(equipWorkOrderDtoList.get(0).getEquip_WorkOrder_INFO_STND_2());
+			model.addAttribute("packagingInfo", paldangPackagingStandardService.paldangPackagingCheckNo(paldangPackagingStandardDto).get(0));
+		}
+
 		return "normal/tablet/maskPackagingMaster";
 	}
 }

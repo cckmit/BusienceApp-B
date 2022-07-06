@@ -23,7 +23,6 @@ import com.busience.common.service.HometaxApiService;
 import com.busience.standard.dto.Customer_tbl;
 import com.busience.standard.dto.DEFECT_INFO_TBL;
 import com.busience.standard.dto.EQUIPMENT_INFO_TBL;
-import com.busience.standard.dto.ItemDto;
 import com.busience.standard.dto.PRODUCT_INFO_TBL;
 import com.busience.standard.dto.PaldangPackagingStandardDto;
 import com.busience.standard.service.ItemService;

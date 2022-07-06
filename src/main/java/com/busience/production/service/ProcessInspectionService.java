@@ -11,8 +11,6 @@ import org.springframework.transaction.support.TransactionTemplate;
 import com.busience.common.dto.SearchDto;
 import com.busience.production.dao.ProcessInspectDao;
 import com.busience.production.dto.ProcessInspectDto;
-import com.busience.qc.dao.ItemPackingInspectDao;
-import com.busience.qc.dto.ItemPackingInspectDto;
 import com.busience.tablet.dao.CrateLotDao;
 import com.busience.tablet.dto.CrateLotDto;
 

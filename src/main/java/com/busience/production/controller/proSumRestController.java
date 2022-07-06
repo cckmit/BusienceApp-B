@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
 import com.busience.production.dto.PRODUCTION_INFO_TBL;
-import com.busience.production.dto.ProductionMgmtDto;
 import com.busience.production.service.ProductionMgmtService;
 import com.busience.tablet.dto.CrateLotDto;
 

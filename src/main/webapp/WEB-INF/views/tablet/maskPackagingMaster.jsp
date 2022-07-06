@@ -6,8 +6,8 @@
 	<div class="tabs-wrap">
 		<ul id="navigation">
 			<c:forEach var="data" items="${machineList}">
-				<li class="tab_${data.equip_WorkOrder_Code}">
-			    	<a href="/tablet/maskPackagingMaster?machineCode=${data.equip_WorkOrder_Code}">${data.equip_WorkOrder_Name}</a>
+				<li class="tab_${data.EQUIPMENT_INFO_CODE}">
+			    	<a href="/tablet/maskPackagingMaster?machineCode=${data.EQUIPMENT_INFO_CODE}">${data.EQUIPMENT_INFO_NAME}</a>
 			    </li>
 			</c:forEach>
 		</ul>	

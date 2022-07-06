@@ -14,7 +14,6 @@ import com.busience.material.dao.LotTransDao;
 import com.busience.material.dao.StockDao;
 import com.busience.sales.dao.SalesInputDao;
 import com.busience.sales.dao.SalesPackingDao;
-import com.busience.sales.dto.SalesPackingDto;
 import com.busience.sales.dto.Sales_InMat_tbl;
 
 @Service

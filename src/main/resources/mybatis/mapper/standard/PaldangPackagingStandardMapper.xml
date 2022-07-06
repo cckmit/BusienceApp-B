@@ -8,7 +8,10 @@
 	</select>	
 	
 	<select id="paldangPackagingCheckNo" resultType="com.busience.standard.dto.PaldangPackagingStandardDto">
-		select * from Paldang_Packaging_Standard_tbl where packaging_No = #{packaging_No}
+		select
+			packaging_No, packaging_Clsfc, packaging_Type, packaging_Size, packaging_Item,
+			packaging_Small, packaging_Large, packaging_ModifyDate		
+		from Paldang_Packaging_Standard_tbl where packaging_No = #{packaging_No}
 	</select>
 	
 	<insert id="paldangPackaingInsertDao">

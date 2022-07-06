@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.busience.common.dto.SearchDto;
-import com.busience.qc.dto.DefectDto;
 import com.busience.tablet.dto.CrateLotDto;
 
 @Mapper

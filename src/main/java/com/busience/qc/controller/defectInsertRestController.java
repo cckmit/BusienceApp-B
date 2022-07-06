@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,8 +14,6 @@ import com.busience.common.dto.SearchDto;
 import com.busience.production.dto.WorkOrderDto;
 import com.busience.qc.dto.DefectDto;
 import com.busience.qc.service.DefectInsertService;
-import com.busience.sales.dto.SalesPackingDto;
-import com.busience.sales.dto.Sales_InMat_tbl;
 import com.busience.tablet.dto.CrateLotDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

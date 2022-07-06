@@ -26,7 +26,7 @@ public class EquipWorkOrderService {
 	}
 	
 	public List<EquipWorkOrderDto> equipWorkOrderSelect2(SearchDto searchDto) {
-		return equipWorkOrderDao.equipWorkOrderSelectDao2(searchDto);
+		return equipWorkOrderDao.equipWorkOrderSelect2Dao(searchDto);
 	}
 	
 	public int equipWorkOrderUpdate(List<EquipWorkOrderDto> workOrderDtoList) {
@@ -44,7 +44,7 @@ public class EquipWorkOrderService {
 						equipWorkOrder.setWorkOrder_SubCode(workOrderDtoList.get(i).getWorkOrder_SubCode());
 						
 						// 데이터 있는지 조회
-						String code = equipWorkOrderDao.equipWorkItemCodeSelectDao(equipWorkOrder);
+						//String code = equipWorkOrderDao.equipWorkItemCodeSelectDao(equipWorkOrder);
 						
 						equipWorkOrderDao.equipWorkOrderInsert(workOrderDtoList.get(i));
 					}

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.busience.common.dto.SearchDto;
 import com.busience.production.dto.ProcessInspectDto;
 import com.busience.production.service.ProcessInspectionService;
-import com.busience.qc.dto.ItemPackingInspectDto;
 import com.busience.tablet.dto.CrateLotDto;
 
 @RestController("processInspectionRestController")

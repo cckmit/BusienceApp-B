@@ -17,7 +17,7 @@ public class CrateLotDto {
 	private double CL_ProductionQty;
 	private double CL_Qty;
 	private String CL_Create_Date;
-	private boolean CL_Use_Status;
+	private String CL_Update_Date;
 
 	private String CL_MachineCode;
 	private String CL_MachineCode2;

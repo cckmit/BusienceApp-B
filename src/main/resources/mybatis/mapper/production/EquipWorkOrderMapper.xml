@@ -26,7 +26,7 @@
 		order by Equip_WorkOrder_Code
 	</select>
 	
-	<select id="equipWorkOrderSelectDao2" resultType="com.busience.production.dto.EquipWorkOrderDto">
+	<select id="equipWorkOrderSelect2Dao" resultType="com.busience.production.dto.EquipWorkOrderDto">
 		select
 			A.Equip_WorkOrder_Code,	B.Equipment_Info_Name Equip_WorkOrder_Name,
 			A.Equip_WorkOrder_ItemCode, C.Product_Item_Name Equip_WorkOrder_ItemName, B.Equipment_Type
@@ -62,8 +62,9 @@
 	<select id="packagingLineListSelect2Dao" resultType="com.busience.production.dto.EquipWorkOrderDto">
 		select
 			A.Equip_WorkOrder_Code,	B.Equipment_Info_Name Equip_WorkOrder_Name,
-            A.Equip_WorkOrder_SubCode, D.Equipment_Info_Name Equip_WorkOrder_Name,
-			A.Equip_WorkOrder_ItemCode, C.Product_Item_Name Equip_WorkOrder_ItemName, B.Equipment_Type
+            A.Equip_WorkOrder_SubCode, D.Equipment_Info_Name Equip_WorkOrder_SubName,
+			A.Equip_WorkOrder_ItemCode, C.Product_Item_Name Equip_WorkOrder_ItemName, B.Equipment_Type,
+			C.Product_Info_STND_2 Equip_WorkOrder_INFO_STND_2
 		FROM Equip_WorkOrder_tbl A
 		inner join Equipment_Info_tbl B on A.Equip_WorkOrder_Code = B.Equipment_Info_Code and B.Equipment_Type = '325'
 		inner join Product_Info_tbl C on A.Equip_WorkOrder_ItemCode = C.Product_Item_Code

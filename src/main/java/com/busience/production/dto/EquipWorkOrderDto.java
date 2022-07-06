@@ -11,6 +11,8 @@ public class EquipWorkOrderDto {
 
 	private String Equip_WorkOrder_Code;
 	private String Equip_WorkOrder_Name;
+	private String Equip_WorkOrder_SubCode;
+	private String Equip_WorkOrder_SubName;
 	private String Equip_WorkOrder_ItemCode;
 	private String Equip_WorkOrder_ItemName;
 	

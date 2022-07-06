@@ -12,7 +12,7 @@ public interface EquipWorkOrderDao {
 	
 	public List<EquipWorkOrderDto> equipWorkOrderSelectDao(SearchDto searchDto);
 	
-	public List<EquipWorkOrderDto> equipWorkOrderSelectDao2(SearchDto searchDto);
+	public List<EquipWorkOrderDto> equipWorkOrderSelect2Dao(SearchDto searchDto);
 	
 	// itemCode 검색
 	public String equipWorkItemCodeSelectDao(EquipWorkOrderDto equipWorkOrderDto);

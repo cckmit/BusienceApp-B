@@ -82,20 +82,6 @@ function smallPackagingSave(machineCode, itemCode, packagingQty){
 	return ajaxResult;
 }
 
-function packagingLineListSelect(machineCode){
-	var ajaxResult = $.ajax({
-		method: "get",
-		url: "/tablet/maskPackagingRest/packagingLineListSelect2",
-		data: {machineCode : machineCode},
-		success: function(result) {
-			for(let j=0;j<result.length;j++){
-				$("#bundle-list").append('<li>'+result[j].equip_WorkOrder_Name+'</li>')
-			}
-		}
-	});
-	return ajaxResult;
-}
-
 function smallPackagingQty(machineCode, itemCode){
 	var ajaxResult = $.ajax({
 		method: "get",
@@ -150,23 +136,7 @@ $("#largePackagingBtn").click(function(){
 	})
 })
 
-function packagingOption(packaging_No){
-	var ajaxResult = $.ajax({
-		method: "get",
-		data: {packaging_No : packaging_No},
-		url: "/paldangPackagingRest/paldangPackagingCheck",
-		success: function(result) {
-			$("#packaging-Item").val(result[0].packaging_Item);
-			$("#packaging-small").val(result[0].packaging_Small);
-			$("#packaging-large").val(result[0].packaging_Large);
-		}
-	});
-	return ajaxResult;
-}
-
 window.onload = function(){
-	packagingOption($("#packaging-No").val());
-	packagingLineListSelect($("#machineCode").val())
 	setup();
 	smallPackagingQty($("#machineCode").val(), $("#itemCode").val());
 	largePackagingQty($("#machineCode").val(), $("#itemCode").val());
