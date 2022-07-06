@@ -166,6 +166,9 @@ function itemRegister() {
 		datas.PRODUCT_INFO_STND_2 = 0;
 	}
 	
+	// 포장 규격 관리 데이터 조회
+	packaging_Data_Check(datas);
+	
 
 	$.ajax({
 		method: "post",
@@ -424,4 +427,26 @@ function itemRemove() {
 
 function paldangPackaging_gridInit(code) {
 	$("#product_INFO_SUB_STND_2").val(code);
+}
+
+function packaging_Data_Check(datas) {
+	
+	console.log(datas);
+	
+	let packData = {
+		packaging_No: datas.PRODUCT_INFO_STND_2
+	}
+	
+	$.ajax({
+		method: "get",
+		url: "paldangPackagingRest/paldangPackagingCheck",
+		data: packData,
+		async: false,
+		success: function(data) {
+			if (data.length == 0) {
+				alert("포장 규격관리에 일치하는 규격2 데이터가 없습니다.");
+				return;
+			} 
+		},
+	});
 }
