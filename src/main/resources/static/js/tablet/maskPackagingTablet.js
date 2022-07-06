@@ -18,18 +18,16 @@ var packagingTable = new Tabulator("#packagingTable", {
 		return response
     },
 	columns:[
-		{ title: "", field: "rownum", headerHozAlign: "center", hozAlign: "right", formatter: "rownum"},
 		{ title: "LotNo", field: "small_Packaging_LotNo", headerHozAlign: "center"},
-		{ title: "제품코드", field: "itemCode", headerHozAlign: "center" },
+		{ title: "코드", field: "itemCode", headerHozAlign: "center" },
 		{ title: "제품명", field: "itemName", headerHozAlign: "center"},
 		{ title: "규격1", field: "itemSTND1", headerHozAlign: "center"},
 		{ title: "규격2", field: "itemSTND2", headerHozAlign: "center"},
-		{ title: "재질", field: "itemMaterial_Name", headerHozAlign: "center"},
 		{ title: "분류1", field: "itemClsfc1_Name", headerHozAlign: "center"},
 		{ title: "분류2", field: "itemClsfc2_Name", headerHozAlign: "center", topCalc:function(){return "합계"}},
 		{ title: "수량", field: "qty", headerHozAlign: "center", hozAlign: "right", topCalc:"sum"},
 		{ title: "입고일자", field: "create_Date", headerHozAlign: "center", hozAlign: "right",
-			formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" }
+			formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss"}, visible:false
 		}
 	]
 });
@@ -59,13 +57,14 @@ $("#packagingBtn").click(function(){
 		return smallPackagingQty($("#machineCode").val(), $("#itemCode").val());
 	})
 	.then(function(data){
+		/*
 		if($("#packaging-large").val()/$("#packaging-small").val() == $("#crate-Count").val()){
 			$.when(largePackagingSave($("#machineCode").val(), $("#itemCode").val()))
 			.then(function(data){
 				productionPrinter(data);
 				location.reload();
 			})
-		}
+		}*/
 	})
 })
 
@@ -83,11 +82,11 @@ function smallPackagingSave(machineCode, itemCode, packagingQty){
 	return ajaxResult;
 }
 
-function packagingLineListSelect(itemCode){
+function packagingLineListSelect(machineCode){
 	var ajaxResult = $.ajax({
 		method: "get",
 		url: "/tablet/maskPackagingRest/packagingLineListSelect2",
-		data: {itemCode : itemCode},
+		data: {machineCode : machineCode},
 		success: function(result) {
 			for(let j=0;j<result.length;j++){
 				$("#bundle-list").append('<li>'+result[j].equip_WorkOrder_Name+'</li>')
@@ -167,7 +166,7 @@ function packagingOption(packaging_No){
 
 window.onload = function(){
 	packagingOption($("#packaging-No").val());
-	packagingLineListSelect($("#itemCode").val())
+	packagingLineListSelect($("#machineCode").val())
 	setup();
 	smallPackagingQty($("#machineCode").val(), $("#itemCode").val());
 	largePackagingQty($("#machineCode").val(), $("#itemCode").val());

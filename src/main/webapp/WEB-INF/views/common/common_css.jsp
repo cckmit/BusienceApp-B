@@ -11,4 +11,4 @@
 <!-- css -->
 <link rel="stylesheet" href="/css/contentPage.css?v=<%=System.currentTimeMillis() %>">
 
-<link rel="stylesheet" href="/css/tabMenu.css" />
+<link rel="stylesheet" href="/css/tabMenu.css?v=<%=System.currentTimeMillis() %>"/>

@@ -17,10 +17,10 @@
     padding: 5px;
 }
 .global-header .header-left{
-	width: 20%;
+	width: 25%;
 	display: flex;
     justify-content: space-around;
-	font-size: calc(0.7vh + 0.7vw);
+	font-size: calc(1vh + 1vw);
 }
 .global-header #machineName{
 	font-weight: bold;
@@ -29,7 +29,7 @@
 }
 .global-header .title{
 	height: 100%;
-	width: 50%;
+	width: 40%;
 	display: flex;
 	justify-content: space-around;
     align-items: center;
@@ -39,7 +39,7 @@
 	background-color: rgb(112,173,70);
 }
 .global-header .header-right{
-	width: 20%;
+	width: 25%;
 	display: flex;
     justify-content: center;
 }
@@ -68,7 +68,7 @@
     padding: 5px;
 }
 .main-b .main-box{
-	grid-template-rows: repeat(3, 1fr);
+	grid-template-rows: repeat(2, 1fr);
 }
 .main-c{
 	grid-area: main-c;
@@ -98,7 +98,7 @@
 	width: auto;
 }
 .main-e .main-box .item input{
-	width: 20%;
+	width: 15%;
 }
 .main-box{
 	background-color: rgb(82,153,217);
@@ -122,18 +122,6 @@
 }
 .main-box .item input{
 	width: 40%;
-}
-
-.global-footer{
-	grid-area: footer;
-    padding: 5px;
-}
-.footer-box{
-	background-color: rgb(207,213,234);
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
 }
 
 .table-container{

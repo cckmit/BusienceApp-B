@@ -67,7 +67,7 @@ public class MaskPackagingService {
 		double Qty = 0;
 
 		//포장설비 리스트를 가져옴 수량이 적은 순서대로
-		List<EquipWorkOrderDto> packagingLine = equipWorkOrderDao.packagingLineListSelectDao(searchDto);
+		List<EquipWorkOrderDto> packagingLine = equipWorkOrderDao.packagingLineListSelect2Dao(searchDto);
 		
 		//포장수량/설비갯수
 		double divideQty = searchDto.getPackagingQty()/packagingLine.size();

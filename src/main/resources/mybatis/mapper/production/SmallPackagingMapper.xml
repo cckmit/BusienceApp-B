@@ -48,7 +48,9 @@
 		where Z.Sales_Large_Packing_LotNo is null
 		and A.ItemCode = #{ItemCode}
 		and A.MachineCode = #{MachineCode}
+		and A.Create_Date > curdate()
 		group by A.Small_Packaging_LotNo
+		order by A.Create_Date desc
 	</select>
 	
 	<select id="smallPackagingQtySelectDao" resultType="int">

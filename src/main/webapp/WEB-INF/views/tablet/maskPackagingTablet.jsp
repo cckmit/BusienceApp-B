@@ -1,12 +1,12 @@
-<%@ page language="java" contentType="tex t/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<link rel="stylesheet" href="/css/tablet/maskPackagingTablet.css?v=<%=System.currentTimeMillis() %>">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<link rel="stylesheet" href="/css/tablet/maskPackagingTablet.css?v=<%=System.currentTimeMillis()%>">
 <div class="container-bs">
 	<header class="global-header">
 		<div class="header-left">
 			<input id="machineCode" type="hidden" value="${workOrderInfo.equip_WorkOrder_Code}">
 			<span id="machineName">${workOrderInfo.equip_WorkOrder_Name}</span>
 			<input id="itemCode" type="hidden" value="${workOrderInfo.equip_WorkOrder_ItemCode}">
-			<span id="itemName">${workOrderInfo.equip_WorkOrder_ItemName}</span>
+			<span id="itemName" style="font-size: calc(0.9vh + 0.9vw);">${workOrderInfo.equip_WorkOrder_ItemName}</span>
 		</div>
 		<div class="title tablet-border">
 			<span>작업 관리 (마스크 포장)</span>
@@ -61,19 +61,18 @@
 		<div class="main-box tablet-border">
 			<div class="item">
 				<label for="packaging-No" >No</label>
-				<input id="packaging-No" value="${workOrderInfo.equip_WorkOrder_INFO_STND_2}" disabled>
-				<label for="packaging-Item">포장명</label>
-				<input id="packaging-Item" style="width:auto;" disabled>
-			</div>
-			<div class="item">
+				<input id="packaging-No" style="width:10%;" value="${workOrderInfo.equip_WorkOrder_INFO_STND_2}" disabled>
 				<label for="packaging-small">소포장 규격</label>
 				<input id="packaging-small" disabled>
 				<label for="packaging-large">대포장 규격</label>
 				<input id="packaging-large" disabled>
 			</div>
+			<div class="item">
+				<label for="packaging-Item">포장명</label>
+				<input id="packaging-Item" style="width:80%;" disabled>
+			</div>
 		</div>
 	</div>
 </div>
-
 <script src="/js/tablet/maskPackagingTablet.js?v=<%=System.currentTimeMillis() %>"></script>
 <script src="/js/labelPrint/paldangLabelPrint.js?v=<%=System.currentTimeMillis() %>"></script>
