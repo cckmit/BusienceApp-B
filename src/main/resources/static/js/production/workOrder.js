@@ -196,8 +196,8 @@ $('#PRODUCT_ITEM_NAME2').keypress(function(e) {
 
 		let packSelectedData = packEquipTable.getData("selected");
 
-		if (packSelectedData.length < 1 && labelSelectedData.length < 1) {
-			alert("포장 설비나 라벨 프린터를 선택하세요.");
+		if (packSelectedData.length < 1) {
+			alert("포장 설비를 선택하세요.");
 			return
 		} else {
 			//내용이 있을경우 검색해서 값이 하나일경우 생략, 아닐경우 팝업창
