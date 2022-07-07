@@ -59,7 +59,9 @@ function workOrderSet(){
 }
 
 $(document).keydown(function(){
-	$("#barcodeInput").focus();
+	if(!$("#barcodeInput").is(":focus")){
+		$("#barcodeInput").focus();	
+	}
 });
 
 
@@ -70,7 +72,7 @@ $("#barcodeInput").keyup(function(){
 $("#barcodeInput").change(function(){
 	//바코드를 읽었을때
 	//이니셜값 비교하여 맞는 칸에 값을 넣는다.
-	var barcode = $(this).val();
+	var barcode = inko.ko2en($(this).val()).toUpperCase();
 	$("#barcodeInput").val("");
 	var initial = barcode.substring(0,1);
 	

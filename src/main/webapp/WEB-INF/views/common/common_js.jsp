@@ -33,3 +33,5 @@
 <script src="/js/hangul.js"></script>
 
 <script src="/js/keyboard.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/inko@1.1.1/inko.min.js"></script>

@@ -65,12 +65,15 @@ $.ajax({
 });
 
 $(document).keydown(function(){
-	$("#barcodeInput").focus();
+	if(!$("#barcodeInput").is(":focus")){
+		$("#barcodeInput").focus();	
+	}
 });
 
-$("#barcodeInput").change(function(e){
-			
-	var barcode = $(this).val();
+$("#barcodeInput").change(function(){
+	
+	var barcode = inko.ko2en($(this).val()).toUpperCase();
+	
 	$("#barcodeInput").val("");
 	var initial = barcode.substr(0,1);
 	//코드가 무엇인지 확인
@@ -120,10 +123,10 @@ $("#barcodeInput").change(function(e){
 		}		
 	}
 });
-
-$("#barcodeInput").keyup(function(){
-	$(this).val($(this).val().toUpperCase());
-	$("#barcodeInput-mirror").val($(this).val());
+$("#barcodeInput").keyup(function(e){
+	var value = $(this).val().toUpperCase();
+	$(this).val(value)
+	$("#barcodeInput-mirror").val(value);
 })
 
 function CrateStatusCheck(value){

@@ -4,7 +4,7 @@
 	<header class="global-header">
 		<div class="header-barcode tablet-border">
 			<label for="barcodeInput">바 코 드</label>
-			<input type="text" id="barcodeInput" autofocus>
+			<input type="text" id="barcodeInput" pattern="[A-Za-z]+" autofocus>
 		</div>
 		<input type="hidden" id="selectedMachine" readonly>
 		<div class="title tablet-border">
@@ -17,7 +17,7 @@
 		</div>
 		<div class="header-barcode tablet-border">
 			<label for="barcodeInput">바 코 드</label>
-			<input type="text" id="barcodeInput-mirror" autofocus>
+			<input type="text" id="barcodeInput-mirror" style="ime-mode:disabled" autofocus>
 		</div>
 	</header>
 	<div class="main">

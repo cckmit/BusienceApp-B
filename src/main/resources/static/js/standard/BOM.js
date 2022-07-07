@@ -2,6 +2,7 @@ var BOMitemListTable = new Tabulator("#BOMitemListTable", {
 	ajaxConfig : "get",
 	ajaxContentType:"json",
 	ajaxURL : "BOMRest/BOMitemList",
+	headerFilterPlaceholder: null,
 	rowClick:function(e, row){
 		//선택된행 표시
 		BOMitemListTable.deselectRow();
@@ -14,13 +15,14 @@ var BOMitemListTable = new Tabulator("#BOMitemListTable", {
 	height:"calc(100% - 175px)",
 	columns: [ //Define Table Columns
 		{ title: "순번", field: "id", headerHozAlign: "center", hozAlign: "center"},
-		{ title: "품목코드", field: "product_ITEM_CODE", headerHozAlign: "center" },
-		{ title: "품목명", field: "product_ITEM_NAME", headerHozAlign: "center" },
-		{ title: "품목종류", field: "product_MTRL_CLSFC_NAME", headerHozAlign: "center"},
-		{ title: "규격1", field: "product_INFO_STND_1", headerHozAlign: "center"},
-		{ title: "규격2", field: "product_INFO_STND_2", headerHozAlign: "center"},
-		{ title: "분류1", field: "product_ITEM_CLSFC_1_NAME", headerHozAlign: "center"},
-		{ title: "분류2", field: "product_ITEM_CLSFC_2_NAME", headerHozAlign: "center"},
+		{ title: "규격2", field: "product_INFO_STND_2", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "규격명", field: "product_INFO_STND_2_NAME", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "품목코드", field: "product_ITEM_CODE", headerHozAlign: "center", headerFilter: "input" },
+		{ title: "품목명", field: "product_ITEM_NAME", headerHozAlign: "center", headerFilter: "input" },
+		{ title: "품목종류", field: "product_MTRL_CLSFC_NAME", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "규격1", field: "product_INFO_STND_1", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "분류1", field: "product_ITEM_CLSFC_1_NAME", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "분류2", field: "product_ITEM_CLSFC_2_NAME", headerHozAlign: "center", headerFilter: "input"},
 		{ title: "단위", field: "product_UNIT_NAME", visible:false}
 	],
 });
