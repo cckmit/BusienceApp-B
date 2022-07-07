@@ -108,17 +108,23 @@
 		GROUP BY spt.Sales_Large_Packing_LotNo
 	</select>
 	
-	<select id="salesSmallPackingLotNoDao" resultType="com.busience.sales.dto.SalesPackingDto">
-		SELECT spt.Sales_Packing_No, spt.Sales_Large_Packing_LotNo, spt.Sales_Small_Packing_LotNo, spt.Sales_Packing_Qty, smpt.ItemCode as Sales_Packing_Code, 
-			pit.Product_Item_Name as Sales_Packing_Name, smpt.Create_Date as Sales_Small_Create_Date
-			FROM Sales_Packing_tbl spt
-		INNER JOIN Small_Packaging_tbl smpt ON spt.Sales_Small_Packing_LotNo = smpt.Small_Packaging_LotNo
-		INNER JOIN Product_Info_tbl pit ON smpt.ItemCode = pit.Product_Item_Code
+	<select id="salesSmallPackingLotNoDao" resultType="com.busience.production.dto.Small_Packaging_tbl">
+		SELECT spt.Small_Packaging_LotNo, spt.Production_LotNo, sum(spt.Qty) Qty, 
+			spt.ItemCode, pit.Product_Item_Name as ItemName, spt.Create_Date, 
+			pit.Product_Info_STND_1 AS ItemSTND1, pit.Product_Info_STND_2 as ItemSTND2, dt4.Child_TBL_Type AS ItemMaterial, 
+			dt.Child_TBL_Type AS ItemClsfc1, dt3.Child_TBL_Type AS ItemClsfc2
+		FROM Small_Packaging_tbl spt
+		INNER JOIN Product_Info_tbl pit ON spt.ItemCode = pit.Product_Item_Code
 		INNER JOIN DTL_TBL dt ON pit.Product_Item_CLSFC_1 = dt.Child_TBL_No
+		INNER JOIN DTL_TBL dt3 ON pit.Product_Item_CLSFC_2 = dt3.Child_TBL_No
+		INNER JOIN DTL_TBL dt4 ON pit.Product_Material = dt4.Child_TBL_No
+		<![CDATA[
+		WHERE spt.Create_Date >= #{startDate} and spt.Create_Date < #{endDate}
+		]]>
 		<if test="LotNo != null and LotNo != ''">
-		WHERE Sales_Large_Packing_LotNo = #{LotNo}
+		AND spt.Small_Packaging_LotNo like concat('%',#{LotNo},'%') 
 		</if>
-		GROUP BY smpt.Small_Packaging_LotNo
+		GROUP BY spt.Small_Packaging_LotNo
 	</select>
 	
 	<select id="largePackagingQtySelectDao" resultType="int">
@@ -143,7 +149,6 @@
 	    UPDATE Sales_Packing_tbl 
 	    SET Sales_Packing_Status = '207'
 	    WHERE Sales_Large_Packing_LotNo = #{Sales_InMat_Lot_No}
-	    AND Sales_Packing_Qty = #{Sales_InMat_Qty}
 	    AND Sales_Packing_Status = #{Sales_InMat_Rcv_Clsfc}
 	</update>
 

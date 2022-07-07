@@ -15,6 +15,7 @@ import com.busience.material.dao.LotTransDao;
 import com.busience.material.dao.StockDao;
 import com.busience.production.dao.LabelPrintDao;
 import com.busience.production.dto.LabelPrintDto;
+import com.busience.production.dto.Small_Packaging_tbl;
 import com.busience.sales.dao.SalesInputDao;
 import com.busience.sales.dao.SalesPackingDao;
 import com.busience.sales.dto.SalesPackingDto;
@@ -74,7 +75,7 @@ public class SalesPackingService {
 	}
 	
 	// 소포장 Lot 조회
-	public List<SalesPackingDto> salesSmallPackingLotNoDao(SearchDto searchDto) {
+	public List<Small_Packaging_tbl> salesSmallPackingLotNoDao(SearchDto searchDto) {
 		return salesPackingDao.salesSmallPackingLotNoDao(searchDto);
 	}
 	

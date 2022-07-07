@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
+import com.busience.production.dto.Small_Packaging_tbl;
 import com.busience.sales.dto.SalesPackingDto;
 import com.busience.sales.service.SalesPackingService;
 
@@ -52,7 +53,7 @@ public class salesPackingRestController {
 	
 	// 소포장 Lot 조회
 	@GetMapping("/SmallLot_Search")
-	public List<SalesPackingDto> salesSmallPackingLotNoDao(SearchDto searchDto) {
+	public List<Small_Packaging_tbl> salesSmallPackingLotNoDao(SearchDto searchDto) {
 		return salesPackingService.salesSmallPackingLotNoDao(searchDto);
 	}
 }

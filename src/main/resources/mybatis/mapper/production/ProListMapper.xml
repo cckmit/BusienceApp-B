@@ -173,18 +173,5 @@
 				AND lmt.LM_ItemCode LIKE CONCAT ('%',#{ItemCode},'%')
 			</if>
 		</if>
-		<if test="subType == 'largeBox'">
-		<![CDATA[
-		INNER JOIN DTL_TBL dt4 ON lmt.LM_Warehouse = dt4.Child_TBL_No
-		WHERE lmt.LM_Create_Date >= #{startDate} and lmt.LM_Create_Date < #{endDate}	
-		AND lmt.LM_LotNo LIKE CONCAT('L','%')
-		]]>
-			<if test="lotNo != ''">
-				AND lmt.LM_LotNo LIKE CONCAT ('%',#{LotNo},'%')
-			</if>
-			<if test="ItemCode != ''">
-				AND lmt.LM_ItemCode LIKE CONCAT ('%',#{ItemCode},'%')
-			</if>
-		</if>
 	</select>
 </mapper>

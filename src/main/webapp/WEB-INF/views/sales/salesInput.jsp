@@ -18,12 +18,12 @@
 					<span style="text-align: center"><strong>~</strong></span> 
 					<input id="endDate" class="tomorrow" type="date"> <span></span>
 					<span><strong>LotNo</strong></span>
-					<input id="fgoodsLotNo" class="fgoodsLotNo" type="text" style="width: 230px;" onclick="$(this).val('')" onkeypress="javascript:if(event.keyCode==13) {InspectionWorkONo()}" autofocus>
+					<input id="fgoodsLotNo" class="fgoodsLotNo" type="text" style="width: 230px;" autofocus>
 				</div>
 			</div>
 		</div>
-		<div id="salesLargePackingTable" style="float:left; width: calc(60% - 10px)"></div>
-		<div id="salesSmallPackingTable" style="float:left; width: 40%; margin-left: 10px;"></div>
+		<div id="salesSmallPackingTable" style="float:left; width: calc(60% - 10px)"></div>
+		<div id="salesCratePackingTable" style="float:left; width: 40%; margin-left: 10px;"></div>
 		</div>
 	</div>
 	<!-- END MAIN -->

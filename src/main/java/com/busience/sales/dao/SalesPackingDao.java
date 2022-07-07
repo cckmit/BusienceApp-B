@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.busience.common.dto.SearchDto;
+import com.busience.production.dto.Small_Packaging_tbl;
 import com.busience.sales.dto.SalesPackingDto;
 import com.busience.sales.dto.Sales_InMat_tbl;
 
@@ -30,7 +31,7 @@ public interface SalesPackingDao {
 	public List<SalesPackingDto> salesLargePackingLotNoDao(SearchDto searchDto);
 	
 	// 소포장 Lot 조회
-	public List<SalesPackingDto> salesSmallPackingLotNoDao(SearchDto searchDto);
+	public List<Small_Packaging_tbl> salesSmallPackingLotNoDao(SearchDto searchDto);
 	
 	//대포장 라벨 수량
 	public int largePackagingQtySelectDao(SearchDto searchDto);

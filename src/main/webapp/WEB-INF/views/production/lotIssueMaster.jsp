@@ -27,7 +27,6 @@
 					<span><strong>구분</strong></span>
 					<select id="lotTypeListBox">
 						<option value="mask">마스크</option>
-						<option value="largeBox">대박스</option>	
 						<option value="smallBox">소박스</option>
 					</select>
 				</div>
