@@ -98,14 +98,18 @@
 	</select>
 		
 	<select id="salesOutputStockDao" resultType="com.busience.material.dto.StockDto">
-		SELECT Product_Item_Code S_itemCode, Product_Item_Name S_itemName, Product_Info_STND_1 S_Item_Standard_1, dt.Child_TBL_Type S_Item_Classfy_1_Name, st.S_Qty,
+		SELECT Product_Item_Code S_itemCode, Product_Item_Name S_itemName, Product_Info_STND_1 S_Item_Standard_1, Product_Info_STND_2 S_Item_Standard_2,
+			dt.Child_TBL_Type S_Item_Classfy_1_Name, dt2.Child_TBL_Type S_Item_Classfy_2_Name, dt3.Child_TBL_Type S_Item_Material, st.S_Qty,
 			SUM(soot.Sales_Output_Order_lNot_Stocked) S_Sales_Output_Order_Qty 
 		FROM Product_Info_tbl pit
 		LEFT OUTER JOIN Stock_tbl st ON pit.Product_Item_Code = st.S_ItemCode
 		LEFT OUTER JOIN Sales_OrderList_tbl sot ON pit.Product_Item_Code = sot.Sales_Order_lCode AND sot.Sales_Order_lNot_Stocked > 0
 		LEFT OUTER JOIN Sales_Output_OrderList_tbl soot ON pit.Product_Item_Code = soot.Sales_Output_Order_lCode
 		LEFT OUTER JOIN DTL_TBL dt ON pit.Product_Item_CLSFC_1 = dt.Child_TBL_No
+		LEFT OUTER JOIN DTL_TBL dt2 ON pit.Product_Item_CLSFC_2 = dt2.Child_TBL_No
+		LEFT OUTER JOIN DTL_TBL dt3 ON pit.Product_Material = dt3.Child_TBL_No
 		WHERE sot.Sales_Order_lCus_No = #{SalesOrderNo}
+		AND st.S_Warehouse = '52'
 		GROUP BY pit.Product_Item_Code
 	</select>
 	<select id="salesOutputOrderStockDao" resultType="com.busience.material.dto.StockDto">

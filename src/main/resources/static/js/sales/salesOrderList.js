@@ -13,6 +13,7 @@ var salesOrderListTable = new Tabulator("#salesOrderListTable", {
     },
 	rowClick: function(e, row) {
 		row.getTable().deselectRow();
+		salesOrderListStockTable.clearData();
 		row.select();
 	},
 	rowSelected:function(row){
@@ -40,6 +41,7 @@ var salesOrderListTable = new Tabulator("#salesOrderListTable", {
 
 // salesMaster 목록 검색
 function SOL_Search() {
+	
 	datas = {
 		startDate: $("#startDate").val(),
 		endDate: $("#endDate").val(),
@@ -135,10 +137,8 @@ function SOLS_Search(sales_Order_lCus_No) {
 		SalesOrderNo : sales_Order_lCus_No
 	}
 	
-	salesOrderListSubTable.setData("salesOrderRest/SOL_Search" , datas)
-	.then(function() {
-		console.log(salesOrderListSubTable);
-	})
+	salesOrderListSubTable.setData("salesOrderRest/SOL_Search" , datas);
+	
 }
 
 var salesOrderListStockTable = new Tabulator("#salesOrderListStockTable", {
@@ -150,6 +150,10 @@ var salesOrderListStockTable = new Tabulator("#salesOrderListStockTable", {
 		{ title: "제품코드", field: "s_ItemCode", headerHozAlign: "center" },
 		{ title: "제품명", field: "s_ItemName", headerHozAlign: "center" },
 		{ title: "규격1", field: "s_Item_Standard_1", headerHozAlign: "center" },
+		{ title: "규격2", field: "s_Item_Standard_2", headerHozAlign: "center" },
+		{ title: "분류1", field: "s_Item_Classfy_1_Name", headerHozAlign: "center" },
+		{ title: "분류2", field: "s_Item_Classfy_2_Name", headerHozAlign: "center" },
+		{ title: "재질", field: "s_Item_Material", headerHozAlign: "center" },
 		{ title: "수량", field: "s_Qty", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false }, }
 	]
 });
@@ -157,6 +161,5 @@ var salesOrderListStockTable = new Tabulator("#salesOrderListStockTable", {
 // salesOrderStock 목록검색
 function SOSS_Search(sales_Order_lCode) {
 	salesOrderListStockTable.setData("salesStockRest/salesStockSelect", {ItemCode : sales_Order_lCode})
-	console.log(salesOrderListStockTable);
 }
 

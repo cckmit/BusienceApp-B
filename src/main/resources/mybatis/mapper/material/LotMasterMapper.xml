@@ -61,7 +61,7 @@
 		LEFT OUTER JOIN DTL_TBL dt ON pit.Product_Item_CLSFC_1 = dt.Child_TBL_No
 		LEFT OUTER JOIN DTL_TBL dt2 ON pit.Product_Item_CLSFC_2 = dt2.Child_TBL_No
 		LEFT OUTER JOIN DTL_TBL dt3 ON pit.Product_Material = dt3.Child_TBL_No
-		where lmt.LM_Qty > 0 and lmt.LM_Warehouse='52' and lmt.LM_LotNo like concat('L','%')
+		where lmt.LM_Qty > 0 and lmt.LM_Warehouse='52' and lmt.LM_LotNo like concat('S','%')
 		<if test="ItemCode != null">
 		and lmt.LM_ItemCode = #{ItemCode}
 		</if>

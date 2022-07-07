@@ -95,6 +95,7 @@ public class StockService {
 				dto.setS_ItemCode("Grand Total");
 				dto.setS_ItemName("");
 				dto.setS_Item_Standard_1("");
+				dto.setS_Item_Standard_2("");
 				dto.setS_Item_Classfy_1_Name("");
 				dto.setS_Item_Classfy_2_Name("");
 				dto.setS_Item_Material("");

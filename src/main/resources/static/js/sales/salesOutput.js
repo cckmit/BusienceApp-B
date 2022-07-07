@@ -307,6 +307,7 @@ function SLM_Search(ItemCode) {
 		data: datas,
 		async: false,
 		success: function(FLM_datas) {
+			console.log(FLM_datas);
 			if (FLM_datas.length == 0) {
 				alert("해당 품목은 재고량이 없습니다.")
 			}

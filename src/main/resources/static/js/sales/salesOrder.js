@@ -360,7 +360,7 @@ var editCheck = function(cell) {
 
 var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
 	layoutColumnsOnNewData: true,
-	height: "calc(90% - 175px)",
+	height: "calc(85% - 175px)",
 	selectable: true,
 	tabEndNewRow: true,
 	//커스텀 키 설정
@@ -695,13 +695,17 @@ function item_Code_Check(rowCount) {
 
 var salesOrderStockTable = new Tabulator("#salesOrderStockTable", {
 	selectable: 1,
-	height: "10%",
+	height: "15%",
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
 	columns: [
 		{ title: "제품코드", field: "s_ItemCode", headerHozAlign: "center" },
 		{ title: "제품명", field: "s_ItemName", headerHozAlign: "center" },
 		{ title: "규격1", field: "s_Item_Standard_1", headerHozAlign: "center" },
+		{ title: "규격2", field: "s_Item_Standard_2", headerHozAlign: "center" },
+		{ title: "분류1", field: "s_Item_Classfy_1_Name", headerHozAlign: "center" },
+		{ title: "분류2", field: "s_Item_Classfy_2_Name", headerHozAlign: "center" },
+		{ title: "재질", field: "s_Item_Material", headerHozAlign: "center" },
 		{ title: "수량", field: "s_Qty", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false }, }
 	]
 });
@@ -719,6 +723,7 @@ function SOS_Search(sales_Order_lCode) {
 		data: datas,
 		success: function(datas) {
 			salesOrderStockTable.setData(datas);
+			console.log(salesOrderStockTable);
 		}
 	});
 }
