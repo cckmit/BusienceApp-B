@@ -214,7 +214,6 @@ $("#itemCOPYBtn").click(function() {
 		alert("수정할 행을 선택하세요.");
 	} else {
 		let copyCode = itemManageTable.getData("selected")[0].product_ITEM_CODE;
-		console.log(copyCode.charAt(0));
 		if (copyCode.charAt(0) == 'P') {
 			copyModalShow();
 		} else {
@@ -361,7 +360,6 @@ function itemModify() {
 			xhr.setRequestHeader(header, token);
 		},
 		success: function(data) {
-			console.log(data);
 			if (data) {
 				alert("저장 되었습니다.");
 				itemManageTable.replaceData();
@@ -430,8 +428,6 @@ function paldangPackaging_gridInit(code) {
 }
 
 function packaging_Data_Check(datas) {
-	
-	console.log(datas);
 	
 	let packData = {
 		packaging_No: datas.PRODUCT_INFO_STND_2
