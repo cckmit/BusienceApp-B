@@ -8,12 +8,13 @@
 		SELECT proit.Process_Inspect_LotNo, proit.Process_Inspect_EquipCode, eit.Equipment_Info_Name as Process_Inspect_EquipName,
 			proit.Process_Inspect_ItemCode, pit.Product_Item_Name as Process_Inspect_ItemName, pit.Product_Info_STND_1 as Process_Inspect_STND_NAME_1, 
 			dt.Child_TBL_Type as Process_Inspect_Item_Clsfc_Name_1, proit.Process_Inspect_Qty, proit.Process_Inspect_Date, 
-			dt2.Child_TBL_Type as Process_Inspect_Worker
+			dt2.Child_TBL_Type as Process_Inspect_Worker, clt.CL_Qty Process_Inspect_CrateLot_Qty
 		FROM Process_Inspect_tbl proit
 		INNER JOIN Equipment_Info_tbl eit ON proit.Process_Inspect_EquipCode = eit.Equipment_Info_Code
 		INNER JOIN Product_Info_tbl pit ON proit.Process_Inspect_ItemCode = pit.Product_Item_Code
 		INNER JOIN DTL_TBL dt ON pit.Product_Item_CLSFC_1 = dt.Child_TBL_No
 		INNER JOIN DTL_TBL dt2 ON proit.Process_Inspect_Worker = dt2.Child_TBL_No
+		INNER JOIN Crate_Lot_tbl clt ON proit.Process_Inspect_LotNo = clt.CL_LotNo
 		<![CDATA[
 		WHERE proit.Process_Inspect_Date >= #{startDate} AND proit.Process_Inspect_Date < #{endDate}
 		]]>
@@ -54,6 +55,13 @@
 			#{Process_Inspect_Value_3}, #{Process_Inspect_Value_4}, #{Process_Inspect_Value_5},
 			#{Process_Inspect_STND_1}, #{Process_Inspect_STND_2}, #{Process_Inspect_Status},
 			#{Process_Inspect_Result}, #{Process_Inspect_Remark}
-		)
+		) on duplicate key update
+		Process_Inspect_Qty = #{Process_Inspect_Qty}, Process_Inspect_Color = #{Process_Inspect_Color},
+		Process_Inspect_Date = now(), Process_Inspect_Worker = #{Process_Inspect_Worker},
+		Process_Inspect_Value_1 = #{Process_Inspect_Value_1}, Process_Inspect_Value_2 = #{Process_Inspect_Value_2},
+		Process_Inspect_Value_3 = #{Process_Inspect_Value_3}, Process_Inspect_Value_4 = #{Process_Inspect_Value_4},
+		Process_Inspect_Value_5 = #{Process_Inspect_Value_5}, Process_Inspect_STND_1 = #{Process_Inspect_STND_1},
+		Process_Inspect_STND_2 = #{Process_Inspect_STND_2}, Process_Inspect_Status = #{Process_Inspect_Status},
+		Process_Inspect_Result = #{Process_Inspect_Result}, Process_Inspect_Remark = #{Process_Inspect_Remark}
 	</insert>
 </mapper>
