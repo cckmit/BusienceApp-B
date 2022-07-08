@@ -63,6 +63,7 @@ public class SalesOutputOrderMasterService {
 					
 					for(int i=0; i < salesOutputOrderListDtoList.size(); i++) {
 						SalesOutputOrderListDto salesOutputOrderListDto = salesOutputOrderListDtoList.get(i);
+						salesOutputOrderListDto.setSales_Output_Order_mCus_No(Sales_Order_mCus_No);
 						// salesOrderList update
 						salesOrderListDao.salesOrderListUpdateDao(salesOutputOrderListDto);
 						// salesOutputOrderList insert

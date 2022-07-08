@@ -89,7 +89,7 @@ function SO_Search(){
 $('#SO_SearchBtn').click(function(){
 	SO_Search();
 	salesOutputOrderTable.replaceData();
-})
+});
 
 // 판매구분 select를 구성하기위한 ajax
 var dtl_arr = new Object();
@@ -193,7 +193,16 @@ function SOS_Search(sales_Order_lCus_No){
 		data : datas,
 		success : function(result) {
 			console.log(result);
-			salesOrderSubTable.setData(result);
+			let updateArray = new Array();
+			
+			// 출하 지시 된 데이터는 나타내지 않음
+			for(let i=0; i<result.length; i++) {
+				if(result[i].sales_Order_lNot_Stocked != 0) {
+					updateArray.push(result[i]);
+				}
+			}
+			
+			salesOrderSubTable.setData(updateArray);
 			salesOrderSubTable.selectRow();
 		}
 	});
@@ -369,6 +378,7 @@ function SOO_Save() {
 		alert("저장할 데이터가 없습니다.")
 		return;
 	}
+	
 	selectedRow = salesOutputOrderTable.getData("selected")[0];
 	console.log(selectedRow);
 

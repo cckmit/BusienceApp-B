@@ -87,7 +87,7 @@ var salesOrderListSubTable = new Tabulator("#salesOrderListSubTable", {
     },
 	columns: [
 		{ title: "순번", field: "sales_Order_lNo", headerHozAlign: "center", hozAlign: "center", width: 60 },
-		{ title: "수주No", field: "sales_Order_lCus_No", visible: false },
+		{ title: "수주No", field: "sales_Order_lCus_No"},
 		{ title: "코드", field: "sales_Order_lCode", headerHozAlign: "center", width: 60 },
 		{ title: "제품명", field: "sales_Order_lName", headerHozAlign: "center", width: 200 },
 		{ title: "규격1", field: "sales_Order_STND_1", headerHozAlign: "center", width: 70 },
