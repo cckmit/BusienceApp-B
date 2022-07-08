@@ -31,19 +31,16 @@ function setup()
 				
 			}, function(){alert("Error getting local devices")},"printer");
 			
-		}, function(error){
-			alert("'zebra browser print settings'를 설치하여 프린터를 연결해주세요.\r\n 인터넷 설정 'block-insecure-private-network-requests'를 'disabled'로 변경해주세요.");
-		})
+		},
+		function(error){
+				toastr.warning("라벨 프린터를 사용하시려면 'zebra browser print settings'를 실행하여 프린터를 연결해주세요.")
+			}
+		)
 }
-function printerCheck(){
-	if($("#selected_device").val() == null){
-		setup()
-		return false;
-	}
-}
+
 function writeToSelectedPrinter()
 {
-	printerCheck()
+	
 	var printCode = "^XA"
 					+"^CFJ,50^SEE:UHANGUL.DAT^FS"
 					+"^CW1,E:KFONT3.FNT^CI28^FS"
@@ -71,17 +68,21 @@ function writeToSelectedPrinter()
 	selected_device.send(printCode, undefined, errorCallback);
 }
 
-
 function RawMaterialPrinter(jsonDatas)
 {	
-	printerCheck()
+	console.log(jsonDatas)
 	var printCode = ""
 	for(let j=0;j<jsonDatas.length;j++){
 		printCode += "^XA"
 					+"^CFJ,50^SEE:UHANGUL.DAT^FS"
 					+"^CW1,E:KFONT3.FNT^CI28^FS"
-					+"^FT150,40^A1N,30,20^FD"+jsonDatas[j].inMat_Name+"^FS"
-					+"^FO250,60^BQN,2,5"
+					+"^FT150,40^A1N,30,20^FD"+jsonDatas[j].inMat_Code+"^FS"
+					+"^FT150,72^A1N,30,20^FD"+jsonDatas[j].inMat_Name+"^FS"
+					+"^FT150,104^A1N,30,20^FD"+jsonDatas[j].inMat_STND_1+"^FS"
+					+"^FT150,136^A1N,30,20^FD"+jsonDatas[j].inMat_STND_2+"^FS"
+					+"^FT150,168^A1N,30,20^FD"+jsonDatas[j].inMat_Client_Name+"^FS"
+					+"^FT150,200^A1N,30,20^FD"+jsonDatas[j].inMat_Lot_No+"^FS"
+					+"^FO355,90^BQN,2,5"
 					+"^FH^FDLA,"+jsonDatas[j].inMat_Lot_No+"^FS"
 					+"^XZ"
 	}
@@ -90,7 +91,7 @@ function RawMaterialPrinter(jsonDatas)
 
 function CratePrinter(jsonDatas)
 {	
-	printerCheck()
+	
 	var printCode = ""
 	
 	for(let j=0;j<jsonDatas.length;j++){
@@ -116,7 +117,7 @@ function CratePrinter(jsonDatas)
 
 function smallPackagingPrinter(LotNo)
 {
-	printerCheck()
+	
 	var printCode = ""
 	
 	printCode += "^XA"
@@ -131,7 +132,7 @@ function smallPackagingPrinter(LotNo)
 
 function productionPrinter(jsonDatas)
 {	
-	printerCheck()
+	
 	var printCode = ""
 	
 		printCode += "^XA"
@@ -188,4 +189,4 @@ function onDeviceSelected(selected)
 	}
 }
 
-//window.onload = setup;
+window.onload = setup;

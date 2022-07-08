@@ -98,6 +98,9 @@ function excel_download(table){
 }
 
 $(document).ready(function(){
+	toastr.options = {
+	  "positionClass": "toast-top-center",
+	}
 	//input에서 백스페이스 누르면 앞에있는 input 내용 사라짐 
 	$('.clearInput').keydown(function(){
 		if(event.keyCode==8 || event.keyCode==46) {

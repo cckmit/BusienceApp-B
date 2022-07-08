@@ -1,13 +1,12 @@
 .container-bs{
 	display: grid;
-	grid-template-columns: 2fr 3fr;
-	grid-template-rows: 10vh 10vh 40vh 15vh 25vh;
+	grid-template-columns: 3fr 4fr;
+	grid-template-rows: 10vh 10vh 60vh 20vh;
 	grid-template-areas:
 		"header header"
 		"main-a main-c"
 		"main-b main-c"
-		"main-d main-d"
-		"footer footer";
+		"main-d main-d";
 	height: 100vh;
 }
 .global-header{
@@ -71,23 +70,23 @@
     padding: 5px;
 }
 .main-b .main-box{
-	grid-template-rows: repeat(3, 1fr);
+	grid-template-rows: repeat(4, 1fr);
 }
 .main-c{
 	grid-area: main-c;
     padding: 5px;
 }
 .main-c .main-box{
-	grid-template-rows: 1fr 2fr 2fr 2fr 2fr;
+	grid-template-rows: 1fr 2fr 2fr 2fr 2fr 2fr 2fr;
 }
 .main-c .main-box .item span{
 	text-align: center;
 }
 .main-c .main-box .item .LotNo_Name{
-	width: 45%;
+	width: 40%;
 }
 .main-c .main-box .item .LotNo{
-	width: 45%;
+	width: 50%;
 }
 .main-d{
 	grid-area: main-d;
@@ -144,5 +143,5 @@
 }
 
 .tablet-Table{
-	font-size: calc(0.65vh + 0.65vw);
+	font-size: calc(1vh + 1vw);
 }

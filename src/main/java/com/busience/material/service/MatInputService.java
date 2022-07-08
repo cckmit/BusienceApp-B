@@ -20,6 +20,8 @@ import com.busience.material.dao.OrderMasterDao;
 import com.busience.material.dao.StockDao;
 import com.busience.material.dao.TemporaryStorageDao;
 import com.busience.material.dto.InMatDto;
+import com.busience.standard.dao.ItemDao;
+import com.busience.standard.dto.ItemDto;
 
 @Service
 public class MatInputService {
@@ -44,6 +46,9 @@ public class MatInputService {
 
 	@Autowired
 	StockDao stockDao;
+	
+	@Autowired
+	ItemDao itemDao;
 
 	@Autowired
 	OrderMasterDao orderMasterDao;
@@ -75,8 +80,8 @@ public class MatInputService {
 						String Warehouse = WarehouseList.get(0).getCHILD_TBL_NO();
 						String before = "";
 						String after = WarehouseList.get(0).getCHILD_TBL_NO();
-						String classfy = inMatDto.getInMat_Rcv_Clsfc();
-
+						String classfy = inMatDto.getInMat_Rcv_Clsfc();						
+						
 						// 랏번호가 없을경우 랏번호 생성
 						if (lotNo == null || lotNo.isBlank()) {
 							lotNo = lotNoDao.lotNoSelectDao(inMatDto);
@@ -116,6 +121,12 @@ public class MatInputService {
 
 						// 발주마스터 저장
 						orderMasterDao.orderMasterUpdateDao(inMatDto);
+						
+						ItemDto itemDto = itemDao.selectItemCode(itemCode);
+						
+						inMatDto.setInMat_STND_1(itemDto.getPRODUCT_INFO_STND_1());
+						inMatDto.setInMat_STND_2(itemDto.getPRODUCT_INFO_STND_2());
+						inMatDto.setInMat_Client_Name("");
 					}
 				}
 			});

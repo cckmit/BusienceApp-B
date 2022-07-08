@@ -12,3 +12,5 @@
 <link rel="stylesheet" href="/css/contentPage.css?v=<%=System.currentTimeMillis() %>">
 
 <link rel="stylesheet" href="/css/tabMenu.css?v=<%=System.currentTimeMillis() %>"/>
+
+<link href="/css/common/toastr/toastr.min.css" rel="stylesheet"/>

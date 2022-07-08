@@ -40,8 +40,12 @@ $("#MOL_PrintBtn").click(function(){
 	var datas = new Array()
 	for(let i=0;i<selectedDatas.length;i++){
 		datas.push({
+			inMat_Code : selectedDatas[i].om_ItemCode,
+			inMat_Name: selectedDatas[i].om_ItemName,
+			inMat_STND_1 : selectedDatas[i].om_Item_Stnd_1,
+			inMat_STND_2 : selectedDatas[i].om_Item_Stnd_2,
+			inMat_Client_Name : "",
 			inMat_Lot_No : selectedDatas[i].om_LotNo,
-			inMat_Name: selectedDatas[i].om_ItemName
 		})
 	}
 	RawMaterialPrinter(datas)

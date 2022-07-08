@@ -8,7 +8,7 @@
 			<img src="/images/button/Search.png" id="MOL_SearchBtn"/>
 			<img src="/images/button/Excel.png" onclick="excel_download(matOutputListTable)"/>
 			<img src="/images/button/Print.png" id="MOL_PrintBtn"/>
-			<select id="selected_device" onchange=onDeviceSelected(this); style=""></select>
+			<select id="selected_device" onchange=onDeviceSelected(this); style="display:none"></select>
 		</div>
 		<!-- 버튼 -->
 		<div class="input-box">

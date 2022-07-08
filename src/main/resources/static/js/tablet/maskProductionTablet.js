@@ -21,6 +21,7 @@ var itemTable = new Tabulator("#itemTable", {
 				{ title: "제품이름", field: "product_ITEM_NAME", headerHozAlign: "center"},
 				{ title: "규격1", field: "product_INFO_STND_1", headerHozAlign: "center"},
 				{ title: "규격2", field: "product_INFO_STND_2", headerHozAlign: "center"},
+				{ title: "재질", field: "product_MATERIAL_NAME", headerHozAlign: "center"},
 				{ title: "분류1", field: "product_ITEM_CLSFC_1_NAME", headerHozAlign: "center"},
 				{ title: "분류2", field: "product_ITEM_CLSFC_2_NAME", headerHozAlign: "center"}				
 			]
@@ -37,8 +38,6 @@ function toggleFullScreen() {
     document.documentElement.requestFullscreen()
 	itemTable.replaceData();
 	itemTable.redraw();
-	crateTable.replaceData();
-	crateTable.redraw();
   } else {
     if (document.exitFullscreen) {
       document.exitFullscreen()
@@ -205,7 +204,7 @@ function rawMaterialSave(value){
            xhr.setRequestHeader(header, token);
 		},
 		success: function (data){
-			//console.log(data);
+			toastr.success("원자재가 투입되었습니다.")
 		}
 	});
 }
@@ -320,6 +319,7 @@ function CrateSave(before, after){
 				$("#crate-LotNo").val(data.c_LotNo);
 				$("#crateCode").val(data.c_CrateCode);
 				$("#crate-Qty").val(data.c_Qty);
+				toastr.success("상자코드 "+data.c_CrateCode+"로 교체되었습니다.")
 			}
 		}
 	});
@@ -340,26 +340,6 @@ function CrateProductionSave(lotNo, production_ID){
 		}
 	});
 	return ajaxResult;
-}
-
-var crateTable = new Tabulator("#crateTable", {
-	layoutColumnsOnNewData : true,
-	ajaxLoader:false,
-	height: "100%",
-	columns:[
-		{title:"생산 LotNo 이력", headerHozAlign:"center",
-			columns: [	
-				{ title: "생산 LotNo", field: "cl_LotNo", headerHozAlign: "center"},
-				{ title: "상자코드", field: "cl_CrateCode", headerHozAlign: "center"},
-				{ title: "생산수량", field: "cl_Qty", headerHozAlign: "center", hozAlign:"right",
-					formatter:"money", formatterParams: {precision: false}}
-			]
-		}
-	]
-});
-
-function crateTableSelect(value){
-	crateTable.setData("maskProductionRest/crateLotRecordSelect", {machineCode : value})
 }
 
 $("#completeBtn").click(function(){

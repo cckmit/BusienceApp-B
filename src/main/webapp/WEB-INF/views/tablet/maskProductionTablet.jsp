@@ -4,7 +4,7 @@
 	<header class="global-header">
 		<div class="header-left">
 			<input id="machineCode" type="hidden" value="${workOrderInfo.equip_WorkOrder_Code}">
-			<span id="machineName">${workOrderInfo.equip_WorkOrder_Name}</span>
+			<span id="machineName" style="font-size: calc(0.9vh + 0.9vw);">${workOrderInfo.equip_WorkOrder_Name}</span>
 			<input id="itemCode" type="hidden" value="${workOrderInfo.equip_WorkOrder_ItemCode}">
 			<span id="itemName">${workOrderInfo.equip_WorkOrder_ItemName}</span>
 		</div>
@@ -38,6 +38,9 @@
 				<input id="crate-Qty" readonly>
 			</div>
 			<div class="item">
+				<button id="completeBtn">
+					작업완료
+				</button>
 			</div>
 		</div>
 	</div>
@@ -67,12 +70,22 @@
 				<input class="LotNo_Name" disabled>
 				<input class="LotNo" readonly>
 			</div>
+			<div class="item">
+				<input type="hidden" class="LotNo_Code">
+				<input class="LotNo_Name" disabled>
+				<input class="LotNo" readonly>
+			</div>
+			<div class="item">
+				<input type="hidden" class="LotNo_Code">
+				<input class="LotNo_Name" disabled>
+				<input class="LotNo" readonly>
+			</div>
 		</div>
 	</div>
 	<div class="main-d">
 		<div id="itemTable" class="tablet-border tablet-Table"></div>
 	</div>
-	<footer class="global-footer">
+	<!-- <footer class="global-footer">
 		<div class="footer-box tablet-border">
 			<div class="table-container">
 				<button id="completeBtn">
@@ -83,6 +96,6 @@
 				<div id="crateTable" class="tablet-Table"></div>
 			</div>
 		</div>
-	</footer>
+	</footer> -->
 </div>
 <script src="/js/tablet/maskProductionTablet.js?v=<%=System.currentTimeMillis() %>"></script>
