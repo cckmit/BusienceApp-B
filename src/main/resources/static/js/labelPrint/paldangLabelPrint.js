@@ -70,17 +70,16 @@ function writeToSelectedPrinter()
 
 function RawMaterialPrinter(jsonDatas)
 {	
-	console.log(jsonDatas)
 	var printCode = ""
 	for(let j=0;j<jsonDatas.length;j++){
 		printCode += "^XA"
 					+"^CFJ,50^SEE:UHANGUL.DAT^FS"
 					+"^CW1,E:KFONT3.FNT^CI28^FS"
-					+"^FT150,40^A1N,30,20^FD"+jsonDatas[j].inMat_Code+"^FS"
-					+"^FT150,72^A1N,30,20^FD"+jsonDatas[j].inMat_Name+"^FS"
-					+"^FT150,104^A1N,30,20^FD"+jsonDatas[j].inMat_STND_1+"^FS"
-					+"^FT150,136^A1N,30,20^FD"+jsonDatas[j].inMat_STND_2+"^FS"
-					+"^FT150,168^A1N,30,20^FD"+jsonDatas[j].inMat_Client_Name+"^FS"
+					+"^FT150,40^A1N,30,20^FD"+jsonDatas[j].inMat_Name+"^FS"
+					+"^FT150,72^A1N,30,20^FD"+jsonDatas[j].inMat_STND_1+"^FS"
+					+"^FT150,104^A1N,30,20^FD^FS"
+					+"^FT150,136^A1N,30,20^FD"+jsonDatas[j].inMat_Client_Name+"^FS"
+					+"^FT150,168^A1N,30,20^FD"+jsonDatas[j].inMat_Code+"^FS"
 					+"^FT150,200^A1N,30,20^FD"+jsonDatas[j].inMat_Lot_No+"^FS"
 					+"^FO355,90^BQN,2,5"
 					+"^FH^FDLA,"+jsonDatas[j].inMat_Lot_No+"^FS"
