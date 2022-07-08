@@ -133,7 +133,7 @@ var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
 							sales_Output_Order_lInfo_Remark : data[j].sales_Order_lInfo_Remark,
 							sales_Output_Order_Send_Clsfc : data[j].sales_Order_Send_Clsfc}
 			}
-			console.log(replaceData)
+			
 			salesOutputOrderSubTable.setData(replaceData);
 		}
 		
@@ -192,7 +192,6 @@ function SOS_Search(sales_Order_lCus_No){
 		url : "salesOrderRest/SOL_Search",
 		data : datas,
 		success : function(result) {
-			console.log(result);
 			let updateArray = new Array();
 			
 			// 출하 지시 된 데이터는 나타내지 않음
@@ -380,7 +379,6 @@ function SOO_Save() {
 	}
 	
 	selectedRow = salesOutputOrderTable.getData("selected")[0];
-	console.log(selectedRow);
 
 	//OrderSub 저장부분
 	$.ajax({
@@ -437,7 +435,6 @@ function SOOS_Search(sales_Output_Order_mOrder_No){
 		method : "GET",
 		url : "salesOutputOrderWORest/SOOS_Search?sales_Output_Order_lOrder_No="+ sales_Output_Order_mOrder_No,
 		success : function(result) {
-			console.log(result);
 			salesOutputOrderSubTable.setData(result);
 		}
 	});
@@ -475,7 +472,6 @@ function SOSM_Search(value){
 		url : "salesStockRest/salesOutputStockSelect",
 		data: datas,
 		success : function(result) {
-			console.log(result);
 			salesOutputStockTable.setData(result);
 		}
 	});
