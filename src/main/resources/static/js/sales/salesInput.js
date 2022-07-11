@@ -87,9 +87,9 @@ var salesSmallPackingTable = new Tabulator("#salesSmallPackingTable", {
 		{ title: "제품명", field: "itemName", headerHozAlign: "center", headerFilter: true, width: 160 },
 		{ title: "규격1", field: "itemSTND1", headerHozAlign: "center", headerFilter: true,width: 85},
 		{ title: "규격2", field: "itemSTND2", headerHozAlign: "center", headerFilter: true,width: 85 },
-		{ title: "분류1", field: "itemClsfc1", headerHozAlign: "center", headerFilter: true,width: 85 },
-		{ title: "분류2", field: "itemClsfc2", headerHozAlign: "center", headerFilter: true,width: 85 },
-		{ title: "재질", field: "itemMaterial", headerHozAlign: "center", headerFilter: true, width: 85 },
+		{ title: "분류1", field: "itemClsfc1_Name", headerHozAlign: "center", headerFilter: true,width: 85 },
+		{ title: "분류2", field: "itemClsfc2_Name", headerHozAlign: "center", headerFilter: true,width: 85 },
+		{ title: "재질", field: "itemMaterial_Name", headerHozAlign: "center", headerFilter: true, width: 85 },
 		{ title: "설비코드", field: "machineCode", headerHozAlign: "center", headerFilter: true,width: 85 },
 		{ title: "설비명", field: "machineName", headerHozAlign: "center", headerFilter: true,width: 85 },
 		{ title: "수량", field: "qty", headerHozAlign: "center", hozAlign: "right", width: 85 },
@@ -137,24 +137,31 @@ function SI_InfoSearch() {
 	salesSmallPackingTable.setData("salesPackingRest/SmallLot_Search", datas);
 }
 
-function SI_InfoSubSearch(LotNo) {
+/*function SI_InfoSubSearch(LotNo) {
 	
 	datas = {
 		LotNo : LotNo
 	}
 	salesCratePackingTable.setData("/tablet/maskProductionRest/crateLotSelect", datas);
-}
+}*/
 
 $(document).ready(function() {
 	SI_InfoSearch();
 });
 
 function SI_Print() {
-	
+	//프린트
+	productionPrinter(salesSmallPackingTable.getData("selected")[0])
+	$("#selectedItem").val("")
+	salesSmallPackingTable.deselectRow();
 }
 
 $("#SI_PrintBtn").click(function() {
-	SI_Print();
+	if(salesSmallPackingTable.getData("selected").length == 0) {
+		alert("출력할 행을 선택하세요.");
+	} else {
+		SI_Print();
+	}
 })
 
 $("#SI_SearchBtn").click(function() {

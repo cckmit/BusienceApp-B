@@ -30,4 +30,5 @@
 </div>
 <!-- Javascript -->
 <script src="/js/sales/salesInput.js?v=<%=System.currentTimeMillis()%>"></script>
+<script src="/js/labelPrint/paldangLabelPrint.js?v=<%=System.currentTimeMillis() %>"></script>
 <%-- <script src="/js/labelPrint.js?v=<%=System.currentTimeMillis() %>"></script> --%>

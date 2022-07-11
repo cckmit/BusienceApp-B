@@ -111,8 +111,8 @@
 	<select id="salesSmallPackingLotNoDao" resultType="com.busience.production.dto.Small_Packaging_tbl">
 		SELECT spt.Small_Packaging_LotNo, spt.Production_LotNo, sum(spt.Qty) Qty, spt.MachineCode, eit.Equipment_Info_Name MachineName,
 			spt.ItemCode, pit.Product_Item_Name as ItemName, spt.Create_Date, 
-			pit.Product_Info_STND_1 AS ItemSTND1, pit.Product_Info_STND_2 as ItemSTND2, dt4.Child_TBL_Type AS ItemMaterial, 
-			dt.Child_TBL_Type AS ItemClsfc1, dt3.Child_TBL_Type AS ItemClsfc2, sit.Sales_InMat_Modifier Modifier
+			pit.Product_Info_STND_1 AS ItemSTND1, pit.Product_Info_STND_2 as ItemSTND2, dt4.Child_TBL_Type AS ItemMaterial_Name, 
+			dt.Child_TBL_Type AS ItemClsfc1_Name, dt3.Child_TBL_Type AS ItemClsfc2_Name, sit.Sales_InMat_Modifier Modifier
 		FROM Small_Packaging_tbl spt
 		INNER JOIN Product_Info_tbl pit ON spt.ItemCode = pit.Product_Item_Code
 		INNER JOIN DTL_TBL dt ON pit.Product_Item_CLSFC_1 = dt.Child_TBL_No
