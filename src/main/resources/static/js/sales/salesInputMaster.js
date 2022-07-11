@@ -45,7 +45,6 @@ var salesInputItemViewTable = new Tabulator("#salesInputItemViewTable", {
 	height:"calc(100% - 175px)",
  	columns:[ //Define Table Columns
 	{title:"순번", field:"rownum", headerHozAlign: "center", hozAlign: "center", formatter:"rownum"},
-	{title:"LotNo", field:"sales_InMat_Lot_No", headerHozAlign:"center",hozAlign:"center"},
 	{title:"입고일자", field:"sales_InMat_Date", headerHozAlign:"center",hozAlign:"left", formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD hh:mm:ss"}},
  	{title:"입고구분", field:"sales_InMat_Rcv_Clsfc", headerHozAlign:"center" ,hozAlign:"left"},
  	{title:"품목코드", field:"sales_InMat_Code", headerHozAlign:"center",hozAlign:"left"},

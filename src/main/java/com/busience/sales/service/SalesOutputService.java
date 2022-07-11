@@ -180,23 +180,19 @@ public class SalesOutputService {
 			String salesOutMatDate = salesOutMatList.get(i).getSales_OutMat_Date();
 
 			if (itemCode == null || salesOutMatDate == null) {
-				salesOutMatList.get(i).setSales_OutMat_Lot_No("Sub Total");
-				salesOutMatList.get(i).setSales_OutMat_Date("");
-				salesOutMatList.get(i).setSales_OutMat_Send_Clsfc("");
+				salesOutMatList.get(i).setSales_OutMat_Send_Clsfc("Sub Total");
+			}
+
+			if (itemCode == null && salesOutMatDate == null) {
+				salesOutMatList.get(i).setSales_OutMat_Send_Clsfc("Grand Total");
+				salesOutMatList.get(i).setSales_OutMat_Client_Name("");
+				salesOutMatList.get(i).setSales_OutMat_Name("");
 				salesOutMatList.get(i).setSales_OutMat_STND_1("");
 				salesOutMatList.get(i).setSales_OutMat_STND_2("");
 				salesOutMatList.get(i).setSales_OutMat_Item_Clsfc_Name_1("");
 				salesOutMatList.get(i).setSales_OutMat_Item_Clsfc_Name_2("");
 				salesOutMatList.get(i).setSales_OutMat_Material("");
 				salesOutMatList.get(i).setSales_OutMat_UNIT("");
-				
-			}
-
-			if (itemCode == null && salesOutMatDate == null) {
-				salesOutMatList.get(i).setSales_OutMat_Lot_No("Grand Total");
-				salesOutMatList.get(i).setSales_OutMat_Send_Clsfc("");
-				salesOutMatList.get(i).setSales_OutMat_Client_Name("");
-				salesOutMatList.get(i).setSales_OutMat_Name("");
 			
 			}
 		}
@@ -220,22 +216,11 @@ public class SalesOutputService {
 			String salesOutMatDate = salesOutMatList.get(i).getSales_OutMat_Date();
 
 			if (customerCode == null || salesOutMatDate == null) {
-				salesOutMatList.get(i).setSales_OutMat_Lot_No("Sub Total");
-				salesOutMatList.get(i).setSales_OutMat_Cus_No("");
-				salesOutMatList.get(i).setSales_OutMat_Code("");
-				salesOutMatList.get(i).setSales_OutMat_Name("");
-				salesOutMatList.get(i).setSales_OutMat_Date("");
-				salesOutMatList.get(i).setSales_OutMat_Send_Clsfc("");
-				salesOutMatList.get(i).setSales_OutMat_STND_1("");
-				salesOutMatList.get(i).setSales_OutMat_UNIT("");
-				salesOutMatList.get(i).setSales_OutMat_Item_Clsfc_Name_1("");
-				salesOutMatList.get(i).setSales_OutMat_Item_Clsfc_Name_2("");
-				salesOutMatList.get(i).setSales_OutMat_Material("");
+				salesOutMatList.get(i).setSales_OutMat_Cus_No("Sub Total");
 			}
 
 			if (customerCode == null && salesOutMatDate == null) {
-				salesOutMatList.get(i).setSales_OutMat_Lot_No("Grand Total");
-				salesOutMatList.get(i).setSales_OutMat_Cus_No("");
+				salesOutMatList.get(i).setSales_OutMat_Cus_No("Grand Total");
 				salesOutMatList.get(i).setSales_OutMat_Code("");
 				salesOutMatList.get(i).setSales_OutMat_Name("");
 				salesOutMatList.get(i).setSales_OutMat_Client_Name("");
@@ -246,6 +231,7 @@ public class SalesOutputService {
 				salesOutMatList.get(i).setSales_OutMat_Item_Clsfc_Name_1("");
 				salesOutMatList.get(i).setSales_OutMat_Item_Clsfc_Name_2("");
 				salesOutMatList.get(i).setSales_OutMat_Material("");
+				salesOutMatList.get(i).setSales_OutMat_UNIT("");
 			}
 		}
 

@@ -135,11 +135,9 @@ function SI_InfoSearch() {
 	
 	// salesCratePackingTable.clearData();
 	salesSmallPackingTable.setData("salesPackingRest/SmallLot_Search", datas);
-	console.log(salesSmallPackingTable);
 }
 
 function SI_InfoSubSearch(LotNo) {
-	console.log(LotNo);
 	
 	datas = {
 		LotNo : LotNo

@@ -33,8 +33,6 @@ function SOL_Search() {
 	
 	salesOutputListTable.setData("salesOutputRest/SOL_Search", datas);
 	
-	console.log(salesOutputListTable);
-
 }
 
 $('#SOL_SearchBtn').click(function(){
@@ -44,14 +42,13 @@ $('#SOL_SearchBtn').click(function(){
 var salesOutputItemViewTable = new Tabulator("#salesOutputItemViewTable", { 
     //Sub Total 색상
 	rowFormatter: function(row){
-		if(row.getData().sales_OutMat_Lot_No == "Sub Total"){
+		if(row.getData().sales_OutMat_Send_Clsfc == "Sub Total"){
             row.getElement().style.backgroundColor = "#c0c0c0";
             }
     },
 	height:"calc(100% - 175px)",
  	columns:[ //Define Table Columns
 	{title:"순번", field:"rownum", headerHozAlign: "center", hozAlign: "center", formatter:"rownum"},
-	{title:"LotNo", field:"sales_OutMat_Lot_No", headerHozAlign:"center",hozAlign:"center"},
 	{title:"출고일자", field:"sales_OutMat_Date", headerHozAlign:"center",hozAlign:"left", formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
  	{title:"출고구분", field:"sales_OutMat_Send_Clsfc", headerHozAlign:"center" ,hozAlign:"left"},
  	{title:"품목코드", field:"sales_OutMat_Code", headerHozAlign:"center",hozAlign:"left"},
@@ -96,7 +93,7 @@ var salesOutputCustomerViewTable = new Tabulator("#salesOutputCustomerViewTable"
 	layoutColumnsOnNewData : true,
 	//Sub Total 색상
 	rowFormatter: function(row) {
-		if (row.getData().sales_OutMat_Lot_No == "Sub Total") {
+		if (row.getData().sales_OutMat_Cus_No == "Sub Total") {
 			row.getElement().style.backgroundColor = "#c0c0c0";
 		}
 	},
@@ -104,7 +101,6 @@ var salesOutputCustomerViewTable = new Tabulator("#salesOutputCustomerViewTable"
 	columns: [
 		{ title: "순번", field: "rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum"},
 		{ title: "수주번호", field: "sales_OutMat_Cus_No", headerHozAlign: "center", hozAlign:"center"},
-		{ title: "Lot번호", field: "sales_OutMat_Lot_No", headerHozAlign: "center", hozAlign:"center"},
 		{ title: "거래처명", field: "sales_OutMat_Client_Name", headerHozAlign: "center", hozAlign: "left"},
 		{ title: "품목코드", field: "sales_OutMat_Code", headerHozAlign: "center", hozAlign: "left" },
 		{ title: "품명", field: "sales_OutMat_Name", headerHozAlign: "center", hozAlign: "left"},
