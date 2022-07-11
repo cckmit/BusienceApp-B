@@ -47,14 +47,14 @@ $('#fgoodsLotNo').keydown(function(e) {
 				console.log(sim_data);
 				if (sim_data.length > 0) {
 					//검색어와 일치하는값이 있는 경우
-					salesCratePackingTable.clearData();
+					// salesCratePackingTable.clearData();
 					salesSmallPackingTable.setData(sim_data);
 					var rows = new Array();
 
 					rows = salesSmallPackingTable.getRows("selected");
 
 				} else {
-					salesCratePackingTable.clearData();
+					// salesCratePackingTable.clearData();
 					alert("일치하는 데이터가 없습니다.");
 					$('#fgoodsLotNo').val("");
 					return;
@@ -76,11 +76,8 @@ var salesSmallPackingTable = new Tabulator("#salesSmallPackingTable", {
 	headerFilterPlaceholder: null,
 	rowClick: function(e, row) {
 		row.getTable().deselectRow();
-		salesCratePackingTable.clearData();
+		// salesCratePackingTable.clearData();
 		row.select();
-	},
-	rowSelected: function(row) {
-		SI_InfoSubSearch(row.getData().production_LotNo);
 	},
 	columns: [
 		{ title:"순번", field:"rownum", headerHozAlign: "center", hozAlign: "right", formatter: "rownum", width: 65 },
@@ -93,15 +90,18 @@ var salesSmallPackingTable = new Tabulator("#salesSmallPackingTable", {
 		{ title: "분류1", field: "itemClsfc1", headerHozAlign: "center", headerFilter: true,width: 85 },
 		{ title: "분류2", field: "itemClsfc2", headerHozAlign: "center", headerFilter: true,width: 85 },
 		{ title: "재질", field: "itemMaterial", headerHozAlign: "center", headerFilter: true, width: 85 },
+		{ title: "설비코드", field: "machineCode", headerHozAlign: "center", headerFilter: true,width: 85 },
+		{ title: "설비명", field: "machineName", headerHozAlign: "center", headerFilter: true,width: 85 },
 		{ title: "수량", field: "qty", headerHozAlign: "center", hozAlign: "right", width: 85 },
 		{
 			title: "입고일자", field: "create_Date", headerHozAlign: "center", hozAlign: "right", width: 130,
 			formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm" }
-		}
+		},
+		{ title: "작업자", field: "modifier", headerHozAlign: "center", width: 85 }
 	]
 });
 
-var salesCratePackingTable = new Tabulator("#salesCratePackingTable", {
+/* var salesCratePackingTable = new Tabulator("#salesCratePackingTable", {
 	height: "calc(100% - 175px)",
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
@@ -113,7 +113,7 @@ var salesCratePackingTable = new Tabulator("#salesCratePackingTable", {
 	/*ajaxConfig : "get",
 	ajaxContentType:"json",
 	ajaxURL : "salesInputRest/SI_Search",*/
-	columns: [
+/*	columns: [
 		{ title: "순번", field: "rownum", headerHozAlign: "center", hozAlign: "right", formatter: "rownum", width: 65 },
 		{ title: "LotNo", field: "cl_LotNo", headerHozAlign: "center", width: 150 ,headerFilter: true},
 		{ title: "제품코드", field: "cl_ItemCode", headerHozAlign: "center" ,headerFilter: true},
@@ -123,8 +123,8 @@ var salesCratePackingTable = new Tabulator("#salesCratePackingTable", {
 			title: "등록일자", field: "cl_Create_Date", headerHozAlign: "center", hozAlign: "right", width: 130,
 			formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" }
 		}
-	]
-});
+	] 
+}); */
 
 function SI_InfoSearch() {
 	datas = {
@@ -133,8 +133,9 @@ function SI_InfoSearch() {
 		LotNo: $("#fgoodsLotNo").val()
 	}
 	
-	salesCratePackingTable.clearData();
+	// salesCratePackingTable.clearData();
 	salesSmallPackingTable.setData("salesPackingRest/SmallLot_Search", datas);
+	console.log(salesSmallPackingTable);
 }
 
 function SI_InfoSubSearch(LotNo) {

@@ -25,4 +25,5 @@ public class Small_Packaging_tbl {
 	private String ItemClsfc2_Name;
 	private double Qty;
 	private String Create_Date;
+	private String Modifier;
 }

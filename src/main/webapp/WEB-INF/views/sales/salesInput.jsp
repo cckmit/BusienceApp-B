@@ -22,8 +22,8 @@
 				</div>
 			</div>
 		</div>
-		<div id="salesSmallPackingTable" style="float:left; width: calc(60% - 10px)"></div>
-		<div id="salesCratePackingTable" style="float:left; width: 40%; margin-left: 10px;"></div>
+		<div id="salesSmallPackingTable"></div>
+		<!-- <div id="salesCratePackingTable" style="float:left; width: 40%; margin-left: 10px;"></div> -->
 		</div>
 	</div>
 	<!-- END MAIN -->
