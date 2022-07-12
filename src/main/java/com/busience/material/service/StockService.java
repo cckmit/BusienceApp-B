@@ -153,6 +153,9 @@ public class StockService {
 						String Warehouse = WarehouseList.get(0).getCHILD_TBL_NO();
 						String before = Warehouse;
 						String after = Warehouse;
+						String probeWarehouse = WarehouseList.get(1).getCHILD_TBL_NO();
+						String probefore = probeWarehouse;
+						String proafter = probeWarehouse;
 
 						String classfy = "345";
 
@@ -241,6 +244,7 @@ public class StockService {
 
 								stockDao.stockInsertUpdateDao(itemCode, outMatQty, Warehouse);
 
+								
 							} else if (stockDto.getS_Qty() < stockDto.getS_ChangeQty()) {
 
 								qty = changeqty;
@@ -378,7 +382,8 @@ public class StockService {
 								stockDao.stockInsertUpdateDao(itemCode, outMatQty, Warehouse);
 
 							}
-						}
+							
+						} 
 
 					}
 				}

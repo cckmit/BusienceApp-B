@@ -24,4 +24,5 @@
 </div>
 
 <!-- Javascript -->
-<script src="/js/material/matStockChangeMaster.js"></script>
+<script src="/js/material/matStockChangeMaster.js?v=<%=System.currentTimeMillis() %>"></script>
+<script src="/js/labelPrint/paldangLabelPrint.js?v=<%=System.currentTimeMillis() %>"></script>

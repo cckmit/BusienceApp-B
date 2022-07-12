@@ -69,7 +69,13 @@ var MSC_inputEditor = function(cell, onRendered, success, cancel, editorParams) 
 							});
 						} else {
 							//검색어와 일치하는값이 없는경우, 팝업창
-							itemPopup(MSC_input.value, 'grid', '', 'material');
+							console.log(matStockChangeTable.getRows("selected")[0].s_ItemCode);
+							
+							if(document.querySelector('#inMatTypeListSelectBox').value == 51) {
+								itemPopup(MSC_input.value, 'grid', '', 'sales');
+							} else {
+								itemPopup(MSC_input.value, 'grid', '', 'material');
+							}
 						}
 					}
 				})
@@ -241,8 +247,11 @@ function stockChangeSave() {
 		},
 		success: function(result) {
 			if (result) {
+				//stockChangePrinter(result);
 				alert("저장되었습니다.");
-				MSC_SearchBtn();
+				document.querySelector('#inMatTypeListSelectBox').value = '50';
+				let s_WareHouse = document.querySelector('#inMatTypeListSelectBox').value;
+				MSC_SearchBtn(s_WareHouse);
 			} else {
 				alert("빈칸이 있어서 저장할 수 없습니다.");
 			}

@@ -142,6 +142,7 @@
 		<if test="s_WareHouse == 51">
 		where A.LM_Warehouse = (SELECT Child_TBL_No FROM DTL_TBL where New_TBL_Code = 10 and Child_TBL_Num = 2)
 		</if>
+		and A.LM_Qty > 0
 	</select>
 	<!-- 	select
 			A.S_itemCode,
