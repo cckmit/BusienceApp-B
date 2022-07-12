@@ -1,6 +1,7 @@
 package com.busience.material.service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +24,8 @@ import com.busience.material.dao.StockDao;
 import com.busience.material.dto.OutMatDto;
 import com.busience.material.dto.RequestSubDto;
 import com.busience.material.dto.StockDto;
+import com.busience.production.dao.LabelPrintDao;
+import com.busience.production.dto.LabelPrintDto;
 import com.busience.standard.dao.UserDao;
 import com.busience.standard.dto.UserDto;
 
@@ -55,6 +58,9 @@ public class StockService {
 
 	@Autowired
 	RequestSubDao requestSubDao;
+	
+	@Autowired
+	LabelPrintDao labelPrintDao;
 
 	@Autowired
 	TransactionTemplate transactionTemplate;
@@ -124,10 +130,12 @@ public class StockService {
 	}
 
 	// 재고 조정 저장
-	public int StockChangeSave(List<StockDto> stockDtoList, List<RequestSubDto> requestSubDtoList, String Modifier) {
+	public List<LabelPrintDto> StockChangeSave(List<StockDto> stockDtoList, List<RequestSubDto> requestSubDtoList, String Modifier) {
 
 		System.out.println(stockDtoList);
 		try {
+			List<LabelPrintDto> labelPrintList = new ArrayList<LabelPrintDto>();
+			
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 
 				@Override
@@ -153,9 +161,6 @@ public class StockService {
 						String Warehouse = WarehouseList.get(0).getCHILD_TBL_NO();
 						String before = Warehouse;
 						String after = Warehouse;
-						String probeWarehouse = WarehouseList.get(1).getCHILD_TBL_NO();
-						String probefore = probeWarehouse;
-						String proafter = probeWarehouse;
 
 						String classfy = "345";
 
@@ -213,10 +218,12 @@ public class StockService {
 								outMatQty = (double) stockQty;
 
 								stockDao.stockInsertUpdateDao(itemCode, outMatQty, Warehouse);
+								
+								labelPrintList.add(labelPrintDao.rawMaterialLabelSelectDao(lotNo));
 
 							} else if (stockDto.getS_Qty() > stockDto.getS_ChangeQty()) {
 
-								qty = changeqty;
+								qty = (-1) * outMatQty;
 
 								// 랏마스터 저장
 								lotMasterDao.lotMasterInsertUpdateDao(lotNo, itemCode, qty, Warehouse);
@@ -225,8 +232,6 @@ public class StockService {
 								outMatDto.setOM_No(lotTransDao.lotTransNoSelectDao(lotNo));
 
 								outMatDto.setOM_LotNo(lotNo);
-
-								qty = (-1) * outMatQty;
 
 								// 랏트랜스 저장
 								lotTransDao.lotTransInsertDao(no, lotNo, itemCode, qty, before, after, classfy);
@@ -243,11 +248,13 @@ public class StockService {
 								outMatQty = (double) stockQty;
 
 								stockDao.stockInsertUpdateDao(itemCode, outMatQty, Warehouse);
+								
+								labelPrintList.add(labelPrintDao.rawMaterialLabelSelectDao(lotNo));
 
 								
 							} else if (stockDto.getS_Qty() < stockDto.getS_ChangeQty()) {
 
-								qty = changeqty;
+								qty = (-1) * outMatQty;
 
 								// 랏마스터 저장
 								lotMasterDao.lotMasterInsertUpdateDao(lotNo, itemCode, qty, Warehouse);
@@ -256,8 +263,6 @@ public class StockService {
 								outMatDto.setOM_No(lotTransDao.lotTransNoSelectDao(lotNo));
 
 								outMatDto.setOM_LotNo(lotNo);
-
-								qty = (-1) * outMatQty;
 
 								// 랏트랜스 저장
 								lotTransDao.lotTransInsertDao(no, lotNo, itemCode, qty, before, after, classfy);
@@ -274,6 +279,8 @@ public class StockService {
 								outMatQty = (double) stockQty;
 
 								stockDao.stockInsertUpdateDao(itemCode, outMatQty, Warehouse);
+								
+								labelPrintList.add(labelPrintDao.rawMaterialLabelSelectDao(lotNo));
 
 							}
 
@@ -319,6 +326,8 @@ public class StockService {
 									outMatQty = (double) stockQty;
 
 									stockDao.stockInsertUpdateDao(itemCode, outMatQty, Warehouse);
+									
+									labelPrintList.add(labelPrintDao.rawMaterialLabelSelectDao(lotNo));
 								}
 
 							} else if (stockDto.getS_Qty() > stockDto.getS_ChangeQty()) {
@@ -350,6 +359,8 @@ public class StockService {
 								outMatQty = (double) stockQty;
 
 								stockDao.stockInsertUpdateDao(itemCode, outMatQty, Warehouse);
+								
+								labelPrintList.add(labelPrintDao.rawMaterialLabelSelectDao(lotNo));
 
 							} else if (stockDto.getS_Qty() < stockDto.getS_ChangeQty()) {
 
@@ -380,6 +391,8 @@ public class StockService {
 								outMatQty = (double) stockQty;
 
 								stockDao.stockInsertUpdateDao(itemCode, outMatQty, Warehouse);
+								
+								labelPrintList.add(labelPrintDao.rawMaterialLabelSelectDao(lotNo));
 
 							}
 							
@@ -388,10 +401,10 @@ public class StockService {
 					}
 				}
 			});
-			return 1;
+			return labelPrintList;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return 0;
+			return null;
 		}
 		// return stockDao.stockChangeSave(stockDto);
 	}

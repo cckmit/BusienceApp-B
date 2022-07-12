@@ -15,6 +15,7 @@ import com.busience.common.dto.SearchDto;
 import com.busience.material.dto.RequestSubDto;
 import com.busience.material.dto.StockDto;
 import com.busience.material.service.StockService;
+import com.busience.production.dto.LabelPrintDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController("matStockRestController")
@@ -44,7 +45,7 @@ public class matStockRestController {
 	
 	// 재고 조정 저장
 	@PostMapping("matStockChangeSave")
-	public int matStockChangeSave(@RequestParam("masterData") String stockList,  @RequestParam("requestlistData") String requestSubList, Principal principal) {
+	public List<LabelPrintDto> matStockChangeSave(@RequestParam("masterData") String stockList,  @RequestParam("requestlistData") String requestSubList, Principal principal) {
 		
 		ObjectMapper mapper = new ObjectMapper();
 		
@@ -61,7 +62,7 @@ public class matStockRestController {
 			
 		} catch(Exception e) {
 			e.printStackTrace();
-			return 0;
+			return null;
 		}
 		
 	}

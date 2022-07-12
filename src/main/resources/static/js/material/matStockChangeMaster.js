@@ -69,13 +69,9 @@ var MSC_inputEditor = function(cell, onRendered, success, cancel, editorParams) 
 							});
 						} else {
 							//검색어와 일치하는값이 없는경우, 팝업창
-							console.log(matStockChangeTable.getRows("selected")[0].s_ItemCode);
 							
-							if(document.querySelector('#inMatTypeListSelectBox').value == 51) {
-								itemPopup(MSC_input.value, 'grid', '', 'sales');
-							} else {
-								itemPopup(MSC_input.value, 'grid', '', 'material');
-							}
+							itemPopup(MSC_input.value, 'grid', '', 'material');
+							
 						}
 					}
 				})
@@ -162,10 +158,10 @@ function MSC_SearchBtn(chv) {
 		s_WareHouse: s_WareHouse
 	}
 	
-	console.log(datas)
+	//console.log(datas)
 
 	matStockChangeTable.setData("matStockRest/matStockChangeSelect", datas);
-	console.log(matStockChangeTable);
+	//console.log(matStockChangeTable);
 }
 
 // ADD버튼을 클릭할때 모달창을 여는 이벤트
@@ -247,7 +243,8 @@ function stockChangeSave() {
 		},
 		success: function(result) {
 			if (result) {
-				//stockChangePrinter(result);
+				console.log(result);
+				RawMaterialPrinter(result);
 				alert("저장되었습니다.");
 				document.querySelector('#inMatTypeListSelectBox').value = '50';
 				let s_WareHouse = document.querySelector('#inMatTypeListSelectBox').value;
