@@ -18,89 +18,31 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.busience.common.dto.SearchDto;
 import com.busience.standard.dto.BOM_tbl;
+import com.busience.standard.dto.ItemDto;
 import com.busience.standard.dto.PRODUCT_INFO_TBL;
+import com.busience.standard.service.BOMService;
 
 @RestController("BOMRestController")
 @RequestMapping("BOMRest")
 public class BOMRestController {
+	
+	@Autowired
+	BOMService bomService;
+	
 	@Autowired
 	DataSource dataSource;
 	
-	//BOMitemList
-	@RequestMapping(value = "/BOMitemList",method = RequestMethod.GET)
-	public List<PRODUCT_INFO_TBL> BOMitemList(
-			@RequestParam(value = "PRODUCT_ITEM_CODE", required = false) String PRODUCT_ITEM_CODE,
-			@RequestParam(value = "Item_Type", required = false) String Item_Type) throws SQLException{
-		List<PRODUCT_INFO_TBL> list = new ArrayList<PRODUCT_INFO_TBL>();
-		
-		System.out.println(PRODUCT_ITEM_CODE);
-		
-		String sql = " SELECT A.PRODUCT_ITEM_CODE,"
-				+ " A.PRODUCT_ITEM_NAME,"
-				+ " B.CHILD_TBL_TYPE PRODUCT_MTRL_CLSFC_NAME,\r\n"
-				+ " A.PRODUCT_INFO_STND_1,\r\n"
-				+ " A.PRODUCT_INFO_STND_2,\r\n"
-				+ " H.packaging_Item PRODUCT_INFO_STND_2_NAME,\r\n"
-				+ "	F.CHILD_TBL_TYPE PRODUCT_ITEM_CLSFC_1_NAME,\r\n"
-				+ "	G.CHILD_TBL_TYPE PRODUCT_ITEM_CLSFC_2_NAME,"
-				+ " C.CHILD_TBL_TYPE PRODUCT_UNIT_NAME\r\n"
-				+ " from Product_Info_tbl A\r\n"
-				+ " inner join DTL_TBL B on A.PRODUCT_MTRL_CLSFC = B.CHILD_TBL_NO\r\n"
-				+ " inner join DTL_TBL C on A.PRODUCT_UNIT = C.CHILD_TBL_NO"
-				+ " inner join DTL_TBL F on A.PRODUCT_ITEM_CLSFC_1 = F.CHILD_TBL_NO"
-				+ " inner join DTL_TBL G on A.PRODUCT_ITEM_CLSFC_2 = G.CHILD_TBL_NO"
-				+ " left outer join Paldang_Packaging_Standard_tbl H on A.PRODUCT_INFO_STND_2 = H.packaging_No";
-		
-		String where = "";
-		
-		if (PRODUCT_ITEM_CODE != null && !PRODUCT_ITEM_CODE.equals("")) {
-			where += " and A.PRODUCT_ITEM_CODE like '%" + PRODUCT_ITEM_CODE + "%'";
-		}
-		System.out.println("Item_Type = " + Item_Type);
-		if(Item_Type == null || Item_Type.equals("all")) {
-    	   //all 일경우 그냥 넘어감
-		}else {
-    	   //그외 일경우
-    	   where += " and PRODUCT_MTRL_CLSFC in ("+Item_Type+")";
-	   }
-		
-		sql += where;
-		System.out.println("BOMitemList =" + sql);
-		
-		Connection conn = dataSource.getConnection();
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		ResultSet rs = pstmt.executeQuery();
-		
-		int i = 0;
-		
-		while (rs.next()) {
-			PRODUCT_INFO_TBL data = new PRODUCT_INFO_TBL();
-			
-			i++;
-			data.setId(i);
-			data.setPRODUCT_ITEM_CODE(rs.getString("PRODUCT_ITEM_CODE"));
-			data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
-			data.setPRODUCT_MTRL_CLSFC_NAME(rs.getString("PRODUCT_MTRL_CLSFC_NAME"));
-			data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
-			data.setPRODUCT_INFO_STND_2(rs.getString("PRODUCT_INFO_STND_2"));
-			data.setPRODUCT_INFO_STND_2_NAME(rs.getString("PRODUCT_INFO_STND_2_NAME"));
-			data.setPRODUCT_ITEM_CLSFC_1_NAME(rs.getString("PRODUCT_ITEM_CLSFC_1_NAME"));
-			data.setPRODUCT_ITEM_CLSFC_2_NAME(rs.getString("PRODUCT_ITEM_CLSFC_2_NAME"));
-			data.setPRODUCT_UNIT_NAME(rs.getString("PRODUCT_UNIT_NAME"));
-			
-			list.add(data);
-		}
-		rs.close();
-		pstmt.close();
-		conn.close();
-		
-		return list;
+	@GetMapping("/BOMitemList2")
+	public List<ItemDto> BOMitemList2(SearchDto searchDto){
+		return bomService.BOMitemList(searchDto);
 	}
 	
 	//BOMBOMList

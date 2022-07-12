@@ -1,7 +1,8 @@
 var BOMitemListTable = new Tabulator("#BOMitemListTable", {
 	ajaxConfig : "get",
 	ajaxContentType:"json",
-	ajaxURL : "BOMRest/BOMitemList",
+	ajaxURL : "BOMRest/BOMitemList2",
+	ajaxParams : {itemCode : $('.Item_Code').val(), condition : $('.Item_Type').val()},
 	headerFilterPlaceholder: null,
 	rowClick:function(e, row){
 		//선택된행 표시
@@ -14,7 +15,7 @@ var BOMitemListTable = new Tabulator("#BOMitemListTable", {
     },
 	height:"calc(100% - 175px)",
 	columns: [ //Define Table Columns
-		{ title: "순번", field: "id", headerHozAlign: "center", hozAlign: "center"},
+		{ title: "순번", field: "rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum"},
 		{ title: "규격2", field: "product_INFO_STND_2", headerHozAlign: "center", headerFilter: "input"},
 		{ title: "규격명", field: "product_INFO_STND_2_NAME", headerHozAlign: "center", headerFilter: "input"},
 		{ title: "품목코드", field: "product_ITEM_CODE", headerHozAlign: "center", headerFilter: "input" },
@@ -33,8 +34,8 @@ function BIL_Search(){
 		method : "GET",
 		dataType : "json",
 		async : false,
-		url : "BOMRest/BOMitemList?PRODUCT_ITEM_CODE="+ $('.Item_Code').val()
-								+"&Item_Type="+$('.Item_Type').val(),
+		url : "BOMRest/BOMitemList2",
+		data : {itemCode : $('.Item_Code').val(), condition : $('.Item_Type').val()},
 		success : function(data) {
 			BOMitemListTable.setData(data);
 		}

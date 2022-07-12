@@ -22,4 +22,5 @@ public class BOMDto {
 	private String BOM_ChildExist; 
 	private String BOM_Modifier; 
 	private String BOM_Modify_Date;
+    private String BOM_Material_LotNo;
 }

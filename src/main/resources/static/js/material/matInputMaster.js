@@ -43,7 +43,7 @@ function MIL_Search(){
 
 $("#MIL_PrintBtn").click(function(){
 	var datas = matInputListTable.getData("selected");
-	RawMaterialPrinter(datas)
+	RawMaterialPrinter(datas);
 })
 
 var matInputItemViewTable = new Tabulator("#matInputItemViewTable", {

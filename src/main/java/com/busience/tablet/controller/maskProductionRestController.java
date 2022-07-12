@@ -66,6 +66,11 @@ public class maskProductionRestController {
 	public List<BOMDto> BOMBOMList(SearchDto searchDto) {
 		return bomService.BOMBOMList(searchDto);
 	}
+	
+    @GetMapping("/RawMaterialBOMList")
+    public List<BOMDto> RawMaterialBOMList(SearchDto searchDto) {
+        return bomService.RawMaterialBOMList(searchDto);
+    }
 
 	@PostMapping("/rawMaterialSave")
 	public String rawMaterialSave(@RequestParam("masterData") String masterData,

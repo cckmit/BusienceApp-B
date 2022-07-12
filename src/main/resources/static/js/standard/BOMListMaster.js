@@ -2,7 +2,8 @@
 var BOMitemListTable1 = new Tabulator("#BOMitemListTable1", {
 	ajaxConfig : "get",
 	ajaxContentType:"json",
-	ajaxURL : "BOMRest/BOMitemList",
+	ajaxURL : "BOMRest/BOMitemList2",
+	ajaxParams : {itemCode : $('.Item_Code1').val(), condition : $('.Item_Type1').val()},
 	rowClick:function(e, row){
 		//테이블 초기화
 		BOMExpListTable.clearData();
@@ -33,8 +34,8 @@ function BIL_Search1(){
 		method : "GET",
 		dataType : "json",
 		async : false,
-		url : "BOMRest/BOMitemList?PRODUCT_ITEM_CODE="+ $('.Item_Code1').val()
-								+"&Item_Type="+$('.Item_Type1').val(),
+		url : "BOMRest/BOMitemList2",
+		data : {itemCode : $('.Item_Code1').val(), condition : $('.Item_Type1').val()},
 		success : function(data) {
 			BOMitemListTable1.setData(data);
 		}
@@ -166,7 +167,8 @@ function BOM_Child(row,level,type) {
 var BOMitemListTable2 = new Tabulator("#BOMitemListTable2", {
 	ajaxConfig : "get",
 	ajaxContentType:"json",
-	ajaxURL : "BOMRest/BOMitemList",
+	ajaxURL : "BOMRest/BOMitemList2",
+	ajaxParams : {itemCode : $('.Item_Code2').val(), condition : $('.Item_Type2').val()},
 	rowClick:function(e, row){
 		//테이블 초기화
 		BOMImpListTable.clearData();
@@ -197,8 +199,8 @@ function BIL_Search2(){
 		method : "GET",
 		dataType : "json",
 		async : false,
-		url : "BOMRest/BOMitemList?PRODUCT_ITEM_CODE="+ $('.Item_Code2').val()
-								+"&Item_Type="+$('.Item_Type2').val(),
+		url : "BOMRest/BOMitemList2",
+		data : {itemCode : $('.Item_Code2').val(), condition : $('.Item_Type2').val()},
 		success : function(data) {
 			BOMitemListTable2.setData(data);
 		}
