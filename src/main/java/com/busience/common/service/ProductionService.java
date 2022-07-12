@@ -145,11 +145,14 @@ public class ProductionService {
 					
 					List<EquipWorkOrderDto> EquipWorkOrderDtoList = equipWorkOrderDao.equipWorkOrderSelectDao(searchDto);
 					
-					//해당 품목의 정보를 가져
-					ItemDto itemDto = itemDao.selectItemCode(EquipWorkOrderDtoList.get(0).getEquip_WorkOrder_ItemCode());	
-					System.out.println("equip : "+equip+" value : "+value);
-					//자재식별코드, crate 수량 저장
-					maskProductionService.wholeQtyUpdate(equip, value*itemDto.getPRODUCT_MULTIPLE());
+					if(EquipWorkOrderDtoList.size()>0) {
+						String itemCode = EquipWorkOrderDtoList.get(0).getEquip_WorkOrder_ItemCode();
+						//해당 품목의 정보를 가져
+						ItemDto itemDto = itemDao.selectItemCode(itemCode);	
+						System.out.println("equip : "+equip+" value : "+value);
+						//자재식별코드, crate 수량 저장
+						maskProductionService.wholeQtyUpdate(equip, value*itemDto.getPRODUCT_MULTIPLE());
+					}
 				}
 			});
 			return 1;

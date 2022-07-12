@@ -46,10 +46,14 @@ function toggleFullScreen() {
 }
 
 function workOrderSet(){
-	$.when(CrateSelect($("#machineCode").val()))
-	.then(function(data){
-		return RawSelect(data.c_Production_LotNo);
-	}).then(function(data1){
+	//상자가 있는지 체크
+    $.when(CrateSelect($("#machineCode").val()))
+    .then(function(data){
+        //return rawMaterialUpdate(data.c_Production_LotNo, $("#itemCode").val());
+        //그값에 따라 원자재 검색
+        return RawSelect(data.c_Production_LotNo);
+    }).then(function(data1){
+        //없으면 봄검색
 		if(data1.length == 0){
 			
 			BOM_Check(nowItemCode($("#machineCode").val()))
@@ -80,17 +84,9 @@ $("#barcodeInput").change(function(){
 		//코드가 안맞을경우 안맞는다고 알림
 		
 		rawMaterialLotInput(barcode);
-		/*
-		$.when(rawMaterialCheck(value))
-			.then(function(data){
-			if(data.length>0){
-				
-			}else{
-				console.log("창고에 없는 원자재 입니다.")
-			}			
-		})*/	
 		
 		if(inputCheck($("#crate-LotNo").val())){
+			console.log("저장")
 			rawMaterialSave($("#crate-LotNo").val());	
 		}
 		
@@ -109,9 +105,11 @@ $("#barcodeInput").change(function(){
 		.then(function(data){
 			$("#crateCode").val(data.c_CrateCode);
 			$("#crate-LotNo").val(data.c_Production_LotNo);
+			//return rawMaterialUpdate(data.c_Production_LotNo, $("#itemCode").val())
 			return BOM_Check(data.c_ItemCode)
 		})
 		.then(function(data){
+			console.log("뭐함")
 			if(inputCheck($("#crate-LotNo").val())){
 				rawMaterialSave($("#crate-LotNo").val());
 			}
@@ -167,18 +165,57 @@ function rawMaterialLotInput(value){
 	}
 	return 
 }
-function rawMaterialCheck(value){
+function rawMaterialUpdate(lotNo, itemCode){
+    console.log("실행")
 	var ajaxResult = $.ajax({
 		method : "get",
-		url : "/matOutReturnRest/MORI_Search",
-		data : {lotNo : value, warehouse : "51"},
-		success : function(data) {
+		url : "/tablet/maskProductionRest/RawMaterialBOMList",
+        data : {lotNo : lotNo, itemCode : itemCode},
+		success : function(data) {			
+			/*LotList = new Array();
+			
+			console.log(data);
+			for(let i=0;i<data.length;i++){
+				LotList.push({
+					rms_LotNo : data[i].bom_Material_LotNo,
+					rms_ItemCode : data[i].bom_ItemCode
+				})
+				$(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Code").val(data[i].bom_ItemCode);
+				$(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Name").val(data[i].bom_ItemName);
+				$(".main-c .item:nth-of-type("+(i+2)+") .LotNo").val(data[i].bom_Material_LotNo);
+			}*/
+			//가져온 bom과 lotlist랑 비교해서 변동이 있는지 확인
+			let z=0;
+			for(let j=0;j<data.length;j++){
+				for(let k=0;k<LotList.length;k++){
+					if(data[i].bom_ItemCode = LotList.rms_ItemCode){
+						z++
+					}
+				}
+			}
+			if(z != data.length){
+				//변동이 있으면 초기화하여 뿌려줌
+				LotList = new Array();
+				//BOM을 가져와서 그수만큼 리스트에 담는다			
+				for(let i=0;i<data.length;i++){
+					
+					LotList.push({
+						rms_LotNo : null,
+						rms_ItemCode : data[i].bom_ItemCode
+					})
+					
+					$(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Code").val(data[i].bom_ItemCode);
+					$(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Name").val(data[i].bom_ItemName);
+				}
+			}
+			//변동이 없으면 아무것도 안해도됨	
 		}
 	})
 	return ajaxResult;
 }
 
 function inputCheck(LotNo){
+	console.log(LotList);
 	var result = LotList.every(x => {
 		return x.rms_LotNo != null
 	})
