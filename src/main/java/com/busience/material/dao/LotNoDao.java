@@ -1,6 +1,7 @@
 package com.busience.material.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.busience.material.dto.InMatDto;
 import com.busience.material.dto.OutMatDto;
@@ -13,6 +14,9 @@ public interface LotNoDao {
 	
 	//재고 조정에서 필요한 랏번호 조회
 	public String outMatlotNoSelectDao(OutMatDto outMatDto);
+
+	//자재 랏 생성
+	public String rawlotNoSelectDao(@Param("inputDate") String inputDate, @Param("itemCode") String itemCode);
 	
 	//생산LotNo 생성
 	public String crateLotNoSelectDao(String itemCode);

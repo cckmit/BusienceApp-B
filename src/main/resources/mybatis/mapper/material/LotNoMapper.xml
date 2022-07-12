@@ -18,6 +18,17 @@
 		from LotNo_tbl
 	</select>
 	
+	<select id="rawlotNoSelectDao" resultType="String">
+		select
+			concat('R',DATE_FORMAT(#{inputDate},"%y%m%d"),#{itemCode}, lpad(A.LotNo,'4',0))
+		from (
+			SELECT
+				if(ifnull(max(right(LM_LotNo,4)),0) = '9999', 1, ifnull(max(right(LM_LotNo,4)),0)+1) LotNo
+			FROM LotMaster_tbl
+			where left(LM_LotNo,13) = concat('R',DATE_FORMAT(#{inputDate},"%y%m%d"),#{itemCode})
+		) A
+	</select>
+	
 	<select id="crateLotNoSelectDao" resultType="String">
 		SELECT
 			concat('N', DATE_FORMAT(now(),"%y%m%d"), #{itemCode}, lpad(matarial_No,'4',0))

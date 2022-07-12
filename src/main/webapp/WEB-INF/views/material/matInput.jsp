@@ -39,6 +39,8 @@
 				<div class="input-box">
 					<span><strong>발주번호</strong></span>
 					<input id="Order_lCus_No" type="text" disabled>
+					<span><strong>입고일자</strong></span>
+					<input id="inputDate" class="today" type="date">
 				</div>
 				<!-- 버튼 -->
 				<div class="input-button" style="margin-left:5%">

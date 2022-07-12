@@ -79,7 +79,8 @@ var matInputSubTable = new Tabulator("#matInputSubTable", {
 			inMat_Rcv_Clsfc : row.getData().order_Rcv_Clsfc,
 			inMat_Rcv_Clsfc_Name : row.getData().order_Rcv_Clsfc_Name,
 			inMat_Client_Code : matInputTable.getData('selected')[0].order_mCode,
-			inMat_Date : moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+			inMat_Client_Name : matInputTable.getData('selected')[0].order_mName,
+			inMat_Date : $("#inputDate").val()
 		});
 		UseBtn();
     },
@@ -211,7 +212,8 @@ var MIM_InputEditor = function(cell, onRendered, success, cancel, editorParams){
 									inMat_Rcv_Clsfc : sub_Data.order_Rcv_Clsfc,
 									inMat_Rcv_Clsfc_Name : sub_Data.order_Rcv_Clsfc_Name,
 									inMat_Client_Code : matInputTable.getData('selected')[0].order_mCode,
-									inMat_Date : moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+									inMat_Client_Name : matInputTable.getData('selected')[0].order_mName,
+									inMat_Date : $("#inputDate").val()
 								});
 							}else if(total_Qty == sub_Data.order_lNot_Stocked){
 								if(sub_SeletedRow[sub_SeletedRow.length -1].getNextRow()){
@@ -297,7 +299,8 @@ var inMatTable = new Tabulator("#inMatTable", {
 	{title:"구분", field:"inMat_Rcv_Clsfc", visible:false},
 	{title:"구분", field:"inMat_Rcv_Clsfc_Name", headerHozAlign:"center"},
 	{title:"거래처코드", field:"inMat_Client_Code", visible:false},
-	{title:"입고일자", field:"inMat_Date", visible:false},
+	{title:"거래처명", field:"inMat_Client_Name", visible:false},
+	{title:"입고일자", field:"inMat_Date"},
 	{title:"외부LotNo", field:"InMat_External_Lot_No", headerHozAlign:"center", editor:MIM_InputEditor} 		
  	]
 });
@@ -312,7 +315,6 @@ function MIM_Save(){
 			return false;
 		}
 	}
-	
 	
 	if(rowData.length == 0){
 		alert("저장할 목록이 없습니다.");
@@ -331,6 +333,7 @@ function MIM_Save(){
            xhr.setRequestHeader(header, token);
 		},
 		success : function(result) {
+			console.log(result)
 			if(result == null){
 				alert("오류가 발생하였습니다.");
 			}else{

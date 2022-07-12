@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class InMatDto {
+public class InMatDto implements Cloneable {
 	private Integer InMat_No;
 	private String InMat_Order_No;
 	private String InMat_Lot_No;
@@ -40,4 +40,10 @@ public class InMatDto {
 	private String InMat_After;
 	
 	private String InMat_Check_1;
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return super.clone();
+	}
 }
