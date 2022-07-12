@@ -11,6 +11,7 @@ public class LabelPrintDto {
 
 	private String Small_Packaging_LotNo;
 	private String Production_LotNo;
+	private String LotNo;
 	
 	private String MachineCode;
 	private String MachineName;
@@ -26,5 +27,7 @@ public class LabelPrintDto {
 	private String ItemClsfc2;
 	private String ItemClsfc2_Name;
 	private double Qty;
-	
+
+	private String ClientCode;
+	private String ClientName;
 }

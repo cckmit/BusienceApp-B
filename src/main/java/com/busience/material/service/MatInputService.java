@@ -22,6 +22,7 @@ import com.busience.material.dao.StockDao;
 import com.busience.material.dao.TemporaryStorageDao;
 import com.busience.material.dto.InMatDto;
 import com.busience.production.dao.LabelPrintDao;
+import com.busience.production.dto.LabelPrintDto;
 import com.busience.standard.dao.ItemDao;
 import com.busience.standard.dto.ItemDto;
 
@@ -65,9 +66,9 @@ public class MatInputService {
 	TransactionTemplate transactionTemplate;
 
 	// 등록
-	public List<InMatDto> matInputRegister(List<InMatDto> inMatDtoList, String userCode) {
+	public List<LabelPrintDto> matInputRegister(List<InMatDto> inMatDtoList, String userCode) {
 		try {
-			List<InMatDto> newInMatDtoList = new ArrayList<InMatDto>();
+			List<LabelPrintDto> LabelPrintDtoList = new ArrayList<LabelPrintDto>();
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 
 				@Override
@@ -131,30 +132,19 @@ public class MatInputService {
 							orderMasterDao.orderMasterUpdateDao(inMatDto);
 							
 							//저장한 리스트 생성
-							newInMatDtoList.add(inMatDtoCopy(inMatDto));
+							LabelPrintDtoList.add(labelPrintDao.rawMaterialLabelSelectDao(lotNo));
 						}
 					}
 				}
 			});
 			
-			return newInMatDtoList;
+			return LabelPrintDtoList;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 	
-	public InMatDto inMatDtoCopy(InMatDto inMatDto) {
-		InMatDto inMatDtoCopy = null;
-		try {
-			inMatDtoCopy = (InMatDto) inMatDto.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return inMatDtoCopy;
-	}
-
 	// 입고조회
 	public List<InMatDto> matInputList(SearchDto searchDto) {
 		return inMatDao.inMatListDao(searchDto);

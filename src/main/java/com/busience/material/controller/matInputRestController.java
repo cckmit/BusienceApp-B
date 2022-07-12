@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.busience.common.dto.SearchDto;
 import com.busience.material.dto.InMatDto;
 import com.busience.material.service.MatInputService;
+import com.busience.production.dto.LabelPrintDto;
 
 @RestController("matInputRestController")
 @RequestMapping("matInputRest")
@@ -23,7 +24,7 @@ public class matInputRestController {
 		
 	// MIM_Save
 	@PostMapping("/MIM_Save")
-	public List<InMatDto> MIM_Save(@RequestBody List<InMatDto> InMatDtoList, Principal principal) {
+	public List<LabelPrintDto> MIM_Save(@RequestBody List<InMatDto> InMatDtoList, Principal principal) {
 		return matInputService.matInputRegister(InMatDtoList, principal.getName());
 	}
 	

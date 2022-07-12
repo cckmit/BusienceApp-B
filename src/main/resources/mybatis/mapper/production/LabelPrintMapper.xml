@@ -6,13 +6,13 @@
 <mapper namespace="com.busience.production.dao.LabelPrintDao">
 	<select id="rawMaterialLabelSelectDao" resultType="com.busience.production.dto.LabelPrintDto">
 		SELECT
-			A.InMat_Lot_No, A.InMat_No, A.InMat_Code, B.Product_Item_Name InMat_Name,
-		    B.Product_Info_STND_1, E.Cus_Name InMat_Client_Name, A.InMat_Date
-		FROM InMat_tbl A
-		inner join Product_Info_tbl B on A.InMat_Code = B.Product_Item_Code
-		inner join Customer_tbl E on A.InMat_Client_Code = E.Cus_Code
-		where InMat_No = '1'
-		and A.InMat_Lot_No = #{InMat_Lot_No}
+			A.LM_LotNo LotNo, A.LM_ItemCode ItemCode, B.Product_Item_Name ItemName,
+		    B.Product_Info_STND_1 ItemSTND1, B.Product_Info_STND_2 ItemSTND2, D.Cus_Name ClientName
+		FROM LotMaster_tbl A
+		inner join Product_Info_tbl B on A.LM_ItemCode = B.Product_Item_Code
+		left outer join InMat_tbl C on A.LM_LotNo = C.InMat_Lot_No and C.InMat_No = '1'
+		inner join Customer_tbl D on C.InMat_Client_Code = D.Cus_Code
+		and A.LM_LotNo = #{LotNo}
 	</select>
 
 	<select id="smallPackagingLabelSelectDao" resultType="com.busience.production.dto.LabelPrintDto">
