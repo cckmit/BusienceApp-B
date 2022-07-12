@@ -136,7 +136,12 @@
 		inner join DTL_TBL D on B.Product_Item_CLSFC_2 = D.Child_TBL_No
 		inner join DTL_TBL E on B.Product_Unit = E.Child_TBL_No
 		inner join DTL_TBL G on B.Product_Material = G.Child_TBL_No
+		<if test="s_WareHouse == 50">
 		where A.LM_Warehouse = (SELECT Child_TBL_No FROM DTL_TBL where New_TBL_Code = 10 and Child_TBL_Num = 1)
+		</if>
+		<if test="s_WareHouse == 51">
+		where A.LM_Warehouse = (SELECT Child_TBL_No FROM DTL_TBL where New_TBL_Code = 10 and Child_TBL_Num = 2)
+		</if>
 	</select>
 	<!-- 	select
 			A.S_itemCode,

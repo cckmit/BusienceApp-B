@@ -69,12 +69,12 @@ var MSC_inputEditor = function(cell, onRendered, success, cancel, editorParams) 
 							});
 						} else {
 							//검색어와 일치하는값이 없는경우, 팝업창
-							itemPopup(MSC_input.value,'grid','','material');
+							itemPopup(MSC_input.value, 'grid', '', 'material');
 						}
 					}
 				})
 			}
-			
+
 			if (cell.getField() == "s_ChangeQty") {
 				//내용이 있을경우 검색해서 값이 하나일경우 생략, 아
 				cell.getRow().select();
@@ -117,13 +117,48 @@ var matStockChangeTable = new Tabulator("#matStockChangeTable", {
 		{ title: "재질", field: "s_Item_Material", headerHozAlign: "center", headerFilter: true, hozAlign: "center" },
 		{ title: "단위", field: "s_Item_Unit", headerHozAlign: "center", headerFilter: true, hozAlign: "left" },
 		{ title: "재고수량", field: "s_Qty", headerHozAlign: "center", hozAlign: "right" },
-		{ title: "변경수량", field: "s_ChangeQty", headerHozAlign: "center", hozAlign: "right", editor: MSC_inputEditor }
+		{ title: "변경수량", field: "s_ChangeQty", headerHozAlign: "center", hozAlign: "right", editor: MSC_inputEditor,
+		cellEdited:function(cell){
+			//수량이 변경될때 금액값이 계산되어 입력
+			temReturnQty = cell.getValue();
+			temCode = cell.getRow().getData().s_ItemCode;	
+			temQty = cell.getRow().getData().s_Qty;			
+	
+			if(temCode.charAt(0) == 'A'){
+				if(temQty == 0) {
+					if(temReturnQty != 1) {
+						alert("1만 입력 가능합니다.");
+						cell.getRow().update({"s_ChangeQty": 1});
+					}
+				} else if(temQty == 1) {
+					if(temReturnQty != 0) {
+						alert("0만 입력 가능합니다.");
+						cell.getRow().update({"s_ChangeQty": 0});
+					}
+				}
+			}
+		}}
 	]
 });
 
-function MSC_SearchBtn() {
+function changeFunc() {
 
-	matStockChangeTable.setData("matStockRest/matStockChangeSelect");
+  let chv = document.querySelector('#inMatTypeListSelectBox').value;	
+	
+  MSC_SearchBtn(chv);
+}
+
+function MSC_SearchBtn(chv) {
+	
+	s_WareHouse = chv;
+	
+	datas = {
+		s_WareHouse: s_WareHouse
+	}
+	
+	console.log(datas)
+
+	matStockChangeTable.setData("matStockRest/matStockChangeSelect", datas);
 	console.log(matStockChangeTable);
 }
 
@@ -154,38 +189,51 @@ $("#stockChangeSaveBtn").click(function() {
 });
 
 function stockChangeSave() {
-	
+
 	let selectedRow = matStockChangeTable.getData("selected");
 	let subData = matStockChangeTable.getData("selected");
 	console.log(selectedRow);
-	
-	if(selectedRow.length == 0) {
+
+	if (selectedRow.length == 0) {
 		alert("저장할 행을 선택하세요.");
 		return;
 	}
-	
-	for(let i=0; i<selectedRow.length; i++) {
-		if(selectedRow[i].s_ChangeQty == undefined) {
+
+	for (let i = 0; i < selectedRow.length; i++) {
+		if (selectedRow[i].s_ChangeQty == undefined) {
 			console.log(selectedRow[i].s_ChangeQty);
 			alert("변경수량을 입력하세요.");
 			return;
-		} 
+		}
 	}
 	
+	for (let j = 0; j < selectedRow.length; j++) {
+		if (selectedRow[j].s_Qty == selectedRow[j].s_ChangeQty) {
+			alert("재고수량과 변경수량은 같을 수 없습니다.");
+			matStockChangeTable.updateRow(matStockChangeTable.getRows("selected")[i], {"s_ChangeQty":null});
+			matStockChangeTable.deselectRow();
+		}
+	}
+
 	let subTable = new Array();
-	
-	for(let i=0; i<selectedRow.length; i++) {
-		subTable.push({rs_ItemCode: selectedRow[i].s_ItemCode,
-			rs_Qty: selectedRow[i].s_ChangeQty})
+
+	for (let i = 0; i < selectedRow.length; i++) {
+		subTable.push({
+			rs_ItemCode: selectedRow[i].s_ItemCode,
+			rs_Qty: selectedRow[i].s_ChangeQty
+		})
 	}
+
 	
+
+
 	console.log(subTable);
-	
+
 	//OrderSub 저장부분
 	$.ajax({
 		method: "post",
 		url: "matStockRest/matStockChangeSave",
-		data: {masterData: JSON.stringify(selectedRow), requestlistData: JSON.stringify(subTable)},
+		data: { masterData: JSON.stringify(selectedRow), requestlistData: JSON.stringify(subTable) },
 		beforeSend: function(xhr) {
 			var header = $("meta[name='_csrf_header']").attr("content");
 			var token = $("meta[name='_csrf']").attr("content");
@@ -200,10 +248,12 @@ function stockChangeSave() {
 			}
 		}
 	});
-	
-	
+
+
 }
 
 $(document).ready(function() {
-	MSC_SearchBtn();
+	document.querySelector('#inMatTypeListSelectBox').value = '50';	
+	let s_WareHouse = document.querySelector('#inMatTypeListSelectBox').value;
+	MSC_SearchBtn(s_WareHouse);
 });

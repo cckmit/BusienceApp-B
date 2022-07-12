@@ -194,6 +194,7 @@ public class materialController {
 	//matStockChangeMaster
 	@GetMapping("matStockChangeMaster")
 	public String matStockChangeMaster(Model model) {
+		model.addAttribute("stockList", dtlService.getDtl(10));
 		model.addAttribute("pageName", "재고 조정");
 		return "material/matStockChangeMaster";
 	}
