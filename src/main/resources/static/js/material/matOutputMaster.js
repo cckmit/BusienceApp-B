@@ -36,19 +36,26 @@ function MOL_Search(){
 	matOutputListTable.setData("matOutputRest/MOL_Search", data);
 }
 $("#MOL_PrintBtn").click(function(){
-	var selectedDatas = matOutputListTable.getData("selected");
-	var datas = new Array()
-	for(let i=0;i<selectedDatas.length;i++){
-		datas.push({
-			inMat_Code : selectedDatas[i].om_ItemCode,
-			inMat_Name: selectedDatas[i].om_ItemName,
-			inMat_STND_1 : selectedDatas[i].om_Item_Stnd_1,
-			inMat_STND_2 : selectedDatas[i].om_Item_Stnd_2,
-			inMat_Client_Name : "",
-			inMat_Lot_No : selectedDatas[i].om_LotNo,
-		})
+	var datas = matOutputListTable.getData("selected");
+	var LotList = new Array();
+	
+	for(let i=0;i<datas.length;i++){
+		LotList.push({lotNo : datas[i].om_LotNo})
 	}
-	RawMaterialPrinter(datas)
+	$.ajax({
+		method : "post",
+		url: "LabelPrintRest/rawMaterialLabelSelect",
+		data: JSON.stringify(LotList),
+		contentType:'application/json',
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
+		success : function(result) {
+			RawMaterialPrinter(result);
+		}				
+	});
 })
 
 var matOutputItemViewTable = new Tabulator("#matOutputItemViewTable", { 

@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.busience.common.dto.SearchDto;
 import com.busience.standard.dto.BOM_tbl;
 import com.busience.standard.dto.ItemDto;
-import com.busience.standard.dto.PRODUCT_INFO_TBL;
 import com.busience.standard.service.BOMService;
 
 @RestController("BOMRestController")

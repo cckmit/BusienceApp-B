@@ -43,7 +43,25 @@ function MIL_Search(){
 
 $("#MIL_PrintBtn").click(function(){
 	var datas = matInputListTable.getData("selected");
-	RawMaterialPrinter(datas);
+	var LotList = new Array();
+	
+	for(let i=0;i<datas.length;i++){
+		LotList.push({lotNo : datas[i].inMat_Lot_No})
+	}
+	$.ajax({
+		method : "post",
+		url: "LabelPrintRest/rawMaterialLabelSelect",
+		data: JSON.stringify(LotList),
+		contentType:'application/json',
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
+		success : function(result) {
+			RawMaterialPrinter(result);
+		}				
+	});
 })
 
 var matInputItemViewTable = new Tabulator("#matInputItemViewTable", {
