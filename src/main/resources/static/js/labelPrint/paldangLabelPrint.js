@@ -81,7 +81,7 @@ function RawMaterialPrinter(jsonDatas)
 					+"^FT150,136^A1N,30,20^FD"+jsonDatas[j].clientName+"^FS"
 					+"^FT150,168^A1N,30,20^FD"+jsonDatas[j].itemCode+"^FS"
 					+"^FT150,200^A1N,30,20^FD"+jsonDatas[j].lotNo+"^FS"
-					+"^FO355,90^BQN,2,5"
+					+"^FO360,90^BQN,2,5"
 					+"^FH^FDLA,"+jsonDatas[j].lotNo+"^FS"
 					+"^XZ"
 	}
