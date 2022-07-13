@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
+import com.busience.monitoring.dto.ChangedProductionStatusMonitoringDto;
+import com.busience.monitoring.dto.ChangedWrappingStatusMonitoringDto;
+import com.busience.monitoring.dto.ProductionStatusMonitoringDto;
+import com.busience.monitoring.dto.WrappingStatusMonitoringDto;
+import com.busience.monitoring.service.ProductionMonitoringService;
 import com.busience.production.dto.WorkOrderDto;
 import com.busience.production.service.CrateService;
 import com.busience.production.service.WorkOrderService;
@@ -41,6 +46,9 @@ public class maskProductionRestController {
 	
 	@Autowired
 	CrateService crateService;
+	
+	@Autowired
+	ProductionMonitoringService productionMonitoringService;
 
 	@GetMapping("/rawMaterialMasterSelect")
 	public List<RawMaterialMasterDto> rawMaterialMasterSelect(SearchDto searchDto) {
@@ -90,6 +98,26 @@ public class maskProductionRestController {
 			return null;
 		}
 	}
+	
+	@GetMapping("/getProductionInfoFromMachine")
+	public List<ProductionStatusMonitoringDto> getProductionInfoFromMachine(SearchDto searchDto) {
+		return productionMonitoringService.selectProductionMonitoring(searchDto);
+	}
+	
+	@GetMapping("/getWrappingInfoFromMachine")
+	public List<WrappingStatusMonitoringDto> getWrappingInfoFromMachine(SearchDto searchDto) {
+		return productionMonitoringService.selectWrappingMonitoring(searchDto);
+	}
+	
+	@GetMapping("/getChangedProductionInfoFromMachine")
+	public List<ChangedProductionStatusMonitoringDto> getChangedProductionInfoFromMachine(SearchDto searchDto) {
+		return productionMonitoringService.selectChangedProductionMonitoring(searchDto);
+	}
+	
+	@GetMapping("/getChangedWrappingInfoFromMachine")
+	public List<ChangedWrappingStatusMonitoringDto> getChangedWrappingInfoFromMachine(SearchDto searchDto) {
+		return productionMonitoringService.selectChangedWrappingMonitoring(searchDto);
+	}	
 
 	@GetMapping("/crateSelectByMachine")
 	public CrateDto crateSelectByMachine(SearchDto searchDto) {

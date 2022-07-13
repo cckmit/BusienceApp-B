@@ -14,7 +14,7 @@ public class contolController {
 	
 	@Autowired
 	MachineService machineService;
-
+	
 	@Autowired
 	JdbcTemplate jdbctemplate;
 
@@ -37,10 +37,9 @@ public class contolController {
 	}
 	
 	@GetMapping("/tablet/productionStatus")
-	public String productionStatus(Model model) {
-
+	public String productionStatus(Model model, SearchDto searchDto) {
 		model.addAttribute("machineList", machineService.selectMachineList());
-		
+		model.addAttribute("machineCode", searchDto.getMachineCode());		
 		return "normal/monitoring/productionStatus";
 	}
 }

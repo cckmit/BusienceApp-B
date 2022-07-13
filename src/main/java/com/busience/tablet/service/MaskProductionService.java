@@ -122,8 +122,7 @@ public class MaskProductionService {
 	}
 	
 	//상자 저장
-	public CrateDto crateSave(CrateDto crateDto) {
-		
+	public CrateDto crateSave(CrateDto crateDto) {		
 		try {			
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 

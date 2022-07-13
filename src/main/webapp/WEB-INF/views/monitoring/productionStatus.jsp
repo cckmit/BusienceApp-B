@@ -1,6 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.util.Date" %>
-<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ page import="java.util.Date"%>
+<%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="com.busience.tablet.dto.CrateDto"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>
@@ -8,316 +9,266 @@
 <%@ page import="java.sql.PreparedStatement"%>
 <%@ page import="java.sql.DriverManager"%>
 <%@ page import="java.sql.Connection"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
-	Date nowTime = new Date();
-	SimpleDateFormat sf = new SimpleDateFormat("yyyy년 MM월 dd일 a hh:mm:ss");
-%>
-	
-<%	
-	Class.forName("com.mysql.jdbc.Driver");
-	Connection con = DriverManager.getConnection("jdbc:mysql://paldang2.cafe24.com:3306/paldang2","paldang2","business13!");
-	String machineCode = "'M001'";
-	String condition = "'1'";
-	String sql = "SELECT"
-			+" A.C_CrateCode, A.C_Condition,"
-			+" A.C_Create_Date, A.C_Production_LotNo,"
-			+" B.CL_MachineCode C_MachineCode, B.CL_Qty C_Qty,"
-			+" B.CL_ItemCode C_ItemCode, C.Product_Item_Name C_ItemName"
-			+" FROM Crate_tbl A"
-			+" inner join Crate_Lot_tbl B on A.C_Production_LotNo = B.CL_LotNo and B.CL_MachineCode = "+machineCode
-			+" inner join Product_Info_tbl C on B.CL_ItemCode = C.Product_Item_Code"
-			+" where A.C_Condition = "+condition+";";
+/* 
+Date nowTime = new Date();
+SimpleDateFormat sf = new SimpleDateFormat("yyyy년 MM월 dd일 a hh:mm:ss");
 
-	PreparedStatement pstmt = con.prepareStatement(sql);
-	ResultSet rs = pstmt.executeQuery();
-	List<CrateDto> detail_list = new ArrayList<CrateDto>();
-	
-	CrateDto detail;
-	while(rs.next())
-	{
-		detail = new CrateDto();
-		detail.setC_CrateCode(rs.getString("C_CrateCode"));
-		detail.setC_MachineCode(rs.getString("C_MachineCode"));
-		detail.setC_Qty(rs.getDouble("C_Qty"));
-		detail.setC_ItemCode(rs.getString("C_ItemCode"));
-		detail_list.add(detail);
-	}
-	
-	rs.close();
-	pstmt.close();
-	con.close();
-%>
+//document.getElementById("curentTime").innerHTML = sf.format(date);
 
+		myTimer();
+		setInterval(myTimer, 1000); */
+%>
 <!DOCTYPE html>
-<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html lang="ko">
+<head></head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <title>8 Dang Monitoring System</title>
-   
-<head>
-    <style>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+	crossorigin="anonymous"></script>
+<body
+	style="background-color: white; max-width: 100%; overflow-x: hidden; overflow-y: hidden;">
 
-        .box1 {
-            width:200px;height:60px;font-size:25px;text-align:center;color:#ffffff; font-weight:bold;background-color: transparent;
-        }
+	<h1 style="font-weight: bold; font-size: 35px; margin-top: 2%;"
+		align="center">작업 모니터링</h1>
+	<p id="currentTime"
+		style="font-size: 20px; color: rgb(188, 188, 188); margin-right: 2.5%; margin-top: -2%;"
+		align="right"></p>
+	<div class="row"
+		style="display: flex; flex-direction: row; margin-left: 89%;">
+		<p id="timer" style="font-size: 15px; margin-right: 3%;"></p>
+		<button id="refresher" type="button"
+			style="float: right; margin-top: -0.3%; margin-left: 6.7%; position: absolute;"
+			class="btn btn-light" onclick="myTimerReset()">↻</button>
+	</div>
 
-        .box2 {
-            width:200px;height:60px;font-size:25px;text-align:center;color:#ffffcc; font-weight:bold;background-color: transparent;
-        }
+	<div class="col">
+		<div class="row"
+			style="display: flex; flex-direction: row; margin-top: 0.5%;">
+			<table class="table table-bordered"
+				style="width: 43%; font-size: 15px; margin-left: 2.5%;">
+				<thead>
+					<tr>
+						<td style="font-size: 17px; text-align: center;" colspan="7">[
+							생 산 중 ]</td>
+					</tr>
+					<tr class="table-active">
+						<th scope="col" style="text-align: center;">호기</th>
+						<th scope="col" style="text-align: center;">품명</th>
+						<th scope="col" style="text-align: center;">규격</th>
+						<th scope="col" style="text-align: center;">재질</th>
+						<th scope="col" style="text-align: center;">분류1</th>
+						<th scope="col" style="text-align: center;">분류2</th>
+						<th scope="col" style="text-align: center;">생산량</th>
+					</tr>
+				</thead>
 
-        .box3 {
-            width:200px;height:60px;font-size:25px;text-align:center;color:#ffff99; font-weight:bold;background-color: transparent;
-        }
-
-        .box4 {
-            width:150px;height:60px;font-size:25px;text-align:center;color:#ffffff; font-weight:bold;background-color: transparent;
-        }
-
-        .box5 {
-            width:150px;height:60px;font-size:25px;text-align:center;color:#99ffcc; font-weight:bold;background-color: transparent;
-        }
-
-        .box6 {
-            width:150px;height:60px;font-size:25px;text-align:center;color:#ffff99; font-weight:bold;background-color: transparent;
-        }
-
-        .bos1 {
-            bgcolor="green"; width=150; height="60"; align="center";
-        }
-    
-    </style>
-
-</head>
-
-<!--  <body style="background-color:#001000"> -->
- 
-<body style="background-color:#303030">
-<script>
-console.log("<%=detail_list%>");
-console.log("<%=detail_list.get(0).getC_Qty()%>");
-</script>
-
-<center>
-<br>
-<table border=0>
-<tr>
-<td width=200 align="left">&nbsp;</td>		
-<td width=1000  align="center">
-<font size="10" style="color: rgb(88,221,178);"> 작업 모니터링</font></p>
-</td>
-<td width=200 align="right">&nbsp;</td>
-</tr>
-</table>
-
-<p id="curentTime" style="font-size: 30px" align="right"><font style="color: rgb(188,188,188);"> <%= sf.format(nowTime) %></font> 17:19:49&nbsp;&nbsp;&nbsp;&nbsp;</p>
- 
-</center>
-
-<br>
-
-<center>
-<table border=0>
-
-<tr>
-<td>
-<table border=0 style="vertical-align:top"/>
-<tr>
-<td height=50>&nbsp;</td> <td align="center"><font size="5" style="color: rgb(220,221,178);">[  생 산  ]</font></td><td>&nbsp;</td>
-</tr>
-<tr>
-<td bgcolor="#0011ee" width=200 height="60" align="center"><font size="5" color="#ffffff"><b>호기</b></td>
-<td bgcolor="#FFff88" width=200 height="60" align="center"><font size="5" color="#000000"><b>모델</b></td>
-<td bgcolor="#9900FF" width=200 height="60" align="center"><font size="5" color="#ffffff"><b>생산량</b></td>
-</tr>
-
-<tr>
-<td bgcolor="003300" width=200 border=0><input id="M001" type="text"  class="box1" readonly></input></td>
-<td bgcolor="003300" width=200><input id="itemCode_M001" type="text"  class="box2" readonly></input></td>
-<td bgcolor="003300" width=200><input id="qty_M001" type="text"  class="box3" readonly></input></td>
-</tr>
-
-<tr>
-<td bgcolor="003300" width=200 border=0><input id="M002" type="text"  class="box1" readonly></input></td>
-<td bgcolor="003300" width=200><input id="itemCode_M002" type="text"  class="box2" readonly></input></td>
-<td bgcolor="003300" width=200><input id="qty_M002" type="text"  class="box3" readonly></input></td>
-</tr>
-
-<tr>
-<td bgcolor="003300" width=200 border=0><input id="M003" type="text"  class="box1" readonly></input></td>
-<td bgcolor="003300" width=200><input id="itemCode_M003" type="text"  class="box2" readonly></input></td>
-<td bgcolor="003300" width=200><input id="qty_M003" type="text"  class="box3" readonly></input></td>
-</tr>
-
-<tr>
-<td bgcolor="003300" width=200 border=0><input id="M004" type="text"  class="box1" readonly></input></td>
-<td bgcolor="003300" width=200><input id="itemCode_M004" type="text"  class="box2" readonly></input></td>
-<td bgcolor="003300" width=200><input id="qty_M004" type="text"  class="box3" readonly></input></td>
-</tr>
-
-<tr>
-<td bgcolor="003300" width=200 border=0><input id="M005" type="text"  class="box1" readonly></input></td>
-<td bgcolor="003300" width=200><input id="itemCode_M005" type="text"  class="box2" readonly></input></td>
-<td bgcolor="003300" width=200><input id="qty_M005" type="text"  class="box3" readonly></input></td>
-</tr>
-
-<tr>
-<td bgcolor="003300" width=200 border=0><input id="M006" type="text"  class="box1" readonly></input></td>
-<td bgcolor="003300" width=200><input id="itemCode_M006" type="text"  class="box2" readonly></input></td>
-<td bgcolor="003300" width=200><input id="qty_M006" type="text"  class="box3" readonly></input></td>
-</tr>
-
-<tr>
-<td bgcolor="003300" width=200 border=0><input id="M007" type="text"  class="box1" readonly></input></td>
-<td bgcolor="003300" width=200><input id="itemCode_M007" type="text"  class="box2" readonly></input></td>
-<td bgcolor="003300" width=200><input id="qty_M007" type="text"  class="box3" readonly></input></td>
-</tr>
-
-<tr>
-<td bgcolor="003300" width=200 border=0><input id="M008" type="text"  class="box1" readonly></input></td>
-<td bgcolor="003300" width=200><input id="itemCode_M008" type="text"  class="box2" readonly></input></td>
-<td bgcolor="003300" width=200><input id="qty_M008" type="text"  class="box3" readonly></input></td>
-</tr>
-
-<tr>
-<td bgcolor="003300" width=200 border=0><input id="M009" type="text"  class="box1" readonly></input></td>
-<td bgcolor="003300" width=200><input id="itemCode_M009" type="text"  class="box2" readonly></input></td>
-<td bgcolor="003300" width=200><input id="qty_M009" type="text"  class="box3" readonly></input></td>
-</tr>
-
-<tr>
-<td bgcolor="003300" width=200 border=0><input id="M010" type="text"  class="box1" readonly></input></td>
-<td bgcolor="003300" width=200><input id="itemCode_M010" type="text"  class="box2" readonly></input></td>
-<td bgcolor="003300" width=200><input id="qty_M010" type="text"  class="box3" readonly></input></td>
-</tr>
-
-</table>
-</td>
-
-<td width="150">&nbsp;</td>
-
-<td style="vertical-align:top"/> 
-
-<table>
-<tr>
-<td height=50>&nbsp;</td> <td align="center" colspan=2><font size="5" style="color: rgb(220,221,178);">[  포 장  ]</font></td><td>&nbsp;</td>
-</tr>
-
-<tr>
-<td bgcolor="#112233" width=100 height="60" align="center"><font size="5" color="#ffffff"><b>대기수량</b></td>
-<td bgcolor="#0011ee" width=80 height="60" align="center"><font size="5" color="#ffffff"><b>호기</b></td>
-<td bgcolor="#FFff99" width=120 height="60" align="center"><font size="5" color="#000000"><b>모델</b></td>
-<td bgcolor="#FF0099" width=150 height="60" align="center"><font size="5" color="#ffffff"><b>생산량</b></td>
-</tr>
-
-<tr>
-<td bgcolor="#000055"><input id="T101" type="text"  class="box4" readonly></input></td>
-<td bgcolor="#000055"><input id="M101" type="text"  class="box4" readonly></input></td>
-<td bgcolor="#000055"><input id="itemCode_M101" type="text"  class="box5" readonly></input></td>
-<td bgcolor="#000055"><input id="qty_M101" type="text"  class="box6" readonly></input></td>
-</tr>
-
-<tr>
-<td bgcolor="#000055"><input id="T102" type="text"  class="box4" readonly></input></td>
-<td bgcolor="#000055"><input id="M102" type="text"  class="box4" readonly></input></td>
-<td bgcolor="#000055"><input id="itemCode_M102" type="text"  class="box5" readonly></input></td>
-<td bgcolor="#000055"><input id="qty_M102" type="text"  class="box6" readonly></input></td>
-</tr>
-
-<tr>
-<td bgcolor="#000055"><input id="T103" type="text"  class="box4" readonly></input></td>
-<td bgcolor="#000055"><input id="M103" type="text"  class="box4" readonly></input></td>
-<td bgcolor="#000055"><input id="itemCode_M103" type="text"  class="box5" readonly></input></td>
-<td bgcolor="#000055"><input id="qty_M103" type="text"  class="box6" readonly></input></td>
-</tr>
-
-<tr>
-<td bgcolor="#000055"><input id="T104" type="text"  class="box4" readonly></input></td>
-<td bgcolor="#000055"><input id="M104" type="text"  class="box4" readonly></input></td>
-<td bgcolor="#000055"><input id="itemCode_M104" type="text"  class="box5" readonly></input></td>
-<td bgcolor="#000055"><input id="qty_M104" type="text"  class="box6" readonly></input></td>
-</tr>
-
-<tr>
-<td bgcolor="#000055"><input id="T105" type="text"  class="box4" readonly></input></td>
-<td bgcolor="#000055"><input id="M105" type="text"  class="box4" readonly></input></td>
-<td bgcolor="#000055"><input id="itemCode_M105" type="text"  class="box5" readonly></input></td>
-<td bgcolor="#000055"><input id="qty_M105" type="text"  class="box6" readonly></input></td>
-</tr>
-
-<tr>
-<td bgcolor="#000055"><input id="T106" type="text"  class="box4" readonly></input></td>
-<td bgcolor="#000055"><input id="M106" type="text"  class="box4" readonly></input></td>
-<td bgcolor="#000055"><input id="itemCode_M106" type="text"  class="box5" readonly></input></td>
-<td bgcolor="#000055"><input id="qty_M106" type="text"  class="box6" readonly></input></td>
-</tr>
-
-<tr>
-<td bgcolor="#000055"><input id="T107" type="text"  class="box4" readonly></input></td>
-<td bgcolor="#000055"><input id="M107" type="text"  class="box4" readonly></input></td>
-<td bgcolor="#000055"><input id="itemCode_M107" type="text"  class="box5" readonly></input></td>
-<td bgcolor="#000055"><input id="qty_M107" type="text"  class="box6" readonly></input></td>
-</tr>
-
-<tr>
-<td bgcolor="#000055"><input id="T108" type="text"  class="box4" readonly></input></td>
-<td bgcolor="#000055"><input id="M108" type="text"  class="box4" readonly></input></td>
-<td bgcolor="#000055"><input id="itemCode_M108" type="text"  class="box5" readonly></input></td>
-<td bgcolor="#000055"><input id="qty_M108" type="text"  class="box6 sampleColor" readonly></input></td>
-</tr>
-</table>
-
-</td>
-</tr>
-</table>
-</div>
+				<tbody>
+					<c:forEach var="data" items="${machineList}" varStatus="status">
+						<c:choose>
+							<c:when test="${status.count < 10}">
+								<tr class="table-active"
+									id="prodRow_machineCode_M00${status.count}">
+									<td style="text-align: center;"><div
+											id="machineCode_M00${status.count}">${status.count}</div></td>
+									<td style="text-align: center;"><div
+											id="itemDesc_M00${status.count}"></div></td>
+									<td style="text-align: center;"><div
+											id="itemStnd1_M00${status.count}"></div></td>
+									<td style="text-align: center;"><div
+											id="itemMaterial_M00${status.count}"></div></td>
+									<td style="text-align: center;"><div
+											id="itemType1_M00${status.count}"></div></td>
+									<td style="text-align: center;"><div
+											id="itemType2_M00${status.count}"></div></td>
+									<td style="text-align: center;"><div
+											id="itemProdQty_M00${status.count}"></div></td>
+								</tr>
+							</c:when>
+							<c:when test="${status.count == 10}">
+								<tr class="table-active"
+									id="prodRow_machineCode_M00${status.count}">
+									<td style="text-align: center;"><div
+											id="machineCode_M0${status.count}">${status.count}</div></td>
+									<td style="text-align: center;"><div
+											id="itemDesc_M0${status.count}"></div></td>
+									<td style="text-align: center;"><div
+											id="itemStnd1_M0${status.count}"></div></td>
+									<td style="text-align: center;"><div
+											id="itemMaterial_M0${status.count}"></div></td>
+									<td style="text-align: center;"><div
+											id="itemType1_M0${status.count}"></div></td>
+									<td style="text-align: center;"><div
+											id="itemType2_M0${status.count}"></div></td>
+									<td style="text-align: center;"><div
+											id="itemProdQty_M0${status.count}"></div></td>
+								</tr>
+							</c:when>
+						</c:choose>
+					</c:forEach>
+				</tbody>
+			</table>
 
 
+			<table class="table table-bordered"
+				style="width: 50%; height: 55%; font-size: 15px; margin-left: 2%;">
+				<thead>
+					<tr>
+						<td style="font-size: 17px; text-align: center;" colspan="9">[
+							포 장 중 ]</td>
+					</tr>
+					<tr class="table-active">
+						<th scope="col" style="text-align: center;">대기수량</th>
+						<th scope="col" style="text-align: center;">호기</th>
+						<th scope="col" style="text-align: center;">생산량</th>
+						<th scope="col" style="text-align: center;">품명</th>
+						<th scope="col" style="text-align: center;">규격1</th>
+						<th scope="col" style="text-align: center;">규격2</th>
+						<th scope="col" style="text-align: center;">재질</th>
+						<th scope="col" style="text-align: center;">분류1</th>
+						<th scope="col" style="text-align: center;">분류2</th>
+					</tr>
+				</thead>
 
-</center>
+				<tbody>
+					<c:forEach var="data" items="${machineList}" varStatus="status">
+						<c:choose>
+							<c:when test="${status.count > 10 and status.count <= 18}">
+								<tr class="table-active"
+									id="wrapRow_machineCode_M10${status.count - 10}">
+									<td style="text-align: center;"><div
+											id="itemWrapRemainQty_M10${status.count - 10}"></div></td>
+									<td style="text-align: center;"><div
+											id="machineCode_M10${status.count - 10}">${status.count - 10}</div></td>
+									<td style="text-align: center;"><div
+											id="itemWrapQty_M10${status.count - 10}"></div></td>
+									<td style="text-align: center;"><div
+											id="itemDesc_M10${status.count - 10}"></div></td>
+									<td style="text-align: center;"><div
+											id="itemStnd1_M10${status.count - 10}"></div></td>
+									<td style="text-align: center;"><div
+											id="itemStnd2_M10${status.count - 10}"></div></td>
+									<td style="text-align: center;"><div
+											id="itemMaterial_M10${status.count - 10}"></div></td>
+									<td style="text-align: center;"><div
+											id="itemType1_M10${status.count - 10}"></div></td>
+									<td style="text-align: center;"><div
+											id="itemType2_M10${status.count - 10}"></div></td>
+								</tr>
+							</c:when>
+						</c:choose>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+	</div>
 
+	
+
+	<div class="col">
+		<div class="row"
+			style="display: flex; flex-direction: row; margin-top: 1%;">
+			<table class="table table-bordered"
+				style="width: 43%; height: 100%; font-size: 15px; margin-left: 2.5%;">
+				<thead>
+					<tr>
+						<td style="font-size: 17px; text-align: center;" colspan="7">[
+							변경된 생산 모델 ]</td>
+					</tr>
+					<tr class="table-active">
+						<th scope="col" style="text-align: center;">호기</th>
+						<th scope="col" style="text-align: center;">품명</th>
+						<th scope="col" style="text-align: center;">규격</th>
+						<th scope="col" style="text-align: center;">재질</th>
+						<th scope="col" style="text-align: center;">분류1</th>
+						<th scope="col" style="text-align: center;">분류2</th>
+						<th scope="col" style="text-align: center;">생산량</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<c:forEach var="data" items="${machineList}" varStatus="status">
+						<c:choose>
+							<c:when test="${status.count < 4}">
+								<tr class="table-active"
+									id="changedProdItemProdRow_machineCode_${status.count}">
+									<td style="text-align: center;"><div
+											id="changedProdItemMachineCode_${status.count}">&nbsp;</div></td>
+									<td style="text-align: center;"><div
+											id="changedProdItemDesc_${status.count}"></div></td>
+									<td style="text-align: center;"><div
+											id="changedProdItemStnd1_${status.count}"></div></td>
+									<td style="text-align: center;"><div
+											id="changedProdItemMaterial_${status.count}"></div></td>
+									<td style="text-align: center;"><div
+											id="changedProdItemType1_${status.count}"></div></td>
+									<td style="text-align: center;"><div
+											id="changedProdItemType2_${status.count}"></div></td>
+									<td style="text-align: center;"><div
+											id="changedProdItemProdQty_${status.count}"></div></td>
+								</tr>
+							</c:when>
+						</c:choose>
+					</c:forEach>
+				</tbody>
+			</table>
+
+
+			<table class="table table-bordered"
+				style="width: 50%; height: 100%; font-size: 15px; margin-left: 2%;">
+				<thead>
+					<tr>
+						<td style="font-size: 17px; text-align: center;" colspan="9">[
+							변경된 포장 모델 ]</td>
+					</tr>
+					<tr class="table-active">
+						<th scope="col" style="text-align: center;">대기수량</th>
+						<th scope="col" style="text-align: center;">호기</th>
+						<th scope="col" style="text-align: center;">생산량</th>
+						<th scope="col" style="text-align: center;">품명</th>
+						<th scope="col" style="text-align: center;">규격1</th>
+						<th scope="col" style="text-align: center;">규격2</th>
+						<th scope="col" style="text-align: center;">재질</th>
+						<th scope="col" style="text-align: center;">분류1</th>
+						<th scope="col" style="text-align: center;">분류2</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<c:forEach var="data" items="${machineList}" varStatus="status">
+						<c:choose>
+							<c:when test="${status.count > 10 and status.count <= 13}">
+								<tr class="table-active"
+									id="changedWrapItemWrapRow_machineCode_${status.count - 10}">
+									<td style="text-align: center;"><div
+											id="changedWrapItemWrapRemainQty_${status.count - 10}"></div></td>
+									<td style="text-align: center;"><div
+											id="changedWrapItemMachineCode_${status.count - 10}">&nbsp;</div></td>
+									<td style="text-align: center;"><div
+											id="changedWrapItemWrapQty_${status.count - 10}"></div></td>
+									<td style="text-align: center;"><div
+											id="changedWrapItemDesc_${status.count - 10}"></div></td>
+									<td style="text-align: center;"><div
+											id="changedWrapItemStnd1_${status.count - 10}"></div></td>
+									<td style="text-align: center;"><div
+											id="changedWrapItemStnd2_${status.count - 10}"></div></td>
+									<td style="text-align: center;"><div
+											id="changedWrapItemMaterial_${status.count - 10}"></div></td>
+									<td style="text-align: center;"><div
+											id="changedWrapItemType1_${status.count - 10}"></div></td>
+									<td style="text-align: center;"><div
+											id="changedWrapItemType2_${status.count - 10}"></div></td>
+								</tr>
+							</c:when>
+						</c:choose>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </body>
-
-<script src="/js/monitoring/productionStatus.js?v=<%=System.currentTimeMillis() %>"></script>
-<script>
-var productionList = ["M001","M002","M003","M004","M005","M006","M007","M008","M009","M010"]
-	
-var inputList = ["M101","M102","M103","M104","M105","M106","M107","M108"]
-
-function productStatus(machineCode, condition){
-	$("#"+machineCode).val(machineCode)
-	
-	var ajaxResult = $.ajax({
-		method : "get",
-		data : {machineCode : machineCode, condition : condition},
-		url : "maskProductionRest/crateSelectByMachine",
-		success : function(result) {
-			//console.log(result);
-			if(result instanceof Object){
-				$("#itemCode_"+machineCode).val(result.c_ItemCode)
-				$("#qty_"+machineCode).val(result.c_Qty)
-				
-				//대기수량
-				var standby_qty = machineCode.replace('M','T');
-				$("#"+standby_qty).val(120);
-				
-				//색상변경
-				if(result.cl_Qty > 12){
-					$("#qty_"+machineCode).css("color","red")
-				}
-			}
-		}
-	})
-	return ajaxResult;
-}
-	
-window.onload = function(){
-	for(let i=0; i<productionList.length;i++){		
-		productStatus(productionList[i],1)
-		productStatus(inputList[i],3)
-	
-		setInterval(function(){
-			productStatus(productionList[i],1);
-			productStatus(inputList[i],3);
-		},10000);
-	}
-}
-</script>
+<script src="/js/monitoring/productionStatus.js?v=<%=System.currentTimeMillis()%>"></script>
