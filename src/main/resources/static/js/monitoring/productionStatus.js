@@ -49,32 +49,34 @@ function wrapStatus() {
 		data: {},
 		url: "maskProductionRest/getWrappingInfoFromMachine",
 		success: function(result) {
+		console.log(result);
+		console.log(wrap_dict);
 			result.forEach(res => {
-				console.log(wrap_dict);
-				if (res.wrap_MachineCode in wrap_dict) { //생산 키가 있을 때
-					if (res.wrap_Qty > wrap_dict['' + res.wrap_MachineCode]) { //현재 생산량이 10초전 생산량보다 많을 때 Row 초록색으로 업데이트
-						$("#wrapRow_machineCode_" + res.wrap_MachineCode).attr("style", "background-color:rgb(195,230,203);");
-						wrap_dict['' + res.wrap_MachineCode] = res.wrap_Qty;
+							
+				if ("M10" + res.right_Wrap_MachineCode in wrap_dict) { //생산 키가 있을 때
+					if (res.wrap_Qty > wrap_dict["M10" + res.right_Wrap_MachineCode]) { //현재 생산량이 10초전 생산량보다 많을 때 Row 초록색으로 업데이트
+						$("#wrapRow_machineCode_M10" + res.right_Wrap_MachineCode).attr("style", "background-color:rgb(195,230,203);");
+						wrap_dict["M10" + res.right_Wrap_MachineCode] = res.wrap_Qty;
 					}
 					else { //현재 생산량이 10초전 생산량보다 적거나 같을 때 Row 빨간색으로 업데이트
-						$("#wrapRow_machineCode_" + res.wrap_MachineCode).attr("style", "background-color:rgb(242,242,242);");
-						wrap_dict['' + res.wrap_MachineCode] = res.wrap_Qty;
-						//console.log(wrap_dict[''+res.wrap_MachineCode]);
+						$("#wrapRow_machineCode_M10" + res.right_Wrap_MachineCode).attr("style", "background-color:rgb(242,242,242);");
+						wrap_dict["M10" + res.right_Wrap_MachineCode] = res.wrap_Qty;
+						//console.log(wrap_dict["M10" + res.right_Wrap_MachineCode]);
 					}
 				}
 				else { //생산 키가 없을 때 딕셔너리에 할당만 해줌
-					$("#wrapRow_machineCode_" + res.wrap_MachineCode).attr("style", "background-color:rgb(242,242,242);");
-					wrap_dict['' + res.wrap_MachineCode] = res.wrap_Qty;
+					$("#wrapRow_machineCode_M10" + res.right_Wrap_MachineCode).attr("style", "background-color:rgb(242,242,242);");
+					wrap_dict["M10" + res.right_Wrap_MachineCode] = res.wrap_Qty;
 				}
 
-				$("#itemWrapRemainQty_" + res.wrap_MachineCode).html(res.wrap_RemainQty)
-				$("#itemWrapQty_" + res.wrap_MachineCode).html(res.wrap_Qty)
-				$("#itemDesc_" + res.wrap_MachineCode).html(res.wrap_Desc)
-				$("#itemStnd1_" + res.wrap_MachineCode).html(res.wrap_Measure1)
-				$("#itemStnd2_" + res.wrap_MachineCode).html(res.wrap_Measure2)
-				$("#itemMaterial_" + res.wrap_MachineCode).html(res.wrap_Material)
-				$("#itemType1_" + res.wrap_MachineCode).html(res.wrap_Type1)
-				$("#itemType2_" + res.wrap_MachineCode).html(res.wrap_Type2)
+				$("#itemWrapRemainQty_M10" + res.right_Wrap_MachineCode).html(res.wrap_RemainQty)
+				$("#itemWrapQty_M10" + res.right_Wrap_MachineCode).html(res.wrap_Qty)
+				$("#itemDesc_M10" + res.right_Wrap_MachineCode).html(res.wrap_Desc)
+				$("#itemStnd1_M10" + res.right_Wrap_MachineCode).html(res.wrap_Measure1)
+				$("#itemStnd2_M10" + res.right_Wrap_MachineCode).html(res.wrap_Measure2)
+				$("#itemMaterial_M10" + res.right_Wrap_MachineCode).html(res.wrap_Material)
+				$("#itemType1_M10" + res.right_Wrap_MachineCode).html(res.wrap_Type1)
+				$("#itemType2_M10" + res.right_Wrap_MachineCode).html(res.wrap_Type2)
 			});
 		}
 	})

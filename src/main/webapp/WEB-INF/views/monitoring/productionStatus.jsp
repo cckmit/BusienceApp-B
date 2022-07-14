@@ -54,7 +54,7 @@ SimpleDateFormat sf = new SimpleDateFormat("yyyy년 MM월 dd일 a hh:mm:ss");
 				<thead>
 					<tr>
 						<td style="font-size: 17px; text-align: center;" colspan="7">[
-							생 산 중 ]</td>
+							현 작업지시별 마스크 생산량 ]</td>
 					</tr>
 					<tr class="table-active">
 						<th scope="col" style="text-align: center;">호기</th>
@@ -119,7 +119,7 @@ SimpleDateFormat sf = new SimpleDateFormat("yyyy년 MM월 dd일 a hh:mm:ss");
 				<thead>
 					<tr>
 						<td style="font-size: 17px; text-align: center;" colspan="9">[
-							포 장 중 ]</td>
+							현 포장 대기수량, 현 작업지시별 생산량 ]</td>
 					</tr>
 					<tr class="table-active">
 						<th scope="col" style="text-align: center;">대기수량</th>
@@ -177,7 +177,7 @@ SimpleDateFormat sf = new SimpleDateFormat("yyyy년 MM월 dd일 a hh:mm:ss");
 				<thead>
 					<tr>
 						<td style="font-size: 17px; text-align: center;" colspan="7">[
-							변경된 생산 모델 ]</td>
+							오늘 기준 작업지시 변경전 마스크 생산량 ]</td>
 					</tr>
 					<tr class="table-active">
 						<th scope="col" style="text-align: center;">호기</th>
@@ -223,7 +223,7 @@ SimpleDateFormat sf = new SimpleDateFormat("yyyy년 MM월 dd일 a hh:mm:ss");
 				<thead>
 					<tr>
 						<td style="font-size: 17px; text-align: center;" colspan="9">[
-							변경된 포장 모델 ]</td>
+							오늘 기준 작업지시 변경전 마스크 포장 생산량 ]</td>
 					</tr>
 					<tr class="table-active">
 						<th scope="col" style="text-align: center;">대기수량</th>

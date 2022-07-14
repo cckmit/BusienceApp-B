@@ -10,6 +10,7 @@ import lombok.ToString;
 public class WrappingStatusMonitoringDto {
 	private String Wrap_ItemCode;
 	private String Wrap_MachineCode;	
+	private Integer Right_Wrap_MachineCode;	
 	private String Wrap_Desc;
 	private String Wrap_Measure1;
 	private String Wrap_Measure2;
