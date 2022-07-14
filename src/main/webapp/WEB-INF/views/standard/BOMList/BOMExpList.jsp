@@ -6,7 +6,8 @@
 	<div class="top-var">
 		<!-- 버튼 -->
 		<div class="input-button">
-			<img src="/images/button/Search.png" onclick="BIL_Search1()"/> 
+			<img src="/images/button/Search.png" onclick="BIL_Search1()"/>
+			<img src="/images/button/Excel.png" onclick="excel_download(BOMExpListTable)"/>
 		</div>
 		<!-- 버튼 -->
 		<div class="input-box">
@@ -25,7 +26,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="BOMitemListTable1" class="itemMaster"></div>
-	<div id="BOMExpListTable" class="itemSub"></div>
+	<div id="BOMitemListTable1" class="itemMaster" style="width:calc(50%)"></div>
+	<div id="BOMExpListTable" class="itemSub" style="width:calc(50% - 10px)"></div>
 </div>
 <!-- END MAIN -->

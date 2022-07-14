@@ -1,7 +1,7 @@
 //셀위치저장
 var cellPos = new Array();
 
-let maskEquipTable = new Tabulator("#maskEquipTable", {
+var maskEquipTable = new Tabulator("#maskEquipTable", {
 	//페이징
 	height: "calc(100% - 175px)",
 	layoutColumnsOnNewData: true,
@@ -43,7 +43,7 @@ let maskEquipTable = new Tabulator("#maskEquipTable", {
 });
 
 
-let packEquipTable = new Tabulator("#packEquipTable", {
+var packEquipTable = new Tabulator("#packEquipTable", {
 	height: "calc(100% - 175px)",
 	layoutColumnsOnNewData: true,
 	selectable: true,
@@ -313,3 +313,13 @@ function itemDelBtn() {
 	});
 }
 
+$("#WO_ExcelBtn").click(function(){
+	let jsonData = {
+		"마스크" : maskEquipTable,
+		"포장" : packEquipTable
+	}
+	
+	let excelTable = new Tabulator("#packEquipTable",{});
+	
+	multi_Excel_download(excelTable, jsonData)
+})

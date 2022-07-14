@@ -96,6 +96,9 @@ function dtlSelectList(value){
 function excel_download(table){
 	table.download("xlsx", "data.xlsx", {sheetName : "Sheet1"});
 }
+function multi_Excel_download(table, jsonSheetData){
+	table.download("xlsx", "data.xlsx", {sheets:jsonSheetData});
+}
 
 $(document).ready(function(){
 	toastr.options = {

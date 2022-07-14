@@ -10,6 +10,7 @@
 			<!-- 버튼 -->
 			<div class="input-button">
 				<img src="/images/button/Save.png" id="WO_SaveBtn" />
+				<img src="/images/button/Excel.png" id="WO_ExcelBtn"/>
 			</div>
 			<div class="input-box">
 				<span><strong>제품코드</strong></span>
@@ -24,6 +25,7 @@
 			</div>
 		</div>
 		<!-- 그리드 생성 장소 -->
+		<div id="excelTable" class="none"></div>
 		<div id="maskEquipTable" class="machineTable"></div>
 		<div id="packEquipTable" class="packmachineTable"></div>
 		<!-- 그리드 생성 장소 -->

@@ -1,6 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <div class="soloView">
 	<!-- MAIN -->
@@ -12,14 +10,12 @@
 				<img src="/images/button/New.png" id="PM_NewBtn"/>
 				<img src="/images/button/Save.png" id="PM_SaveBtn"/>
 				<img src="/images/button/Delete.png" id="PM_DeleteBtn"/>
+				<img src="/images/button/Excel.png" onclick="excel_download(paldangPackagingManageTable)"/>
 			</div>
-			
-			
 		</div>
 			<!-- 그리드 생성 장소 -->
 		<div id="paldangPackagingManageTable"></div>
 	</div>
 	<!-- END MAIN -->
 </div>
-
 <script src="/js/standard/paldangPackagingManage.js?v=<%=System.currentTimeMillis() %>"></script>

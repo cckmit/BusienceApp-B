@@ -7,6 +7,7 @@
 		<!-- 버튼 -->
 		<div class="input-button">
 			<img src="/images/button/Search.png" onclick="BIL_Search2()"/> 
+			<img src="/images/button/Excel.png" onclick="excel_download(BOMImpListTable)"/>
 		</div>
 		<!-- 버튼 -->
 		<div class="input-box">
@@ -25,7 +26,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="BOMitemListTable2" class="itemMaster"></div>
-	<div id="BOMImpListTable" class="itemSub"></div>
+	<div id="BOMitemListTable2" class="itemMaster" style="width:calc(50%)"></div>
+	<div id="BOMImpListTable" class="itemSub" style="width:calc(50% - 10px)"></div>
 </div>
 <!-- END MAIN -->
