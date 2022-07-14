@@ -33,5 +33,5 @@
 	</div>
 
 <!-- Javascript -->
-<script src="js/standard/BOMListMaster.js"></script>
-<script src="js/tabMenu.js"></script>
+<script src="js/standard/BOMListMaster.js?v=<%=System.currentTimeMillis() %>"></script>
+<script src="js/tabMenu.js?v=<%=System.currentTimeMillis() %>"></script>

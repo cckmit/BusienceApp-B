@@ -319,7 +319,7 @@ $("#WO_ExcelBtn").click(function(){
 		"포장" : packEquipTable
 	}
 	
-	let excelTable = new Tabulator("#packEquipTable",{});
+	let excelTable = new Tabulator("#excelTable",{});
 	
 	multi_Excel_download(excelTable, jsonData)
 })

@@ -36,4 +36,4 @@
 			</div>
 			<!-- END MAIN -->
 		</div>
-<script src="js/standard/BOM.js"></script>
+<script src="js/standard/BOM.js?v=<%=System.currentTimeMillis() %>"></script>
