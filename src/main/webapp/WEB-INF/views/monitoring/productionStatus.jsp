@@ -226,7 +226,6 @@ SimpleDateFormat sf = new SimpleDateFormat("yyyy년 MM월 dd일 a hh:mm:ss");
 							오늘 기준 작업지시 변경전 마스크 포장 생산량 ]</td>
 					</tr>
 					<tr class="table-active">
-						<th scope="col" style="text-align: center;">대기수량</th>
 						<th scope="col" style="text-align: center;">호기</th>
 						<th scope="col" style="text-align: center;">생산량</th>
 						<th scope="col" style="text-align: center;">품명</th>
@@ -244,8 +243,6 @@ SimpleDateFormat sf = new SimpleDateFormat("yyyy년 MM월 dd일 a hh:mm:ss");
 							<c:when test="${status.count > 10 and status.count <= 13}">
 								<tr class="table-active"
 									id="changedWrapItemWrapRow_machineCode_${status.count - 10}">
-									<td style="text-align: center;"><div
-											id="changedWrapItemWrapRemainQty_${status.count - 10}"></div></td>
 									<td style="text-align: center;"><div
 											id="changedWrapItemMachineCode_${status.count - 10}">&nbsp;</div></td>
 									<td style="text-align: center;"><div
