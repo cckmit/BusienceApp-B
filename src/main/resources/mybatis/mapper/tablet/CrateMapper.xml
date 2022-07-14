@@ -6,8 +6,16 @@
 	
 <mapper namespace="com.busience.tablet.dao.CrateDao">
 	<select id="crateSelectDao" resultType="com.busience.tablet.dto.CrateDto">
-		SELECT ct.*, clt.CL_ProductionQty C_ProductionQty FROM Crate_tbl ct
-		LEFT OUTER JOIN Crate_Lot_tbl clt ON ct.C_Production_LotNo = clt.CL_LotNo
+		SELECT
+			A.C_CrateCode, A.C_Condition, A.C_Create_Date, A.C_Production_LotNo,
+		    B.CL_ProductionQty C_ProductionQty,
+		    B.CL_MachineCode C_MachineCode, C.Equipment_Info_Name C_MachineName,
+		    B.CL_MachineCode2 C_MachineCode2, D.Equipment_Info_Name C_MachineName2
+		FROM Crate_tbl A
+		left outer join Crate_Lot_tbl B on A.C_Production_LotNo = B.CL_LotNo
+		left outer join Equipment_Info_tbl C on B.CL_MachineCode = C.Equipment_Info_Code
+		left outer join Equipment_Info_tbl D on B.CL_MachineCode2 = D.Equipment_Info_Code
+		order by C_CrateCode
 	</select>
 	
 	<select id="crateStatusCheckDao" resultType="com.busience.tablet.dto.CrateDto">
@@ -47,15 +55,16 @@
 			#{C_CrateCode}, #{C_Condition},
 		    now(), #{c_Production_LotNo}
 		) on duplicate key update
-		C_Condition = #{C_Condition},
-		C_Create_Date = now(),
-		C_Production_LotNo = #{C_Production_LotNo}
+		<if test="C_Condition == 0">
+			C_Production_LotNo = null,
+		</if>
+		C_Condition = #{C_Condition}
 	</insert>
 	
 	<update id="crateUpdateDao">
 		update Crate_tbl
 		set
-	<if test="C_Production_LotNo != null">
+	<if test="C_Production_LotNo != null or C_Condition == 0">
 		C_Production_LotNo = #{C_Production_LotNo},
 	</if>
 		C_Condition = #{C_Condition}

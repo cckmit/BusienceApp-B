@@ -85,6 +85,7 @@ public class MaskPackagingService {
 		
 		//품목정보에서 규격2를 가져옴
 		ItemDto itemDto = itemDao.selectItemCode(itemCode);
+		String sub_ItemCode = itemDto.getPRODUCT_OLD_ITEM_CODE();
 		//규격2로 포장규격을 가져옴
 		String STND2 = itemDto.getPRODUCT_INFO_STND_2();
 		
@@ -100,10 +101,9 @@ public class MaskPackagingService {
 		String machineCode = searchDto.getMachineCode();
 		double totalQty = paldangPackagingStandardDto.getPackaging_Small();
 		double Qty = 0;
-
 		//포장설비 리스트를 가져옴 수량이 적은 순서대로
 		List<EquipWorkOrderDto> packagingLine = equipWorkOrderDao.packagingLineListSelect2Dao(searchDto);
-		
+
 		//포장수량/설비갯수
 		double divideQty = totalQty/packagingLine.size();
 		double restQty = totalQty%packagingLine.size();
@@ -113,13 +113,11 @@ public class MaskPackagingService {
 		for(int i=0;i<packagingLine.size();i++) {
 			SearchDto machineList = new SearchDto();
 			machineList.setMachineCode(packagingLine.get(i).getEquip_WorkOrder_Code());
-			
+
+			machineList.setItemCode(sub_ItemCode);
 			List<CrateLotDto> CrateLotDtoList = crateLotDao.crateLotListSelectDao(machineList);
-			
-			System.out.println("시작1 "+Qty);
-			
+
 			packagingQty = divideQty + Qty;
-			System.out.println("시작2 "+packagingQty);
 			
 			if(restQty > 0) {
 				packagingQty++;
@@ -136,7 +134,7 @@ public class MaskPackagingService {
 				}else {
 					CrateDto crateDto = new CrateDto();
 					crateDto.setC_CrateCode(CrateLotDtoList.get(j).getCL_CrateCode());							
-					crateDto.setC_Production_LotNo("");
+					crateDto.setC_Production_LotNo(null);
 					crateDto.setC_Condition("0");
 					crateDao.crateUpdateDao(crateDto);
 				}
@@ -154,7 +152,6 @@ public class MaskPackagingService {
 				small_Packaging_tbl.setQty(crateQty);
 				smallPackagingDao.smallPackagingInsertDao(small_Packaging_tbl);
 
-				System.out.println("끝 "+packagingQty);
 				Qty = packagingQty;
 				if(packagingQty == 0) {								
 					break;

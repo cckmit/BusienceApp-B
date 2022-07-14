@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,13 +25,12 @@ public class crateRestController {
 	}
 	
 	@PostMapping("/crateSave")
-	public int crateSaveDao(CrateDto crateDto) {
-		return crateService.crateSaveDao(crateDto);
+	public int crateSaveDao(@RequestBody List<CrateDto> crateDtoList) {
+		return crateService.crateSave(crateDtoList);
 	}
 	
 	@PostMapping("/crateUpdate")
 	public int crateUpdateDao(CrateDto crateDto) {
-		System.out.println(crateDto);
 		return crateService.crateUpdateDao(crateDto);
 	}
 

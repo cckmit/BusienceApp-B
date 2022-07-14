@@ -18,7 +18,11 @@ public class CrateDto {
 	private String C_Before_CrateCode;
 	private String C_ItemCode;
 	private double C_Qty;
-	private String C_MachineCode;
 	private double C_ProductionQty;
+
+	private String C_MachineCode;
+	private String C_MachineName;
+	private String C_MachineCode2;
+	private String C_MachineName2;
 }
 

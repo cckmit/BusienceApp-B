@@ -1,13 +1,10 @@
-//셀위치저장
-var cellPos = null;
-
 var editCheck = function(cell) {
 	//cell - the cell component for the editable cell
 
 	//get row data
 	var data = cell.getRow().getData();
 
-	return data.c_Create_Date == undefined; // only allow the name cell to be edited if the age is over 18
+	return data.c_Create_Date == undefined;
 }
 
 var editCheckStatus = function(cell) {
@@ -16,7 +13,7 @@ var editCheckStatus = function(cell) {
 	//get row data
 	var data = cell.getRow().getData();
 
-	return data.c_Condition != 0; // only allow the name cell to be edited if the age is over 18
+	return data.c_Condition != 0;
 }
 
 //입력 및 업데이트 할 리스트
@@ -71,174 +68,87 @@ var crateManageTable = new Tabulator("#crateManageTable", {
 	layoutColumnsOnNewData: true,
 	selectable: true,
 	height: "calc(100% - 175px)",
+	ajaxURL:"crateRest/crateSelect",
+    ajaxConfig:"get",
+    ajaxContentType:"json",
 	rowSelected: function(row) {
 		UseBtn();
 	},
 	//행추가시 기능
 	rowAdded: function(row) {
-
-		//행이 추가되면 첫셀에 포커스
-		do {
+		row.getTable().deselectRow();
+		row.select();
+		crateManageTable.scrollToRow(row, "nearest", false)
+		.then(function(){
+			//행이 추가되면 첫셀에 포커스
+			do {
 			setTimeout(function() {
 				row.getCell("c_CrateCode").edit();
 			}, 100);
 		}
 		while (row.getData().c_Create_Date === "undefined");
-
-		row.getTable().deselectRow();
-		row.select();
-
-		//MO_Add버튼 비활성화 (작성중인 행이 있다면 추가못하게함)
-		if (!$('#crateSaveBtn').hasClass('unUseBtn')) {
-			$('#crateSaveBtn').addClass('unUseBtn');
-		}
-
-		row.update({
-			"c_Use_Status": "true",
-			"c_Condition": 0
-		});
-
-		UseBtn();
-
-
-	},
-	cellEditing: function(cell) {
-		//셀위치 저장하여 포커싱부여
-		cellPos = cell;
+		})
 	},
 	columns: [
 		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
 		{ title: "순번", field: "rownum", hozAlign: "center", headerHozAlign: "center", formatter: "rownum" },
-		{
-			title: "상자코드", field: "c_CrateCode", headerHozAlign: "center", editor: MO_inputEditor, headerFilter: "input", editable: editCheck,
-			cellEdited: function(cell) {
-
-			}
-		},
+		{ title: "상자코드", field: "c_CrateCode", headerHozAlign: "center", editor: MO_inputEditor, headerFilter: "input", editable: editCheck},
 		{ title: "생성일자", field: "c_Create_Date", headerHozAlign: "center" },
-		{
-			title: "상태", field: "c_Condition", headerHozAlign: "center", headerFilter: "input", editable: editCheckStatus, editor: "select",
-			editorParams: { values: { "0": "미사용", "1": "마스크 투입", "2": "마스크 생산 완료", "3": "포장 투입" } }, width: 80,
+		{ title: "상태", field: "c_Condition", headerHozAlign: "center", headerFilter: "input", editable: editCheckStatus, editor: "select",
+			editorParams: { values: { "0": "미사용", "1": "마스크 투입", "2": "마스크 생산 완료", "3": "포장 투입" } },
 			cellEdited: function(cell) {
-
 				cell.getRow().select();
 			}
 		},
-		{ title: "LotNo", field: "c_Production_LotNo", headerHozAlign: "center", headerFilter: "input", width: 130 },
-		{ title: "수량", field: "c_ProductionQty", headerHozAlign: "center", hozAlign: "right" }
+		{ title: "LotNo", field: "c_Production_LotNo", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "수량", field: "c_ProductionQty", headerHozAlign: "center", hozAlign: "right" },
+		{ title: "생산설비", field: "c_MachineName", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "투입설비", field: "c_MachineName2", headerHozAlign: "center", headerFilter: "input"}
 	]
 });
 
 // ADD버튼을 클릭할때 모달창을 여는 이벤트
 $("#crateADDBtn").click(function() {
-	crateManageTable.addRow();
+	crateManageTable.addRow({c_Condition : 0});
 });
 
-function crateSave() {
-
-	$.when(saveChk())
-		.then(function(data) {
-			console.log(data);
-			let status = 0;
-			if (data.length > 0) {
-				for (var i = 0; i < data.length; i++) {
-
-					if (data[i].c_Use_Status == 'true') {
-						status = 1;
-					} else if (data[i].c_Use_Status == 'false') {
-						status = 0;
-					}
-
-					if (data[i].c_Condition == 0) {
-						data[i].c_Production_LotNo = "";
-					}
-
-					var datas = {
-						C_CrateCode: data[i].c_CrateCode,
-						C_Use_Status: status,
-						C_Condition: data[i].c_Condition,
-						c_Production_LotNo: data[i].c_Production_LotNo
-					}
-
-					console.log(datas);
-
-					$.ajax({
-						method: "POST",
-						url: "crateRest/crateSave",
-						data: datas,
-						beforeSend: function(xhr) {
-							var header = $("meta[name='_csrf_header']").attr("content");
-							var token = $("meta[name='_csrf']").attr("content");
-							xhr.setRequestHeader(header, token);
-						},
-						success: function(result) {
-							alert("저장되었습니다.");
-							CratePrinter(crateManageTable.getData("selected"))
-							$(this).off();
-
-							location.reload();
-						}, error: function() {
-							alert("저장 중 오류가 발생했습니다. 다시 시도해주세요.");
-						}
-					});
-				}
-			}
-		})
+function crateSave(values) {
+	var ajaxResult = $.ajax({
+		method: "POST",
+		url: "crateRest/crateSave",
+		data: JSON.stringify(values),
+		contentType:'application/json',
+		beforeSend: function(xhr) {
+			var header = $("meta[name='_csrf_header']").attr("content");
+			var token = $("meta[name='_csrf']").attr("content");
+			xhr.setRequestHeader(header, token);
+		},
+		success: function(result) {
+			alert("저장되었습니다.");
+		}, error: function() {
+			alert("저장 중 오류가 발생했습니다. 다시 시도해주세요.");
+		}
+	});
+	return ajaxResult;
 }
 
-
-
-function saveChk() {
-
-	var selectedRow = crateManageTable.getData("selected");
-
-	for (var i = 0; i < selectedRow.length; i++) {
-		tempCode = selectedRow[i].c_CrateCode;
-		index = cellPos.getRow().getPosition(true);
-		var k = 0;
-		for (var j = 0; j < crateManageTable.getDataCount(); j++) {
-			if (crateManageTable.getData()[j].c_CrateCode == tempCode) {
-
-				// 공백 삭제
-				if (crateManageTable.getData()[j].c_CrateCode == "") {
-					console.log(crateManageTable.getData()[j].c_CrateCode);
-					crateManageTable.deleteRow(crateManageTable.getRows()[j]);
-					alert("작성중인 행이 있습니다.");
-					return;
-				}
-
-				k += 1;
-				if (k > 1) {
-					if (crateManageTable.getRows()[j].getPosition() == index) {
-						alert("동일한 코드가 존재합니다.");
-						return;
-					}
-				}
-				k++;
-			}
+$("#crateSaveBtn").click(function() {
+	var selectedData = crateManageTable.getData("selected");
+	var saveData = new Array();
+	
+	for(let i=0;i<selectedData.length;i++){
+		if(selectedData[i].c_CrateCode.length > 0){
+			saveData.push(selectedData[i])
 		}
 	}
-
-	return selectedRow;
-}
-
-
-// update버튼을 클릭을 할때 모달창을 여는 이벤트
-$("#crateSaveBtn").click(function() {
-
-	crateSave();
-
+	
+	$.when(crateSave(saveData))
+	.then(function(data){
+		CratePrinter(saveData)
+		crateManageTable.replaceData();
+	})
 });
 
 $("#cratePrintBtn").click(function() {
 	CratePrinter(crateManageTable.getData("selected"))
 })
-
-$(document).ready(function() {
-
-	crateManageTable.setData("crateRest/crateSelect");
-
-	console.log(crateManageTable);
-
-});
-

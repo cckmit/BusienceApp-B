@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import com.busience.common.dto.SearchDto;
 import com.busience.tablet.dao.CrateDao;
@@ -15,12 +18,30 @@ public class CrateService {
 	@Autowired
 	CrateDao crateDao;
 	
+	@Autowired
+	TransactionTemplate transactionTemplate;
+	
 	public List<CrateDto> crateSelectDao(CrateDto crateDto) {
 		return crateDao.crateSelectDao(crateDto);
 	}
 	
-	public int crateSaveDao(CrateDto crateDto) {
-		return crateDao.crateSaveDao(crateDto);
+	public int crateSave(List<CrateDto> crateDtoList) {
+		try {
+			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					for(int i=0;i<crateDtoList.size();i++) {
+						crateDao.crateSaveDao(crateDtoList.get(i));
+					}
+				}
+			});
+
+			return 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
 	}
 	
 	public int crateUpdateDao(CrateDto crateDto) {

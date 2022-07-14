@@ -333,7 +333,6 @@ function MIM_Save(){
            xhr.setRequestHeader(header, token);
 		},
 		success : function(result) {
-			console.log(result)
 			if(result == null){
 				alert("오류가 발생하였습니다.");
 			}else{

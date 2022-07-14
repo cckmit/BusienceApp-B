@@ -7,7 +7,7 @@ function tableSetting(value){
 		headerVisible: false,
 		layout:"fitColumns",
 		ajaxURL:"maskInputRest/crateLotListSelect",
-		ajaxParams: {machineCode : value.equip_WorkOrder_Code},
+		ajaxParams: {machineCode : value.equip_WorkOrder_Code, itemCode : value.equip_WorkOrder_Old_ItemCode},
 	    ajaxConfig:"get",
 	    ajaxContentType:"json",
 		ajaxLoader:false,
