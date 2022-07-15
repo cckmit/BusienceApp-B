@@ -91,6 +91,8 @@ var MSC_inputEditor = function(cell, onRendered, success, cancel, editorParams) 
 
 var matStockChangeTable = new Tabulator("#matStockChangeTable", {
 	headerFilterPlaceholder: null,
+	selectable : true,
+	selectableRangeMode:"click",
 	height: "calc(100% - 175px)",
 	//행추가시 기능
 	rowAdded: function(row) {
@@ -172,7 +174,7 @@ $("#stockChangeAddBtn").click(function() {
 
 //팝업창으로부터 특정 파라미터 값으로 데이터를 받는다 
 function item_gridInit(PCode, PName, PSTND_1, UNIT_Price, UNIT_Name, Material_Name) {
-	console.log("dd");
+
 	cellPos.getRow().update({
 		"s_ItemCode": PCode,
 		"s_ItemName": PName,

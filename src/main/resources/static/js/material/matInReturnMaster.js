@@ -65,6 +65,8 @@ var MIRI_InputEditor = function(cell, onRendered, success, cancel, editorParams)
 
 var matInReturnInsertTable = new Tabulator("#matInReturnInsertTable", {
 	layoutColumnsOnNewData: true,
+	selectable : true,
+	selectableRangeMode:"click",
 	height: "calc(100% - 175px)",
 	rowDblClick: function(e, row) {
 		row.toggleSelect();

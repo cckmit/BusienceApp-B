@@ -1,9 +1,11 @@
 var matInputListTable = new Tabulator("#matInputListTable", {
 	headerFilterPlaceholder: null,
 	layoutColumnsOnNewData : true,
-	selectable: true,
+	selectable : true,
+	selectableRangeMode:"click",
 	height: "calc(100% - 175px)",
 	columns: [
+		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
 		{ title: "순번", field: "rownum", headerHozAlign: "center", headerFilter: true, hozAlign: "center", formatter: "rownum"},
 		{ title: "발주번호", field: "inMat_Order_No", headerHozAlign: "center", headerFilter: true, hozAlign: "left"},
 		{ title: "Lot번호", field: "inMat_Lot_No", headerHozAlign: "center", headerFilter: true, hozAlign: "left"},
@@ -59,6 +61,7 @@ $("#MIL_PrintBtn").click(function(){
            xhr.setRequestHeader(header, token);
 		},
 		success : function(result) {
+			console.log(result)
 			RawMaterialPrinter(result);
 		}				
 	});
@@ -68,7 +71,7 @@ var matInputItemViewTable = new Tabulator("#matInputItemViewTable", {
 	layoutColumnsOnNewData : true,
 	//Sub Total 색상
 	rowFormatter: function(row) {
-		if (row.getData().inMat_Lot_No == "Sub Total") {
+		if (row.getData().inMat_Order_No == "Sub Total") {
 			row.getElement().style.backgroundColor = "#c0c0c0";
 		}
 	},
@@ -76,7 +79,6 @@ var matInputItemViewTable = new Tabulator("#matInputItemViewTable", {
 	columns: [
 		{ title: "순번", field: "rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum"},
 		{ title: "발주번호", field: "inMat_Order_No", headerHozAlign: "center", hozAlign: "left"},
-		{ title: "Lot번호", field: "inMat_Lot_No", headerHozAlign: "center", hozAlign: "left"},
 		{ title: "거래처명", field: "inMat_Client_Name", headerHozAlign: "center", hozAlign: "left"},
 		{ title: "품목코드", field: "inMat_Code", headerHozAlign: "center", hozAlign: "left" },
 		{ title: "품명", field: "inMat_Name", headerHozAlign: "center", hozAlign: "left"},
@@ -113,7 +115,7 @@ var matInputCustomerViewTable = new Tabulator("#matInputCustomerViewTable", {
 	layoutColumnsOnNewData : true,
 	//Sub Total 색상
 	rowFormatter: function(row) {
-		if (row.getData().inMat_Lot_No == "Sub Total") {
+		if (row.getData().inMat_Order_No == "Sub Total") {
 			row.getElement().style.backgroundColor = "#c0c0c0";
 		}
 	},
@@ -121,7 +123,6 @@ var matInputCustomerViewTable = new Tabulator("#matInputCustomerViewTable", {
 	columns: [
 		{ title: "순번", field: "rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum"},
 		{ title: "발주번호", field: "inMat_Order_No", headerHozAlign: "center", hozAlign: "left"},
-		{ title: "Lot번호", field: "inMat_Lot_No", headerHozAlign: "center", hozAlign: "left"},
 		{ title: "거래처명", field: "inMat_Client_Name", headerHozAlign: "center", hozAlign: "left"},
 		{ title: "품목코드", field: "inMat_Code", headerHozAlign: "center", hozAlign: "left" },
 		{ title: "품명", field: "inMat_Name", headerHozAlign: "center", hozAlign: "left"},

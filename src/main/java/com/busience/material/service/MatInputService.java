@@ -158,8 +158,7 @@ public class MatInputService {
 			String clientCode = inMatDtoList.get(i).getInMat_Client_Code();
 
 			if (itemCode == null || clientCode == null) {
-				inMatDtoList.get(i).setInMat_Order_No("");
-				inMatDtoList.get(i).setInMat_Lot_No("Sub Total");
+				inMatDtoList.get(i).setInMat_Order_No("Sub Total");
 				inMatDtoList.get(i).setInMat_Date("");
 				inMatDtoList.get(i).setInMat_Rcv_Clsfc_Name("");
 			}
@@ -174,7 +173,7 @@ public class MatInputService {
 				inMatDtoList.get(i).setInMat_Client_Name("");
 			}
 			if (itemCode == null && clientCode == null) {
-				inMatDtoList.get(i).setInMat_Lot_No("Grand Total");
+				inMatDtoList.get(i).setInMat_Order_No("Grand Total");
 			}
 		}
 		return inMatDtoList;

@@ -75,16 +75,16 @@ function RawMaterialPrinter(jsonDatas)
 		printCode += "^XA"
 					+"^CFJ,50^SEE:UHANGUL.DAT^FS"
 					+"^CW1,E:KFONT3.FNT^CI28^FS"
-					+"^FT150,40^A1N,30,20^FD"+jsonDatas[j].itemName+"^FS"
-					+"^FT150,72^A1N,30,20^FD"+jsonDatas[j].itemSTND1+"^FS"
-					+"^FT150,104^A1N,30,20^FD^FS"
-					+"^FT150,136^A1N,30,20^FD"+jsonDatas[j].clientName+"^FS"
-					+"^FT150,168^A1N,30,20^FD"+jsonDatas[j].itemCode+"^FS"
-					+"^FT150,200^A1N,30,20^FD"+jsonDatas[j].lotNo+"^FS"
-					+"^FO360,90^BQN,2,5"
-					+"^FH^FDLA,"+jsonDatas[j].lotNo+"^FS"
+					+"^FT147,40^A1N,30,20^FD"+jsonDatas[j].itemName+"^FS"
+					+"^FT147,72^A1N,30,20^FD"+jsonDatas[j].itemSTND1+"^FS"
+					+"^FT147,104^A1N,30,20^FD"+jsonDatas[j].itemSTND2+"^FS"
+					+"^FT147,136^A1N,30,20^FD"+jsonDatas[j].clientName+"^FS"
+					+"^FT147,168^A1N,30,20^FD"+jsonDatas[j].itemCode+"^FS"
+					+"^FT147,200^A1N,30,20^FD"+jsonDatas[j].lotNo+"^FS"
+					+"^FT357,205^BQN,2,5^FH^FDLA,"+jsonDatas[j].lotNo+"^FS"
 					+"^XZ"
 	}
+	console.log(printCode)
 	selected_device.send(printCode, undefined, errorCallback);
 }
 

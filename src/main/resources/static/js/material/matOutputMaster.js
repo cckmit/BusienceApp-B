@@ -1,9 +1,11 @@
 var matOutputListTable = new Tabulator("#matOutputListTable", { 
 	headerFilterPlaceholder: null,
 	layoutColumnsOnNewData : true,
-	selectable: true,
+	selectable : true,
+	selectableRangeMode:"click",
 	height:"calc(100% - 175px)",
  	columns:[
+	{formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
  	{title:"순번", field:"rownum", headerHozAlign: "center", headerFilter:true, hozAlign: "center", formatter:"rownum"},
 	{title:"출고일자", field:"om_OutDate", headerHozAlign:"center", headerFilter:true, hozAlign:"left", 
 		formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
@@ -73,7 +75,6 @@ var matOutputItemViewTable = new Tabulator("#matOutputItemViewTable", {
 		formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
  	{title:"출고구분", field:"om_Send_Clsfc_Name", headerHozAlign:"center", hozAlign:"left"},
  	{title:"부서명", field:"om_DeptName", headerHozAlign:"center", hozAlign:"left"},
-	{title:"Lot번호", field:"om_LotNo", headerHozAlign:"center", hozAlign:"left"},
  	{title:"품목코드", field:"om_ItemCode", headerHozAlign:"center", hozAlign:"left"},
  	{title:"품명", field:"om_ItemName", headerHozAlign:"center", hozAlign:"left"},
  	{title:"규격1", field:"om_Item_Stnd_1", headerHozAlign:"center", hozAlign:"left"},
@@ -114,7 +115,6 @@ var matOutputDeptViewTable = new Tabulator("#matOutputDeptViewTable", {
 		formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
  	{title:"출고구분", field:"om_Send_Clsfc_Name", headerHozAlign:"center", hozAlign:"left"},
  	{title:"부서명", field:"om_DeptName", headerHozAlign:"center", hozAlign:"left"},
-	{title:"Lot번호", field:"om_LotNo", headerHozAlign:"center", hozAlign:"left"},
  	{title:"품목코드", field:"om_ItemCode", headerHozAlign:"center", hozAlign:"left"},
  	{title:"품명", field:"om_ItemName", headerHozAlign:"center", hozAlign:"left"},
  	{title:"규격1", field:"om_Item_Stnd_1", headerHozAlign:"center", hozAlign:"left"},

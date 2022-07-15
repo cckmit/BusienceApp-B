@@ -7,14 +7,24 @@
 	<select id="rawMaterialLabelSelectDao" resultType="com.busience.production.dto.LabelPrintDto">
 		SELECT
 			A.LM_LotNo LotNo, A.LM_ItemCode ItemCode, B.Product_Item_Name ItemName,
-		    B.Product_Info_STND_1 ItemSTND1, B.Product_Info_STND_2 ItemSTND2, ifnull(D.Cus_Name, "") ClientName
+		    B.Product_Info_STND_1 ItemSTND1, ifnull(D.Cus_Name, "") ClientName,
+		    <![CDATA[
+		    if(left(B.Product_Item_Name,2)="MB",(
+				case
+					when substring(#{LotNo},4,2) <=3 then "L01" 
+				    when substring(#{LotNo},4,2) <=6 then "L02"
+				    when substring(#{LotNo},4,2) <=9 then "L03"
+				    else "L04"
+				end)
+			, "") ItemSTND2
+			]]>
 		FROM LotMaster_tbl A
 		inner join Product_Info_tbl B on A.LM_ItemCode = B.Product_Item_Code
 		left outer join InMat_tbl C on A.LM_LotNo = C.InMat_Lot_No and C.InMat_No = '1'
 		left outer join Customer_tbl D on C.InMat_Client_Code = D.Cus_Code
 		where A.LM_LotNo = #{LotNo}
 	</select>
-
+		
 	<select id="smallPackagingLabelSelectDao" resultType="com.busience.production.dto.LabelPrintDto">
 		SELECT
 			A.Small_Packaging_LotNo, A.ItemCode, B.Product_Item_Name ItemName, sum(A.Qty) Qty,
