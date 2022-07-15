@@ -19,7 +19,7 @@ public class LabelPrintService {
 	public List<LabelPrintDto> rawMaterialLabelSelect(List<SearchDto> searchDtoList) {
 		List<LabelPrintDto> LabelPrintDtoList = new ArrayList<LabelPrintDto>();
 		for(int i=0; i<searchDtoList.size(); i++) {
-			LabelPrintDtoList.add(labelPrintDao.rawMaterialLabelSelectDao(searchDtoList.get(i).getLotNo()));
+			LabelPrintDtoList.add(labelPrintDao.rawMaterialLabelSelectDao(searchDtoList.get(i).getLotNo(), "50"));
 		}
 		return LabelPrintDtoList;
 	}

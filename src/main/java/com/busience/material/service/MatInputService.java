@@ -132,7 +132,7 @@ public class MatInputService {
 							orderMasterDao.orderMasterUpdateDao(inMatDto);
 							
 							//저장한 리스트 생성
-							LabelPrintDtoList.add(labelPrintDao.rawMaterialLabelSelectDao(lotNo));
+							LabelPrintDtoList.add(labelPrintDao.rawMaterialLabelSelectDao(lotNo, Warehouse));
 						}
 					}
 				}

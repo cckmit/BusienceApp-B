@@ -6,7 +6,7 @@ var editCheck = function(cell) {
 	//get row data
 	var data = cell.getRow().getData();
 
-	return data.s_LotNo == undefined; // only allow the name cell to be edited if the age is over 18
+	return data.s_LotNo == undefined;
 }
 
 var MSC_inputEditor = function(cell, onRendered, success, cancel, editorParams) {
@@ -68,10 +68,8 @@ var MSC_inputEditor = function(cell, onRendered, success, cancel, editorParams) 
 								"s_Item_Standard_1": data[0].product_INFO_STND_1
 							});
 						} else {
-							//검색어와 일치하는값이 없는경우, 팝업창
-							
-							itemPopup(MSC_input.value, 'grid', '', 'material');
-							
+							//검색어와 일치하는값이 없는경우, 팝업창							
+							itemPopup(MSC_input.value, 'grid', '', 'material');							
 						}
 					}
 				})
@@ -160,10 +158,7 @@ function MSC_SearchBtn(chv) {
 		s_WareHouse: s_WareHouse
 	}
 	
-	//console.log(datas)
-
 	matStockChangeTable.setData("matStockRest/matStockChangeSelect", datas);
-	//console.log(matStockChangeTable);
 }
 
 // ADD버튼을 클릭할때 모달창을 여는 이벤트
@@ -189,14 +184,11 @@ function item_gridInit(PCode, PName, PSTND_1, UNIT_Price, UNIT_Name, Material_Na
 // ADD버튼을 클릭할때 모달창을 여는 이벤트
 $("#stockChangeSaveBtn").click(function() {
 	stockChangeSave();
-
 });
 
 function stockChangeSave() {
 
 	let selectedRow = matStockChangeTable.getData("selected");
-	let subData = matStockChangeTable.getData("selected");
-	console.log(selectedRow);
 
 	if (selectedRow.length == 0) {
 		alert("저장할 행을 선택하세요.");
@@ -205,7 +197,6 @@ function stockChangeSave() {
 
 	for (let i = 0; i < selectedRow.length; i++) {
 		if (selectedRow[i].s_ChangeQty == undefined) {
-			console.log(selectedRow[i].s_ChangeQty);
 			alert("변경수량을 입력하세요.");
 			return;
 		}
@@ -228,11 +219,6 @@ function stockChangeSave() {
 		})
 	}
 
-	
-
-
-	console.log(subTable);
-
 	//OrderSub 저장부분
 	$.ajax({
 		method: "post",
@@ -245,7 +231,6 @@ function stockChangeSave() {
 		},
 		success: function(result) {
 			if (result) {
-				console.log(result);
 				RawMaterialPrinter(result);
 				alert("저장되었습니다.");
 				document.querySelector('#inMatTypeListSelectBox').value = '50';
@@ -256,8 +241,6 @@ function stockChangeSave() {
 			}
 		}
 	});
-
-
 }
 
 $(document).ready(function() {

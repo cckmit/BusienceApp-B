@@ -23,6 +23,7 @@
 		left outer join InMat_tbl C on A.LM_LotNo = C.InMat_Lot_No and C.InMat_No = '1'
 		left outer join Customer_tbl D on C.InMat_Client_Code = D.Cus_Code
 		where A.LM_LotNo = #{LotNo}
+		and A.LM_Warehouse = #{Warehouse}
 	</select>
 		
 	<select id="smallPackagingLabelSelectDao" resultType="com.busience.production.dto.LabelPrintDto">
