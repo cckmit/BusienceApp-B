@@ -3,6 +3,7 @@ package com.busience.material.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.busience.common.dto.SearchDto;
 import com.busience.material.dto.InMatDto;
@@ -15,6 +16,13 @@ public interface InMatDao {
 	
 	//자재 입고 등록
 	public int inMatInsertDao(InMatDto inMatDto);
+	
+	//자재 입고 등록
+	public int inMatInsert2Dao(@Param("InMat_Order_No") String InMat_Order_No, @Param("InMat_Lot_No") String InMat_Lot_No,
+							@Param("InMat_Code") String InMat_Code, @Param("InMat_Qty") double InMat_Qty,
+							@Param("InMat_Unit_Price") double InMat_Unit_Price, @Param("InMat_Price") double InMat_Price,
+							@Param("InMat_Client_Code") String InMat_Client_Code, @Param("InMat_Date") String InMat_Date,
+							@Param("InMat_Rcv_Clsfc") String InMat_Rcv_Clsfc, @Param("InMat_Modifier") String InMat_Modifier);
 	
 	//입고 검사 상태 수정
 	public int inMatCheckUpdateDao(InMatDto inMatDto);

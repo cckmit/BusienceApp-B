@@ -78,14 +78,18 @@ public class MatInputService {
 					for (int i = 0; i < inMatDtoList.size(); i++) {
 						InMatDto inMatDto = inMatDtoList.get(i);
 						inMatDto.setInMat_Modifier(userCode);
-
+												
+						String orderNo = inMatDto.getInMat_Order_No();
 						int no = inMatDto.getInMat_No();
 						String lotNo = inMatDto.getInMat_Lot_No();
 						String itemCode = inMatDto.getInMat_Code();
 						int qty = inMatDto.getInMat_Qty();
-						String Warehouse = WarehouseList.get(0).getCHILD_TBL_NO();
+						int unitPrice = inMatDto.getInMat_Unit_Price();
+						String clientCode = inMatDto.getInMat_Client_Code();
+						String inMatDate = inMatDto.getInMat_Date();
+						String warehouse = WarehouseList.get(0).getCHILD_TBL_NO();
 						String before = "";
-						String after = WarehouseList.get(0).getCHILD_TBL_NO();
+						String after = warehouse;
 						String classfy = inMatDto.getInMat_Rcv_Clsfc();
 						
 						ItemDto itemDto = itemDao.selectItemCode(itemCode);
@@ -93,46 +97,66 @@ public class MatInputService {
 						inMatDtoList.get(i).setInMat_STND_1(itemDto.getPRODUCT_INFO_STND_1());
 						inMatDtoList.get(i).setInMat_STND_2(itemDto.getPRODUCT_INFO_STND_2());
 						inMatDtoList.get(i).setInMat_Client_Name(inMatDto.getInMat_Client_Name());
+
+						// 자재창고에 저장
+						inMatDto.setInMat_Warehouse(warehouse);
+						// 이동 설정하기 외부 -> 자재창고
+						inMatDto.setInMat_Before(before);
+						inMatDto.setInMat_After(after);
+						// 작업자
+						inMatDto.setInMat_Modifier(userCode);
+
+						// 재고 저장
+						stockDao.stockInsertUpdateDao(itemCode,(double) qty, warehouse);
+
+						// 발주리스트 저장
+						orderListDao.orderListUpdateDao(inMatDto);
+
+						// 발주마스터 저장
+						orderMasterDao.orderMasterUpdateDao(inMatDto);
 						
-						
-						for(int j=0;j<qty;j++) {
+						if("24".equals(itemDto.getPRODUCT_MTRL_CLSFC())) {
+							for(int j=0;j<qty;j++) {
+								//랏번호 생성
+								lotNo = lotNoDao.rawlotNoSelectDao(inMatDate, itemCode);
+								inMatDto.setInMat_Lot_No(lotNo);
+								
+								double realQty = 1;
+								
+								// 랏트랜스번호 가져오기
+								no = lotTransDao.lotTransNoSelectDao(lotNo);
+								
+								// 랏마스터 저장
+								lotMasterDao.lotMasterInsertUpdateDao(lotNo, itemCode, realQty, warehouse);
+								
+								// 자재입고 저장
+								inMatDao.inMatInsert2Dao(orderNo, lotNo, itemCode, realQty, unitPrice, realQty*unitPrice, clientCode, inMatDate, classfy, userCode);
+
+								// 랏트랜스 저장
+								lotTransDao.lotTransInsertDao(no, lotNo, itemCode, realQty, before, after, classfy);
+
+								//저장한 리스트 생성
+								LabelPrintDtoList.add(labelPrintDao.rawMaterialLabelSelectDao(lotNo, warehouse));
+							}	
+						}else {
 							//랏번호 생성
-							lotNo = lotNoDao.rawlotNoSelectDao(inMatDto.getInMat_Date(), itemCode);
+							lotNo = lotNoDao.rawlotNoSelectDao(inMatDate, itemCode);
 							inMatDto.setInMat_Lot_No(lotNo);
 							
-							double realQty = 1;
-							inMatDto.setInMat_Qty((int) realQty);
-							
-							// 자재창고에 저장
-							inMatDto.setInMat_Warehouse(Warehouse);
 							// 랏트랜스번호 가져오기
-							inMatDto.setInMat_No(lotTransDao.lotTransNoSelectDao(lotNo));
-							// 이동 설정하기 외부 -> 자재창고
-							inMatDto.setInMat_Before(before);
-							inMatDto.setInMat_After(after);
-							// 작업자
-							inMatDto.setInMat_Modifier(userCode);
-
+							no = lotTransDao.lotTransNoSelectDao(lotNo);
+							
 							// 랏마스터 저장
-							lotMasterDao.lotMasterInsertUpdateDao(lotNo, itemCode, realQty, Warehouse);
-
-							// 재고 저장
-							stockDao.stockInsertUpdateDao(itemCode, realQty, Warehouse);
-
+							lotMasterDao.lotMasterInsertUpdateDao(lotNo, itemCode, (double) qty, warehouse);
+							
 							// 자재입고 저장
-							inMatDao.inMatInsertDao(inMatDto);
+							inMatDao.inMatInsert2Dao(orderNo, lotNo, itemCode, qty, unitPrice, qty*unitPrice, clientCode, inMatDate, classfy, userCode);
 
 							// 랏트랜스 저장
-							lotTransDao.lotTransInsertDao(no, lotNo, itemCode, realQty, before, after, classfy);
+							lotTransDao.lotTransInsertDao(no, lotNo, itemCode, (double) qty, before, after, classfy);
 
-							// 발주리스트 저장
-							orderListDao.orderListUpdateDao(inMatDto);
-
-							// 발주마스터 저장
-							orderMasterDao.orderMasterUpdateDao(inMatDto);
-							
 							//저장한 리스트 생성
-							LabelPrintDtoList.add(labelPrintDao.rawMaterialLabelSelectDao(lotNo, Warehouse));
+							LabelPrintDtoList.add(labelPrintDao.rawMaterialLabelSelectDao(lotNo, warehouse));
 						}
 					}
 				}

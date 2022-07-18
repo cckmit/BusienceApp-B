@@ -24,6 +24,21 @@
 		)
 	</insert>
 	
+	<insert id="inMatInsert2Dao">
+		insert into InMat_tbl(
+			InMat_Order_No, InMat_Lot_No,
+		    InMat_Code, InMat_Qty, InMat_Unit_Price,
+		    InMat_Price, InMat_Client_Code, InMat_Date,
+		    InMat_Rcv_Clsfc, InMat_Modifier
+		) values (
+			#{InMat_Order_No}, #{InMat_Lot_No},
+		    #{InMat_Code}, #{InMat_Qty}, #{InMat_Unit_Price},
+		    #{InMat_Qty} * #{InMat_Unit_Price},
+		    #{InMat_Client_Code}, #{InMat_Date},
+		    #{InMat_Rcv_Clsfc}, #{InMat_Modifier}
+		)
+	</insert>
+	
 	<select id="inMatListDao" resultType="com.busience.material.dto.InMatDto">
 		select 
 			A.InMat_Order_No, A.InMat_Lot_No, A.InMat_No,
