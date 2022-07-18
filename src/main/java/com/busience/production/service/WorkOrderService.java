@@ -16,7 +16,6 @@ import com.busience.common.dto.SearchDto;
 import com.busience.production.dao.WorkOrderDao;
 import com.busience.production.dto.ProductionMgmtDto;
 import com.busience.production.dto.WorkOrderDto;
-import com.busience.production.dto.WorkOrder_tbl;
 import com.busience.sales.dao.SalesInputDao;
 import com.busience.sales.dao.SalesOrderMasterDao;
 import com.busience.sales.dto.SalesOrderMasterDto;
@@ -72,12 +71,12 @@ public class WorkOrderService {
 	}
 
 	// 작업 현황
-	public List<WorkOrder_tbl> workListSearch(SearchDto searchDto) {
+	public List<WorkOrderDto> workListSearch(SearchDto searchDto) {
 		return workOrderDao.workListSearch(searchDto);
 	}
 
 	// 세부 작업 현황
-	public List<WorkOrder_tbl> workdListSearch(SearchDto searchDto) {
+	public List<WorkOrderDto> workdListSearch(SearchDto searchDto) {
 		return workOrderDao.workdListSearch(searchDto);
 	}
 

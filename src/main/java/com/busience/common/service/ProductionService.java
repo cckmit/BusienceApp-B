@@ -70,10 +70,7 @@ public class ProductionService {
 	
 	//생산량 저장
 	public int insertProduction(String equip, int value) {
-		//pause가 false일 경우 일시중지
-		if(!pause) {
-			return 0;
-		}
+		
 		//iot 접속 체크용
 		IotCheckDto iotCheckDto = new IotCheckDto();
 		iotCheckDto.setIot_EquipCode(equip);
@@ -90,8 +87,6 @@ public class ProductionService {
 					List<DtlDto> dtlDtoList = dtlDao.findAllByCode(38);
 					
 					List<WorkOrderDto> workOrderDtoList = productionDao.selectWorkOrderDao(equip);
-					
-					System.out.println(productionDao.selectWorkOrderDao(equip));
 					
 					//작업지시 있을때 맞춰서 인서트, 해당설비의 작업시작값이 꼭 1개
 					if(workOrderDtoList.size()>0) {
@@ -148,8 +143,8 @@ public class ProductionService {
 					if(EquipWorkOrderDtoList.size()>0) {
 						String itemCode = EquipWorkOrderDtoList.get(0).getEquip_WorkOrder_ItemCode();
 						//해당 품목의 정보를 가져
-						ItemDto itemDto = itemDao.selectItemCode(itemCode);	
-						System.out.println("equip : "+equip+" value : "+value);
+						ItemDto itemDto = itemDao.selectItemCode(itemCode);
+						
 						//자재식별코드, crate 수량 저장
 						maskProductionService.wholeQtyUpdate(equip, value*itemDto.getPRODUCT_MULTIPLE());
 					}

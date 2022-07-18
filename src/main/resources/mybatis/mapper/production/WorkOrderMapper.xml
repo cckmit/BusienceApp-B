@@ -67,7 +67,7 @@
 		SELECT count(*) FROM WorkOrder_tbl where WorkOrder_RegisterTime >= curdate();
 	</select>
 	
-	<select id="workListSearch" resultType="com.busience.production.dto.WorkOrder_tbl">
+	<select id="workListSearch" resultType="com.busience.production.dto.WorkOrderDto">
 	
 	    SELECT
 			*,
@@ -114,9 +114,9 @@
 
 	</select>
 	
-	<select id="workdListSearch" resultType="com.busience.production.dto.WorkOrder_tbl">
-		SELECT t1.*, t2.CHILD_TBL_Type WorkOrder_WorkStatusName, t4.Equipment_Info_Name WorkOrder_EquipName, t3.Product_Item_Name WorkOrder_ItemName, t3.Product_Info_STND_1 PRODUCT_INFO_STND_1,
-		t5.Child_TBL_Type Product_Item_CLSFC_NAME_1, t6.Child_TBL_Type Product_Item_CLSFC_NAME_2
+	<select id="workdListSearch" resultType="com.busience.production.dto.WorkOrderDto">
+		SELECT t1.*, t2.CHILD_TBL_Type WorkOrder_WorkStatusName, t4.Equipment_Info_Name WorkOrder_EquipName, t3.Product_Item_Name WorkOrder_ItemName, t3.Product_Info_STND_1 workOrder_INFO_STND_1,
+		t5.Child_TBL_Type workOrder_Item_CLSFC_1_Name, t6.Child_TBL_Type workOrder_Item_CLSFC_2_Name
 		FROM WorkOrder_tbl t1
 		INNER JOIN DTL_TBL t2 ON t1.WorkOrder_WorkStatus = t2.CHILD_TBL_NO
 		INNER JOIN Product_Info_tbl t3 ON t1.WorkOrder_ItemCode = t3.Product_Item_Code

@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
-import com.busience.standard.dto.BOM_tbl;
+import com.busience.standard.dto.BOMDto;
 import com.busience.standard.dto.ItemDto;
 import com.busience.standard.service.BOMService;
 
@@ -46,7 +46,7 @@ public class BOMRestController {
 	
 	//BOMBOMList
 	@RequestMapping(value = "/BOMBOMList",method = RequestMethod.GET)
-	public List<BOM_tbl> BOMBOMList(
+	public List<BOMDto> BOMBOMList(
 			@RequestParam(value = "BOM_ItemCode", required = false) String BOM_ItemCode) throws SQLException{
 		
 		String sql = " SELECT\r\n"
@@ -80,10 +80,10 @@ public class BOMRestController {
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
 		
-		List<BOM_tbl> list = new ArrayList<BOM_tbl>();
+		List<BOMDto> list = new ArrayList<BOMDto>();
 		
 		while (rs.next()) {
-			BOM_tbl data = new BOM_tbl();
+			BOMDto data = new BOMDto();
 
 			data.setBOM_ID(rs.getInt("BOM_ID"));
 			data.setBOM_Parent_ItemCode(rs.getString("BOM_Parent_ItemCode"));
@@ -112,7 +112,7 @@ public class BOMRestController {
 	
 	//BOMImpList
 	@RequestMapping(value = "/BOMImpList",method = RequestMethod.GET)
-	public List<BOM_tbl> BOMImpList(
+	public List<BOMDto> BOMImpList(
 			@RequestParam(value = "BOM_ItemCode", required = false) String BOM_ItemCode) throws SQLException{
 		
 		String sql = " SELECT\r\n"
@@ -135,10 +135,10 @@ public class BOMRestController {
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
 		
-		List<BOM_tbl> list = new ArrayList<BOM_tbl>();
+		List<BOMDto> list = new ArrayList<BOMDto>();
 		
 		while (rs.next()) {
-			BOM_tbl data = new BOM_tbl();
+			BOMDto data = new BOMDto();
 			data.setBOM_Parent_ItemCode(rs.getString("BOM_Parent_ItemCode"));
 			data.setBOM_ID(rs.getInt("BOM_ID"));
 			data.setBOM_ItemCode(rs.getString("BOM_ItemCode"));
@@ -157,7 +157,7 @@ public class BOMRestController {
 	
 	//BOMItemInform
 	@RequestMapping(value = "/BOMItemInform",method = RequestMethod.GET)
-	public List<BOM_tbl> BOMItemInform(
+	public List<BOMDto> BOMItemInform(
 			@RequestParam(value = "BOM_ItemCode", required = false) String BOM_ItemCode) throws SQLException{
 		
 		String sql = "SELECT A.PRODUCT_ITEM_CODE BOM_ItemCode, \r\n"
@@ -176,10 +176,10 @@ public class BOMRestController {
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
 		
-		List<BOM_tbl> list = new ArrayList<BOM_tbl>();
+		List<BOMDto> list = new ArrayList<BOMDto>();
 		
 		while (rs.next()) {
-			BOM_tbl data = new BOM_tbl();
+			BOMDto data = new BOMDto();
 			
 			data.setBOM_ItemCode(rs.getString("BOM_ItemCode"));
 			data.setBOM_ItemName(rs.getString("PRODUCT_ITEM_NAME"));

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.busience.standard.dto.PRODUCT_INFO_TBL;
+import com.busience.standard.dto.ItemDto;
 import com.busience.standard.dto.Routing_tbl;
 
 @RestController("routingInputRestController")
@@ -34,7 +34,7 @@ public class routingInputRestController {
 	JdbcTemplate jdbctemplate;
 	
 	@RequestMapping(value = "/Product_Search", method = RequestMethod.GET)
-	public List<PRODUCT_INFO_TBL> Product_Search(HttpServletRequest request) throws SQLException
+	public List<ItemDto> Product_Search(HttpServletRequest request) throws SQLException
 	{
 		String sql = "SELECT \r\n"
 				+ "			A.PRODUCT_ITEM_CODE, \r\n"
@@ -51,10 +51,10 @@ public class routingInputRestController {
 		else
 			sql += " WHERE A.PRODUCT_MTRL_CLSFC=55";
 		
-		return jdbctemplate.query(sql, new RowMapper<PRODUCT_INFO_TBL>() {
+		return jdbctemplate.query(sql, new RowMapper<ItemDto>() {
 			@Override
-			public PRODUCT_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
-				PRODUCT_INFO_TBL data = new PRODUCT_INFO_TBL();
+			public ItemDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+				ItemDto data = new ItemDto();
 				data.setPRODUCT_ITEM_CODE(rs.getString("PRODUCT_ITEM_CODE"));
 				data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
 				data.setPRODUCT_MTRL_CLSFC_NAME(rs.getString("PRODUCT_MTRL_CLSFC_NAME"));

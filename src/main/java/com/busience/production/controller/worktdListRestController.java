@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.production.dto.PRODUCTION_MGMT_TBL2;
-import com.busience.standard.dto.EQUIPMENT_INFO_TBL;
+import com.busience.standard.dto.MachineDto;
 
 @RestController("worktdListRestController")
 @RequestMapping("worktdListRest")
@@ -31,7 +31,7 @@ public class worktdListRestController {
 	JdbcTemplate jdbctemplate;
 
 	@RequestMapping(value = "/One_Grid_init", method = RequestMethod.GET)
-	public List<EQUIPMENT_INFO_TBL> One_Grid_init(HttpServletRequest request)
+	public List<MachineDto> One_Grid_init(HttpServletRequest request)
 			throws org.json.simple.parser.ParseException, SQLException {
 		/*
 		 * List<EQUIPMENT_INFO_TBL> list = new ArrayList<EQUIPMENT_INFO_TBL>();
@@ -52,10 +52,10 @@ public class worktdListRestController {
 		 */
 
 		String sql = "select * from Equipment_Info_tbl";
-		return jdbctemplate.query(sql, new RowMapper<EQUIPMENT_INFO_TBL>() {
+		return jdbctemplate.query(sql, new RowMapper<MachineDto>() {
 			@Override
-			public EQUIPMENT_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
-				EQUIPMENT_INFO_TBL data = new EQUIPMENT_INFO_TBL();
+			public MachineDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+				MachineDto data = new MachineDto();
 				data.setEQUIPMENT_INFO_CODE(rs.getString("EQUIPMENT_INFO_CODE"));
 				data.setEQUIPMENT_INFO_NAME(rs.getString("EQUIPMENT_INFO_NAME"));
 				data.setEQUIPMENT_TYPE(rs.getString("EQUIPMENT_TYPE"));

@@ -18,9 +18,8 @@ import com.busience.common.service.DtlService;
 import com.busience.production.dto.EquipWorkOrderDto;
 import com.busience.production.service.EquipWorkOrderService;
 import com.busience.standard.dto.DTL_TBL;
-import com.busience.standard.dto.EQUIPMENT_INFO_TBL;
+import com.busience.standard.dto.ItemDto;
 import com.busience.standard.dto.MachineDto;
-import com.busience.standard.dto.PRODUCT_INFO_TBL;
 import com.busience.standard.dto.PaldangPackagingStandardDto;
 import com.busience.standard.service.MachineService;
 import com.busience.standard.service.PaldangPackagingStandardService;
@@ -81,10 +80,10 @@ public class tabletController {
 			System.out.println(sql);
 			
 			model.addAttribute("list",
-					jdbctemplate.query(sql, new RowMapper<EQUIPMENT_INFO_TBL>() {
+					jdbctemplate.query(sql, new RowMapper<MachineDto>() {
 						@Override
-						public EQUIPMENT_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
-							EQUIPMENT_INFO_TBL data = new EQUIPMENT_INFO_TBL();
+						public MachineDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+							MachineDto data = new MachineDto();
 							data.setEQUIPMENT_INFO_CODE(rs.getString("EQUIPMENT_INFO_CODE"));
 							data.setEQUIPMENT_INFO_NAME(rs.getString("EQUIPMENT_INFO_NAME"));
 							return data;
@@ -113,10 +112,10 @@ public class tabletController {
 			//String sql = "SELECT * FROM EQUIPMENT_INFO_TBL WHERE EQUIPMENT_INFO_CODE='"+( (request.getParameter("code")==null || request.getParameter("code").equals("null")) ? "' or 1=1" : request.getParameter("code")+"'" );
 			
 			model.addAttribute("list",
-					jdbctemplate.query(sql, new RowMapper<EQUIPMENT_INFO_TBL>() {
+					jdbctemplate.query(sql, new RowMapper<MachineDto>() {
 						@Override
-						public EQUIPMENT_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
-							EQUIPMENT_INFO_TBL data = new EQUIPMENT_INFO_TBL();
+						public MachineDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+							MachineDto data = new MachineDto();
 							data.setEQUIPMENT_INFO_CODE(rs.getString("EQUIPMENT_INFO_CODE"));
 							data.setEQUIPMENT_INFO_NAME(rs.getString("EQUIPMENT_INFO_NAME"));
 							return data;
@@ -144,10 +143,10 @@ public class tabletController {
 					}));
 			
 			model.addAttribute("list3",
-					jdbctemplate.query("SELECT * FROM PRODUCT_INFO_TBL LIMIT 10", new RowMapper<PRODUCT_INFO_TBL>() {
+					jdbctemplate.query("SELECT * FROM PRODUCT_INFO_TBL LIMIT 10", new RowMapper<ItemDto>() {
 						@Override
-						public PRODUCT_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
-							PRODUCT_INFO_TBL data = new PRODUCT_INFO_TBL();
+						public ItemDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+							ItemDto data = new ItemDto();
 
 							data.setPRODUCT_ITEM_CODE(rs.getString("PRODUCT_ITEM_CODE"));
 							data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
@@ -215,24 +214,6 @@ public class tabletController {
 		model.addAttribute("machineInfo", machineDto);
 		
 		return "normal/tablet/maskInputTablet";
-	}
-	
-	@GetMapping("/tablet/maskPackagingTablet")
-	public String maskPackagingTablet(Model model, SearchDto searchDto) {
-		if(searchDto.getMachineCode() == null) {
-			searchDto.setMachineCode("M301");
-		}
-		model.addAttribute("machineList", machineService.labelMachineListDao());
-		List<EquipWorkOrderDto> equipWorkOrderDtoList = equipWorkOrderService.packagingLineListSelect2(searchDto);
-		
-		if(equipWorkOrderDtoList.size() >0) {
-			model.addAttribute("workOrderInfo", equipWorkOrderDtoList.get(0));
-			PaldangPackagingStandardDto paldangPackagingStandardDto = new PaldangPackagingStandardDto();
-			paldangPackagingStandardDto.setPackaging_No(equipWorkOrderDtoList.get(0).getEquip_WorkOrder_INFO_STND_2());
-			model.addAttribute("packagingInfo", paldangPackagingStandardService.paldangPackagingCheckNo(paldangPackagingStandardDto).get(0));
-		}
-		
-		return "normal/tablet/maskPackagingTablet";
 	}
 	
 	@GetMapping("/tablet/maskPackagingMaster")

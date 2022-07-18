@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
-import com.busience.production.dto.WorkOrder_tbl;
+import com.busience.production.dto.WorkOrderDto;
 import com.busience.production.service.WorkOrderService;
 
 @RestController("workdListRestController")
@@ -29,7 +29,7 @@ public class workdListRestController {
 	
 	// 세부 작업 현황
 	@GetMapping("/MI_Search")
-	public List<WorkOrder_tbl> workdListSearch(SearchDto searchDto) {
+	public List<WorkOrderDto> workdListSearch(SearchDto searchDto) {
 		return workOrderService.workdListSearch(searchDto);
 	}
 

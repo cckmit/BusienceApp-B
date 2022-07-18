@@ -35,7 +35,7 @@
 		Wrap_Type1, D2.Child_TBL_Type Wrap_Type2
 		from (SELECT *
 		from (SELECT Right(MachineCode,1) Mach2, ItemCode, sum(Qty) Wrap_Qty
-		FROM paldang2.Small_Packaging_tbl
+		FROM Small_Packaging_tbl
 		where Create_Date > CURDATE()
 		group by MachineCode) AA
 		LEFT outer Join (SELECT CL_MachineCode2 Wrap_MachineCode,
@@ -83,7 +83,7 @@
 		Wrap_Type1, D2.Child_TBL_Type Wrap_Type2
 		from (SELECT *
 		from (SELECT Right(MachineCode,1) Mach2, ItemCode, sum(Qty) Wrap_Qty
-		FROM paldang2.Small_Packaging_tbl
+		FROM Small_Packaging_tbl
 		where Create_Date > CURDATE()
 		group by MachineCode) AA
 		Inner Join (SELECT CL_MachineCode2 Wrap_MachineCode,

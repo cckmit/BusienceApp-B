@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Param;
 import com.busience.common.dto.SearchDto;
 import com.busience.production.dto.ProductionMgmtDto;
 import com.busience.production.dto.WorkOrderDto;
-import com.busience.production.dto.WorkOrder_tbl;
 import com.busience.sales.dto.SalesOrderMasterDto;
 
 @Mapper
@@ -28,10 +27,10 @@ public interface WorkOrderDao {
 	public List<WorkOrderDto> workOrderCompleteSelectDao(SearchDto searchDto);
 	
 	//작업 현황
-	public List<WorkOrder_tbl> workListSearch(SearchDto searchDto);
+	public List<WorkOrderDto> workListSearch(SearchDto searchDto);
 	
 	//세부 작업 현황
-	public List<WorkOrder_tbl> workdListSearch(SearchDto searchDto);
+	public List<WorkOrderDto> workdListSearch(SearchDto searchDto);
 	
 	//작업지시 접수 상단 그리드
 	public List<WorkOrderDto> workorderListSelect(SearchDto searchDto);

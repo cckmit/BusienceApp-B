@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.HometaxApiDto;
 import com.busience.common.service.HometaxApiService;
-import com.busience.standard.dto.Customer_tbl;
-import com.busience.standard.dto.DEFECT_INFO_TBL;
-import com.busience.standard.dto.EQUIPMENT_INFO_TBL;
-import com.busience.standard.dto.PRODUCT_INFO_TBL;
+import com.busience.standard.dto.CustomerDto;
+import com.busience.standard.dto.DefectInfoDto;
+import com.busience.standard.dto.ItemDto;
+import com.busience.standard.dto.MachineDto;
 import com.busience.standard.dto.PaldangPackagingStandardDto;
 import com.busience.standard.service.ItemService;
 import com.busience.standard.service.PaldangPackagingStandardService;
@@ -48,7 +48,7 @@ public class popupRestController {
 	
 	//itemPopup
 	@GetMapping("/itemPopupSelect")
-	public List<PRODUCT_INFO_TBL> itemPopupSelect(
+	public List<ItemDto> itemPopupSelect(
 			@RequestParam(value = "item_Word", required = false) String item_Word,
 			@RequestParam(value = "search_value", required = false) String search_value) throws SQLException {
 		
@@ -57,20 +57,7 @@ public class popupRestController {
 		ResultSet rs = null;
 		
 		conn = dataSource.getConnection();
-		/*
-		String terms = null;
-		String terms_sql = "select CHILD_TBL_RMARK from DTL_TBL\r\n"
-				+ "where NEW_TBL_CODE = 37 and CHILD_TBL_TYPE = '"+search_value+"'";
 		
-		pstmt = conn.prepareStatement(terms_sql);
-		rs = pstmt.executeQuery();
-		
-		while (rs.next()) {
-			terms = rs.getString("CHILD_TBL_RMARK");
-		}
-		System.out.println("============");
-		System.out.println(terms);
-		*/
 		String sql = "";
 		
 		sql = " select A.PRODUCT_ITEM_CODE,\r\n"
@@ -95,13 +82,11 @@ public class popupRestController {
 		
 		pstmt = conn.prepareStatement(sql);
 		rs = pstmt.executeQuery();
-		System.out.println("기본");
-		System.out.println("itemPopupSelect =" + sql);
 		
-		List<PRODUCT_INFO_TBL> list = new ArrayList<PRODUCT_INFO_TBL>();
+		List<ItemDto> list = new ArrayList<ItemDto>();
 
 		while (rs.next()) {
-			PRODUCT_INFO_TBL data = new PRODUCT_INFO_TBL();
+			ItemDto data = new ItemDto();
 
 			data.setPRODUCT_ITEM_CODE(rs.getString("PRODUCT_ITEM_CODE"));
 			data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
@@ -126,7 +111,7 @@ public class popupRestController {
 	
 	//itemPopup
 		@GetMapping("/itemPopupSTND")
-		public List<PRODUCT_INFO_TBL> itemPopupSTND(
+		public List<ItemDto> itemPopupSTND(
 				@RequestParam(value = "item_Word", required = false) String item_Word,
 				@RequestParam(value = "search_value", required = false) String search_value) throws SQLException {
 			
@@ -161,12 +146,11 @@ public class popupRestController {
 			
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			System.out.println("itemPopupSTND =" + sql);
 			
-			List<PRODUCT_INFO_TBL> list = new ArrayList<PRODUCT_INFO_TBL>();
+			List<ItemDto> list = new ArrayList<ItemDto>();
 
 			while (rs.next()) {
-				PRODUCT_INFO_TBL data = new PRODUCT_INFO_TBL();
+				ItemDto data = new ItemDto();
 
 				data.setPRODUCT_ITEM_CODE(rs.getString("PRODUCT_ITEM_CODE"));
 				data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
@@ -194,7 +178,7 @@ public class popupRestController {
 	
 	//itemPopup
 	@GetMapping("/tablet/itemPopupSelect")
-	public List<PRODUCT_INFO_TBL> tabletitemPopupSelect(
+	public List<ItemDto> tabletitemPopupSelect(
 				@RequestParam(value = "item_Word", required = false) String item_Word,
 				@RequestParam(value = "search_value", required = false) String search_value) throws SQLException {
 			
@@ -203,20 +187,7 @@ public class popupRestController {
 			ResultSet rs = null;
 			
 			conn = dataSource.getConnection();
-			/*
-			String terms = null;
-			String terms_sql = "select CHILD_TBL_RMARK from DTL_TBL\r\n"
-					+ "where NEW_TBL_CODE = 37 and CHILD_TBL_TYPE = '"+search_value+"'";
 			
-			pstmt = conn.prepareStatement(terms_sql);
-			rs = pstmt.executeQuery();
-			
-			while (rs.next()) {
-				terms = rs.getString("CHILD_TBL_RMARK");
-			}
-			System.out.println("============");
-			System.out.println(terms);
-			*/
 			String sql = "";
 			
 			sql = " select PRODUCT_ITEM_CODE,\r\n"
@@ -230,13 +201,11 @@ public class popupRestController {
 			
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			System.out.println("태블릿");
-			System.out.println("itemPopupSelect =" + sql);
 			
-			List<PRODUCT_INFO_TBL> list = new ArrayList<PRODUCT_INFO_TBL>();
+			List<ItemDto> list = new ArrayList<ItemDto>();
 
 			while (rs.next()) {
-				PRODUCT_INFO_TBL data = new PRODUCT_INFO_TBL();
+				ItemDto data = new ItemDto();
 
 				data.setPRODUCT_ITEM_CODE(rs.getString("PRODUCT_ITEM_CODE"));
 				data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
@@ -254,7 +223,7 @@ public class popupRestController {
 	
 	//itemPopup - 규격으로 검사함
 	@GetMapping("/tablet/itemPopupSelect2")
-	public List<PRODUCT_INFO_TBL> tabletitemPopupSelect2(
+	public List<ItemDto> tabletitemPopupSelect2(
 				@RequestParam(value = "item_Word", required = false) String item_Word,
 				@RequestParam(value = "search_value", required = false) String search_value) throws SQLException {
 			
@@ -274,8 +243,6 @@ public class popupRestController {
 			while (rs.next()) {
 				terms = rs.getString("CHILD_TBL_RMARK");
 			}
-			System.out.println("============");
-			System.out.println(terms);
 			
 			String sql = "";
 			
@@ -290,13 +257,11 @@ public class popupRestController {
 			
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			System.out.println("태블릿2");
-			System.out.println("itemPopupSelect =" + sql);
 			
-			List<PRODUCT_INFO_TBL> list = new ArrayList<PRODUCT_INFO_TBL>();
+			List<ItemDto> list = new ArrayList<ItemDto>();
 
 			while (rs.next()) {
-				PRODUCT_INFO_TBL data = new PRODUCT_INFO_TBL();
+				ItemDto data = new ItemDto();
 
 				data.setPRODUCT_ITEM_CODE(rs.getString("PRODUCT_ITEM_CODE"));
 				data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
@@ -314,7 +279,7 @@ public class popupRestController {
 	
 	//itemPopup - 규격으로 검사함
 		@GetMapping("/itemPopupSelect2")
-		public List<PRODUCT_INFO_TBL> itemPopupSelect2(
+		public List<ItemDto> itemPopupSelect2(
 					@RequestParam(value = "item_Word", required = false) String item_Word,
 					@RequestParam(value = "search_value", required = false) String search_value) throws SQLException {
 				
@@ -350,13 +315,11 @@ public class popupRestController {
 				
 				pstmt = conn.prepareStatement(sql);
 				rs = pstmt.executeQuery();
-				System.out.println("기본2");
-				System.out.println("itemPopupSelect =" + sql);
 				
-				List<PRODUCT_INFO_TBL> list = new ArrayList<PRODUCT_INFO_TBL>();
+				List<ItemDto> list = new ArrayList<ItemDto>();
 
 				while (rs.next()) {
-					PRODUCT_INFO_TBL data = new PRODUCT_INFO_TBL();
+					ItemDto data = new ItemDto();
 
 					data.setPRODUCT_ITEM_CODE(rs.getString("PRODUCT_ITEM_CODE"));
 					data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
@@ -374,7 +337,7 @@ public class popupRestController {
 
 	// machinePopup
 	@GetMapping("/machinePopupSelect")
-	public List<EQUIPMENT_INFO_TBL> machinePopupSelect(
+	public List<MachineDto> machinePopupSelect(
 			@RequestParam(value = "machine_Word", required = false) String machine_Word,
 			@RequestParam(value = "search_value", required = false) String search_value) throws SQLException {
 		
@@ -384,16 +347,14 @@ public class popupRestController {
 			+ " inner join DTL_TBL dt on eit.Equipment_Type = dt.Child_TBL_No\r\n"
 			+ " where (Equipment_Info_Code like '%" + machine_Word + "%' or Equipment_Info_Name like '%" + machine_Word + "%') and dt.Child_TBL_No='"+ search_value +"'";
 
-		System.out.println(sql);
-
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
 		
-		List<EQUIPMENT_INFO_TBL> list = new ArrayList<EQUIPMENT_INFO_TBL>();
+		List<MachineDto> list = new ArrayList<MachineDto>();
 		
 		while (rs.next()) {
-			EQUIPMENT_INFO_TBL data = new EQUIPMENT_INFO_TBL();
+			MachineDto data = new MachineDto();
 
 			data.setEQUIPMENT_INFO_CODE(rs.getString("Equipment_Info_Code"));
 			data.setEQUIPMENT_INFO_NAME(rs.getString("Equipment_Info_Name"));
@@ -409,7 +370,7 @@ public class popupRestController {
 	
 	//defectPopup
 	@RequestMapping(value = "/defectPopupSelect", method = { RequestMethod.GET })
-	public List<DEFECT_INFO_TBL> defectPopupSelect(
+	public List<DefectInfoDto> defectPopupSelect(
 			@RequestParam(value = "defect_Word", required = false) String defect_Word) throws SQLException {
 
 		String sql = "";
@@ -417,19 +378,17 @@ public class popupRestController {
 		sql = " select DEFECT_CODE, DEFECT_NAME from DEFECT_INFO_TBL\r\n"
 			+ " where (DEFECT_CODE like '%" + defect_Word + "%' or DEFECT_NAME like '%" + defect_Word + "%')\r\n"
 			+ " and DEFECT_USE_STATUS='true'";
-				
-		System.out.println(sql);
-
+		
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
 
-		List<DEFECT_INFO_TBL> list = new ArrayList<DEFECT_INFO_TBL>();
+		List<DefectInfoDto> list = new ArrayList<DefectInfoDto>();
 
 		while (rs.next()) {
-			DEFECT_INFO_TBL data = new DEFECT_INFO_TBL();
-			data.setDEFECT_CODE(rs.getString("DEFECT_CODE"));
-			data.setDEFECT_NAME(rs.getString("DEFECT_NAME"));
+			DefectInfoDto data = new DefectInfoDto();
+			data.setDefect_Code(rs.getString("DEFECT_CODE"));
+			data.setDefect_Name(rs.getString("DEFECT_NAME"));
 			list.add(data);
 		}
 
@@ -438,7 +397,7 @@ public class popupRestController {
 	
 	// customerPopup
     @RequestMapping(value = "/customerPopupSelect", method = RequestMethod.GET)
-    public List<Customer_tbl> customerPopupSelect(
+    public List<CustomerDto> customerPopupSelect(
           @RequestParam(value = "cus_Word", required = false) String cus_Word,
           @RequestParam(value = "search_value", required = false) String search_value) throws SQLException {
        
@@ -455,16 +414,14 @@ public class popupRestController {
            sql += " and B.CHILD_TBL_RMARK='"+search_value+"'";
        }
 
-       System.out.println(sql);
-
        Connection conn = dataSource.getConnection();
        PreparedStatement pstmt = conn.prepareStatement(sql);
        ResultSet rs = pstmt.executeQuery();
 
-       List<Customer_tbl> list = new ArrayList<Customer_tbl>();
+       List<CustomerDto> list = new ArrayList<CustomerDto>();
 
        while (rs.next()) {
-          Customer_tbl data = new Customer_tbl();
+    	   CustomerDto data = new CustomerDto();
 
           data.setCus_Code(rs.getString("cus_Code"));
           data.setCus_Name(rs.getString("cus_Name"));
@@ -480,7 +437,7 @@ public class popupRestController {
     
 	//product_check
 	@RequestMapping(value = "/product_check", method = RequestMethod.GET)
-	public List<PRODUCT_INFO_TBL> product_check(
+	public List<ItemDto> product_check(
 			@RequestParam(value = "PRODUCT_ITEM_CODE", required = false) String PRODUCT_ITEM_CODE) throws SQLException {
 		
 		String sql = "";
@@ -502,13 +459,11 @@ public class popupRestController {
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
 
-		List<PRODUCT_INFO_TBL> list = new ArrayList<PRODUCT_INFO_TBL>();
+		List<ItemDto> list = new ArrayList<ItemDto>();
 		
-		int i = 0;
 		while (rs.next()) {
-			PRODUCT_INFO_TBL data = new PRODUCT_INFO_TBL();
-			i++;
-			data.setId(i);
+			ItemDto data = new ItemDto();
+
 			data.setPRODUCT_ITEM_CODE(rs.getString("PRODUCT_ITEM_CODE"));
 			data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
 			data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
@@ -524,7 +479,7 @@ public class popupRestController {
 	
 	//product_check
 		@RequestMapping(value = "/product_stnd2_check", method = RequestMethod.GET)
-		public List<PRODUCT_INFO_TBL> product_stnd2_check(
+		public List<ItemDto> product_stnd2_check(
 				@RequestParam(value = "Product_Stnd2", required = false) String Product_Stnd2) throws SQLException {
 			
 			String sql = "";
@@ -546,13 +501,11 @@ public class popupRestController {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 
-			List<PRODUCT_INFO_TBL> list = new ArrayList<PRODUCT_INFO_TBL>();
+			List<ItemDto> list = new ArrayList<ItemDto>();
 			
-			int i = 0;
 			while (rs.next()) {
-				PRODUCT_INFO_TBL data = new PRODUCT_INFO_TBL();
-				i++;
-				data.setId(i);
+				ItemDto data = new ItemDto();
+
 				data.setPRODUCT_ITEM_CODE(rs.getString("PRODUCT_ITEM_CODE"));
 				data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
 				data.setPRODUCT_INFO_STND_1(rs.getString("PRODUCT_INFO_STND_1"));
@@ -568,7 +521,7 @@ public class popupRestController {
 	
 	//customer_check
 	@RequestMapping(value = "/customer_check", method = RequestMethod.GET)
-	public List<Customer_tbl> customer_check(
+	public List<CustomerDto> customer_check(
 			@RequestParam(value = "Cus_Code", required = false) String cus_Code) throws SQLException {
 		
 		String sql = "";
@@ -586,20 +539,15 @@ public class popupRestController {
 					+ "from Customer_tbl\r\n"
 					+ " where (Cus_Name = '" + cus_Code + "' or Cus_Code = '" + cus_Code + "'))";		
 
-		
-		System.out.println("customer_check ="+sql);
-
 		Connection conn = dataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
 		
-		List<Customer_tbl> list = new ArrayList<Customer_tbl>();
+		List<CustomerDto> list = new ArrayList<CustomerDto>();
 		
-		int i = 0;
 		while (rs.next()) {
-			Customer_tbl data = new Customer_tbl();
-			i++;
-			data.setId(i);
+			CustomerDto data = new CustomerDto();
+
 			data.setCus_Code(rs.getString("cus_Code"));
 			data.setCus_Name(rs.getString("cus_Name"));
 			list.add(data);
@@ -613,7 +561,7 @@ public class popupRestController {
 	}
 	
 	@RequestMapping(value = "/equipment_check", method = RequestMethod.GET)
-	public List<EQUIPMENT_INFO_TBL> equipment_check(
+	public List<MachineDto> equipment_check(
 			@RequestParam(value = "EQUIPMENT_INFO_CODE", required = false) String EQUIPMENT_INFO_CODE){
 		
 		//첫 select 결과가 없으면 두번쨰 select로 대체함
@@ -630,10 +578,10 @@ public class popupRestController {
 				+ "where (Equipment_Info_Name = ? or Equipment_Info_Code = ?));";
 		
 		System.out.println(sql);
-		return jdbctemplate.query(sql, new RowMapper<EQUIPMENT_INFO_TBL>(){
+		return jdbctemplate.query(sql, new RowMapper<MachineDto>(){
 			@Override
-			public EQUIPMENT_INFO_TBL mapRow(ResultSet rs, int rowNum) throws SQLException {
-				EQUIPMENT_INFO_TBL data = new EQUIPMENT_INFO_TBL();
+			public MachineDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+				MachineDto data = new MachineDto();
 				data.setEQUIPMENT_INFO_CODE(rs.getString("EQUIPMENT_INFO_CODE"));
 				data.setEQUIPMENT_INFO_NAME(rs.getString("EQUIPMENT_INFO_NAME"));
 				return data;

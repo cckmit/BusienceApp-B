@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.busience.standard.dto.ItemDto;
 import com.busience.standard.dto.Mat_Model_Mapping_tbl;
-import com.busience.standard.dto.PRODUCT_INFO_TBL;
 import com.busience.standard.dto.Routing_tbl;
 
 @RestController("matmodelmappingRestController")
@@ -36,9 +36,9 @@ public class matmodelmappingRestController {
 	JdbcTemplate jdbctemplate;
 	
 	@RequestMapping(value = "/Product_Search", method = RequestMethod.GET)
-	public List<PRODUCT_INFO_TBL> Product_Search(HttpServletRequest request) throws SQLException
+	public List<ItemDto> Product_Search(HttpServletRequest request) throws SQLException
 	{
-		List<PRODUCT_INFO_TBL> list = new ArrayList<PRODUCT_INFO_TBL>();
+		List<ItemDto> list = new ArrayList<ItemDto>();
 		
 		String sql = "SELECT \r\n"
 				+ "			Distinct A.PRODUCT_ITEM_CODE, \r\n"
@@ -60,9 +60,9 @@ public class matmodelmappingRestController {
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
 		
-		PRODUCT_INFO_TBL data = null;
+		ItemDto data = null;
 		while (rs.next()) {
-			data = new PRODUCT_INFO_TBL();
+			data = new ItemDto();
 			data.setPRODUCT_ITEM_CODE(rs.getString("PRODUCT_ITEM_CODE"));
 			data.setPRODUCT_ITEM_NAME(rs.getString("PRODUCT_ITEM_NAME"));
 			data.setPRODUCT_MTRL_CLSFC_NAME(rs.getString("PRODUCT_MTRL_CLSFC_NAME"));

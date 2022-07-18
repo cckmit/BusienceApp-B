@@ -45,4 +45,7 @@ public class ItemDto {
 	private int NEXT_CODE_VAL; // 완제품 코드 다음 값 가져오는 컬럼
 	
 	private int PRODUCT_Qty;
+	private String PRODUCT_Packaging_Item;
+	private double PRODUCT_Packaging_Small;
+	private double PRODUCT_Packaging_Large;
 }

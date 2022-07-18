@@ -28,7 +28,6 @@ import com.busience.production.dto.WorkOrderDto;
 import com.busience.production.service.WorkOrderService;
 import com.busience.sales.dto.SalesOrderMasterDto;
 import com.busience.sales.dto.Sales_OrderMasterList_tbl;
-import com.busience.sales.dto.Sales_StockMat_tbl;
 
 @RestController("workOrderRestController")
 @RequestMapping("workOrderRest")
@@ -42,43 +41,6 @@ public class workOrderRestController {
 	
 	@Autowired
 	JdbcTemplate jdbctemplate;
-
-	// 위 그리드 재고수량
-	@RequestMapping(value = "/MI_Search1", method = RequestMethod.GET)
-	public List<Sales_StockMat_tbl> MI_Search1(HttpServletRequest request) throws SQLException {
-		String workOrder_ItemCode = request.getParameter("workOrder_ItemCode");
-		String sql = "select t1.*,t2.* from Sales_StockMat_tbl t1 inner join PRODUCT_INFO_TBL t2 on t1.Sales_SM_Code = t2.PRODUCT_ITEM_CODE where Sales_SM_Code='"
-				+ workOrder_ItemCode + "'";
-
-		System.out.println(sql);
-
-		Connection conn = dataSource.getConnection();
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		ResultSet rs = pstmt.executeQuery();
-
-		List<Sales_StockMat_tbl> list = new ArrayList<Sales_StockMat_tbl>();
-		while (rs.next()) {
-			Sales_StockMat_tbl data = new Sales_StockMat_tbl();
-			data.setSales_SM_Code(rs.getString("Sales_SM_Code"));
-			data.setSales_SM_Name(rs.getString("PRODUCT_ITEM_NAME"));
-			data.setSales_SM_Last_Qty(rs.getInt("Sales_SM_Last_Qty"));
-			data.setSales_SM_In_Qty(rs.getInt("Sales_SM_In_Qty"));
-			data.setSales_SM_Out_Qty(rs.getInt("Sales_SM_Out_Qty"));
-			data.setSales_SM_Prcs_Date(rs.getString("Sales_SM_Prcs_Date"));
-			list.add(data);
-		}
-		
-		if (rs != null)
-			rs.close();
-		if (pstmt != null)
-			pstmt.close();
-		if (conn != null) {
-			conn.setAutoCommit(true);
-			conn.close();
-		}
-
-		return list;
-	}
 
 	// 수주현황
 	// ERROR : 작업지시 - 작업지시완료일을 입력하면 뒤에 조회되는 기능 : Sales_OrderMaster_tbl에 데이터가 많이 삭제되서 조회가 안됨 ex) A01001 코드가 없음
