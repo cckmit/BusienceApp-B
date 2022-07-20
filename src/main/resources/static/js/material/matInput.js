@@ -347,7 +347,9 @@ function MIM_Save(){
 
 
 $('#MIM_SaveBtn').click(function(){
-	MIM_Save();
+	if(confirm($("#inputDate").val()+" 일자로 입고 하시겠습니까?")){
+		MIM_Save();	
+	}
 })
 
 //발주번호로 OrderMaster 선택하는 코드
@@ -368,9 +370,7 @@ function Cus_No_select(){
 $("#allInput").click(function(){
 	var rows = matInputSubTable.getRows();
 	for(var i=0;i<matInputSubTable.getDataCount();i++){
-		if(rows[i].getData().order_lSum == 0){
-			matInputSubTable.selectRow(rows[i]);			
-		}
+		matInputSubTable.selectRow(rows[i]);
 	}
 })
 

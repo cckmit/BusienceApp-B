@@ -68,6 +68,10 @@ var stockListTable = new Tabulator("#stockListTable", {
 		row.getTable().deselectRow();
 		row.select();
     },
+	//행추가시 기능
+	rowAdded: function(row) {
+		row.select();
+	},
 	columns: [
 		{ title: "순번", field: "rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum" },
 		{ title: "품목코드", field: "s_ItemCode", headerHozAlign: "center", headerFilter: true, hozAlign: "left"},
@@ -135,15 +139,54 @@ var stockChangeTable = new Tabulator("#stockChangeTable", {
 });
 $("#inMatTypeListSelectBox").change(function(){
 	stockListTable.setData("matStockRest/stockSelect",
-		{warehouse: $("#inMatTypeListSelectBox").val(), check : true});
+		{warehouse: $("#inMatTypeListSelectBox").val(), check : true})
+	.then(function(){
+		stockChangeTable.clearData();
+	})
 })
 
 function stockChangeSearch(itemCode){
 	stockChangeTable.setData("matStockRest/stockChangeSelect",
-	{itemCode: itemCode, warehouse: $("#inMatTypeListSelectBox").val()});
+	{itemCode: itemCode, warehouse: $("#inMatTypeListSelectBox").val()})
+  	.then(function(){
+		if(stockChangeTable.getData().length == 0){
+			stockChangeAdd();
+		}
+	});
+}
+
+$("#stockChangeNewBtn").click(function() {
+	itemPopup('', 'grid', '', 'material');                            
+});
+
+//팝업창으로부터 특정 파라미터 값으로 데이터를 받는다 
+function item_gridInit(PCode, PName, PSTND_1, UNIT_Price, UNIT_Name, Material_Name) {
+	var rows = stockListTable.getRows();
+	var targetRow
+	var result = rows.some(row => {
+		targetRow = row
+		return row.getData().s_ItemCode == PCode;
+	})
+	if(result){
+		toastr.info("이미 있는 품목 입니다.");
+		stockListTable.deselectRow();
+		targetRow.select();
+	}else{
+		stockListTable.addRow({
+	        "s_ItemCode": PCode,
+	        "s_ItemName": PName,
+	        "s_Item_Standard_1": PSTND_1,
+	        "s_Item_Unit": UNIT_Name,
+	        "s_Item_Material": Material_Name
+	    });
+	}
 }
 
 $("#stockChangeAddBtn").click(function() {
+	stockChangeAdd();
+});
+
+function stockChangeAdd(){
 	var selectedRow = stockListTable.getData("selected")
 	if(selectedRow.length>0){
 		stockChangeTable.addRow({
@@ -156,7 +199,7 @@ $("#stockChangeAddBtn").click(function() {
 	}else{
 		alert("행을 선택해주세요.")
 	}
-});
+}
 
 $("#stockChangeSaveBtn").click(function() {
 	if(confirm("저장하시겠습니까?")){
@@ -196,7 +239,6 @@ function stockChangeSave() {
 			if (result) {
 				RawMaterialPrinter(result);
 				stockListTable.replaceData();
-				stockChangeTable.clearData();
 				alert("저장되었습니다.");
 			} else {
 				alert("빈칸이 있어서 저장할 수 없습니다.");

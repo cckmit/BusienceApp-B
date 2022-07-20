@@ -6,6 +6,9 @@
 		<div class="master" style="width:calc(40%)">
 			<div class="top-var">
 				<!-- 버튼 -->
+				<div class="input-button">
+					<img src="/images/button/New.png" id="stockChangeNewBtn"/>
+				</div>
 				<div class="input-box">
 					<span><strong>재고구분</strong></span>
 					<select id="inMatTypeListSelectBox">
