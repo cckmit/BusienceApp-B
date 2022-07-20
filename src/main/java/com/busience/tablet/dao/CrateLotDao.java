@@ -51,4 +51,7 @@ public interface CrateLotDao {
 	
 	//불량별 관리 - 수량 조회
 	public int crateQtySelect(CrateLotDto crateLotDto);
+	
+	//포장 대기 수량
+	public int packagingWaitingDao(SearchDto searchDto);
 }

@@ -14,7 +14,7 @@ var packagingTable = new Tabulator("#packagingTable", {
 		$("#selectedItem").val(row.getData().small_Packaging_LotNo);
 	},
 	ajaxResponse:function(url, params, response){
-		$("#crate-Count").val(response.length);
+		$("#packaging-Count").val(response.length);
 		return response
     },
 	columns:[
@@ -50,11 +50,19 @@ function toggleFullScreen() {
 
 //소포장발행
 $("#packagingBtn").click(function(){
+	if(parseInt($("#waiting-Qty").val())<parseInt($("#packaging-small").val())){
+		if(confirm("현재 수량은 "+$("#waiting-Qty").val()+"입니다. 출력하시겠습니까?")){
+			
+		}else{
+			return false;
+		}
+	}
 	$.when(smallPackagingSave($("#machineCode").val(), $("#itemCode").val(), $("#packaging-small").val()))
 	.then(function(data){
 		productionPrinter(data);
 		packagingTable.replaceData();
-		return smallPackagingQty($("#machineCode").val(), $("#itemCode").val());
+		waitingQty($("#machineCode").val());
+		//return smallPackagingQty($("#machineCode").val(), $("#itemCode").val());
 	})
 	.then(function(data){
 		/*
@@ -81,7 +89,19 @@ function smallPackagingSave(machineCode, itemCode, packagingQty){
 	});
 	return ajaxResult;
 }
-
+function waitingQty(machineCode){
+	var ajaxResult = $.ajax({
+		method: "get",
+		url: "/tablet/maskPackagingRest/packagingWaiting",
+		data: {machineCode : machineCode},
+		success: function(result) {
+			console.log(result)
+			$("#waiting-Qty").val(result);			
+		}
+	});
+	return ajaxResult;
+}
+/*
 function smallPackagingQty(machineCode, itemCode){
 	var ajaxResult = $.ajax({
 		method: "get",
@@ -105,7 +125,7 @@ function largePackagingQty(machineCode, itemCode){
 		}
 	});
 	return ajaxResult;
-}
+}*/
 
 $("#rePrintBtn").click(function(){
 	//프린트
@@ -113,7 +133,7 @@ $("#rePrintBtn").click(function(){
 	$("#selectedItem").val("")
 	packagingTable.deselectRow();
 })
-
+/*
 function largePackagingSave(machineCode, itemCode){
 	var ajaxResult = $.ajax({
 		method: "post",
@@ -135,13 +155,16 @@ $("#largePackagingBtn").click(function(){
 		location.reload();
 	})
 })
+*/
+waitingQty($("#machineCode").val());
+setInterval(function(){
+	waitingQty($("#machineCode").val());
+},10000);
+setInterval(function(){
+	location.reload();
+},1800000);
 
-window.onload = function(){
-	setup();
-	smallPackagingQty($("#machineCode").val(), $("#itemCode").val());
-	largePackagingQty($("#machineCode").val(), $("#itemCode").val());
-	
-	setInterval(function(){
-		location.reload();
-	},1800000);
-}
+/*
+smallPackagingQty($("#machineCode").val(), $("#itemCode").val());
+largePackagingQty($("#machineCode").val(), $("#itemCode").val());
+*/

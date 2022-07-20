@@ -67,4 +67,9 @@ public class maskPackagingRestController {
 	public int largePackagingQtySelect(SearchDto searchDto) {
 		return salesPackingService.largePackagingQtySelect(searchDto);
 	}
+	
+	@GetMapping("/packagingWaiting")
+	public int packagingWaiting(SearchDto searchDto) {
+		return maskPackagingService.packagingWaiting(searchDto);
+	}
 }

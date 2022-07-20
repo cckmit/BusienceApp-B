@@ -29,15 +29,18 @@
 	<div class="main-b">
 		<div class="main-box tablet-border">
 			<div class="item">
-				<label for="crate-Count">소포장 카운트</label>
-				<input id="crate-Count" disabled>
+				<label for="packaging-Count">소포장 수량</label>
+				<input type="number" id="packaging-Count" disabled>
 			</div>
 			<div class="item">
-				<label for="smallPackaging-Qty">당일 소포장 수량</label>
-				<input id="smallPackaging-Qty" readonly>
-				<input type="hidden" id="crateCode">
+				<label for="waiting-Qty">포장 대기 수량</label>
+				<input type="number" id="waiting-Qty" readonly>
 			</div>
 			<!-- <div class="item">
+				<label for="smallPackaging-Qty">당일 소포장 수량</label>
+				<input id="smallPackaging-Qty" readonly>
+			</div>
+			<div class="item">
 				<label for="largePackaging-Qty">당일 대포장 수량</label>
 				<input id="largePackaging-Qty" disabled>
 			</div> -->
@@ -64,9 +67,9 @@
 				<label for="packaging-No" >No</label>
 				<input id="packaging-No" style="width:10%;" value="${packagingInfo.packaging_No}" disabled>
 				<label for="packaging-small">소포장 규격</label>
-				<input id="packaging-small" value="${packagingInfo.packaging_Small}" disabled>
+				<input type="number" id="packaging-small" value="${packagingInfo.packaging_Small}" disabled>
 				<label for="packaging-large">대포장 규격</label>
-				<input id="packaging-large" value="${packagingInfo.packaging_Large}" disabled>
+				<input type="number" id="packaging-large" value="${packagingInfo.packaging_Large}" disabled>
 			</div>
 			<div class="item">
 				<label for="packaging-Item">포장명</label>

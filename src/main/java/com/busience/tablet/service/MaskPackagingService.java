@@ -76,7 +76,6 @@ public class MaskPackagingService {
 	@Autowired
 	TransactionTemplate transactionTemplate;
 	
-	
 	@Transactional
 	public LabelPrintDto smallPackagingSave(SearchDto searchDto) {
 		List<DtlDto> wareHouseList = dtlDao.findByCode(10);
@@ -190,5 +189,9 @@ public class MaskPackagingService {
 			stockDao.stockInsertDao(itemCode, Qty, Warehouse);
 		}
 		return labelPrintDao.smallPackagingLabelSelectDao(small_Packaging_LotNo);
+	}
+	
+	public int packagingWaiting(SearchDto searchDto) {
+		return crateLotDao.packagingWaitingDao(searchDto);
 	}
 }
