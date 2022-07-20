@@ -20,7 +20,10 @@ public class StockDto {
 	private String S_WareHouse; //창고
 	private double S_Sales_Output_Order_Qty; // 현재지시수량
 	private String S_Item_Unit; // 단위
+	private String S_Item_Unit_Name; // 단위
 	private String S_Item_Material; // 재질
+	private String S_Item_Material_Name; // 재질
 	private String S_LotNo; // 재고조정에서 필요
 	private double S_ChangeQty; // 변경수량
+	private double S_AddQty; // 변경수량
 }

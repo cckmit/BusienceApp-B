@@ -1,8 +1,8 @@
 package com.busience.material.service;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import com.busience.common.dao.DtlDao;
-import com.busience.common.dto.DtlDto;
 import com.busience.common.dto.SearchDto;
 import com.busience.material.dao.LotMasterDao;
 import com.busience.material.dao.LotNoDao;
@@ -21,19 +20,23 @@ import com.busience.material.dao.OutMatDao;
 import com.busience.material.dao.RequestMasterDao;
 import com.busience.material.dao.RequestSubDao;
 import com.busience.material.dao.StockDao;
+import com.busience.material.dto.LotMasterDto;
 import com.busience.material.dto.OutMatDto;
-import com.busience.material.dto.RequestSubDto;
 import com.busience.material.dto.StockDto;
 import com.busience.production.dao.LabelPrintDao;
 import com.busience.production.dto.LabelPrintDto;
+import com.busience.standard.dao.ItemDao;
 import com.busience.standard.dao.UserDao;
-import com.busience.standard.dto.UserDto;
+import com.busience.standard.dto.ItemDto;
 
 @Service
 public class StockService {
 
 	@Autowired
 	DtlDao dtlDao;
+	
+	@Autowired
+	ItemDao itemDao;
 
 	@Autowired
 	StockDao stockDao;
@@ -66,21 +69,8 @@ public class StockService {
 	TransactionTemplate transactionTemplate;
 
 	// 재고테이블 조회
-	public List<StockDto> StockSelect(SearchDto searchDto) {
-
-		List<StockDto> stockList = stockDao.stockSelectDao(searchDto);
-
-		for (StockDto dto : stockList) {
-			if (dto.getS_ItemCode() == null || dto.getS_ItemCode() == "") {
-				dto.setS_ItemCode("Grand Total");
-				dto.setS_ItemName("");
-				dto.setS_Item_Standard_1("");
-				dto.setS_Item_Classfy_1_Name("");
-				dto.setS_Item_Classfy_2_Name("");
-				dto.setS_Item_Unit("");
-			}
-		}
-		return stockList;
+	public List<StockDto> stockSelect(SearchDto searchDto) {
+		return stockDao.stockSelectDao(searchDto);
 	}
 
 	// 재고 Lot-품목 조회
@@ -89,8 +79,8 @@ public class StockService {
 	}
 
 	// 재고 조정
-	public List<StockDto> StockChanageSelect(StockDto stockDto) {
-		return stockDao.stockChangeSelect(stockDto);
+	public List<LotMasterDto> StockChanageSelect(SearchDto searchDto) {
+		return lotMasterDao.lotMasterSelectDao(searchDto);
 	}
 
 	// 영업 재고테이블 조회
@@ -130,9 +120,8 @@ public class StockService {
 	}
 
 	// 재고 조정 저장
-	public List<LabelPrintDto> StockChangeSave(List<StockDto> stockDtoList, List<RequestSubDto> requestSubDtoList, String Modifier) {
+	public List<LabelPrintDto> StockChangeSave(List<LotMasterDto> stockDtoList, String warehouse, String Modifier) {
 
-		System.out.println(stockDtoList);
 		try {
 			List<LabelPrintDto> labelPrintList = new ArrayList<LabelPrintDto>();
 			
@@ -140,11 +129,99 @@ public class StockService {
 
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
-					List<DtlDto> WarehouseList = dtlDao.findByCode(10);
-
+					String deptCode = dtlDao.findByCode(3).get(0).getCHILD_TBL_NO();
+					String classfy = dtlDao.findByCode(18).get(4).getCHILD_TBL_NO();
+					String rawMaterial = dtlDao.findByCode(5).get(0).getCHILD_TBL_NO();
+					String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+					String before = warehouse;
+					String after = warehouse;
+					
+					//자재 창고에서 새로 생성될때
+					for(int i=0;i<stockDtoList.size();i++) {
+						
+						String itemCode = stockDtoList.get(i).getLM_ItemCode();
+						double changeQty = stockDtoList.get(i).getLM_ChangeQty();
+						double qty = stockDtoList.get(i).getLM_Qty();
+						double gapQty = changeQty - qty;
+						
+						ItemDto itemDto = itemDao.selectItemCode(itemCode);
+						
+						//원자재이면서 재고가 증가할경우 개당랏생성
+						if(gapQty > 0 && rawMaterial.equals(itemDto.getPRODUCT_MTRL_CLSFC())) {
+							for(int j=0;j<gapQty;j++) {
+								String lotNo = lotNoDao.rawlotNoSelectDao(date ,itemCode);
+								int no = lotTransDao.lotTransNoSelectDao(lotNo);
+								
+								OutMatDto outMatDto = new OutMatDto();
+								outMatDto.setOM_LotNo(lotNo);
+								outMatDto.setOM_RequestNo(deptCode+"-000000-00");
+								outMatDto.setOM_DeptCode(deptCode);
+								outMatDto.setOM_ItemCode(itemCode);
+								outMatDto.setOM_Qty((-1)*gapQty);
+								outMatDto.setOM_Before(before);
+								outMatDto.setOM_After(after);
+								outMatDto.setOM_Send_Clsfc(classfy);
+								outMatDto.setOM_Modifier(Modifier);
+								
+								//랏마스터
+								lotMasterDao.salesLotMasterInsertUpdateDao(
+										lotNo, itemCode, gapQty, after
+										);
+								
+								//랏트랜스
+								lotTransDao.lotTransInsertDao(
+										no, lotNo, itemCode, gapQty, before, after, classfy
+										);
+								
+								//재고
+								stockDao.stockInsertUpdateDao(itemCode, gapQty, after);
+								
+								// 자재출고 저장
+								outMatDao.outMatInsertDao(outMatDto);
+								
+								labelPrintList.add(labelPrintDao.rawMaterialLabelSelectDao(lotNo, warehouse));
+							}
+						}
+						else {
+							String lotNo = stockDtoList.get(i).getLM_LotNo();
+							if(stockDtoList.get(i).getLM_LotNo().length()==0) {
+								lotNo = lotNoDao.rawlotNoSelectDao(date ,itemCode);
+							}
+							int no = lotTransDao.lotTransNoSelectDao(lotNo);
+							
+							OutMatDto outMatDto = new OutMatDto();
+							outMatDto.setOM_LotNo(lotNo);
+							outMatDto.setOM_RequestNo(deptCode+"-000000-00");
+							outMatDto.setOM_DeptCode(deptCode);
+							outMatDto.setOM_ItemCode(itemCode);
+							outMatDto.setOM_Qty((-1)*gapQty);
+							outMatDto.setOM_Before(before);
+							outMatDto.setOM_After(after);
+							outMatDto.setOM_Send_Clsfc(classfy);
+							outMatDto.setOM_Modifier(Modifier);
+							
+							//랏마스터
+							lotMasterDao.salesLotMasterInsertUpdateDao(
+									lotNo, itemCode, gapQty, after
+									);
+							
+							//랏트랜스
+							lotTransDao.lotTransInsertDao(
+									no, lotNo, itemCode, gapQty, before, after, classfy
+									);
+							
+							//재고
+							stockDao.stockInsertUpdateDao(itemCode, gapQty, after);
+							
+							// 자재출고 저장
+							outMatDao.outMatInsertDao(outMatDto);
+							
+							labelPrintList.add(labelPrintDao.rawMaterialLabelSelectDao(lotNo, warehouse));
+						}
+					}
+					/*
 					for (int i = 0; i < stockDtoList.size(); i++) {
 						StockDto stockDto = stockDtoList.get(i);
-						System.out.println(stockDtoList.get(i));
 						OutMatDto outMatDto = new OutMatDto();
 						UserDto userDto = userDao.selectUser(Modifier);
 
@@ -386,7 +463,7 @@ public class StockService {
 							
 						} 
 						labelPrintList.add(labelPrintDao.rawMaterialLabelSelectDao(lotNo, Warehouse));
-					}
+					}*/
 				}
 			});
 			return labelPrintList;

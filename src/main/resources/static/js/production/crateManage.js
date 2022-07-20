@@ -82,11 +82,11 @@ var crateManageTable = new Tabulator("#crateManageTable", {
 		.then(function(){
 			//행이 추가되면 첫셀에 포커스
 			do {
-			setTimeout(function() {
-				row.getCell("c_CrateCode").edit();
-			}, 100);
-		}
-		while (row.getData().c_Create_Date === "undefined");
+				setTimeout(function() {
+					row.getCell("c_CrateCode").edit();
+				}, 100);
+			}
+			while (row.getData().c_Create_Date === "undefined");
 		})
 	},
 	columns: [

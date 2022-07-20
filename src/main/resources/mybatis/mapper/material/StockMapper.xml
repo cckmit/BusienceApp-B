@@ -10,19 +10,21 @@
 			A.S_itemCode, B.Product_Item_Name S_itemName,
 		    B.Product_Info_STND_1 S_Item_Standard_1, B.Product_Info_STND_2 s_Item_Standard_2,
 		    C.Child_TBL_Type S_item_Classfy_1_Name, D.Child_TBL_Type S_item_Classfy_2_Name,
-		    E.Child_TBL_Type S_item_Unit,
-		    sum(A.S_Qty) S_Qty, A.S_WareHouse
+		    E.Child_TBL_Type S_item_Unit_Name, F.Child_TBL_Type S_item_Material_Name,
+		    A.S_Qty, A.S_WareHouse, A.S_Qty S_ChangeQty
 		FROM Stock_tbl A
 		inner join Product_Info_tbl B on A.S_itemCode = B.Product_Item_Code
 		inner join DTL_TBL C on B.Product_Item_CLSFC_1 = C.Child_TBL_No
 		inner join DTL_TBL D on B.Product_Item_CLSFC_2 = D.Child_TBL_No
 		inner join DTL_TBL E on B.Product_Unit = E.Child_TBL_No
-		where A.S_itemCode like concat('%', #{itemCode}, '%')
-		and A.S_WareHouse = (SELECT Child_TBL_No FROM DTL_TBL where New_TBL_Code = 10 and Child_TBL_Num = 1)
+		inner join DTL_TBL F on B.Product_Material = F.Child_TBL_No
+		where A.S_WareHouse = #{warehouse}
+		<if test="itemCode != null">
+			and A.S_itemCode like concat('%', #{itemCode}, '%')
+		</if>
 		<if test="Check == true">
 			and A.S_Qty > 0
 		</if>
-		group by A.S_itemCode with rollup
 	</select>
 	
 	<select id="stockLotSelectDao" resultType="com.busience.material.dto.StockDto">
@@ -61,9 +63,7 @@
 		inner join DTL_TBL D on B.Product_Item_CLSFC_2 = D.Child_TBL_No
 		inner join DTL_TBL E on B.Product_Unit = E.Child_TBL_No
 		inner join DTL_TBL dt ON B.Product_Material = dt.Child_TBL_No
-		<if test="ItemCode != ''">
 		where A.S_itemCode like concat('%', #{ItemCode}, '%')
-		</if>
 		and A.S_WareHouse = (SELECT Child_TBL_No FROM DTL_TBL where New_TBL_Code = 10 and Child_TBL_Num = 3)
 		<if test="Check == true">
 			and A.S_Qty > 0
@@ -123,7 +123,7 @@
 		WHERE Product_Item_Code = #{ItemCode}
 	</select>
 	
-	<select id="stockChangeSelect" resultType="com.busience.material.dto.StockDto">
+	<select id="stockChangeSelectDao" resultType="com.busience.material.dto.StockDto">
 		SELECT 
 			 A.LM_LotNo S_LotNo, A.LM_ItemCode S_itemCode, B.Product_Item_Name S_itemName,
 		    B.Product_Info_STND_1 S_Item_Standard_1, B.Product_Info_STND_2 s_Item_Standard_2,
@@ -136,13 +136,9 @@
 		inner join DTL_TBL D on B.Product_Item_CLSFC_2 = D.Child_TBL_No
 		inner join DTL_TBL E on B.Product_Unit = E.Child_TBL_No
 		inner join DTL_TBL G on B.Product_Material = G.Child_TBL_No
-		<if test="s_WareHouse == 50">
-		where A.LM_Warehouse = (SELECT Child_TBL_No FROM DTL_TBL where New_TBL_Code = 10 and Child_TBL_Num = 1)
-		</if>
-		<if test="s_WareHouse == 51">
-		where A.LM_Warehouse = (SELECT Child_TBL_No FROM DTL_TBL where New_TBL_Code = 10 and Child_TBL_Num = 2)
-		</if>
+		where A.LM_Warehouse = #{s_WareHouse}
 		and A.LM_Qty > 0
+		order by A.LM_ItemCode
 	</select>
 	<!-- 	select
 			A.S_itemCode,

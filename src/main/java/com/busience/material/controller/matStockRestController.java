@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
-import com.busience.material.dto.RequestSubDto;
+import com.busience.common.service.DtlService;
+import com.busience.material.dto.LotMasterDto;
 import com.busience.material.dto.StockDto;
 import com.busience.material.service.StockService;
 import com.busience.production.dto.LabelPrintDto;
@@ -25,10 +26,21 @@ public class matStockRestController {
 	@Autowired
 	StockService stockService;
 	
-	// 현재고현황
+	@Autowired
+	DtlService dtlService;
+	
+	// 자재 재고현황
 	@GetMapping("matStockSelect")
-	public List<StockDto> matStockSelect(SearchDto searchDto) {		
-		return stockService.StockSelect(searchDto);
+	public List<StockDto> matStockSelect(SearchDto searchDto) {
+		//자재창고 설정
+		searchDto.setWarehouse(dtlService.getDtl(10).get(0).getCHILD_TBL_NO());
+		return stockService.stockSelect(searchDto);
+	}
+	
+	// 현재고현황
+	@GetMapping("stockSelect")
+	public List<StockDto> stockSelect(SearchDto searchDto) {
+		return stockService.stockSelect(searchDto);
 	}
 	
 	// 재고 Lot- 품목 조회
@@ -38,33 +50,28 @@ public class matStockRestController {
 	}
 	
 	// 재고 조정
-	@GetMapping("matStockChangeSelect")
-	public List<StockDto> matStockChanageSelect(StockDto stockDto) {
-		return stockService.StockChanageSelect(stockDto);
+	@GetMapping("stockChangeSelect")
+	public List<LotMasterDto> matStockChanageSelect(SearchDto searchDto) {
+		return stockService.StockChanageSelect(searchDto);
 	}
 	
 	// 재고 조정 저장
 	@PostMapping("matStockChangeSave")
-	public List<LabelPrintDto> matStockChangeSave(@RequestParam("masterData") String stockList,  @RequestParam("requestlistData") String requestSubList, Principal principal) {
+	public List<LabelPrintDto> matStockChangeSave(
+			@RequestParam("selectedData") String selectedData,
+			@RequestParam("warehouse") String string, Principal principal) {
 		
 		ObjectMapper mapper = new ObjectMapper();
-		
-		System.out.println(stockList);
-		
+
 		try {
+			List<LotMasterDto> LotMasterDtoList = Arrays.asList(mapper.readValue(selectedData, LotMasterDto[].class));
+
+			String warehouse = mapper.readValue(string, String.class);
 			
-			List<StockDto> stockDtoList = Arrays.asList(mapper.readValue(stockList, StockDto[].class));
-			
-			List<RequestSubDto> requestSubDtoList = Arrays.asList(mapper.readValue(requestSubList, RequestSubDto[].class));
-			
-			
-			return stockService.StockChangeSave(stockDtoList, requestSubDtoList, principal.getName());
-			
-		} catch(Exception e) {
+			return stockService.StockChangeSave(LotMasterDtoList, warehouse, principal.getName());
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
-		
 	}
-
 }

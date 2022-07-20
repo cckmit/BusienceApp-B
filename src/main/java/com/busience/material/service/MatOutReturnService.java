@@ -9,6 +9,7 @@ import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import com.busience.common.dao.DtlDao;
+import com.busience.common.dto.DtlDto;
 import com.busience.common.dto.SearchDto;
 import com.busience.material.dao.LotMasterDao;
 import com.busience.material.dao.LotTransDao;
@@ -55,6 +56,9 @@ public class MatOutReturnService {
 				
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					String after = dtlDao.findByCode(10).get(0).getCHILD_TBL_NO();	
+					String classfy = dtlDao.findByCode(18).get(2).getCHILD_TBL_NO();
+					
 					for(int i=0;i<lotMasterDtoList.size();i++) {
 						LotMasterDto lotMasterDto = lotMasterDtoList.get(i);
 
@@ -62,9 +66,7 @@ public class MatOutReturnService {
 						int no = lotTransDao.lotTransNoSelectDao(lotNo);
 						String itemCode = lotMasterDto.getLM_ItemCode();
 						double qty = lotMasterDto.getLM_TransQty();
-						String before = lotMasterDto.getLM_Warehouse();
-						String after = "50";
-						String classfy = "210";
+						String before = lotMasterDto.getLM_Warehouse();					
 						
 						//랏마스터 업데이트
 						lotMasterDao.salesLotMasterInsertUpdateDao(
