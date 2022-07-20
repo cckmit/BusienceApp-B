@@ -1,5 +1,3 @@
-<%@page import="com.busience.standard.dto.EQUIPMENT_INFO_TBL"%>
-<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>

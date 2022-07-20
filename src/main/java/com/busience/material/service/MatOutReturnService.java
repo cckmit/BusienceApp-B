@@ -9,7 +9,6 @@ import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import com.busience.common.dao.DtlDao;
-import com.busience.common.dto.DtlDto;
 import com.busience.common.dto.SearchDto;
 import com.busience.material.dao.LotMasterDao;
 import com.busience.material.dao.LotTransDao;

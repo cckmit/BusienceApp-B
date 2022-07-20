@@ -53,7 +53,7 @@
 			<div class="mid-var">
 				<div class="input-button">
 					<img src="/images/button/Save.png" id="MIM_SaveBtn" class="unUseBtn BtnStatus"/>
-					<select id="selected_device" onchange=onDeviceSelected(this);></select>
+					<select id="selected_device" class="none" onchange=onDeviceSelected(this);></select>
 				</div>
 			</div>
 			<div id="inMatTable"></div>

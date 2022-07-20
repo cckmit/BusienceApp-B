@@ -216,7 +216,9 @@ public class StockService {
 							// 자재출고 저장
 							outMatDao.outMatInsertDao(outMatDto);
 							
-							labelPrintList.add(labelPrintDao.rawMaterialLabelSelectDao(lotNo, warehouse));
+							if(gapQty > 0) {
+								labelPrintList.add(labelPrintDao.rawMaterialLabelSelectDao(lotNo, warehouse));
+							}
 						}
 					}
 					/*
