@@ -54,109 +54,110 @@ var MSC_inputEditor = function(cell, onRendered, success, cancel, editorParams) 
 
 var stockListTable = new Tabulator("#stockListTable", {
 	headerFilterPlaceholder: null,
-	ajaxConfig : "get",
-	ajaxContentType:"json",
-	ajaxURL : "matStockRest/stockSelect",
-	ajaxParams : {warehouse: $("#inMatTypeListSelectBox").val(), check : true},
-	height: "calc(100% - 175px)",	
-	rowSelected:function(row){
-    	stockChangeSearch(row.getData().s_ItemCode);
+	ajaxConfig: "get",
+	ajaxContentType: "json",
+	ajaxURL: "matStockRest/stockSelect",
+	ajaxParams: { warehouse: $("#inMatTypeListSelectBox").val(), check: true },
+	height: "calc(100% - 175px)",
+	rowSelected: function(row) {
+		stockChangeSearch(row.getData().s_ItemCode);
 		UseBtn();
-    },
+	},
 	//행클릭 이벤트
-	rowClick:function(e, row){
+	rowClick: function(e, row) {
 		row.getTable().deselectRow();
 		row.select();
-    },
+	},
 	//행추가시 기능
 	rowAdded: function(row) {
 		row.select();
 	},
 	columns: [
 		{ title: "순번", field: "rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum" },
-		{ title: "품목코드", field: "s_ItemCode", headerHozAlign: "center", headerFilter: true, hozAlign: "left"},
+		{ title: "품목코드", field: "s_ItemCode", headerHozAlign: "center", headerFilter: true, hozAlign: "left" },
 		{ title: "품명", field: "s_ItemName", headerHozAlign: "center", headerFilter: true, hozAlign: "left" },
 		{ title: "규격1", field: "s_Item_Standard_1", headerHozAlign: "center", headerFilter: true, hozAlign: "left" },
 		{ title: "재질", field: "s_Item_Material_Name", headerHozAlign: "center", headerFilter: true, hozAlign: "center" },
 		{ title: "단위", field: "s_Item_Unit_Name", headerHozAlign: "center", headerFilter: true, hozAlign: "left" },
-		{ title: "재고수량", field: "s_Qty", headerHozAlign: "center", hozAlign: "right"}
+		{ title: "재고수량", field: "s_Qty", headerHozAlign: "center", hozAlign: "right" }
 	]
 });
 
 var stockChangeTable = new Tabulator("#stockChangeTable", {
 	headerFilterPlaceholder: null,
-	selectable : true,
-	selectableRangeMode:"click",
+	selectable: true,
+	selectableRangeMode: "click",
 	height: "calc(100% - 175px)",
 	//행추가시 기능
 	rowAdded: function(row) {
 		row.select();
-		
+
 		stockChangeTable.scrollToRow(row, "nearest", false)
-		.then(function(){
-			//행이 추가되면 첫셀에 포커스
-			do {
-				setTimeout(function() {
-					row.getCell("lm_ChangeQty").edit();
-				}, 100);
-			}
-			while (row.getData().lm_ChangeQty === "undefined");
-		})
+			.then(function() {
+				//행이 추가되면 첫셀에 포커스
+				do {
+					setTimeout(function() {
+						row.getCell("lm_ChangeQty").edit();
+					}, 100);
+				}
+				while (row.getData().lm_ChangeQty === "undefined");
+			})
 	},
-	columns: [ 
+	columns: [
 		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
 		{ title: "순번", field: "rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum" },
 		{ title: "LotNo", field: "lm_LotNo", headerHozAlign: "center", headerFilter: true, hozAlign: "left" },
-		{ title: "품목코드", field: "lm_ItemCode", headerHozAlign: "center", headerFilter: true, hozAlign: "left"},
+		{ title: "품목코드", field: "lm_ItemCode", headerHozAlign: "center", headerFilter: true, hozAlign: "left" },
 		{ title: "품명", field: "lm_ItemName", headerHozAlign: "center", headerFilter: true, hozAlign: "left" },
 		{ title: "규격1", field: "lm_STND_1", headerHozAlign: "center", headerFilter: true, hozAlign: "left" },
 		{ title: "재질", field: "lm_Item_Material_Name", headerHozAlign: "center", headerFilter: true, hozAlign: "center" },
 		{ title: "단위", field: "lm_Item_Unit_Name", headerHozAlign: "center", headerFilter: true, hozAlign: "left" },
 		{ title: "재고수량", field: "lm_Qty", headerHozAlign: "center", hozAlign: "right" },
-		{ title: "변경수량", field: "lm_ChangeQty", headerHozAlign: "center", hozAlign: "right", editor: MSC_inputEditor,
-			cellEdited:function(cell){
-	            //수량이 변경될때 금액값이 계산되어 입력
-	            temReturnQty = cell.getValue();
-	            temCode = cell.getRow().getData().lm_ItemCode;    
-	            temQty = cell.getRow().getData().lm_Qty;            
-	    
-	            if(temCode.charAt(0) == 'A'){
-	                if(temQty == 0) {
-	                    if(temReturnQty != 1) {
-	                        alert("1만 입력 가능합니다.");
-	                        cell.getRow().update({"lm_ChangeQty": 1});
-	                    }
-	                } else if(temQty == 1) {
-	                    if(temReturnQty != 0) {
-	                        alert("0만 입력 가능합니다.");
-			                cell.getRow().update({"lm_ChangeQty": 0});
-		                }
+		{
+			title: "변경수량", field: "lm_ChangeQty", headerHozAlign: "center", hozAlign: "right", editor: MSC_inputEditor,
+			cellEdited: function(cell) {
+				//수량이 변경될때 금액값이 계산되어 입력
+				temReturnQty = cell.getValue();
+				temCode = cell.getRow().getData().lm_ItemCode;
+				temQty = cell.getRow().getData().lm_Qty;
+
+				if (temCode.charAt(0) == 'A') {
+					if (temQty == 0) {
+						if (temReturnQty != 1) {
+							alert("1만 입력 가능합니다.");
+							cell.getRow().update({ "lm_ChangeQty": 1 });
+						}
+					} else if (temQty == 1) {
+						if (temReturnQty != 0) {
+							alert("0만 입력 가능합니다.");
+							cell.getRow().update({ "lm_ChangeQty": 0 });
+						}
 					}
 				}
 			}
 		}
 	]
 });
-$("#inMatTypeListSelectBox").change(function(){
+$("#inMatTypeListSelectBox").change(function() {
 	stockListTable.setData("matStockRest/stockSelect",
-		{warehouse: $("#inMatTypeListSelectBox").val(), check : true})
-	.then(function(){
-		stockChangeTable.clearData();
-	})
+		{ warehouse: $("#inMatTypeListSelectBox").val(), check: true })
+		.then(function() {
+			stockChangeTable.clearData();
+		})
 })
 
-function stockChangeSearch(itemCode){
+function stockChangeSearch(itemCode) {
 	stockChangeTable.setData("matStockRest/stockChangeSelect",
-	{itemCode: itemCode, warehouse: $("#inMatTypeListSelectBox").val()})
-  	.then(function(){
-		if(stockChangeTable.getData().length == 0){
-			stockChangeAdd();
-		}
-	});
+		{ itemCode: itemCode, warehouse: $("#inMatTypeListSelectBox").val() })
+		.then(function() {
+			if (stockChangeTable.getData().length == 0) {
+				stockChangeAdd();
+			}
+		});
 }
 
 $("#stockChangeNewBtn").click(function() {
-	itemPopup('', 'grid', '', 'material');                            
+	itemPopup('', 'grid', '', 'material');
 });
 
 //팝업창으로부터 특정 파라미터 값으로 데이터를 받는다 
@@ -167,18 +168,18 @@ function item_gridInit(PCode, PName, PSTND_1, UNIT_Price, UNIT_Name, Material_Na
 		targetRow = row
 		return row.getData().s_ItemCode == PCode;
 	})
-	if(result){
+	if (result) {
 		toastr.info("이미 있는 품목 입니다.");
 		stockListTable.deselectRow();
 		targetRow.select();
-	}else{
+	} else {
 		stockListTable.addRow({
-	        "s_ItemCode": PCode,
-	        "s_ItemName": PName,
-	        "s_Item_Standard_1": PSTND_1,
-	        "s_Item_Unit": UNIT_Name,
-	        "s_Item_Material": Material_Name
-	    });
+			"s_ItemCode": PCode,
+			"s_ItemName": PName,
+			"s_Item_Standard_1": PSTND_1,
+			"s_Item_Unit": UNIT_Name,
+			"s_Item_Material": Material_Name
+		});
 	}
 }
 
@@ -186,24 +187,25 @@ $("#stockChangeAddBtn").click(function() {
 	stockChangeAdd();
 });
 
-function stockChangeAdd(){
+function stockChangeAdd() {
 	var selectedRow = stockListTable.getData("selected")
-	if(selectedRow.length>0){
+	if (selectedRow.length > 0) {
 		stockChangeTable.addRow({
-			lm_ItemCode : selectedRow[0].s_ItemCode,
-			lm_ItemName : selectedRow[0].s_ItemName,
-			lm_STND_1 : selectedRow[0].s_Item_Standard_1,
-			lm_Item_Material_Name : selectedRow[0].s_Item_Material_Name,
-			lm_Item_Unit_Name : selectedRow[0].s_Item_Unit_Name,
-			lm_Qty : 0});
-	}else{
+			lm_ItemCode: selectedRow[0].s_ItemCode,
+			lm_ItemName: selectedRow[0].s_ItemName,
+			lm_STND_1: selectedRow[0].s_Item_Standard_1,
+			lm_Item_Material_Name: selectedRow[0].s_Item_Material_Name,
+			lm_Item_Unit_Name: selectedRow[0].s_Item_Unit_Name,
+			lm_Qty: 0
+		});
+	} else {
 		alert("행을 선택해주세요.")
 	}
 }
 
 $("#stockChangeSaveBtn").click(function() {
-	if(confirm("저장하시겠습니까?")){
-		stockChangeSave();	
+	if (confirm("저장하시겠습니까?")) {
+		stockChangeSave();
 	}
 });
 
@@ -214,22 +216,22 @@ function stockChangeSave() {
 		alert("저장할 행을 선택하세요.");
 		return;
 	}
-	
+
 	for (let j = 0; j < selectedData.length; j++) {
 		if (selectedData[j].lm_ChangeQty == undefined) {
 			alert("변경수량을 입력하세요.");
 			return;
 		}
-		
+
 		if (selectedData[j].lm_Qty == selectedData[j].lm_ChangeQty) {
 			alert("재고수량과 변경수량은 같을 수 없습니다.");
 		}
 	}
-	
+
 	$.ajax({
 		method: "post",
 		url: "matStockRest/matStockChangeSave",
-		data: {selectedData: JSON.stringify(selectedData), warehouse: $("#inMatTypeListSelectBox").val()},
+		data: { selectedData: JSON.stringify(selectedData), warehouse: $("#inMatTypeListSelectBox").val() },
 		beforeSend: function(xhr) {
 			var header = $("meta[name='_csrf_header']").attr("content");
 			var token = $("meta[name='_csrf']").attr("content");
@@ -239,6 +241,7 @@ function stockChangeSave() {
 			if (result) {
 				RawMaterialPrinter(result);
 				stockListTable.replaceData();
+				stockChangeTable.clearData();
 				alert("저장되었습니다.");
 			} else {
 				alert("빈칸이 있어서 저장할 수 없습니다.");
