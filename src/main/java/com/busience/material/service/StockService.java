@@ -149,6 +149,7 @@ public class StockService {
 						//원자재이면서 재고가 증가할경우 개당랏생성
 						if(gapQty > 0 && rawMaterial.equals(itemDto.getPRODUCT_MTRL_CLSFC())) {
 							for(int j=0;j<gapQty;j++) {
+								double unitQty = 1; 
 								String lotNo = lotNoDao.rawlotNoSelectDao(date ,itemCode);
 								int no = lotTransDao.lotTransNoSelectDao(lotNo);
 								
@@ -157,7 +158,7 @@ public class StockService {
 								outMatDto.setOM_RequestNo(deptCode+"-000000-00");
 								outMatDto.setOM_DeptCode(deptCode);
 								outMatDto.setOM_ItemCode(itemCode);
-								outMatDto.setOM_Qty((-1)*gapQty);
+								outMatDto.setOM_Qty((-1)*unitQty);
 								outMatDto.setOM_Before(before);
 								outMatDto.setOM_After(after);
 								outMatDto.setOM_Send_Clsfc(classfy);
@@ -165,16 +166,16 @@ public class StockService {
 								
 								//랏마스터
 								lotMasterDao.salesLotMasterInsertUpdateDao(
-										lotNo, itemCode, gapQty, after
+										lotNo, itemCode, unitQty, after
 										);
 								
 								//랏트랜스
 								lotTransDao.lotTransInsertDao(
-										no, lotNo, itemCode, gapQty, before, after, classfy
+										no, lotNo, itemCode, unitQty, before, after, classfy
 										);
 								
 								//재고
-								stockDao.stockInsertUpdateDao(itemCode, gapQty, after);
+								stockDao.stockInsertUpdateDao(itemCode, unitQty, after);
 								
 								// 자재출고 저장
 								outMatDao.outMatInsertDao(outMatDto);

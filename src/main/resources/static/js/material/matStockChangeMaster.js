@@ -113,29 +113,7 @@ var stockChangeTable = new Tabulator("#stockChangeTable", {
 		{ title: "재질", field: "lm_Item_Material_Name", headerHozAlign: "center", headerFilter: true, hozAlign: "center" },
 		{ title: "단위", field: "lm_Item_Unit_Name", headerHozAlign: "center", headerFilter: true, hozAlign: "left" },
 		{ title: "재고수량", field: "lm_Qty", headerHozAlign: "center", hozAlign: "right" },
-		{
-			title: "변경수량", field: "lm_ChangeQty", headerHozAlign: "center", hozAlign: "right", editor: MSC_inputEditor,
-			cellEdited: function(cell) {
-				//수량이 변경될때 금액값이 계산되어 입력
-				temReturnQty = cell.getValue();
-				temCode = cell.getRow().getData().lm_ItemCode;
-				temQty = cell.getRow().getData().lm_Qty;
-
-				if (temCode.charAt(0) == 'A') {
-					if (temQty == 0) {
-						if (temReturnQty != 1) {
-							alert("1만 입력 가능합니다.");
-							cell.getRow().update({ "lm_ChangeQty": 1 });
-						}
-					} else if (temQty == 1) {
-						if (temReturnQty != 0) {
-							alert("0만 입력 가능합니다.");
-							cell.getRow().update({ "lm_ChangeQty": 0 });
-						}
-					}
-				}
-			}
-		}
+		{ title: "변경수량", field: "lm_ChangeQty", headerHozAlign: "center", hozAlign: "right", editor: MSC_inputEditor}
 	]
 });
 $("#inMatTypeListSelectBox").change(function() {
