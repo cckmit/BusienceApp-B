@@ -60,7 +60,8 @@ var proMaskTable = new Tabulator("#proMaskTable", {
 	height:"calc(100% - 175px)",
  	columns:[ //Define Table Columns
 		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center" },
-		{ title: "LotNo", field: "cl_LotNo", headerHozAlign: "center", headerFilter: true},
+		{ title: "LotNo", field: "cl_LotNo", headerHozAlign: "center", headerFilter: true,
+			bottomCalc:function(){return "Grand Total"}},
 		{ title: "설비 코드", field: "cl_MachineCode", headerHozAlign: "center", headerFilter: true},
 		{ title: "설비 명", field: "cl_EquipName", headerHozAlign: "center", headerFilter: true },
 		{ title: "제품 코드", field: "cl_ItemCode", headerHozAlign: "center", headerFilter: true},
@@ -70,7 +71,8 @@ var proMaskTable = new Tabulator("#proMaskTable", {
 		{ title: "품목 분류1", field: "cl_Item_Clsfc_Name_1", headerHozAlign: "center", headerFilter: true },
 		{ title: "품목 분류2", field: "cl_Item_Clsfc_Name_2", headerHozAlign: "center", headerFilter: true },
 		{ title: "재질", field: "cl_Item_Material", headerHozAlign: "center", headerFilter: true },
-		{ title: "생산 수량", field: "cl_Qty", headerHozAlign: "center", hozAlign: "right" },
+		{ title: "생산 수량", field: "cl_Qty", headerHozAlign: "center", hozAlign: "right",
+			bottomCalc:"sum", bottomCalcFormatter : "money", bottomCalcFormatterParams: {precision: false}},
 		{ title: "시간", field: "cl_Create_Date", headerHozAlign: "center", formatter:"datetime", formatterParams:{
     		outputFormat:"YYYY-MM-DD HH:mm" } }
  	],

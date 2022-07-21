@@ -5,14 +5,14 @@
 <div class="soloView" style="width: 100%; height: 100%;">
 	<div class="tabs-wrap">
 		<ul id="navigation">
-			<c:forEach var="data" items="${machineList}" begin="0" end="7">
+			<c:forEach var="data" items="${machineList}" begin="8">
 				<li class="tab_${data.EQUIPMENT_INFO_CODE}">
-			    	<a href="/tablet/maskPackagingMaster?machineCode=${data.EQUIPMENT_INFO_CODE}">${data.EQUIPMENT_INFO_NAME}</a>
+			    	<a href="/tablet/maskOtherPackaging?machineCode=${data.EQUIPMENT_INFO_CODE}">${data.EQUIPMENT_INFO_NAME}</a>
 			    </li>
 			</c:forEach>
 		</ul>	
 		<div id="content">
-			<jsp:include page="maskPackagingTablet.jsp?v=<%=System.currentTimeMillis() %>"/>
+			<jsp:include page="maskOtherPackaging.jsp?v=<%=System.currentTimeMillis() %>"/>
 		</div>
 	</div>
 </div>
@@ -22,5 +22,5 @@
 $(".tab_${machineCode}").addClass("selected")
 </script>
 <!-- <script src="/js/tabMenu.js"></script> -->
-<script src="/js/tablet/maskPackagingTablet.js?v=<%=System.currentTimeMillis() %>"></script>
+<script src="/js/tablet/maskOtherPackaging.js?v=<%=System.currentTimeMillis() %>"></script>
 <script src="/js/labelPrint/paldangLabelPrint.js?v=<%=System.currentTimeMillis() %>"></script>

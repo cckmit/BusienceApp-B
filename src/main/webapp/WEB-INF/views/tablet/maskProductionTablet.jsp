@@ -35,7 +35,7 @@
 			</div>
 			<div class="item">
 				<label for="crate-Qty">생 산 량</label>
-				<input id="crate-Qty" readonly>
+				<input type="number" id="crate-Qty" readonly>
 			</div>
 			<div class="item">
 				<button id="completeBtn">

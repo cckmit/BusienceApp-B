@@ -234,4 +234,27 @@ public class tabletController {
 
 		return "normal/tablet/maskPackagingMaster";
 	}
+	
+	@GetMapping("/tablet/maskOtherPackaging")
+	public String maskOtherPackaging(Model model, SearchDto searchDto) {
+		if(searchDto.getMachineCode() == null) {
+			searchDto.setMachineCode("M309");
+		}
+		model.addAttribute("machineCode", searchDto.getMachineCode());
+		model.addAttribute("machineList", machineService.labelMachineListDao());
+		List<EquipWorkOrderDto> equipWorkOrderDtoList = equipWorkOrderService.packagingLineListSelect2(searchDto);
+		
+		if(equipWorkOrderDtoList.size() >0) {
+			model.addAttribute("workOrderInfo", equipWorkOrderDtoList.get(0));
+			PaldangPackagingStandardDto paldangPackagingStandardDto = new PaldangPackagingStandardDto();
+			paldangPackagingStandardDto.setPackaging_No(equipWorkOrderDtoList.get(0).getEquip_WorkOrder_INFO_STND_2());
+			model.addAttribute("packagingInfo", paldangPackagingStandardService.paldangPackagingCheckNo(paldangPackagingStandardDto).get(0));
+			
+			searchDto.setMachineCode(equipWorkOrderDtoList.get(0).getEquip_WorkOrder_Code());
+			model.addAttribute("inputInfo", equipWorkOrderService.equipWorkOrderSelect(searchDto).get(0));
+			System.out.println(equipWorkOrderService.equipWorkOrderSelect(searchDto).get(0));
+		}
+
+		return "normal/tablet/maskOtherPackagingMaster";
+	}
 }

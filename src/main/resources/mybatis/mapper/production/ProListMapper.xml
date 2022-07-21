@@ -107,7 +107,8 @@
 		]]>
 			AND eit.Equipment_Info_Code LIKE CONCAT('%',#{MachineCode},'%')
 			AND dt3.Child_TBL_No = '324'
-		GROUP BY clt.CL_LotNo WITH ROLLUP
+		GROUP BY clt.CL_LotNo
+		order by clt.CL_Create_Date desc
 	</select>
 	
 	<select id="proPackingSumDao" resultType="com.busience.tablet.dto.CrateLotDto">

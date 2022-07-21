@@ -31,7 +31,7 @@ public class maskInputRestController {
 	
 	@GetMapping("/maskInputSelect")
 	public List<EquipWorkOrderDto> maskInputSelect(SearchDto searchDto) {
-		return equipWorkOrderService.equipWorkOrderSelect(searchDto);
+		return equipWorkOrderService.equipWorkOrderSelect2(searchDto);
 	}
 	
 	@PostMapping("/maskInputUpdate")

@@ -86,19 +86,19 @@ $("#barcodeInput").change(function(){
 		rawMaterialLotInput(barcode);
 		
 		if(inputCheck($("#crate-LotNo").val())){
-			console.log("저장")
 			rawMaterialSave($("#crate-LotNo").val());	
 		}
 		
 		$("#barcodeInput").val("");
 	}else if(initial == 'N'){
+		/*if($("#crate-Qty").val() == 0){
+			return toastr.warning("생산량이 없으면 교체되지 않습니다.")
+		}*/
 		$.when(CrateStatusCheck(barcode))
 		.then(function(data){
-			
-			//있다 or 없다.
 			if(data instanceof Object){
 				// 상자를 바꿀때 설비- 아이템을 확인하여 그정보로 저장
-				//기존 생산랏 상태변경 새로운 생산랑 생성 
+				//기존 생산랏 상태변경 새로운 생산랏 생성 
 				return CrateSave($("#crateCode").val(), data.c_CrateCode)
 			}
 		})
@@ -109,7 +109,6 @@ $("#barcodeInput").change(function(){
 			return BOM_Check(data.c_ItemCode)
 		})
 		.then(function(data){
-			console.log("뭐함")
 			if(inputCheck($("#crate-LotNo").val())){
 				rawMaterialSave($("#crate-LotNo").val());
 			}
