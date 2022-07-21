@@ -42,6 +42,11 @@ public class SmallPackagingService {
 		return smallPackagingDao.smallPackagingSelectDao(searchDto);
 	}
 	
+	// 소포장 상자 list 조회
+	public List<Small_Packaging_tbl> smallPackagingOneSelectDao(SearchDto searchDto) {
+		return smallPackagingDao.smallPackagingOneSelectDao(searchDto);
+	}
+	
 	public List<Small_Packaging_tbl> smallPackagingStandbySelect(SearchDto searchDto) {
 		return smallPackagingDao.smallPackagingStandbySelectDao(searchDto);
 	}

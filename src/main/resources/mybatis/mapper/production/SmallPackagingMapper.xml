@@ -32,6 +32,13 @@
 		GROUP BY spt.Small_Packaging_LotNo
 	</select>
 	
+	<select id="smallPackagingOneSelectDao" resultType="com.busience.production.dto.Small_Packaging_tbl">
+		SELECT spt.Production_LotNo, spt.ItemCode, spt.Qty, spt.Create_Date, pit.Product_Item_Name ItemName
+		FROM Small_Packaging_tbl spt
+		INNER JOIN Product_Info_tbl pit ON spt.ItemCode = pit.Product_Item_Code 
+		WHERE spt.Small_Packaging_LotNo = #{LotNo}
+	</select>
+	
 	<select id="smallPackagingStandbySelectDao" resultType="com.busience.production.dto.Small_Packaging_tbl">
 		SELECT
 			A.Small_Packaging_LotNo, A.ItemCode, B.Product_Item_Name ItemName, sum(A.Qty) Qty,
