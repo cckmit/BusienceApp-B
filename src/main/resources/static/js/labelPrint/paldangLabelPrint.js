@@ -73,6 +73,7 @@ function RawMaterialPrinter(jsonDatas)
 	var printCode = ""
 	for(let j=0;j<jsonDatas.length;j++){
 		printCode += "^XA"
+					+"^PW610"
 					+"^CFJ,50^SEE:UHANGUL.DAT^FS"
 					+"^CW1,E:KFONT3.FNT^CI28^FS"
 					+"^FT147,40^A1N,30,20^FD"+jsonDatas[j].itemName+"^FS"
@@ -84,7 +85,6 @@ function RawMaterialPrinter(jsonDatas)
 					+"^FT357,205^BQN,2,5^FH^FDLA,"+jsonDatas[j].lotNo+"^FS"
 					+"^XZ"
 	}
-	console.log(printCode)
 	selected_device.send(printCode, undefined, errorCallback);
 }
 
