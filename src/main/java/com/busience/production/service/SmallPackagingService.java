@@ -16,25 +16,7 @@ public class SmallPackagingService {
 	SmallPackagingDao smallPackagingDao;
 
 	public List<Small_Packaging_tbl> smallPackagingListSelect(SearchDto searchDto) {
-		List<Small_Packaging_tbl> smallPackagingList = smallPackagingDao.smallPackagingListSelect(searchDto);
-		
-		for(Small_Packaging_tbl dto : smallPackagingList) {
-			if(dto.getSmall_Packaging_LotNo() == null) {
-				dto.setSmall_Packaging_LotNo("Grand Total");
-				dto.setItemCode("");
-				dto.setItemName("");
-				dto.setMachineCode("");
-				dto.setMachineName("");
-				dto.setItemSTND1("");
-				dto.setItemSTND2("");
-				dto.setItemClsfc1("");
-				dto.setItemClsfc2("");
-				dto.setItemMaterial("");
-				dto.setCreate_Date("");
-			}
-		}
-		
-		return smallPackagingList;
+		return smallPackagingDao.smallPackagingListSelect(searchDto);
 	}
 	
 	// 소포장 list 조회

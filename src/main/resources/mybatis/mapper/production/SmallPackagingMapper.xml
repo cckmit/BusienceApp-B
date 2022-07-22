@@ -18,7 +18,8 @@
 		<if test="MachineCode != ''">
 		AND spt.MachineCode LIKE CONCAT('%',#{MachineCode},'%')
 		</if>
-		GROUP BY spt.Small_Packaging_LotNo WITH ROLLUP
+		GROUP BY spt.Small_Packaging_LotNo
+		order by spt.Create_Date
 	</select>
 	
 	<select id="smallPackagingSelectDao" resultType="com.busience.production.dto.Small_Packaging_tbl">
