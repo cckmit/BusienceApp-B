@@ -40,10 +40,4 @@ public class InMatDto implements Cloneable {
 	private String InMat_After;
 	
 	private String InMat_Check_1;
-	
-	@Override
-	public Object clone() throws CloneNotSupportedException {
-		// TODO Auto-generated method stub
-		return super.clone();
-	}
 }

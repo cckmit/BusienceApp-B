@@ -23,7 +23,6 @@
 			now(), #{LT_Classify}
 		)
 	</insert>
-	
 	<select id="inOutMatSelectDao" resultType="com.busience.material.dto.LotTransDto">
 		select 
 			A.LT_ItemCode, B.Product_Item_Name LT_ItemName,
