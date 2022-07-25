@@ -52,7 +52,6 @@ public class userManageRestController {
 
 	@PutMapping("/userManagePW")
 	public int userManagePW(UserDto UserDto, Principal principal) {
-		
 		String encryptPw = pwEncoder.encode(UserDto.getUser_Password());
 		
 		UserDto.setUser_Password(encryptPw);

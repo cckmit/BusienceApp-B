@@ -95,8 +95,7 @@ function waitingQty(machineCode){
 		url: "/tablet/maskPackagingRest/packagingWaiting",
 		data: {machineCode : machineCode},
 		success: function(result) {
-			console.log(result)
-			$("#waiting-Qty").val(result);			
+			$("#waiting-Qty").val(result);
 		}
 	});
 	return ajaxResult;

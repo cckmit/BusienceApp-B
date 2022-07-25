@@ -23,4 +23,5 @@ $(".tab_${machineCode}").addClass("selected")
 </script>
 <!-- <script src="/js/tabMenu.js"></script> -->
 <script src="/js/tablet/maskOtherPackaging.js?v=<%=System.currentTimeMillis() %>"></script>
+<script src="/js/tablet/maskPackagingTablet.js?v=<%=System.currentTimeMillis() %>"></script>
 <script src="/js/labelPrint/paldangLabelPrint.js?v=<%=System.currentTimeMillis() %>"></script>

@@ -19,8 +19,8 @@ function passwordChange(){
 		return false;
 	}
 	
-	var datas = {USER_CODE : $("#inputId").val(),
-				USER_PASSWORD : $("#password").val()}
+	var datas = {User_Code : $("#inputId").val(),
+				User_Password : $("#password").val()}
 
 	$.ajax({
 		method: "put",
