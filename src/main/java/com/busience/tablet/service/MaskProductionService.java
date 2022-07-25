@@ -149,9 +149,18 @@ public class MaskProductionService {
 					//기존 값이 있으면 상태값 변경
 					if(crateDto.getC_Before_CrateCode().length()>0) {
 						CrateDto crateDtoTemp = new CrateDto();
-						crateDtoTemp.setC_CrateCode(crateDto.getC_Before_CrateCode());
-						crateDtoTemp.setC_Condition("2");
-						crateDao.crateUpdateDao(crateDtoTemp);
+						String before_CrateCode = crateDto.getC_Before_CrateCode();
+						crateDtoTemp.setC_CrateCode(before_CrateCode);
+						
+						if(crateDto.getC_Qty()>0) {
+							crateDtoTemp.setC_Condition("2");
+							crateDao.crateUpdateDao(crateDtoTemp);
+						}else {
+							crateDtoTemp.setC_Production_LotNo(null);
+							crateDtoTemp.setC_Condition("0");
+							crateLotDao.crateLotDeleteDao(before_CrateCode);
+							crateDao.crateUpdateDao(crateDtoTemp);
+						}
 					}
 
 					//그 후 새로운 상자 등록

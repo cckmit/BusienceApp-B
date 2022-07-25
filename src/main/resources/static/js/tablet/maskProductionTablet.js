@@ -344,6 +344,7 @@ function CrateSave(before, after){
 		data : {
 			C_Before_CrateCode : before,
 			C_CrateCode : after,
+			C_Qty : $("#crate-Qty").val(),
 			C_ItemCode : nowItemCode($("#machineCode").val()),
 			C_MachineCode : $("#machineCode").val()
 		},

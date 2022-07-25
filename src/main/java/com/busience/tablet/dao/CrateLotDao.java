@@ -54,4 +54,7 @@ public interface CrateLotDao {
 	
 	//포장 대기 수량
 	public int packagingWaitingDao(SearchDto searchDto);
+	
+	//삭제
+	public int crateLotDeleteDao(String crateCode);
 }

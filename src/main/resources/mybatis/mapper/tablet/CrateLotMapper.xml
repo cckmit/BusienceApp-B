@@ -195,4 +195,11 @@
 		inner join Product_Info_tbl D on C.Equip_WorkOrder_ItemCode = D.Product_Item_Code and A.CL_ItemCode = D.Product_Old_Item_Code
 		where B.C_Condition = '3'
 	</select>
+	
+	<delete id="crateLotDeleteDao">
+		delete from Crate_Lot_tbl
+		where CL_LotNo = (
+			SELECT C_Production_LotNo FROM Crate_tbl where C_CrateCode = #{crateCode}
+		)
+	</delete>
 </mapper>
