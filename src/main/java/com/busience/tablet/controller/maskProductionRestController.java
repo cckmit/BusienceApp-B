@@ -154,4 +154,8 @@ public class maskProductionRestController {
 		return maskProductionService.crateLotSelectList(searchDto);
 	}
 
+	@PostMapping("/rawMaterialChange")
+	public int rawMaterialChange(SearchDto searchDto) {
+		return maskProductionService.rawMaterialChange(searchDto);
+	}
 }

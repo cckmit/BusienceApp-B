@@ -134,7 +134,7 @@ public class SalesInputService {
 						LM_Qty = (double) salesPackingDto.getSales_Packing_Qty();
 						
 						// lotMaster_tbl_insertupdate
-						lotMasterDao.lotMasterUpdateDao(-1*LM_Qty, LM_LotNo);
+						lotMasterDao.lotMasterUpdateDao(-1*LM_Qty, LM_LotNo, LM_Warehouse);
 						
 					}
 					

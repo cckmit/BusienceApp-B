@@ -8,8 +8,13 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import com.busience.common.dao.DtlDao;
+import com.busience.common.dto.DtlDto;
 import com.busience.common.dto.SearchDto;
+import com.busience.material.dao.LotMasterDao;
 import com.busience.material.dao.LotNoDao;
+import com.busience.material.dao.LotTransDao;
+import com.busience.material.dao.StockDao;
 import com.busience.production.dao.WorkOrderDao;
 import com.busience.standard.dao.ItemDao;
 import com.busience.standard.dto.ItemDto;
@@ -30,6 +35,9 @@ import com.busience.tablet.dto.RawMaterialSubDto;
 public class MaskProductionService {
 
 	@Autowired
+	DtlDao dtlDao;
+	
+	@Autowired
 	ItemDao itemDao;
 	
 	@Autowired
@@ -37,6 +45,15 @@ public class MaskProductionService {
 	
 	@Autowired
 	LotNoDao lotNoDao;
+	
+	@Autowired
+	LotMasterDao lotMasterDao;
+	
+	@Autowired
+	LotTransDao lotTransDao;
+	
+	@Autowired
+	StockDao stockDao;
 	
 	@Autowired
 	RawMaterialMasterDao rawMaterialMasterDao;
@@ -198,5 +215,51 @@ public class MaskProductionService {
 	// 자재 투입 현황
 	public List<CrateLotDto> crateLotSelectList(SearchDto searchDto) {
 		return crateLotDao.crateLotSelectList(searchDto);
+	}
+
+	public int rawMaterialChange(SearchDto searchDto) {
+		try {
+			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+				
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					List<DtlDto> WarehouseList = dtlDao.findByCode(10);
+					
+					String lotNo = searchDto.getLotNo();
+					// 랏트랜스번호 가져오기
+					int no = lotTransDao.lotTransNoSelectDao(lotNo);
+					String itemCode = searchDto.getItemCode();
+					String warehouse = WarehouseList.get(1).getCHILD_TBL_NO();
+					String before = warehouse;
+					String after = "";
+					String classfy = dtlDao.findByCode(18).get(5).getCHILD_TBL_NO();
+					double qty = 1;
+
+					boolean check = searchDto.isCheck();
+					System.out.println();
+					//check = 0 소모,= 1 되돌림 
+					if(check) {
+						qty *= -1;
+						
+						rawMaterialDao.rawMaterialDeleteDao(lotNo);
+						after = warehouse;
+						warehouse = "";
+					}					
+					
+					//랏마스터
+					lotMasterDao.lotMasterUpdateDao(-1 * qty, lotNo, warehouse);
+										
+					// 재고 저장
+					stockDao.stockInsertUpdateDao(itemCode, -1 * qty, warehouse);
+
+					//랏트랜스
+					lotTransDao.lotTransInsertDao(no, lotNo, itemCode, qty, before, after, classfy);					
+				}				
+			});			
+			return 1;			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
 	}
 }

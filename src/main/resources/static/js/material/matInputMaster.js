@@ -53,15 +53,13 @@ $("#MIL_PrintBtn").click(function(){
 	$.ajax({
 		method : "post",
 		url: "LabelPrintRest/rawMaterialLabelSelect",
-		data: JSON.stringify(LotList),
-		contentType:'application/json',
+		data: { selectedData: JSON.stringify(LotList), warehouse: "50"},
 		beforeSend: function (xhr) {
            var header = $("meta[name='_csrf_header']").attr("content");
            var token = $("meta[name='_csrf']").attr("content");
            xhr.setRequestHeader(header, token);
 		},
 		success : function(result) {
-			console.log(result)
 			RawMaterialPrinter(result);
 		}				
 	});

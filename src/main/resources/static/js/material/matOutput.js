@@ -49,9 +49,6 @@ function MR_Search(){
 		MOM_total = 0;
 		LotMasterTable.redraw();
 		ResetBtn()
-		
-		document.getElementById("Request_lName").value = "";
-		document.getElementById("Request_lCode").value = "";
 	})
 }
 
@@ -81,9 +78,6 @@ var matOutputSubTable = new Tabulator("#matOutputSubTable", {
 		}
     },
 	rowSelected:function(row){
-		$("#Request_lCode").val(row.getData().rs_ItemCode);
-		$("#Request_lName").val(row.getData().rs_ItemName);
-		
 		//LotMaster 품목코드로 검색
 		LM_Search(row.getData().rs_ItemCode);
 		matOutMatTable.clearData();
@@ -288,3 +282,35 @@ function lCode_select(value){
 		}
 	}
 }
+$("#barcodelotNo").change(function(){
+	var rows = LotMasterTable.getRows();
+	var sum = MOM_total;
+	var full = matOutputSubTable.getData("selected")[0].rs_Not_Stocked;
+	var value = $(this).val();
+	for(var i=0;i<LotMasterTable.getDataCount();i++){
+		if(rows[i].getData().lm_LotNo == value){
+			if(full > sum){
+				LotMasterTable.selectRow(rows[i]);
+				break;
+			}else{
+				toastr.warning("더이상 선택할 수 없습니다.")
+				break;
+			}
+		}
+	}
+	$(this).val("");
+})
+
+$("#autoOutput").click(function(){
+	var rows = LotMasterTable.getRows();
+	var sum = MOM_total;
+	var full = matOutputSubTable.getData("selected")[0].rs_Not_Stocked;
+	for(var i=0;i<LotMasterTable.getDataCount();i++){
+		if(full > sum){
+			LotMasterTable.selectRow(rows[i]);
+		}else{
+			break;
+		}
+		sum += rows[i].getData().lm_Qty
+	}
+})

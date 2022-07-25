@@ -16,10 +16,10 @@ public class LabelPrintService {
 	@Autowired
 	LabelPrintDao labelPrintDao;
 	
-	public List<LabelPrintDto> rawMaterialLabelSelect(List<SearchDto> searchDtoList) {
+	public List<LabelPrintDto> rawMaterialLabelSelect(List<SearchDto> searchDtoList, String warehouse) {
 		List<LabelPrintDto> LabelPrintDtoList = new ArrayList<LabelPrintDto>();
 		for(int i=0; i<searchDtoList.size(); i++) {
-			LabelPrintDtoList.add(labelPrintDao.rawMaterialLabelSelectDao(searchDtoList.get(i).getLotNo(), "50"));
+			LabelPrintDtoList.add(labelPrintDao.rawMaterialLabelSelectDao(searchDtoList.get(i).getLotNo(), warehouse));
 		}
 		return LabelPrintDtoList;
 	}

@@ -106,7 +106,7 @@ public class SalesInReturnService {
 						LT_ItemCode = salesInReturnDtoList.get(i).getSales_InMat_Code();
 						
 						// lotMaster 소포장 생산창고 +
-						lotMasterDao.lotMasterUpdateDao(LM_Qty, LM_LotNo);;
+						lotMasterDao.lotMasterUpdateDao(LM_Qty, LM_LotNo, LT_Before);;
 						// stock 소포장 반품수량 +
 						stockDao.stockReturnUpdateDao(LM_Qty, LM_ItemCode, LT_Before);
 						// sales_packing_tbl 상태 '입고반품'
@@ -124,7 +124,7 @@ public class SalesInReturnService {
 					LT_Send_Clsfc = "207";
 					
 					// lotMaster 대포장 영업창고 -
-					lotMasterDao.lotMasterUpdateDao((-1)*LM_Qty, LM_LotNo);
+					lotMasterDao.lotMasterUpdateDao((-1)*LM_Qty, LM_LotNo, LT_After);
 					// lotTrans 순번 조회
 					int LT_No = lotTransDao.lotTransNoSelectDao2(LM_LotNo);
 					// 대포장 영업 -> 생산

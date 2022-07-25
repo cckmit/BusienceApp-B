@@ -38,18 +38,16 @@
 		<!-- matOutput -->
 		<!-- matOutputSub -->
 		<div class="sub-in">
-			<div class="top-var">
-				<!-- 버튼 -->
-				<div class="input-button">
-					<img src="#" style="height: 73.13px; visibility: hidden;"/>
-				</div>
-				<!-- 버튼 -->
+			<div class="top-var">				
 				<div class="input-box">
-					<span><strong>품목코드</strong></span>
-					<input id="Request_lCode" type="text" disabled>
-					<span><strong>품목명</strong></span>
-					<input id="Request_lName" type="text" disabled>
+					<span><strong>LotNo</strong></span>
+					<input id="barcodelotNo" type="text">
 				</div>
+				<!-- 버튼 -->
+				<div class="input-button" style="margin-left:5%">
+					<button id="autoOutput" class="btn btn-primary">자동출고</button>
+				</div>
+				<!-- 버튼 -->
 			</div>
 			<!-- 그리드 생성 장소 -->
 			<div id="LotMasterTable"></div>

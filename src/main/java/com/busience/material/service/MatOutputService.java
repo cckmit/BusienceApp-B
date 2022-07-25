@@ -84,49 +84,43 @@ public class MatOutputService {
 						String requestNo = requestSubDto.getRS_RequestNo();
 						String itemCode = outMatDto.getOM_ItemCode();
 						double qty = outMatDto.getOM_Qty();
-						String wareHouse = wareHouseList.get(0).getCHILD_TBL_NO();
+						String warehouse = wareHouseList.get(0).getCHILD_TBL_NO();
 						String before = wareHouseList.get(0).getCHILD_TBL_NO();
-						String after = "";
-						//부자재 관리하는지 파악
-						if("true".equals(itemDto.getPRODUCT_SUBSID_MATL_MGMT())) {
-							after = wareHouseList.get(1).getCHILD_TBL_NO();
-						}
-						
+						String after = "";						
 						String classfy = requestSubDto.getRS_Send_Clsfc();
 
 						itemDto = itemDao.selectItemCode(itemCode);
-						
-						//랏트랜스번호 가져오기
+
 						outMatDto.setOM_No(no);
 						outMatDto.setOM_RequestNo(requestNo);
-						outMatDto.setOM_WareHouse(wareHouse);
+						outMatDto.setOM_WareHouse(warehouse);
 						outMatDto.setOM_Send_Clsfc(classfy);
-						outMatDto.setOM_Modifier(userCode);
+						outMatDto.setOM_Modifier(userCode);	
 						
 						//랏마스터 업데이트
 						lotMasterDao.salesLotMasterInsertUpdateDao(
-								lotNo, itemCode, -1*qty, wareHouse
+								lotNo, itemCode, -1*qty, warehouse
 								);
 						//재고 업데이트
 						stockDao.stockInsertUpdateDao(itemCode, -1*qty, before);
-												
-						//랏트랜스
-						lotTransDao.lotTransInsertDao(
-								no, lotNo, itemCode, qty, before, after, classfy
-								);
-						
 						//부자재 관리하는지 파악
-						if(itemDto.getPRODUCT_ITEM_STTS().equals("true")) {
+						if(itemDto.getPRODUCT_SUBSID_MATL_MGMT().equals("true")) {
+
 							//자재창고 재고 증가
-							wareHouse = after;
+							after = wareHouseList.get(1).getCHILD_TBL_NO();
 							//랏마스터
 							lotMasterDao.salesLotMasterInsertUpdateDao(
-									lotNo, itemCode, qty, wareHouse
+									lotNo, itemCode, qty, after
 									);
 							
 							//재고
 							stockDao.stockInsertUpdateDao(itemCode, qty, after);
 						}
+												
+						//랏트랜스
+						lotTransDao.lotTransInsertDao(
+								no, lotNo, itemCode, qty, before, after, classfy
+								);
 						
 						//출고
 						outMatDao.outMatInsertDao(outMatDto);

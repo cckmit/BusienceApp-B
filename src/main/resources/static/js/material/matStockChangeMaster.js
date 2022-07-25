@@ -227,3 +227,27 @@ function stockChangeSave() {
 		}
 	});
 }
+
+$("#stockChangePrintBtn").click(function() {
+	if (confirm("출력하시겠습니까?")) {
+		var datas = stockChangeTable.getData("selected");
+		var LotList = new Array();
+		
+		for(let i=0;i<datas.length;i++){
+			LotList.push({lotNo : datas[i].lm_LotNo})
+		}
+		$.ajax({
+			method: "post",
+			url: "/LabelPrintRest/rawMaterialLabelSelect",
+			data: { selectedData: JSON.stringify(LotList), warehouse: $("#inMatTypeListSelectBox").val() },
+			beforeSend: function(xhr) {
+				var header = $("meta[name='_csrf_header']").attr("content");
+				var token = $("meta[name='_csrf']").attr("content");
+				xhr.setRequestHeader(header, token);
+			},
+			success: function(result) {
+				RawMaterialPrinter(result);
+			}
+		});
+	}
+});

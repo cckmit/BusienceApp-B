@@ -54,31 +54,37 @@
 				<input type="hidden" class="LotNo_Code">
 				<input class="LotNo_Name" disabled>
 				<input class="LotNo" readonly>
+				<span class="glyphicon glyphicon-remove removeBtn hiddenBtn"></span>
 			</div>
 			<div class="item">
 				<input type="hidden" class="LotNo_Code">
 				<input class="LotNo_Name" disabled>
 				<input class="LotNo" readonly>
+				<span class="glyphicon glyphicon-remove removeBtn hiddenBtn"></span>
 			</div>
 			<div class="item">
 				<input type="hidden" class="LotNo_Code">
 				<input class="LotNo_Name" disabled>
 				<input class="LotNo" readonly>
+				<span class="glyphicon glyphicon-remove removeBtn hiddenBtn"></span>
 			</div>
 			<div class="item">
 				<input type="hidden" class="LotNo_Code">
 				<input class="LotNo_Name" disabled>
 				<input class="LotNo" readonly>
+				<span class="glyphicon glyphicon-remove removeBtn hiddenBtn"></span>
 			</div>
 			<div class="item">
 				<input type="hidden" class="LotNo_Code">
 				<input class="LotNo_Name" disabled>
 				<input class="LotNo" readonly>
+				<span class="glyphicon glyphicon-remove removeBtn hiddenBtn"></span>
 			</div>
 			<div class="item">
 				<input type="hidden" class="LotNo_Code">
 				<input class="LotNo_Name" disabled>
 				<input class="LotNo" readonly>
+				<span class="glyphicon glyphicon-remove removeBtn hiddenBtn"></span>
 			</div>
 		</div>
 	</div>

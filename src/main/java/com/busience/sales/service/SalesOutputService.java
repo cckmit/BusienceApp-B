@@ -101,7 +101,6 @@ public class SalesOutputService {
 						LM_LotNo = sales_OutMat_tbl.getSales_OutMat_Lot_No();
 
 						sales_OutMat_tbl.getSales_OutMat_No();
-						lotMasterDao.lotMasterUpdateDao(-1 * LM_Qty, LM_LotNo);
 
 						// LotTrans_insert
 						LT_LotNo = sales_OutMat_tbl.getSales_OutMat_Lot_No();
@@ -120,6 +119,8 @@ public class SalesOutputService {
 						// warehouse Send_Clsfc
 						LT_Send_Clsfc = sales_OutMat_tbl.getSales_OutMat_Send_Clsfc();
 
+						lotMasterDao.lotMasterUpdateDao(-1 * LM_Qty, LM_LotNo, LT_Before);
+						
 						lotTransDao.lotTransInsertDao2(LT_No, LT_LotNo, LT_ItemCode, LM_Qty, LT_Before, LT_After,
 								LT_Send_Clsfc);
 

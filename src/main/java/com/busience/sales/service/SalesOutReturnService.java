@@ -65,7 +65,7 @@ public class SalesOutReturnService {
 						LT_ItemCode = salesOutReturnDtoList.get(i).getSales_OutMat_Code();
 						LT_Send_Clsfc = "213";
 						
-						lotMasterDao.lotMasterUpdateDao((-1)*LM_Qty, LM_LotNo);
+						lotMasterDao.lotMasterUpdateDao((-1)*LM_Qty, LM_LotNo, LT_After);
 						// LotTrans insert 대포장 +반품수량(" "->영업)
 						// lotTrans 순번 조회
 						int LT_No = lotTransDao.lotTransNoSelectDao2(LM_LotNo);

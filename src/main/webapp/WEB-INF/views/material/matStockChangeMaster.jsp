@@ -26,6 +26,7 @@
 				<div class="input-button">
 					<img src="/images/button/ADD.png" id="stockChangeAddBtn" class="unUseBtn BtnStatus"/>
 					<img src="/images/button/Save.png" id="stockChangeSaveBtn" class="unUseBtn BtnStatus"/>
+					<img src="/images/button/Print.png" id="stockChangePrintBtn" class="unUseBtn BtnStatus"/>
 					<select id="selected_device" class="none" onchange=onDeviceSelected(this);></select>
 				</div>
 			</div>

@@ -36,4 +36,8 @@
 			#{Material_LotNo}, #{Material_ItemCode}, #{Qty}
 		)
 	</insert>
+	
+	<insert id="rawMaterialDeleteDao">
+		delete from Raw_Material_tbl where Material_LotNo = #{LotNo}
+	</insert>
 </mapper>

@@ -28,7 +28,7 @@ public interface LotMasterDao {
 	public int lotMasterInsertDao(OutMatDto outMatDto);
 	
 	//랏마스터 update
-	public int lotMasterUpdateDao(@Param("LM_Qty") Double LM_Qty, @Param("LM_LotNo") String LM_LotNo);
+	public int lotMasterUpdateDao(@Param("LM_Qty") Double LM_Qty, @Param("LM_LotNo") String LM_LotNo, @Param("LM_Warehouse") String LM_Warehouse);
 	
 	//영업 LotMaster insert
 	public int salesLotMasterInsertUpdateDao(

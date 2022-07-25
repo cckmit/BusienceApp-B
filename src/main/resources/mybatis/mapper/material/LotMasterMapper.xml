@@ -144,5 +144,6 @@
 		set
 		LM_Qty = LM_Qty + #{LM_Qty}
 		where LM_LotNo = #{LM_LotNo}
+		and LM_Warehouse = #{LM_Warehouse}
 	</update>
 </mapper>

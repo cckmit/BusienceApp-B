@@ -13,6 +13,10 @@ body {
 	display: none !important;
 }
 
+.hiddenBtn{
+	visibility: hidden !important;
+}
+
 .soloView {
 	width: calc(100% - 196px);
 	height: calc(100% - 41px);

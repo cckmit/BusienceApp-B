@@ -145,3 +145,7 @@
 .tablet-Table{
 	font-size: calc(1vh + 1vw);
 }
+
+.removeBtn{
+	cursor: pointer;	
+}

@@ -18,4 +18,7 @@ public interface RawMaterialDao {
 	
 	//저장
 	public int rawMaterialSaveDao(RawMaterialDto rawMaterialDto);
+	
+	//삭제
+	public int rawMaterialDeleteDao(String LotNo);
 }
