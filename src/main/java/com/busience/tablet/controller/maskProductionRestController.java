@@ -75,7 +75,7 @@ public class maskProductionRestController {
 		return bomService.BOMBOMList(searchDto);
 	}
 	
-    @GetMapping("/RawMaterialBOMList")
+    @GetMapping("/rawMaterialBOMList")
     public List<BOMDto> RawMaterialBOMList(SearchDto searchDto) {
         return bomService.RawMaterialBOMList(searchDto);
     }
@@ -155,7 +155,31 @@ public class maskProductionRestController {
 	}
 
 	@PostMapping("/rawMaterialChange")
-	public int rawMaterialChange(SearchDto searchDto) {
-		return maskProductionService.rawMaterialChange(searchDto);
+	public int rawMaterialChange(RawMaterialDto rawMaterialDto) {
+		System.out.println(rawMaterialDto);
+		return maskProductionService.rawMaterialChange(rawMaterialDto);
+	}
+	
+	@PostMapping("/crateChange")
+	public CrateDto crateChange(
+			@RequestParam("changeInfo") String changeInfo,
+			@RequestParam("rawLotList") String rawLotList) {
+		ObjectMapper mapper = new ObjectMapper();
+
+		try {
+			CrateDto info = mapper.readValue(changeInfo, CrateDto.class);
+			
+			List<RawMaterialDto> RawMaterialDtoList = Arrays
+					.asList(mapper.readValue(rawLotList, RawMaterialDto[].class));
+			return maskProductionService.crateChange(info, RawMaterialDtoList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@PostMapping("/lotInput")
+	public RawMaterialDto lotInput(RawMaterialDto rawMaterialDto) {
+		return maskProductionService.lotInput(rawMaterialDto);
 	}
 }

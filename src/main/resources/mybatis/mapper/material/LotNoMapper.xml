@@ -6,18 +6,6 @@
 	 
 <mapper namespace="com.busience.material.dao.LotNoDao">
 
-	<select id="lotNoSelectDao" resultType="String">
-		select
-			concat('R',DATE_FORMAT(now(),"%y%m%d"), #{InMat_Code}, lpad(matarial_No,'4',0))
-		from LotNo_tbl
-	</select>
-	
-	<select id="outMatlotNoSelectDao" resultType="String">
-		select
-			concat('R',DATE_FORMAT(now(),"%y%m%d"), #{OM_ItemCode}, lpad(matarial_No,'4',0))
-		from LotNo_tbl
-	</select>
-	
 	<select id="rawlotNoSelectDao" resultType="String">
 		select
 			concat('R',DATE_FORMAT(#{inputDate},"%y%m%d"),#{itemCode}, lpad(A.LotNo,'4',0))
@@ -33,6 +21,17 @@
 		SELECT
 			concat('N', DATE_FORMAT(now(),"%y%m%d"), #{itemCode}, lpad(matarial_No,'4',0))
 		from LotNo_tbl
+	</select>
+	
+	<select id="crateLotNoSelect2Dao" resultType="String">
+		select
+			concat('N',DATE_FORMAT(#{inputDate},"%y%m%d"),#{itemCode}, lpad(A.LotNo,'4',0))
+		from (
+			SELECT
+				if(ifnull(max(right(CL_LotNo,4)),0) = '9999', 1, ifnull(max(right(CL_LotNo,4)),0)+1) LotNo
+			FROM Crate_Lot_tbl
+			where left(CL_LotNo,13) = concat('N',DATE_FORMAT(#{inputDate},"%y%m%d"),#{itemCode})
+		) A
 	</select>
 	
 	<select id="smallLotNoSelectDao" resultType="String">

@@ -7,14 +7,19 @@
 <mapper namespace="com.busience.tablet.dao.RawMaterialDao">
 
 	<select id="rawMaterialSelectDao" resultType="com.busience.tablet.dto.RawMaterialDto">
-		select distinct
+		select
+			A.Production_LotNo,
+			A.Material_LotNo,
 			A.Material_ItemCode,
-		    B.Product_Item_Name Material_ItemName,
-		    (SELECT Material_LotNo FROM Raw_Material_tbl where Material_ItemCode = A.Material_ItemCode order by CreateDate desc limit 1) Material_LotNo,
-		    (SELECT Qty FROM Raw_Material_tbl where Material_ItemCode = A.Material_ItemCode order by CreateDate desc limit 1) Qty
+		    B.Product_Item_Name Material_ItemName
 		from Raw_Material_tbl A
 		inner join Product_Info_tbl B on A.Material_ItemCode = B.Product_Item_Code
-		where A.Production_LotNo = #{LotNo};
+		where (A.Material_ItemCode, A.CreateDate) in (
+			select Material_ItemCode, max(CreateDate)
+		    from Raw_Material_tbl
+		    where Production_LotNo = #{LotNo}
+		    group by Material_ItemCode
+		)
 	</select>
 	
 	<select id="rawMaterialListMasterDao" resultType="com.busience.tablet.dto.RawMaterialDto">
@@ -30,14 +35,20 @@
 
 	<insert id="rawMaterialSaveDao">
 		insert ignore into Raw_Material_tbl (
-			Production_LotNo, Material_LotNo, Material_ItemCode, Qty
+			Production_LotNo, Material_LotNo, Material_ItemCode
 		)values(
 			#{Production_LotNo},
-			#{Material_LotNo}, #{Material_ItemCode}, #{Qty}
+			#{Material_LotNo}, #{Material_ItemCode}
 		)
 	</insert>
 	
-	<insert id="rawMaterialDeleteDao">
-		delete from Raw_Material_tbl where Material_LotNo = #{LotNo}
-	</insert>
+	<delete id="rawMaterialDeleteDao">
+		delete from Raw_Material_tbl
+		where Production_LotNo = #{Production_LotNo}
+		and Material_LotNo = #{Material_LotNo}
+	</delete>
+	
+	<delete id="rawMaterialDelete2Dao">
+		delete from Raw_Material_tbl where Material_LotNo = (select C_Production_LotNo from Crate_tbl where C_CrateCode = #{crateCode})
+	</delete>
 </mapper>

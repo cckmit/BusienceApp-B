@@ -28,7 +28,6 @@ $("#barcodeInput").change(function(){
 	if(myRe.test(barcode)){
 		barcode = "N"+barcode;
 	}
-	console.log(barcode)
 	var initial = barcode.substr(0,1);
 	if(initial == "N"){
 		$.when(CrateStatusCheck(barcode)).

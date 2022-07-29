@@ -18,6 +18,13 @@
 		order by C_CrateCode
 	</select>
 	
+	<select id="crateSelectbyCodeDao" resultType="com.busience.tablet.dto.CrateDto">
+		SELECT
+			C_CrateCode, C_Condition, C_Create_Date, C_Production_LotNo
+		FROM Crate_tbl
+		where C_CrateCode = #{crateCode}
+	</select>
+	
 	<select id="crateStatusCheckDao" resultType="com.busience.tablet.dto.CrateDto">
 		SELECT 
 			A.C_CrateCode, A.C_Condition, A.C_Create_Date,
