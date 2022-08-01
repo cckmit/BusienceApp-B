@@ -17,7 +17,6 @@ import com.busience.material.dao.LotMasterDao;
 import com.busience.material.dao.LotNoDao;
 import com.busience.material.dao.LotTransDao;
 import com.busience.material.dao.StockDao;
-import com.busience.material.dto.LotMasterDto;
 import com.busience.production.dao.EquipWorkOrderDao;
 import com.busience.production.dao.WorkOrderDao;
 import com.busience.standard.dao.BOMDao;
@@ -252,7 +251,6 @@ public class MaskProductionService {
 					double qty = 1;
 
 					boolean check = rawMaterialDto.isCheck();
-					System.out.println(check);
 					//check = 1 되돌림,= 0 소모 
 					if(check) {
 						//되돌림
@@ -264,14 +262,18 @@ public class MaskProductionService {
 						qty *= -1;
 					}
 					
-					//랏마스터
-					lotMasterDao.lotMasterUpdateDao(qty, lotNo, warehouse);
-										
-					// 재고 저장
-					stockDao.stockInsertUpdateDao(itemCode, qty, warehouse);
+					//생산창고 관리 안함
+					boolean prod_wh = false;
+					if(prod_wh) {
+						//랏마스터
+						lotMasterDao.lotMasterUpdateDao(qty, lotNo, warehouse);
+											
+						// 재고 저장
+						stockDao.stockInsertUpdateDao(itemCode, qty, warehouse);
 
-					//랏트랜스
-					lotTransDao.lotTransInsertDao(no, lotNo, itemCode, qty, before, after, classfy);					
+						//랏트랜스
+						lotTransDao.lotTransInsertDao(no, lotNo, itemCode, qty, before, after, classfy);
+					}										
 				}				
 			});			
 			return 1;			
@@ -366,27 +368,23 @@ public class MaskProductionService {
 				
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
+			
 					List<DtlDto> WarehouseList = dtlDao.findByCode(10);
 					SearchDto searchDto = new SearchDto();
 					
 					searchDto.setItemCode(rawMaterialDto.getMaterial_ItemCode());
 					searchDto.setLotNo(rawMaterialDto.getMaterial_LotNo());
 					searchDto.setWarehouse(WarehouseList.get(1).getCHILD_TBL_NO());
-					
-					List<LotMasterDto> lotMasterDtoList = lotMasterDao.lotMasterSelectDao(searchDto);
-					
-					//생산창고에 해당하는 랏이 있는지 확인
-					if(lotMasterDtoList.size()>0) {						
+				
+					if(rawMaterialChange(rawMaterialDto) == 1) {
 						rawMaterialDto.setCheck(false);
-						rawMaterialChange(rawMaterialDto);
-						if(rawMaterialDto.getProduction_LotNo().length() > 0) {
-							rawMaterialDao.rawMaterialSaveDao(rawMaterialDto);
-						}
+						rawMaterialDao.rawMaterialSaveDao(rawMaterialDto);
 					}else {
 						System.out.println("저장할 수 없습니다.");
 						rawMaterialDto.setMaterial_ItemCode(null);
 						rawMaterialDto.setMaterial_LotNo(null);
 					}
+									
 				}				
 			});			
 			return rawMaterialDto;	
