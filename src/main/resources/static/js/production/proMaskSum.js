@@ -17,8 +17,6 @@ function Search() {
 	}
 
 	proMaskTable.setData('proSumRest/proMaskSumSelect', jsonData);
-	
-	console.log(proMaskTable);
 }
 
 
@@ -50,15 +48,9 @@ $('#EQUIPMENT_INFO_NAME').keypress(function(e){
 
 var proMaskTable = new Tabulator("#proMaskTable", {
 	layoutColumnsOnNewData : true,
-    //Sub Total 색상
-	rowFormatter: function(row){
-		if(row.getData().production_WorkOrder_ONo == "Sub Total"){
-            row.getElement().style.backgroundColor = "#D8D8D8";
-            }
-    },
     headerFilterPlaceholder: null,
 	height:"calc(100% - 175px)",
- 	columns:[ //Define Table Columns
+ 	columns:[
 		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center" },
 		{ title: "LotNo", field: "cl_LotNo", headerHozAlign: "center", headerFilter: true,
 			bottomCalc:function(){return "Grand Total"}},
@@ -68,9 +60,10 @@ var proMaskTable = new Tabulator("#proMaskTable", {
 		{ title: "제품명", field: "cl_ItemName", headerHozAlign: "center", headerFilter: true },
 		{ title: "규격1", field: "cl_STND_1", headerHozAlign: "center", headerFilter: true},
 		{ title: "규격2", field: "cl_STND_2", headerHozAlign: "center", headerFilter: true},
-		{ title: "품목 분류1", field: "cl_Item_Clsfc_Name_1", headerHozAlign: "center", headerFilter: true },
-		{ title: "품목 분류2", field: "cl_Item_Clsfc_Name_2", headerHozAlign: "center", headerFilter: true },
+		{ title: "분류1", field: "cl_Item_Clsfc_Name_1", headerHozAlign: "center", headerFilter: true },
+		{ title: "분류2", field: "cl_Item_Clsfc_Name_2", headerHozAlign: "center", headerFilter: true },
 		{ title: "재질", field: "cl_Item_Material", headerHozAlign: "center", headerFilter: true },
+		{ title: "상자 코드", field: "cl_CrateCode", headerHozAlign: "center", headerFilter: true },
 		{ title: "생산 수량", field: "cl_Qty", headerHozAlign: "center", hozAlign: "right",
 			bottomCalc:"sum", bottomCalcFormatter : "money", bottomCalcFormatterParams: {precision: false}},
 		{ title: "시간", field: "cl_Create_Date", headerHozAlign: "center", formatter:"datetime", formatterParams:{

@@ -2,10 +2,7 @@ package com.busience.production.controller;
 
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,14 +16,8 @@ import com.busience.tablet.dto.CrateLotDto;
 public class proSumRestController {
 
 	@Autowired
-	DataSource dataSource;
-	
-	@Autowired
 	ProductionMgmtService productionMgmtService;
 
-	@Autowired
-	JdbcTemplate jdbctemplate;
-	
 	// 생산 실적 관리(설비별)
 	@GetMapping("/proMachineSumSelect2")
 	public List<CrateLotDto> proMachineSumSelect(SearchDto searchDto) {

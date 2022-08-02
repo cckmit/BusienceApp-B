@@ -10,7 +10,8 @@
 			A.C_CrateCode, A.C_Condition, A.C_Create_Date, A.C_Production_LotNo,
 		    B.CL_ProductionQty C_ProductionQty,
 		    B.CL_MachineCode C_MachineCode, C.Equipment_Info_Name C_MachineName,
-		    B.CL_MachineCode2 C_MachineCode2, D.Equipment_Info_Name C_MachineName2
+		    B.CL_MachineCode2 C_MachineCode2, D.Equipment_Info_Name C_MachineName2,
+		    B.CL_Create_Date, B.CL_Update_Date
 		FROM Crate_tbl A
 		left outer join Crate_Lot_tbl B on A.C_Production_LotNo = B.CL_LotNo
 		left outer join Equipment_Info_tbl C on B.CL_MachineCode = C.Equipment_Info_Code

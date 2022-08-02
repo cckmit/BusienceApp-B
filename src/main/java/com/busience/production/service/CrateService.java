@@ -22,7 +22,15 @@ public class CrateService {
 	TransactionTemplate transactionTemplate;
 	
 	public List<CrateDto> crateSelectDao(CrateDto crateDto) {
-		return crateDao.crateSelectDao(crateDto);
+		
+		List<CrateDto> CrateDtoList = crateDao.crateSelectDao(crateDto);
+		
+        for(CrateDto dto : CrateDtoList) {
+        	if(dto.getC_MachineName2() == null) {
+        		dto.setCL_Update_Date(null);
+        	}
+        }
+		return CrateDtoList;
 	}
 	
 	public int crateSave(List<CrateDto> crateDtoList) {

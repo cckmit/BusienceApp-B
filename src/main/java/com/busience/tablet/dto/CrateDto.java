@@ -24,5 +24,7 @@ public class CrateDto {
 	private String C_MachineName;
 	private String C_MachineCode2;
 	private String C_MachineName2;
+	private String CL_Create_Date;
+	private String CL_Update_Date;
 }
 

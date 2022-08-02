@@ -28,7 +28,6 @@ public class ProductionMgmtService {
 	// 생산 실적 관리(제품별)
 	public List<CrateLotDto> proItemSumList(SearchDto searchDto) {
 		
-		System.out.println(searchDto);
 		List<CrateLotDto> proItemSumList = productionMgmtDao.proItemSumDao(searchDto);
 		
 		for(CrateLotDto dto : proItemSumList) {
@@ -112,24 +111,7 @@ public class ProductionMgmtService {
 	
 	//마스크 실적 현황
 	public List<CrateLotDto> proMaskSumDao(SearchDto searchDto) {
-		
-		List<CrateLotDto> proMaskSumList = productionMgmtDao.proMaskSumDao(searchDto);
-		
-		for(CrateLotDto dto : proMaskSumList) {
-			if(dto.getCL_LotNo() == null) {
-				dto.setCL_LotNo("Grand Total");
-				dto.setCL_ItemCode("");
-				dto.setCL_ItemName("");
-				dto.setCL_MachineCode("");
-				dto.setCL_EquipName("");
-				dto.setCL_STND_1("");
-				dto.setCL_Item_Clsfc_Name_1("");
-				dto.setCL_Item_Clsfc_Name_2("");
-				dto.setCL_Item_Material("");
-				dto.setCL_Create_Date("");
-			}
-		}
-		return proMaskSumList;
+		return productionMgmtDao.proMaskSumDao(searchDto);
 	}
 	
 	//생산 포장 현황

@@ -103,7 +103,9 @@ var crateManageTable = new Tabulator("#crateManageTable", {
 		{ title: "LotNo", field: "c_Production_LotNo", headerHozAlign: "center", headerFilter: "input"},
 		{ title: "수량", field: "c_ProductionQty", headerHozAlign: "center", hozAlign: "right" },
 		{ title: "생산설비", field: "c_MachineName", headerHozAlign: "center", headerFilter: "input"},
-		{ title: "투입설비", field: "c_MachineName2", headerHozAlign: "center", headerFilter: "input"}
+		{ title: "생산일자", field: "cl_Create_Date", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "투입설비", field: "c_MachineName2", headerHozAlign: "center", headerFilter: "input"},
+		{ title: "투입일자", field: "cl_Update_Date", headerHozAlign: "center", headerFilter: "input"}		
 	]
 });
 
