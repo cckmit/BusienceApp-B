@@ -198,8 +198,6 @@
 	
 	<delete id="crateLotDeleteDao">
 		delete from Crate_Lot_tbl
-		where CL_LotNo = (
-			SELECT C_Production_LotNo FROM Crate_tbl where C_CrateCode = #{crateCode}
-		)
+		where CL_LotNo = #{lotNo}
 	</delete>
 </mapper>

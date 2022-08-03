@@ -128,11 +128,11 @@ public class maskProductionRestController {
 	public List<CrateLotDto> crateLotRecordSelect(SearchDto searchDto) {
 		return maskProductionService.crateLotRecordSelect(searchDto);
 	}
-
+/*
 	@PostMapping("/crateSave")
 	public CrateDto crateSave(CrateDto crateDto) {
 		return maskProductionService.crateSave(crateDto);
-	}
+	}*/
 
 	@PostMapping("/crateProductionSave")
 	public int crateProductionSave(CrateProductionDto crateProductionDto) {
@@ -155,8 +155,7 @@ public class maskProductionRestController {
 	}
 
 	@PostMapping("/rawMaterialChange")
-	public int rawMaterialChange(RawMaterialDto rawMaterialDto) {
-		System.out.println(rawMaterialDto);
+	public String rawMaterialChange(RawMaterialDto rawMaterialDto) {
 		return maskProductionService.rawMaterialChange(rawMaterialDto);
 	}
 	
@@ -177,9 +176,14 @@ public class maskProductionRestController {
 			return null;
 		}
 	}
-	
+	/*
 	@PostMapping("/lotInput")
-	public RawMaterialDto lotInput(RawMaterialDto rawMaterialDto) {
+	public String lotInput(RawMaterialDto rawMaterialDto) {
 		return maskProductionService.lotInput(rawMaterialDto);
+	}*/
+	
+	@PostMapping("/workComplete")
+	public String workComplete(RawMaterialDto rawMaterialDto) {
+		return maskProductionService.workComplete(rawMaterialDto);
 	}
 }

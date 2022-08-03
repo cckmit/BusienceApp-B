@@ -32,6 +32,16 @@
 		INNER JOIN DTL_TBL dt3 ON pit.Product_Item_CLSFC_2 = dt3.Child_TBL_No
 		WHERE rmt.Production_LotNo = #{LotNo}
 	</select>
+	
+	<select id="rawMaterialLastestSelectDao" resultType="String">
+		SELECT
+			A.Material_LotNo
+		FROM Raw_Material_tbl A
+		where Production_LotNo = #{lotNo}
+		and Material_ItemCode = #{itemCode}
+		order by CreateDate desc
+		limit 1
+	</select>
 
 	<insert id="rawMaterialSaveDao">
 		insert ignore into Raw_Material_tbl (
@@ -45,10 +55,8 @@
 	<delete id="rawMaterialDeleteDao">
 		delete from Raw_Material_tbl
 		where Production_LotNo = #{Production_LotNo}
-		and Material_LotNo = #{Material_LotNo}
-	</delete>
-	
-	<delete id="rawMaterialDelete2Dao">
-		delete from Raw_Material_tbl where Material_LotNo = (select C_Production_LotNo from Crate_tbl where C_CrateCode = #{crateCode})
+		<if test="Material_LotNo != null">
+			and Material_LotNo = #{Material_LotNo}
+		</if>
 	</delete>
 </mapper>

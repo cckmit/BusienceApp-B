@@ -1,5 +1,4 @@
 var LotList = new Array();
-var tempRawMaterial = new Object();
 
 $("#machineName").click(function(){
 	location.reload();
@@ -55,7 +54,6 @@ function workOrderSet(){
         //그값에 따라 원자재 검색
         return RawSelect(data.c_Production_LotNo, $("#itemCode").val());
     }).then(function(data1){
-		tempRawMaterial
         //없으면 봄검색
 		if(data1.length == 0){			
 			//BOM_Check(nowItemCode($("#machineCode").val()))
@@ -74,7 +72,6 @@ $("#barcodeInput").keyup(function(){
 })
 
 $("#barcodeInput").change(function(){
-	console.log(tempRawMaterial);
 	//바코드를 읽었을때
 	//이니셜값 비교하여 맞는 칸에 값을 넣는다.
 	var barcode = inko.ko2en($(this).val()).toUpperCase();
@@ -89,7 +86,12 @@ $("#barcodeInput").change(function(){
 		for(let i=0, len = $(".main-c .item").length-1;i<len;i++){
 			if($(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Code").val() == itemCode){
 				check = true
-				lotInput($("#crate-LotNo").val(), barcode, itemCode)
+				if($("#crate-LotNo").val().length > 0){
+					lotInput($("#crate-LotNo").val(), barcode, itemCode, 0)
+				}else{
+					$(".main-c .item:nth-of-type("+(i+2)+") .LotNo").val(barcode)
+					$(".main-c .item:nth-of-type("+(i+2)+") .removeBtn").removeClass("hiddenBtn");
+				}
 			}
 		}
 		if(!check){
@@ -145,48 +147,31 @@ function barcodeBranch(barcode){
 	}
 }*/
 
-function lotInput(production_LotNo, material_LotNo, material_ItemCode){
-	var ajaxResult = $.ajax({
-		method : "post",
-		url : "/tablet/maskProductionRest/lotInput",
-		data : {
-			Production_LotNo : production_LotNo,
-			Material_LotNo : material_LotNo,
-			Material_ItemCode : material_ItemCode
-		},
-		beforeSend: function (xhr) {
-           var header = $("meta[name='_csrf_header']").attr("content");
-           var token = $("meta[name='_csrf']").attr("content");
-           xhr.setRequestHeader(header, token);
-		},
-		success : function(result) {
-			if(result.material_ItemCode != null){
+function lotInput(production_LotNo, material_LotNo, material_ItemCode, check){
+	//check = 0이면 투입, 1이면 롤백
+	$.when(rawMaterialChange(production_LotNo, material_LotNo, material_ItemCode, check))
+	.then(function(result){
+		console.log(result)
+		if(check){
+			for(let i=0, len = $(".main-c .item").length-1;i<len;i++){
+				if($(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Code").val() == material_ItemCode){
+					$(".main-c .item:nth-of-type("+(i+2)+") .LotNo").val(result)
+					$(".main-c .item:nth-of-type("+(i+2)+") .removeBtn").addClass("hiddenBtn");	
+				}		
+			}
+		}else{
+			if(result != ''){
 				for(let i=0, len = $(".main-c .item").length-1;i<len;i++){
-					if($(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Code").val() == result.material_ItemCode){
-						$(".main-c .item:nth-of-type("+(i+2)+") .LotNo").val(result.material_LotNo)
+					if($(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Code").val() == material_ItemCode){
+						$(".main-c .item:nth-of-type("+(i+2)+") .LotNo").val(result)
 						$(".main-c .item:nth-of-type("+(i+2)+") .removeBtn").removeClass("hiddenBtn");
 					}		
 				}
 			}else{
 				toastr.error("생산창고에 존재하지 않습니다.")
-			}			
+			}
 		}
 	})
-	return ajaxResult;
-	/*
-	if(rawMaterialChange(value, itemCode, 0)){
-		
-		var result = LotList.every(function(currentValue, i){
-			if($(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Code").val() == itemCode){
-				$(".main-c .item:nth-of-type("+(i+2)+") .LotNo").val(value)
-			}
-		})
-		if(result){
-			toastr.error("제품과 맞지않는 원자재 입니다.")
-		}
-	}else{
-		toastr.error("생산창고에 수량이 없습니다.")
-	}*/
 }
 
 //원자재 리스트 입력
@@ -344,16 +329,8 @@ function RawSelect(lotNo, itemCode){
 		url : "/tablet/maskProductionRest/rawMaterialBOMList",
 		data : {lotNo : lotNo, itemCode : itemCode},
 		success : function(data) {
-			console.log(data);
-			//LotList = new Array();
 			
 			for(let i=0;i<data.length;i++){
-				/*
-				LotList.push({
-					rms_LotNo : data[i].material_LotNo,
-					rms_ItemCode : data[i].material_ItemCode
-				})*/
-				tempRawMaterial[data[i].bom_ItemCode] = data[i].bom_Material_LotNo;
 				$(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Code").val(data[i].bom_ItemCode);
 				$(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Name").val(data[i].bom_ItemName);
 				$(".main-c .item:nth-of-type("+(i+2)+") .LotNo").val(data[i].bom_Material_LotNo);
@@ -376,7 +353,7 @@ function RawSelect(lotNo, itemCode){
 function rawLotList(){
 	const rawLotList = new Array();
 	for(let i=0, len = $(".main-c .item").length-1;i<len;i++){
-		if($(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Code").val().length > 0){
+		if($(".main-c .item:nth-of-type("+(i+2)+") .LotNo").val().length > 0){
 			rawLotList[i] = {
 				material_ItemCode : $(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Code").val(),
 				material_LotNo : $(".main-c .item:nth-of-type("+(i+2)+") .LotNo").val()
@@ -404,14 +381,16 @@ function crateChange(beforeCrate, afterCrate){
            xhr.setRequestHeader(header, token);
 		},
 		success : function(data) {
-			if(data instanceof Object){
+			if(data instanceof Object && data.c_CrateCode == afterCrate){
 				if(beforeQty != data.c_Qty){
 					$(".removeBtn").addClass("hiddenBtn");
 				}
 				$("#crate-LotNo").val(data.c_Production_LotNo);
 				$("#crateCode").val(data.c_CrateCode);
 				$("#crate-Qty").val(data.c_Qty);
-				toastr.success("상자코드 "+data.c_CrateCode+"로 교체되었습니다.")
+				toastr.success("상자코드 "+afterCrate+"로 교체되었습니다.")
+			}else{
+				toastr.error("상자코드 "+afterCrate+"는 이미 사용 중 입니다.")
 			}
 		}
 	})
@@ -510,6 +489,27 @@ function crateUpdate(crateCode){
 	return ajaxResult;
 }
 
+function workComplete(crateCode){
+	var condition = 0;
+	if($("#crate-Qty").val()>0){
+		condition = 2
+	}
+	var ajaxResult = $.ajax({
+		method : "post",
+		url : "/crateRest/crateUpdate",
+		data : { c_CrateCode : crateCode, c_Condition : condition},
+		beforeSend: function (xhr) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           xhr.setRequestHeader(header, token);
+		},
+		success: function (){
+			location.reload();
+		}
+	});
+	return ajaxResult;
+}
+
 function nowItemCode(machineCode){
 	var result;
 	
@@ -547,30 +547,14 @@ function rawMaterialChange(production_LotNo, material_LotNo, material_ItemCode, 
            var token = $("meta[name='_csrf']").attr("content");
            xhr.setRequestHeader(header, token);
 		},
-		success: function (data){
-			console.log(data)
+		success: function (result){
 		}
-	});
-	
+	});	
 	return ajaxresult
 }
 
 $(".removeBtn").click(function(){
-	rawMaterialChange($("#crate-LotNo").val() ,$(this).siblings(".LotNo").val(), $(this).siblings(".LotNo_Code").val(), 1)
-	console.log($(this).siblings(".LotNo").val());
-	console.log(tempRawMaterial[$(this).siblings(".LotNo_Code").val()]);
-	console.log(tempRawMaterial)
-	$(".removeBtn").addClass("hiddenBtn");
-	$(this).siblings(".LotNo").val(tempRawMaterial[$(this).siblings(".LotNo_Code").val()])
-	
-	/*
-	for(var i=0;i<LotList.length;i++){
-		if(LotList[i].rms_ItemCode = $(this).siblings(".LotNo_Code").val()){
-			
-		}
-	}
-	$(this).siblings(".LotNo").val("")
-	$($(this)).addClass("hiddenBtn");*/
+	lotInput($("#crate-LotNo").val(), $(this).siblings(".LotNo").val(), $(this).siblings(".LotNo_Code").val(), 1);
 })
 
 window.onload = function(){

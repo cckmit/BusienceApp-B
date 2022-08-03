@@ -56,5 +56,5 @@ public interface CrateLotDao {
 	public int packagingWaitingDao(SearchDto searchDto);
 	
 	//삭제
-	public int crateLotDeleteDao(String crateCode);
+	public int crateLotDeleteDao(String lotNo);
 }

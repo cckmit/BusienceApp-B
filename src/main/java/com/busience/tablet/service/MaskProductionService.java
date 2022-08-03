@@ -143,7 +143,7 @@ public class MaskProductionService {
 		//있으면 해당내용을 뿌림
 		return crateLotDao.crateLotRecordSelectDao(searchDto);
 	}
-	
+	/*
 	//상자 저장
 	public CrateDto crateSave(CrateDto crateDto) {		
 		try {			
@@ -191,7 +191,7 @@ public class MaskProductionService {
 			e.printStackTrace();
 			return null;
 		}
-	}
+	}*/
 	
 	// 코드 조건으로 조회
 	public int crateProductionSave(CrateProductionDto crateProductionDto) {
@@ -232,7 +232,7 @@ public class MaskProductionService {
 		return crateLotDao.crateLotSelectList(searchDto);
 	}
 
-	public int rawMaterialChange(RawMaterialDto rawMaterialDto) {
+	public String rawMaterialChange(RawMaterialDto rawMaterialDto) {
 		try {
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 				
@@ -254,10 +254,9 @@ public class MaskProductionService {
 					//check = 1 되돌림,= 0 소모 
 					if(check) {
 						//되돌림
-						if(rawMaterialDto.getProduction_LotNo().length() > 0) {
-							rawMaterialDao.rawMaterialDeleteDao(rawMaterialDto.getProduction_LotNo(), lotNo);
-						}
+						rawMaterialDao.rawMaterialDeleteDao(rawMaterialDto.getProduction_LotNo(), lotNo);
 					}else {
+						rawMaterialDao.rawMaterialSaveDao(rawMaterialDto);
 						//소모
 						qty *= -1;
 					}
@@ -276,10 +275,10 @@ public class MaskProductionService {
 					}										
 				}				
 			});			
-			return 1;			
+			return rawMaterialDao.rawMaterialLastestSelectDao(rawMaterialDto.getProduction_LotNo(), rawMaterialDto.getMaterial_ItemCode());			
 		} catch (Exception e) {
 			e.printStackTrace();
-			return 0;
+			return null;
 		}
 	}
 	public CrateDto crateChange(CrateDto info, List<RawMaterialDto> RawMaterialDtoList) {
@@ -301,8 +300,9 @@ public class MaskProductionService {
 								crateDtoTemp.setC_Condition("2");
 								crateDao.crateUpdateDao(crateDtoTemp);
 							}else {
-								rawMaterialDao.rawMaterialDelete2Dao(before_CrateCode);
-								crateLotDao.crateLotDeleteDao(before_CrateCode);
+								String before_LotNo = crateDao.crateSelectbyCodeDao(before_CrateCode).getC_Production_LotNo();
+								rawMaterialDao.rawMaterialDeleteDao(before_LotNo, null);
+								crateLotDao.crateLotDeleteDao(before_LotNo);
 								
 								crateDtoTemp.setC_Condition("0");
 								crateDao.crateUpdateDao(crateDtoTemp);
@@ -361,33 +361,40 @@ public class MaskProductionService {
 			return null;
 		}
 	}
-	
-	public RawMaterialDto lotInput(RawMaterialDto rawMaterialDto) {
+	/*
+	public String lotInput(RawMaterialDto rawMaterialDto) {
 		try {
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 				
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
-			
-					List<DtlDto> WarehouseList = dtlDao.findByCode(10);
-					SearchDto searchDto = new SearchDto();
-					
-					searchDto.setItemCode(rawMaterialDto.getMaterial_ItemCode());
-					searchDto.setLotNo(rawMaterialDto.getMaterial_LotNo());
-					searchDto.setWarehouse(WarehouseList.get(1).getCHILD_TBL_NO());
-				
 					if(rawMaterialChange(rawMaterialDto) == 1) {
 						rawMaterialDto.setCheck(false);
 						rawMaterialDao.rawMaterialSaveDao(rawMaterialDto);
 					}else {
 						System.out.println("저장할 수 없습니다.");
-						rawMaterialDto.setMaterial_ItemCode(null);
-						rawMaterialDto.setMaterial_LotNo(null);
 					}
 									
 				}				
 			});			
-			return rawMaterialDto;	
+			return rawMaterialDao.rawMaterialLastestSelectDao(rawMaterialDto.getProduction_LotNo(), rawMaterialDto.getMaterial_ItemCode());	
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}*/
+	
+	public String workComplete(RawMaterialDto rawMaterialDto) {
+		try {
+			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+				
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					//수량이 있으면 상자상태 2로변경
+					//수량이 없으면 상자상태 0으로 변경한 후 이력 삭제
+				}				
+			});			
+			return rawMaterialDao.rawMaterialLastestSelectDao(rawMaterialDto.getProduction_LotNo(), rawMaterialDto.getMaterial_ItemCode());	
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
