@@ -137,14 +137,6 @@ function SI_InfoSearch() {
 	salesSmallPackingTable.setData("salesPackingRest/SmallLot_Search", datas);
 }
 
-/*function SI_InfoSubSearch(LotNo) {
-	
-	datas = {
-		LotNo : LotNo
-	}
-	salesCratePackingTable.setData("/tablet/maskProductionRest/crateLotSelect", datas);
-}*/
-
 $(document).ready(function() {
 	SI_InfoSearch();
 });

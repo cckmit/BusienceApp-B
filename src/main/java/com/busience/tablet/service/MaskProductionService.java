@@ -18,39 +18,24 @@ import com.busience.material.dao.LotNoDao;
 import com.busience.material.dao.LotTransDao;
 import com.busience.material.dao.StockDao;
 import com.busience.production.dao.EquipWorkOrderDao;
-import com.busience.production.dao.WorkOrderDao;
 import com.busience.standard.dao.BOMDao;
-import com.busience.standard.dao.ItemDao;
 import com.busience.standard.dto.BOMDto;
-import com.busience.standard.dto.ItemDto;
 import com.busience.tablet.dao.CrateDao;
 import com.busience.tablet.dao.CrateLotDao;
-import com.busience.tablet.dao.CrateProductionDao;
 import com.busience.tablet.dao.RawMaterialDao;
-import com.busience.tablet.dao.RawMaterialMasterDao;
-import com.busience.tablet.dao.RawMaterialSubDao;
 import com.busience.tablet.dto.CrateDto;
 import com.busience.tablet.dto.CrateLotDto;
-import com.busience.tablet.dto.CrateProductionDto;
 import com.busience.tablet.dto.RawMaterialDto;
-import com.busience.tablet.dto.RawMaterialMasterDto;
-import com.busience.tablet.dto.RawMaterialSubDto;
 
 @Service
 public class MaskProductionService {
 
 	@Autowired
 	DtlDao dtlDao;
-	
-	@Autowired
-	ItemDao itemDao;
-	
+		
 	@Autowired
 	BOMDao bomDao;
-	
-	@Autowired
-	WorkOrderDao workOrderDao;
-	
+		
 	@Autowired
 	EquipWorkOrderDao equipWorkOrderDao;
 	
@@ -67,12 +52,6 @@ public class MaskProductionService {
 	StockDao stockDao;
 	
 	@Autowired
-	RawMaterialMasterDao rawMaterialMasterDao;
-	
-	@Autowired
-	RawMaterialSubDao rawMaterialSubDao;
-	
-	@Autowired
 	RawMaterialDao rawMaterialDao;
 	
 	@Autowired
@@ -80,123 +59,9 @@ public class MaskProductionService {
 	
 	@Autowired
 	CrateLotDao crateLotDao;
-	
-	@Autowired
-	CrateProductionDao crateProductionDao;
-	
+		
 	@Autowired
 	TransactionTemplate transactionTemplate;
-	
-	public List<RawMaterialMasterDto> rawMaterialMasterSelect(SearchDto searchDto) {
-		return rawMaterialMasterDao.rawMaterialMasterSelectDao(searchDto);
-	}
-	
-	public List<RawMaterialMasterDto> rawMaterialRecordSelect(SearchDto searchDto){
-		return rawMaterialMasterDao.rawMaterialRecordSelectDao(searchDto);
-	}
-	
-	public List<RawMaterialDto> rawMaterialSelect(SearchDto searchDto) {
-		return rawMaterialDao.rawMaterialSelectDao(searchDto);
-	}
-	
-	//수량 업데이트
-	public int rawMaterialQtyUpdate(RawMaterialMasterDto rawMaterialMasterDto) {
-		return rawMaterialMasterDao.rawMaterialQtyUpdateDao(rawMaterialMasterDto);
-	}
-	
-	// 설비명으로 조회
-	public ItemDto workingSelectByMachine(SearchDto searchDto) {
-		// 설비명으로 품목 조회
-		String itemCode = workOrderDao.workingSelectByMachineDao(searchDto).get(0).getWorkOrder_ItemCode();
-
-		return itemDao.selectItemCode(itemCode);		
-	}
-	
-	
-	//원자재 투입 저장
-	public String rawMaterialSave(RawMaterialDto rawMaterialDto, List<RawMaterialSubDto> rawMaterialSubDtoList) {
-		
-		try {			
-			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
-
-				@Override
-				protected void doInTransactionWithoutResult(TransactionStatus status) {
-					
-					for(int i=0;i<rawMaterialSubDtoList.size();i++) {
-						rawMaterialDto.setMaterial_ItemCode(rawMaterialSubDtoList.get(i).getRMS_ItemCode());
-						rawMaterialDto.setMaterial_LotNo(rawMaterialSubDtoList.get(i).getRMS_LotNo());
-						rawMaterialDao.rawMaterialSaveDao(rawMaterialDto);
-					}															
-				}				
-			});
-			
-			return null;			
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	
-	public List<CrateLotDto> crateLotRecordSelect(SearchDto searchDto) {
-		//검색해서 있는지 파악
-		//있으면 해당내용을 뿌림
-		return crateLotDao.crateLotRecordSelectDao(searchDto);
-	}
-	/*
-	//상자 저장
-	public CrateDto crateSave(CrateDto crateDto) {		
-		try {			
-			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
-
-				@Override
-				protected void doInTransactionWithoutResult(TransactionStatus status) {
-					
-					//기존 값이 있으면 상태값 변경
-					if(crateDto.getC_Before_CrateCode().length()>0) {
-						CrateDto crateDtoTemp = new CrateDto();
-						String before_CrateCode = crateDto.getC_Before_CrateCode();
-						crateDtoTemp.setC_CrateCode(before_CrateCode);
-						
-						if(crateDto.getC_Qty()>0) {
-							crateDtoTemp.setC_Condition("2");
-							crateDao.crateUpdateDao(crateDtoTemp);
-						}else {
-							crateDtoTemp.setC_Production_LotNo(null);
-							crateDtoTemp.setC_Condition("0");
-							crateLotDao.crateLotDeleteDao(before_CrateCode);
-							crateDao.crateUpdateDao(crateDtoTemp);
-						}
-					}
-
-					//그 후 새로운 상자 등록
-					String LotNo = lotNoDao.crateLotNoSelectDao(crateDto.getC_ItemCode());
-					lotNoDao.lotNoMatUpdateDao();
-					crateDto.setC_Condition("1");
-					crateDto.setC_Production_LotNo(LotNo);
-					crateDao.crateUpdateDao(crateDto);
-					
-					CrateLotDto crateLotDto = new CrateLotDto();
-					crateLotDto.setCL_LotNo(LotNo);
-					crateLotDto.setCL_ItemCode(crateDto.getC_ItemCode());
-					crateLotDto.setCL_CrateCode(crateDto.getC_CrateCode());
-					crateLotDto.setCL_MachineCode(crateDto.getC_MachineCode());
-					crateLotDao.crateLotSaveDao(crateLotDto);
-				}				
-			});
-
-			return crateDto;
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}*/
-	
-	// 코드 조건으로 조회
-	public int crateProductionSave(CrateProductionDto crateProductionDto) {
-		return crateProductionDao.crateProductionSaveDao(crateProductionDto);
-	}
 	
 	public int wholeQtyUpdate(String equip, double value) {
 		try {
@@ -227,11 +92,6 @@ public class MaskProductionService {
 		return crateDao.crateStatusCheckDao(searchDto);
 	}
 	
-	// 자재 투입 현황
-	public List<CrateLotDto> crateLotSelectList(SearchDto searchDto) {
-		return crateLotDao.crateLotSelectList(searchDto);
-	}
-
 	public String rawMaterialChange(RawMaterialDto rawMaterialDto) {
 		try {
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
@@ -341,6 +201,7 @@ public class MaskProductionService {
 							RawMaterialDto rawMaterialDto = new RawMaterialDto();
 							rawMaterialDto.setProduction_LotNo(lotNo);
 							rawMaterialDto.setMaterial_ItemCode(bomDtoList.get(i).getBOM_ItemCode());
+							System.out.println(RawMaterialDtoList);
 							for(int j=0;j<RawMaterialDtoList.size();j++) {
 								if(bomDtoList.get(i).getBOM_ItemCode().equals(RawMaterialDtoList.get(j).getMaterial_ItemCode())) {
 									rawMaterialDto.setMaterial_LotNo(RawMaterialDtoList.get(j).getMaterial_LotNo());
@@ -361,30 +222,8 @@ public class MaskProductionService {
 			return null;
 		}
 	}
-	/*
-	public String lotInput(RawMaterialDto rawMaterialDto) {
-		try {
-			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
-				
-				@Override
-				protected void doInTransactionWithoutResult(TransactionStatus status) {
-					if(rawMaterialChange(rawMaterialDto) == 1) {
-						rawMaterialDto.setCheck(false);
-						rawMaterialDao.rawMaterialSaveDao(rawMaterialDto);
-					}else {
-						System.out.println("저장할 수 없습니다.");
-					}
-									
-				}				
-			});			
-			return rawMaterialDao.rawMaterialLastestSelectDao(rawMaterialDto.getProduction_LotNo(), rawMaterialDto.getMaterial_ItemCode());	
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}*/
 	
-	public String workComplete(RawMaterialDto rawMaterialDto) {
+	public String workComplete(CrateDto crateDto) {
 		try {
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 				
@@ -392,9 +231,17 @@ public class MaskProductionService {
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
 					//수량이 있으면 상자상태 2로변경
 					//수량이 없으면 상자상태 0으로 변경한 후 이력 삭제
+					if(crateDto.getC_Condition().equals("2")) {
+						crateDao.crateUpdateDao(crateDto);
+					}else {
+						String lotNo = crateDao.crateSelectbyCodeDao(crateDto.getC_CrateCode()).getC_Production_LotNo();
+						rawMaterialDao.rawMaterialDeleteDao(lotNo, null);
+						crateLotDao.crateLotDeleteDao(lotNo);
+						crateDao.crateUpdateDao(crateDto);
+					}
 				}				
 			});			
-			return rawMaterialDao.rawMaterialLastestSelectDao(rawMaterialDto.getProduction_LotNo(), rawMaterialDto.getMaterial_ItemCode());	
+			return null;	
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

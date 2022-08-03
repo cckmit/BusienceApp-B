@@ -91,17 +91,5 @@
 	<div class="main-d">
 		<div id="itemTable" class="tablet-border tablet-Table"></div>
 	</div>
-	<!-- <footer class="global-footer">
-		<div class="footer-box tablet-border">
-			<div class="table-container">
-				<button id="completeBtn">
-					작업완료
-				</button>
-			</div>
-			<div class="table-container">
-				<div id="crateTable" class="tablet-Table"></div>
-			</div>
-		</div>
-	</footer> -->
 </div>
 <script src="/js/tablet/maskProductionTablet.js?v=<%=System.currentTimeMillis() %>"></script>
