@@ -97,7 +97,7 @@
 	grid-template-areas:
 		"m-header m-header"
 		"table-container m-main";
-	margin: 10px;
+	margin: 6px;
 	width: 12%;
 	border: solid white;
 }
@@ -125,7 +125,7 @@
 }
 
 .tablet-Table{
-	font-size: 1vw;
+	font-size: 1.3vw;
 }
 
 .selected-module{
@@ -133,4 +133,14 @@
 }
 .selected-module-Y{
 	border: solid 10px yellow !important;
+}
+
+.message{
+	position: absolute;
+	top: calc(50% - 100px);
+	padding: 5px;
+	background-color: black;	
+	color: white;
+	font-size: 5vw;
+	border-radius: 20px;
 }

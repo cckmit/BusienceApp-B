@@ -21,9 +21,15 @@
 	
 	<select id="crateSelectbyCodeDao" resultType="com.busience.tablet.dto.CrateDto">
 		SELECT
-			C_CrateCode, C_Condition, C_Create_Date, C_Production_LotNo
-		FROM Crate_tbl
-		where C_CrateCode = #{crateCode}
+			A.C_CrateCode, A.C_Condition, A.C_Create_Date, A.C_Production_LotNo, E.Child_TBL_Type C_Condition_Name,
+			B.CL_MachineCode C_MachineCode, C.Equipment_Info_Name C_MachineName,
+			B.CL_ItemCode C_ItemCode
+		FROM Crate_tbl A
+		left outer join Crate_Lot_tbl B on A.C_Production_LotNo = B.CL_LotNo
+		left outer join Equipment_Info_tbl C on B.CL_MachineCode = C.Equipment_Info_Code
+		inner join DTL_TBL E on A.C_Condition = E.Child_TBL_Rmark and E.New_TBL_Code = '32'
+		where A.C_CrateCode = #{crateCode}
+		order by A.C_CrateCode
 	</select>
 	
 	<select id="crateStatusCheckDao" resultType="com.busience.tablet.dto.CrateDto">

@@ -92,8 +92,22 @@ $("#barcodeInput").change(function(){
 	}else if(initial == 'N'){
 		$.when(crateChange($("#crateCode").val(), barcode))
 		.then(function(data){
-			rawSelect(data.c_Production_LotNo, data.c_ItemCode);
-			itemTable.setData("/itemManageRest/itemCodeInfo",{itemCode : data.c_ItemCode})
+			console.log(data);
+			if(data instanceof Object){
+				if(data.c_MachineCode == $("#machineCode").val() && data.c_Condition == '1'){
+					$(".removeBtn").addClass("hiddenBtn");
+					$("#crate-LotNo").val(data.c_Production_LotNo);
+					$("#crateCode").val(data.c_CrateCode);
+					$("#crate-Qty").val(data.c_Qty);
+					rawSelect(data.c_Production_LotNo, data.c_ItemCode);
+					itemTable.setData("/itemManageRest/itemCodeInfo",{itemCode : data.c_ItemCode})
+					toastr.success("상자코드 "+data.c_CrateCode+"로 교체되었습니다.")
+				}else {
+					toastr.error("상자코드 "+data.c_CrateCode+"는 상태값이 "+data.c_Condition+" ("+data.c_Condition_Name+") 입니다.")
+				}				
+			}else{
+				toastr.error("잘못된 코드를 입력하였습니다.")
+			}
 		})
 	}
 });
@@ -154,7 +168,6 @@ function rawLotList(){
 }
 
 function crateChange(beforeCrate, afterCrate){
-	var beforeQty = $("#crate-Qty").val();
 	var ajaxResult = $.ajax({
 		method : "post",
 		url : "/tablet/maskProductionRest/crateChange",
@@ -169,20 +182,6 @@ function crateChange(beforeCrate, afterCrate){
            var header = $("meta[name='_csrf_header']").attr("content");
            var token = $("meta[name='_csrf']").attr("content");
            xhr.setRequestHeader(header, token);
-		},
-		success : function(data) {
-			console.log(data)
-			if(data instanceof Object && data.c_CrateCode == afterCrate){
-				if(beforeQty != data.c_Qty){
-					$(".removeBtn").addClass("hiddenBtn");
-				}
-				$("#crate-LotNo").val(data.c_Production_LotNo);
-				$("#crateCode").val(data.c_CrateCode);
-				$("#crate-Qty").val(data.c_Qty);
-				toastr.success("상자코드 "+afterCrate+"로 교체되었습니다.")
-			}else{
-				toastr.error("상자코드 "+afterCrate+"는 이미 사용 중 입니다.")
-			}
 		}
 	})
 	return ajaxResult;

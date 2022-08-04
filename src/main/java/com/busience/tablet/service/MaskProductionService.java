@@ -3,6 +3,7 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -147,7 +148,7 @@ public class MaskProductionService {
 				
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
-					//교체할 상자가 사용 가능한지 부터 파악
+					//교체할 상자가 사용 가능한지 부터 파악					
 					if(crateDao.crateSelectbyCodeDao(info.getC_CrateCode()).getC_Condition().equals("0")) {
 						//기존 값이 있으면 상태값 변경
 						String before_CrateCode = info.getC_Before_CrateCode();
@@ -155,12 +156,15 @@ public class MaskProductionService {
 						if(before_CrateCode.length()>0) {
 							CrateDto crateDtoTemp = new CrateDto();
 							crateDtoTemp.setC_CrateCode(before_CrateCode);
+							String before_LotNo = crateDao.crateSelectbyCodeDao(before_CrateCode).getC_Production_LotNo();
 							//수량이 0보다 크면 상태 2로, 아니면 상태 0으로 되돌림
 							if(info.getC_Qty()>0) {
 								crateDtoTemp.setC_Condition("2");
 								crateDao.crateUpdateDao(crateDtoTemp);
+								System.out.println("랜덤업데이트");
+								crateLotDao.randomQtySaveDao(before_LotNo, randomQty());
 							}else {
-								String before_LotNo = crateDao.crateSelectbyCodeDao(before_CrateCode).getC_Production_LotNo();
+								
 								rawMaterialDao.rawMaterialDeleteDao(before_LotNo, null);
 								crateLotDao.crateLotDeleteDao(before_LotNo);
 								
@@ -201,7 +205,6 @@ public class MaskProductionService {
 							RawMaterialDto rawMaterialDto = new RawMaterialDto();
 							rawMaterialDto.setProduction_LotNo(lotNo);
 							rawMaterialDto.setMaterial_ItemCode(bomDtoList.get(i).getBOM_ItemCode());
-							System.out.println(RawMaterialDtoList);
 							for(int j=0;j<RawMaterialDtoList.size();j++) {
 								if(bomDtoList.get(i).getBOM_ItemCode().equals(RawMaterialDtoList.get(j).getMaterial_ItemCode())) {
 									rawMaterialDto.setMaterial_LotNo(RawMaterialDtoList.get(j).getMaterial_LotNo());
@@ -215,8 +218,8 @@ public class MaskProductionService {
 						System.out.println("변경 불가능한 상자");
 					}
 				}				
-			});			
-			return crateDao.crateSelectByMachineDao(info.getC_MachineCode(), "1");			
+			});
+			return crateDao.crateSelectbyCodeDao(info.getC_CrateCode());		
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -246,5 +249,11 @@ public class MaskProductionService {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	private int randomQty() {
+		Random random = new Random(); // 랜덤 객체 생성
+		random.setSeed(System.currentTimeMillis());
+		return random.nextInt(100)+300;
 	}
 }

@@ -5,6 +5,7 @@ function tableSetting(value){
 	var tableSetting = {
 		height: "100%",
 		headerVisible: false,
+		sortOrderReverse:true,
 		layout:"fitColumns",
 		ajaxURL:"maskInputRest/crateLotListSelect",
 		ajaxParams: {machineCode : value.equip_WorkOrder_Code, itemCode : value.equip_WorkOrder_Old_ItemCode},
@@ -12,9 +13,9 @@ function tableSetting(value){
 	    ajaxContentType:"json",
 		ajaxLoader:false,
 		columns:[
-			{ title: "코드", field: "cl_CrateCode", headerHozAlign: "center", headerSort:false, widthGrow : 6},
-			{ title: "수량", field: "cl_ProductionQty", headerHozAlign: "center", hozAlign:"right", headerSort:false,
-				formatter:"money", formatterParams: {precision: false}, widthGrow : 5}
+			{ title: "코드", field: "cl_CrateCode", hozAlign:"center", widthGrow : 3},
+			{ title: "수량", field: "cl_ProductionQty", hozAlign:"center",
+				formatter:"money", formatterParams: {precision: false}, widthGrow : 2}
 		]
 	}
 	return tableSetting
@@ -94,28 +95,28 @@ $("#barcodeInput").change(function(){
 		$(".machine-module").removeClass("selected-module-Y");
 		$("#module-"+barcode.substr(1,barcode.length)).addClass("selected-module-Y");
 	}else if(initial == "N"){
-		
 		var machine_initial = $("#selectedMachine").val().substr(0,1);
 		
 		if(machine_initial != "C"){
-			$.when(CrateStatusCheck(barcode)).
-			then(function(data){
+			$.when(CrateStatusCheck(barcode))
+			.then(function(data){
 				//아이템이 설비지정아이템과 맞으면 등록이 되고 맞지않으면 오류 뱉음	
 				if(data instanceof Object){
 					if(data.c_ItemCode == itemCodeObj[$("#selectedMachine").val()]){
 						crateLotUpdate($("#selectedMachine").val(), data.c_CrateCode);
+						inputMessage(barcode+" 투입")
 					}else{
 						toastr.error("설비와 품목이 맞지 않습니다.")
 					}
 				}else{
 					toastr.error("잘못된 박스 입니다.")
-				}
-				
+				}				
 			})
 		}else{
 			var machineCode = $("#selectedMachine").val().substr(1,barcode.length);
 			maskInputRollback(machineCode, barcode)
-		}		
+			inputMessage(barcode+" 수정")
+		}
 	}
 });
 $("#barcodeInput").keyup(function(e){
@@ -165,8 +166,18 @@ function maskInputRollback(machineCode, crateCode){
 	});
 }
 
-window.onload = function(){
-	
+function inputMessage(value){
+	$(".message").text(value)
+	$(".message").removeClass("none")
+
+	setTimeout(function(){
+		if(value.substr(0, 4) == $(".message").text().substr(0, 4)){
+			$(".message").addClass("none")	
+		}		
+	}, 4000)
+}
+
+window.onload = function(){	
 	setInterval(function(){
 		for(var key in machineCodeObj){
 			Tabulator.prototype.findTable("#"+machineCodeObj[key])[0].replaceData();	

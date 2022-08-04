@@ -114,7 +114,7 @@ public class MaskPackagingService {
 			machineList.setMachineCode(packagingLine.get(i).getEquip_WorkOrder_Code());
 
 			machineList.setItemCode(sub_ItemCode);
-			List<CrateLotDto> CrateLotDtoList = crateLotDao.crateLotListSelectDao(machineList);
+			List<CrateLotDto> CrateLotDtoList = crateLotDao.crateLotListASCSelectDao(machineList);
 
 			packagingQty = divideQty + Qty;
 			

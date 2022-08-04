@@ -3,6 +3,7 @@ package com.busience.tablet.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.busience.common.dto.SearchDto;
 import com.busience.tablet.dto.CrateLotDto;
@@ -17,7 +18,10 @@ public interface CrateLotDao {
 	public List<CrateLotDto> crateLotRecordSelectDao(SearchDto searchDto);
 	
 	//설비별목록
-	public List<CrateLotDto> crateLotListSelectDao(SearchDto searchDto);
+	public List<CrateLotDto> crateLotListASCSelectDao(SearchDto searchDto);
+	
+	//설비별목록
+	public List<CrateLotDto> crateLotListDESCSelectDao(SearchDto searchDto);
 	
 	//공정검사 상자 List 조회
 	public List<CrateLotDto> crateInspectSelectDao(SearchDto searchDto);
@@ -48,6 +52,8 @@ public interface CrateLotDao {
 	
 	//불량별 관리 -> 생산 수량 update
 	public int crateQtyUpdateDao(CrateLotDto crateLotDto);
+	
+	public int randomQtySaveDao(@Param("lotNo")String lotNo, @Param("qty") int qty);
 	
 	//불량별 관리 - 수량 조회
 	public int crateQtySelect(CrateLotDto crateLotDto);

@@ -81,7 +81,7 @@ function dtlSelectList(value){
 	$.ajax({
 		method : "GET",
 		async: false,
-		url : "dtlTrueSelect",
+		url : "/dtlTrueSelect",
 		data : {"NEW_TBL_CODE" : value},
 		success : function(datas) {
 			for(i=0;i<datas.length;i++){

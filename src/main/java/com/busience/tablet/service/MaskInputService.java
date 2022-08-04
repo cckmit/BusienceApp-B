@@ -31,7 +31,7 @@ public class MaskInputService {
 	TransactionTemplate transactionTemplate;
 		
 	public List<CrateLotDto> crateLotListSelect(SearchDto searchDto) {
-		return crateLotDao.crateLotListSelectDao(searchDto);
+		return crateLotDao.crateLotListDESCSelectDao(searchDto);
 	}
 	
 	public int maskInputUpdate(CrateLotDto crateLotDto) {

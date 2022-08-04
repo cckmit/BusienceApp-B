@@ -12,9 +12,9 @@ var inputTable = new Tabulator("#inputTable", {
     ajaxContentType:"json",
 	ajaxLoader:false,
 	columns:[
-		{ title: "코드", field: "cl_CrateCode", headerHozAlign: "center", headerSort:false, widthGrow : 6},
-		{ title: "수량", field: "cl_ProductionQty", headerHozAlign: "center", hozAlign:"right", headerSort:false,
-			formatter:"money", formatterParams: {precision: false}, widthGrow : 5}
+		{ title: "코드", field: "cl_CrateCode", hozAlign:"center", widthGrow : 3},
+		{ title: "수량", field: "cl_ProductionQty", hozAlign:"center",
+			formatter:"money", formatterParams: {precision: false}, widthGrow : 2}
 	]
 });
 

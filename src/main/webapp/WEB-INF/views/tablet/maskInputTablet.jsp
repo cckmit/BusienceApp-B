@@ -24,5 +24,7 @@
 		<div id="multiTableAdd" class="main-box tablet-border">		
 		</div>
 	</div>
+	<div class="message none" style="left: 13%;">N000 투입</div>
+	<div class="message none" style="right: 13%;">N000 투입</div>
 </div>
 <script src="/js/tablet/maskInputTablet.js?v=<%=System.currentTimeMillis() %>"></script>
