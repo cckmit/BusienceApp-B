@@ -121,9 +121,11 @@ public class MaskProductionService {
 						//소모
 						qty *= -1;
 					}
-					
 					//생산창고 관리 안함
 					boolean prod_wh = false;
+					if(dtlDao.findCodeNum(31, "1").get(0).getCHILD_TBL_USE_STATUS().equals("true")) {
+						prod_wh = true;
+					}
 					if(prod_wh) {
 						//랏마스터
 						lotMasterDao.lotMasterUpdateDao(qty, lotNo, warehouse);
@@ -161,7 +163,6 @@ public class MaskProductionService {
 							if(info.getC_Qty()>0) {
 								crateDtoTemp.setC_Condition("2");
 								crateDao.crateUpdateDao(crateDtoTemp);
-								System.out.println("랜덤업데이트");
 								crateLotDao.randomQtySaveDao(before_LotNo, randomQty());
 							}else {
 								
