@@ -6,14 +6,20 @@
 <div class="soloView">
 	<!-- MAIN -->
 	<div class="main">
-		<div class="top-var">
-			<div class="input-button">			
-				<img src="/images/button/ADD.png" id="CM_ADDbtn" class="unUseBtn"/>					
+		<div style="width: calc(50% - 5px); height: 100%; float: left; margin-right: 10px;">
+			<div class="top-var">
 			</div>
+			<div id="codeManageMasterTable"></div>
 		</div>
-		<div id="codeManageMasterTable" style="width: calc(50% - 5px); float: left; margin-right: 10px;"></div>
-		<div id="codeManageSubTable" style="width: calc(50% - 5px); float: left;"></div>
+		<div style="width: calc(50% - 5px); height: 100%; float: left;">
+			<div class="top-var">
+				<div class="input-button">			
+					<img src="/images/button/ADD.png" id="CM_ADDbtn" class="unUseBtn"/>					
+				</div>
+			</div>
+			<div id="codeManageSubTable"></div>
+		</div>
 	</div>
 	<!-- END MAIN -->
 </div>
-<script src="/js/system/codeManage.js"></script>
+<script src="/js/system/codeManage.js?v=<%=System.currentTimeMillis() %>"></script>

@@ -5,7 +5,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="com.busience.system.dao.UserMenuDao">
-	<select id="userMenuListDao" resultType="com.busience.system.dto.UserMenuDto">
+	<select id="allMenuListDao" resultType="com.busience.system.dto.UserMenuDto">
 		SELECT A.Menu_Code, A.Menu_Parent_No, B.CHILD_TBL_TYPE Menu_Parent_Name, A.Menu_Child_No,
 				A.Menu_Name, A.Menu_PageName, D.User_Code
 		FROM Menu_tbl A
@@ -18,13 +18,30 @@
 		left outer join (
 			select * from User_Menu_tbl where User_Code = #{User_Code}
 		) D on A.Menu_Code = D.Program_Code
+		where A.Menu_Use_Status = 1 and D.User_Code is null
+	</select>
+	
+	<select id="userMenuListDao" resultType="com.busience.system.dto.UserMenuDto">
+		SELECT A.Menu_Code, A.Menu_Parent_No, B.CHILD_TBL_TYPE Menu_Parent_Name, A.Menu_Child_No,
+				A.Menu_Name, A.Menu_PageName, D.User_Code
+		FROM Menu_tbl A
+		inner join (
+			select * from DTL_TBL where NEW_TBL_CODE = '16'
+		) B on cast(A.Menu_Parent_No as signed) = B.CHILD_TBL_NUM
+		inner join (
+			select * from Menu_MGMT_tbl where Menu_User_Code = #{User_Code} and Menu_MGMT_Use_Status = true
+		) C on A.Menu_Code = C.Menu_Program_Code
+		inner join (
+			select * from User_Menu_tbl where User_Code = #{User_Code}
+		) D on A.Menu_Code = D.Program_Code
+		where A.Menu_Use_Status = 1
 	</select>
 	
 	<insert id="userMenuInsertDao">
-		insert into User_Menu_tbl values(#{User_Code}, #{Menu_Code})
+		insert into User_Menu_tbl values(#{user_Code}, #{menu_Code})
 	</insert>
 	
 	<insert id="userMenuDeleteDao">
-		delete from User_Menu_tbl where User_Code = #{User_Code} and Program_Code = #{Menu_Code}
+		delete from User_Menu_tbl where User_Code = #{user_Code} and Program_Code = #{menu_Code}
 	</insert>
 </mapper>

@@ -20,50 +20,24 @@ public class UserMenuService {
 	@Autowired
 	TransactionTemplate transactionTemplate;
 	
+	//메뉴 리스트
+	public List<UserMenuDto> allMenuList(String User_Code) {
+        return userMenuDao.allMenuListDao(User_Code);
+	}
+	
 	//유저메뉴 리스트
 	public List<UserMenuDto> userMenuList(String User_Code) {
         return userMenuDao.userMenuListDao(User_Code);
 	}
 
 	//유저메뉴 저장
-	public int userMenuInsert(List<UserMenuDto> UserMenuDtoList, String User_Code) {
-		try {
-			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
-				
-				@Override
-				protected void doInTransactionWithoutResult(TransactionStatus status) {
-					for(int i=0;i<UserMenuDtoList.size();i++) {
-						UserMenuDtoList.get(i).setUser_Code(User_Code);
-						userMenuDao.userMenuInsertDao(UserMenuDtoList.get(i));
-					}
-				}
-			});
-			
-			return 1;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return 0;
-		}
+	public int userMenuInsert(UserMenuDto userMenuDto, String User_Code) {
+		userMenuDto.setUser_Code(User_Code);
+		return userMenuDao.userMenuInsertDao(userMenuDto);
 	}
 	
 	//유저메뉴 삭제
-	public int userMenuDelete(List<UserMenuDto> UserMenuDtoList) {
-		try {
-			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
-				
-				@Override
-				protected void doInTransactionWithoutResult(TransactionStatus status) {
-					for(int i=0;i<UserMenuDtoList.size();i++) {
-
-						userMenuDao.userMenuDeleteDao(UserMenuDtoList.get(i));
-					}
-				}
-			});
-			
-			return 1;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return 0;
-		}
+	public int userMenuDelete(UserMenuDto userMenuDto, String User_Code) {
+		return userMenuDao.userMenuDeleteDao(userMenuDto);
 	}
 }

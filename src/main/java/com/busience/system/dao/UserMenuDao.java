@@ -10,6 +10,9 @@ import com.busience.system.dto.UserMenuDto;
 public interface UserMenuDao {
 	
 	//사용자 메뉴 목록
+	public List<UserMenuDto> allMenuListDao(String User_Code);
+	
+	//사용자 메뉴 목록
 	public List<UserMenuDto> userMenuListDao(String User_Code);
 	
 	//사용자 메뉴 저장

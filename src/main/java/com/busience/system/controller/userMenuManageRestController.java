@@ -3,8 +3,6 @@ package com.busience.system.controller;
 import java.security.Principal;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,10 +19,13 @@ import com.busience.system.service.UserMenuService;
 public class userMenuManageRestController {
 
 	@Autowired
-	DataSource dataSource;
-
-	@Autowired
 	UserMenuService userMenuService;
+	
+	//allMenuSearch
+	@GetMapping("/allMenuSearch")
+	public List<UserMenuDto> allMenuSearch(Principal principal) {
+		return userMenuService.allMenuList(principal.getName());
+	}
 	
 	//userMenuSearch
 	@GetMapping("/userMenuSearch")
@@ -34,13 +35,13 @@ public class userMenuManageRestController {
 	
 	//userMenuInsert
 	@PostMapping("/userMenuInsert")
-	public int userMenuInsert(@RequestBody List<UserMenuDto> UserMenuDtoList, Principal principal) {
-		return userMenuService.userMenuInsert(UserMenuDtoList, principal.getName());
+	public int userMenuInsert(UserMenuDto userMenuDto, Principal principal) {
+		return userMenuService.userMenuInsert(userMenuDto, principal.getName());
 	}
 	
 	//userMenuDelete
 	@DeleteMapping("/userMenuDelete")
-	public int userMenuDelete(@RequestBody List<UserMenuDto> UserMenuDtoList) {
-		return userMenuService.userMenuDelete(UserMenuDtoList);
+	public int userMenuDelete(UserMenuDto userMenuDto, Principal principal) {
+		return userMenuService.userMenuDelete(userMenuDto, principal.getName());
 	}
 }
