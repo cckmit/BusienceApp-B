@@ -6,7 +6,7 @@
 		<div class="top-var">
 		</div>
 		<div id="allMenuListTable" style="width: calc(50% - 5px); float:left;  margin-right: 10px;"></div>
-		<div id="userMenuListTable" style="width: calc(50% - 5px); float:left;"></div>
+		<div id="userMenuListTable" style="width: calc(50% - 5px); height: 100%; float:left;"></div>
 	</div>
 	<!-- END MAIN -->
 </div>

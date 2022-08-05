@@ -29,4 +29,4 @@
 	</div>
 </div>
 
-<script src="/js/common/left.js"></script>
+<script src="/js/common/left.js?v=<%=System.currentTimeMillis() %>"></script>

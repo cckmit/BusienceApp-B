@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import com.busience.system.dao.UserMenuDao;
@@ -38,6 +36,7 @@ public class UserMenuService {
 	
 	//유저메뉴 삭제
 	public int userMenuDelete(UserMenuDto userMenuDto, String User_Code) {
+		userMenuDto.setUser_Code(User_Code);
 		return userMenuDao.userMenuDeleteDao(userMenuDto);
 	}
 }

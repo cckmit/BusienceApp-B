@@ -13,7 +13,10 @@ var customMenuDeleteReceiver = function(fromRow, toRow, toTable){
 var allMenuListTable = new Tabulator("#allMenuListTable", {
 	layoutColumnsOnNewData : true,
 	headerFilterPlaceholder: null,
+	groupBy: "menu_Parent_Name",
+	groupStartOpen: false,
 	height: "calc(100% - 175px)",
+	ProgressiveLoad: "scroll",
 	ajaxURL:"/userMenuManageRest/allMenuSearch",
     ajaxConfig:"get",
     ajaxContentType:"json",
@@ -25,8 +28,8 @@ var allMenuListTable = new Tabulator("#allMenuListTable", {
 		columns: [
 			{ title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
 			{ title: "메뉴코드", field: "menu_Code", visible:false},
-			{ title: "그룹명", field: "menu_Parent_Name", headerHozAlign: "center", hozAlign: "right", headerFilter:"input" },
-			{ title: "프로그램명", field: "menu_Name", headerHozAlign: "center", hozAlign: "right", headerFilter:"input" }
+			{ title: "그룹명", field: "menu_Parent_Name", headerHozAlign: "center", hozAlign: "right", width: 90},
+			{ title: "프로그램명", field: "menu_Name", headerHozAlign: "center", hozAlign: "right", headerFilter:"input", width: 130}
 		]
 	}
 	]
@@ -35,6 +38,8 @@ var allMenuListTable = new Tabulator("#allMenuListTable", {
 var userMenuListTable = new Tabulator("#userMenuListTable", {
 	layoutColumnsOnNewData : true,
 	headerFilterPlaceholder: null,
+	groupBy: "menu_Parent_Name",
+	groupStartOpen: true,
 	height: "calc(100% - 175px)",
 	ajaxURL:"/userMenuManageRest/userMenuSearch",
     ajaxConfig:"get",
@@ -47,8 +52,8 @@ var userMenuListTable = new Tabulator("#userMenuListTable", {
 		columns: [
 			{ title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
 			{ title: "메뉴코드", field: "menu_Code", visible:false},
-			{ title: "그룹명", field: "menu_Parent_Name", headerHozAlign: "center", hozAlign: "right", headerFilter:"input" },
-			{ title: "프로그램명", field: "menu_Name", headerHozAlign: "center", hozAlign: "right", headerFilter:"input" }
+			{ title: "그룹명", field: "menu_Parent_Name", headerHozAlign: "center", hozAlign: "right", width: 90},
+			{ title: "프로그램명", field: "menu_Name", headerHozAlign: "center", hozAlign: "right", headerFilter:"input", width: 130}
 		]
 	}
 	]
@@ -57,14 +62,14 @@ var userMenuListTable = new Tabulator("#userMenuListTable", {
 function UMM_ADD(selectedData){
 	$.ajax({
 		method: "post",
-		url: "userMenuManageRest/userMenuInsert",
+		url: "/userMenuManageRest/userMenuInsert",
 		data: selectedData,
 		beforeSend: function (xhr) {
            var header = $("meta[name='_csrf_header']").attr("content");
            var token = $("meta[name='_csrf']").attr("content");
            xhr.setRequestHeader(header, token);
 		},
-		success: function(data) {
+		success: function() {
 			allMenuListTable.replaceData();
 			userMenuListTable.replaceData();
 		}
@@ -74,14 +79,14 @@ function UMM_ADD(selectedData){
 function UMM_Delete(selectedData){
 	$.ajax({
 		method: "delete",
-		url: "userMenuManageRest/userMenuDelete",
+		url: "/userMenuManageRest/userMenuDelete",
 		data: selectedData,
 		beforeSend: function (xhr) {
            var header = $("meta[name='_csrf_header']").attr("content");
            var token = $("meta[name='_csrf']").attr("content");
            xhr.setRequestHeader(header, token);
 		},
-		success: function(data) {
+		success: function() {
 			allMenuListTable.replaceData();
 			userMenuListTable.replaceData();
 		}
