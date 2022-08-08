@@ -10,4 +10,3 @@
 </div>
 
 <script src="js/monitoring/proMonitoring.js?v=<%=System.currentTimeMillis() %>"></script>
-<script src="js/monitoring/monitoring.js?v=<%=System.currentTimeMillis() %>"></script>

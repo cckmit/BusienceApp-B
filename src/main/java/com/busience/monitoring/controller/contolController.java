@@ -42,4 +42,11 @@ public class contolController {
 		model.addAttribute("machineCode", searchDto.getMachineCode());		
 		return "normal/monitoring/productionStatus";
 	}
+	
+	@GetMapping("/tablet/prodfacilityStatus")
+	public String prodfacilityStatus(Model model, SearchDto searchDto) {
+		model.addAttribute("machineList", machineService.selectMachineList());
+		model.addAttribute("machineCode", searchDto.getMachineCode());		
+		return "normal/monitoring/prodfacilityStatus";
+	}	
 }
