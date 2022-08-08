@@ -16,7 +16,7 @@
 <div class="container-prod">
 	<div class="row-header">
 		<h1 style="font-weight: bold; font-size: 35px; margin-top: 2%;"
-			align="center">작업 모니터링</h1>
+			align="center">생산 모니터링</h1>
 		<p id="currentTime"
 			style="font-size: 20px; color: rgb(188, 188, 188); margin-right: 2.5%; margin-top: -2%;"
 			align="right"></p>
@@ -54,42 +54,23 @@
 					<tbody>
 						<c:forEach var="data" items="${machineList}" varStatus="status">
 							<c:choose>
-								<c:when test="${status.count < 10}">
+								<c:when test="${status.count < 11}">
 									<tr class="table-active"
-										id="prodRow_machineCode_M00${status.count}">
+										id="prodRow_machineCode_M00${status.count-1}">
 										<td style="text-align: center;"><div
-												id="machineCode_M00${status.count}">${status.count}</div></td>
+												id="machineCode_M00${status.count-1}">마스크 생산설비${status.count}</div></td>
 										<td style="text-align: center;"><div
-												id="itemDesc_M00${status.count}"></div></td>
+												id="itemDesc_M00${status.count-1}"></div></td>
 										<td style="text-align: center;"><div
-												id="itemStnd1_M00${status.count}"></div></td>
+												id="itemStnd1_M00${status.count-1}"></div></td>
 										<td style="text-align: center;"><div
-												id="itemMaterial_M00${status.count}"></div></td>
+												id="itemMaterial_M00${status.count-1}"></div></td>
 										<td style="text-align: center;"><div
-												id="itemType1_M00${status.count}"></div></td>
+												id="itemType1_M00${status.count-1}"></div></td>
 										<td style="text-align: center;"><div
-												id="itemType2_M00${status.count}"></div></td>
+												id="itemType2_M00${status.count-1}"></div></td>
 										<td style="text-align: center;"><div
-												id="itemProdQty_M00${status.count}"></div></td>
-									</tr>
-								</c:when>
-								<c:when test="${status.count == 10}">
-									<tr class="table-active"
-										id="prodRow_machineCode_M00${status.count}">
-										<td style="text-align: center;"><div
-												id="machineCode_M0${status.count}">${status.count}</div></td>
-										<td style="text-align: center;"><div
-												id="itemDesc_M0${status.count}"></div></td>
-										<td style="text-align: center;"><div
-												id="itemStnd1_M0${status.count}"></div></td>
-										<td style="text-align: center;"><div
-												id="itemMaterial_M0${status.count}"></div></td>
-										<td style="text-align: center;"><div
-												id="itemType1_M0${status.count}"></div></td>
-										<td style="text-align: center;"><div
-												id="itemType2_M0${status.count}"></div></td>
-										<td style="text-align: center;"><div
-												id="itemProdQty_M0${status.count}"></div></td>
+												id="itemProdQty_M00${status.count-1}"></div></td>
 									</tr>
 								</c:when>
 							</c:choose>
@@ -127,7 +108,7 @@
 										<td style="text-align: center;"><div
 												id="itemWrapRemainQty_M10${status.count - 10}"></div></td>
 										<td style="text-align: center;"><div
-												id="machineCode_M10${status.count - 10}">${status.count - 10}</div></td>
+												id="machineCode_M10${status.count - 10}">포장설비${status.count - 10}</div></td>
 										<td style="text-align: center;"><div
 												id="itemWrapQty_M10${status.count - 10}"></div></td>
 										<td style="text-align: center;"><div
