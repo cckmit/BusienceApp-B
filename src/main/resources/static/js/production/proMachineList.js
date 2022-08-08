@@ -13,11 +13,9 @@ function Search() {
 		startDate : $('#startDate').val(),
 		endDate : $('#endDate').val(),
 		MachineCode : $('#EQUIPMENT_INFO_CODE').val(),
-		MachineName : $('#EQUIPMENT_INFO_NAME').val(),
-		EQUIPMENT_INFO_CODE : $('#EQUIPMENT_INFO_CODE').val(),
-		EQUIPMENT_INFO_NAME : $('#EQUIPMENT_INFO_NAME').val()
+		MachineName : $('#EQUIPMENT_INFO_NAME').val()
 	}
-	proMachineListTable.setData('proListRest/proMachineTestSelect', jsonData);
+	proMachineListTable.setData('proSumRest/proMachineSumSelect2', jsonData);
 }
 
 
@@ -58,15 +56,21 @@ var proMachineListTable = new Tabulator("#proMachineListTable", {
             }
     },
 	height:"calc(100% - 175px)",
- 	columns:[ //Define Table Columns
-	{title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
-	{title:"작업지시번호", field:"production_WorkOrder_ONo", headerHozAlign:"center", hozAlign:"center"},
-	{title:"번호", field:"production_WorkOrder_No", headerHozAlign:"center", hozAlign:"center"},
- 	{title:"설비 코드", field:"production_Equipment_Code", headerHozAlign:"center"},
- 	{title:"설비 명", field:"production_Equipment_Name", headerHozAlign:"center"},
- 	{title:"생산 수량", field:"production_Volume", headerHozAlign:"center", hozAlign:"right"},
- 	{title:"품목 코드", field:"production_Product_Code", headerHozAlign:"center"},
- 	{title:"품목 명", field:"production_Product_Name", headerHozAlign:"center"},
- 	{title:"시간", field:"production_Date", headerHozAlign:"center"},
- 	],
+	headerFilterPlaceholder: null,
+ 	columns:[
+		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center" },
+		{ title: "LotNo", field: "cl_LotNo", headerHozAlign: "center", headerFilter: true},
+		{ title: "설비 코드", field: "cl_MachineCode", headerHozAlign: "center", headerFilter: true},
+		{ title: "설비 명", field: "cl_EquipName", headerHozAlign: "center", headerFilter: true },
+		{ title: "제품 코드", field: "cl_ItemCode", headerHozAlign: "center", headerFilter: true},
+		{ title: "제품명", field: "cl_ItemName", headerHozAlign: "center", headerFilter: true },
+		{ title: "규격1", field: "cl_STND_1", headerHozAlign: "center", headerFilter: true},
+		{ title: "규격2", field: "cl_STND_2", headerHozAlign: "center", headerFilter: true},
+		{ title: "품목 분류1", field: "cl_Item_Clsfc_Name_1", headerHozAlign: "center", headerFilter: true },
+		{ title: "품목 분류2", field: "cl_Item_Clsfc_Name_2", headerHozAlign: "center", headerFilter: true },
+		{ title: "재질", field: "cl_Item_Material", headerHozAlign: "center", headerFilter: true },
+		{ title: "생산 수량", field: "cl_Qty", headerHozAlign: "center", hozAlign: "right" },
+		{ title: "시간", field: "cl_Create_Date", headerHozAlign: "center", formatter:"datetime", formatterParams:{
+    		outputFormat:"YYYY-MM-DD HH:mm" } }
+ 	]
 });

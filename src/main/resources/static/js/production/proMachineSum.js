@@ -58,7 +58,7 @@ var proMachineTable = new Tabulator("#proMachineTable", {
     },
     headerFilterPlaceholder: null,
 	height:"calc(100% - 175px)",
- 	columns:[ //Define Table Columns
+ 	columns:[
 		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center" },
 		{ title: "LotNo", field: "cl_LotNo", headerHozAlign: "center", headerFilter: true},
 		{ title: "설비 코드", field: "cl_MachineCode", headerHozAlign: "center", headerFilter: true},
@@ -73,5 +73,5 @@ var proMachineTable = new Tabulator("#proMachineTable", {
 		{ title: "생산 수량", field: "cl_Qty", headerHozAlign: "center", hozAlign: "right" },
 		{ title: "시간", field: "cl_Create_Date", headerHozAlign: "center", formatter:"datetime", formatterParams:{
     		outputFormat:"YYYY-MM-DD HH:mm" } }
- 	],
+ 	]
 });
