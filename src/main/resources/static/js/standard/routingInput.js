@@ -2,68 +2,38 @@ var dtl_arr = dtlSelectList(32);
 
 var dtl_arr2 = dtlSelectList(33);
 
-var product_ITEM_CODE = null;
-
 var PRODUCT_INFO_TBL = new Tabulator("#PRODUCT_INFO_TBL", {
 	layoutColumnsOnNewData : true,
-	paginationAddRow: "table",
 	height: "calc(100% - 175px)",
 	headerFilterPlaceholder: null,
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
 	rowClick: function(e, row) {	
 		PRODUCT_INFO_TBL.deselectRow();
 		row.select();
-	
-		BOMListTable.setData([BOM_Child(row,0)]);	
-		
-		if(row.getData().bom_Registered)
-		{
-			if(product_ITEM_CODE == null)
-			{
-				PRODUCT_INFO_TBL_NEW_ROW();
-			}
-			else
-			{
-				Routing_tbl.clearData();
-				
-				PRODUCT_INFO_TBL_NEW_ROW();
-			}
-		}
-		else
-		{
-			Routing_tbl.clearData();
-			
-			PRODUCT_INFO_TBL_NEW_ROW();
-		}
-			
-		
 	},
 	rowSelected:function(row){
+		BOMListTable.setData([BOM_Child(row,0)]);
+		PRODUCT_INFO_TBL_NEW_ROW(row.getData().product_ITEM_CODE)
     },
-	//행추가시 기능
-	rowAdded: function(row) {
-	},
-	cellEditing: function(cell) {
-	},
 	columns: [
 		{ title: "품목코드", field: "product_ITEM_CODE", headerHozAlign: "center", hozAlign: "right", headerFilter: true },
-		{ title: "품목명", field: "product_ITEM_NAME", headerHozAlign: "center", headerFilter: true , width: "200" },
-		{ title: "규격", field: "product_INFO_STND_1", headerHozAlign: "center", hozAlign: "right", headerFilter: true },
+		{ title: "품목명", field: "product_ITEM_NAME", headerHozAlign: "center", headerFilter: true },
 		{ title: "자재분류", field: "product_MTRL_CLSFC_NAME", headerHozAlign: "center", hozAlign: "right", headerFilter: true },
+		{ title: "규격1", field: "product_INFO_STND_1", headerHozAlign: "center", hozAlign: "right", headerFilter: true },
+		{ title: "규격2", field: "product_INFO_STND_2", headerHozAlign: "center", hozAlign: "right", headerFilter: true, visible: false},
+		{ title: "분류1", field: "product_ITEM_CLSFC_1_NAME", headerHozAlign: "center", hozAlign: "right", headerFilter: true },
+		{ title: "분류2", field: "product_ITEM_CLSFC_2_NAME", headerHozAlign: "center", hozAlign: "right", headerFilter: true },		
 		{ title: "BOM등록여부", field:"bom_Registered",  headerHozAlign: "center", hozAlign: "center",headerFilter: true, formatter:"tickCross"}
 	]
 });
 
 var max_Routing_Order = 1;
 
-function PRODUCT_INFO_TBL_NEW_ROW(){
-	product_ITEM_CODE = PRODUCT_INFO_TBL.getSelectedRows()[0].getData().product_ITEM_CODE;
+function PRODUCT_INFO_TBL_NEW_ROW(itemCode){
 				
 				$.ajax({
 					method: "GET",
 					async: false,
-					url: "routingInputRest/Routing_tbl_Search?Routing_ItemCode=" + product_ITEM_CODE,
+					url: "routingInputRest/Routing_tbl_Search?Routing_ItemCode=" + itemCode,
 					success: function(datas) {
 						for(i=0;i<datas.length;i++)
 						{
@@ -97,8 +67,7 @@ var BOMListTable = new Tabulator("#BOMListTable", {
 	dataTree:true,
     dataTreeStartExpanded:true,
 	dataTreeChildColumnCalcs:true,
-	height:"calc(60% - 175px)",
-	
+	height:"calc(60% - 175px)",	
 	columns: [ //Define Table Columns
 		{ title: "level", field: "bom_level",headerHozAlign: "center"},
 		{ title: "부모품목코드", field: "bom_Parent_ItemCode", visible:false},
@@ -182,10 +151,6 @@ var Routing_tbl = new Tabulator("#Routing_tbl", {
 	],
 });
 
-$('#Product_SearchBtn').click(function(){
-	Product_Search();
-});
-
 $('#Bom_Save').click(function(){
 	Bom_Save();
 });
@@ -193,34 +158,6 @@ $('#Bom_Save').click(function(){
 $('#Bom_Delete').click(function(){
 	Bom_Delete();
 });
-
-//제품팝업창		(입력값,input or grid, 탭기능이 있을떄 1부터 없으면 '',검색조건제약(all,material,sales,dtl_tbl 숫자코드))
-function itemPopup2(input_value,type_value,tab_value,search_value) {
-	//제품명 팝업
-	localStorage.setItem('PRODUCT_ITEM_NAME', input_value);
-	//창의 주소
-	var url = "itemPopup?input_value="+input_value
-								+"&type_value="+type_value
-								+"&tab_value="+tab_value
-								+"&search_value="+search_value;
-	//창의 이름
-	var name = "itemPopup";
-	//창의 css
-	var option = "width = 500, height = 500, top = 100, left = 200, location = no"
-	openWin = window.open(url, name, option);
-	
-	var interval = window.setInterval(function() {
-        try {
-            if (openWin == null || openWin.closed) {
-            	Product_Search();
-            	
-                clearInterval(interval);
-            }
-        }
-        catch (e) {
-        }
-    }, 1000);
-}
 
 function Bom_Delete(){
 	if(Routing_tbl.getSelectedData().length <= 0)
@@ -345,17 +282,12 @@ function Bom_Save(){
 	});
 }
 
-function Product_Search(){
-	$.ajax({
-		method: "GET",
-		async: false,
-		url: "routingInputRest/Product_Search?PRODUCT_ITEM_CODE=" + $("#salesCode").val(),
-		success: function(datas) {
-			console.log(datas);
-			
-			PRODUCT_INFO_TBL.setData(datas);
-		}
-	});
+$("#routingItemSearchBtn").click(function(){
+	routingItemSearch($("#salesCode").val());
+})
+
+function routingItemSearch(itemCode){
+	PRODUCT_INFO_TBL.setData("routingInputRest/routingItemSearch", {itemCode: itemCode})
 }
 
 function BBL_Search(value){

@@ -8,18 +8,24 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import com.busience.common.dto.SearchDto;
 import com.busience.standard.dao.RoutingDao;
+import com.busience.standard.dto.ItemDto;
 import com.busience.standard.dto.RoutingDto;
 
 @Service
 public class RoutingService {
-
+	
 	@Autowired
 	RoutingDao routingDao;
 	
 	@Autowired
 	TransactionTemplate transactionTemplate;
-		
+	
+	public List<ItemDto> routingItemSearch(SearchDto searchDto){
+		return routingDao.routingItemSearchDao(searchDto);
+	}
+	
 	//조회
 	public List<RoutingDto> selectRoutingList() {
 		return routingDao.selectRoutingListDao();

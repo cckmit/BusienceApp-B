@@ -9,8 +9,6 @@ var PRODUCT_INFO_TBL = new Tabulator("#PRODUCT_INFO_TBL", {
 	paginationAddRow: "table",
 	height: "calc(100% - 175px)",
 	headerFilterPlaceholder: null,
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
 	rowClick: function(e, row) {	
 		PRODUCT_INFO_TBL.deselectRow();
 		row.select();
@@ -317,10 +315,6 @@ function nametest(cell){
 				});
 }
 
-$('#Product_SearchBtn').click(function(){
-	Product_Search();
-});
-
 $('#Bom_Save').click(function(){
 	Bom_Save();
 });
@@ -423,34 +417,6 @@ function grid_itemPopup(cell)
 	});
 }
 
-//제품팝업창		(입력값,input or grid, 탭기능이 있을떄 1부터 없으면 '',검색조건제약(all,material,sales,dtl_tbl 숫자코드))
-function itemPopup2(input_value,type_value,tab_value,search_value) {
-	//제품명 팝업
-	localStorage.setItem('PRODUCT_ITEM_NAME', input_value);
-	//창의 주소
-	var url = "itemPopup?input_value="+input_value
-								+"&type_value="+type_value
-								+"&tab_value="+tab_value
-								+"&search_value="+search_value;
-	//창의 이름
-	var name = "itemPopup";
-	//창의 css
-	var option = "width = 500, height = 500, top = 100, left = 200, location = no"
-	openWin = window.open(url, name, option);
-	
-	var interval = window.setInterval(function() {
-        try {
-            if (openWin == null || openWin.closed) {
-            	Product_Search();
-            	
-                clearInterval(interval);
-            }
-        }
-        catch (e) {
-        }
-    }, 1000);
-}
-
 function Bom_Save(){
 	if(Routing_tbl.getSelectedData().length == 0)
 	{
@@ -527,17 +493,12 @@ function Bom_Save(){
 	});
 }
 
-function Product_Search(){
-	$.ajax({
-		method: "GET",
-		async: false,
-		url: "matmodelmappingRest/Product_Search?PRODUCT_ITEM_CODE=" + $("#salesCode").val(),
-		success: function(datas) {
-			console.log(datas);
-			
-			PRODUCT_INFO_TBL.setData(datas);
-		}
-	});
+$("#routingItemSearchBtn").click(function(){
+	routingItemSearch($("#salesCode").val());
+})
+
+function routingItemSearch(itemCode){
+	PRODUCT_INFO_TBL.setData("routingInputRest/routingItemSearch", {itemCode: itemCode})
 }
 
 function BBL_Search(value){

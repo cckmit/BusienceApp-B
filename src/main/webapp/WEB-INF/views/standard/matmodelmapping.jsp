@@ -10,7 +10,7 @@
 			<div class="top-var">
 				<!-- 버튼 -->
 				<div class="input-button">
-					<img src="/images/button/Search.png" id="Product_SearchBtn"/>
+					<img src="/images/button/Search.png" id="routingItemSearchBtn"/>
 				</div>
 				<!-- 버튼 -->
 				<div class="input-box">

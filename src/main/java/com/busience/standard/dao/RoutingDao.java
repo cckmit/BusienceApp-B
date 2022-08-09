@@ -4,10 +4,14 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.busience.common.dto.SearchDto;
+import com.busience.standard.dto.ItemDto;
 import com.busience.standard.dto.RoutingDto;
 
 @Mapper
 public interface RoutingDao {
+	
+	public List<ItemDto> routingItemSearchDao(SearchDto searchDto);
 	
 	//조회
 	public List<RoutingDto> selectRoutingListDao();

@@ -16,22 +16,35 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.busience.common.dto.SearchDto;
 import com.busience.standard.dto.ItemDto;
 import com.busience.standard.dto.Routing_tbl;
+import com.busience.standard.service.RoutingService;
 
 @RestController("routingInputRestController")
 @RequestMapping("routingInputRest")
 public class routingInputRestController {
 
 	@Autowired
+	RoutingService routungService;
+	
+	@Autowired
 	DataSource dataSource;
 	
 	@Autowired
 	JdbcTemplate jdbctemplate;
+	
+	@GetMapping("/routingItemSearch")
+	public List<ItemDto> routingItemSearch(SearchDto searchDto){
+		List<ItemDto> itemDtoList = routungService.routingItemSearch(searchDto); 
+		System.out.println(itemDtoList);
+		return itemDtoList;
+	}
 	
 	@RequestMapping(value = "/Product_Search", method = RequestMethod.GET)
 	public List<ItemDto> Product_Search(HttpServletRequest request) throws SQLException

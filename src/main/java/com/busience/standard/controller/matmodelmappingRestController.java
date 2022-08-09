@@ -127,7 +127,7 @@ public class matmodelmappingRestController {
 		String bom_Parent_ItemCode = request.getParameter("bom_Parent_ItemCode");
 		
 		List<Mat_Model_Mapping_tbl> list = jdbctemplate.query("SELECT * FROM Mat_Model_Mapping_tbl t1 "
-				+ "inner join PRODUCT_INFO_TBL t2 on t1.Mat_Model_ItemBCode=t2.PRODUCT_ITEM_CODE "
+				+ "inner join Product_Info_tbl t2 on t1.Mat_Model_ItemBCode=t2.PRODUCT_ITEM_CODE "
 				+ "where Mat_Model_ItemCode=? and Mat_Model_ItemBCode=? and Mat_Model_ItemFCode=?", new RowMapper<Mat_Model_Mapping_tbl>() {
 			@Override
 			public Mat_Model_Mapping_tbl mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -246,7 +246,7 @@ public class matmodelmappingRestController {
 	public List<Mat_Model_Mapping_tbl> Mat_Model_Mapping_Select(HttpServletRequest request)
 	{
 		return jdbctemplate.query("SELECT * FROM Mat_Model_Mapping_tbl t1 "
-				+ "inner join PRODUCT_INFO_TBL t2 on t1.Mat_Model_ItemBCode=t2.PRODUCT_ITEM_CODE "
+				+ "inner join Product_Info_tbl t2 on t1.Mat_Model_ItemBCode=t2.PRODUCT_ITEM_CODE "
 				+ "where Mat_Model_ItemCode=? and Mat_Model_FairCode=?", new RowMapper<Mat_Model_Mapping_tbl>() {
 			@Override
 			public Mat_Model_Mapping_tbl mapRow(ResultSet rs, int rowNum) throws SQLException {
