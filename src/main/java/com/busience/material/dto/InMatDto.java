@@ -40,4 +40,5 @@ public class InMatDto implements Cloneable {
 	private String InMat_After;
 	
 	private String InMat_Check_1;
+	private String InMat_Result;
 }

@@ -30,5 +30,6 @@ public class InMatInspectDto {
 	private String InMat_Inspect_Status;
 	private String InMat_Inspect_Classfy;
 	private String InMat_Inspect_Remark;
+	private String InMat_Inspect_Result;
 	
 }

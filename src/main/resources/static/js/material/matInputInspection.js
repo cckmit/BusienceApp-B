@@ -24,10 +24,10 @@ var tempStorageTable = new Tabulator("#tempStorageTable", {
 		{ title: "품목명", field: "inMat_Name", headerHozAlign: "center" },
 		{ title: "수량", field: "inMat_Qty", hozAlign: "right" },
 		{ title: "단가", field: "inMat_Unit_Price", headerHozAlign: "center", hozAlign: "right" },
-		{ title: "금액", field: "inMat_Price", headerHozAlign: "center", hozAlign: "right", formatter : "money", formatterParams:{ precision:false}, },
+		{ title: "금액", field: "inMat_Price", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false }, },
 		{ title: "거래처코드", field: "inMat_Client_Code", headerHozAlign: "center" },
 		{ title: "거래처명", field: "inMat_Client_Name", headerHozAlign: "center" },
-		{ title: "가입고일", field: "inMat_Date", headerHozAlign: "center"},
+		{ title: "가입고일", field: "inMat_Date", headerHozAlign: "center" },
 		{ title: "구분", field: "inMat_Rcv_Clsfc", headerHozAlign: "center", hozAlign: "right", visible: false },
 		{ title: "구분", field: "inMat_Rcv_Clsfc_Name", headerHozAlign: "center", hozAlign: "right" }
 	],
@@ -89,7 +89,9 @@ var matInputTable = new Tabulator("#matInputTable", {
 		{ title: "거래처명", field: "inMat_Client_Name", headerHozAlign: "center" },
 		{ title: "입고일", field: "inMat_Date", headerHozAlign: "center" },
 		{ title: "구분", field: "inMat_Rcv_Clsfc", headerHozAlign: "center", visible: false },
-		{ title: "구분", field: "inMat_Rcv_Clsfc_Name", headerHozAlign: "center", hozAlign: "right" }]
+		{ title: "구분", field: "inMat_Rcv_Clsfc_Name", headerHozAlign: "center", hozAlign: "right" },
+		{ title: "검사결과", field: "inMat_Result", headerHozAlign: "center", hozAlign: "right" }
+		]
 });
 
 function MIS_Search() {
@@ -104,6 +106,8 @@ function MIS_Search() {
 	}
 
 	matInputTable.setData("matInputInspectionRest/MII_Search", datas);
+	
+	console.log(matInputTable);
 }
 
 //matInputInspect 정보 삽입
@@ -120,7 +124,7 @@ function MIF_Search(OrderNo, ItemCode) {
 		OrderNo: OrderNo,
 		ItemCode: ItemCode
 	}
-	
+
 	$.ajax({
 		method: "GET",
 		url: "matInputInspectionRest/MIF_Search",
@@ -158,7 +162,7 @@ function MIF_Search(OrderNo, ItemCode) {
 				}
 				// status 
 				$("select[name='status[]']")[i].value = MIF_datas[i].inMat_Inspect_Status;
-				
+
 			}
 		}
 	});
@@ -192,6 +196,7 @@ function MIF_Save() {
 	var stnd2 = new Array();
 	var status = new Array();
 	var value = 10;
+	var result = null;
 
 	if ($("#matInspectItemName").val() == "") {
 		alert("검사할 행을 선택해주세요.");
@@ -201,26 +206,6 @@ function MIF_Save() {
 	if ($("#matInspectWorker").val() == "") {
 		alert("검사자를 입력해주세요.");
 		return false;
-	}
-
-	for (var i = 1; i < 10; i++) {
-		standardDatas = {
-			inMat_Inspect_Order_No: tempStorageTable.getData()[0].inMat_Order_No,
-			inMat_Inspect_Number: i,
-			inMat_Inspect_ItemCode: tempStorageTable.getData()[0].inMat_Code,
-			inMat_Inspect_Qty: tempStorageTable.getData()[0].inMat_Qty,
-			inMat_Inspect_UnitPrice: tempStorageTable.getData()[0].inMat_Unit_Price,
-			inMat_Inspect_Worker: document.querySelector('#matInspectWorker > option:checked').value,
-			inMat_Inspect_Customer: tempStorageTable.getData()[0].inMat_Client_Code,
-			inMat_Inspect_Text: $("#inspectionText").val(),
-			inMat_Inspect_Classfy: tempStorageTable.getData()[0].inMat_Rcv_Clsfc,
-			inMat_Inspect_Remark: $("#inspectionRemark").val()
-		}
-	}
-
-	inMatDatas = {
-		inMat_No: tempStorageTable.getData()[0].inMat_No,
-		inMat_Lot_No: tempStorageTable.getData()[0].inMat_Lot_No
 	}
 
 	// 측정 데이터
@@ -238,6 +223,11 @@ function MIF_Save() {
 
 	}
 
+	inMatDatas = {
+		inMat_No: tempStorageTable.getData()[0].inMat_No,
+		inMat_Lot_No: tempStorageTable.getData()[0].inMat_Lot_No
+	}
+
 	// 규격 데이터 
 	var stndLength = 3;
 	for (var i = 0; i < stndLength; i++) {
@@ -251,6 +241,38 @@ function MIF_Save() {
 	for (var i = 0; i < statusLength; i++) {
 		status.push({ inMat_Inspect_Status: $("select[name='status[]'] option:selected")[i].value })
 	};
+
+	let count = 0;
+
+	for (let j = 0; j < status.length; j++) {
+		if (status[j].inMat_Inspect_Status == "false") {
+			count += 1;
+		} 
+	}
+	
+	if(count > 0) {
+		result = 226
+	} else {
+		result = 225
+	}
+
+	for (var i = 1; i < 10; i++) {
+		standardDatas = {
+			inMat_Inspect_Order_No: tempStorageTable.getData("selected")[0].inMat_Order_No,
+			inMat_Inspect_Number: i,
+			inMat_Inspect_ItemCode: tempStorageTable.getData("selected")[0].inMat_Code,
+			inMat_Inspect_Qty: tempStorageTable.getData("selected")[0].inMat_Qty,
+			inMat_Inspect_UnitPrice: tempStorageTable.getData("selected")[0].inMat_Unit_Price,
+			inMat_Inspect_Worker: document.querySelector('#matInspectWorker > option:checked').value,
+			inMat_Inspect_Customer: tempStorageTable.getData("selected")[0].inMat_Client_Code,
+			inMat_Inspect_Text: $("#inspectionText").val(),
+			inMat_Inspect_Classfy: tempStorageTable.getData("selected")[0].inMat_Rcv_Clsfc,
+			inMat_Inspect_Remark: $("#inspectionRemark").val(),
+			inMat_Inspect_Result: result
+		}
+	}
+
+
 
 	//OrderSub 저장부분
 	$.ajax({
@@ -301,21 +323,6 @@ function MIF_Update() {
 		return false;
 	}
 
-	for (var i = 1; i < 10; i++) {
-		standardDatas = {
-			inMat_Inspect_Order_No: matInputTable.getData()[0].inMat_Order_No,
-			inMat_Inspect_Number: i,
-			inMat_Inspect_ItemCode: matInputTable.getData()[0].inMat_Code,
-			inMat_Inspect_Qty: matInputTable.getData()[0].inMat_Qty,
-			inMat_Inspect_UnitPrice: matInputTable.getData()[0].inMat_Unit_Price,
-			inMat_Inspect_Worker: document.querySelector('#matInspectWorker > option:checked').value,
-			inMat_Inspect_Customer: matInputTable.getData()[0].inMat_Client_Code,
-			inMat_Inspect_Text: $("#inspectionText").val(),
-			inMat_Inspect_Classfy: matInputTable.getData()[0].inMat_Rcv_Clsfc,
-			inMat_Inspect_Remark: $("#inspectionRemark").val()
-		}
-	}
-
 	inMatDatas = {
 		inMat_No: matInputTable.getData()[0].inMat_No,
 		inMat_Lot_No: matInputTable.getData()[0].inMat_Lot_No
@@ -349,7 +356,37 @@ function MIF_Update() {
 	for (var i = 0; i < statusLength; i++) {
 		status.push({ inMat_Inspect_Status: $("select[name='status[]'] option:selected")[i].value })
 	};
+	
+	let count = 0;
 
+	for (let j = 0; j < status.length; j++) {
+		if (status[j].inMat_Inspect_Status == "false") {
+			count += 1;
+		} 
+	}
+	
+	if(count > 0) {
+		result = 226
+	} else {
+		result = 225
+	}
+
+	for (var i = 1; i < 10; i++) {
+		standardDatas = {
+			inMat_Inspect_Order_No: matInputTable.getData("selected")[0].inMat_Order_No,
+			inMat_Inspect_Number: i,
+			inMat_Inspect_ItemCode: matInputTable.getData("selected")[0].inMat_Code,
+			inMat_Inspect_Qty: matInputTable.getData("selected")[0].inMat_Qty,
+			inMat_Inspect_UnitPrice: matInputTable.getData("selected")[0].inMat_Unit_Price,
+			inMat_Inspect_Worker: document.querySelector('#matInspectWorker > option:checked').value,
+			inMat_Inspect_Customer: matInputTable.getData("selected")[0].inMat_Client_Code,
+			inMat_Inspect_Text: $("#inspectionText").val(),
+			inMat_Inspect_Classfy: matInputTable.getData("selected")[0].inMat_Rcv_Clsfc,
+			inMat_Inspect_Remark: $("#inspectionRemark").val(),
+			inMat_Inspect_Result: result
+		}
+	}
+	
 	//OrderSub 저장부분
 	$.ajax({
 		method: "post",
@@ -406,7 +443,7 @@ function formClearFunc() {
 	$("input[name='Inspect_STND_2[]']").each(function(index, item) {
 		$(item).val("");
 	});
-	
+
 	document.querySelector('#matInspectWorker').value = '327';
 	// status check1 기본 값
 	$('#check1_val6').val('true').prop("selected", true);
@@ -423,12 +460,12 @@ function formClearFunc() {
 
 //SOM_SaveBtn
 $('#MIF_SaveBtn').click(function() {
-	if(tempStorageTable.getData("selected").length > 0) {
+	if (tempStorageTable.getData("selected").length > 0) {
 		MIF_Save();
-	} else if(matInputTable.getData("selected").length > 0) {
+	} else if (matInputTable.getData("selected").length > 0) {
 		MIF_Update();
 	}
-	
+
 })
 
 //MO_PrintBtn
@@ -466,7 +503,7 @@ function lCode_select(value) {
 	}
 }
 
-$(document).ready(function(){
+$(document).ready(function() {
 	MII_Search();
 	MIS_Search();
 })
