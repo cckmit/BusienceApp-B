@@ -66,9 +66,16 @@ public class materialController {
 	}
 	
 	// MatInput
+	@GetMapping("matTempInput")
+	public String matTempInput(Model model) {
+		model.addAttribute("pageName", "가입고 관리");
+		return "material/matInput";
+	}
+	
+	// MatInput
 	@GetMapping("matInput")
 	public String matInput(Model model) {
-		model.addAttribute("pageName", "가입고 관리");
+		model.addAttribute("pageName", "입고 관리");
 		return "material/matInput";
 	}
 	
@@ -109,6 +116,34 @@ public class materialController {
 	public String matOutReturn(Model model) {
 		model.addAttribute("pageName", "자재 이동 관리");
 		return "material/matOutReturn/matOutReturnMaster";
+	}
+	
+	// matInputMaster
+	@GetMapping("matTempInputMaster")
+	public String matTempInputMaster(Model model) {
+			
+		// 입고구분
+		int InMatType = 17;
+		model.addAttribute("InMatType", dtlService.getDtl(InMatType));
+		
+		// 마지막날
+		int LastDay = 2;
+		model.addAttribute("LastDay", dtlService.getLastDay(LastDay));
+		
+		// 현재연월
+		int PrcsDate = 20;
+		String PrcsNum = Integer.toString(3);
+		model.addAttribute("PrcsDate", dtlService.getDate(PrcsDate, PrcsNum));
+		
+		// 전월
+		int LastMonth = 20;
+		String LastNum = Integer.toString(1);
+		model.addAttribute("LastMonth", dtlService.getDate(LastMonth, LastNum));
+		
+		// 메뉴명
+		model.addAttribute("pageName", "가입고 현황");
+				
+		return "material/matInput/matInputMaster";
 	}
 	
 	// matInputMaster
