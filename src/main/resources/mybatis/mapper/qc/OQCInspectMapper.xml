@@ -7,7 +7,7 @@
 	<select id="oqcInspectList" resultType="com.busience.qc.dto.OQC_Inspect_Dto">
 		SELECT DISTINCT oqit.OQC_Inspect_LotNo, oqit.OQC_Inspect_ItemCode, pit.Product_Item_Name OQC_Inspect_ItemName, pit.Product_Info_STND_1 OQC_Inspect_STND_1, 
 			dt.Child_TBL_Type OQC_Inspect_Material, dt2.Child_TBL_Type OQC_Inspect_Item_STND_1, dt3.Child_TBL_Type OQC_Inspect_Item_STND_2, dt4.Child_TBL_Type OQC_Inspect_Worker,
-			oqit.OQC_Inspect_Qty, oqit.OQC_Inspect_Customer, ct.Cus_Name OQC_Inspect_Customer_Name, oqit.OQC_Inspect_Date, oqit.OQC_Inspect_Result
+			oqit.OQC_Inspect_Qty, oqit.OQC_Inspect_Customer, ct.Cus_Name OQC_Inspect_Customer_Name, oqit.OQC_Inspect_Date, dt5.Child_TBL_Type OQC_Inspect_Result
 		FROM OQC_Inspect_tbl oqit
 		INNER JOIN Product_Info_tbl pit ON oqit.OQC_Inspect_ItemCode = pit.Product_Item_Code
 		INNER JOIN DTL_TBL dt ON pit.Product_Material = dt.Child_TBL_No
@@ -15,6 +15,7 @@
 		INNER JOIN DTL_TBL dt3 ON pit.Product_Item_CLSFC_2 = dt3.Child_TBL_No
 		INNER JOIN DTL_TBL dt4 ON oqit.OQC_Inspect_Worker = dt4.Child_TBL_No
 		INNER JOIN Customer_tbl ct ON oqit.OQC_Inspect_Customer = ct.Cus_Code
+		left outer join DTL_TBL dt5 ON oqit.OQC_Inspect_Result = dt5.Child_TBL_No
 		<![CDATA[
 		WHERE oqit.OQC_Inspect_Date >= #{startDate} AND oqit.OQC_Inspect_Date < #{endDate}
 		]]>
@@ -52,6 +53,16 @@
 			#{OQC_Inspect_Value_9}, #{OQC_Inspect_Value_10}, #{OQC_Inspect_STND_1},
 			#{OQC_Inspect_STND_2}, #{OQC_Inspect_Status}, #{OQC_Inspect_Result},
 			#{OQC_Inspect_Remark}, #{OQC_Inspect_Packing_Unit}
-		)
+		) on duplicate key update
+		OQC_Inspect_Qty = #{OQC_Inspect_Qty}, OQC_Inspect_Date = now(),
+		OQC_Inspect_Worker = #{OQC_Inspect_Worker}, OQC_Inspect_Value_1 = #{OQC_Inspect_Value_1},
+		OQC_Inspect_Value_2 = #{OQC_Inspect_Value_2}, OQC_Inspect_Value_3 = #{OQC_Inspect_Value_3},
+		OQC_Inspect_Value_4 = #{OQC_Inspect_Value_4}, OQC_Inspect_Value_5 = #{OQC_Inspect_Value_5},
+		OQC_Inspect_Value_6 = #{OQC_Inspect_Value_6}, OQC_Inspect_Value_7 = #{OQC_Inspect_Value_7},
+		OQC_Inspect_Value_8 = #{OQC_Inspect_Value_8}, OQC_Inspect_Value_9 = #{OQC_Inspect_Value_9},
+		OQC_Inspect_Value_10 = #{OQC_Inspect_Value_10}, OQC_Inspect_STND_1 = #{OQC_Inspect_STND_1},
+		OQC_Inspect_STND_2 = #{OQC_Inspect_STND_2}, OQC_Inspect_Status = #{OQC_Inspect_Status},
+		OQC_Inspect_Result = #{OQC_Inspect_Result}, OQC_Inspect_Remark = #{OQC_Inspect_Remark},
+		OQC_Inspect_Packing_Unit = #{OQC_Inspect_Packing_Unit}
 	</insert>
 </mapper>	

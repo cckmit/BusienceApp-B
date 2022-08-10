@@ -52,7 +52,6 @@ function SOIL_Search() {
 		.then(function() {
 			//list와 stock의 데이터를 없에준다
 			//formClearFunc();
-			console.log(salesOutMatTable);
 		})
 }
 
@@ -80,7 +79,7 @@ oqcInspectTable = new Tabulator("#oqcInspectTable", {
 		SOILForm_subSearch(row.getData().oqc_Inspect_Customer, row.getData().oqc_Inspect_ItemName, row.getData().sales_OutMat_Qty, row.getData().oqc_Inspect_STND_1, row.getData().oqc_Inspect_Qty, row.getData().oqc_Inspect_Date);
 		//LotNo 검색
 		OIF_Search(row.getData().oqc_Inspect_LotNo);
-		ResetBtn();
+		UseBtn();
 	},
 	columns: [
 		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center" },
@@ -120,7 +119,6 @@ function OIL_Search() {
 	}
 
 	oqcInspectTable.setData("oqcInspectRest/OIL_Search", datas);
-	console.log(oqcInspectTable);
 }
 
 //oqcInspect 정보 삽입
@@ -166,7 +164,6 @@ function OIF_Search(LotNo) {
 		url: "oqcInspectRest/OIF_Search",
 		data: datas,
 		success: function(OIF_datas) {
-			console.log(OIF_datas);
 			$("#oqcRemark").val(OIF_datas[0].oqc_Inspect_Remark);
 			let j=0;
 			
@@ -189,15 +186,19 @@ function OIF_Search(LotNo) {
 				
 				
 				if (OIF_datas[i].oqc_Inspect_Packing_Unit != null) {
-					console.log();
 					
-					console.log(document.querySelectorAll('#unit1')[j].value);
 					document.querySelectorAll('#unit1')[j].value = OIF_datas[i].oqc_Inspect_Packing_Unit;
 					j++;
 				}
 
 				document.querySelectorAll('#status')[i].value = OIF_datas[i].oqc_Inspect_Status;
-				document.querySelectorAll('#result')[0].value = OIF_datas[0].oqc_Inspect_Result;
+				
+				let el = document.getElementById('result');
+				if(OIF_datas[0].oqc_Inspect_Result == 226) {
+					el.options[1].selected = true;
+				} else {
+					el.options[0].selected = true;
+				}
 			}
 		}
 	});
@@ -231,6 +232,10 @@ function SOI_Save() {
 		alert("검사할 행을 선택해주세요.");
 		return false;
 	}
+	
+	if($("#oqcQty").val() < 1) {
+		alert("검사수량을 입력하세요.");
+	}
 
 	if ($("#oqcQty").val() > selectedRow[0].sales_OutMat_Qty) {
 		alert("검사수량이 출고수량보다 많습니다.");
@@ -242,6 +247,8 @@ function SOI_Save() {
 	let dataList = new Array();
 
 	let packUnitList = new Array();
+	
+	let count = 0;
 
 	for (let j = 0; j < values; j++) {
 		let oqcInspectData = new Array();
@@ -279,6 +286,16 @@ function SOI_Save() {
 		}
 
 		let statusData = document.querySelectorAll('#status > option:checked')[j].value;
+		
+		if(document.querySelector('#result > option:checked').value == "false") {
+			count += 1
+		}
+		
+		if(count > 0) {
+			result = 226
+		} else {
+			result = 225
+		}
 
 		oqcInspectData = {
 			oqc_Inspect_LotNo: selectedRow[0].sales_OutMat_Lot_No,
@@ -301,7 +318,7 @@ function SOI_Save() {
 			oqc_Inspect_STND_1: stndData_1,
 			oqc_Inspect_STND_2: stndData_2,
 			oqc_Inspect_Status: statusData,
-			oqc_Inspect_Result: document.querySelector('#result > option:checked').value,
+			oqc_Inspect_Result: result,
 			oqc_Inspect_Remark: $("#oqcRemark").val()
 		}
 
@@ -313,8 +330,8 @@ function SOI_Save() {
 		packUnitList.push({ oqc_Inspect_Packing_Unit: packUnit });
 	}
 
-	console.log(dataList);
-	console.log(packUnitList);
+	//console.log(dataList);
+	//console.log(packUnitList);
 
 	//itemPacking 저장부분
 	$.ajax({
@@ -327,11 +344,147 @@ function SOI_Save() {
 			xhr.setRequestHeader(header, token);
 		},
 		success: function(result) {
-			console.log(result);
 			if (result) {
 				alert("저장되었습니다.");
 				formClearFunc();
 				SOIL_Search();
+				OIL_Search();
+			} else {
+				alert("중복된 값이 존재합니다.")
+			}
+		}
+	});
+}
+
+function SOI_Update() {
+
+	let values = 16;
+
+	let unitValues = 7;
+
+	var selectedRow = oqcInspectTable.getData("selected");
+
+	if ($("#oqcItemName").val() == "") {
+		alert("검사할 행을 선택해주세요.");
+		return false;
+	}
+	
+	if($("#oqcQty").val() < 1) {
+		alert("검사수량을 입력하세요.");
+	}
+
+	if ($("#oqcQty").val() > selectedRow[0].oqc_Inspect_Qty) {
+		alert("검사수량이 출고수량보다 많습니다.");
+		return false;
+	}
+
+	let packUnit;
+
+	let dataList = new Array();
+
+	let packUnitList = new Array();
+	
+	let count = 0;
+
+	for (let j = 0; j < values; j++) {
+		let oqcInspectData = new Array();
+
+		let elements_1;
+		let elements_2;
+		let elements_3;
+		let elements_4;
+		let elements_5;
+		let elements_6;
+		let elements_7;
+		let elements_8;
+		let elements_9;
+		let elements_10;
+		let stndData_1;
+		let stndData_2;
+
+
+		if (j < 16) {
+
+			elements_1 = document.querySelectorAll('#value1')[j].value;
+			elements_2 = document.querySelectorAll('#value2')[j].value;
+			elements_3 = document.querySelectorAll('#value3')[j].value;
+			elements_4 = document.querySelectorAll('#value4')[j].value;
+			elements_5 = document.querySelectorAll('#value5')[j].value;
+			elements_6 = document.querySelectorAll('#value6')[j].value;
+			elements_7 = document.querySelectorAll('#value7')[j].value;
+			elements_8 = document.querySelectorAll('#value8')[j].value;
+			elements_9 = document.querySelectorAll('#value9')[j].value;
+			elements_10 = document.querySelectorAll('#value10')[j].value;
+
+			stndData_1 = document.querySelectorAll('#stnd1')[j].value;
+			stndData_2 = document.querySelectorAll('#stnd2')[j].value;
+
+		}
+
+		let statusData = document.querySelectorAll('#status > option:checked')[j].value;
+		
+		if(document.querySelector('#result > option:checked').value == "false") {
+			count += 1
+		}
+		
+		if(count > 0) {
+			result = 226
+		} else {
+			result = 225
+		}
+
+		oqcInspectData = {
+			oqc_Inspect_LotNo: selectedRow[0].oqc_Inspect_LotNo,
+			oqc_Inspect_Number: j + 1,
+			oqc_Inspect_ItemCode: selectedRow[0].oqc_Inspect_ItemCode,
+			oqc_Inspect_Customer: selectedRow[0].oqc_Inspect_Customer,
+			oqc_Inspect_Qty: $("#oqcQty").val(),
+			oqc_Inspect_Date: $("#oqcDate").val(),
+			oqc_Inspect_Worker: document.querySelector('#oqcWorkerList > option:checked').value,
+			oqc_Inspect_Value_1: elements_1,
+			oqc_Inspect_Value_2: elements_2,
+			oqc_Inspect_Value_3: elements_3,
+			oqc_Inspect_Value_4: elements_4,
+			oqc_Inspect_Value_5: elements_5,
+			oqc_Inspect_Value_6: elements_6,
+			oqc_Inspect_Value_7: elements_7,
+			oqc_Inspect_Value_8: elements_8,
+			oqc_Inspect_Value_9: elements_9,
+			oqc_Inspect_Value_10: elements_10,
+			oqc_Inspect_STND_1: stndData_1,
+			oqc_Inspect_STND_2: stndData_2,
+			oqc_Inspect_Status: statusData,
+			oqc_Inspect_Result: result,
+			oqc_Inspect_Remark: $("#oqcRemark").val()
+		}
+
+		dataList.push(oqcInspectData);
+	}
+
+	for (let k = 0; k < unitValues; k++) {
+		packUnit = document.querySelectorAll('#unit1 > option:checked')[k].value;
+		packUnitList.push({ oqc_Inspect_Packing_Unit: packUnit });
+	}
+
+	//console.log(dataList);
+	//console.log(packUnitList);
+
+	//itemPacking 저장부분
+	$.ajax({
+		method: "post",
+		url: "oqcInspectRest/SOI_Save",
+		data: {dataList: JSON.stringify(dataList), packList: JSON.stringify(packUnitList)},
+		beforeSend: function(xhr) {
+			var header = $("meta[name='_csrf_header']").attr("content");
+			var token = $("meta[name='_csrf']").attr("content");
+			xhr.setRequestHeader(header, token);
+		},
+		success: function(result) {
+			if (result) {
+				alert("저장되었습니다.");
+				formClearFunc();
+				SOIL_Search();
+				OIL_Search();
 			} else {
 				alert("중복된 값이 존재합니다.")
 			}
@@ -381,7 +534,12 @@ function formClearFunc() {
 
 //SOM_SaveBtn
 $('#SOI_SaveBtn').click(function() {
-	SOI_Save();
+	if(salesOutMatTable.getData("selected").length > 0) {
+		SOI_Save();
+	} else if(oqcInspectTable.getData("selected").length > 0) {
+		SOI_Update();
+	}
+	
 })
 
 //MO_PrintBtn
@@ -403,21 +561,6 @@ function SOI_print() {
 	$("#inspect_frm").submit();
 }
 
-//품목코드로 matOutputSubTable 선택하는 코드
-function lCode_select(value) {
-	var rowCount = matOutputTable.getDataCount("active");
-	//컬럼값을 검색해서 입력값을 포함하는 값이 있으면 선택한다. 
-	for (i = 0; i < rowCount; i++) {
-		var lCode = matOutputTable.getData()[i].rm_RequestNo;
-		//발주번호가 입력내용을 포함하면 코드 실행
-		if (lCode == value) {
-			//발주번호가 같은 행 선택
-			matOutputTable.deselectRow();
-			matOutputTable.getRows()[i].select();
-			break;
-		}
-	}
-}
 
 $(document).ready(function() {
 	SOIL_Search();
