@@ -51,7 +51,6 @@ function CI_Search() {
 		.then(function() {
 			//list와 stock의 데이터를 없에준다
 			formClearFunc();
-			console.log(crateInspectTable);
 		})
 }
 
@@ -92,7 +91,8 @@ processInspectTable = new Tabulator("#processInspectTable", {
 		{ title: "설비 명", field: "process_Inspect_EquipName", headerHozAlign: "center" },
 		{ title: "검사 시간", field: "process_Inspect_Date", headerHozAlign: "center" },
 		{ title: "작업자", field: "process_Inspect_Worker", headerHozAlign: "center" },
-		{ title: "생산 수량", field: "process_Inspect_CrateLot_Qty", headerHozAlign: "center", hozAlign: "right" }
+		{ title: "생산 수량", field: "process_Inspect_CrateLot_Qty", headerHozAlign: "center", hozAlign: "right" },
+		{ title: "검사결과", field: "process_Inspect_Result", headerHozAlign: "center", hozAlign: "right" }
 	]
 });
 
@@ -107,7 +107,6 @@ function PI_Search() {
 	}
 
 	processInspectTable.setData("processInspectionRest/PI_Search", datas);
-	console.log(processInspectTable);
 }
 
 //matInputInspect 정보 삽입
@@ -125,14 +124,11 @@ function PIF_Search(LotNo) {
 		LotNo: LotNo
 	}
 
-	console.log(datas);
-
 	$.ajax({
 		method: "GET",
 		url: "processInspectionRest/PIF_Search",
 		data: datas,
 		success: function(PIF_datas) {
-			console.log(PIF_datas);
 			$("#proInspectEquipName").val(PIF_datas[0].process_Inspect_EquipName);
 			$("#proInspectItemName").val(PIF_datas[0].process_Inspect_ItemName);
 			$("#productionDate").val(moment(PIF_datas[0].process_Inspect_Create_Date).format("YYYY-MM-DD"));
@@ -155,7 +151,13 @@ function PIF_Search(LotNo) {
 				}
 
 				document.querySelectorAll('#status')[i].value = PIF_datas[i].process_Inspect_Status;
-				document.querySelectorAll('#result')[0].value = PIF_datas[0].process_Inspect_Result;	
+				
+				let el = document.getElementById('result');
+				if(PIF_datas[i].process_Inspect_Result == 226) {
+					el.options[1].selected = true;
+				} else {
+					el.options[0].selected = true;
+				}
 			}
 		}
 	});
@@ -194,6 +196,8 @@ function PI_Save() {
 	}
 	
 	let dataList = new Array();
+	
+	let count = 0;
 
 	for (let j = 0; j < values; j++) {
 		let processInspectData = new Array();
@@ -205,6 +209,16 @@ function PI_Save() {
 		let stndData_1 = document.querySelectorAll('#stnd1')[j].value;
 		let stndData_2 = document.querySelectorAll('#stnd2')[j].value;
 		let statusData = document.querySelectorAll('#status > option:checked')[j].value;
+		
+		if(document.querySelector('#result > option:checked').value == "false") {
+			count += 1
+		} 
+		
+		if(count > 0) {
+			result = 226
+		} else {
+			result = 225
+		}
 
 		processInspectData = {
 			process_Inspect_LotNo: selectedRow[0].cl_LotNo,
@@ -223,7 +237,7 @@ function PI_Save() {
 			process_Inspect_STND_1: stndData_1,
 			process_Inspect_STND_2: stndData_2,
 			process_Inspect_Status: statusData,
-			process_Inspect_Result: document.querySelector('#result > option:checked').value,
+			process_Inspect_Result: result,
 			process_Inspect_Remark: $("#processRemark").val()
 		}
 
@@ -243,10 +257,7 @@ function PI_Save() {
 			},
 			success: function(result) {
 				if (result) {
-					$(function() {
-						alert("저장되었습니다.");
-						$(this).off();
-					})
+					alert("저장되었습니다.");
 					formClearFunc();
 					CI_Search();
 					PI_Search();
@@ -274,6 +285,10 @@ function PI_Update() {
 	}
 	
 	let dataList = new Array();
+	
+	let count = 0;
+	
+	
 
 	for (let j = 0; j < values; j++) {
 		let processInspectData = new Array();
@@ -285,6 +300,16 @@ function PI_Update() {
 		let stndData_1 = document.querySelectorAll('#stnd1')[j].value;
 		let stndData_2 = document.querySelectorAll('#stnd2')[j].value;
 		let statusData = document.querySelectorAll('#status > option:checked')[j].value;
+		
+		if(document.querySelector('#result > option:checked').value == "false") {
+			count += 1
+		} 
+		
+		if(count > 0) {
+			result = 226
+		} else {
+			result = 225
+		}
 
 		processInspectData = {
 			process_Inspect_LotNo: selectedRow[0].process_Inspect_LotNo,
@@ -303,7 +328,7 @@ function PI_Update() {
 			process_Inspect_STND_1: stndData_1,
 			process_Inspect_STND_2: stndData_2,
 			process_Inspect_Status: statusData,
-			process_Inspect_Result: document.querySelector('#result > option:checked').value,
+			process_Inspect_Result: result,
 			process_Inspect_Remark: $("#processRemark").val()
 		}
 
@@ -323,10 +348,7 @@ function PI_Update() {
 			},
 			success: function(result) {
 				if (result) {
-					$(function() {
-						alert("저장되었습니다.");
-						$(this).off();
-					})
+					alert("저장되었습니다.");
 					formClearFunc();
 					CI_Search();
 					PI_Search();
@@ -341,7 +363,6 @@ function PI_SaveBtn() {
 	if(crateInspectTable.getData("selected").length > 0) {
 		PI_Save();
 	} else if(processInspectTable.getData("selected").length > 0) {
-		console.log("공정 검사 테이블");
 		PI_Update();
 	}
 	
@@ -401,22 +422,6 @@ function PI_print() {
 	openWin = window.open(url, name, option);
 
 	$("#inspect_frm").submit();
-}
-
-//품목코드로 matOutputSubTable 선택하는 코드
-function lCode_select(value) {
-	var rowCount = matOutputTable.getDataCount("active");
-	//컬럼값을 검색해서 입력값을 포함하는 값이 있으면 선택한다. 
-	for (i = 0; i < rowCount; i++) {
-		var lCode = matOutputTable.getData()[i].rm_RequestNo;
-		//발주번호가 입력내용을 포함하면 코드 실행
-		if (lCode == value) {
-			//발주번호가 같은 행 선택
-			matOutputTable.deselectRow();
-			matOutputTable.getRows()[i].select();
-			break;
-		}
-	}
 }
 
 $(document).ready(function() {
