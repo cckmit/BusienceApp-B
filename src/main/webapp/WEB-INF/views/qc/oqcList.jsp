@@ -41,7 +41,7 @@
 				<!-- 버튼 -->
 				<div class="input-button"  style="width: 550px;">
 					<!-- <img src="/images/button/Save.png" id="SOI_SaveBtn" class="unUseBtn BtnStatus" /> --> 
-					<img src="/images/button/Print.png" id="SOI_PrintBtn" />
+					<!-- <img src="/images/button/Print.png" id="SOI_PrintBtn" /> -->
 				</div>
 				<div style="float: right; margin-left: 20px !important; margin-top: 20px; !important;" id="oqcInspection"><jsp:include page="oqcAppearanceInspectForm.jsp" /></div>
 			</div>

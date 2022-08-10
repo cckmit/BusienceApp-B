@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <link href="/css/material/matInputInspectForm.css" rel="stylesheet" />
 
@@ -44,7 +45,7 @@
 				<!-- 버튼 -->
 				<div class="input-button">
 					<!-- <img src="/images/button/Save.png" id="MIF_SaveBtn" class="unUseBtn BtnStatus"/> -->
-					<img src="/images/button/Print.png" id="MII_PrintBtn"/>
+					<!-- <img src="/images/button/Print.png" id="MII_PrintBtn"/> -->
 				</div>
 			</div>
 			<!-- 그리드 생성 장소 -->
