@@ -16,7 +16,7 @@
 				</div>
 			</div>
 
-			<div id="crateManageTable"></div>
+			<div id="crateManageTable" style="font-size: 18px"></div>
 		</div>
 		<!-- END MAIN -->
 	</div>

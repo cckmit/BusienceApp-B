@@ -92,16 +92,19 @@ $("#barcodeInput").change(function(){
 	}else if(initial == 'N'){
 		$.when(crateChange($("#crateCode").val(), barcode))
 		.then(function(data){
-			console.log(data);
 			if(data instanceof Object){
 				if(data.c_MachineCode == $("#machineCode").val() && data.c_Condition == '1'){
-					$(".removeBtn").addClass("hiddenBtn");
-					$("#crate-LotNo").val(data.c_Production_LotNo);
-					$("#crateCode").val(data.c_CrateCode);
-					$("#crate-Qty").val(data.c_Qty);
-					rawSelect(data.c_Production_LotNo, data.c_ItemCode);
-					itemTable.setData("/itemManageRest/itemCodeInfo",{itemCode : data.c_ItemCode})
-					toastr.success("상자코드 "+data.c_CrateCode+"로 교체되었습니다.")
+					if($("#crateCode").val() == data.c_CrateCode){
+						toastr.success("동일한 상자코드 "+data.c_CrateCode+" 입니다.")
+					}else{
+						$(".removeBtn").addClass("hiddenBtn");
+						$("#crate-LotNo").val(data.c_Production_LotNo);
+						$("#crateCode").val(data.c_CrateCode);
+						$("#crate-Qty").val(data.c_Qty);
+						rawSelect(data.c_Production_LotNo, data.c_ItemCode);
+						itemTable.setData("/itemManageRest/itemCodeInfo",{itemCode : data.c_ItemCode})	
+						toastr.success("상자코드 "+data.c_CrateCode+"로 교체되었습니다.")						
+					}				
 				}else {
 					toastr.error("상자코드 "+data.c_CrateCode+"는 상태값이 "+data.c_Condition+" ("+data.c_Condition_Name+") 입니다.")
 				}				

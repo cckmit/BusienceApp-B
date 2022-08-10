@@ -30,8 +30,13 @@ public interface SalesPackingDao {
 	// 대포장 Lot 조회
 	public List<SalesPackingDto> salesLargePackingLotNoDao(SearchDto searchDto);
 	
+	// 대포장 Lot 조회
+	public List<SalesPackingDto> salesLargePackingLotNo2Dao(SearchDto searchDto);
+	
 	// 소포장 Lot 조회
 	public List<Small_Packaging_tbl> salesSmallPackingLotNoDao(SearchDto searchDto);
+	
+	public List<Small_Packaging_tbl> salesSmallPackingLotNo2Dao(SearchDto searchDto);
 	
 	//대포장 라벨 수량
 	public int largePackagingQtySelectDao(SearchDto searchDto);

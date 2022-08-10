@@ -15,6 +15,27 @@ public class QCController {
 	@Autowired
 	DtlService dtlService;
 	
+	@GetMapping("/iqcList")
+	public String iqcList(Model model) {
+		model.addAttribute("itemInspectList", dtlService.getDtl(24));
+		model.addAttribute("pageName", "자재 검사 실적");
+		return "qc/iqcList";
+	}
+	
+	@GetMapping("/iqcRate")
+	public String iqcRate(Model model) {
+		model.addAttribute("defectList", dtlService.getDtl(32));
+		model.addAttribute("pageName", "자재별 불량율");
+		return "qc/iqcRate";
+	}
+	
+	@GetMapping("/oqcList")
+	public String oqcList(Model model) {
+		model.addAttribute("itemInspectList", dtlService.getDtl(24));
+		model.addAttribute("pageName", "출하 검사 실적");
+		return "qc/oqcList";
+	}
+	
 	// itemPackingInspect
 	@GetMapping("/itemPackingInspect")
 	public String itemPackingInspect(Model model) {

@@ -92,8 +92,8 @@ var crateManageTable = new Tabulator("#crateManageTable", {
 	columns: [
 		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
 		{ title: "순번", field: "rownum", hozAlign: "center", headerHozAlign: "center", formatter: "rownum" },
-		{ title: "상자코드", field: "c_CrateCode", headerHozAlign: "center", editor: MO_inputEditor, headerFilter: "input", editable: editCheck},
-		{ title: "생성일자", field: "c_Create_Date", headerHozAlign: "center" },
+		{ title: "코드", field: "c_CrateCode", headerHozAlign: "center", editor: MO_inputEditor, headerFilter: "input", editable: editCheck},
+		{ title: "생성일자", field: "c_Create_Date", headerHozAlign: "center", visible: false},
 		{ title: "상태", field: "c_Condition", headerHozAlign: "center", headerFilter: "input", editable: editCheckStatus, editor: "select",
 			editorParams: { values: { "0": "미사용", "1": "마스크 투입", "2": "마스크 생산 완료", "3": "포장 투입" } },
 			cellEdited: function(cell) {

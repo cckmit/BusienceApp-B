@@ -56,4 +56,9 @@ public class salesPackingRestController {
 	public List<Small_Packaging_tbl> salesSmallPackingLotNoDao(SearchDto searchDto) {
 		return salesPackingService.salesSmallPackingLotNoDao(searchDto);
 	}
+	
+	@GetMapping("/SmallLot_Search2")
+	public List<Small_Packaging_tbl> salesSmallPackingLotNo2Dao(SearchDto searchDto) {
+		return salesPackingService.salesSmallPackingLotNo2Dao(searchDto);
+	}
 }

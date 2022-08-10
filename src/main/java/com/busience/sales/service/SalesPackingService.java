@@ -71,12 +71,16 @@ public class SalesPackingService {
 	
 	// 대포장 Lot 조회
 	public List<SalesPackingDto> salesLargePackingLotNoDao(SearchDto searchDto) {
-		return salesPackingDao.salesLargePackingLotNoDao(searchDto);
+		return salesPackingDao.salesLargePackingLotNo2Dao(searchDto);
 	}
 	
 	// 소포장 Lot 조회
 	public List<Small_Packaging_tbl> salesSmallPackingLotNoDao(SearchDto searchDto) {
 		return salesPackingDao.salesSmallPackingLotNoDao(searchDto);
+	}
+	
+	public List<Small_Packaging_tbl> salesSmallPackingLotNo2Dao(SearchDto searchDto) {
+		return salesPackingDao.salesSmallPackingLotNo2Dao(searchDto);
 	}
 	
 	// 대포장 Lot 발행 저장

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.busience.qc.dao.IqcRateDao">
+	<select id="iqcRateSelectDao" resultType="com.busience.qc.dto.IqcDto">
+		select
+			A.Product_Item_Code ItemCode, A.Product_Item_Name ItemName,
+			A.Product_Info_STND_1 Stnd_1, A.Product_Info_STND_2 Stnd_2, B.Child_TBL_Type Mtrl_Clsfc_Name,
+		    C.Child_TBL_Type Clsfc_1_Name, D.Child_TBL_Type Clsfc_2_Name,
+		    ifnull(
+				(
+					select sum(AA.InMat_Inspect_Qty)
+					from (
+						SELECT * FROM InMat_Inspect_tbl
+						group by InMat_Inspect_Order_No
+					) AA
+					where AA.InMat_Inspect_Result = '225'
+					and AA.InMat_Inspect_ItemCode = A.Product_Item_Code
+					<![CDATA[
+					and AA.InMat_Inspect_Date >= #{startDate} and AA.InMat_Inspect_Date < #{endDate}
+					]]>
+				)
+		    ,0) Pass_Qty,
+		    ifnull(
+				(
+					select sum(AA.InMat_Inspect_Qty)
+					from (
+						SELECT * FROM InMat_Inspect_tbl
+						group by InMat_Inspect_Order_No
+					) AA
+					where AA.InMat_Inspect_Result = '226'
+					and AA.InMat_Inspect_ItemCode = A.Product_Item_Code
+					<![CDATA[
+					and AA.InMat_Inspect_Date >= #{startDate} and AA.InMat_Inspect_Date < #{endDate}
+					]]>
+				)
+		    ,0) Fail_Qty
+		from Product_Info_tbl A
+		inner join DTL_TBL B on A.Product_MTRL_CLSFC = B.Child_TBL_No
+		inner join DTL_TBL C on A.Product_Item_CLSFC_1 = C.Child_TBL_No
+		inner join DTL_TBL D on A.Product_Item_CLSFC_2 = D.Child_TBL_No
+		where A.Product_MTRL_CLSFC in ('24','25','26')
+	</select>
+</mapper>	
