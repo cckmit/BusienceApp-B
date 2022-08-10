@@ -204,6 +204,8 @@ function CrateSelect(value){
 				$("#crate-LotNo").val(data.c_Production_LotNo);
 				$("#crateCode").val(data.c_CrateCode);
 				$("#crate-Qty").val(data.c_Qty);
+				
+				production_Alarm(data.c_Qty)
 			}
 		}
 	})
@@ -259,6 +261,25 @@ function rawMaterialChange(production_LotNo, material_LotNo, material_ItemCode, 
 $(".removeBtn").click(function(){
 	lotInput($("#crate-LotNo").val(), $(this).siblings(".LotNo").val(), $(this).siblings(".LotNo_Code").val(), 1);
 })
+
+function production_Alarm(value){
+	var ajaxresult = $.ajax({
+		method : "get",
+		url : "/dtlTrueSelect",
+		data : {"NEW_TBL_CODE" : 31},
+		success: function (result){
+			if(value >= result[1].child_TBL_RMARK){
+				$("#crate-Qty").css('background','white');
+				$("#crate-Qty").addClass("red_light");
+				new Audio('/audio/Alarm_4sec.mp3').play();
+			}else{
+				$("#crate-Qty").css('background',null);
+				$("#crate-Qty").removeClass("red_light");
+			}
+		}
+	});	
+	return ajaxresult
+}
 
 window.onload = function(){
 	workOrderSet();

@@ -150,3 +150,12 @@
 .removeBtn{
 	cursor: pointer;	
 }
+
+@keyframes change-effect {
+    50% {
+        background-color: red;
+    }
+}
+.red_light{
+    animation: change-effect 2s step-end infinite;
+}

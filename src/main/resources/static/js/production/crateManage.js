@@ -146,7 +146,7 @@ $("#crateSaveBtn").click(function() {
 	
 	$.when(crateSave(saveData))
 	.then(function(data){
-		CratePrinter(saveData)
+		//CratePrinter(saveData)
 		crateManageTable.replaceData();
 	})
 });

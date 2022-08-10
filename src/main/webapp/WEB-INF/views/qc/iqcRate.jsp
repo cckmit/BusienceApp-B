@@ -15,9 +15,9 @@
 				<span style="text-align: center"><strong>~</strong></span>
 				<input id="endDate" class="tomorrow" type="date">
 				<span><strong>제품코드</strong></span>
-				<input id="itemCode" class="Item_Code" type="text" disabled>
+				<input id="itemCode" class="Item_Code1" type="text" disabled>
 				<span><strong>제품명</strong></span>
-				<input id="itemName" class="Item_Name clearInput" type="text" autofocus>
+				<input id="itemName" class="Item_Name1 clearInput" type="text" autofocus onkeypress="javascript:if(event.keyCode==13) {itemPopup($(this).val(),'input','1','sales')}">
 			</div>
 		</div>
 		<div id="iqcRateTable"></div>
