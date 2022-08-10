@@ -17,7 +17,7 @@
 				<span><strong>제품코드</strong></span>
 				<input id="itemCode" class="Item_Code1" type="text" disabled>
 				<span><strong>제품명</strong></span>
-				<input id="itemName" class="Item_Name1 clearInput" type="text" autofocus onkeypress="javascript:if(event.keyCode==13) {itemPopup($(this).val(),'input','1','sales')}">
+				<input id="itemName" class="Item_Name1 clearInput" type="text" autofocus onkeypress="javascript:if(event.keyCode==13) {itemPopup($(this).val(),'input','1','material')}">
 			</div>
 		</div>
 		<div id="iqcRateTable"></div>

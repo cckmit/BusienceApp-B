@@ -42,5 +42,6 @@
 		inner join DTL_TBL C on A.Product_Item_CLSFC_1 = C.Child_TBL_No
 		inner join DTL_TBL D on A.Product_Item_CLSFC_2 = D.Child_TBL_No
 		where A.Product_MTRL_CLSFC in ('24','25','26')
+		and A.Product_Item_Code like concat('%',#{itemCode},'%')
 	</select>
 </mapper>	

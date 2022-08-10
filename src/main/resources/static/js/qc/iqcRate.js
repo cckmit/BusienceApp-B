@@ -2,7 +2,7 @@ function Search() {
 	var jsonData = {
 		startDate : $('#startDate').val(),
 		endDate : $('#endDate').val(),
-		itemCode : $('#itemCode1').val()
+		itemCode : $('#itemCode').val()
 	}
 	
 	iqcRateTable.setData('/iqcRateRest/iqcRateSelect', jsonData);
