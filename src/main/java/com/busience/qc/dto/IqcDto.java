@@ -18,9 +18,15 @@ public class IqcDto {
 	
 	private String Mtrl_Clsfc;
 	
+	private String Mtrl_Clsfc_Name;
+	
 	private String Clsfc_1;
 	
+	private String Clsfc_1_Name;
+	
 	private String Clsfc_2;
+	
+	private String Clsfc_2_Name;
 	
 	private double Pass_Qty;
 	
