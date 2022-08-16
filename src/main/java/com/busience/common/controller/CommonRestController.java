@@ -44,6 +44,12 @@ public class CommonRestController {
 		return dtlService.getDtl(dtlDto.getNEW_TBL_CODE());
 	}
 	
+	// 공통코드 찾기 (true)
+	@GetMapping("/tablet/dtlTrueSelect")
+	public List<DtlDto> dtlTrueSelect2(DtlDto dtlDto) {
+		return dtlService.getDtl(dtlDto.getNEW_TBL_CODE());
+	}
+	
 	//하위 메뉴 List
 	@GetMapping("/menuList")
 	public List<MenuDto> menuList(Principal principal) {

@@ -265,10 +265,16 @@ $(".removeBtn").click(function(){
 function production_Alarm(value){
 	var ajaxresult = $.ajax({
 		method : "get",
-		url : "/dtlTrueSelect",
+		url : "/tablet/dtlTrueSelect",
 		data : {"NEW_TBL_CODE" : 31},
 		success: function (result){
-			if(value >= result[1].child_TBL_RMARK){
+			var resultValue
+			for(let i=0;i<result.length;i++){
+				if(result[i].child_TBL_NUM == "2"){
+					resultValue = result[i].child_TBL_RMARK	
+				}
+			}
+			if(value >= resultValue){
 				$("#crate-Qty").css('background','white');
 				$("#crate-Qty").addClass("red_light");
 				new Audio('/audio/Alarm_4sec.mp3').play();
