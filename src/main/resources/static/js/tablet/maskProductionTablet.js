@@ -197,15 +197,15 @@ function CrateSelect(value){
 		url : "/tablet/maskProductionRest/crateSelectByMachine",
 		data : {machineCode : value, condition : 1},
 		success : function(data) {
-			if(data instanceof Object){
-				if(beforeQty != data.c_Qty){
+			if(data.langth > 0){
+				if(beforeQty != data[0].c_Qty){
 					$(".removeBtn").addClass("hiddenBtn");
 				}
-				$("#crate-LotNo").val(data.c_Production_LotNo);
-				$("#crateCode").val(data.c_CrateCode);
-				$("#crate-Qty").val(data.c_Qty);
+				$("#crate-LotNo").val(data[0].c_Production_LotNo);
+				$("#crateCode").val(data[0].c_CrateCode);
+				$("#crate-Qty").val(data[0].c_Qty);
 				
-				production_Alarm(data.c_Qty)
+				production_Alarm(data[0].c_Qty)
 			}
 		}
 	})

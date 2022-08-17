@@ -56,7 +56,7 @@ public class CrateService {
 		return crateDao.crateUpdateDao(crateDto);
 	}
 	
-	public CrateDto crateSelectByMachine(SearchDto searchDto) {
+	public List<CrateDto> crateSelectByMachine(SearchDto searchDto) {
 		//검색해서 있는지 파악
 		//있으면 해당내용을 뿌림
 		return crateDao.crateSelectByMachineDao(searchDto.getMachineCode(), searchDto.getCondition());

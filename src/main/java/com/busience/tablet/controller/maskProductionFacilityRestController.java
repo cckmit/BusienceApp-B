@@ -74,7 +74,7 @@ public class maskProductionFacilityRestController {
 	}	
 
 	@GetMapping("/crateSelectByMachine")
-	public CrateDto crateSelectByMachine(SearchDto searchDto) {
+	public List<CrateDto> crateSelectByMachine(SearchDto searchDto) {
 		return crateService.crateSelectByMachine(searchDto);
 	}
 

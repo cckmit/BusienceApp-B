@@ -153,9 +153,11 @@ public class MaskProductionService {
 					//교체할 상자가 사용 가능한지 부터 파악					
 					if(crateDao.crateSelectbyCodeDao(info.getC_CrateCode()).getC_Condition().equals("0")) {
 						//기존 값이 있으면 상태값 변경
-						String before_CrateCode = info.getC_Before_CrateCode();
+						List<CrateDto> beforeList = crateDao.crateSelectByMachineDao(info.getC_MachineCode(), "1");
 						
-						if(before_CrateCode.length()>0) {
+						if(beforeList.size() == 1) {
+							String before_CrateCode = beforeList.get(0).getC_CrateCode();
+							
 							CrateDto crateDtoTemp = new CrateDto();
 							crateDtoTemp.setC_CrateCode(before_CrateCode);
 							String before_LotNo = crateDao.crateSelectbyCodeDao(before_CrateCode).getC_Production_LotNo();

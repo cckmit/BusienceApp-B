@@ -20,7 +20,7 @@ public interface CrateDao {
 	public CrateDto crateStatusCheckDao(SearchDto searchDto);
 	
 	//조회
-	public CrateDto crateSelectByMachineDao(@Param("machineCode") String machineCode, @Param("condition") String condition);
+	public List<CrateDto> crateSelectByMachineDao(@Param("machineCode") String machineCode, @Param("condition") String condition);
 	
 	//랏번호 조회
 	public String crateLotNoSelectDao(CrateDto crateDto);
