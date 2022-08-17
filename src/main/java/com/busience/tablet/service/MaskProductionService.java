@@ -155,8 +155,8 @@ public class MaskProductionService {
 						//기존 값이 있으면 상태값 변경
 						List<CrateDto> beforeList = crateDao.crateSelectByMachineDao(info.getC_MachineCode(), "1");
 						
-						if(beforeList.size() == 1) {
-							String before_CrateCode = beforeList.get(0).getC_CrateCode();
+						for(int j=0;j<beforeList.size();j++) {
+							String before_CrateCode = beforeList.get(j).getC_CrateCode();
 							
 							CrateDto crateDtoTemp = new CrateDto();
 							crateDtoTemp.setC_CrateCode(before_CrateCode);
