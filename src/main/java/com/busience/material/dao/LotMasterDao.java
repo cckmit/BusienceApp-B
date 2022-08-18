@@ -13,7 +13,10 @@ import com.busience.material.dto.OutMatDto;
 public interface LotMasterDao {
 	
 	//재고이동리스트조회
-	public List<LotMasterDto> StockTransSelectDao(SearchDto searchDto);
+	public List<LotMasterDto> stockTransSelectDao(SearchDto searchDto);
+	
+	//자재리스트조회
+	public List<LotMasterDto> lotMasterMaterialSelectDao(SearchDto searchDto);
 	
 	//랏마스터 insert update
 	public int lotMasterInsertUpdateDao(

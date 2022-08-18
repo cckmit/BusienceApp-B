@@ -19,6 +19,12 @@ var salesOrderListTable = new Tabulator("#salesOrderListTable", {
 	rowSelected:function(row){
     	SOLS_Search(row.getData().sales_Order_mCus_No);
     },
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title: "수주번호", field: "sales_Order_mCus_No", headerHozAlign: "center", hozAlign: "right", headerFilter: true, width: 117 },
 		{ title: "코드", field: "sales_Order_mCode", headerHozAlign: "center", headerFilter: true, width: 60 },
@@ -84,6 +90,12 @@ var salesOrderListSubTable = new Tabulator("#salesOrderListSubTable", {
 	},
 	rowSelected:function(row){
     	SOSS_Search(row.getData().sales_Order_lCode);
+    },
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
     },
 	columns: [
 		{ title: "순번", field: "sales_Order_lNo", headerHozAlign: "center", hozAlign: "center", width: 60 },

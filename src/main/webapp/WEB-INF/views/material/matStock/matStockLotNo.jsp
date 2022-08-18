@@ -16,8 +16,8 @@
 				<input id="PRODUCT_ITEM_NAME2" class="Item_Name2 clearInput" type="text" onkeypress="javascript:if(event.keyCode==13) {itemPopup($(this).val(),'input','2','material')}">
 				<span><strong>LotNo</strong></span>
 				<input id="matStockLotNo" class="matstockLotNo" type="text" style="width: 230px;">
-				<span style="color:red;"><strong>&nbsp;수량&nbsp;&nbsp;>&nbsp;&nbsp;0</strong></span>
-				<input type="checkbox" id="Stock_Qty_Checked1" checked="checked" style="width:20px;">
+				<!-- <span style="color:red;"><strong>&nbsp;수량&nbsp;&nbsp;>&nbsp;&nbsp;0</strong></span> -->
+				<input type="checkbox" id="Stock_Qty_Checked1" class="none" checked="checked" style="width:20px;">
 			</div>
 		</div>
 	</div>

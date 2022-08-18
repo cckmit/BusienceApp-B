@@ -1,6 +1,12 @@
 var salesInputListTable = new Tabulator("#salesInputListTable", { 
 	headerFilterPlaceholder: null,
 	height:"calc(100% - 175px)",
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
  	columns:[ //Define Table Columns
  	{title:"순번", field:"rownum", headerHozAlign: "center", headerFilter:true, hozAlign: "center", formatter:"rownum"},
 	{title:"LotNo", field:"sales_InMat_Lot_No", headerHozAlign:"center", headerFilter:true, hozAlign:"center", width:160},
@@ -43,6 +49,12 @@ var salesInputItemViewTable = new Tabulator("#salesInputItemViewTable", {
             }
     },
 	height:"calc(100% - 175px)",
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
  	columns:[ //Define Table Columns
 	{title:"순번", field:"rownum", headerHozAlign: "center", hozAlign: "center", formatter:"rownum"},
 	{title:"입고일자", field:"sales_InMat_Date", headerHozAlign:"center",hozAlign:"left", formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD hh:mm:ss"}},

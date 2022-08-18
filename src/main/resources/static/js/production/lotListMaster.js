@@ -11,6 +11,12 @@ var smallPackTable = new Tabulator("#smallPackTable", {
 	rowSelected:function(row){
 		CLS_Search(row.getData().small_Packaging_LotNo)
     },
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
 		{ title: "소포장 LotNo", field: "small_Packaging_LotNo", headerHozAlign: "center"},
@@ -36,6 +42,12 @@ var crateTable = new Tabulator("#crateTable",{
 	rowSelected:function(row){
 		RIS_Search(row.getData().production_LotNo)
     },
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
 		{ title: "생산 LotNo", field: "production_LotNo", headerHozAlign: "center"},
@@ -52,6 +64,12 @@ var rawTable = new Tabulator("#rawTable", {
 	layoutColumnsOnNewData : true,
 	headerFilterPlaceholder: null,
 	height: "calc(100% - 175px)",
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
 		{ title: "원자재 LotNo", field: "material_LotNo", headerHozAlign: "center"},
@@ -79,7 +97,6 @@ function SIS_Search(){
 
 function CLS_Search(smallLotNo){
 	crateTable.setData("smallPackagingRest/smallPackagingOneSelect",{LotNo: smallLotNo})
-	console.log(crateTable);
 	rawTable.clearData();
 }
 

@@ -1,6 +1,12 @@
 var salesOutputListTable = new Tabulator("#salesOutputListTable", { 
 	headerFilterPlaceholder: null,
 	height:"calc(100% - 175px)",
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
  	columns:[ //Define Table Columns
  	{title:"순번", field:"rownum", headerHozAlign: "center", headerFilter:true, hozAlign: "center", formatter:"rownum"},
 	{title:"LotNo", field:"sales_OutMat_Lot_No", headerHozAlign:"center", headerFilter:true, hozAlign:"center", width:130},
@@ -47,6 +53,12 @@ var salesOutputItemViewTable = new Tabulator("#salesOutputItemViewTable", {
             }
     },
 	height:"calc(100% - 175px)",
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
  	columns:[ //Define Table Columns
 	{title:"순번", field:"rownum", headerHozAlign: "center", hozAlign: "center", formatter:"rownum"},
 	{title:"출고일자", field:"sales_OutMat_Date", headerHozAlign:"center",hozAlign:"left", formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
@@ -98,6 +110,12 @@ var salesOutputCustomerViewTable = new Tabulator("#salesOutputCustomerViewTable"
 		}
 	},
 	height: "calc(100% - 175px)",
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title: "순번", field: "rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum"},
 		{ title: "수주번호", field: "sales_OutMat_Cus_No", headerHozAlign: "center", hozAlign:"center"},

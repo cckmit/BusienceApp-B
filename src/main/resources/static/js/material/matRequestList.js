@@ -17,6 +17,12 @@ var matRequestTable = new Tabulator("#matRequestTable", {
 		MRS_Search(row.getData().rm_RequestNo);
 		matRequestStockTable.clearData();
     },
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
  	columns:[ 
  		{title:"요청No", field:"rm_RequestNo", headerHozAlign:"center", hozAlign:"right", headerFilter:true},
 		{title:"요청자", field:"rm_UserCode", visible:false},
@@ -55,7 +61,12 @@ var matRequestSubTable = new Tabulator("#matRequestSubTable", {
 	rowClick:function(e, row){
 		MRLSS_Search(row.getData().rs_ItemCode);
     },
-	//행이 추가될때마다 인덱스 부여
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
  	columns:[
 	{title:"순번", field:"rownum", headerHozAlign:"center", hozAlign:"center", formatter: "rownum"},
 	{title:"요청No", field:"rs_RequestNo", visible:false},

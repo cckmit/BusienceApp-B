@@ -18,6 +18,12 @@ var matOutputTable = new Tabulator("#matOutputTable", {
 	rowSelected:function(row){
     	MRL_Search(row.getData().rm_RequestNo);
     },
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
  	columns:[ 
  		{title:"요청No", field:"rm_RequestNo", headerHozAlign:"center", hozAlign:"right", headerFilter:true},
 		{title:"요청자코드", field:"rm_UserCode", visible:false},
@@ -84,6 +90,12 @@ var matOutputSubTable = new Tabulator("#matOutputSubTable", {
 		
 		ResetBtn();
 	},
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns:[
 	{formatter:"rowSelection", titleFormatter:"rowSelection", headerHozAlign:"center", hozAlign:"center", headerSort:false},
 	{title:"순번", field:"rownum", headerHozAlign:"center", hozAlign:"center", formatter: "rownum"},

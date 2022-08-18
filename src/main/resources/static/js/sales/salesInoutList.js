@@ -6,6 +6,12 @@ var salesInoutListTable = new Tabulator("#salesInoutListTable", {
             }
     },
 	height:"calc(100% - 175px)",
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
  	columns:[
  	{title:"순번", field:"rownum", headerHozAlign: "center", hozAlign: "center", headerSort:false, formatter: "rownum"},
  	{title:"품목코드", field:"lt_ItemCode", headerHozAlign:"center",  hozAlign:"left", headerSort:false},

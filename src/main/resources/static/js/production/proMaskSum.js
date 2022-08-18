@@ -50,6 +50,12 @@ var proMaskTable = new Tabulator("#proMaskTable", {
 	layoutColumnsOnNewData : true,
     headerFilterPlaceholder: null,
 	height:"calc(100% - 175px)",
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
  	columns:[
 		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center" },
 		{ title: "LotNo", field: "cl_LotNo", headerHozAlign: "center", headerFilter: true,

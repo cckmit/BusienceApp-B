@@ -16,6 +16,12 @@ var iqcRateTable = new Tabulator("#iqcRateTable", {
 	layoutColumnsOnNewData : true,
 	headerFilterPlaceholder: null,
 	height:"calc(100% - 175px)",
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
  	columns:[
 		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center" },
 		{ title: "품목코드", field: "itemCode", headerHozAlign: "center", headerFilter: true},

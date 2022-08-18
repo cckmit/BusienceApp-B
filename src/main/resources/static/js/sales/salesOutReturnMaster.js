@@ -66,11 +66,15 @@ var SORI_InputEditor = function(cell, onRendered, success, cancel, editorParams)
 
 var salesOutReturnInsertTable = new Tabulator("#salesOutReturnInsertTable", {
 	height: "calc(100% - 175px)",
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
 	rowClick: function(e, row) {
 		row.toggleSelect();
 	},
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
 		{ title: "순번", field: "rownum", formatter: "rownum", headerHozAlign: "center", align: "center" },
@@ -148,8 +152,12 @@ function SORI_Save() {
 
 var salesOutReturnSearchTable = new Tabulator("#salesOutReturnSearchTable", {
 	height: "calc(100% - 175px)",
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title: "순번", field: "rownum", formatter: "rownum", headerHozAlign: "center", align: "center" },
 		{ title: "수주No", field: "sales_OutMat_Cus_No", headerHozAlign: "center" },

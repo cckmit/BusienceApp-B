@@ -7,6 +7,12 @@ var salesDeliveryCustomerViewTable = new Tabulator("#salesDeliveryCustomerViewTa
 		}
 	},
 	height: "calc(100% - 175px)",
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title:"순번", field:"rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum"},
 		{ title: "LotNo", field: "sales_OutMat_Lot_No", headerHozAlign: "center",hozAlign: "center"},
@@ -58,6 +64,12 @@ var salesDeliveryListTable = new Tabulator("#salesDeliveryListTable", {
 	rowClick: function(e, row) {
 		SDC_Search(row.getData().sales_OutMat_Client_Code)
 	},
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ formatter:"rowSelection", headerHozAlign: "center", titleFormatter:"rowSelection", align:"center", headerSort:false},
 		{ title:"순번", field:"rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum"},
@@ -76,6 +88,12 @@ var salesDeliveryCustomerTable = new Tabulator("#salesDeliveryCustomerTable", {
 		}
 	},
 	height: "calc(100% - 175px)",
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [ //Define Table Columns
 		{ title: "순번", field: "sales_OutMat_No", headerHozAlign: "center", hozAlign: "center" },
 		{ title: "수주번호", field: "sales_OutMat_Cus_No", headerHozAlign: "center", hozAlign: "center" },

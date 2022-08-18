@@ -15,6 +15,12 @@ var tempStorageTable = new Tabulator("#tempStorageTable", {
 		UseBtn();
 		$("#matInspectWorker").focus();
 	},
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title: "순번", field: "rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum" },
 		{ title: "입고순번", field: "inMat_No", headerHozAlign: "center", hozAlign: "right", visible: false },
@@ -77,6 +83,12 @@ var matInputTable = new Tabulator("#matInputTable", {
 		MIF_Search(row.getData().inMat_Order_No, row.getData().inMat_Code);
 		UseBtn();
 	},
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title: "순번", field: "rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum" },
 		{ title: "발주번호", field: "inMat_Order_No" },

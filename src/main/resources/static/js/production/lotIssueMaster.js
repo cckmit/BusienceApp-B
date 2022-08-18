@@ -8,6 +8,12 @@ var lotIssueMasterTable = new Tabulator("#lotIssueMasterTable", {
     },
     headerFilterPlaceholder: null,
 	height:"calc(100% - 175px)",
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
  	columns:[ //Define Table Columns
 	{title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
 	{title:"LotNo", field:"li_LotNo", headerHozAlign:"center", headerFilter: true},

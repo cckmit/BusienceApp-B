@@ -79,6 +79,12 @@ var salesSmallPackingTable = new Tabulator("#salesSmallPackingTable", {
 		// salesCratePackingTable.clearData();
 		row.select();
 	},
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title:"순번", field:"rownum", headerHozAlign: "center", hozAlign: "right", formatter: "rownum", width: 65 },
 		{ title: "LotNo", field: "small_Packaging_LotNo", headerHozAlign: "center", headerFilter: true, width: 150 },

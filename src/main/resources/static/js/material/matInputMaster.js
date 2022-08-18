@@ -4,6 +4,12 @@ var matInputListTable = new Tabulator("#matInputListTable", {
 	selectable : true,
 	selectableRangeMode:"click",
 	height: "calc(100% - 175px)",
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
 		{ title: "순번", field: "rownum", headerHozAlign: "center", headerFilter: true, hozAlign: "center", formatter: "rownum"},
@@ -74,6 +80,12 @@ var matInputItemViewTable = new Tabulator("#matInputItemViewTable", {
 		}
 	},
 	height: "calc(100% - 175px)",
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title: "순번", field: "rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum"},
 		{ title: "발주번호", field: "inMat_Order_No", headerHozAlign: "center", hozAlign: "left"},
@@ -118,6 +130,12 @@ var matInputCustomerViewTable = new Tabulator("#matInputCustomerViewTable", {
 		}
 	},
 	height: "calc(100% - 175px)",
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title: "순번", field: "rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum"},
 		{ title: "발주번호", field: "inMat_Order_No", headerHozAlign: "center", hozAlign: "left"},
@@ -199,6 +217,12 @@ function MIDM_Search() {
 var matInputDeliveryItemTable = new Tabulator("#matInputDeliveryItemTable", {
 	layoutColumnsOnNewData : true,
 	height: "calc(100% - 175px)",
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [ //Define Table Columns
 		{ title: "순번", field: "inMat_No", headerHozAlign: "center", hozAlign: "center" },
 		{ title: "입고일자", field: "inMat_Date", headerHozAlign: "center", hozAlign: "center",

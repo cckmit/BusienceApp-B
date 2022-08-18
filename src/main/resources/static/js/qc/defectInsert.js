@@ -7,6 +7,12 @@ var crateLotTable = new Tabulator("#crateLotTable", {
 		DIS_Search(row.getData().cl_LotNo);
 	},
 	headerFilterPlaceholder: null,
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns:[
 		{ title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
 		{ title: "상자코드", field: "cl_CrateCode", headerHozAlign: "center", headerFilter: true},
@@ -110,6 +116,12 @@ var DIS_InputEditor = function(cell, onRendered, success, cancel, editorParams) 
 
 var defectTable = new Tabulator("#defectTable", {
 	height:"calc(100% - 175px)",
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns:[
 		{ title: "작업지시 번호", field: "defect_ONo", headerHozAlign: "center", visible: false },
 		{ title: "불량 코드", field: "defect_Code", headerHozAlign: "center" },

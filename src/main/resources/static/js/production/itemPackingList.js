@@ -9,6 +9,12 @@ var salesPackingMasterTable = new Tabulator("#salesPackingMasterTable",{
 	rowSelected:function(row){
 		IPS_Search(row.getData().sales_Large_Packing_LotNo)
     },
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
 		{ title: "대포장 LotNo", field: "sales_Large_Packing_LotNo", headerHozAlign: "center", headerFilter:"input"},
@@ -27,6 +33,12 @@ var salesPackingSubTable = new Tabulator("#salesPackingSubTable", {
 	layoutColumnsOnNewData : true,
 	headerFilterPlaceholder: null,
 	height: "calc(100% - 175px)",
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
 		{ title: "소포장 LotNo", field: "sales_Small_Packing_LotNo", headerHozAlign: "center", headerFilter:"input"},

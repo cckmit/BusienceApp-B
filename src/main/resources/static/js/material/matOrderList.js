@@ -25,6 +25,12 @@ var matOrderListTable = new Tabulator("#matOrderListTable", {
 		row.select();
 		MOLS_Search(row.getData().order_mCus_No);
 	},
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
 		{ title: "발주번호", field: "order_mCus_No", headerHozAlign: "center", hozAlign: "right", headerFilter: true },
@@ -73,6 +79,12 @@ var matOrderListSubTable = new Tabulator("#matOrderListSubTable", {
         }else if(row.getData().order_lNot_Stocked < row.getData().order_lQty){
 			row.getElement().style.color = "blue";
 		}
+    },
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
     },
 	columns: [
 		{ title: "순번", field: "order_lNo", headerHozAlign: "left", hozAlign: "center" },

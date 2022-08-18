@@ -9,6 +9,12 @@ var crateTable = new Tabulator("#crateTable",{
 	rowSelected:function(row){
 		RLM_Search(row.getData().cl_LotNo)
     },
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
 		{ title: "생산 LotNo", field: "cl_LotNo", headerHozAlign: "center", headerFilter: true},
@@ -26,6 +32,12 @@ var rawTable = new Tabulator("#rawTable", {
 	layoutColumnsOnNewData : true,
 	headerFilterPlaceholder: null,
 	height: "calc(100% - 175px)",
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title:"순번", field:"rownum", formatter:"rownum", hozAlign:"center"},
 		{ title: "원자재 LotNo", field: "material_LotNo", headerHozAlign: "center"},

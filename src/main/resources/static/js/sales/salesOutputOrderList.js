@@ -1,8 +1,6 @@
 var salesOutputOrderReportTable = new Tabulator("#salesOutputOrderReportTable", {
 	headerFilterPlaceholder: null,
 	height: "calc(100% - 175px)",
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
 	rowFormatter:function(row){
 		//order_mCheck가 Y면 빨간색 I면 파란색으로 바꿔준다
         if(row.getData().sales_Output_Order_mCheck == "Y"){
@@ -17,6 +15,12 @@ var salesOutputOrderReportTable = new Tabulator("#salesOutputOrderReportTable", 
 	},
 	rowSelected:function(row){
     	SORS_Search(row.getData().sales_Output_Order_mOrder_No);
+    },
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
     },
 	columns: [
 		{ title: "지시번호", field: "sales_Output_Order_mOrder_No", headerHozAlign: "center", hozAlign: "right", headerFilter: true, width: 117 },
@@ -85,8 +89,6 @@ var salesOutputOrderReportSubTable = new Tabulator("#salesOutputOrderReportSubTa
 		}
 	},
 	height: "calc(90% - 175px)",
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
 	tabEndNewRow: true,
 	//행을 클릭하면 salesOutputOrderReportStockTable에 리스트가 나타남
 	rowClick: function(e, row) {
@@ -95,6 +97,12 @@ var salesOutputOrderReportSubTable = new Tabulator("#salesOutputOrderReportSubTa
 	},
 	rowSelected:function(row){
     	SOSS_Search(row.getData().sales_Output_Order_lCode);
+    },
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
     },
 	columns: [
 		{ title: "순번", field: "sales_Output_Order_lNo", headerHozAlign: "center", hozAlign: "center", width: 60 },

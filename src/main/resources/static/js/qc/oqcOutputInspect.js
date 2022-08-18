@@ -21,6 +21,12 @@ var salesOutMatTable = new Tabulator("#salesOutMatTable", {
 		UseBtn();
 		$("#processQty").focus();
 	},
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center" },
 		{ title: "LotNo", field: "sales_OutMat_Lot_No", headerHozAlign: "center" },
@@ -81,6 +87,12 @@ oqcInspectTable = new Tabulator("#oqcInspectTable", {
 		OIF_Search(row.getData().oqc_Inspect_LotNo);
 		UseBtn();
 	},
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center" },
 		{ title: "LotNo", field: "oqc_Inspect_LotNo", headerHozAlign: "center" },

@@ -1,10 +1,14 @@
 var salesInReturnInsertTable = new Tabulator("#salesInReturnInsertTable", {
 	height: "calc(100% - 175px)",
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
 	rowClick: function(e, row) {
 		row.toggleSelect();
 	},
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
 		{ title: "순번", field: "rownum", formatter: "rownum", headerHozAlign: "center", align: "center" },
@@ -76,8 +80,12 @@ function SIRI_Save() {
 
 var salesInReturnSearchTable = new Tabulator("#salesInReturnSearchTable", {
 	height: "calc(100% - 175px)",
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title: "순번", field: "rownum", formatter: "rownum", headerHozAlign: "center", align: "center" },
 		{ title: "Lot번호", field: "sales_Small_Packing_LotNo", headerHozAlign: "center", hozAlign: "left" },

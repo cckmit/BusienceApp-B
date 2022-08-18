@@ -168,6 +168,12 @@ var matOrderTable = new Tabulator("#matOrderTable", {
 		//셀위치 저장하여 포커싱부여
 		cellPos = cell;
 	},
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title: "발주번호", field: "order_mCus_No", headerHozAlign: "center", hozAlign: "right", headerFilter: true },
 		{ title: "코드", field: "order_mCode", headerHozAlign: "center", headerFilter: true, editor: MO_inputEditor, editable: MO_EditCheck },
@@ -506,6 +512,12 @@ var matOrderSubTable = new Tabulator("#matOrderSubTable", {
 		//셀위치 저장하여 포커싱부여
 		cellPos = cell;
 	},
+	ajaxResponse:function(url, params, response){
+		if(response.length > 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
 		{ title: "순번", field: "order_lNo", headerHozAlign: "center", hozAlign: "center", formatter: "rownum" },

@@ -29,7 +29,7 @@ public class matOutReturnRestController {
 	
 	@GetMapping("/stockTransSelect")
 	public List<LotMasterDto> StockTransSelect(SearchDto searchDto){
-		return matOutReturnService.StockTransSelect(searchDto);
+		return matOutReturnService.stockTransSelect(searchDto);
 	}
 	
 	//MORI_Search

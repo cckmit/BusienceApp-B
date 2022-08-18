@@ -19,6 +19,12 @@ var matInputTable = new Tabulator("#matInputTable", {
     	MIS_Search(row.getData().order_mCus_No);
 		ResetBtn();
     },
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
  	columns:[ 
  		{title:"발주번호", field:"order_mCus_No", headerHozAlign:"center", hozAlign:"right", headerFilter:true},
  		{title:"코드", field:"order_mCode", headerHozAlign:"center", headerFilter:true},
@@ -258,6 +264,12 @@ var inMatTable = new Tabulator("#inMatTable", {
 	rowClick:function(e, row){
 		inMatTable.deselectRow();
 		row.select();
+    },
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
     },
  	columns:[
 	{title:"순번", field:"rownum", headerHozAlign:"center", hozAlign:"center", formatter:"rownum"},

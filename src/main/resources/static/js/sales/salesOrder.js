@@ -187,6 +187,12 @@ var salesOrderTable = new Tabulator("#salesOrderTable", {
 		//셀위치 저장하여 포커싱부여
 		cellPos = cell;
 	},
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title: "수주번호", field: "sales_Order_mCus_No", headerHozAlign: "center", hozAlign: "right", headerFilter: true },
 		{ title: "코드", field: "sales_Order_mCode", headerHozAlign: "center", headerFilter: true, editor: SO_inputEditor },
@@ -413,6 +419,12 @@ var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
 		}
 
 	},
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
 		{ title: "순번", field: "sales_Order_lNo", headerHozAlign: "center", hozAlign: "center" },

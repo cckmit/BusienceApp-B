@@ -5,7 +5,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.busience.material.dao.LotMasterDao">
 
-	<select id="StockTransSelectDao" resultType="com.busience.material.dto.LotMasterDto">
+	<select id="stockTransSelectDao" resultType="com.busience.material.dto.LotMasterDto">
 		SELECT
 			A.LM_LotNo, A.LM_ItemCode, B.Product_Item_Name LM_ItemName,
 			A.LM_Qty, A.LM_Create_Date, A.LM_Warehouse, C.Child_TBL_Type LM_Warehouse_Name,
@@ -19,6 +19,23 @@
 		where A.LM_Qty > 0
 		and B.Product_MTRL_CLSFC in ('24','25','26')
 		and A.LM_Warehouse != '50'
+       	and A.LM_LotNo like concat('%',#{lotNo},'%')
+	</select>
+	
+	<select id="lotMasterMaterialSelectDao" resultType="com.busience.material.dto.LotMasterDto">
+		SELECT
+			A.LM_LotNo, A.LM_ItemCode, B.Product_Item_Name LM_ItemName,
+			A.LM_Qty, A.LM_Create_Date, A.LM_Warehouse, C.Child_TBL_Type LM_Warehouse_Name,
+			B.Product_Info_STND_1 LM_STND_1, B.Product_Info_STND_2 LM_STND_2,
+			D.Child_TBL_Type LM_Item_Unit_Name, E.Child_TBL_Type LM_Item_Material_Name
+		FROM LotMaster_tbl A
+		inner join Product_Info_tbl B on A.LM_ItemCode = B.Product_Item_Code
+		inner join DTL_TBL C on A.LM_Warehouse = C.Child_TBL_No
+		inner join DTL_TBL D on B.Product_Unit = D.Child_TBL_No
+		inner join DTL_TBL E on B.Product_Material = E.Child_TBL_No
+		where A.LM_Qty > 0
+		and B.Product_MTRL_CLSFC in ('24','25','26')
+		and A.LM_ItemCode like concat('%',#{itemCode},'%')
        	and A.LM_LotNo like concat('%',#{lotNo},'%')
 	</select>
 

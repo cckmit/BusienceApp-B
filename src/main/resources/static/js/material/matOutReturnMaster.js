@@ -73,6 +73,12 @@ var matOutReturnInsertTable = new Tabulator("#matOutReturnInsertTable", {
 	ajaxContentType:"json",
 	ajaxURL : "/matOutReturnRest/stockTransSelect",
 	ajaxParams : {lotNo: $(".lotNo").val()},
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ formatter: "rowSelection", align: "center"},
 		{ title: "순번", field: "rownum", headerHozAlign: "center", align: "center", formatter: "rownum"},
@@ -108,8 +114,11 @@ function MORI_Save() {
 	}
 
 	for (var i = 0; i < selectedData.length; i++) {
-		if (selectedData[i].outReturn_Qty == "0") {
-			alert("이동수량이 입력되지 않은 행이 존재합니다.");
+		if (selectedData[i].lm_TransQty == 0) {
+			alert("이동 수량이 입력되지 않은 행이 존재합니다.");
+			return;
+		}else if (selectedData[i].lm_TransQty > selectedData[i].lm_Qty){
+			alert("이동 수량이 출고 수량보다 작거나 같도록 입력해주세요.")
 			return;
 		}
 	}
@@ -141,6 +150,12 @@ var matOutReturnSearchTable = new Tabulator("#matOutReturnSearchTable", {
 	rowDblClick: function(e, row) {
 		row.toggleSelect();
 	},
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title: "순번", field: "rownum", headerHozAlign: "center", align: "center", formatter: "rownum"},
 		{ title: "Lot번호", field: "t_LotNo", headerHozAlign: "center" },

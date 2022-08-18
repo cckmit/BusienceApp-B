@@ -26,8 +26,12 @@ var salesOutputOrderTable = new Tabulator("#salesOutputOrderTable", {
 	rowSelected: function(row) {
 		SOS_Search(row.getData().sales_Output_Order_mOrder_No);
 	},
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title: "지시번호", field: "sales_Output_Order_mOrder_No", headerHozAlign: "center", hozAlign: "right", headerFilter: true, width: 117 },
 		{ title: "코드", field: "sales_Output_Order_mCode", headerHozAlign: "center", headerFilter: true, width: 60 },
@@ -158,6 +162,12 @@ var salesOutputOrderSubTable = new Tabulator("#salesOutputOrderSubTable", {
 		}
 
 	},
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title: "순번", field: "sales_Output_Order_lNo", headerHozAlign: "center", hozAlign: "center", width: 60 },
 		{ title: "지시번호", field: "sales_Output_Order_lOrder_No", visible: false },
@@ -277,6 +287,12 @@ var salesLotMasterTable = new Tabulator("#salesLotMasterTable", {
 		}
 
 	},
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title: "LotNo", field: "lm_LotNo", headerHozAlign: "center", width: 145 },
 		{ title: "품목코드", field: "lm_ItemCode", headerHozAlign: "center", width: 100 },
@@ -496,6 +512,12 @@ salesOutMatTable = new Tabulator("#salesOutMatTable", {
 			console.log(SSM_total)
 		}
 	},
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title: "순번", field: "sales_OutMat_No", headerHozAlign: "center", hozAlign: "center", formatter: "rownum", width: 60 },
 		{ title: "LotNo", field: "sales_OutMat_Lot_No", headerHozAlign: "center", width: 145 },

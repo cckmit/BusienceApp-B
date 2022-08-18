@@ -27,6 +27,12 @@ var salesItemTable = new Tabulator("#salesItemTable", {
 		}
 		$("#itemInspectQty").focus();
 	},
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center" },
 		{ title: "LotNo", field: "lm_LotNo", headerHozAlign: "center" },
@@ -66,6 +72,12 @@ var itemInspectTable = new Tabulator("#itemInspectTable", {
 		SILForm_Search(row.getData().itemPack_Inspect_LotNo, row.getData().itemPack_Inspect_ItemName, row.getData().itemPack_Inspect_Date);
 		IP_Search(row.getData().itemPack_Inspect_LotNo);
 	},
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center" },
 		{ title: "LotNo", field: "itemPack_Inspect_LotNo", headerHozAlign: "center" },

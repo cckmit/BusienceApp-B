@@ -114,6 +114,12 @@ var matRequestTable = new Tabulator("#matRequestTable", {
         //셀위치 저장하여 포커싱부여
 		cellPos = cell;
     },
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
  	columns:[ 
  		{title:"요청No", field:"rm_RequestNo", headerHozAlign:"center", hozAlign:"right", headerFilter:true},
 		{title:"요청자코드", field:"rm_UserCode", visible:false},
@@ -297,6 +303,12 @@ var matRequestSubTable = new Tabulator("#matRequestSubTable", {
 				cell_lCode = cell.getRow().getData().rs_ItemCode	
 			}
 		}
+    },
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
     },
  	columns:[
 	{formatter:"rowSelection", titleFormatter:"rowSelection", headerHozAlign:"center", hozAlign:"center", headerSort:false},

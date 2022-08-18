@@ -21,6 +21,12 @@ var crateInspectTable = new Tabulator("#crateInspectTable", {
 		UseBtn();
 		$("#processQty").focus();
 	},
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title: "순번", field: "rownum", formatter: "rownum", hozAlign: "center" },
 		{ title: "LotNo", field: "cl_LotNo", headerHozAlign: "center" },
@@ -79,6 +85,12 @@ processInspectTable = new Tabulator("#processInspectTable", {
 		PIF_Search(row.getData().process_Inspect_LotNo);
 		UseBtn();
 	},
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title: "순번", field: "rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum" },
 		{ title: "LotNo", field: "process_Inspect_LotNo", headerHozAlign: "center", hozAlign: "center" },

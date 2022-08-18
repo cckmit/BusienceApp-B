@@ -41,13 +41,12 @@ var PRODUCT_INFO_TBL = new Tabulator("#PRODUCT_INFO_TBL", {
 		
 		product_ITEM_CODE = row.getData().product_ITEM_CODE;
 	},
-	rowSelected:function(row){
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
     },
-	//행추가시 기능
-	rowAdded: function(row) {
-	},
-	cellEditing: function(cell) {
-	},
 	columns: [
 		{ title: "품목코드", field: "product_ITEM_CODE", headerHozAlign: "center", hozAlign: "right", headerFilter: true },
 		{ title: "품목명", field: "product_ITEM_NAME", headerHozAlign: "center", headerFilter: true , width: "200" },
@@ -158,7 +157,6 @@ var BOMListTable = new Tabulator("#BOMListTable", {
 			return;
 		}
 	},
-	
 	columns: [ //Define Table Columns
 		{ title: "level", field: "bom_level",headerHozAlign: "center"},
 		{ title: "부모품목코드", field: "bom_Parent_ItemCode", visible:false},

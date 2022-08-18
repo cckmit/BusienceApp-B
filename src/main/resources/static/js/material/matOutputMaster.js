@@ -4,6 +4,12 @@ var matOutputListTable = new Tabulator("#matOutputListTable", {
 	selectable : true,
 	selectableRangeMode:"click",
 	height:"calc(100% - 175px)",
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
  	columns:[
 	{formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
  	{title:"순번", field:"rownum", headerHozAlign: "center", headerFilter:true, hozAlign: "center", formatter:"rownum"},
@@ -68,6 +74,12 @@ var matOutputItemViewTable = new Tabulator("#matOutputItemViewTable", {
     	}
     },
 	height:"calc(100% - 175px)",
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
  	columns:[
 	{title:"순번", field:"rownum", headerHozAlign: "center", hozAlign: "center", formatter:"rownum"},
 	{title:"출고일자", field:"om_OutDate", headerHozAlign:"center", hozAlign:"left", 
@@ -108,6 +120,12 @@ var matOutputDeptViewTable = new Tabulator("#matOutputDeptViewTable", {
             }
     },
 	height:"calc(100% - 175px)",
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
  	columns:[
 	{title:"순번", field:"rownum", headerHozAlign: "center", hozAlign: "center", formatter:"rownum"},
 	{title:"출고일자", field:"om_OutDate", headerHozAlign:"center", hozAlign:"left", 
@@ -148,6 +166,12 @@ var matOutputDeliveryListTable = new Tabulator("#matOutputDeliveryListTable", {
 		row.select();
 		MODS_Search(row.getData().om_DeptCode);
 	},
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
  	columns:[
  	{title:"순번", field:"rownum", headerHozAlign: "center", hozAlign: "center", formatter: "rownum"},
 	{title:"부서코드", field:"om_DeptCode", headerHozAlign:"center",hozAlign:"center"},
@@ -178,6 +202,12 @@ function MODM_Search() {
 var matOutputDeliveryItemTable = new Tabulator("#matOutputDeliveryItemTable", { 
 	layoutColumnsOnNewData : true,
 	height:"calc(100% - 175px)",
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
  	columns:[
  	{title:"순번", field:"rownum", headerHozAlign: "center", hozAlign: "center", formatter:"rownum"},
 	{title:"출고일자", field:"om_OutDate", headerHozAlign:"center", hozAlign:"left", 

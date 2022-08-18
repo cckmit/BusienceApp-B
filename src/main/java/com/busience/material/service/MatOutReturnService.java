@@ -43,8 +43,8 @@ public class MatOutReturnService {
 	TransactionTemplate transactionTemplate;
 	
 	//재고이동 리스트 조회
-	public List<LotMasterDto> StockTransSelect(SearchDto searchDto){
-		return lotMasterDao.StockTransSelectDao(searchDto);
+	public List<LotMasterDto> stockTransSelect(SearchDto searchDto){
+		return lotMasterDao.stockTransSelectDao(searchDto);
 	}
 	
 	//등록
