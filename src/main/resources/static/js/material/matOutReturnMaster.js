@@ -65,9 +65,14 @@ var MORI_InputEditor = function(cell, onRendered, success, cancel, editorParams)
 
 var matOutReturnInsertTable = new Tabulator("#matOutReturnInsertTable", {
 	height: "calc(100% - 175px)",
+	placeholder:"이동 가능한 자재가 없습니다.",
 	rowDblClick: function(e, row) {
 		row.toggleSelect();
 	},
+	ajaxConfig : "get",
+	ajaxContentType:"json",
+	ajaxURL : "/matOutReturnRest/stockTransSelect",
+	ajaxParams : {lotNo: $(".lotNo").val()},
 	columns: [
 		{ formatter: "rowSelection", align: "center"},
 		{ title: "순번", field: "rownum", headerHozAlign: "center", align: "center", formatter: "rownum"},
@@ -89,12 +94,7 @@ $("#MORI_Search").keypress(function(e){
 
 // matOutReturn 목록 검색
 function MORI_Search() {
-	var data = {
-		lotNo: $(".lotNo").val(),
-		warehouse: '50' 
-	}
-
-	matOutReturnInsertTable.setData("matOutReturnRest/MORI_Search", data);
+	matOutReturnInsertTable.setData("matOutReturnRest/stockTransSelect", {lotNo: $(".lotNo").val()});
 }
 
 function MORI_Save() {

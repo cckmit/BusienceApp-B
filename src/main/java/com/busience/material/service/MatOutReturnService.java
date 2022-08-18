@@ -42,6 +42,11 @@ public class MatOutReturnService {
 	@Autowired
 	TransactionTemplate transactionTemplate;
 	
+	//재고이동 리스트 조회
+	public List<LotMasterDto> StockTransSelect(SearchDto searchDto){
+		return lotMasterDao.StockTransSelectDao(searchDto);
+	}
+	
 	//등록
 	public List<LotMasterDto> matOutReturnSelect(SearchDto searchDto){
 		return lotMasterDao.lotMasterSelectDao(searchDto);

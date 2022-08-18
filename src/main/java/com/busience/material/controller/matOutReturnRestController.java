@@ -27,6 +27,11 @@ public class matOutReturnRestController {
 	@Autowired
 	MatOutReturnService matOutReturnService;
 	
+	@GetMapping("/stockTransSelect")
+	public List<LotMasterDto> StockTransSelect(SearchDto searchDto){
+		return matOutReturnService.StockTransSelect(searchDto);
+	}
+	
 	//MORI_Search
 	@GetMapping("/MORI_Search")
 	public List<LotMasterDto> MORI_Search(SearchDto searchDto) {

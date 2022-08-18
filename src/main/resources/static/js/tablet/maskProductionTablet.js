@@ -10,6 +10,7 @@ var itemTable = new Tabulator("#itemTable", {
     ajaxConfig:"get",
     ajaxContentType:"json",
 	ajaxResponse:function(url, params, response){
+		console.log(response)
 		return [response]
     },
 	columns:[
@@ -197,7 +198,7 @@ function CrateSelect(value){
 		url : "/tablet/maskProductionRest/crateSelectByMachine",
 		data : {machineCode : value, condition : 1},
 		success : function(data) {
-			if(data.langth > 0){
+			if(data.length > 0){
 				if(beforeQty != data[0].c_Qty){
 					$(".removeBtn").addClass("hiddenBtn");
 				}

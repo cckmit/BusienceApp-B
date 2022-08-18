@@ -12,6 +12,9 @@ import com.busience.material.dto.OutMatDto;
 @Mapper
 public interface LotMasterDao {
 	
+	//재고이동리스트조회
+	public List<LotMasterDto> StockTransSelectDao(SearchDto searchDto);
+	
 	//랏마스터 insert update
 	public int lotMasterInsertUpdateDao(
 			@Param("LM_LotNo") String LM_LotNo, @Param("LM_ItemCode") String LM_ItemCode,
