@@ -17,7 +17,7 @@
 		inner join DTL_TBL D on B.Product_Unit = D.Child_TBL_No
 		inner join DTL_TBL E on B.Product_Material = E.Child_TBL_No
 		where A.LM_Qty > 0
-		and B.Product_Material = '24'
+		and B.Product_MTRL_CLSFC in ('24','25','26')
 		and A.LM_Warehouse != '50'
        	and A.LM_LotNo like concat('%',#{lotNo},'%')
 	</select>
