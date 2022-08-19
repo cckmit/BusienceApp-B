@@ -513,7 +513,7 @@ var matOrderSubTable = new Tabulator("#matOrderSubTable", {
 		cellPos = cell;
 	},
 	ajaxResponse:function(url, params, response){
-		if(response.length > 0){
+		if(response.length == 0){
 			toastr.info("목록이 없습니다.");	
 		}
 		return response;
@@ -821,7 +821,6 @@ function MO_OurCompany() {
 		data: datas,
 		contentType: 'application/json',
 		success: function(result) {
-			console.log(result);
 			resultData = result;
 		}
 	});

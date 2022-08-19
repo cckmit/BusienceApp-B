@@ -32,7 +32,7 @@
 					</div>
 				</div>
 			</div>
-			<!-- <div id="salesOutMatTable"></div> -->
+			<div id="salesOutMatTable" class="none"></div>
 			<div id="oqcInspection"><jsp:include page="oqcInspectHeadForm.jsp"/></div>
 			<div id="oqcInspectTable"></div>
 		</div>

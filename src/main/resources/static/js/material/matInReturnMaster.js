@@ -71,6 +71,12 @@ var matInReturnInsertTable = new Tabulator("#matInReturnInsertTable", {
 	rowDblClick: function(e, row) {
 		row.toggleSelect();
 	},
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
 		{ title: "순번", field: "rownum", headerHozAlign: "center", align: "center", formatter: "rownum"},
@@ -161,6 +167,12 @@ var matInReturnSearchTable = new Tabulator("#matInReturnSearchTable", {
 	rowDblClick: function(e, row) {
 		row.toggleSelect();
 	},
+	ajaxResponse:function(url, params, response){
+		if(response.length == 0){
+			toastr.info("목록이 없습니다.");	
+		}
+		return response;
+    },
 	columns: [
 		{ title: "순번", field: "rownum", headerHozAlign: "center", align: "center", formatter: "rownum"},
 		{ title: "발주번호", field: "inMat_Order_No", headerHozAlign: "center" },

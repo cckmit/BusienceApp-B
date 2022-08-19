@@ -55,11 +55,11 @@ function SOIL_Search() {
 	}
 
 	salesOutMatTable.setData("oqcInspectRest/SOIL_Search", datas)
-		.then(function() {
-			//list와 stock의 데이터를 없에준다
-			//formClearFunc();
-			console.log(salesOutMatTable);
-		})
+	.then(function() {
+		//list와 stock의 데이터를 없에준다
+		formClearFunc();
+		console.log(salesOutMatTable);
+	})
 }
 
 $("#SOIL_SearchBtn").click(function() {
