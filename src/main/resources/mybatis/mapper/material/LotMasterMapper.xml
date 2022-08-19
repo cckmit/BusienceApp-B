@@ -8,7 +8,8 @@
 	<select id="stockTransSelectDao" resultType="com.busience.material.dto.LotMasterDto">
 		SELECT
 			A.LM_LotNo, A.LM_ItemCode, B.Product_Item_Name LM_ItemName,
-			A.LM_Qty, A.LM_Create_Date, A.LM_Warehouse, C.Child_TBL_Type LM_Warehouse_Name,
+			A.LM_Qty, A.LM_Qty lm_TransQty, A.LM_Create_Date,
+			A.LM_Warehouse, C.Child_TBL_Type LM_Warehouse_Name,
 			B.Product_Info_STND_1 LM_STND_1, B.Product_Info_STND_2 LM_STND_2,
 			D.Child_TBL_Type LM_Item_Unit_Name, E.Child_TBL_Type LM_Item_Material_Name
 		FROM LotMaster_tbl A
