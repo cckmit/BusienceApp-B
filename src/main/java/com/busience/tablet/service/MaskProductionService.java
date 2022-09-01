@@ -122,10 +122,8 @@ public class MaskProductionService {
 						qty *= -1;
 					}
 					//생산창고 관리 안함
-					boolean prod_wh = false;
-					if(dtlDao.findCodeNum(31, "1").get(0).getCHILD_TBL_USE_STATUS().equals("true")) {
-						prod_wh = true;
-					}
+					boolean prod_wh = dtlDao.findCodeNum(31, "1").get(0).isCHILD_TBL_USE_STATUS();
+					
 					if(prod_wh) {
 						//랏마스터
 						lotMasterDao.lotMasterUpdateDao(qty, lotNo, warehouse);

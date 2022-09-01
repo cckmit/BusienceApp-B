@@ -31,7 +31,7 @@
 						<label class="col-sm-3 control-label">사&nbsp;&nbsp;&nbsp;용&nbsp;&nbsp;&nbsp;자&nbsp;&nbsp;&nbsp;명</label>
 						<div class="col-sm-9">
 							<input type="text" style="width: 50%;" 
-								class="form-control-plaintext nextFocus" id="user_Name"
+								class="form-control-plaintext nextFocus" id="user_Name" checked
 								OnKeyDown="nextFocus('company')">
 						</div>
 					</div>

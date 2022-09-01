@@ -42,6 +42,7 @@ public class codeManageRestController {
 
 	@PutMapping("/codeManageUpdate")
 	public int codeManageUpdate(DtlDto dtlDto) {
+		System.out.println(dtlDto);
 		return dtlService.dtlUpdate(dtlDto);
 	}
 }

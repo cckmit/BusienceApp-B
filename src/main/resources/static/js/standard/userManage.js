@@ -74,7 +74,7 @@ function userRegister() {
 			user_Password : '1234',
 			user_Name : $("#user_Name").val(),
 			company : $("#company").val(),
-			user_Use_Status : "true",
+			user_Use_Status : true,
 			user_Type : $("#user_Type").val(),
 			dept_Code : $("#dept_Code").val()}
 	

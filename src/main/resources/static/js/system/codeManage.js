@@ -135,7 +135,8 @@ function codeModify() {
 			CHILD_TBL_TYPE : $("#child_TBL_TYPE").val(),
 			CHILD_TBL_RMARK : $("#child_TBL_RMARK").val(),
 			CHILD_TBL_USE_STATUS : $("#child_TBL_USE_STATUS").is(":checked")}
-
+	
+	console.log(datas);
 	$.ajax({
 		method : "put",
 		url : "codeManageRest/codeManageUpdate",

@@ -106,7 +106,7 @@ public class ProductionService {
 						}
 						
 						//작업지시 옵션
-						productionDto.setWorkOrder_Status(dtlDtoList.get(2).getCHILD_TBL_USE_STATUS());
+						productionDto.setWorkOrder_Status(dtlDtoList.get(2).isCHILD_TBL_USE_STATUS());
 						
 						//작업지시테이블 업데이트
 						productionDao.updateWorkOrderDao(productionDto);

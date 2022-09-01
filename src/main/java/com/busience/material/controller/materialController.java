@@ -101,7 +101,7 @@ public class materialController {
 		
 		model.addAttribute("pageName", "출고 관리");
 		
-		if(dtlService.getAllDtl(31).get(2).getCHILD_TBL_USE_STATUS().equals("true")) {
+		if(dtlService.getAllDtl(31).get(2).isCHILD_TBL_USE_STATUS()) {
 			return "material/matOutput";
 		}else {
 			return "material/matOutputLX";

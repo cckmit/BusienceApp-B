@@ -117,7 +117,7 @@ public class MatInputService {
 						
 						
 						int divideNum = 1;
-						if(dtlDao.findAllByCode(31).get(3).getCHILD_TBL_USE_STATUS().equals("true")) {
+						if(dtlDao.findAllByCode(31).get(3).isCHILD_TBL_USE_STATUS()) {
 							divideNum = qty;
 						}
 						

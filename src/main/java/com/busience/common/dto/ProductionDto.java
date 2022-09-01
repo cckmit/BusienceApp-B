@@ -21,5 +21,5 @@ public class ProductionDto {
 	
 	private LocalDateTime PRODUCTION_Date;
 	
-	private String WorkOrder_Status;
+	private boolean WorkOrder_Status;
 }
