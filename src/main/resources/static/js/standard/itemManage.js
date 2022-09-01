@@ -1,5 +1,3 @@
-let resultCode;
-
 function nextFocus(next) {
 	if (event.keyCode == 13) {
 		$('#' + next).focus();
@@ -23,7 +21,6 @@ $("#product_ITEM_NAME").on("keyup", function() {
 	}
 
 });
-
 
 //입력 및 업데이트 할 리스트
 var pickValue = ["product_BUSINESS_PLACE", "product_ITEM_CODE", "product_OLD_ITEM_CODE",
@@ -83,7 +80,7 @@ var itemManageTable = new Tabulator("#itemManageTable", {
 		},
 		{
 			title: "사용유무", field: "product_USE_STATUS", headerHozAlign: "center", hozAlign: "center",
-			formatter: "tickCross", headerFilter: true, headerFilterParams: { values: { "true": "사용", "false": "미사용" } }
+			formatter: "tickCross", headerFilter: true, headerFilterParams: { values: { true: "사용", false: "미사용" } }
 		},
 		{
 			title: "수정일자", field: "product_MODIFY_D", headerHozAlign: "center", hozAlign: "right", headerFilter: "input",
@@ -244,9 +241,7 @@ function modifyModalShow() {
 }
 
 function copyModalShow() {
-
-	let next = nextCode(resultCode);
-	let nextCodeName = 'P' + next;
+	let nextCodeName = 'P' + nextCode();
 
 	$('.modify').addClass('none');
 	$('.insert').addClass('none');

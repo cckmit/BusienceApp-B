@@ -61,7 +61,7 @@ function modalInputBox(json){
 		if($('#'+key)){
 			//타입이 checkbox일 경우
 			if($('#'+key).attr("type") == "checkbox"){
-				if(json[key] == "true"){
+				if(json[key] == true){
 					$('#'+key).prop("checked", true)	
 				}else{
 					$('#'+key).prop("checked", false)
