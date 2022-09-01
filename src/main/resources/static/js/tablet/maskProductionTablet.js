@@ -15,7 +15,7 @@ var itemTable = new Tabulator("#itemTable", {
     },
 	columns:[
 		{title:"현재 생산중인 제품", headerHozAlign:"center",
-			columns: [	
+			columns: [
 				{ title: "제품코드", field: "product_ITEM_CODE", headerHozAlign: "center"},
 				{ title: "제품이름", field: "product_ITEM_NAME", headerHozAlign: "center"},
 				{ title: "규격1", field: "product_INFO_STND_1", headerHozAlign: "center"},
@@ -49,7 +49,7 @@ function workOrderSet(){
     $.when(CrateSelect($("#machineCode").val()))
     .then(function(data){
         //그값에 따라 원자재 검색
-        return rawSelect(data.c_Production_LotNo, $("#itemCode").val());
+        rawSelect(data.c_Production_LotNo, $("#itemCode").val());
     })
 }
 
@@ -79,6 +79,7 @@ $("#barcodeInput").change(function(){
 			if($(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Code").val() == itemCode){
 				check = true
 				if($("#crate-LotNo").val().length > 0){
+					console.log("실행?")
 					lotInput($("#crate-LotNo").val(), barcode, itemCode, 0)
 				}else{
 					$(".main-c .item:nth-of-type("+(i+2)+") .LotNo").val(barcode)
@@ -147,7 +148,7 @@ function rawSelect(lotNo, itemCode){
 		method : "get",
 		url : "/tablet/maskProductionRest/rawMaterialBOMList",
 		data : {lotNo : lotNo, itemCode : itemCode},
-		success : function(data) {			
+		success : function(data) {	
 			for(let i=0;i<data.length;i++){
 				$(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Code").val(data[i].bom_ItemCode);
 				$(".main-c .item:nth-of-type("+(i+2)+") .LotNo_Name").val(data[i].bom_ItemName);
@@ -227,7 +228,7 @@ function workComplete(crateCode){
 	var ajaxResult = $.ajax({
 		method : "post",
 		url : "/tablet/maskProductionRest/workComplete",
-		data : { c_CrateCode : crateCode, c_Condition : condition},
+		data : { c_CrateCode : crateCode, c_Condition : condition, C_Production_LotNo : $("#crate-LotNo").val()},
 		beforeSend: function (xhr) {
            var header = $("meta[name='_csrf_header']").attr("content");
            var token = $("meta[name='_csrf']").attr("content");
@@ -241,6 +242,7 @@ function workComplete(crateCode){
 }
 
 function rawMaterialChange(production_LotNo, material_LotNo, material_ItemCode, check){
+	console.log(production_LotNo)
 	var ajaxresult = $.ajax({
 		method : "post",
 		url : "/tablet/maskProductionRest/rawMaterialChange",
@@ -280,7 +282,7 @@ function production_Alarm(value){
 				$("#crate-Qty").addClass("red_light");
 				new Audio('/audio/Alarm_4sec.mp3').play();
 			}else{
-				$("#crate-Qty").css('background',null);
+				$("#crate-Qty").css('background', null);
 				$("#crate-Qty").removeClass("red_light");
 			}
 		}

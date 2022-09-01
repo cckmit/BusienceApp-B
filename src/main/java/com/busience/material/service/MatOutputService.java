@@ -1,5 +1,6 @@
 package com.busience.material.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,6 +147,105 @@ public class MatOutputService {
 							
 							salesInputDao.salesStockMatUpdateDao(sales_InMat_tbl);
 						}*/
+					}
+				}
+			});
+			
+			return 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	//등록
+	public int outMatLXInsert(List<OutMatDto> outMatDtoList, String userCode){
+		try {
+			//판매구분
+			//List<DtlDto> dtlDto = dtlDao.findByCode(18);
+			List<DtlDto> wareHouseList = dtlDao.findByCode(10);
+			//Sales_InMat_tbl sales_InMat_tbl = new Sales_InMat_tbl();
+			
+			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+				
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					//품목별로 갯수에따라 구랏부터 차례대로 감소
+					// 품목코드를 기준으로 랏번호 리스트를 가져옴
+					// 랏번호 리스트에서 시간순으로 갯수를 맞춰 가져와 업데이트
+
+					List<LotMasterDto> tempList = new ArrayList<LotMasterDto>();
+					
+					for(OutMatDto list : outMatDtoList) {
+						SearchDto searchDto = new SearchDto();
+						searchDto.setItemCode(list.getOM_ItemCode());
+						searchDto.setWarehouse(wareHouseList.get(0).getCHILD_TBL_NO());
+						List<LotMasterDto> lotMasterDto = lotMasterDao.lotMasterMatSelectDao(searchDto);
+						
+						double totalQty = list.getOM_Qty();
+						for(LotMasterDto LMDtoList : lotMasterDto) {
+							if(totalQty <= 0){
+								break;
+							}else if(totalQty >= LMDtoList.getLM_Qty()) {
+								totalQty -= LMDtoList.getLM_Qty();
+								tempList.add(LMDtoList);
+							}else if(totalQty < LMDtoList.getLM_Qty()){
+								LMDtoList.setLM_Qty((int) totalQty);
+								tempList.add(LMDtoList);
+							}
+						}
+						
+						for(LotMasterDto updateList : tempList) {
+							ItemDto itemDto = new ItemDto();
+							OutMatDto outMatDto = list;
+							
+							String lotNo = updateList.getLM_LotNo();
+							int no = lotTransDao.lotTransNoSelectDao(lotNo);
+							String itemCode = outMatDto.getOM_ItemCode();
+							double qty = updateList.getLM_Qty();
+							String warehouse = wareHouseList.get(0).getCHILD_TBL_NO();
+							String before = wareHouseList.get(0).getCHILD_TBL_NO();
+							String after = "";						
+							String classfy = outMatDto.getOM_Send_Clsfc();
+
+							itemDto = itemDao.selectItemCode(itemCode);
+
+							outMatDto.setOM_RequestNo("12-000000-00");
+							outMatDto.setOM_No(no);
+							outMatDto.setOM_LotNo(lotNo);
+							outMatDto.setOM_DeptCode("12");
+							outMatDto.setOM_WareHouse(warehouse);
+							outMatDto.setOM_Send_Clsfc(classfy);
+							outMatDto.setOM_Modifier(userCode);	
+							
+							//랏마스터 업데이트
+							lotMasterDao.salesLotMasterInsertUpdateDao(
+									lotNo, itemCode, -1*qty, warehouse
+									);
+							//재고 업데이트
+							stockDao.stockInsertUpdateDao(itemCode, -1*qty, before);
+							//부자재 관리하는지 파악
+							if(itemDto.getPRODUCT_SUBSID_MATL_MGMT().equals("true")) {
+
+								//자재창고 재고 증가
+								after = wareHouseList.get(1).getCHILD_TBL_NO();
+								//랏마스터
+								lotMasterDao.salesLotMasterInsertUpdateDao(
+										lotNo, itemCode, qty, after
+										);
+								
+								//재고
+								stockDao.stockInsertUpdateDao(itemCode, qty, after);
+							}
+													
+							//랏트랜스
+							lotTransDao.lotTransInsertDao(
+									no, lotNo, itemCode, qty, before, after, classfy
+									);
+							
+							//출고
+							outMatDao.outMatInsertDao(outMatDto);
+						}
 					}
 				}
 			});

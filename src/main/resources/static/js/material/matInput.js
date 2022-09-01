@@ -350,13 +350,14 @@ function MIM_Save(){
 			}else{
 				MI_Search();
 				Cus_No_select();
-				RawMaterialPrinter(result);
+				if(devices.length>0){
+					RawMaterialPrinter(result);	
+				}
 				alert("저장되었습니다.");
 			}
 		}				
 	});	
 }
-
 
 $('#MIM_SaveBtn').click(function(){
 	if(confirm($("#inputDate").val()+" 일자로 입고 하시겠습니까?")){

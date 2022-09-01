@@ -207,7 +207,7 @@
 		CL_Update_Check = 1
 		where CL_LotNo = #{lotNo}
 		<![CDATA[
-			and CL_Qty < 150
+			and CL_Qty < 200
 		]]>
 	</update>
 	

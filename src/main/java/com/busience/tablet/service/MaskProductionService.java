@@ -238,7 +238,9 @@ public class MaskProductionService {
 					//수량이 있으면 상자상태 2로변경
 					//수량이 없으면 상자상태 0으로 변경한 후 이력 삭제
 					if(crateDto.getC_Condition().equals("2")) {
+						System.out.println(crateDto);
 						crateDao.crateUpdateDao(crateDto);
+						crateLotDao.randomQtySaveDao(crateDto.getC_Production_LotNo(), randomQty());
 					}else {
 						String lotNo = crateDao.crateSelectbyCodeDao(crateDto.getC_CrateCode()).getC_Production_LotNo();
 						rawMaterialDao.rawMaterialDeleteDao(lotNo, null);

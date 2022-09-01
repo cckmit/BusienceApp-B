@@ -115,13 +115,19 @@ public class MatInputService {
 						// 발주마스터 저장
 						orderMasterDao.orderMasterUpdateDao(inMatDto);
 						
+						
+						int divideNum = 1;
+						if(dtlDao.findAllByCode(31).get(3).getCHILD_TBL_USE_STATUS().equals("true")) {
+							divideNum = qty;
+						}
+						
 						if("24".equals(itemDto.getPRODUCT_MTRL_CLSFC())) {
-							for(int j=0;j<qty;j++) {
+							for(int j=0;j<divideNum;j++) {
 								//랏번호 생성
 								lotNo = lotNoDao.rawlotNoSelectDao(inMatDate, itemCode);
 								inMatDto.setInMat_Lot_No(lotNo);
 								
-								double realQty = 1;
+								double realQty = qty/divideNum;
 								
 								// 랏트랜스번호 가져오기
 								no = lotTransDao.lotTransNoSelectDao(lotNo);

@@ -61,6 +61,28 @@
 		    Order_mModify_Date = now()
 	</insert>
 	
+	<insert id="orderListInsertUpdateDao">
+		insert into OrderList_tbl(
+			Order_lNo,
+			Order_lCus_No, Order_lCode,
+		    Order_lQty, Order_lSum, Order_lUnit_Price,
+		    Order_lPrice, Order_lNot_Stocked,
+		    Order_Rcv_Clsfc, Order_lInfo_Remark
+		)values(
+			(select ifnull(max(AA.Order_lNo)+1,1) from OrderList_tbl AS AA where AA.Order_lCus_No = #{Order_lCus_No}),
+			#{Order_lCus_No}, #{Order_lCode},
+		    #{Order_lQty}, #{Order_lSum}, #{Order_lUnit_Price},
+		    #{Order_lPrice}, #{Order_lQty},
+		    #{Order_Rcv_Clsfc}, #{Order_lInfo_Remark}
+		)on duplicate key update
+		Order_lQty = #{Order_lQty},
+		Order_lUnit_Price = #{Order_lUnit_Price},
+		Order_lPrice = #{Order_lPrice},
+		Order_lNot_Stocked = #{Order_lQty},
+		Order_Rcv_Clsfc = #{Order_Rcv_Clsfc},
+		Order_lInfo_Remark = #{Order_lInfo_Remark}
+	</insert>
+	
 	<update id="orderMasterUpdateDao">
 			update OrderMaster_tbl
 			set Order_mCheck = 

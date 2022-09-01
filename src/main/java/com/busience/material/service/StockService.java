@@ -74,7 +74,7 @@ public class StockService {
 	}
 
 	// 재고 Lot-품목 조회
-	public List<LotMasterDto> stockLotSelectDao(SearchDto searchDto) {
+	public List<LotMasterDto> stockLotSelect(SearchDto searchDto) {
 		return lotMasterDao.lotMasterMaterialSelectDao(searchDto);
 	}
 

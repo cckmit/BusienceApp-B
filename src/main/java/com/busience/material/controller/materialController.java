@@ -91,7 +91,6 @@ public class materialController {
 	public String InputInspectionPrint(HttpServletRequest request) {
 		return "normal/material/matInputInspectionPrint";
 	}
-	
 	// MatOutput
 	@GetMapping("matOutput")
 	public String matOutput(Model model) {
@@ -101,7 +100,12 @@ public class materialController {
 		model.addAttribute("deptList", dtlService.getDtl(deptList));
 		
 		model.addAttribute("pageName", "출고 관리");
-		return "material/matOutput";
+		
+		if(dtlService.getAllDtl(31).get(2).getCHILD_TBL_USE_STATUS().equals("true")) {
+			return "material/matOutput";
+		}else {
+			return "material/matOutputLX";
+		}
 	}
 	
 	// matInReturn
