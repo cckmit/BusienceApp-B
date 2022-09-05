@@ -13,6 +13,8 @@ var editCheck = function(cell){
 var menuAddTable = new Tabulator("#menuAddTable", {
 	layoutColumnsOnNewData : true,
 	height: "calc(100% - 175px)",
+	groupBy: "menu_Parent_Name",
+	groupStartOpen: false,
 	ajaxConfig : "get",
 	ajaxContentType:"json",
 	ajaxURL : "menuAddRest/MA_Search",

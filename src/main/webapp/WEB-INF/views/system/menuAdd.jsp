@@ -13,4 +13,4 @@
 	</div>
 	<!-- END MAIN -->
 </div>
-<script src="/js/system/menuAdd.js"></script>
+<script src="/js/system/menuAdd.js?v=<%=System.currentTimeMillis() %>"></script>

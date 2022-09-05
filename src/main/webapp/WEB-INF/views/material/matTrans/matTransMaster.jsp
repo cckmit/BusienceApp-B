@@ -7,8 +7,8 @@
 	<div class="tabs-wrap">
 
 		<ul id="navigation">
-			<li class="one selected"><a href="#div1">출고반품입력</a></li>
-			<li class="two"><a href="#div2">출고반품조회</a></li>
+			<li class="one selected"><a href="#div1">자재이동입력</a></li>
+			<li class="two"><a href="#div2">자재이동조회</a></li>
 			<li class="shadow"></li>
 		</ul>
 
@@ -17,12 +17,12 @@
 			<ol>
 				<li>
 					<div id="div1">
-						<jsp:include page="matOutReturnInsert.jsp" />
+						<jsp:include page="matTransInsert.jsp" />
 					</div>
 				</li>
 				<li>
 					<div id="div2">
-						<jsp:include page="matOutReturnSearch.jsp" />
+						<jsp:include page="matTransSearch.jsp" />
 					</div>
 				</li>
 				<li>
@@ -36,5 +36,5 @@
 	<!-- inline wrapper -->
 </div>
 
-<script src="/js/material/matOutReturnMaster.js?v=<%=System.currentTimeMillis() %>"></script>
+<script src="/js/material/matTransMaster.js?v=<%=System.currentTimeMillis() %>"></script>
 <script src="/js/tabMenu.js?v=<%=System.currentTimeMillis() %>"></script>

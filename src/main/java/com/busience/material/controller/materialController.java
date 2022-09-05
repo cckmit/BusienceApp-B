@@ -118,8 +118,15 @@ public class materialController {
 	//matInReturn
 	@GetMapping("matOutReturn")
 	public String matOutReturn(Model model) {
-		model.addAttribute("pageName", "자재 이동 관리");
+		model.addAttribute("pageName", "출고 반품 관리");
 		return "material/matOutReturn/matOutReturnMaster";
+	}
+	
+	//matInReturn
+	@GetMapping("matTrans")
+	public String matTrans(Model model) {
+		model.addAttribute("pageName", "자재 이동 관리");
+		return "material/matTrans/matTransMaster";
 	}
 	
 	// matInputMaster

@@ -43,14 +43,14 @@ var MORI_InputEditor = function(cell, onRendered, success, cancel, editorParams)
     input.addEventListener("keydown", function (e) {
 		//엔터쳤을떄
 		if(e.keyCode == 13){
-			//이동수량셀 채크
-			if (cell.getField() == "lm_ReturnQty") {
-				//입력값이 음수이거나 입고수량보다 높으면 안내문
-				if(!(input.value >= 0) || cell.getRow().getData().lm_Qty < input.value){
-					alert("이동 수량을 잘못입력하였습니다.");
+			//반품수량셀 채크
+			if (cell.getField() == "inReturn_Qty") {
+				//입력값이 양의 정수가 아니거나 입고수량보다 높으면 안내문
+				if(!(input.value >= 0) || cell.getRow().getData().InMat_Qty < input.value){
+					alert("반품 수량을 잘못입력하였습니다.");
 					input.value = 0;
 				}
-				//입력값이 0이 아닌경우 (이동수량을 입력했을경우) 셀 선택
+				//입력값이 0이 아닌경우 (반품수량을 입력했을경우) 셀 선택
 				if(input.value != 0){
 					cell.getRow().select();
 				}
@@ -64,15 +64,18 @@ var MORI_InputEditor = function(cell, onRendered, success, cancel, editorParams)
 };
 
 var matOutReturnInsertTable = new Tabulator("#matOutReturnInsertTable", {
+	paginationAddRow: "table",
 	height: "calc(100% - 175px)",
-	placeholder:"이동 가능한 자재가 없습니다.",
 	rowDblClick: function(e, row) {
 		row.toggleSelect();
 	},
 	ajaxConfig : "get",
 	ajaxContentType:"json",
-	ajaxURL : "/matOutReturnRest/stockTransSelect",
-	ajaxParams : {lotNo: $(".lotNo").val()},
+	ajaxURL : "/matOutReturnRest/MORI_Search",
+	ajaxParams : {
+		startDate: $("#MORI_startDate").val(),
+		endDate: $("#MORI_endDate").val()
+	},
 	ajaxResponse:function(url, params, response){
 		if(response.length == 0){
 			toastr.info("목록이 없습니다.");	
@@ -81,32 +84,21 @@ var matOutReturnInsertTable = new Tabulator("#matOutReturnInsertTable", {
     },
 	columns: [
 		{ formatter: "rowSelection", align: "center"},
-		{ title: "순번", field: "rownum", headerHozAlign: "center", align: "center", formatter: "rownum"},
-		{ title: "Lot번호", field: "lm_LotNo", headerHozAlign: "center" },
+		{ title: "순번", field: "lm_LotNo", headerHozAlign: "center", align: "center" },
 		{ title: "품목코드", field: "lm_ItemCode", headerHozAlign: "center" },
 		{ title: "품목명", field: "lm_ItemName", headerHozAlign: "center" },
 		{ title: "출고수량", field: "lm_Qty", align: "right", headerHozAlign: "center" },
-		{ title: "보관창고", field: "lm_Warehouse_Name", headerHozAlign: "center"},
-		{ title: "이동수량", field: "lm_TransQty", align: "right", editor: MORI_InputEditor, headerHozAlign: "center"},
-		{ title: "이동장소", field: "lm_After", headerHozAlign: "center", formatter: function(cell){return "자재창고"}}
+		{ title: "반품수량", field: "lm_ReturnQty", align: "right", editor: MORI_InputEditor, headerHozAlign: "center"},
+		{ title: "규격1", field: "lm_STND_1", headerHozAlign: "center" },
+		{ title: "규격2", field: "lm_STND_2", headerHozAlign: "center" },
+		{ title: "창고", field: "lm_Warehouse_Name", headerHozAlign: "center" }
 	]
 });
 
-$("#MORI_Search").keypress(function(e){
-	if(e.keyCode == '13'){
-		MORI_Search()	
-	}
-})
-
-// matOutReturn 목록 검색
-function MORI_Search() {
-	matOutReturnInsertTable.setData("matOutReturnRest/stockTransSelect", {lotNo: $(".lotNo").val()});
-}
-
 function MORI_Save() {
 	//선택된 행만 저장
-	//만약 선택된행에서 이동수량이 0 이면 저장 안함
-	var selectedData = matOutReturnInsertTable.getData("selected");
+	//만약 선택된행에서 반품수량이 0 이면 저장 안함
+	selectedData = matOutReturnInsertTable.getData("selected");
 
 	if (selectedData.length == 0) {
 		alert("저장할 목록이 없습니다. 행을 선택해 주세요.");
@@ -114,79 +106,72 @@ function MORI_Save() {
 	}
 
 	for (var i = 0; i < selectedData.length; i++) {
-		if (selectedData[i].lm_TransQty == 0) {
-			alert("이동 수량이 입력되지 않은 행이 존재합니다.");
-			return;
-		}else if (selectedData[i].lm_TransQty > selectedData[i].lm_Qty){
-			alert("이동 수량이 출고 수량보다 작거나 같도록 입력해주세요.")
+		if (selectedData[i].outReturn_Qty == "0") {
+			alert("반품수량이 입력되지 않은 행이 존재합니다.");
 			return;
 		}
 	}
+
 	$.ajax({
-		method: "post",
-		url: "matOutReturnRest/MORI_Save",
-		data: JSON.stringify(selectedData),
-		contentType:'application/json',
-		beforeSend: function (xhr) {
-           var header = $("meta[name='_csrf_header']").attr("content");
-           var token = $("meta[name='_csrf']").attr("content");
-           xhr.setRequestHeader(header, token);
-		},
+		method: "GET",
+		url: "matOutReturnRest/MORI_Save?data=" + encodeURI(JSON.stringify(selectedData)),
 		success: function(result) {
-			if (result) {
-				MORI_Search();
-				alert("이동 처리 되었습니다.");
-			} else {
+			if(result == "error"){
 				alert("중복된 값이 있습니다.");
+			}else if(result == "success"){
+				alert("반품 처리 되었습니다.");
 			}
 		}
 	});
+
 }
 
 var matOutReturnSearchTable = new Tabulator("#matOutReturnSearchTable", {
+	paginationAddRow: "table",
 	height: "calc(100% - 175px)",
 	//복사하여 엑셀 붙여넣기 가능
 	clipboard: true,
 	rowDblClick: function(e, row) {
 		row.toggleSelect();
 	},
-	ajaxResponse:function(url, params, response){
-		if(response.length == 0){
-			toastr.info("목록이 없습니다.");	
-		}
-		return response;
-    },
 	columns: [
-		{ title: "순번", field: "rownum", headerHozAlign: "center", align: "center", formatter: "rownum"},
-		{ title: "Lot번호", field: "t_LotNo", headerHozAlign: "center" },
-		{ title: "품목코드", field: "t_ItemCode", headerHozAlign: "center" },
-		{ title: "품목명", field: "t_ItemName", headerHozAlign: "center" },
-		{ title: "규격1", field: "t_Item_Stnd_1", headerHozAlign: "center" },
-		{ title: "규격2", field: "t_Item_Stnd_2", headerHozAlign: "center" },
-		{ title: "분류1", field: "t_ITEM_CLSFC_1", headerHozAlign: "center" },
-		{ title: "분류2", field: "t_ITEM_CLSFC_2", headerHozAlign: "center" },
-		{ title: "이동수량", field: "t_Qty", align: "right", headerHozAlign: "center" },
-		{ title: "이동전", field: "t_Before_Name", align: "right", headerHozAlign: "center" },
-		{ title: "이동후", field: "t_After_Name", align: "right", headerHozAlign: "center" },
-		{ title: "이동일", field: "t_Create_Date", headerHozAlign: "center",
-			formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}}
+		{ title: "순번", field: "outMat_No", headerHozAlign: "center", align: "center" },
+		{ title: "품목코드", field: "outMat_Code", headerHozAlign: "center" },
+		{ title: "품목명", field: "outMat_Name", headerHozAlign: "center" },
+		{ title: "구품목코드", field: "outMat_OldItemCode", headerHozAlign: "center"},
+		{ title: "규격1", field: "outMat_STND_1", headerHozAlign: "center"},
+		{ title: "규격2", field: "outMat_STND_2", headerHozAlign: "center"},
+		{ title: "폼목분류1", field: "outMat_ITEM_STMD_1", headerHozAlign: "center"},
+		{ title: "품목분류2", field: "outMat_ITEM_STMD_2", headerHozAlign: "center"},
+		{ title: "반품수량", field: "outReturn_Qty", align: "right", headerHozAlign: "center" },
+		{ title: "출고구분", field: "outMat_Send_Clsfc_Name", headerHozAlign: "center" },
+		{ title: "수취인코드", field: "outMat_Consignee", headerHozAlign: "center", visible:false},
+		{ title: "수취인", field: "outMat_Consignee_Name", headerHozAlign: "center" },
+		{ title: "부서코드", field: "outMat_Dept_Code", headerHozAlign: "center", visible:false},
+		{ title: "부서명", field: "outMat_Dept_Name", headerHozAlign: "center" },
+		{ title: "출고일", field: "outMat_Date", headerHozAlign: "center",
+			formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
+		{ title: "반품일", field: "outMat_dInsert_Time", headerHozAlign: "center",
+			formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
+		{ title: "작업자명", field: "outMat_Modifier", headerHozAlign: "center" }
 	]
 });
 
-// 출고이동조회 검색
+// 출고반품조회 검색
 function MORS_Search() {
-	var datas = {
+	data = {
 		startDate: $("#MORS_startDate").val(),
 		endDate: $("#MORS_endDate").val(),
-		itemCode: $("#PRODUCT_ITEM_CODE2").val()
+		outMat_Code: $("#PRODUCT_ITEM_CODE2").val()
 	}
+
 
 	$.ajax({
 		method: "GET",
 		dataType: "json",
-		url: "matOutReturnRest/MORS_Search",
-		data: datas,
+		url: "matOutReturnRest/MORS_Search?data=" + encodeURI(JSON.stringify(data)),
 		success: function(data) {
+			console.log(data)
 			matOutReturnSearchTable.setData(data);
 		}
 	});
