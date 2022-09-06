@@ -76,9 +76,8 @@ public class MatOutputService {
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
 					
-					for(int i=0;i<outMatDtoList.size();i++) {
+					for(OutMatDto outMatDto : outMatDtoList) {
 						ItemDto itemDto = new ItemDto();
-						OutMatDto outMatDto = outMatDtoList.get(i);
 						
 						String lotNo = outMatDto.getOM_LotNo();
 						int no = lotTransDao.lotTransNoSelectDao(lotNo);
@@ -87,13 +86,14 @@ public class MatOutputService {
 						double qty = outMatDto.getOM_Qty();
 						String warehouse = wareHouseList.get(0).getCHILD_TBL_NO();
 						String before = wareHouseList.get(0).getCHILD_TBL_NO();
-						String after = "";						
+						String after = "";
 						String classfy = requestSubDto.getRS_Send_Clsfc();
-
+						
 						itemDto = itemDao.selectItemCode(itemCode);
 
 						outMatDto.setOM_No(no);
 						outMatDto.setOM_RequestNo(requestNo);
+						outMatDto.setOM_Qty(qty);
 						outMatDto.setOM_WareHouse(warehouse);
 						outMatDto.setOM_Send_Clsfc(classfy);
 						outMatDto.setOM_Modifier(userCode);	
@@ -105,7 +105,7 @@ public class MatOutputService {
 						//재고 업데이트
 						stockDao.stockInsertUpdateDao(itemCode, -1*qty, before);
 						//부자재 관리하는지 파악
-						if(itemDto.getPRODUCT_SUBSID_MATL_MGMT().equals("true")) {
+						if(itemDto.isPRODUCT_SUBSID_MATL_MGMT()) {
 
 							//자재창고 재고 증가
 							after = wareHouseList.get(1).getCHILD_TBL_NO();
@@ -213,6 +213,7 @@ public class MatOutputService {
 							outMatDto.setOM_RequestNo("12-000000-00");
 							outMatDto.setOM_No(no);
 							outMatDto.setOM_LotNo(lotNo);
+							outMatDto.setOM_Qty(qty);
 							outMatDto.setOM_DeptCode("12");
 							outMatDto.setOM_WareHouse(warehouse);
 							outMatDto.setOM_Send_Clsfc(classfy);
@@ -225,7 +226,7 @@ public class MatOutputService {
 							//재고 업데이트
 							stockDao.stockInsertUpdateDao(itemCode, -1*qty, before);
 							//부자재 관리하는지 파악
-							if(itemDto.getPRODUCT_SUBSID_MATL_MGMT().equals("true")) {
+							if(itemDto.isPRODUCT_SUBSID_MATL_MGMT()) {
 
 								//자재창고 재고 증가
 								after = wareHouseList.get(1).getCHILD_TBL_NO();

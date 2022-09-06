@@ -118,6 +118,7 @@ public class materialController {
 	//matInReturn
 	@GetMapping("matOutReturn")
 	public String matOutReturn(Model model) {
+		model.addAttribute("stockList", dtlService.getDtl(10));
 		model.addAttribute("pageName", "출고 반품 관리");
 		return "material/matOutReturn/matOutReturnMaster";
 	}

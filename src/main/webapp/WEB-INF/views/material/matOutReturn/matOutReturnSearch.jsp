@@ -5,19 +5,19 @@
 	<div class="top-var">
 		<!-- 버튼 -->
 		<div class="input-button">
-			<img src="/images/button/Search.png" onclick="MORS_Search()"/>
+			<img src="/images/button/Search.png" id="outReturnSearchBtn"/>
 		</div>
 		<!-- 버튼 -->
 		<div class="input-box">
 			<div>
-				<span><strong>이동일</strong></span>
-				<input id="MORS_startDate" class="today" type="date"> 
+				<span><strong>반품일</strong></span>
+				<input class="startDate today" type="date"> 
 				<span style="text-align: center"><strong>~</strong></span> 
-				<input id="MORS_endDate" class="tomorrow" type="date">		
+				<input class="endDate tomorrow" type="date">		
 			</div>
 			<div>
 				<span><strong>품목코드</strong></span>
-				<input id="PRODUCT_ITEM_CODE2" class="Item_Code2" type="text" disabled>
+				<input id="PRODUCT_ITEM_CODE2" class="itemCode Item_Code2" type="text" disabled>
 				<span><strong>품목명</strong></span>
 				<input id="PRODUCT_ITEM_NAME2" class="Item_Name2 clearInput" type="text"
 					onkeypress="javascript:if(event.keyCode==13) {itemPopup($(this).val(),'input','2','material')}">

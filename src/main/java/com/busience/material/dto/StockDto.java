@@ -17,7 +17,8 @@ public class StockDto {
 	private String S_Item_Classfy_2; //분류2
 	private String S_Item_Classfy_2_Name; //분류2
 	private double S_Qty; // 재고
-	private String S_WareHouse; //창고
+	private String S_Warehouse; //창고
+	private String S_Warehouse_Name;
 	private double S_Sales_Output_Order_Qty; // 현재지시수량
 	private String S_Item_Unit; // 단위
 	private String S_Item_Unit_Name; // 단위
@@ -26,4 +27,5 @@ public class StockDto {
 	private String S_LotNo; // 재고조정에서 필요
 	private double S_ChangeQty; // 변경수량
 	private double S_AddQty; // 변경수량
+	private double S_ReturnQty;
 }

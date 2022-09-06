@@ -67,7 +67,7 @@ var itemManageTable = new Tabulator("#itemManageTable", {
 		{ title: "배수", field: "product_MULTIPLE", headerHozAlign: "center", headerFilter: "input" },
 		{
 			title: "부자재관리", field: "product_SUBSID_MATL_MGMT", headerHozAlign: "center", hozAlign: "center",
-			formatter: "tickCross", headerFilter: true, headerFilterParams: { values: { "true": "사용", "false": "미사용" } }
+			formatter: "tickCross", headerFilter: true, headerFilterParams: { values: { true: "사용", false: "미사용" } }
 		},
 		{ title: "품목상태", field: "product_ITEM_STTS_NAME", headerHozAlign: "center", headerFilter: "input" },
 		{ title: "기본창고", field: "product_BASIC_WAREHOUSE_NAME", headerHozAlign: "center", headerFilter: "input" },
@@ -76,7 +76,7 @@ var itemManageTable = new Tabulator("#itemManageTable", {
 		{ title: "구매담당자", field: "product_BUYER", headerHozAlign: "center", headerFilter: "input" },
 		{
 			title: "입고검사", field: "product_WRHSN_INSPC", headerHozAlign: "center", hozAlign: "center",
-			formatter: "tickCross", headerFilter: true, headerFilterParams: { values: { "true": "사용", "false": "미사용" } }
+			formatter: "tickCross", headerFilter: true, headerFilterParams: { values: { true: "사용", false: "미사용" } }
 		},
 		{
 			title: "사용유무", field: "product_USE_STATUS", headerHozAlign: "center", hozAlign: "center",

@@ -15,7 +15,7 @@
 	<select id="findByCode" resultType="com.busience.common.dto.DtlDto">
 		select CHILD_TBL_NO, NEW_TBL_CODE, CHILD_TBL_NUM, CHILD_TBL_TYPE, CHILD_TBL_RMARK, CHILD_TBL_USE_STATUS
 		from DTL_TBL
-		where NEW_TBL_CODE= #{NEW_TBL_CODE} and CHILD_TBL_USE_STATUS = 'true'
+		where NEW_TBL_CODE= #{NEW_TBL_CODE} and CHILD_TBL_USE_STATUS = 1
 		order by CHILD_TBL_NUM*1
 	</select>
 	

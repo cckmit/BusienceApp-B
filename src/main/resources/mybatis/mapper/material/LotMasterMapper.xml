@@ -53,7 +53,7 @@
 	
 	<select id="lotMasterMatSelectDao" resultType="com.busience.material.dto.LotMasterDto">
 		SELECT
-			A.LM_LotNo, A.LM_ItemCode, A.LM_Qty,
+			A.LM_LotNo, A.LM_ItemCode, A.LM_Qty, A.LM_Qty LM_TransQty,
 		    A.LM_Create_Date, B.InMat_Client_Code LM_ClientCode,
 		    C.Cus_Name LM_ClientName, A.LM_Warehouse
 		FROM LotMaster_tbl A

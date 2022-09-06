@@ -26,7 +26,7 @@
 						<select id="Dept_Name">
 							<c:forEach var="data" items="${deptList}">
 								<option value="${data.CHILD_TBL_NO}">${data.CHILD_TBL_TYPE}</option>	
-							</c:forEach>				
+							</c:forEach>
 						</select>
 					</div>
 				</div>
