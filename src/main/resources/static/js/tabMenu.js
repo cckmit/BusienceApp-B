@@ -14,7 +14,10 @@ $(document).ready(function() {
 
 		//나머지 감주고 보여줌
 		$('#content > ol > li').hide();
+        $("#content > ol > li").removeClass("current");
+
 		$('#content > ol > li').eq(list).show();
+		$('#content > ol > li').eq(list).addClass("current");
 		
 		return false;
 	});

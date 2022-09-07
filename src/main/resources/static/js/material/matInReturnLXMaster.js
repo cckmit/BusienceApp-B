@@ -81,7 +81,6 @@ var matInReturnInsertTable = new Tabulator("#matInReturnInsertTable", {
 		{ formatter: "rowSelection", titleFormatter: "rowSelection", headerHozAlign: "center", hozAlign: "center", headerSort: false },
 		{ title: "순번", field: "rownum", headerHozAlign: "center", align: "center", formatter: "rownum"},
 		{ title: "발주No", field: "inMat_Order_No", headerHozAlign: "center" },
-		{ title: "Lot번호", field: "inMat_Lot_No", headerHozAlign: "center", hozAlign: "left"},
 		{ title: "품목코드", field: "inMat_Code", headerHozAlign: "center" },
 		{ title: "품목명", field: "inMat_Name", headerHozAlign: "center" },
 		{ title: "입고수량", field: "inMat_Qty", align: "right", headerHozAlign: "center"},
@@ -101,12 +100,10 @@ $("#MIRI_SearchBtn").click(function(){
 // matInReturn 목록 검색
 function MIRI_Search() {
 	
-	var data = {
-		itemCode: $('#PRODUCT_ITEM_CODE1').val(),
-		ClientCode: $("#Client_Code1").val(),
-	}
-	
-	matInReturnInsertTable.setData("matInReturnRest/MIRI_Search", data);
+	matInReturnInsertTable.setData("matInReturnRest/matInReturnLXSelect", {
+		itemCode: $('.current .itemCode').val(),
+		clientCode: $(".current .ClientCode").val()
+	});
 }
 
 $("#MIRI_SaveBtn").click(function(){
@@ -143,7 +140,7 @@ function MIRI_Save() {
 
 	$.ajax({
 		method: "post",
-		url: "matInReturnRest/MIRI_Save",
+		url: "matInReturnRest/matInReturnLXSave",
 		data: JSON.stringify(selectedData),
 		contentType:'application/json',
 		beforeSend: function (xhr) {
@@ -177,7 +174,6 @@ var matInReturnSearchTable = new Tabulator("#matInReturnSearchTable", {
 	columns: [
 		{ title: "순번", field: "rownum", headerHozAlign: "center", align: "center", formatter: "rownum"},
 		{ title: "발주번호", field: "inMat_Order_No", headerHozAlign: "center" },
-		{ title: "Lot번호", field: "inMat_Lot_No", headerHozAlign: "center", hozAlign: "left"},
 		{ title: "품목코드", field: "inMat_Code", headerHozAlign: "center" },
 		{ title: "품목명", field: "inMat_Name", headerHozAlign: "center"},
 		{ title: "규격1", field: "inMat_STND_1", headerHozAlign: "center", hozAlign: "left"},

@@ -41,4 +41,10 @@ public interface InMatDao {
 	
 	//입고 반품 리스트
 	public List<InMatDto> inMatReturnSelectDao(SearchDto searchDto);
+	
+	//입고 반품 리스트
+	public List<InMatDto> inMatReturnLXSelectDao(SearchDto searchDto);
+	
+	public List<InMatDto> inReturnSelectDao(@Param("orderNo") String orderNo, @Param("itemCode") String itemCode);
+	
 }

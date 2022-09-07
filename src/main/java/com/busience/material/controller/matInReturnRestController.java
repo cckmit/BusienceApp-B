@@ -27,9 +27,20 @@ public class matInReturnRestController {
 	 return matInReturnService.matInReturnSelect(searchDto);
 	}
 	
+	@GetMapping("/matInReturnLXSelect")
+	public List<InMatDto> matInReturnLXSelect(SearchDto searchDto) {
+	 return matInReturnService.matInReturnLXSelect(searchDto);
+	}
+	
 	//MIRI_Save
 	@PostMapping("/MIRI_Save")
 	public int MIRI_Save(@RequestBody List<InMatDto> inMatDtoList, Principal principal) {
 		return matInReturnService.matInReturnSave(inMatDtoList, principal.getName());
+	}
+	
+	//MIRI_Save
+	@PostMapping("/matInReturnLXSave")
+	public int matInReturnLXSave(@RequestBody List<InMatDto> inMatDtoList, Principal principal) {
+		return matInReturnService.matInReturnLXSave(inMatDtoList, principal.getName());
 	}
 }

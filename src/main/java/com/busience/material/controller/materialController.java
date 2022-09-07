@@ -112,7 +112,12 @@ public class materialController {
 	@GetMapping("matInReturn")
 	public String orderMaster(Model model) {
 		model.addAttribute("pageName", "입고 반품 관리");
-		return "material/matInReturn/matInReturnMaster";
+		
+		if(dtlService.getAllDtl(31).get(2).isCHILD_TBL_USE_STATUS()) {
+			return "material/matInReturn/matInReturnMaster";
+		}else {
+			return "material/matInReturn/matInReturnLXMaster";
+		}
 	}
 	
 	//matInReturn

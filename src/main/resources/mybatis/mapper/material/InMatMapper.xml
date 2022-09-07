@@ -143,13 +143,51 @@
 		    A.InMat_Client_Code, D.Cus_Name InMat_Client_Name, A.InMat_Date,
 			A.InMat_Rcv_Clsfc, E.Child_TBL_Type InMat_Rcv_Clsfc_Name    
 		FROM InMat_tbl A
-		inner join LotMaster_tbl B on A.InMat_Lot_No = B.LM_LotNo
+		inner join LotMaster_tbl B on A.InMat_Lot_No = B.LM_LotNo and B.LM_Qty > 0
 		inner join Product_Info_tbl C on A.InMat_Code = C.Product_Item_Code
         inner join Customer_tbl D on A.InMat_Client_Code = D.Cus_Code
         inner join DTL_TBL E on A.InMat_Rcv_Clsfc = E.Child_TBL_No
-		where B.LM_Qty > 0
-		and B.LM_WareHouse = (select Child_TBL_No from DTL_TBL where New_TBL_Code = 10 and Child_TBL_Type = '자재창고')
+		where B.LM_WareHouse = (select Child_TBL_No from DTL_TBL where New_TBL_Code = 10 and Child_TBL_Type = '자재창고')
 		and A.InMat_Rcv_Clsfc != (select Child_TBL_No from DTL_TBL where New_TBL_Code = 17 and Child_TBL_Type = '입고반품')
+		and A.InMat_Code like concat('%',#{ItemCode},'%')
+		and A.InMat_Client_Code like concat('%',#{ClientCode},'%')
+	</select>
+	
+	<select id="inMatReturnLXSelectDao" resultType="com.busience.material.dto.InMatDto">
+		SELECT
+			A.InMat_Order_No, A.InMat_Lot_No, A.InMat_No,
+		    A.InMat_Code, C.Product_Item_Name InMat_Name, sum(B.LM_Qty) InMat_Qty, A.InMat_Unit_Price,
+		    C.Product_Info_STND_1 InMat_Item_Stnd_1, C.Product_Info_STND_2 InMat_Item_Stnd_2,
+		    A.InMat_Client_Code, D.Cus_Name InMat_Client_Name, A.InMat_Date,
+			A.InMat_Rcv_Clsfc, E.Child_TBL_Type InMat_Rcv_Clsfc_Name    
+		FROM InMat_tbl A
+		inner join LotMaster_tbl B on A.InMat_Lot_No = B.LM_LotNo and B.LM_Qty > 0
+		inner join Product_Info_tbl C on A.InMat_Code = C.Product_Item_Code
+        inner join Customer_tbl D on A.InMat_Client_Code = D.Cus_Code
+        inner join DTL_TBL E on A.InMat_Rcv_Clsfc = E.Child_TBL_No
+		where B.LM_WareHouse = (select Child_TBL_No from DTL_TBL where New_TBL_Code = 10 and Child_TBL_Type = '자재창고')
+		and A.InMat_Rcv_Clsfc != (select Child_TBL_No from DTL_TBL where New_TBL_Code = 17 and Child_TBL_Type = '입고반품')
+		and A.InMat_Code like concat('%',#{ItemCode},'%')
+		and A.InMat_Client_Code like concat('%',#{ClientCode},'%')
+		group by A.InMat_Order_No, A.InMat_Code
+	</select>
+	
+	<select id="inReturnSelectDao" resultType="com.busience.material.dto.InMatDto">
+		SELECT
+			A.InMat_Order_No, A.InMat_Lot_No, A.InMat_No,
+		    A.InMat_Code, C.Product_Item_Name InMat_Name, B.LM_Qty InMat_Qty,  B.LM_Qty InReturn_Qty, A.InMat_Unit_Price,
+		    C.Product_Info_STND_1 InMat_Item_Stnd_1, C.Product_Info_STND_2 InMat_Item_Stnd_2,
+		    A.InMat_Client_Code, D.Cus_Name InMat_Client_Name, A.InMat_Date,
+			A.InMat_Rcv_Clsfc, E.Child_TBL_Type InMat_Rcv_Clsfc_Name    
+		FROM InMat_tbl A
+		inner join LotMaster_tbl B on A.InMat_Lot_No = B.LM_LotNo and B.LM_Qty > 0
+		inner join Product_Info_tbl C on A.InMat_Code = C.Product_Item_Code
+        inner join Customer_tbl D on A.InMat_Client_Code = D.Cus_Code
+        inner join DTL_TBL E on A.InMat_Rcv_Clsfc = E.Child_TBL_No
+		where B.LM_WareHouse = (select Child_TBL_No from DTL_TBL where New_TBL_Code = 10 and Child_TBL_Type = '자재창고')
+		and A.InMat_Rcv_Clsfc != (select Child_TBL_No from DTL_TBL where New_TBL_Code = 17 and Child_TBL_Type = '입고반품')
+        and A.InMat_Order_No = #{orderNo} and InMat_Code = #{itemCode}
+        order by A.InMat_Date desc
 	</select>
 	
 	<update id="inMatCheckUpdateDao">
