@@ -21,6 +21,7 @@ var matOutputTable = new Tabulator("#matOutputTable", {
 		}
 	},
 	ajaxURL:"matStockRest/matStockSelect",
+	ajaxParams: {check : true},
     ajaxConfig:"get",
     ajaxContentType:"json",
 	columns: [

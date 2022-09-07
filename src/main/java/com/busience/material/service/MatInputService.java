@@ -75,13 +75,12 @@ public class MatInputService {
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
 					List<DtlDto> WarehouseList = dtlDao.findByCode(10);
 
-					for (int i = 0; i < inMatDtoList.size(); i++) {
-						InMatDto inMatDto = inMatDtoList.get(i);
+					for (InMatDto inMatDto : inMatDtoList) {
 						inMatDto.setInMat_Modifier(userCode);
 												
 						String orderNo = inMatDto.getInMat_Order_No();
-						int no = inMatDto.getInMat_No();
 						String lotNo = inMatDto.getInMat_Lot_No();
+						int no = lotTransDao.lotTransNoSelectDao(lotNo);
 						String itemCode = inMatDto.getInMat_Code();
 						int qty = inMatDto.getInMat_Qty();
 						int unitPrice = inMatDto.getInMat_Unit_Price();
@@ -94,10 +93,10 @@ public class MatInputService {
 						
 						ItemDto itemDto = itemDao.selectItemCode(itemCode);
 						
-						inMatDtoList.get(i).setInMat_STND_1(itemDto.getPRODUCT_INFO_STND_1());
-						inMatDtoList.get(i).setInMat_STND_2(itemDto.getPRODUCT_INFO_STND_2());
-						inMatDtoList.get(i).setInMat_Client_Name(inMatDto.getInMat_Client_Name());
-
+						inMatDto.setInMat_STND_1(itemDto.getPRODUCT_INFO_STND_1());
+						inMatDto.setInMat_STND_2(itemDto.getPRODUCT_INFO_STND_2());
+						inMatDto.setInMat_Client_Name(inMatDto.getInMat_Client_Name());
+						
 						// 자재창고에 저장
 						inMatDto.setInMat_Warehouse(warehouse);
 						// 이동 설정하기 외부 -> 자재창고
@@ -115,40 +114,17 @@ public class MatInputService {
 						// 발주마스터 저장
 						orderMasterDao.orderMasterUpdateDao(inMatDto);
 						
-						
 						int divideNum = 1;
-						if(dtlDao.findAllByCode(31).get(3).isCHILD_TBL_USE_STATUS()) {
+						if(dtlDao.findAllByCode(31).get(3).isCHILD_TBL_USE_STATUS() && "24".equals(itemDto.getPRODUCT_MTRL_CLSFC())) {
 							divideNum = qty;
+							qty = qty/divideNum;
 						}
 						
-						if("24".equals(itemDto.getPRODUCT_MTRL_CLSFC())) {
-							for(int j=0;j<divideNum;j++) {
-								//랏번호 생성
-								lotNo = lotNoDao.rawlotNoSelectDao(inMatDate, itemCode);
-								inMatDto.setInMat_Lot_No(lotNo);
-								
-								double realQty = qty/divideNum;
-								
-								// 랏트랜스번호 가져오기
-								no = lotTransDao.lotTransNoSelectDao(lotNo);
-								
-								// 랏마스터 저장
-								lotMasterDao.lotMasterInsertUpdateDao(lotNo, itemCode, realQty, warehouse);
-								
-								// 자재입고 저장
-								inMatDao.inMatInsert2Dao(orderNo, lotNo, itemCode, realQty, unitPrice, realQty*unitPrice, clientCode, inMatDate, classfy, userCode);
-
-								// 랏트랜스 저장
-								lotTransDao.lotTransInsertDao(no, lotNo, itemCode, realQty, before, after, classfy);
-
-								//저장한 리스트 생성
-								LabelPrintDtoList.add(labelPrintDao.rawMaterialLabelSelectDao(lotNo, warehouse));
-							}	
-						}else {
+						for(int j=0;j<divideNum;j++) {
 							//랏번호 생성
 							lotNo = lotNoDao.rawlotNoSelectDao(inMatDate, itemCode);
 							inMatDto.setInMat_Lot_No(lotNo);
-							
+														
 							// 랏트랜스번호 가져오기
 							no = lotTransDao.lotTransNoSelectDao(lotNo);
 							

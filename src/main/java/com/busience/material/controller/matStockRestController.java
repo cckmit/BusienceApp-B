@@ -34,7 +34,6 @@ public class matStockRestController {
 	public List<StockDto> matStockSelect(SearchDto searchDto) {
 		//자재창고 설정
 		searchDto.setWarehouse(dtlService.getDtl(10).get(0).getCHILD_TBL_NO());
-		System.out.println(dtlService.getDtl(10).get(0).getCHILD_TBL_NO());
 		return stockService.stockSelect(searchDto);
 	}
 	

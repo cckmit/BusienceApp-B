@@ -91,16 +91,15 @@ public class MatOutReturnService {
 						searchDto.setWarehouse(stockDto.getS_Warehouse());
 						
 						List<LotMasterDto> lotMasterDtoList = lotMasterDao.lotMasterMatSelectDao(searchDto);
-						System.out.println(stockDto);
 						double totalQty = stockDto.getS_ReturnQty();
 						for(LotMasterDto LMDtoList : lotMasterDtoList) {
+							totalQty -= LMDtoList.getLM_TransQty();
+							
 							if(totalQty <= 0){
-								break;
-							}else if(totalQty >= LMDtoList.getLM_Qty()) {
-								totalQty -= LMDtoList.getLM_Qty();
+								LMDtoList.setLM_TransQty((int) totalQty + LMDtoList.getLM_TransQty());
 								tempList.add(LMDtoList);
-							}else if(totalQty < LMDtoList.getLM_Qty()){
-								LMDtoList.setLM_Qty((int) totalQty);
+								break;
+							}else {
 								tempList.add(LMDtoList);
 							}
 						}

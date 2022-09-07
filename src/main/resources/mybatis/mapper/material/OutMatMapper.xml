@@ -53,9 +53,9 @@
 		<![CDATA[
 			where A.OM_OutDate >= #{startDate} and A.OM_OutDate < #{endDate}
 		]]>
-		and A.OM_ItemCode like concat('%',#{ItemCode},'%') and A.OM_DeptCode like concat('%',#{DeptCode},'%')
+		and A.OM_ItemCode like concat('%',#{itemCode},'%') and A.OM_DeptCode like concat('%',#{deptCode},'%')
 		<if test="ItemSendClsfc != 'all'">
-			and A.OM_Send_Clsfc = #{ItemSendClsfc}
+			and A.OM_Send_Clsfc = #{itemSendClsfc}
 		</if>
 		order by A.OM_OutDate
 	</select>

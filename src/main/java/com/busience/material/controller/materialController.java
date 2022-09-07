@@ -234,6 +234,7 @@ public class materialController {
 	@GetMapping("matStockMaster")
 	public String matStockMaster(Model model) {
 		model.addAttribute("pageName", "현재고 현황");
+		model.addAttribute("lotUse", dtlService.getAllDtl(31).get(2).isCHILD_TBL_USE_STATUS());
 		return "material/matStock/matStockMaster";
 	}
 	

@@ -34,6 +34,18 @@ var matInputListTable = new Tabulator("#matInputListTable", {
 	]
 });
 
+//Lot 사용여부에 따라 Lot컬럼 삭제
+$.ajax({
+	method : "get",
+	url: "/dtlAllSelect",
+	data: {NEW_TBL_CODE: 31},
+	success : function(result) {
+		if(!result[3].child_TBL_USE_STATUS){
+			matInputListTable.deleteColumn("inMat_Lot_No")
+		}
+	}				
+});
+
 $("#MIL_SearchBtn").click(function(){
 	MIL_Search();
 })

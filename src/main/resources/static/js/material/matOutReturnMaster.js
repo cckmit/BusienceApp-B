@@ -157,9 +157,7 @@ var matOutReturnSearchTable = new Tabulator("#matOutReturnSearchTable", {
 		{ title: "품목분류2", field: "om_Item_Stnd_2", headerHozAlign: "center"},*/
 		{ title: "반품수량", field: "om_Qty", align: "right", headerHozAlign: "center" },
 		{ title: "출고구분", field: "om_Send_Clsfc_Name", headerHozAlign: "center" },
-		{ title: "출고일", field: "om_OutDate", headerHozAlign: "center",
-			formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
-		{ title: "반품일", field: "outMat_dInsert_Time", headerHozAlign: "center",
+		{ title: "반품일", field: "om_OutDate", headerHozAlign: "center",
 			formatter: "datetime", formatterParams : {outputFormat : "YYYY-MM-DD HH:mm:ss"}},
 		{ title: "작업자명", field: "outMat_Modifier", headerHozAlign: "center" }
 	]
@@ -168,11 +166,13 @@ $("#outReturnSearchBtn").click(function(){
 	outReturnSearch()
 })
 
-function outReturnSearch(){
-	matOutReturnSearchTable.setData("matOutReturnRest/outReturnSearch",
+function outReturnSearch(){	
+	matOutReturnSearchTable.setData("matOutputRest/MOL_Search",
 		{
 			startDate: $(".startDate").val(),
 			endDate: $(".endDate").val(),
-			outMat_Code: $(".itemCode").val()
+			itemCode: $(".itemCode").val(),
+			DeptCode: '',
+			itemSendClsfc: '210'
 		})
 }

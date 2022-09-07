@@ -184,13 +184,13 @@ public class MatOutputService {
 						
 						double totalQty = list.getOM_Qty();
 						for(LotMasterDto LMDtoList : lotMasterDto) {
+							totalQty -= LMDtoList.getLM_Qty();
+							
 							if(totalQty <= 0){
-								break;
-							}else if(totalQty >= LMDtoList.getLM_Qty()) {
-								totalQty -= LMDtoList.getLM_Qty();
+								LMDtoList.setLM_Qty((int) totalQty + LMDtoList.getLM_Qty());
 								tempList.add(LMDtoList);
-							}else if(totalQty < LMDtoList.getLM_Qty()){
-								LMDtoList.setLM_Qty((int) totalQty);
+								break;
+							}else {
 								tempList.add(LMDtoList);
 							}
 						}

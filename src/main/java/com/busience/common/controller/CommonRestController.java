@@ -38,6 +38,12 @@ public class CommonRestController {
 		return dtlService.getAllDtl(Integer.parseInt(request.getParameter("NEW_TBL_CODE")));
 	}
 	
+	// 공통코드 찾기 (All)
+	@GetMapping("/dtlAllSelect")
+	public List<DtlDto> dtlAllSelect(DtlDto dtlDto) {
+		return dtlService.getAllDtl(dtlDto.getNEW_TBL_CODE());
+	}
+	
 	// 공통코드 찾기 (true)
 	@GetMapping("/dtlTrueSelect")
 	public List<DtlDto> dtlTrueSelect(DtlDto dtlDto) {

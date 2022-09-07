@@ -88,14 +88,15 @@ public class MatInReturnService {
 						double totalQty = baseInMat.getInReturn_Qty();
 						for(InMatDto inMatDto : inMatLotList) {
 							inMatDto.setInMat_Date(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-							if(totalQty <= 0){
+
+							totalQty -= inMatDto.getInReturn_Qty();
+							
+							if(totalQty <= 0) {
+								inMatDto.setInReturn_Qty((int) totalQty + inMatDto.getInReturn_Qty());
+								tempList.add(inMatDto);
 								break;
-							}else if(totalQty >= inMatDto.getInMat_Qty()) {
-								totalQty -= inMatDto.getInMat_Qty();
-								tempList.add(inMatDto);
-							}else if(totalQty < inMatDto.getInMat_Qty()){
-								inMatDto.setInMat_Qty((int) totalQty);
-								tempList.add(inMatDto);
+							}else {
+								tempList.add(inMatDto);								
 							}
 						}
 						inReturnSave(tempList, userCode);
