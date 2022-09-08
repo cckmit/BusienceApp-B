@@ -106,10 +106,10 @@ public class MatOutputService {
 						double totalQty = list.getOM_Qty();
 						for(LotMasterDto LMDtoList : lotMasterDto) {
 							OutMatDto outMatDto = new OutMatDto();
-							outMatDto.setOM_RequestNo(list.getOM_RequestNo());
+							outMatDto.setOM_RequestNo("12-000000-00");
 							outMatDto.setOM_LotNo(LMDtoList.getLM_LotNo());
 							outMatDto.setOM_Qty(LMDtoList.getLM_Qty());
-							outMatDto.setOM_DeptCode(list.getOM_DeptCode());
+							outMatDto.setOM_DeptCode("12");
 							outMatDto.setOM_ItemCode(LMDtoList.getLM_ItemCode());
 							outMatDto.setOM_Send_Clsfc(list.getOM_Send_Clsfc());
 							
