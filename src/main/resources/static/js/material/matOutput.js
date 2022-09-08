@@ -167,12 +167,14 @@ var LotMasterTable = new Tabulator("#LotMasterTable", {
 		}
 		//salesOutMatTable 반영
 		matOutMatTable.addRow({
+			"om_RequestNo": matOutputSubTable.getData("selected")[0].rs_RequestNo,
 			"om_LotNo": row.getData().lm_LotNo,
 			"om_ItemCode": row.getData().lm_ItemCode,
 			"om_Qty": OP_QTY,
 			"om_DeptCode": $("#Dept_Code").val(),
 			"om_DeptName": $("#Dept_Name option:checked").text(),
-			"om_OutDate" : moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+			"om_OutDate" : moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),			
+			"om_Send_Clsfc": matOutputSubTable.getData("selected")[0].rs_Send_Clsfc
 		});
 		MOM_total = MOM_total + OP_QTY;
 		LotMasterTable.redraw();
@@ -220,13 +222,16 @@ var matOutMatTable = new Tabulator("#matOutMatTable", {
 	},
  	columns:[
  	{title:"순번", field:"om_No", headerHozAlign:"center", formatter:"rownum", hozAlign:"center"},
+	{title:"요청No", field:"om_RequestNo", headerHozAlign:"center", width: 122},
 	{title:"LotNo", field:"om_LotNo", headerHozAlign:"center", width: 122},
  	{title:"품목코드", field:"om_ItemCode", headerHozAlign:"center"},
  	{title:"수량", field:"om_Qty", headerHozAlign:"center", hozAlign:"right", 
 		formatter:"money", formatterParams: {precision: false}},
 	{title:"부서코드", field:"om_DeptCode", visible:false},
 	{title:"부서명", field:"om_DeptName", headerHozAlign:"center"},
-	{title:"출고일자", field:"om_OutDate", visible:false}]
+	{title:"출고일자", field:"om_OutDate", visible:false},
+	{title:"출고구분", field:"om_Send_Clsfc", visible:false}
+	]
 });
 
 function MOM_Search(requestNo,itemCode){
@@ -251,13 +256,14 @@ function MOM_Save() {
 		alert("저장할 데이터가 없습니다.")
 		return;
 	}
-	var selectedRow = matOutputSubTable.getData("selected")[0];
+	var selectedRow = matOutMatTable.getData();
 	
 	//OrderSub 저장부분
 	$.ajax({
 		method: "post",
-		url: "matOutputRest/MOM_Save",
-		data: {masterData : JSON.stringify(selectedRow), subData: JSON.stringify(matOutMatTable.getData())},
+		url: "matOutputRest/matOutputSave",
+		data: JSON.stringify(matOutMatTable.getData()),
+		contentType:'application/json',
 		beforeSend: function (xhr) {
            var header = $("meta[name='_csrf_header']").attr("content");
            var token = $("meta[name='_csrf']").attr("content");
@@ -266,7 +272,7 @@ function MOM_Save() {
 		success: function(result) {
 			if (result) {
 				alert("저장되었습니다.");
-				lCode_select(selectedRow.rs_RequestNo)
+				lCode_select(selectedRow[0].om_RequestNo)
 			} else {
 				alert("오류")
 			}
