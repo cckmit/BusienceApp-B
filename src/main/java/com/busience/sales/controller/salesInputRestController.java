@@ -7,15 +7,21 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.busience.common.dto.DtlDto;
 import com.busience.common.dto.SearchDto;
+import com.busience.common.service.DtlService;
 import com.busience.material.dto.LotMasterDto;
+import com.busience.sales.dto.SalesInMatDto;
 import com.busience.sales.dto.SalesPackingDto;
 import com.busience.sales.dto.Sales_InMat_tbl;
 import com.busience.sales.service.SalesInputService;
+import com.busience.standard.dto.ItemDto;
+import com.busience.standard.service.ItemService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController("salesInputRestController")
@@ -24,6 +30,29 @@ public class salesInputRestController {
 
 	@Autowired
 	SalesInputService salesInputService;
+	
+	@Autowired
+	ItemService itemService;
+	
+	@Autowired
+	DtlService dtlservice;
+	
+	@GetMapping("/salesInputSelect")
+	public List<ItemDto> salesInputSelect(){
+		List<DtlDto> dtlDtoList = dtlservice.getDtl(5);
+		
+		String materialClsfc = "";
+		for(int i=0;i<dtlDtoList.size();i++) {
+			if("완제품".equals(dtlDtoList.get(i).getCHILD_TBL_TYPE()))
+			materialClsfc = dtlDtoList.get(i).getCHILD_TBL_NO();
+		}
+		return itemService.selectMaterialClsfc(materialClsfc);
+	}
+	
+	@PostMapping("/salesInputSave")
+	public int salesInputSave(@RequestBody List<SalesInMatDto> salesInMatDtoList, Principal principal) {
+		return salesInputService.salesInputLXSave(salesInMatDtoList, principal.getName());
+	}
 	
 	// LotMaster select
 	@GetMapping("/SIM_Search")
@@ -40,9 +69,6 @@ public class salesInputRestController {
 	// salesInput insert
 	@PostMapping("/SI_Save")
 	public int salesInputInsert(@RequestParam("salesinmatData") String salesinmatData, @RequestParam("packData") String packData, @RequestParam("totalQty") int totalQty, Principal principal) {
-		System.out.println("salesinmatData = " + salesinmatData);
-		System.out.println("selectData = " + packData);
-		System.out.println("totalQty = " + totalQty);
 		ObjectMapper mapper = new ObjectMapper();
 		
 		try {

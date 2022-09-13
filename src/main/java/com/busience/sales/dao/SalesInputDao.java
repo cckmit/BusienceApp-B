@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.busience.common.dto.SearchDto;
+import com.busience.sales.dto.SalesInMatDto;
 import com.busience.sales.dto.Sales_InMat_tbl;
 
 @Mapper
@@ -22,6 +23,9 @@ public interface SalesInputDao {
 	
 	//sales_InMat_tbl insert
 	public int salesInMatInsertDao(Sales_InMat_tbl sales_InMat_tbl);
+	
+	//sales_InMat_tbl insert
+	public int salesInMatInsertDao2(SalesInMatDto salesInMatDto);
 	
 	//salesInMat List select
 	public List<Sales_InMat_tbl> salesInputListDao(@Param("Sales_InMat_Code") String Sales_InMat_Code, @Param("Sales_InMat_Lot_No") String Sales_InMat_Lot_No, @Param("Sales_InMat_Rcv_Clsfc") String Sales_InMat_Rcv_Clsfc,  

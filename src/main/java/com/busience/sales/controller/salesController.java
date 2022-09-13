@@ -65,8 +65,11 @@ public class salesController {
 		
 		// 메뉴명
 		model.addAttribute("pageName", "제품 입고 관리");
-
-		return "sales/salesInput";
+		if(dtlService.getAllDtl(31).get(2).isCHILD_TBL_USE_STATUS()) {
+			return "sales/salesInput";
+		}else {
+			return "sales/salesInputLX";
+		}
 	}
 	
 	//salesInput_another

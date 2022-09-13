@@ -1,13 +1,10 @@
 var salesInputMasterTable = new Tabulator("#salesInputMasterTable", {
-	//페이징
-	pagination:"local",
-	paginationSize:20,
     height:"calc(100% - 175px)",
 	layoutColumnsOnNewData : true,
 	headerFilterPlaceholder: null,
 	ajaxConfig : "get",
 	ajaxContentType:"json",
-	ajaxURL : "salesInputRest/SI_Search",
+	ajaxURL : "salesInputRest/salesInputSelect",
 	rowDblClick: function(e, row) {
 		row.getTable().deselectRow();
 		row.select();
@@ -16,6 +13,10 @@ var salesInputMasterTable = new Tabulator("#salesInputMasterTable", {
 			salesInputSubTable.addRow({
 				"sales_InMat_Code" : row.getData().product_ITEM_CODE,
 				"sales_InMat_Name" : row.getData().product_ITEM_NAME,
+				"sales_InMat_STND_1" : row.getData().product_INFO_STND_1,
+				"sales_InMat_STND_2" : row.getData().product_INFO_STND_2,
+				"sales_InMat_Item_Clsfc_1_Name" : row.getData().product_ITEM_CLSFC_1_NAME,
+				"sales_InMat_Item_Clsfc_2_Name" : row.getData().product_ITEM_CLSFC_2_NAME,
 				"sales_InMat_Qty" : 0,
 				"sales_InMat_Rcv_Clsfc" : "203"
 			});
@@ -26,7 +27,10 @@ var salesInputMasterTable = new Tabulator("#salesInputMasterTable", {
  		{title:"순번", field:"rownum", formatter:"rownum", headerHozAlign:"center", hozAlign:"center"},
 		{title:"제품코드", field:"product_ITEM_CODE", headerHozAlign:"center", headerFilter: true},
  		{title:"제품명", field:"product_ITEM_NAME", headerHozAlign:"center", headerFilter: true},
- 		{title:"규격", field:"product_INFO_STND_1", headerHozAlign:"center", hozAlign:"right", headerFilter: true}
+ 		{title:"규격1", field:"product_INFO_STND_1", headerHozAlign:"center", hozAlign:"right", headerFilter: true},
+ 		{title:"규격2", field:"product_INFO_STND_2", headerHozAlign:"center", hozAlign:"right", headerFilter: true},
+		{title:"분류1", field:"product_ITEM_CLSFC_1_NAME", headerHozAlign:"center", hozAlign:"right", headerFilter: true},
+		{title:"분류2", field:"product_ITEM_CLSFC_2_NAME", headerHozAlign:"center", hozAlign:"right", headerFilter: true}
 		]
 });
 
@@ -52,7 +56,7 @@ $("#SI_SearchBtn").click(function(){
 })
 
 function SI_Search(){
-	salesInputMasterTable.setData("salesInputRest/SI_Search");
+	salesInputMasterTable.setData("salesInputRest/salesInputSelect");
 }
 
 // 입고구분 select를 구성하는 리스트
@@ -137,7 +141,11 @@ var salesInputSubTable = new Tabulator("#salesInputSubTable", {
 		{ title: "순번", field: "rownum", formatter:"rownum", headerHozAlign: "center", hozAlign: "center" },
 		{ title: "코드", field: "sales_InMat_Code", headerHozAlign: "center" },
 		{ title: "품목명", field: "sales_InMat_Name", headerHozAlign: "center", width: 120},
-		{ title: "입고수량", field: "sales_InMat_Qty", headerHozAlign: "center", hozAlign: "right", editor: SIS_InputEditor,},
+		{ title: "규격1", field: "sales_InMat_STND_1", headerHozAlign: "center", hozAlign: "right"},
+ 		{ title: "규격2", field: "sales_InMat_STND_2", headerHozAlign: "center", hozAlign: "right"},
+		{ title: "분류1", field: "sales_InMat_Item_Clsfc_1_Name", headerHozAlign: "center", hozAlign: "right"},
+		{ title: "분류2", field: "sales_InMat_Item_Clsfc_2_Name", headerHozAlign: "center", hozAlign: "right"},
+		{ title: "입고수량", field: "sales_InMat_Qty", headerHozAlign: "center", hozAlign: "right", editor: SIS_InputEditor},
 		{ title: "구분", field: "sales_InMat_Rcv_Clsfc", headerHozAlign: "center", editor: "select",
 			formatter: function(cell, formatterParams) {
 				var value = cell.getValue();
@@ -165,24 +173,14 @@ function SI_Save(){
 	var rowData = salesInputSubTable.getData();
 
 	for (var i = 0; i < rowData.length; i++) {
-
-		if (rowData[i].sales_InMat_Rcv_Clsfc == "") {
-			alert("입고 유형을 선택하세요.");
-			return false;
-		}
-
-		if (rowData[i].sales_InMat_Qty != 0 && rowData[i].sales_InMat_Rcv_Clsfc != "") {
+		if (rowData[i].sales_InMat_Qty != 0) {
 			realData.push(rowData[i]);
 		}
 	}
 	
-	/*if(selected_device != null){
-		salesInputPrinter(realData);
-	}*/
-	
     $.ajax({
         method : "post",
-        url : "salesInputRest/SI_Save",
+        url : "salesInputRest/salesInputSave",
 		data : JSON.stringify(realData),
 		contentType:'application/json',
 		beforeSend: function (xhr) {
@@ -192,10 +190,9 @@ function SI_Save(){
 		},
         success : function(result) {
             if (result == 0) {
-				alert("중복된 값이 있습니다..");
+				alert("중복된 값이 있습니다.");
 			} else if (result == 1) {
 				alert("저장되었습니다.");
-				SI_Search();
 				salesInputSubTable.clearData();
 			}
         }

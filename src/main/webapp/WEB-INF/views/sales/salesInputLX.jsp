@@ -40,5 +40,5 @@
 	<!-- END MAIN -->
 </div>
 <!-- Javascript -->
-<script src="/js/sales/salesInput.js?v=<%=System.currentTimeMillis() %>"></script>
+<script src="/js/sales/salesInputLX.js?v=<%=System.currentTimeMillis() %>"></script>
 <%-- <script src="/js/labelPrint.js?v=<%=System.currentTimeMillis() %>"></script> --%>

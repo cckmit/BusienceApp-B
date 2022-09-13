@@ -34,6 +34,17 @@
 		) A
 	</select>
 	
+	<select id="ProdLotNoSelectDao" resultType="String">
+		select
+			concat('P',DATE_FORMAT(#{inputDate},"%y%m%d"),#{itemCode}, lpad(A.LotNo,'4',0))
+		from (
+			SELECT
+				if(ifnull(max(right(LM_LotNo,4)),0) = '9999', 1, ifnull(max(right(LM_LotNo,4)),0)+1) LotNo
+			FROM LotMaster_tbl
+			where left(LM_LotNo,13) = concat('P',DATE_FORMAT(#{inputDate},"%y%m%d"),#{itemCode})
+		) A
+	</select>
+	
 	<select id="smallLotNoSelectDao" resultType="String">
 		SELECT
 			concat('S', DATE_FORMAT(now(),"%y%m%d"), #{itemCode}, lpad(matarial_No,'4',0))

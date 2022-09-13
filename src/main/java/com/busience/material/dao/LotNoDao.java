@@ -14,6 +14,9 @@ public interface LotNoDao {
 	
 	//생산LotNo 생성
 	public String crateLotNoSelect2Dao(@Param("inputDate") String inputDate, @Param("itemCode") String itemCode);
+	
+	//생산LotNo 생성
+	public String ProdLotNoSelectDao(@Param("inputDate") String inputDate, @Param("itemCode") String itemCode);
 		
 	//소포장LotNo 생성
 	public String smallLotNoSelectDao(String itemCode);

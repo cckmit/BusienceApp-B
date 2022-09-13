@@ -1,5 +1,7 @@
 package com.busience.sales.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import com.busience.material.dao.StockDao;
 import com.busience.material.dto.LotMasterDto;
 import com.busience.sales.dao.SalesInputDao;
 import com.busience.sales.dao.SalesPackingDao;
+import com.busience.sales.dto.SalesInMatDto;
 import com.busience.sales.dto.SalesPackingDto;
 import com.busience.sales.dto.Sales_InMat_tbl;
 
@@ -153,6 +156,59 @@ public class SalesInputService {
 				
 			});
 			
+			return 1;
+			
+		} catch (Exception e){
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	public int salesInputLXSave(List<SalesInMatDto> salesInMatDtoList, String userCode) {
+		try {
+			
+			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+		
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					List<DtlDto> wareHouseList = dtlDao.findByCode(10);
+					
+					
+					for(SalesInMatDto salesInMatDto : salesInMatDtoList) {						
+						System.out.println(salesInMatDto);
+						
+						String itemCode = salesInMatDto.getSales_InMat_Code();
+						double qty = salesInMatDto.getSales_InMat_Qty();
+						String warehouse = wareHouseList.get(2).getCHILD_TBL_NO();
+						String before = "";
+						String after = warehouse;
+						String classfy = salesInMatDto.getSales_InMat_Rcv_Clsfc();
+						String inputDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+						
+						// 대포장 Lot 생성 - Large - 이니셜 'L'+날짜+제품+순번
+						String lotNo = lotNoDao.ProdLotNoSelectDao(inputDate, itemCode);
+						
+						int no = lotTransDao.lotTransNoSelectDao2(lotNo);
+						
+						salesInMatDto.setSales_InMat_No(no);
+						salesInMatDto.setSales_InMat_Lot_No(lotNo);
+						salesInMatDto.setSales_InMat_Modifier(userCode);
+						
+						// 랏마스터 저장
+						lotMasterDao.lotMasterInsertUpdateDao(lotNo, itemCode, qty, warehouse);
+
+						// 재고 저장
+						stockDao.stockInsertUpdateDao(itemCode, qty, warehouse);
+						
+						// 랏트랜스 저장
+						lotTransDao.lotTransInsertDao(no, lotNo, itemCode, qty, before, after, classfy);
+						
+						// 영업입고
+						salesInputDao.salesInMatInsertDao2(salesInMatDto);
+					}
+				}
+				
+			});			
 			return 1;
 			
 		} catch (Exception e){
