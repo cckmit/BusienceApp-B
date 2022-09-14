@@ -631,10 +631,7 @@ function item_Code_Check(rowCount) {
 }
 
 var salesOrderStockTable = new Tabulator("#salesOrderStockTable", {
-	selectable: 1,
 	height: "15%",
-	//복사하여 엑셀 붙여넣기 가능
-	clipboard: true,
 	columns: [
 		{ title: "제품코드", field: "s_ItemCode", headerHozAlign: "center" },
 		{ title: "제품명", field: "s_ItemName", headerHozAlign: "center" },
@@ -643,24 +640,11 @@ var salesOrderStockTable = new Tabulator("#salesOrderStockTable", {
 		{ title: "분류1", field: "s_Item_Classfy_1_Name", headerHozAlign: "center" },
 		{ title: "분류2", field: "s_Item_Classfy_2_Name", headerHozAlign: "center" },
 		{ title: "재질", field: "s_Item_Material", headerHozAlign: "center" },
-		{ title: "수량", field: "s_Qty", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false }, }
+		{ title: "수량", field: "s_Qty", headerHozAlign: "center", hozAlign: "right", formatter: "money", formatterParams: { precision: false }}
 	]
 });
 
 // salesOrderStock 목록검색
-function SOS_Search(sales_Order_lCode) {
-
-	datas = {
-		ItemCode: sales_Order_lCode
-	}
-	//수주넘버
-	$.ajax({
-		method: "GET",
-		url: "salesStockRest/salesStockSelect",
-		data: datas,
-		success: function(datas) {
-			salesOrderStockTable.setData(datas);
-			console.log(salesOrderStockTable);
-		}
-	});
+function SOS_Search(itemCode) {
+	salesOrderStockTable.setData("salesStockRest/salesStockSelect", {itemCode: itemCode});
 }

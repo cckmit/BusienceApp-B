@@ -69,7 +69,7 @@
 		<if test="Check == true">
 			and A.S_Qty > 0
 		</if>
-		group by A.S_itemCode with rollup
+		group by A.S_itemCode
 	</select>
 	
 	<select id="salesStockLotSelectDao" resultType="com.busience.material.dto.StockDto">

@@ -21,11 +21,8 @@ function FS_ItemListViewSearchBtn() {
 		Check : document.getElementById("Sales_Stock_Qty_Checked").checked
 	}
 	
-	console.log(datas);
-	
 	salesStockItemListTable.setData("salesStockRest/salesStockSelect",datas)
 	
-	console.log(salesStockItemListTable);
 }
 
 var salesStockLotListTable = new Tabulator("#salesStockLotListTable", { 
@@ -53,5 +50,4 @@ function FS_LotListViewSearchBtn() {
 	}
 
 	salesStockLotListTable.setData("salesStockRest/salesStockLotSelect", datas);
-	console.log(salesStockLotListTable);
 }
