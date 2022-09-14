@@ -106,7 +106,6 @@ var cellPos = null;
 
 var salesOrderTable = new Tabulator("#salesOrderTable", {
 	layoutColumnsOnNewData: true,
-	paginationAddRow: "table",
 	headerFilterPlaceholder: null,
 	height: "calc(100% - 175px)",
 	rowFormatter: function(row) {
@@ -388,6 +387,7 @@ var salesOrderSubTable = new Tabulator("#salesOrderSubTable", {
 		{ title: "코드", field: "sales_Order_lCode", headerHozAlign: "center", editor: SOL_InputEditor, editable: editCheck },
 		{ title: "제품명", field: "sales_Order_lName", headerHozAlign: "center" },
 		{ title: "규격1", field: "sales_Order_STND_1", headerHozAlign: "center" },
+		{ title: "규격2", field: "sales_Order_STND_2", headerHozAlign: "center" },
 		{ title: "수량", field: "sales_Order_lQty", headerHozAlign: "center", hozAlign: "right", editor: SOL_InputEditor,
 			formatter: "money", formatterParams: { precision: false },
 			cellEdited: function(cell) {
@@ -631,6 +631,7 @@ function item_Code_Check(rowCount) {
 }
 
 var salesOrderStockTable = new Tabulator("#salesOrderStockTable", {
+	ajaxLoader:false,
 	height: "15%",
 	columns: [
 		{ title: "제품코드", field: "s_ItemCode", headerHozAlign: "center" },

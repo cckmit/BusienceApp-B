@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.busience.sales.dao.SalesOrderDao">
+	<select id="salesOrderMasterSelectDao" resultType="com.busience.sales.dto.SalesOrderMasterDto">
+		SELECT 
+			somt.Sales_Order_mCus_No,
+			somt.Sales_Order_mCode,
+			sct.Cus_Name Sales_Order_mName,
+			somt.Sales_Order_mDate,
+			somt.Sales_Order_mTotal,
+			somt.Sales_Order_mDlvry_Date,
+			somt.Sales_Order_mRemarks,
+			somt.Sales_Order_mModifier,
+			somt.Sales_Order_mModify_Date,
+			somt.Sales_Order_mCheck
+		FROM Sales_OrderMaster_tbl somt
+		INNER JOIN Customer_tbl sct ON somt.Sales_Order_mCode = sct.Cus_Code
+	<![CDATA[
+		WHERE somt.Sales_Order_mDate >= #{startDate} AND somt.Sales_Order_mDate < #{endDate}
+	]]>
+		AND Sales_Order_mCode like concat('%',#{ClientCode},'%')
+	<if test="condition != null">
+		AND NOT Sales_Order_mCheck = #{condition}
+	</if>
+	<if test="SalesCusNo != null">
+		AND Sales_Order_mCus_No like concat('%',#{SalesCusNo},'%') 
+	</if>
+		ORDER BY Sales_Order_mDate DESC
+	</select>
+	
+	<select id="salesOrderNoCreateDao" resultType="String">
+		select
+			concat(
+				#{Sales_Order_mCode},'-',
+				date_format(#{Sales_Order_mDate},'%y%m%d'),'-',
+				lpad(
+					1+(
+						select IFNULL(
+							(
+								select max(SUBSTRING_INDEX(Sales_Order_mCus_No,'-',-1))
+								FROM Sales_OrderMaster_tbl
+								where SUBSTRING_INDEX(Sales_Order_mCus_No, '-', 2) 
+								= concat(#{Sales_Order_mCode},'-',date_format(#{Sales_Order_mDate},'%y%m%d'))
+							)
+						,0)
+					),
+			 	2,'0')
+			)
+	</select>
+	
+	<select id="salesOrderListSelectDao" resultType="com.busience.sales.dto.SalesOrderListDto">
+		SELECT
+			A.Sales_Order_lNo, A.Sales_Order_lCus_No, B.Product_Item_Name Sales_Order_lName, A.Sales_Order_lCode,
+			B.Product_Info_STND_1 Sales_Order_STND_1, B.Product_Info_STND_2 Sales_Order_STND_2,
+			C.Child_TBL_Type Sales_Order_CLSFC_1, C.Child_TBL_Type Sales_Order_CLSFC_2,
+			A.Sales_Order_lQty, A.Sales_Order_lSum, A.Sales_Order_lUnit_Price,
+			A.Sales_Order_lPrice, A.Sales_Order_lNot_Stocked, E.S_Qty Sales_SM_Last_Qty,
+			A.Sales_Order_Send_Clsfc, A.Sales_Order_lInfo_Remark
+		FROM Sales_OrderList_tbl A
+		INNER JOIN Product_Info_tbl B ON A.Sales_Order_lCode = B.Product_Item_Code
+		INNER JOIN DTL_TBL C ON B.Product_Item_CLSFC_1 = C.Child_TBL_No
+		INNER JOIN DTL_TBL D ON B.Product_Item_CLSFC_2 = D.Child_TBL_No
+		left outer join Stock_tbl E on A.Sales_Order_lCode = E.S_ItemCode and E.S_Warehouse = "52"
+		WHERE A.Sales_Order_lCus_No = #{SalesOrderNo}
+		ORDER BY A.Sales_Order_lNo
+	</select>
+	
+	<insert id="salesOrderMasterInsertUpdateDao">
+		insert into Sales_OrderMaster_tbl
+			(	Sales_Order_mCus_No, Sales_Order_mCode, Sales_Order_mDate,
+			 	Sales_Order_mTotal, Sales_Order_mDlvry_Date, Sales_Order_mRemarks,
+			 	Sales_Order_mModifier, Sales_Order_mModify_Date
+			) values (
+			 	#{Sales_Order_mCus_No}, #{Sales_Order_mCode}, #{Sales_Order_mDate},
+				#{Sales_Order_mTotal}, #{Sales_Order_mDlvry_Date}, #{Sales_Order_mRemarks},
+				#{Sales_Order_mModifier}, now()
+			) on duplicate key update
+				Sales_Order_mTotal = #{Sales_Order_mTotal},
+			    Sales_Order_mDlvry_Date = #{Sales_Order_mDlvry_Date},
+			    Sales_Order_mRemarks = #{Sales_Order_mRemarks},
+			    Sales_Order_mModifier = #{Sales_Order_mModifier},
+			    Sales_Order_mModify_Date = now()
+	</insert>
+	
+	<insert id="salesOrderListInsertUpdateDao">
+		insert into Sales_OrderList_tbl
+		( Sales_Order_lNo, Sales_Order_lCus_No, Sales_Order_lCode,
+		Sales_Order_lQty, Sales_Order_lSum, Sales_Order_lUnit_Price,
+		Sales_Order_lPrice, Sales_Order_lNot_Stocked, Sales_Order_Send_Clsfc,
+		Sales_Order_lInfo_Remark
+		) values (
+		(select ifnull(max(SubList.Sales_Order_lNo)+1,1) from Sales_OrderList_tbl AS
+		SubList
+		where Sales_Order_lCus_No = #{Sales_Order_lCus_No}),
+		#{Sales_Order_lCus_No}, #{Sales_Order_lCode},
+		#{Sales_Order_lQty}, #{Sales_Order_lSum},
+		#{Sales_Order_lUnit_Price}, #{Sales_Order_lPrice},
+		#{Sales_Order_lQty}, #{Sales_Order_Send_Clsfc}, #{Sales_Order_lInfo_Remark}
+		) on duplicate key update
+		Sales_Order_lQty = #{Sales_Order_lQty},
+		Sales_Order_lUnit_Price = #{Sales_Order_lUnit_Price},
+		Sales_Order_lPrice = #{Sales_Order_lPrice},
+		Sales_Order_lNot_Stocked = #{Sales_Order_lQty},
+		Sales_Order_Send_Clsfc = #{Sales_Order_Send_Clsfc},
+		Sales_Order_lInfo_Remark = #{Sales_Order_lInfo_Remark}
+	</insert>
+	
+	<delete id="salesOrderMasterDeleteDao">
+		delete from Sales_OrderMaster_tbl
+		where Sales_Order_mCus_No = #{orderNo}
+		and not exists (
+				SELECT * FROM Sales_OrderList_tbl
+				WHERE sales_Order_lCus_No = #{orderNo}
+			)
+	</delete>
+	
+	<delete id="salesOrderListDeleteDao">
+		delete from Sales_OrderList_tbl
+		where Sales_Order_lCus_No = #{orderNo}
+		and Sales_Order_lCode in ( 
+		<foreach collection="list" item="item" index="index" separator=",">
+			#{item.sales_Order_lCode}
+		</foreach>
+		)
+	</delete>
+</mapper>
+	
+	

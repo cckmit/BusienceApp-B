@@ -1,0 +1,91 @@
+package com.busience.sales.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
+
+import com.busience.common.dto.SearchDto;
+import com.busience.sales.dao.SalesOrderDao;
+import com.busience.sales.dto.SalesOrderListDto;
+import com.busience.sales.dto.SalesOrderMasterDto;
+
+@Service
+public class SalesOrderService {
+
+	@Autowired
+	SalesOrderDao salesOrderDao;
+		
+	@Autowired
+	TransactionTemplate transactionTemplate;
+	
+	// SalesOrderMaster select
+	public List<SalesOrderMasterDto> salesOrderMasterSelectDao(SearchDto searchDto) {
+		return salesOrderDao.salesOrderMasterSelectDao(searchDto); 
+	}
+	
+	// SalesOrderList select
+	public List<SalesOrderListDto> salesOrderListSelectDao(SearchDto searchDto) {
+		return salesOrderDao.salesOrderListSelectDao(searchDto);
+	}
+	
+	// SalesOrderMasterInsertupdate
+	public int salesOrderInsertUpdate(SalesOrderMasterDto salesOrderMasterDto, List<SalesOrderListDto> salesOrderListDtoList, String Modifier) {
+		try {
+			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					// 수주번호가 없을 경우 수주번호 생성
+					if(salesOrderMasterDto.getSales_Order_mCus_No().length() == 0) {
+						// salesOrderNo insert
+						salesOrderMasterDto.setSales_Order_mCus_No(salesOrderDao.salesOrderNoCreateDao(salesOrderMasterDto));
+					}
+					
+					salesOrderMasterDto.setSales_Order_mModifier(Modifier);
+					// master insert
+					salesOrderDao.salesOrderMasterInsertUpdateDao(salesOrderMasterDto);
+					// list insert
+					for(int i=0; i < salesOrderListDtoList.size(); i++) {
+						SalesOrderListDto salesOrderListDto = salesOrderListDtoList.get(i);
+						salesOrderListDto.setSales_Order_lCus_No(salesOrderMasterDto.getSales_Order_mCus_No());
+						
+						salesOrderDao.salesOrderListInsertUpdateDao(salesOrderListDto);
+					}
+				}
+			});
+			
+			return 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	// salesOrderList delete
+	public int salesOrderListDeleteDao(List<SalesOrderListDto> salesOrderDtoList) {
+		
+		try {
+			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					
+					String orderNo = salesOrderDtoList.get(0).getSales_Order_lCus_No();
+					// salesOrderList delete
+					salesOrderDao.salesOrderListDeleteDao(orderNo, salesOrderDtoList);
+					
+					// salesOrderMaster delete
+					salesOrderDao.salesOrderMasterDeleteDao(orderNo);
+				}
+				
+			});
+			
+			return 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}		 
+	}
+}

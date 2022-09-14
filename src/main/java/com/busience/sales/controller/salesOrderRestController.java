@@ -4,8 +4,6 @@ import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.busience.common.dto.SearchDto;
 import com.busience.sales.dto.SalesOrderListDto;
 import com.busience.sales.dto.SalesOrderMasterDto;
-import com.busience.sales.service.SalesOrderListService;
+import com.busience.sales.service.SalesOrderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController("salesOrderRestController")
@@ -26,10 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class salesOrderRestController {
 
 	@Autowired
-	DataSource dataSource;
-
-	@Autowired
-	SalesOrderListService salesOrderService;
+	SalesOrderService salesOrderService;
 
 	// SalesOrderMaster select
 	@GetMapping("/SO_Search")
@@ -45,8 +40,7 @@ public class salesOrderRestController {
 
 	// save
 	@PostMapping("/SOL_Save")
-	public int SO_Save(@RequestParam("masterData") String masterData, @RequestParam("subData") String subData,
-			Principal principal) {
+	public int SO_Save(@RequestParam("masterData") String masterData, @RequestParam("subData") String subData, Principal principal) {
 		
 		ObjectMapper mapper = new ObjectMapper();
 
@@ -56,8 +50,7 @@ public class salesOrderRestController {
 			List<SalesOrderListDto> salesOrderListDtoList = Arrays
 					.asList(mapper.readValue(subData, SalesOrderListDto[].class));
 
-			return salesOrderService.salesOrderInsertUpdate(salesOrderMasterDto, salesOrderListDtoList,
-					principal.getName());
+			return salesOrderService.salesOrderInsertUpdate(salesOrderMasterDto, salesOrderListDtoList, principal.getName());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
@@ -69,5 +62,4 @@ public class salesOrderRestController {
 	public int SOL_Delete(@RequestBody List<SalesOrderListDto> salesOrderDtoList) {
 		return salesOrderService.salesOrderListDeleteDao(salesOrderDtoList);				
 	}
-	
 }
