@@ -20,12 +20,12 @@
 	<![CDATA[
 		WHERE somt.Sales_Order_mDate >= #{startDate} AND somt.Sales_Order_mDate < #{endDate}
 	]]>
-		AND Sales_Order_mCode like concat('%',#{ClientCode},'%')
+		AND Sales_Order_mCode like concat('%',#{clientCode},'%')
 	<if test="condition != null">
-		AND NOT Sales_Order_mCheck = #{condition}
+		AND Sales_Order_mCheck like concat('%',#{condition},'%') 
 	</if>
 	<if test="SalesCusNo != null">
-		AND Sales_Order_mCus_No like concat('%',#{SalesCusNo},'%') 
+		AND Sales_Order_mCus_No like concat('%',#{salesCusNo},'%') 
 	</if>
 		ORDER BY Sales_Order_mDate DESC
 	</select>

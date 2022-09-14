@@ -194,7 +194,7 @@ function SO_Search() {
 		startDate: $("#startDate").val(),
 		endDate: $("#endDate").val(),
 		clientCode: $(".clientCode").val(),
-		condition: "Y"
+		condition: "N"
 	})
 	.then(function(){
 		// list와 Stock의 데이터를 없애준다
