@@ -23,7 +23,7 @@ public interface SalesOrderMasterDao {
 	public int salesOrderMasterInsertUpdateDao(SalesOrderMasterDto salesOrderMasterDto);
 	
 	// SalesOrderMaster delete
-	public int salesOrderMasterDeleteDao(String Sales_Order_lCus_No);
+	public int salesOrderMasterDeleteDao(String orderNo);
 	
 	// salesOrderMaster update
 	public int salesOrderMasterUpdateDao(String Sales_Order_mCus_No);

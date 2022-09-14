@@ -76,15 +76,12 @@ public class SalesOrderListService {
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
 					
-					String Sales_Order_lCus_No = salesOrderDtoList.get(0).getSales_Order_lCus_No();
+					String orderNo = salesOrderDtoList.get(0).getSales_Order_lCus_No();
 					// salesOrderList delete
-					salesOrderListDao.salesOrderListDeleteDao(salesOrderDtoList, Sales_Order_lCus_No);
+					salesOrderListDao.salesOrderListDeleteDao(orderNo, salesOrderDtoList);
 					
 					// salesOrderMaster delete
-					salesOrderMasterDao.salesOrderMasterDeleteDao(Sales_Order_lCus_No);
-					
-					// salesOrderList 순번 업데이트
-					salesOrderListDao.salesOrderListNoUpdateDao(Sales_Order_lCus_No);
+					salesOrderMasterDao.salesOrderMasterDeleteDao(orderNo);
 				}
 				
 			});

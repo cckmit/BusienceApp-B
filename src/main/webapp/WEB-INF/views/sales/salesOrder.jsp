@@ -20,9 +20,10 @@
 						</div>
 						<div>
 							<span>거래처코드</span>
-							<input id="Sales_InMat_Client_Code" class="Client_Code1" type="text" disabled>
+							<input class="clientCode Client_Code1" type="text" disabled>
 							<span>거래처명</span>
-							<input id="Sales_InMat_Client_Name" class="Client_Name1 clearInput" type="text" autofocus onkeypress="javascript:if(event.keyCode==13) {customerPopup($(this).val(),'input','1','out')}">
+							<input class="clientName Client_Name1 clearInput" type="text" autofocus
+								onkeypress="javascript:if(event.keyCode==13) {customerPopup($(this).val(),'input','1','out')}">
 						</div>
 					</div>
 				</div>
@@ -55,5 +56,3 @@
 	</div>
 <!-- Javascript -->
 <script src="/js/sales/salesOrder.js?v=<%=System.currentTimeMillis() %>"></script>
-</body>
-</html>

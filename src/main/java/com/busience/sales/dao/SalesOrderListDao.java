@@ -19,10 +19,7 @@ public interface SalesOrderListDao {
 	public int salesOrderListInsertUpdateDao(SalesOrderListDto salesOrderListDto);
 
 	// SalesOrderList delete
-	public int salesOrderListDeleteDao(@Param("list") List<SalesOrderListDto> salesOrderListDto,
-									   @Param("Sales_Order_lCus_No") String Sales_Order_lCus_No);
-	// salesOrderNoUpdate
-	public int salesOrderListNoUpdateDao(String Sales_Order_lCus_No);
+	public int salesOrderListDeleteDao(@Param("orderNo") String orderNo, @Param("list") List<SalesOrderListDto> salesOrderListDto);
 	
 	// salesOrderList update
 	public int salesOrderListUpdateDao(SalesOutputOrderListDto salesOutputOrderListDto);

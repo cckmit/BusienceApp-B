@@ -78,10 +78,10 @@
 </insert>
 <delete id="salesOrderMasterDeleteDao">
 	delete from Sales_OrderMaster_tbl
-	where Sales_Order_mCus_No = #{Sales_Order_lCus_No}
+	where Sales_Order_mCus_No = #{orderNo}
 	and not exists (
 			SELECT * FROM Sales_OrderList_tbl
-			WHERE sales_Order_lCus_No = #{Sales_Order_lCus_No}
+			WHERE sales_Order_lCus_No = #{orderNo}
 		)
 </delete>
 <update id="salesOrderMasterUpdateDao">
