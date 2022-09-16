@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 public class LogApiDataDto {
 	
-	private String CrfcKey;
+	private String CrtfcKey;
 	
 	private String LogDt;
 	
@@ -19,5 +19,5 @@ public class LogApiDataDto {
 	
 	private String ConectIp;
 	
-	private Integer DataUsgqty;
+	private double DataUsgqty;
 }

@@ -8,10 +8,10 @@
 
 	<insert id="LogDataInsertDao">
 		insert into Log_Api_Data_tbl (
-			crfcKey, logDt, useSe,
+			crtfcKey, logDt, useSe,
 			sysUser, conectIp, dataUsgqty
 		)value(
-			#{crfcKey}, #{logDt}, #{useSe},
+			#{crtfcKey}, #{logDt}, #{useSe},
 			#{sysUser}, #{conectIp}, #{dataUsgqty}
 		)
 	</insert>
