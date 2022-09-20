@@ -92,7 +92,11 @@ public class salesController {
 		
 		model.addAttribute("pageName", "제품 출고 관리");
 		
-		return "sales/salesOutput";
+		if(dtlService.getAllDtl(31).get(2).isCHILD_TBL_USE_STATUS()) {
+			return "sales/salesOutput";
+		}else {
+			return "sales/salesOutputLX";
+		}
 	}
 	
 	// salesInReturn

@@ -125,6 +125,24 @@
 		</foreach>
 		)
 	</delete>
+	
+	<update id="salesOrderMasterUpdateDao">
+		UPDATE Sales_OrderMaster_tbl 
+		SET Sales_Order_mCheck = 
+		(
+	      SELECT (CASE WHEN SUM(Sales_Order_lNot_Stocked) = 0 THEN 'Y' WHEN SUM(Sales_Order_lSum) = 0 THEN 'N' ELSE 'I' END)
+		  FROM Sales_OrderList_tbl
+	      WHERE Sales_Order_lCus_No = #{Sales_Order_mCus_No}
+	    )
+		WHERE Sales_Order_mCus_No = #{Sales_Order_mCus_No};
+	</update>
+	<update id="salesOrderListUpdateDao">
+		UPDATE Sales_OrderList_tbl 
+		SET Sales_Order_lSum = Sales_Order_lSum + #{qty}, 
+			Sales_Order_lNot_Stocked = Sales_Order_lNot_Stocked - #{qty}, 
+			Sales_Order_Send_Clsfc = #{itemSendClsfc}
+		WHERE Sales_Order_lCus_No = #{orderNo} AND Sales_Order_lCode = #{itemCode}
+	</update>
 </mapper>
 	
 	

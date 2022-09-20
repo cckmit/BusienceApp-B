@@ -1,5 +1,6 @@
 package com.busience.sales.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,11 @@ import com.busience.material.dao.LotMasterDao;
 import com.busience.material.dao.LotTransDao;
 import com.busience.material.dao.StockDao;
 import com.busience.material.dto.LotMasterDto;
+import com.busience.sales.dao.SalesOrderDao;
 import com.busience.sales.dao.SalesOutputDao;
 import com.busience.sales.dao.SalesOutputOrderListDao;
 import com.busience.sales.dao.SalesOutputOrderMasterDao;
+import com.busience.sales.dto.SalesOutMatDto;
 import com.busience.sales.dto.SalesOutputOrderMasterDto;
 import com.busience.sales.dto.Sales_OutMat_tbl;
 
@@ -40,11 +43,14 @@ public class SalesOutputService {
 	SalesOutputDao salesOutputDao;
 
 	@Autowired
+	SalesOrderDao salesOrderDao;
+	
+	@Autowired
 	SalesOutputOrderListDao salesOutputOrderListDao;
 
 	@Autowired
 	SalesOutputOrderMasterDao salesOutputOrderMasterDao;
-
+	
 	@Autowired
 	TransactionTemplate transactionTemplate;
 
@@ -145,6 +151,84 @@ public class SalesOutputService {
 
 			return 1;
 
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	public int salesOutputInsert(List<SalesOutMatDto> salesOutMatDtoList, String userCode) {
+		try {			
+			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					List<DtlDto> warehouseList = dtlDao.findByCode(10);
+					
+					for(SalesOutMatDto list : salesOutMatDtoList) {
+						List<SalesOutMatDto> tempList = new ArrayList<SalesOutMatDto>();
+
+						SearchDto searchDto = new SearchDto();
+						searchDto.setItemCode(list.getSales_OutMat_Code());
+						searchDto.setWarehouse(warehouseList.get(2).getCHILD_TBL_NO());
+						List<LotMasterDto> lotMasterDtoList = lotMasterDao.lotMasterSelectDao(searchDto);
+
+						String orderNo = salesOutMatDtoList.get(0).getSales_OutMat_Cus_No();					
+						double totalQty = list.getSales_OutMat_Qty();
+						String classfy = salesOutMatDtoList.get(0).getSales_OutMat_Send_Clsfc();
+						
+						for(LotMasterDto lotMasterDto : lotMasterDtoList) {
+							SalesOutMatDto salesOutMatDto = new SalesOutMatDto();
+							
+							salesOutMatDto.setSales_OutMat_Cus_No(orderNo);
+							salesOutMatDto.setSales_OutMat_Lot_No(lotMasterDto.getLM_LotNo());
+							salesOutMatDto.setSales_OutMat_Code(lotMasterDto.getLM_ItemCode());
+							salesOutMatDto.setSales_OutMat_Client_Code(orderNo.substring(0,6));
+							salesOutMatDto.setSales_OutMat_Send_Clsfc(classfy);
+
+							totalQty -= lotMasterDto.getLM_Qty();
+							
+							if(totalQty <= 0) {
+								salesOutMatDto.setSales_OutMat_Qty((int) totalQty + lotMasterDto.getLM_Qty());
+								tempList.add(salesOutMatDto);
+								break;
+							}else {
+								tempList.add(salesOutMatDto);
+							}
+						}
+						
+						for(SalesOutMatDto salesOutMatDto : tempList) {
+							String lotNo = salesOutMatDto.getSales_OutMat_Lot_No();
+							int no = lotTransDao.lotTransNoSelectDao2(lotNo);
+							String itemCode = salesOutMatDto.getSales_OutMat_Code();
+							double qty = salesOutMatDto.getSales_OutMat_Qty();
+							String warehouse = warehouseList.get(2).getCHILD_TBL_NO();
+							String before = warehouse;
+							String after = "";
+
+							salesOutMatDto.setSales_OutMat_Date(list.getSales_OutMat_Date());
+							salesOutMatDto.setSales_OutMat_Modifier(userCode);
+							
+							lotMasterDao.lotMasterUpdateDao(-1 * qty, lotNo, before);
+							
+							lotTransDao.lotTransInsertDao2(no, lotNo, itemCode, qty, before, after, classfy);
+							
+							stockDao.stockUpdateDao(qty, itemCode, before);
+
+							salesOutputDao.salesOutMatInsertDao2(salesOutMatDto);
+														
+							salesOrderDao.salesOrderListUpdateDao(orderNo, itemCode, qty, classfy);
+
+							salesOrderDao.salesOrderMasterUpdateDao(orderNo);
+							
+							//salesOutputOrderListDao.salesOutputOrderListUpdateDao(salesOutMatDto);
+							
+							//salesOutputOrderMasterDao.salesOutputOrderMasterUpdateDao(salesOutMatDto);
+						}
+					}
+				}
+			});
+
+			return 1;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;

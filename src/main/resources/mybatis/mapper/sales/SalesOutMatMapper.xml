@@ -342,5 +342,23 @@
 		
 		)	
 </insert>
-
+<insert id="salesOutMatInsertDao2">
+	insert into Sales_OutMat_tbl( 
+		Sales_OutMat_No, Sales_OutMat_Cus_No, Sales_OutMat_Lot_No, 
+		Sales_OutMat_Code, Sales_OutMat_Qty, Sales_OutMat_Unit_Price, 
+		Sales_OutMat_Price, Sales_OutMat_Client_Code, 
+		Sales_OutMat_Send_Clsfc, Sales_OutMat_Date,
+		Sales_OutMat_dInsert_Time, Sales_OutMat_Modifier
+		
+		) values ( 
+		
+		(SELECT ifnull(max(AA.Sales_OutMat_No)+1,1) FROM Sales_OutMat_tbl AA WHERE AA.Sales_OutMat_Cus_No = #{Sales_OutMat_Cus_No}), 
+		#{Sales_OutMat_Cus_No}, #{Sales_OutMat_Lot_No}, #{Sales_OutMat_Code}, 
+		#{Sales_OutMat_Qty}, #{Sales_OutMat_Unit_Price}, 
+		#{Sales_OutMat_Qty} * #{Sales_OutMat_Unit_Price}, #{Sales_OutMat_Client_Code}, 
+		#{Sales_OutMat_Send_Clsfc}, #{Sales_OutMat_Date}, 
+		now(), #{Sales_OutMat_Modifier}
+		
+		)	
+</insert>
 </mapper>

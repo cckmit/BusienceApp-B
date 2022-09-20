@@ -88,8 +88,6 @@
 	<input type="hidden" id="mSubUnitPrice" name="mSub" value="">
 	<input type="hidden" id="mSubPrice" name="mSub" value="">
 	<input type="hidden" id="mSubRemark" name="mSub" value="">
-	
-	
 </form>
 <!-- END WRAPPER -->
 

@@ -24,10 +24,12 @@ public class SalesOrderListDto {
 	// add column
 	private String Sales_Order_lName; // productName
 	private String Sales_Order_STND_1; // productSTND1
+	private String Sales_Order_STND_2; // productSTND1
 	private int Sales_SM_Last_Qty;
 	private String Sales_Order_mCode; // 거래처코드
 	private String Sales_Order_mName; // 거래처명
 	private String Sales_Order_mDate; // ordermaster에서의 수주일자
 	private String Sales_Order_mDlvry_Date; // ordermaster에서의 납기일자
 	private String Sales_Order_CLSFC_1; // 품목분류 name
+	private String Sales_Order_CLSFC_2; // 품목분류 name
 }
