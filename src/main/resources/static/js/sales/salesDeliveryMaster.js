@@ -33,6 +33,18 @@ var salesDeliveryCustomerViewTable = new Tabulator("#salesDeliveryCustomerViewTa
 	],
 });
 
+//Lot 사용여부에 따라 Lot컬럼 삭제
+$.ajax({
+	method : "get",
+	url: "/dtlAllSelect",
+	data: {NEW_TBL_CODE: 31},
+	success : function(result) {
+		if(!result[3].child_TBL_USE_STATUS){
+			salesDeliveryCustomerViewTable.deleteColumn("sales_OutMat_Lot_No")
+		}
+	}				
+});
+
 $("#SOCL_SearchBtn").click(function() {
 	SOCL_Search()
 })

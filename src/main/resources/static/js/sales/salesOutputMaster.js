@@ -27,6 +27,18 @@ var salesOutputListTable = new Tabulator("#salesOutputListTable", {
  	],
 });
 
+//Lot 사용여부에 따라 Lot컬럼 삭제
+$.ajax({
+	method : "get",
+	url: "/dtlAllSelect",
+	data: {NEW_TBL_CODE: 31},
+	success : function(result) {
+		if(!result[3].child_TBL_USE_STATUS){
+			salesOutputListTable.deleteColumn("sales_OutMat_Lot_No")
+		}
+	}				
+});
+
 function SOL_Search() {
 	datas = {
 		startDate : $("#salesOutputList_startDate").val(),

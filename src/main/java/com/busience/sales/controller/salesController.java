@@ -176,7 +176,7 @@ public class salesController {
 	public String salesStockMaster(Model model) {
 		
 		model.addAttribute("pageName", "제품 재고 조회");
-		
+		model.addAttribute("lotUse", dtlService.getAllDtl(31).get(2).isCHILD_TBL_USE_STATUS());
 		return "sales/salesStock/salesStockMaster";
 	}
 	
