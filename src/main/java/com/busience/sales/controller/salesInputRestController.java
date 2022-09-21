@@ -85,7 +85,7 @@ public class salesInputRestController {
 			return 0;
 		}
 	}
-	
+		
 	// salesInput List select
 	@GetMapping("/SIL_Search")
 	public List<Sales_InMat_tbl> salesInputListDao(Sales_InMat_tbl sales_InMat_tbl, SearchDto searchDto) {

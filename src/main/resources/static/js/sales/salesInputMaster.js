@@ -37,8 +37,6 @@ function SIL_SearchBtn() {
 
 	salesInputListTable.setData("salesInputRest/SIL_Search", datas);
 	
-	console.log(salesInputListTable);
-
 }
 
 var salesInputItemViewTable = new Tabulator("#salesInputItemViewTable", { 

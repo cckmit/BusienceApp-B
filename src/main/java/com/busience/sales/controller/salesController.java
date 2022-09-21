@@ -105,7 +105,11 @@ public class salesController {
 		
 		model.addAttribute("pageName", "입고 반품 관리");
 		
-		return "sales/salesInReturn/salesInReturnMaster";
+		if(dtlService.getAllDtl(31).get(2).isCHILD_TBL_USE_STATUS()) {
+			return "sales/salesInReturn/salesInReturnMaster";
+		}else {
+			return "sales/salesInReturn/salesInReturnLXMaster";
+		}
 	}
 	
 	// salesOutReturn

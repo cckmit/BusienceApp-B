@@ -144,5 +144,3 @@
 		WHERE Sales_Order_lCus_No = #{orderNo} AND Sales_Order_lCode = #{itemCode}
 	</update>
 </mapper>
-	
-	

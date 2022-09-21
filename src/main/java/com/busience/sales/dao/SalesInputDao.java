@@ -40,4 +40,7 @@ public interface SalesInputDao {
 	//salesInMat update
 	public int salesInMatUpdateDao(Sales_InMat_tbl sales_InMat_tbl);
 	
+	//영업 반품 조회
+	public List<SalesInMatDto> salesInputListLXDao(SearchDto searchDto);
+	
 }

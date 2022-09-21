@@ -152,6 +152,22 @@
 		AND iit.ItemPack_Inspect_LotNo is null
 	</select>
 	
+	<select id="lotMasterItemSumSelectDao" resultType="com.busience.material.dto.LotMasterDto">
+		select
+			A.LM_ItemCode, B.Product_Item_Name LM_ItemName,
+			B.Product_Info_STND_1 LM_STND_1, B.Product_Info_STND_2 LM_STND_2,
+		    C.Child_TBL_Type LM_Item_Material_Name,
+		    D.Child_TBL_Type LM_Item_CLSFC_1_Name, E.Child_TBL_Type LM_Item_CLSFC_2_Name,
+		    sum(A.LM_Qty) LM_Qty
+		from LotMaster_tbl A
+		inner join Product_Info_tbl B on A.LM_ItemCode = B.Product_Item_Code
+		inner join DTL_TBL C on B.Product_Material = C.Child_TBL_No
+		inner join DTL_TBL D on B.Product_Item_CLSFC_1 = D.Child_TBL_No
+		inner join DTL_TBL E on B.Product_Item_CLSFC_2 = E.Child_TBL_No
+		where A.LM_Qty > 0 and A.LM_Warehouse = #{warehouse}
+		group by A.LM_ItemCode
+	</select>
+	
 	<insert id="lotMasterInsertDao">
 		insert into LotMaster_tbl(
 			LM_LotNo, LM_ItemCode,
