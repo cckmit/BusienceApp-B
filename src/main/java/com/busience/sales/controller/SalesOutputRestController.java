@@ -33,6 +33,12 @@ public class SalesOutputRestController {
 		return salesOutputService.salesOutputLotMasterDao(searchDto);
 	}
 
+	// 영업 LotMaster 조회
+	@GetMapping("/salesOutputSelect")
+	public List<SalesOutMatDto> salesOutputSelect(SearchDto searchDto) {
+		return salesOutputService.salesOutputSelect(searchDto);
+	}
+	
 	// salesOutMat 조회
 	@GetMapping("/SSM_Search")
 	public List<Sales_OutMat_tbl> salesOutMatSelectDao(Sales_OutMat_tbl sales_OutMat_tbl) {

@@ -30,6 +30,45 @@
 		and somt.Sales_OutMat_Date >= curdate()
 		order by somt.Sales_OutMat_No
 </select>
+
+<select id="salesOutputSelectDao" resultType="com.busience.sales.dto.SalesOutMatDto">
+	select 
+		somt.Sales_OutMat_Lot_No, somt.Sales_OutMat_Date,
+		somt.Sales_OutMat_Send_Clsfc, dt.Child_TBL_Type Sales_OutMat_Send_Clsfc_Name,
+		somt.Sales_OutMat_Client_Code, ct.Cus_Name Sales_OutMat_Client_Name,
+		somt.Sales_OutMat_Code, pit.Product_Item_Name Sales_OutMat_Name,
+		pit.Product_Info_STND_1 Sales_OutMat_STND_1, pit.Product_Info_STND_2 Sales_OutMat_STND_2,
+		dt3.Child_TBL_Type Sales_OutMat_Item_Clsfc_Name_1,
+		dt4.Child_TBL_Type Sales_OutMat_Item_Clsfc_Name_2,
+		dt5.Child_TBL_Type Sales_OutMat_Material,
+		dt2.Child_TBL_Type Sales_OutMat_UNIT,
+		somt.Sales_OutMat_Qty, somt.Sales_OutMat_Cus_No,
+		somt.Sales_OutMat_Modifier, somt.Sales_OutMat_dInsert_Time
+	from Sales_OutMat_tbl somt 
+	inner join DTL_TBL dt on somt.Sales_OutMat_Send_Clsfc = dt.CHILD_TBL_NO
+	inner join Customer_tbl ct on somt.Sales_OutMat_Client_Code  = ct.Cus_Code
+	inner join Product_Info_tbl pit on somt.Sales_OutMat_Code = pit.Product_Item_Code
+	inner join DTL_TBL dt2 on pit.Product_Unit = dt2.CHILD_TBL_NO
+	inner join DTL_TBL dt3 ON pit.Product_Item_CLSFC_1 = dt3.Child_TBL_No
+	inner join DTL_TBL dt4 ON pit.Product_Item_CLSFC_2 = dt4.Child_TBL_No
+	inner join DTL_TBL dt5 ON pit.Product_Material = dt5.Child_TBL_No
+	<![CDATA[
+	where somt.Sales_OutMat_Date >= #{startDate} and somt.Sales_OutMat_Date < #{endDate} 
+	]]>
+	<if test="itemCode != null">
+		and somt.Sales_OutMat_Code like concat('%',#{itemCode},'%')
+	</if>
+	<if test="clientCode != null">
+		and somt.Sales_OutMat_Client_Code like concat('%',#{clientCode},'%')
+	</if>
+	<if test='itemSendClsfc != null'>
+		and somt.Sales_OutMat_Send_Clsfc = #{itemSendClsfc}
+	</if>
+	<if test="lotNo != null">
+		and somt.Sales_OutMat_Lot_No like concat('%',#{lotNo},'%')
+	</if>
+</select>
+
 <select id="salesOutMatSelectListDao" resultType="com.busience.sales.dto.Sales_OutMat_tbl">
 	select 
 		somt.Sales_OutMat_Lot_No, somt.Sales_OutMat_Date,

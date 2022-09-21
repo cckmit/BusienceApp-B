@@ -60,6 +60,11 @@ public class SalesOutputService {
 	}
 
 	// salesOutMat 조회
+	public List<SalesOutMatDto> salesOutputSelect(SearchDto searchDto) {
+		return salesOutputDao.salesOutputSelectDao(searchDto);
+	}
+	
+	// salesOutMat 조회
 	public List<Sales_OutMat_tbl> salesOutMatSelectDao(Sales_OutMat_tbl sales_OutMat_tbl) {
 		return salesOutputDao.salesOutMatSelectDao(sales_OutMat_tbl);
 	}

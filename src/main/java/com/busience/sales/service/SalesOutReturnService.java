@@ -12,6 +12,7 @@ import com.busience.material.dao.LotMasterDao;
 import com.busience.material.dao.LotTransDao;
 import com.busience.material.dao.StockDao;
 import com.busience.sales.dao.SalesOutputDao;
+import com.busience.sales.dto.SalesOutMatDto;
 import com.busience.sales.dto.Sales_OutMat_tbl;
 
 @Service
@@ -31,6 +32,52 @@ public class SalesOutReturnService {
 	
 	@Autowired
 	TransactionTemplate transactionTemplate;
+	
+	// 판매 반품 저장
+	public int salesOutReturnSave(List<SalesOutMatDto> salesOutMatDtoList, String userCode) {
+		try {
+			
+			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					
+					for(SalesOutMatDto salesOutMatDto : salesOutMatDtoList) {
+						String lotNo = salesOutMatDto.getSales_OutMat_Lot_No();
+						int no = lotTransDao.lotTransNoSelectDao2(lotNo);
+						double qty = (-1) * salesOutMatDto.getSales_OutReturn_Qty();
+						String itemCode = salesOutMatDto.getSales_OutMat_Code();
+						String before = "";
+						String after = "52";
+						String classfy = "213";
+												
+						salesOutMatDto.setSales_OutMat_No(no);
+						salesOutMatDto.setSales_OutMat_Qty((int) qty);
+						salesOutMatDto.setSales_OutMat_Send_Clsfc(classfy);
+						salesOutMatDto.setSales_OutMat_Modifier(userCode);
+						
+						stockDao.stockUpdateDao(qty, itemCode, before);
+						
+						lotMasterDao.lotMasterUpdateDao(qty, lotNo, before);							
+						
+						salesOutputDao.salesOutMatInsertDao2(salesOutMatDto);
+
+						lotTransDao.lotTransInsertDao2(no, lotNo, itemCode, (-1)*qty, before, after, classfy);
+						
+						stockDao.stockUpdateDao((-1)*qty, itemCode, after);
+
+						lotMasterDao.lotMasterUpdateDao((-1)*qty, lotNo, after);
+					}
+				}
+				
+			});
+			
+			return 1;
+		} catch(Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}	
 	
 	// 판매 반품 저장
 	public int salesOutReturnInsert(List<Sales_OutMat_tbl> salesOutReturnDtoList, String Modifier) {
@@ -96,6 +143,5 @@ public class SalesOutReturnService {
 			e.printStackTrace();
 			return 0;
 		}
-	}
-	
+	}	
 }

@@ -15,6 +15,8 @@ public interface SalesOutputDao {
 	// salesOutMatNo Create
 	public String salesOutMatNoCreateDao(Sales_OutMat_tbl sales_OutMat_tbl);
 	
+	public List<SalesOutMatDto> salesOutputSelectDao(SearchDto searchDto);
+	
 	// salesOutMat select 
 	public List<Sales_OutMat_tbl> salesOutMatSelectDao(Sales_OutMat_tbl sales_OutMat_tbl);
 	

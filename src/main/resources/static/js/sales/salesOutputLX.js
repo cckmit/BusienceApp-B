@@ -16,7 +16,7 @@ var salesOutputTable = new Tabulator("#salesOutputTable", {
 		salesOutputTable.deselectRow();
 		row.select();
     },
-	rowSelected:function(row){		
+	rowSelected:function(row){
     	SOS_Search(row.getData().sales_Order_mCus_No);
     },
  	columns:[ 
