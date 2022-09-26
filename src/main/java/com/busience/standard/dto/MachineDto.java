@@ -49,7 +49,7 @@ public class MachineDto {
 	
 	private String EQUIPMENT_INFO_RMARK;
 	
-	private String EQUIPMENT_USE_STATUS;
+	private boolean EQUIPMENT_USE_STATUS;
 	
 	private String EQUIPMENT_MODIFY_D;
 	

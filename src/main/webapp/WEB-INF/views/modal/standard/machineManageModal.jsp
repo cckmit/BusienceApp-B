@@ -1,19 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- input Modal -->
 <div class="modal fade" id="machineManageModal" tabindex="-1" role="dialog"
-	aria-labelledby="myLargeModalLabel" aria-hidden="true"
-	style="line-height: 17px;">
+	aria-labelledby="myLargeModalLabel" aria-hidden="true" style="line-height: 17px;">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<img class="insert" src="/images/modal/inputHeader.jpg" alt=""
-					style="width: 40%; height: auto;"
-					style="position: relative;"> <img class="modify"
-					src="/images/modal/updateDeleteHeader.jpg" alt=""
-					style="width: 40%; height: auto;"
-					style="position: relative;">
+					style="width: 40%; height: auto; position: relative;">
+				<img class="modify"	src="/images/modal/updateDeleteHeader.jpg" alt=""
+					style="width: 40%; height: auto; position: relative;">
 			</div>
 			<div class="modal-body">
 				<form>

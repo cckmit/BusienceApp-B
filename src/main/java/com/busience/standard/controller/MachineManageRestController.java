@@ -2,8 +2,6 @@ package com.busience.standard.controller;
 
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,9 +19,6 @@ import com.busience.standard.service.MachineService;
 public class MachineManageRestController {
 
 	@Autowired
-	DataSource dataSource;
-	
-	@Autowired
 	MachineService machineService;
 
 	@GetMapping("/machineManageSelect")
@@ -33,7 +28,6 @@ public class MachineManageRestController {
 	
 	@GetMapping("/selectMachineInfo")
 	public MachineDto selectMachineInfo(SearchDto searchDto) {
-		System.out.println(searchDto);
 		return machineService.selectMachineInfo(searchDto);
 	}
 	
@@ -60,6 +54,5 @@ public class MachineManageRestController {
 	@DeleteMapping("/machineManageDelete")
 	public int machineManageDelete(MachineDto machineDto) {
 		return machineService.deleteMachine(machineDto.getEQUIPMENT_INFO_CODE());
-
 	}
 }

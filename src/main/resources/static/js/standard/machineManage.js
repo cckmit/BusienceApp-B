@@ -5,12 +5,12 @@ function nextFocus(next) {
 }
 
 //입력 및 업데이트 할 리스트
-var pickValue = ["equipment_BUSINESS_PLACE_NAME", "equipment_INFO_CODE", "equipment_INFO_NAME",
+var pickValue = ["equipment_BUSINESS_PLACE", "equipment_INFO_CODE", "equipment_INFO_NAME",
 					"equipment_INFO_ABR", "equipment_HEIGHT", "equipment_WIDTH",
 					"equipment_DEPTH", "equipment_SERIAL_NUM", "equipment_RECEIVED_D",
 					"equipment_TYPE", "equipment_MODEL_YEAR", "equipment_MANUFACTURER",
-					"equipment_STATUS_NAME", "equipment_INFO_RMARK", "equipment_USE_STATUS", "equipment_MODIFY_D",
-					"equipment_MODIFIER"];
+					"equipment_STATUS_NAME", "equipment_INFO_RMARK", "equipment_USE_STATUS",
+					"equipment_MODIFY_D", "equipment_MODIFIER"];
 
 
 var machineManageTable = new Tabulator("#machineManageTable", {
@@ -50,7 +50,7 @@ var machineManageTable = new Tabulator("#machineManageTable", {
 		{ title: "설비상태", field: "equipment_STATUS_NAME", headerHozAlign: "center", headerFilter: "input"},
 		{ title: "비고", field: "equipment_INFO_RMARK", headerHozAlign: "center", headerFilter: "input"},
 		{ title: "사용유무", field: "equipment_USE_STATUS", headerHozAlign: "center",	hozAlign: "center",
-			formatter: "tickCross", headerFilter: true, headerFilterParams: { values: { "true": "사용", "false": "미사용" }}},
+			formatter: "tickCross", headerFilter: true, headerFilterParams: { values: { true: "사용", false: "미사용" }}},
 		{ title: "수정일자", field: "equipment_MODIFY_D", headerHozAlign: "center", formatter: "datetime",
 			formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" }, headerFilter: "input"},
 		{ title: "수정자", field: "equipment_MODIFIER", headerHozAlign: "center", headerFilter: "input"}
