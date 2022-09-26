@@ -92,7 +92,11 @@ public class salesController {
 		
 		model.addAttribute("pageName", "제품 출고 관리");
 		
-		return "sales/salesOutput";
+		if(dtlService.getAllDtl(31).get(2).isCHILD_TBL_USE_STATUS()) {
+			return "sales/salesOutput";
+		}else {
+			return "sales/salesOutputLX";
+		}
 	}
 	
 	// salesInReturn
@@ -101,7 +105,11 @@ public class salesController {
 		
 		model.addAttribute("pageName", "입고 반품 관리");
 		
-		return "sales/salesInReturn/salesInReturnMaster";
+		if(dtlService.getAllDtl(31).get(2).isCHILD_TBL_USE_STATUS()) {
+			return "sales/salesInReturn/salesInReturnMaster";
+		}else {
+			return "sales/salesInReturn/salesInReturnLXMaster";
+		}
 	}
 	
 	// salesOutReturn
@@ -168,7 +176,7 @@ public class salesController {
 	public String salesStockMaster(Model model) {
 		
 		model.addAttribute("pageName", "제품 재고 조회");
-		
+		model.addAttribute("lotUse", dtlService.getAllDtl(31).get(2).isCHILD_TBL_USE_STATUS());
 		return "sales/salesStock/salesStockMaster";
 	}
 	

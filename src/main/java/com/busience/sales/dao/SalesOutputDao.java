@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.busience.common.dto.SearchDto;
+import com.busience.sales.dto.SalesOutMatDto;
 import com.busience.sales.dto.Sales_OutMat_tbl;
 
 @Mapper
@@ -14,11 +15,16 @@ public interface SalesOutputDao {
 	// salesOutMatNo Create
 	public String salesOutMatNoCreateDao(Sales_OutMat_tbl sales_OutMat_tbl);
 	
+	public List<SalesOutMatDto> salesOutputSelectDao(SearchDto searchDto);
+	
 	// salesOutMat select 
 	public List<Sales_OutMat_tbl> salesOutMatSelectDao(Sales_OutMat_tbl sales_OutMat_tbl);
 	
 	// salesOutMat insert
 	public int salesOutMatInsertDao(Sales_OutMat_tbl sales_OutMat_tbl);
+	
+	// salesOutMat insert
+	public int salesOutMatInsertDao2(SalesOutMatDto salesOutMatDto);
 	
 	// selecOutMat List select
 	public List<Sales_OutMat_tbl> salesOutMatSelectListDao(@Param("Sales_OutMat_Code") String Sales_OutMat_Code, @Param("Sales_OutMat_Client_Code") String Sales_OutMat_Client_Code, @Param("Sales_OutMat_Send_Clsfc") String Sales_OutMat_Send_Clsfc, @Param("Sales_OutMat_Lot_No") String Sales_OutMat_Lot_No, 

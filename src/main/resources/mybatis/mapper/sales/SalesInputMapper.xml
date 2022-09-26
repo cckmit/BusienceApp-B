@@ -84,12 +84,12 @@
 	
 	<select id="salesInMatReturnListDao" resultType="com.busience.sales.dto.Sales_InMat_tbl">
 		SELECT
-			A.Sales_InMat_No, A.Sales_InMat_Lot_No, 
+			A.Sales_InMat_No, A.Sales_InMat_Lot_No,
 		  	A.Sales_InMat_Code, C.Product_Item_Name Sales_InMat_Name, B.LM_Qty Sales_InMat_Qty,
 		   	C.Product_Info_STND_1 Sales_InMat_STND_1, C.Product_Info_STND_2 Sales_InMat_STND_2,
 		   	A.Sales_InMat_Date, dt.Child_TBL_Type as Sales_InMat_Item_Clsfc_1,
  			dt2.Child_TBL_Type Sales_InMat_Item_Clsfc_2, dt3.Child_TBL_Type Sales_InMat_Item_Material,
-			A.Sales_InMat_Rcv_Clsfc, E.Child_TBL_Type Sales_InMat_Rcv_Clsfc_Name    
+			A.Sales_InMat_Rcv_Clsfc, E.Child_TBL_Type Sales_InMat_Rcv_Clsfc_Name
 		FROM Sales_InMat_tbl A
 		inner join LotMaster_tbl B ON A.Sales_InMat_Lot_No = B.LM_LotNo
 		inner join Product_Info_tbl C ON A.Sales_InMat_Code = C.Product_Item_Code
@@ -131,5 +131,36 @@
 		where Sales_InMat_No = #{Sales_InMat_No}
 		and Sales_InMat_Lot_No = #{Sales_InMat_Lot_No}
 	</update>
-
+	
+	<select id="salesInputListLXDao" resultType="com.busience.sales.dto.SalesInMatDto">
+		select
+			A.Sales_InMat_Lot_No, A.Sales_InMat_Date,
+			D.CHILD_TBL_TYPE Sales_InMat_Rcv_Clsfc,
+			A.Sales_InMat_Code, B.Product_Item_Name Sales_InMat_Name,
+			B.Product_Info_STND_1 Sales_InMat_STND_1, B.Product_Info_STND_2 Sales_InMat_STND_2,
+			E.Child_TBL_Type as Sales_InMat_Item_Clsfc_1_Name,
+			dt2.Child_TBL_Type Sales_InMat_Item_Clsfc_2_Name, dt3.Child_TBL_Type Sales_InMat_Item_Material_Name,
+			C.CHILD_TBL_TYPE Sales_InMat_UNIT,
+			A.Sales_InMat_Qty, A.Sales_InMat_Modifier, A.Sales_InMat_dInsert_Time
+		from Sales_InMat_tbl A
+		inner join Product_Info_tbl B on A.Sales_InMat_Code = B.Product_Item_Code
+		left outer join DTL_TBL C on B.PRODUCT_UNIT = C.CHILD_TBL_NO
+		left outer join DTL_TBL D on A.Sales_InMat_Rcv_Clsfc = D.CHILD_TBL_NO
+		left outer join DTL_TBL E on B.Product_Item_CLSFC_1 = E.CHILD_TBL_NO
+ 		left outer join DTL_TBL dt2 ON B.Product_Item_CLSFC_2 = dt2.Child_TBL_No
+		left outer join DTL_TBL dt3 ON B.Product_Material = dt3.Child_TBL_No
+		<![CDATA[
+		where A.Sales_InMat_Date >= #{startDate} and A.Sales_InMat_Date < #{endDate} 
+		]]>
+		<if test="itemCode != null">
+			AND Sales_InMat_Code LIKE CONCAT('%',#{itemCode},'%')
+		</if>
+		<if test="lotNo != null">
+			AND Sales_InMat_Lot_No LIKE CONCAT('%',#{lotNo},'%')
+		</if>
+		<if test="itemSendClsfc != null">
+			AND Sales_InMat_Rcv_Clsfc = #{itemSendClsfc}
+		</if>
+		order by A.Sales_InMat_Date
+	</select>
 </mapper>

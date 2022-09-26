@@ -30,21 +30,14 @@ var salesInReturnInsertTable = new Tabulator("#salesInReturnInsertTable", {
 
 // fgoodsInReturn 목록 검색
 function SIRI_Search() {
-	datas = {
-		ItemCode: $('#PRODUCT_ITEM_CODE1').val()
-	}
-
-	salesInReturnInsertTable.setData("salesInReturnRest/SIRI_Search", datas);
-
-	console.log(salesInReturnInsertTable);
-
+	salesInReturnInsertTable.setData("salesInReturnRest/SIRI_Search", {ItemCode: $('#PRODUCT_ITEM_CODE1').val()});
 }
 
 //SIRI_Save
 function SIRI_Save() {
 
-	selectedData = salesInReturnInsertTable.getData("selected");
-	dataList = [];
+	var selectedData = salesInReturnInsertTable.getData("selected");
+	var dataList = [];
 
 	// 선택한 행이 있을경우에 저장이 가능하다.
 	//만약 선택된행에서 반품수량이 0 이면 리스트에서 제외
@@ -114,7 +107,5 @@ function SIRS_Search() {
 	}
 
 	salesInReturnSearchTable.setData("salesPackingRest/SIL_Search", datas);
-
-	console.log(salesInReturnSearchTable);
 
 }

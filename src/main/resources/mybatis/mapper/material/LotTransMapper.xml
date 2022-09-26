@@ -64,7 +64,7 @@
 			case when A.LT_Classify='207' then sum(A.LT_Qty) ELSE 0 END AS LT_InReturn_Qty,
 			case when A.LT_Classify IN (204, 205, 206) then sum(A.LT_Qty) ELSE 0 END AS LT_InOther_Qty,
 			case when A.LT_Classify='211' then sum(A.LT_Qty) ELSE 0 END AS LT_OutQty,
-			case when A.LT_Classify='213' thensum(A.LT_Qty) ELSE 0 END AS LT_OutReturn_Qty,
+			case when A.LT_Classify='213' then sum(A.LT_Qty) ELSE 0 END AS LT_OutReturn_Qty,
 			case when A.LT_Classify IN (212, 214) then sum(A.LT_Qty) ELSE 0 END AS LT_OutOther_Qty,
 		    A.LT_Classify, C.Child_TBL_Type LT_Classify_Name
 		from LotTrans_tbl A

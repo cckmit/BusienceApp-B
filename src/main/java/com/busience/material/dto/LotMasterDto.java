@@ -20,6 +20,7 @@ public class LotMasterDto {
 	private String LM_ClientCode;
 	private String LM_ClientName;
 	private double LM_TransQty;
+	private double LM_ReturnQty;
 	
 	// 영업 
 	private String LM_ItemName;
@@ -30,7 +31,9 @@ public class LotMasterDto {
 	private String LM_Item_Unit;
 	private String LM_Item_Unit_Name;
 	private String LM_Item_CLSFC_1;
+	private String LM_Item_CLSFC_1_Name;
 	private String LM_Item_CLSFC_2;
+	private String LM_Item_CLSFC_2_Name;
 	
 	// 품질
 	private String LM_Inspect_Code;

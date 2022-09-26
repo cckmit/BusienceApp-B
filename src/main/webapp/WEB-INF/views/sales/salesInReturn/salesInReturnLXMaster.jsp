@@ -34,5 +34,5 @@
 	<!-- inline wrapper -->
 </div>
 <!-- Javascript -->
-<script src="/js/sales/salesInReturnMaster.js?v=<%=System.currentTimeMillis()%>"></script>
+<script src="/js/sales/salesInReturnLXMaster.js?v=<%=System.currentTimeMillis()%>"></script>
 <script src="/js/tabMenu.js?v=<%=System.currentTimeMillis()%>"></script>

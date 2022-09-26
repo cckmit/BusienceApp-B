@@ -26,6 +26,18 @@ var salesInputListTable = new Tabulator("#salesInputListTable", {
  	],
 });
 
+//Lot 사용여부에 따라 Lot컬럼 삭제
+$.ajax({
+	method : "get",
+	url: "/dtlAllSelect",
+	data: {NEW_TBL_CODE: 31},
+	success : function(result) {
+		if(!result[3].child_TBL_USE_STATUS){
+			salesInputListTable.deleteColumn("sales_InMat_Lot_No")
+		}
+	}				
+});
+
 function SIL_SearchBtn() {
 	datas = {
 		startDate : $("#salesInputList_startDate").val(),
@@ -37,8 +49,6 @@ function SIL_SearchBtn() {
 
 	salesInputListTable.setData("salesInputRest/SIL_Search", datas);
 	
-	console.log(salesInputListTable);
-
 }
 
 var salesInputItemViewTable = new Tabulator("#salesInputItemViewTable", { 

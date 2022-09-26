@@ -33,4 +33,12 @@ public interface SalesOrderDao {
 	// SalesOrderList delete
 	public int salesOrderListDeleteDao(@Param("orderNo") String orderNo, @Param("list") List<SalesOrderListDto> salesOrderListDto);
 	
+	// salesOrderMaster update
+	public int salesOrderMasterUpdateDao(String Sales_Order_mCus_No);
+	
+	// salesOrderList update
+	public int salesOrderListUpdateDao(
+			@Param("orderNo") String orderNo, @Param("itemCode") String itemCode,
+			@Param("qty") double qty, @Param("itemSendClsfc") String itemSendClsfc
+			);
 }

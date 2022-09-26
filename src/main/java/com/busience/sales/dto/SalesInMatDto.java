@@ -32,6 +32,7 @@ public class SalesInMatDto {
 	private String Sales_InMat_Item_Clsfc_2;
 	private String Sales_InMat_Item_Clsfc_2_Name;
 	private String Sales_InMat_Item_Material;
+	private String Sales_InMat_Item_Material_Name;
 	private String Sales_InMat_WareHouse; // 창고
 	private String Sales_InMat_Before;
 	private String Sales_InMat_After;

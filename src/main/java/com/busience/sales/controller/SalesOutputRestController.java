@@ -7,12 +7,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busience.common.dto.SearchDto;
 import com.busience.material.dto.LotMasterDto;
+import com.busience.sales.dto.SalesOutMatDto;
 import com.busience.sales.dto.SalesOutputOrderMasterDto;
 import com.busience.sales.dto.Sales_OutMat_tbl;
 import com.busience.sales.service.SalesOutputService;
@@ -31,6 +33,12 @@ public class SalesOutputRestController {
 		return salesOutputService.salesOutputLotMasterDao(searchDto);
 	}
 
+	// 영업 LotMaster 조회
+	@GetMapping("/salesOutputSelect")
+	public List<SalesOutMatDto> salesOutputSelect(SearchDto searchDto) {
+		return salesOutputService.salesOutputSelect(searchDto);
+	}
+	
 	// salesOutMat 조회
 	@GetMapping("/SSM_Search")
 	public List<Sales_OutMat_tbl> salesOutMatSelectDao(Sales_OutMat_tbl sales_OutMat_tbl) {
@@ -63,6 +71,12 @@ public class SalesOutputRestController {
 
 		}
 
+	}
+	
+	// sales_Output_insert
+	@PostMapping("/salesOutputSave")
+	public int salesOutputSave(@RequestBody List<SalesOutMatDto> SalesOutMatDtoList, Principal principal) {
+		return salesOutputService.salesOutputInsert(SalesOutMatDtoList, principal.getName());
 	}
 
 	// selecOutMat List select

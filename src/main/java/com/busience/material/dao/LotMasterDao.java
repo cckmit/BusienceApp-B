@@ -51,4 +51,6 @@ public interface LotMasterDao {
 	//제품 포장 LotMaster 조회
 	public List<LotMasterDto> salesItemListDao(SearchDto searchDto);
 	
+	public List<LotMasterDto> lotMasterItemSumSelectDao(String warehouse);
+	
 }
