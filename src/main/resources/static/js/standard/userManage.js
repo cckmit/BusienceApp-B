@@ -35,8 +35,8 @@ var userManageTable = new Tabulator("#userManageTable", {
 		{title: "사업장", field: "company_Name", headerHozAlign: "center", headerFilter: "input"},
 		{title: "부서", field: "dept_Name", headerHozAlign: "center", headerFilter: "input"},
 		{title: "사용유무", field: "user_Use_Status", headerHozAlign: "center", hozAlign: "center",
-			formatter: "tickCross", editorParams: {values: {"true": "사용", "false": "미사용"}},
-			headerFilter: true,	headerFilterParams: {values: {"true": "true", "false": "false"}}}
+			formatter: "tickCross", editorParams: {values: {true: "사용", false: "미사용"}},
+			headerFilter: true,	headerFilterParams: {values: {true: "true", false: "false"}}}
 	]
 });
 
@@ -70,7 +70,8 @@ $("#userRegisterBtn").click(function(){
 
 function userRegister() {
 	
-	var datas = {user_Code : $("#user_Code").val(),
+	var datas = {
+			user_Code : $("#user_Code").val(),
 			user_Password : '1234',
 			user_Name : $("#user_Name").val(),
 			company : $("#company").val(),
@@ -140,7 +141,8 @@ $("#userModifyBtn").click(function(){
 
 function userModify() {
 		
-	var datas = {user_Code : $("#user_Code").val(),
+	var datas = {
+			user_Code : $("#user_Code").val(),
 			user_Name : $("#user_Name").val(),
 			company : $("#company").val(),
 			user_Use_Status : $("#user_Use_Status").is(":checked"),

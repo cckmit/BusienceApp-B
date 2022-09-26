@@ -5,13 +5,10 @@ function nextFocus(next) {
 }
 
 $("#product_ITEM_CODE").on("keyup", function() {
-
 	$(this).val($(this).val().toUpperCase());
-
 });
 
 $("#product_ITEM_NAME").on("keyup", function() {
-
 	if ($("#product_ITEM_CODE").val().charAt(0) == 'P') {
 		if ($("#product_OLD_ITEM_CODE").val().charAt(0) != 'D') {
 			alert("구품목 코드는 D로 시작해야 합니다.");
@@ -23,15 +20,16 @@ $("#product_ITEM_NAME").on("keyup", function() {
 });
 
 //입력 및 업데이트 할 리스트
-var pickValue = ["product_BUSINESS_PLACE", "product_ITEM_CODE", "product_OLD_ITEM_CODE",
+var pickValue = [
+	"product_BUSINESS_PLACE", "product_ITEM_CODE", "product_OLD_ITEM_CODE",
 	"product_ITEM_NAME", "product_INFO_STND_1", "product_INFO_STND_2",
 	"product_UNIT", "product_MATERIAL", "product_MTRL_CLSFC",
 	"product_ITEM_CLSFC_1", "product_ITEM_CLSFC_2", "product_UNIT_PRICE", "product_MULTIPLE",
 	"product_SUBSID_MATL_MGMT", "product_ITEM_STTS", "product_BASIC_WAREHOUSE", "product_SAVE_AREA",
-	"product_SFTY_STOCK", "product_BUYER", "product_WRHSN_INSPC", "product_USE_STATUS"];
+	"product_SFTY_STOCK", "product_BUYER", "product_WRHSN_INSPC", "product_USE_STATUS"
+];
 
 var itemManageTable = new Tabulator("#itemManageTable", {
-	//페이징
 	layoutColumnsOnNewData: true,
 	headerFilterPlaceholder: null,
 	height: "calc(100% - 175px)",
@@ -65,27 +63,19 @@ var itemManageTable = new Tabulator("#itemManageTable", {
 		{ title: "품목분류2", field: "product_ITEM_CLSFC_2_NAME", headerHozAlign: "center", headerFilter: "input" },
 		{ title: "단가", field: "product_UNIT_PRICE", headerHozAlign: "center", headerFilter: "input" },
 		{ title: "배수", field: "product_MULTIPLE", headerHozAlign: "center", headerFilter: "input" },
-		{
-			title: "부자재관리", field: "product_SUBSID_MATL_MGMT", headerHozAlign: "center", hozAlign: "center",
-			formatter: "tickCross", headerFilter: true, headerFilterParams: { values: { true: "사용", false: "미사용" } }
-		},
+		{ title: "부자재관리", field: "product_SUBSID_MATL_MGMT", headerHozAlign: "center", hozAlign: "center",
+			formatter: "tickCross", headerFilter: true, headerFilterParams: { values: { true: "사용", false: "미사용" }}},
 		{ title: "품목상태", field: "product_ITEM_STTS_NAME", headerHozAlign: "center", headerFilter: "input" },
 		{ title: "기본창고", field: "product_BASIC_WAREHOUSE_NAME", headerHozAlign: "center", headerFilter: "input" },
 		{ title: "보관구역", field: "product_SAVE_AREA_NAME", headerHozAlign: "center", headerFilter: "input" },
 		{ title: "안전재고", field: "product_SFTY_STOCK", headerHozAlign: "center", headerFilter: "input", hozAlign: "right" },
 		{ title: "구매담당자", field: "product_BUYER", headerHozAlign: "center", headerFilter: "input" },
-		{
-			title: "입고검사", field: "product_WRHSN_INSPC", headerHozAlign: "center", hozAlign: "center",
-			formatter: "tickCross", headerFilter: true, headerFilterParams: { values: { true: "사용", false: "미사용" } }
-		},
-		{
-			title: "사용유무", field: "product_USE_STATUS", headerHozAlign: "center", hozAlign: "center",
-			formatter: "tickCross", headerFilter: true, headerFilterParams: { values: { true: "사용", false: "미사용" } }
-		},
-		{
-			title: "수정일자", field: "product_MODIFY_D", headerHozAlign: "center", hozAlign: "right", headerFilter: "input",
-			formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" }
-		},
+		{ title: "입고검사", field: "product_WRHSN_INSPC", headerHozAlign: "center", hozAlign: "center",
+			formatter: "tickCross", headerFilter: true, headerFilterParams: { values: { true: "사용", false: "미사용" }}},
+		{ title: "사용유무", field: "product_USE_STATUS", headerHozAlign: "center", hozAlign: "center",
+			formatter: "tickCross", headerFilter: true, headerFilterParams: { values: { true: "사용", false: "미사용" }}},
+		{ title: "수정일자", field: "product_MODIFY_D", headerHozAlign: "center", hozAlign: "right", headerFilter: "input",
+			formatter: "datetime", formatterParams: { outputFormat: "YYYY-MM-DD HH:mm:ss" }},
 		{ title: "수정자", field: "product_MODIFIER", headerHozAlign: "center", headerFilter: "input" }
 	]
 });
@@ -166,7 +156,6 @@ function itemRegister() {
 	// 포장 규격 관리 데이터 조회
 	packaging_Data_Check(datas);
 	
-
 	$.ajax({
 		method: "post",
 		url: "itemManageRest/itemManageInsert",
@@ -199,7 +188,6 @@ $("#itemUpdateBtn").click(function() {
 	} else {
 		modifyModalShow();
 	}
-
 });
 
 // update버튼을 클릭을 할때 모달창을 여는 이벤트
@@ -266,8 +254,6 @@ function copyModalShow() {
 			event.preventDefault();
 
 			paldangPackagingPopup();
-
-
 		}
 	}
 
@@ -276,8 +262,6 @@ function copyModalShow() {
 	});
 
 }
-
-
 
 //모달창내 수정버튼
 $("#itemModifyBtn").click(function() {
