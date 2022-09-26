@@ -2,8 +2,6 @@ package com.busience.system.controller;
 
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,9 +18,6 @@ import com.busience.system.service.RightsMgmtService;
 @RequestMapping("typeAuthorityRest")
 public class typeAuthorityRestController {
 
-	@Autowired
-	DataSource dataSource;
-	
 	@Autowired
 	DtlService dtlService;
 	
@@ -43,7 +38,7 @@ public class typeAuthorityRestController {
 	
 	// TA_Update
 	@PutMapping("/TA_Update")
-	public int TA_Update(@RequestBody List<RightsMgmtDto> jsonDataList) {
-		return rightsMgmtService.rightsMgmtUpdate(jsonDataList);
+	public int TA_Update(@RequestBody List<RightsMgmtDto> rightsMgmtDtoList) {
+		return rightsMgmtService.rightsMgmtUpdate(rightsMgmtDtoList);
 	}
 }

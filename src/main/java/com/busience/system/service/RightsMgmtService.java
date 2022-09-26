@@ -26,14 +26,14 @@ public class RightsMgmtService {
 	}
 
 	//권환관리 수정
-	public int rightsMgmtUpdate(List<RightsMgmtDto> jsonDataList) {
+	public int rightsMgmtUpdate(List<RightsMgmtDto> rightsMgmtDtoList) {
 		try {
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 				
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
-					for(int i=0;i<jsonDataList.size();i++) {
-						rightsMgmtDao.rightsMgmtUpdateDao(jsonDataList.get(i));
+					for(RightsMgmtDto rightsMgmtDto : rightsMgmtDtoList) {
+						rightsMgmtDao.rightsMgmtUpdateDao(rightsMgmtDto);
 					}
 				}
 			});

@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <div class="soloView">
 	<!-- MAIN -->
@@ -8,8 +7,7 @@
 			<div class="top-var">
 			</div>
 			<div id="menuManageMasterTable"></div>
-		</div>
-		
+		</div>		
 		<div style="width: calc(50% - 5px); height: 100%; float:left;">
 			<div class="top-var">
 				<div class="input-button">

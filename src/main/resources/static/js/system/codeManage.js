@@ -36,7 +36,6 @@ var codeManageSubTable = new Tabulator("#codeManageSubTable", {
 		var jsonData = fromRowToJson(row, pickValue);
 		modalInputBox(jsonData);
     },
-	//페이징
 	columns: [
 		{ title: "순번", field: "child_TBL_NUM", headerHozAlign: "center", hozAlign: "right" },
 		{ title: "타입명", field: "child_TBL_TYPE", headerHozAlign: "center" },
@@ -48,7 +47,6 @@ var codeManageSubTable = new Tabulator("#codeManageSubTable", {
 function CMS_Search(dtlCode){
 	codeManageSubTable.setData("codeManageRest/CMS_Search",{NEW_TBL_CODE: dtlCode})
 }
-
 
 $('#CM_ADDbtn').click(function(){
 	registerModalShow();
@@ -136,7 +134,6 @@ function codeModify() {
 			CHILD_TBL_RMARK : $("#child_TBL_RMARK").val(),
 			CHILD_TBL_USE_STATUS : $("#child_TBL_USE_STATUS").is(":checked")}
 	
-	console.log(datas);
 	$.ajax({
 		method : "put",
 		url : "codeManageRest/codeManageUpdate",

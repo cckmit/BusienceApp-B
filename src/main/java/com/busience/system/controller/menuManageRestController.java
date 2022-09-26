@@ -2,8 +2,6 @@ package com.busience.system.controller;
 
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,19 +17,16 @@ import com.busience.system.service.MenuMgmtService;
 public class menuManageRestController {
 
 	@Autowired
-	DataSource dataSource;
-	
-	@Autowired
 	MenuMgmtService menuMgmtService;
 	
 	@GetMapping("/MMS_Search")
-	public List<MenuMgmtDto> view(String Menu_User_Code) {
+	public List<MenuMgmtDto> MMS_Search(String Menu_User_Code) {
 		return menuMgmtService.menuMgmtList(Menu_User_Code);
 	}
 	
 	// MM_Update
 	@PutMapping("/MM_Update")
-	public int MM_Update(@RequestBody List<MenuMgmtDto> jsonDataList) {
-		return menuMgmtService.menuMgmtUpdate(jsonDataList);
+	public int MM_Update(@RequestBody List<MenuMgmtDto> menuMgmtDtoList) {
+		return menuMgmtService.menuMgmtUpdate(menuMgmtDtoList);
 	}
 }

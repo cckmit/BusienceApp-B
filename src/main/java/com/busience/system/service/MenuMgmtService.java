@@ -26,14 +26,14 @@ public class MenuMgmtService {
 	}
 
 	//메뉴관리 수정
-	public int menuMgmtUpdate(List<MenuMgmtDto> jsonDataList) {
+	public int menuMgmtUpdate(List<MenuMgmtDto> menuMgmtDtoList) {
 		try {
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 				
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
-					for(int i=0;i<jsonDataList.size();i++) {
-						menuMgmtDao.menuMgmtUpdateDao(jsonDataList.get(i));
+					for(MenuMgmtDto menuMgmtDto : menuMgmtDtoList) {
+						menuMgmtDao.menuMgmtUpdateDao(menuMgmtDto);
 					}
 				}
 			});

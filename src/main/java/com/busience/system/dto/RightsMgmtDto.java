@@ -15,5 +15,5 @@ public class RightsMgmtDto {
 	
 	private String Rights_Program_Name;
 	
-	private Boolean Rights_MGMT_Use_Status;
+	private boolean Rights_MGMT_Use_Status;
 }
