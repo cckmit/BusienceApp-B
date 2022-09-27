@@ -22,7 +22,7 @@ public class CustomerService {
 	}
 	
 	//선택 조회
-	public CustomerDto selectCustomerDao(String Cus_Code) {
+	public CustomerDto selectCustomer(String Cus_Code) {
 		return customerDao.selectCustomerDao(Cus_Code);
 	}
 	

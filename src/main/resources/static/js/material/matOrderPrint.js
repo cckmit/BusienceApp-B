@@ -2,21 +2,13 @@ $('.printBtn').on('click', function() {
 	window.print();
 });
 
-
 $(document).ready(function() {
-
-	datas = {
-		OrderNo: $('#order_lCus_No').val()
-	}
-
 	//orderlist 검색
 	$.ajax({
 		method: "GET",
-		MOL_dataType: "json",
 		url: "matOrderRest/MOL_Search",
-		data: datas,
+		data: {orderNo: $('#order_lCus_No').val()},
 		success: function(MOL_data) {
-			console.log(MOL_data);
 			var total_price = 0;
 			if (MOL_data.length < 20) {
 				for (i = 0; i < MOL_data.length; i++) {
@@ -74,11 +66,8 @@ $(document).ready(function() {
 						//합계금액
 						total_price += parseInt(MOL_data[i].order_lPrice);
 					}
-
 				}
 			}
-			console.log(total_price);
-			console.log(Number(total_price).toLocaleString('en'));
 			//합계금액 출력
 			$('#total_price').text(Number(total_price).toLocaleString('en') + " 원");
 		}

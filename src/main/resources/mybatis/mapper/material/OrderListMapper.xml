@@ -65,7 +65,11 @@
 	
 	<delete id="orderListDeleteDao">
 		delete from OrderList_tbl
-		where Order_lCus_No = #{Order_lCus_No}
-		and Order_lCode = #{Order_lCode}
+		where Order_lCus_No = #{orderNo}
+		and Order_lCode in ( 
+		<foreach collection="list" item="item" index="index" separator=",">
+			#{item.order_lCode}
+		</foreach>
+		)
 	</delete>
 </mapper>

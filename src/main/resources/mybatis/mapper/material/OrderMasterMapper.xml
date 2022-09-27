@@ -24,6 +24,17 @@
 		 order by Order_mDate desc
 	</select>
 	
+	<select id="orderMasterOneSelectDao" resultType="com.busience.material.dto.OrderMasterDto">
+		SELECT 
+		 A.Order_mCus_No, A.Order_mCode, B.Cus_Name Order_mName,
+		 A.Order_mDate, A.Order_mTotal, A.Order_mDlvry_Date,
+		 A.Order_mRemarks, A.Order_mModifier, A.Order_mModify_Date,
+		 A.Order_mCheck
+		 FROM OrderMaster_tbl A
+		 inner join Customer_tbl B on A.Order_mCode = B.Cus_Code
+		 where Order_mCus_No = #{orderNo}
+	</select>
+	
 	<select id="orderNoCreateDao" resultType="String">
 		select
 			concat(
@@ -84,22 +95,26 @@
 	</insert>
 	
 	<update id="orderMasterUpdateDao">
-			update OrderMaster_tbl
-			set Order_mCheck = 
-				(select 
-					(case
-						when sum(Order_lQty) = sum(Order_lSum) then 'Y'
-						when sum(Order_lSum) = 0 then 'N'
-						else 'I'
-					end)
-					from OrderList_tbl
-					where Order_lCus_No = #{inMat_Order_No}
-				)
-			where Order_mCus_No = #{inMat_Order_No}
+		update OrderMaster_tbl
+		set Order_mCheck = 
+			(select 
+				(case
+					when sum(Order_lQty) = sum(Order_lSum) then 'Y'
+					when sum(Order_lSum) = 0 then 'N'
+					else 'I'
+				end)
+				from OrderList_tbl
+				where Order_lCus_No = #{inMat_Order_No}
+			)
+		where Order_mCus_No = #{inMat_Order_No}
 	</update>
 	
 	<delete id="orderMasterDeleteDao">
 		delete from OrderMaster_tbl
-		where Order_mCus_No = #{Order_mCus_No}
+		where Order_mCus_No = #{orderNo}
+		and not exists (
+				SELECT * FROM OrderList_tbl
+				WHERE Order_lCus_No = #{orderNo}
+			)
 	</delete>
 </mapper>

@@ -3,6 +3,7 @@ package com.busience.material.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.busience.common.dto.SearchDto;
 import com.busience.material.dto.InMatDto;
@@ -21,5 +22,5 @@ public interface OrderListDao {
 	public int orderListUpdateDao(InMatDto inMatDto);
 	
 	//matOrderList 등록
-	public int orderListDeleteDao(OrderListDto orderListDto);
+	public int orderListDeleteDao(@Param("orderNo") String orderNo, @Param("list") List<OrderListDto> orderListDto);
 }

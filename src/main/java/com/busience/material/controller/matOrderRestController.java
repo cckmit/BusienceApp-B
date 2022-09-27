@@ -64,12 +64,6 @@ public class matOrderRestController {
 		}
 	}
 	
-	// orderMaster delete
-	@DeleteMapping("/MOM_Delete")
-	public int MOM_Delete(OrderMasterDto orderMasterDto) {
-		return matOrderService.matOrderMasterDelete(orderMasterDto);
-	}
-		
 	// orderList delete
 	@DeleteMapping("/MOL_Delete")
 	public int MOL_Delete(@RequestBody List<OrderListDto> orderListDtoList) {		

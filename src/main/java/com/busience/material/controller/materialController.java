@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.busience.common.service.DtlService;
+import com.busience.material.service.MatOrderService;
 import com.busience.standard.dto.UserDto;
 import com.busience.standard.service.CustomerService;
 import com.busience.standard.service.UserService;
@@ -26,6 +27,9 @@ public class materialController {
 	@Autowired
 	CustomerService customerService;
 	
+	@Autowired
+	MatOrderService matOrderService; 
+	
 	//OrderMaster
 	@GetMapping("matOrder")
 	public String matOrder(Model model) {
@@ -41,8 +45,11 @@ public class materialController {
 	}
 	
 	@GetMapping("matOrderPrint")
-	public String orderPrint(HttpServletRequest request) {
-		return "material/matOrderPrint";
+	public String orderPrint(String orderNo, String clientCode, Model model) {
+		model.addAttribute("orderMaster", matOrderService.orderMasterOneSelect(orderNo));
+		model.addAttribute("myCom", customerService.selectCustomer("C09999"));
+		model.addAttribute("client", customerService.selectCustomer(clientCode));
+		return "material/matOrderPrint2";
 	}
 	
 	//OrderMaster

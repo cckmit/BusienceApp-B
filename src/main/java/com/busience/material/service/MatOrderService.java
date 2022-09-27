@@ -36,11 +36,15 @@ public class MatOrderService {
 		return orderMasterDao.orderMasterSelectDao(searchDto);
 	}
 	
+	public OrderMasterDto orderMasterOneSelect(String orderNo) {
+		return orderMasterDao.orderMasterOneSelectDao(orderNo);
+	}
+	
 	//matOrderList조회	
 	public List<OrderListDto> matOrderListSelect(SearchDto searchDto) {
 		return orderListDao.orderListSelectDao(searchDto);
 	}
-	
+		
 	//stockMat조회	
 	public List<StockDto> stockSelect(SearchDto searchDto) {
 		return stockDao.stockSelectDao(searchDto);
@@ -55,7 +59,7 @@ public class MatOrderService {
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
 					//발주번호가 없을경우 발주번호 생성
-					if(orderMasterDto.getOrder_mCus_No().length() == 0) {
+					if(orderMasterDto.getOrder_mCus_No() == null) {
 						orderMasterDto.setOrder_mCus_No(orderMasterDao.orderNoCreateDao(orderMasterDto));
 					}
 					
@@ -79,40 +83,16 @@ public class MatOrderService {
 	}
 	
 	//OrderMaster 삭제
-	public int matOrderMasterDelete(OrderMasterDto orderMasterDto) {
-		try {
-			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
-				
-				@Override
-				protected void doInTransactionWithoutResult(TransactionStatus status) {
-					SearchDto searchDto = new SearchDto();
-					searchDto.setOrderNo(orderMasterDto.getOrder_mCus_No());
-					List<OrderListDto> orderListDtoList = matOrderListSelect(searchDto);
-					
-					matOrderListDelete(orderListDtoList);
-					
-					orderMasterDao.orderMasterDeleteDao(orderMasterDto);
-				}
-			});
-			
-			return 1;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return 0;
-		}
-	}
-	
-	//OrderMaster 삭제
 	public int matOrderListDelete(List<OrderListDto> orderListDtoList) {
 		try {
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 				
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
-					for(int i=0;i<orderListDtoList.size();i++) {
-						OrderListDto orderListDto = orderListDtoList.get(i);						
-						orderListDao.orderListDeleteDao(orderListDto);			
-					}
+					String orderNo = orderListDtoList.get(0).getOrder_lCus_No();
+					
+					orderListDao.orderListDeleteDao(orderNo, orderListDtoList);
+					orderMasterDao.orderMasterDeleteDao(orderNo);
 				}
 			});
 			

@@ -17,6 +17,8 @@ public interface OrderMasterDao {
 	//발주번호 생성
 	public String orderNoCreateDao(OrderMasterDto orderMasterDto);
 	
+	public OrderMasterDto orderMasterOneSelectDao(String orderNo); 
+	
 	//matOrderMaster 등록
 	public int orderMasterInsertUpdateDao(OrderMasterDto orderMasterDto);	
 	
@@ -24,6 +26,6 @@ public interface OrderMasterDao {
 	public int orderMasterUpdateDao(InMatDto inMatDto);
 	
 	//matOrderMaster 삭제
-	public int orderMasterDeleteDao(OrderMasterDto orderMasterDto);	
+	public int orderMasterDeleteDao(String orderNo);	
 	
 }

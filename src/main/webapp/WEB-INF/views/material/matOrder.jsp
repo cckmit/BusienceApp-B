@@ -9,7 +9,6 @@
 				<div class="input-button">
 					<img src="/images/button/Search.png" id="MO_SearchBtn"/>
 					<img src="/images/button/ADD.png" id="MO_AddBtn"/>
-					<img src="/images/button/Delete.png" id="MOM_DeleteBtn"/>
 					<img src="/images/button/Print.png" id="MO_PrintBtn"/>
 				</div>
 				<!-- 버튼 -->
@@ -22,9 +21,9 @@
 					</div>
 					<div>
 						<span><strong>거래처코드</strong></span>
-						<input id="InMat_Client_Code" class="Client_Code" type="text" disabled>
+						<input class="clientCode Client_Code" type="text" disabled>
 						<span><strong>거래처명</strong></span>
-						<input id="InMat_Client_Name" class="clearInput Client_Name" type="text" autofocus
+						<input class="clientName clearInput Client_Name" type="text" autofocus
 							onkeypress="javascript:if(event.keyCode==13) {customerPopup($(this).val(),'input','','in')}">
 					</div>
 				</div>

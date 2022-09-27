@@ -27,8 +27,8 @@ public class customerManageRestController {
 	
 	// 선택 조회
 	@GetMapping("/selectOneCustomer")
-	public CustomerDto selectCustomerDao(String Cus_Code) {
-		return customerService.selectCustomerDao(Cus_Code);
+	public CustomerDto selectCustomer(String Cus_Code) {
+		return customerService.selectCustomer(Cus_Code);
 	}
 
 	// insert
