@@ -60,12 +60,6 @@ public class popupController {
 		return "normal/popup/hometaxApiPopup";
 	}
 	
-	// 발주서 인쇄
-	@GetMapping("/orderprint")
-	public String MO_print() {
-		return "normal/material/matOrderPrint";
-	}
-	
 	// 팔당 포장 규격
 	@GetMapping("/paldangPackagingPopup")
 	public String paldangPackagingPopup() {

@@ -115,7 +115,7 @@ public class LogApiDataService {
 	}
 
 	private JSONObject LogApiSend(LogApiDataDto data) {
-		if(data.getCrtfcKey().length()==0) {
+		if(data.getCrtfcKey() == null) {
 			return null;
 		}
 	    JSONObject response = null;

@@ -49,7 +49,7 @@ public class materialController {
 		model.addAttribute("orderMaster", matOrderService.orderMasterOneSelect(orderNo));
 		model.addAttribute("myCom", customerService.selectCustomer("C09999"));
 		model.addAttribute("client", customerService.selectCustomer(clientCode));
-		return "material/matOrderPrint2";
+		return "normal/material/matOrderPrint";
 	}
 	
 	//OrderMaster

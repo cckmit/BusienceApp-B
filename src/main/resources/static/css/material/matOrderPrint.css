@@ -1,13 +1,5 @@
-.main {
-	padding-top: 100px;
-}
-
-.sidebar {
-	display: none;
-}
-
-.navbar-busience {
-	display: none;
+body {
+	background-color: #fff;
 }
 
 table {
@@ -29,6 +21,11 @@ table th {
 table th, td {
 	border-bottom: 1px solid #ccc;
 	padding: 0px 5px;
+}
+
+.th_bordor {
+	border-left: 2px solid #444;
+	border-right: 2px solid #444;
 }
 
 .td_left {
@@ -57,37 +54,8 @@ p>input {
 	margin: 20px;
 }
 
-#pageCounter {
-  counter-reset: pageTotal;
-}
-#pageCounter span {
-  counter-increment: pageTotal; 
-}
-#pageNumbers {
-  counter-reset: currentPage;
-}
-#pageNumbers div:before { 
-  counter-increment: currentPage; 
-  content: "Page " counter(currentPage) " of "; 
-}
-#pageNumbers div:after { 
-  content: counter(pageTotal); 
-}
-
-
 @media print {
-	table th {
-		background-color: #e8e8e8 !important;
-		-webkit-print-color-adjust: exact;
-	}
 	.printBtn {
 		display: none;
 	}
-	.emailBtn {
-		display: none;
-	}
-	@page {
-		margin-top: 0;
-		margin-bottom: 0;
-	}	
 }
