@@ -1,7 +1,7 @@
 package com.busience.production.service;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,6 +88,38 @@ public class WorkOrderService {
 
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					for(WorkOrderDto workOrderDto : workOrderDtoList) {
+						// 작업지시 순번
+						int workOrderNo = workOrderDao.workOrderNoSelectDao();
+						workOrderDto.setWorkOrder_No(workOrderNo);
+						
+						String registerTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+						
+						// 작업지시번호
+						String workOrderONo = registerTime + "-" + workOrderDto.getWorkOrder_ItemCode() + "-"
+								+ String.format("%02d", workOrderNo);
+
+						workOrderDto.setWorkOrder_ONo(workOrderONo);
+						
+						List<DtlDto> dtlList = dtlDao.findByCode(29);
+
+						// 작업지시 상태
+						String WorkStatus = "";
+						for (int j = 0; j < dtlList.size(); j++) {
+							// 기본적으로는 접수완료 상태로 저장
+							if (dtlList.get(j).getCHILD_TBL_RMARK().equals("Y")) {
+								WorkStatus = dtlList.get(j).getCHILD_TBL_NO();
+								workOrderDto.setWorkOrder_ReceiptTime(workOrderDto.getWorkOrder_OrderTime());
+							}
+						}
+
+						workOrderDto.setWorkOrder_WorkStatus(WorkStatus);
+						workOrderDto.setWorkOrder_RegisterTime(registerTime);
+						workOrderDto.setWorkOrder_Worker(userCode);
+
+						workOrderDao.workOrderRegisterDao(workOrderDto);
+					}
+					/*
 					for (int i = 0; i < workOrderDtoList.size(); i++) {
 
 						System.out.println(workOrderDtoList.get(i));
@@ -142,8 +174,28 @@ public class WorkOrderService {
 						workOrderDtoList.get(i).setWorkOrder_Worker(userCode);
 
 						workOrderDao.workOrderRegisterDao(workOrderDtoList.get(i));
-					}
+					}*/
 
+				}
+			});
+
+			return 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	public int workOrderDelete(List<WorkOrderDto> workOrderDtoList) {
+		
+		try {
+			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus status) {
+					for (WorkOrderDto workOrderDto : workOrderDtoList) {
+						workOrderDao.workOrderDeleteDao(workOrderDto);
+					}
 				}
 			});
 
@@ -245,10 +297,6 @@ public class WorkOrderService {
 
 	public int lastProductModify(ProductionMgmtDto productionMgmtDto) {
 		return workOrderDao.lastProductModifyDao(productionMgmtDto);
-	}
-
-	public int workOrderDelete(WorkOrderDto workOrderDto) {
-		return workOrderDao.workOrderDeleteDao(workOrderDto);
 	}
 
 	// 상태 변경

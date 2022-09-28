@@ -9,18 +9,24 @@
 	<![CDATA[
 		select 
 			A.WorkOrder_No, A.WorkOrder_ONo,
-			A.WorkOrder_ItemCode, B.PRODUCT_ITEM_NAME WorkOrder_ItemName, B.PRODUCT_INFO_STND_1 WorkOrder_INFO_STND_1,
+			A.WorkOrder_ItemCode, B.PRODUCT_ITEM_NAME WorkOrder_ItemName,
+			B.PRODUCT_INFO_STND_1 WorkOrder_INFO_STND_1, B.PRODUCT_INFO_STND_2 WorkOrder_INFO_STND_2,
+			D.Child_TBL_Type WorkOrder_Item_CLSFC_1_Name, E.Child_TBL_Type WorkOrder_Item_CLSFC_2_Name,
 			A.WorkOrder_EquipCode, C.EQUIPMENT_INFO_NAME WorkOrder_EquipName,
 			A.WorkOrder_AllottedQty, A.WorkOrder_ProductionQty,
 			A.WorkOrder_RegisterTime, A.WorkOrder_ReceiptTime,
 			A.WorkOrder_StartTime, A.WorkOrder_CompleteTime,
-			A.WorkOrder_WorkStatus, E.CHILD_TBL_TYPE WorkOrder_WorkStatusName, A.WorkOrder_Remark, A.WorkOrder_Use_Status
-			from WorkOrder_tbl A
-			inner join Product_Info_tbl B on A.WorkOrder_ItemCode = B.PRODUCT_ITEM_CODE
-			inner join Equipment_Info_tbl C on A.WorkOrder_EquipCode = C.EQUIPMENT_INFO_CODE
-			inner join (SELECT * FROM DTL_TBL where NEW_TBL_CODE = '29') E on A.WorkOrder_WorkStatus = E.CHILD_TBL_NO
-			where A.WorkOrder_RegisterTime >= #{startDate} and A.WorkOrder_RegisterTime < #{endDate} and A.WorkOrder_WorkStatus = '242'
-			order by A.WorkOrder_RegisterTime DESC
+			A.WorkOrder_WorkStatus, F.CHILD_TBL_TYPE WorkOrder_WorkStatusName,
+			A.WorkOrder_Remark, A.WorkOrder_Use_Status
+		from WorkOrder_tbl A
+		inner join Product_Info_tbl B on A.WorkOrder_ItemCode = B.PRODUCT_ITEM_CODE
+		inner join Equipment_Info_tbl C on A.WorkOrder_EquipCode = C.EQUIPMENT_INFO_CODE
+		inner join DTL_TBL D on B.Product_Item_CLSFC_1 = D.CHILD_TBL_NO
+		inner join DTL_TBL E on B.Product_Item_CLSFC_2 = E.CHILD_TBL_NO
+		inner join DTL_TBL F on A.WorkOrder_WorkStatus = F.CHILD_TBL_NO
+		where A.WorkOrder_RegisterTime >= #{startDate} and A.WorkOrder_RegisterTime < #{endDate}
+		and A.WorkOrder_WorkStatus = #{statusCode}
+		order by A.WorkOrder_RegisterTime DESC
 	]]>
 	</select>
 	
@@ -64,7 +70,7 @@
 	</select>
 	
 	<select id="workOrderNoSelectDao" resultType="int">
-		SELECT count(*) FROM WorkOrder_tbl where WorkOrder_RegisterTime >= curdate();
+		SELECT ifnull(max(WorkOrder_No),0)+1 FROM WorkOrder_tbl where WorkOrder_RegisterTime >= curdate();
 	</select>
 	
 	<select id="workListSearch" resultType="com.busience.production.dto.WorkOrderDto">
@@ -246,11 +252,11 @@
 	<insert id="workOrderRegisterDao">
 		insert into WorkOrder_tbl (
 			WorkOrder_No, WorkOrder_ONo, WorkOrder_ItemCode, WorkOrder_EquipCode,
-		    WorkOrder_RegisterTime, WorkOrder_ReceiptTime,
+			WorkOrder_AllottedQty, WorkOrder_RegisterTime, WorkOrder_ReceiptTime,
 			WorkOrder_WorkStatus, WorkOrder_Worker, WorkOrder_Remark
 		) values (
 			#{WorkOrder_No},#{WorkOrder_ONo},#{WorkOrder_ItemCode},#{WorkOrder_EquipCode},
-			now(), #{WorkOrder_ReceiptTime},
+			#{WorkOrder_AllottedQty}, now(), #{WorkOrder_ReceiptTime},
 			#{WorkOrder_WorkStatus}, #{WorkOrder_Worker}, #{WorkOrder_Remark}
 		) on duplicate key update
 		WorkOrder_ONo = #{WorkOrder_ONo},
@@ -354,8 +360,7 @@
 	</update>
 	
 	<delete id="workOrderDeleteDao">
-		delete from WorkOrder_tbl
-		where WorkOrder_EquipCode = #{WorkOrder_EquipCode}
+		delete from WorkOrder_tbl where WorkOrder_ONo = #{workOrder_ONo}
 	</delete>
 	
 	<select id="workingSelectByMachineDao" resultType="com.busience.production.dto.WorkOrderDto">
