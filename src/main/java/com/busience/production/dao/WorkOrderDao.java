@@ -13,8 +13,23 @@ import com.busience.sales.dto.SalesOrderMasterDto;
 @Mapper
 public interface WorkOrderDao {
 	
-	///workOrderSelectDao
-	public List<WorkOrderDto> workOrderSelectDao(SearchDto searchDto);
+	public List<WorkOrderDto> workOrderSelectDao(SearchDto searchDto);	
+
+	public int workOrderNoSelectDao();
+	
+	public int workOrderRegisterDao(WorkOrderDto workOrderDto);
+
+	public int workOrderDeleteDao(WorkOrderDto workOrderDto);
+
+	public List<WorkOrderDto> workListSelectDao(SearchDto searchDto);
+
+	public int workListSaveDao(WorkOrderDto workOrderDto);
+	
+	public WorkOrderDto workOrderOneSelectDao(String orderNo);
+	
+	public int workOrderStartCheckDao(String machineCode);
+	
+	//--------------------------------------	
 	
 	public List<WorkOrderDto> workOrderSubSelectDao(SearchDto searchDto);
 
@@ -22,7 +37,6 @@ public interface WorkOrderDao {
 
 	public List<WorkOrderDto> workOrderChoiceSelectDao(SearchDto searchDto);
 	
-	public int workOrderNoSelectDao();
 	
 	public List<WorkOrderDto> workOrderCompleteSelectDao(SearchDto searchDto);
 	
@@ -40,10 +54,9 @@ public interface WorkOrderDao {
 	
 	//공정 검사 조회(생산된 제품 조회)
 	public List<ProductionMgmtDto> workOrderResultDao(SearchDto searchDto);
-	
+		
 	public int workOrderSumQtyDao(SearchDto searchDto);
 	
-	public int workOrderRegisterDao(WorkOrderDto workOrderDto);
 	
 	public int workOrderUpdateDao(WorkOrderDto workOrderDto);
 	
@@ -54,7 +67,6 @@ public interface WorkOrderDao {
 	
 	public int workOrderQtyUpdateDao(WorkOrderDto workOrderDto);
 	
-	public int workOrderDeleteDao(WorkOrderDto workOrderDto);
 	
 	public int lastProductQtyDao(ProductionMgmtDto productionMgmtDto);
 	

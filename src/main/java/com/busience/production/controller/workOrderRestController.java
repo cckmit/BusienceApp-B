@@ -30,8 +30,8 @@ public class workOrderRestController {
 	//작업지시 접수 리스트
 	@GetMapping("/workOrderSelect")
 	public List<WorkOrderDto> workOrderSelect(SearchDto searchDto) {
-		System.out.println(searchDto);
-		searchDto.setStatusCode(dtlService.getAllDtl(29).get(1).getCHILD_TBL_NO());
+		String[] statusCodeArr = {dtlService.getAllDtl(29).get(1).getCHILD_TBL_NO()};;
+		searchDto.setStatusCodeArr(statusCodeArr);
 		return workOrderService.workOrderSelect(searchDto);
 	}
 	
@@ -39,12 +39,6 @@ public class workOrderRestController {
 	@GetMapping("/workOrderSalesOrderSelect")
 	public List<SalesOrderMasterDto> workOrderSalesOrderSelect(SearchDto searchDto) {
 		return workOrderService.workOrderSalesOrderSelect(searchDto);
-	}
-	
-	//작업지시 등록된 리스트
-	@GetMapping("/workOrderSubSelect")
-	public List<WorkOrderDto> workOrderSubSelect(SearchDto searchDto) {
-		return workOrderService.workOrderSubSelect(searchDto);
 	}
 	
 	//작업지시 등록
@@ -57,6 +51,15 @@ public class workOrderRestController {
 	@DeleteMapping("/workOrderDelete")
 	public int workOrderDelete(@RequestBody List<WorkOrderDto> workOrderDtoList) {
 		return workOrderService.workOrderDelete(workOrderDtoList);
+	}
+	
+	
+	//----------------------------
+	
+	//작업지시 등록된 리스트
+	@GetMapping("/workOrderSubSelect")
+	public List<WorkOrderDto> workOrderSubSelect(SearchDto searchDto) {
+		return workOrderService.workOrderSubSelect(searchDto);
 	}
 	
 	//작업지시 테이블 설비 검색

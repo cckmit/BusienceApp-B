@@ -44,42 +44,10 @@ public class WorkOrderService {
 		return workOrderDao.workOrderSelectDao(searchDto);
 	}
 
-	public List<WorkOrderDto> workOrderSubSelect(SearchDto searchDto) {
-		return workOrderDao.workOrderSubSelectDao(searchDto);
-	}
-
 	public List<SalesOrderMasterDto> workOrderSalesOrderSelect(SearchDto searchDto) {
 		return SalesOrderMasterDao.workOrderSalesOrderSelectDao(searchDto);
 	}
-
-	// 작업관리에서 작업지시 조회
-	public List<WorkOrderDto> workOrderCompleteSelect(SearchDto searchDto) {
-		return workOrderDao.workOrderCompleteSelectDao(searchDto);
-	}
-
-	public List<WorkOrderDto> workOrderChoiceSelectDao(SearchDto searchDto) {
-		return workOrderDao.workOrderChoiceSelectDao(searchDto);
-	}
-
-	public int workOrderSumQty(SearchDto searchDto) {
-		return workOrderDao.workOrderSumQtyDao(searchDto);
-	}
-
-	// 작업지시 접수 상단 그리드
-	public List<WorkOrderDto> workorderListSelect(SearchDto searchDto) {
-		return workOrderDao.workorderListSelect(searchDto);
-	}
-
-	// 작업 현황
-	public List<WorkOrderDto> workListSearch(SearchDto searchDto) {
-		return workOrderDao.workListSearch(searchDto);
-	}
-
-	// 세부 작업 현황
-	public List<WorkOrderDto> workdListSearch(SearchDto searchDto) {
-		return workOrderDao.workdListSearch(searchDto);
-	}
-
+	
 	// 작업지시 등록
 	public int workOrderRegister(List<WorkOrderDto> workOrderDtoList, String userCode) {
 
@@ -204,6 +172,40 @@ public class WorkOrderService {
 			e.printStackTrace();
 			return 0;
 		}
+	}
+	
+	//--------------------------------------
+	
+	public List<WorkOrderDto> workOrderSubSelect(SearchDto searchDto) {
+		return workOrderDao.workOrderSubSelectDao(searchDto);
+	}
+
+	// 작업관리에서 작업지시 조회
+	public List<WorkOrderDto> workOrderCompleteSelect(SearchDto searchDto) {
+		return workOrderDao.workOrderCompleteSelectDao(searchDto);
+	}
+
+	public List<WorkOrderDto> workOrderChoiceSelectDao(SearchDto searchDto) {
+		return workOrderDao.workOrderChoiceSelectDao(searchDto);
+	}
+
+	public int workOrderSumQty(SearchDto searchDto) {
+		return workOrderDao.workOrderSumQtyDao(searchDto);
+	}
+
+	// 작업지시 접수 상단 그리드
+	public List<WorkOrderDto> workorderListSelect(SearchDto searchDto) {
+		return workOrderDao.workorderListSelect(searchDto);
+	}
+
+	// 작업 현황
+	public List<WorkOrderDto> workListSearch(SearchDto searchDto) {
+		return workOrderDao.workListSearch(searchDto);
+	}
+
+	// 세부 작업 현황
+	public List<WorkOrderDto> workdListSearch(SearchDto searchDto) {
+		return workOrderDao.workdListSearch(searchDto);
 	}
 
 	public int workOrderUpdate(WorkOrderDto workOrderDto) {
