@@ -160,6 +160,13 @@ public class productionController {
 		model.addAttribute("pageName", "세부 작업 현황");
 		return "production/workdList";
 	}
+	
+	// workdList
+	@GetMapping("workDetailList")
+	public String workDetailList(Model model) {
+		model.addAttribute("pageName", "세부 작업 현황");
+		return "production/workDetailList";
+	}
 
 	// worktdList
 	@GetMapping("worktdList")

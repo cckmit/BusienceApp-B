@@ -29,6 +29,8 @@ public interface WorkOrderDao {
 	
 	public int workOrderStartCheckDao(String machineCode);
 	
+	public List<WorkOrderDto> workDetailListSearch(SearchDto searchDto);
+	
 	//--------------------------------------	
 	
 	public List<WorkOrderDto> workOrderSubSelectDao(SearchDto searchDto);

@@ -174,6 +174,11 @@ public class WorkOrderService {
 		}
 	}
 	
+	// 세부 작업 현황
+	public List<WorkOrderDto> workDetailListSearch(SearchDto searchDto) {
+		return workOrderDao.workDetailListSearch(searchDto);
+	}
+	
 	//--------------------------------------
 	
 	public List<WorkOrderDto> workOrderSubSelect(SearchDto searchDto) {
