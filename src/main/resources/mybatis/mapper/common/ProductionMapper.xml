@@ -16,7 +16,7 @@
 		update WorkOrder_tbl
 			set
 			WorkOrder_ProductionQty = WorkOrder_ProductionQty + #{PRODUCTION_Volume}
-			<if test="WorkOrder_Status == 'true'">
+			<if test="WorkOrder_Status == true">
 			<![CDATA[
 				,
 				WorkOrder_CompleteTime = 
